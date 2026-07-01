@@ -7,6 +7,7 @@ import extEligibleRaw from "./extension-eligible.json";
 import draftPicksRaw from "./draft-picks.json";
 import experienceRaw from "./experience.json";
 import freeAgentsRaw from "./free-agents.json";
+import signingsRaw from "./signings.json";
 import ratingsRaw from "./ratings.json";
 
 /** Player years-of-service entering 2026-27 (Basketball-Reference). */
@@ -35,6 +36,24 @@ export interface FreeAgentInfo {
 /** 2026 free-agent Bird status + UFA/RFA, keyed by normalized name (Spotrac). */
 export const FREE_AGENT_INFO = (
   freeAgentsRaw as { byName: Record<string, FreeAgentInfo> }
+).byName;
+
+export interface SigningInfo {
+  name: string;
+  team: string;
+  years: number;
+  aav: number;
+  total: number;
+  status: string;
+}
+
+/**
+ * 2026 signed free agents with structured new-deal terms (Spotrac's signed page)
+ * — the authoritative source for the offseason's newest contracts. Keyed by
+ * normalized name.
+ */
+export const SIGNINGS = (
+  signingsRaw as { byName: Record<string, SigningInfo> }
 ).byName;
 
 export interface Transaction {
