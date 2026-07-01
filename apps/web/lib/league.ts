@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, RATINGS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -24,9 +24,62 @@ function normName(name: string): string {
     .trim();
 }
 
+/** Sim "today" — anchored to the data snapshot (2026 free agency opened 6/30). */
+const SIM_TODAY = new Date(2026, 6, 1); // July 1, 2026
+function parseMDY(s: string): Date | null {
+  const m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  return m ? new Date(Number(m[3]), Number(m[1]) - 1, Number(m[2])) : null;
+}
+/** Player → the date their extension window OPENS (Spotrac). Extension
+ * eligibility is date-gated: a player isn't eligible until that date arrives, so
+ * you can't extend a just-drafted rookie, or a vet like Anthony Davis whose
+ * window opens weeks from now. */
+const EXT_ELIGIBLE_DATE = new Map(
+  EXTENSION_ELIGIBLE.map((r) => [normName(r.player), parseMDY(r.date)] as const),
+);
+export function isExtensionEligible(playerName: string): boolean {
+  const d = EXT_ELIGIBLE_DATE.get(normName(playerName));
+  return d != null && d.getTime() <= SIM_TODAY.getTime();
+}
+
+/**
+ * Restricted vs. unrestricted status DERIVED from qualifying-offer transactions:
+ * a tendered QO makes a player a Restricted FA; a declined QO makes him an
+ * Unrestricted FA. This is the authoritative mechanism — the RFA status exists
+ * *because* the team tendered the qualifying offer.
+ */
+const QO_STATUS: Record<string, "RFA" | "UFA"> = (() => {
+  const m: Record<string, "RFA" | "UFA"> = {};
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Qualifying Offer") continue;
+    const k = normName(t.player);
+    if (/tendered/i.test(t.detail)) m[k] = "RFA";
+    else if (/declined/i.test(t.detail)) m[k] = "UFA";
+  }
+  return m;
+})();
+export function faTypeOf(playerName: string): string | undefined {
+  const k = normName(playerName);
+  return QO_STATUS[k] ?? FREE_AGENT_INFO[k]?.restriction;
+}
+
+/**
+ * Players who DECLINED their 2026-27 option (player or team option) — they
+ * become free agents, so their 2026-27 salary is stripped from the base data
+ * (Basketball-Reference still lists the option year as if it were guaranteed).
+ */
+const OPTION_DECLINED = new Set(
+  TRANSACTIONS.filter(
+    (t) => t.type === "Option" && /declined/i.test(t.detail) && /2026-27/.test(t.detail),
+  ).map((t) => normName(t.player)),
+);
+
 /** Active league year: the new 2026-27 season (free agency open). */
 export const YEAR = "2026-27";
 export const C: LeagueConstants = SEASON_2026_27;
+
+const FA_RESTRICTION =
+  "signed as a free agent this offseason (not trade-eligible until Dec 15)";
 
 /** Seasons shown in the multi-year cap sheet. */
 export const CAP_SHEET_YEARS = ["2026-27", "2027-28", "2028-29", "2029-30"] as const;
@@ -133,43 +186,120 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
   const signed: string[] = [];
   for (const t of TRANSACTIONS) {
     if (t.type !== "Signing" && t.type !== "Re-sign") continue;
-    if (/extension/i.test(t.detail) || !/contract with/i.test(t.detail)) continue;
+    // Must be an actual term/dollar contract (skip qualifying offers, options…).
+    if (!/\d+\s*year|\$[\d.]+\s*million/i.test(t.detail)) continue;
     const k = norm(t.player);
     if (seen.has(k)) continue;
     seen.add(k);
-    const teamM = t.detail.match(/with\s+[A-Za-z .'-]+\(([A-Za-z]{2,4})\)/);
+    const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
     if (!teamM) continue;
     const team = stdTeam(teamM[1]);
     if (!VALID_TEAMS.has(team)) continue;
+    const c = byName.get(k);
+    if (!c) continue; // unmatched signings skipped to avoid bad duplicates
+    // Spotrac labels some re-signings "extension." A true extension of an
+    // already-signed player adds FUTURE years — don't overwrite his current
+    // year; but an "extension"/re-sign of a FREE AGENT (no current-year salary)
+    // is exactly what puts him under contract for 2026-27.
+    const hasCurrent = c.years.some((y) => y.leagueYear === YEAR && y.salary > 0);
+    if (/extension/i.test(t.detail) && hasCurrent) continue;
     const yearsM = t.detail.match(/(\d+)\s*year/);
     const totalM = t.detail.match(/\$([\d.]+)\s*million/);
     const yrs = yearsM ? Number(yearsM[1]) : 1;
     const total = totalM ? Number(totalM[1]) * 1_000_000 : 0;
-    const salary =
+    const aav =
       total > 0 ? Math.round(total / yrs) : (C.minimumSalaries[5] ?? 2_800_000);
-    const c = byName.get(k);
-    if (!c) continue; // unmatched signings skipped to avoid bad duplicates
-    const yr: ContractYear = { leagueYear: YEAR, salary, guarantee: "full" };
     c.teamId = team;
-    c.years = [...c.years.filter((y) => y.leagueYear !== YEAR), yr];
+    c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...dealFromAav(aav, yrs)];
+    // Signed this offseason → not trade-eligible until Dec 15.
+    c.restriction = FA_RESTRICTION;
+    // Capture a trade bonus (kicker) if the deal mentions one.
+    const kickM = t.detail.match(/([\d.]+)\s*%\s*Trade Bonus/i);
+    if (kickM) c.tradeKickerPct = Number(kickM[1]) / 100;
     signed.push(`${c.playerName} → ${team}`);
   }
   return { contracts: cloned, signed };
 }
 
+/**
+ * Season rows for a new deal from its AAV + term, back-solving the first-year
+ * salary from standard 5% raises (so the multi-year cap sheet is real and the
+ * year-1 hit isn't overstated by using the flat average).
+ */
+function dealFromAav(aav: number, term: number): ContractYear[] {
+  const n = Math.max(1, Math.min(term || 1, 5));
+  const raise = 0.05;
+  const y1 = (aav * n) / (n + (raise * n * (n - 1)) / 2);
+  const start = Number(YEAR.slice(0, 4));
+  return Array.from({ length: n }, (_, k) => ({
+    leagueYear: `${start + k}-${String((start + 1 + k) % 100).padStart(2, "0")}`,
+    salary: Math.round(y1 * (1 + raise * k)),
+    guarantee: "full" as const,
+  }));
+}
+
+/**
+ * Apply the structured signed-free-agent feed (Spotrac's signed page) — the most
+ * up-to-date source of the offseason's newest deals. Rebuilds each signed
+ * player's contract as a real MULTI-YEAR deal (term + AAV → raised year rows).
+ */
+function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: string[] } {
+  const signed: string[] = [];
+  const out = contracts.map((c) => {
+    const s = SIGNINGS[normName(c.playerName)];
+    if (!s || !s.aav || s.aav <= 0) return c;
+    const team = stdTeam(s.team);
+    if (!VALID_TEAMS.has(team)) return c;
+    signed.push(`${c.playerName} → ${team}`);
+    return {
+      ...cloneContract(c),
+      teamId: team,
+      // Keep past seasons; the new deal replaces this year forward.
+      years: [...c.years.filter((y) => y.leagueYear < YEAR), ...dealFromAav(s.aav, s.years)],
+      // Signed this offseason → not trade-eligible until Dec 15.
+      restriction: FA_RESTRICTION,
+    };
+  });
+  return { contracts: out, signed };
+}
+
+/**
+ * Free agents by option: a player who DECLINED his 2026-27 option (or whose
+ * team declined a team option) becomes a free agent — strip the option year so
+ * he shows up in the free-agent pool rather than as if under contract.
+ */
+function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: string[] } {
+  const freed: string[] = [];
+  const out = contracts.map((c) => {
+    if (!OPTION_DECLINED.has(normName(c.playerName))) return c;
+    freed.push(c.playerName);
+    return {
+      ...cloneContract(c),
+      years: c.years.filter((y) => y.leagueYear !== YEAR),
+    };
+  });
+  return { contracts: out, freed };
+}
+
 const deduped = dedupe(base.contracts);
-const afterTrades = applyTrades(deduped);
+// Options first (a declined option makes a player a FA), then trades, then the
+// offseason's signings restore/re-sign anyone who agreed to a new deal.
+const afterOptions = applyOptions(deduped);
+const afterTrades = applyTrades(afterOptions.contracts);
 const afterSignings = applySignings(afterTrades.contracts);
-const existingIds = new Set(afterSignings.contracts.map((c) => c.playerId));
+// The structured signed-FA feed is authoritative for the newest deals — apply
+// it last so it corrects team/salary from the looser transactions-prose pass.
+const afterSignedFA = applySignedFA(afterSignings.contracts);
+const existingIds = new Set(afterSignedFA.contracts.map((c) => c.playerId));
 const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId));
 
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = [
-  ...afterSignings.contracts,
+  ...afterSignedFA.contracts,
   ...rookieContracts,
 ];
 export const TRADES_APPLIED = afterTrades.moved;
-export const SIGNINGS_APPLIED = afterSignings.signed;
+export const SIGNINGS_APPLIED = [...afterSignings.signed, ...afterSignedFA.signed];
 
 /* ---------------- pure, contracts-parameterized helpers ---------------- */
 
@@ -187,10 +317,21 @@ export function experienceOf(playerId: string): number {
 export function ratingOf(playerId: string): number | undefined {
   return RATINGS[playerId]?.rating;
 }
-/** Convex trade value from a rating — stars are worth disproportionately more. */
+/** Convex trade value from a rating. Floored at rotation-average (~62): a
+ * below-average filler / salary-matching throw-in carries ~no trade value, so
+ * taking on a bad contract to match salary doesn't "win" a deal. Stars ramp up
+ * convexly. */
 export function tradeValue(rating: number | undefined): number {
   if (rating == null) return 0;
-  return Math.round(Math.pow(Math.max(0, rating - 45), 1.7) / 4);
+  return Math.round(Math.pow(Math.max(0, rating - 62), 1.7) / 3.5);
+}
+
+/** Rough trade value of a future draft pick (slot unknown → assume mid-round).
+ * Nearer picks are a touch more valuable; a 1st is worth far more than a 2nd. */
+export function pickValue(year: number, round: 1 | 2): number {
+  const dist = Math.max(0, year - (Number(YEAR.slice(0, 4)) + 1));
+  const base = round === 1 ? 28 : 6;
+  return Math.round(base * Math.pow(0.93, dist));
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {
   return contracts
@@ -229,7 +370,7 @@ export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
         hold: capHold(lastSalary, C, birdStatus),
         yearsOfService: EXPERIENCE[c.playerId] ?? 8,
         birdStatus,
-        faType: info?.restriction,
+        faType: faTypeOf(c.playerName),
       };
     })
     .sort((a, b) => b.lastSalary - a.lastSalary);
@@ -290,8 +431,6 @@ export type Move =
     }
   | { kind: "waive"; label: string; playerId: string };
 
-const FA_RESTRICTION =
-  "signed as a free agent this offseason (not trade-eligible until Dec 15)";
 
 /** Build the season rows for a new deal: first-year `salary` plus standard
  * raises (8% for Bird re-signings, 5% otherwise) for `years` seasons. */

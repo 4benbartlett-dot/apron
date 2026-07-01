@@ -163,6 +163,22 @@ export function useLeague() {
         }),
       freeAgents: () => fas,
       teamHolds: (t: string) => holds[t] ?? 0,
+      // The tightest apron a team has HARD-CAPPED itself at this session (via an
+      // NT-MLE/BAE or sign-and-trade → first apron, or a Taxpayer MLE → second
+      // apron). Persists across moves so a later Bird re-sign / min / trade can't
+      // blow past it (2023 CBA: a triggered hard cap binds for the whole year).
+      hardCapOf: (t: string) => {
+        let line = Infinity;
+        for (const m of moveList) {
+          if (m.kind === "sign" && m.teamId === t) {
+            if (m.mechanism === "ntmle" || m.mechanism === "bae") line = Math.min(line, C.firstApron);
+            else if (m.mechanism === "tpmle") line = Math.min(line, C.secondApron);
+          } else if (m.kind === "sign_trade" && m.toTeam === t) {
+            line = Math.min(line, C.firstApron);
+          }
+        }
+        return line;
+      },
       playerName: nameOf,
     };
   }, [contracts, moveList]);

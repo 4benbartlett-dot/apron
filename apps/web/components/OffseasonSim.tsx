@@ -14,7 +14,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, currentSalary, experienceOf, ratingOf, tradeValue, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, currentSalary, experienceOf, ratingOf, tradeValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -172,7 +172,7 @@ export default function OffseasonSim() {
       .map((t) => `${teamMeta(t).name} can't trade first-round picks in consecutive years (Stepien rule).`);
   }, [pickSel]);
 
-  // Player value flowing in/out per team (for the fair-trade meter).
+  // Player + pick value flowing in/out per team (for the fair-trade meter).
   const valueByTeam = useMemo(() => {
     const m: Record<string, { in: number; out: number }> = {};
     for (const p of trade.players) {
@@ -180,8 +180,26 @@ export default function OffseasonSim() {
       (m[p.from] ??= { in: 0, out: 0 }).out += val;
       (m[p.to] ??= { in: 0, out: 0 }).in += val;
     }
+    for (const [id, mv] of Object.entries(pickSel)) {
+      const [, yearStr, round] = id.split("|");
+      const val = pickValue(Number(yearStr), round === "1" ? 1 : 2);
+      (m[mv.from] ??= { in: 0, out: 0 }).out += val;
+      (m[mv.to] ??= { in: 0, out: 0 }).in += val;
+    }
     return m;
-  }, [trade]);
+  }, [trade, pickSel]);
+
+  // A hard cap triggered earlier (MLE/BAE/S&T) binds later trades too.
+  const hardCapTradeViolations = useMemo(() => {
+    const out: string[] = [];
+    for (const t of verdict.teams) {
+      const cap = lg.hardCapOf(t.teamId);
+      if (t.postTradeSalary > cap + 1) {
+        out.push(`${teamMeta(t.teamId).name} is hard-capped at ${fmtM(cap)} from an earlier move — this trade would put them at ${fmtM(t.postTradeSalary)}.`);
+      }
+    }
+    return out;
+  }, [verdict, lg]);
 
   const executeTrade = () => {
     const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
@@ -234,7 +252,7 @@ export default function OffseasonSim() {
 
       {/* trade verdict */}
       {hasTrade && (
-        <TradeVerdict verdict={verdict} extraViolations={stepienViolations} valueByTeam={valueByTeam} onExecute={executeTrade} lg={lg} />
+        <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} lg={lg} />
       )}
 
       {/* board */}
@@ -474,7 +492,7 @@ function TeamColumn({
                 ) : (
                   out && <span className="text-[10px] font-bold text-[var(--tier-second_apron)]">→ {mv.to}</span>
                 )}
-                {!out && currentSalary(c) > 0 && (
+                {!out && currentSalary(c) > 0 && isExtensionEligible(c.playerName) && (
                   <button onClick={() => onExtend(c.playerId, c.playerName)} title="Extend this contract" className="rounded border border-[var(--border)] px-1 py-0.5 text-[9px] font-bold text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]">
                     EXT
                   </button>
@@ -647,7 +665,9 @@ function SignEditor({
   const ceiling = isArenasRfa
     ? Math.min(Math.max(ceilingRaw, floor), Math.max(C.nonTaxpayerMLE, floor))
     : Math.max(ceilingRaw, floor);
-  const maxYears = isOwn ? 5 : 4;
+  // Only a FULL Bird re-signing can go 5 years; Early-Bird, Non-Bird, and every
+  // outside/exception signing max out at 4.
+  const maxYears = isOwn && fa.birdStatus === "bird" ? 5 : 4;
 
   // Preset amounts for each mechanism the team can actually use (cap space,
   // MLEs, BAE, Bird), plus Min and Max — each clamped to what's legal here.
@@ -679,12 +699,19 @@ function SignEditor({
   const [years, setYears] = useState<number>(Math.min(3, maxYears));
 
   const v = validateSigning(base, salary, C, opts);
-  const raise = v.mechanism?.id === "bird" ? 0.08 : 0.05;
+  // 8% raises only for a Bird / Early-Bird own-FA re-sign; Non-Bird and every
+  // exception/cap-room signing get 5%.
+  const raise = isOwn && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") ? 0.08 : 0.05;
   const rows = Array.from({ length: years }, (_, k) => Math.round(salary * (1 + raise * k)));
   const total = rows.reduce((a, b) => a + b, 0);
   // Post-signing cap charge = base (committed + other kept holds) + new salary.
   const afterCharge = base + salary;
   const afterTier = classifyTier(afterCharge, C);
+  // A hard cap triggered earlier this session binds every later move — even a
+  // Bird re-sign or a minimum. Enforce it on top of the mechanism check.
+  const hardCap = lg.hardCapOf(team);
+  const exceedsHardCap = afterCharge > hardCap + 1;
+  const legalSign = v.legal && !exceedsHardCap;
 
   // Sign-and-trade: offered for another team's FA the acquirer can't sign
   // outright, as long as the acquirer isn't over the second apron.
@@ -842,6 +869,11 @@ function SignEditor({
         <div className="mt-1 text-[var(--muted)]">
           Team after: <span className="tabular text-[var(--text)]">{fmtM(afterCharge)}</span> · {afterTier.replace("_", " ")}
         </div>
+        {exceedsHardCap && (
+          <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
+            ✗ {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put them at {fmtM(afterCharge)}.
+          </div>
+        )}
         {fa.faType === "RFA" && !isOwn && (
           <div className="mt-1 text-[var(--tier-taxpayer)]">
             Restricted FA — {teamMeta(fa.priorTeam).name} can match this offer sheet
@@ -909,7 +941,7 @@ function SignEditor({
           <>
             <button
               onClick={sign}
-              disabled={!v.legal}
+              disabled={!legalSign}
               className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-30"
             >
               Sign {fmtM(salary)}{years > 1 ? ` × ${years}yr` : ""}
@@ -943,10 +975,24 @@ function ExtendDrawer({
   const contract = lg.contracts.find((c) => c.playerId === playerId);
   const current = contract ? currentSalary(contract) : 0;
   const yos = experienceOf(playerId);
-  const extMax = veteranExtensionMax(current, yos, C);
+  // Existing years from the active season forward, and the FINAL-year salary —
+  // the veteran-extension 140% ceiling is computed off the last year of the
+  // current deal, not the current year.
+  const remainingYearRows = contract
+    ? [...contract.years]
+        .filter((y) => y.leagueYear >= YEAR_STR)
+        .sort((a, b) => a.leagueYear.localeCompare(b.leagueYear))
+    : [];
+  const remainingYears = remainingYearRows.length;
+  const finalYearSalary = remainingYears
+    ? remainingYearRows[remainingYears - 1]!.salary
+    : current;
+  const extMax = veteranExtensionMax(finalYearSalary, yos, C);
   const minYos = Math.min(Math.max(Math.floor(yos), 0), 10);
   const floor = C.minimumSalaries[minYos] ?? 1_000_000;
   const ceiling = Math.max(extMax, floor);
+  // Total contract (remaining + extension) can't exceed the CBA's 5-year max.
+  const maxExtYears = Math.max(1, Math.min(4, 5 - remainingYears));
   // Extension years start the season after the current contract's last year.
   const lastYear = contract
     ? contract.years.reduce((mx, y) => (y.leagueYear > mx ? y.leagueYear : mx), YEAR_STR)
@@ -956,9 +1002,9 @@ function ExtendDrawer({
     `${startYr + k}-${String((startYr + 1 + k) % 100).padStart(2, "0")}`;
 
   const [salary, setSalary] = useState<number>(
-    Math.max(floor, Math.min(round100k(current), ceiling)),
+    Math.max(floor, Math.min(round100k(finalYearSalary), ceiling)),
   );
-  const [years, setYears] = useState<number>(3);
+  const [years, setYears] = useState<number>(Math.min(3, maxExtYears));
   const clamped = Math.max(floor, Math.min(salary, ceiling));
   const rows = Array.from({ length: years }, (_, k) => Math.round(clamped * (1 + 0.08 * k)));
   const total = rows.reduce((a, b) => a + b, 0);
@@ -1015,9 +1061,11 @@ function ExtendDrawer({
           className="mb-4 w-full accent-[var(--accent)]"
         />
 
-        <label className="mb-1 block text-xs text-[var(--muted)]">Extension length</label>
+        <label className="mb-1 block text-xs text-[var(--muted)]">
+          Extension length <span className="text-[var(--muted)]">· {remainingYears}yr left, max +{maxExtYears} (5yr total)</span>
+        </label>
         <div className="mb-4 flex gap-1">
-          {[1, 2, 3, 4].map((n) => (
+          {Array.from({ length: maxExtYears }, (_, i) => i + 1).map((n) => (
             <button
               key={n}
               onClick={() => setYears(n)}
