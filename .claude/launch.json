@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/schoolbenbartlett/Desktop/apron",
+        "--filter",
+        "@apron/web",
+        "dev",
+        "--port",
+        "3100"
+      ],
+      "port": 3100
+    }
+  ]
+}

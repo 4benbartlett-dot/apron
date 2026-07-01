@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0a0c;
+  --panel: #141418;
+  --panel-2: #1c1c22;
+  --border: #2a2a32;
+  --text: #ededf0;
+  --muted: #9a9aa5;
+  --accent: #a78bfa;
+
+  /* apron tier colors */
+  --tier-below_cap: #22c55e;
+  --tier-over_cap: #38bdf8;
+  --tier-taxpayer: #f59e0b;
+  --tier-first_apron: #fb923c;
+  --tier-second_apron: #ef4444;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

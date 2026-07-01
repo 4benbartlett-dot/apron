@@ -1,0 +1,184 @@
+/**
+ * Core domain types for the Apron CBA engine.
+ *
+ * Design principle: a team's salary, apron tier, and room are NEVER stored —
+ * they are always *derived* from the set of contracts via pure functions. This
+ * keeps the engine deterministic and replayable: same contracts + same
+ * league-year constants => same cap sheet, always.
+ */
+
+export type GuaranteeType =
+  | "full"
+  | "partial"
+  | "non_guaranteed"
+  | "team_option"
+  | "player_option";
+
+export interface ContractYear {
+  /** e.g. "2025-26" */
+  leagueYear: string;
+  /** Base salary / cap hit for this league year, in dollars. */
+  salary: number;
+  guarantee: GuaranteeType;
+}
+
+/** A player's re-signing rights with their current team. */
+export type BirdStatus = "bird" | "early_bird" | "non_bird" | "none";
+
+export interface Contract {
+  playerId: string;
+  playerName: string;
+  /** Team that currently holds the contract. */
+  teamId: string;
+  years: ContractYear[];
+  /** Trade kicker as a fraction of remaining base salary, 0..0.15. */
+  tradeKickerPct?: number;
+  noTradeClause?: boolean;
+  birdStatus?: BirdStatus;
+  /** The exception/mechanism used to sign the deal (informational for now). */
+  signedUsing?: string;
+  /**
+   * If set, the player currently cannot be traded, with this human reason
+   * (e.g. a free agent signed this offseason is trade-restricted until Dec 15).
+   * A player extended rather than re-signed via Bird stays trade-eligible.
+   */
+  restriction?: string;
+  /**
+   * True if the player was acquired this offseason — they cannot be aggregated
+   * with other salaries in a trade for two months after being acquired.
+   */
+  noAggregate?: boolean;
+  /**
+   * If set, the player is a Base-Year Compensation player (re-signed via Bird
+   * with a >20% raise, then traded the same league year). For the SENDING team's
+   * salary matching his outgoing value is max(50% of current salary, this prior
+   * salary); the acquiring team still counts his full salary.
+   */
+  bycPriorSalary?: number;
+}
+
+export interface Team {
+  /** Tricode, e.g. "BOS". */
+  id: string;
+  name: string;
+  conference?: "East" | "West";
+}
+
+/** A snapshot of the league for a single league year. */
+export interface LeagueData {
+  leagueYear: string;
+  teams: Team[];
+  contracts: Contract[];
+}
+
+/**
+ * A team's salary position relative to the four CBA thresholds. Each tier is a
+ * superset of the restrictions of the tier below it.
+ */
+export type ApronTier =
+  | "below_cap"
+  | "over_cap"
+  | "taxpayer"
+  | "first_apron"
+  | "second_apron";
+
+/** Per-league-year dollar constants. Reset every July; never hard-code inline. */
+export interface LeagueConstants {
+  leagueYear: string;
+  /** False = projection (e.g. 2026-27 before the official cap memo). */
+  official: boolean;
+
+  salaryCap: number;
+  /** Minimum team salary / cap floor (90% of cap). */
+  minTeamSalary: number;
+  luxuryTaxLine: number;
+  firstApron: number;
+  secondApron: number;
+
+  nonTaxpayerMLE: number;
+  taxpayerMLE: number;
+  roomMLE: number;
+  biAnnualException: number;
+
+  /**
+   * CBA "estimated average player salary" for the season — used for the Early
+   * Bird alternative (105% of this figure). This is a separately published,
+   * BRI-derived number (NOT a fixed fraction of the cap); the value here is an
+   * approximation until the official figure is confirmed each year.
+   */
+  estimatedAverageSalary: number;
+
+  /** First-year maximum salary by years-of-service tier. */
+  maxSalary: { "0-6": number; "7-9": number; "10+": number };
+
+  /** Sub-apron expanded traded-player matching breakpoints. */
+  tradeMatch: {
+    /** Outgoing at/under this -> 200% + addOn. (2025-26: $7.5M) */
+    tier1Ceiling: number;
+    /** Outgoing at/under this -> outgoing + tier2FlatAddOn. (2025-26: $29M) */
+    tier2Ceiling: number;
+    /** Flat dollar add-on for tiers 1 & 3. (2025-26: $250k) */
+    addOn: number;
+    /** Flat add-on for tier 2. (2025-26: $7.5M) */
+    tier2FlatAddOn: number;
+  };
+
+  /** Minimum salary by years of service (0..10, where 10 = "10+"). */
+  minimumSalaries: Record<number, number>;
+}
+
+/* ----------------------------- Trades ----------------------------- */
+
+export interface PlayerMovement {
+  playerId: string;
+  /** Team tricode the player is leaving. */
+  from: string;
+  /** Team tricode the player is joining. */
+  to: string;
+}
+
+export interface CashMovement {
+  from: string;
+  to: string;
+  amount: number;
+}
+
+export interface Trade {
+  /** All teams party to the trade. */
+  teams: string[];
+  players: PlayerMovement[];
+  cash?: CashMovement[];
+}
+
+/* ----------------------------- Verdicts ----------------------------- */
+
+export interface RuleResult {
+  ruleId: string;
+  ok: boolean;
+  teamId?: string;
+  /** Plain-English explanation, e.g. "Suns are over the second apron and cannot aggregate salaries." */
+  reason: string;
+  /** CBA reference / source for the rule. */
+  citation: string;
+}
+
+export interface TeamTradeSummary {
+  teamId: string;
+  preTradeSalary: number;
+  postTradeSalary: number;
+  preTradeTier: ApronTier;
+  postTradeTier: ApronTier;
+  outgoingSalary: number;
+  incomingSalary: number;
+  maxIncomingAllowed: number;
+  matchingRule: string;
+}
+
+export interface TradeVerdict {
+  legal: boolean;
+  teams: TeamTradeSummary[];
+  /** Only the failed checks. */
+  violations: RuleResult[];
+  /** Every check run (passed and failed) — useful for an audit/explain panel. */
+  checks: RuleResult[];
+}

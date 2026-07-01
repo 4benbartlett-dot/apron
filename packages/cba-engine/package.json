@@ -1,0 +1,23 @@
+{
+  "name": "@apron/cba-engine",
+  "version": "0.0.0",
+  "description": "Deterministic, isomorphic rules engine for the 2023 NBA Collective Bargaining Agreement.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "demo": "tsx examples/explain.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}

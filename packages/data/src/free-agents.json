@@ -1,0 +1,951 @@
+{
+  "source": "Spotrac free agents (via Firecrawl)",
+  "byName": {
+    "lebron james": {
+      "name": "LeBron James",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "james harden": {
+      "name": "James Harden",
+      "team": "CLE",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "cj mccollum": {
+      "name": "C.J. McCollum",
+      "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "khris middleton": {
+      "name": "Khris Middleton",
+      "team": "DAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "kristaps porzingis": {
+      "name": "Kristaps Porzingis",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "tobias harris": {
+      "name": "Tobias Harris",
+      "team": "DET",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "draymond green": {
+      "name": "Draymond Green",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "john collins": {
+      "name": "John Collins",
+      "team": "LAC",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "anfernee simons": {
+      "name": "Anfernee Simons",
+      "team": "CHI",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jonathan kuminga": {
+      "name": "Jonathan Kuminga",
+      "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "nikola vucevic": {
+      "name": "Nikola Vucevic",
+      "team": "BOS",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "norman powell": {
+      "name": "Norman Powell",
+      "team": "MIA",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "collin sexton": {
+      "name": "Collin Sexton",
+      "team": "CHI",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "rui hachimura": {
+      "name": "Rui Hachimura",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "bogdan bogdanovic": {
+      "name": "Bogdan Bogdanovic",
+      "team": "LAC",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "mitchell robinson": {
+      "name": "Mitchell Robinson",
+      "team": "NYK",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "kelly olynyk": {
+      "name": "Kelly Olynyk",
+      "team": "SAS",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "matisse thybulle": {
+      "name": "Matisse Thybulle",
+      "team": "POR",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "moritz wagner": {
+      "name": "Moritz Wagner",
+      "team": "ORL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "maxi kleber": {
+      "name": "Maxi Kleber",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "gabe vincent": {
+      "name": "Gabe Vincent",
+      "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "quentin grimes": {
+      "name": "Quentin Grimes",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "kelly oubre": {
+      "name": "Kelly Oubre Jr.",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "kevon looney": {
+      "name": "Kevon Looney",
+      "team": "NOP",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "egor demin": {
+      "name": "Egor Demin",
+      "team": "BKN",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "bennedict mathurin": {
+      "name": "Bennedict Mathurin",
+      "team": "LAC",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "kenrich williams": {
+      "name": "Kenrich Williams",
+      "team": "OKC",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "ziaire williams": {
+      "name": "Ziaire Williams",
+      "team": "BKN",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jett howard": {
+      "name": "Jett Howard",
+      "team": "ORL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "nicolas batum": {
+      "name": "Nicolas Batum",
+      "team": "LAC",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "guerschon yabusele": {
+      "name": "Guerschon Yabusele",
+      "team": "CHI",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "bradley beal": {
+      "name": "Bradley Beal",
+      "team": "LAC",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "marcus smart": {
+      "name": "Marcus Smart",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "andre drummond": {
+      "name": "Andre Drummond",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "nick richards": {
+      "name": "Nick Richards",
+      "team": "CHI",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jalen duren": {
+      "name": "Jalen Duren",
+      "team": "DET",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "aaron holiday": {
+      "name": "Aaron Holiday",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "ochai agbaji": {
+      "name": "Ochai Agbaji",
+      "team": "BKN",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "tari eason": {
+      "name": "Tari Eason",
+      "team": "HOU",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "kevin love": {
+      "name": "Kevin Love",
+      "team": "UTA",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "dwight powell": {
+      "name": "Dwight Powell",
+      "team": "DAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "nique clifford": {
+      "name": "Nique Clifford",
+      "team": "SAC",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "jase richardson": {
+      "name": "Jase Richardson",
+      "team": "ORL",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "gary trent": {
+      "name": "Gary Trent Jr.",
+      "team": "MIL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "bismack biyombo": {
+      "name": "Bismack Biyombo",
+      "team": "SAS",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "larry nance": {
+      "name": "Larry Nance Jr.",
+      "team": "CLE",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jeff green": {
+      "name": "Jeff Green",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "joe ingles": {
+      "name": "Joe Ingles",
+      "team": "MIN",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "garrett temple": {
+      "name": "Garrett Temple",
+      "team": "TOR",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jordan clarkson": {
+      "name": "Jordan Clarkson",
+      "team": "NYK",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "kyle lowry": {
+      "name": "Kyle Lowry",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "patrick baldwin": {
+      "name": "Patrick Baldwin Jr.",
+      "team": "SAC",
+      "restriction": "RFA"
+    },
+    "jaxson hayes": {
+      "name": "Jaxson Hayes",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "russell westbrook": {
+      "name": "Russell Westbrook",
+      "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "walker kessler": {
+      "name": "Walker Kessler",
+      "team": "UTA",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "gary payton": {
+      "name": "Gary Payton II",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "deanthony melton": {
+      "name": "De'Anthony Melton",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "david roddy": {
+      "name": "David Roddy",
+      "team": "DEN",
+      "restriction": "RFA"
+    },
+    "marjon beauchamp": {
+      "name": "MarJon Beauchamp",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "drew eubanks": {
+      "name": "Drew Eubanks",
+      "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "marvin bagley": {
+      "name": "Marvin Bagley III",
+      "team": "DAL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "josh okogie": {
+      "name": "Josh Okogie",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "bruce brown": {
+      "name": "Bruce Brown Jr.",
+      "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "wendell moore": {
+      "name": "Wendell Moore Jr.",
+      "team": "DET",
+      "restriction": "RFA"
+    },
+    "thanasis antetokounmpo": {
+      "name": "Thanasis Antetokounmpo",
+      "team": "MIL",
+      "restriction": "RFA",
+      "birdStatus": "non_bird"
+    },
+    "amir coffey": {
+      "name": "Amir Coffey",
+      "team": "PHX",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "javonte green": {
+      "name": "Javonte Green",
+      "team": "DET",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jordan mclaughlin": {
+      "name": "Jordan McLaughlin",
+      "team": "SAS",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "ariel hukporti": {
+      "name": "Ariel Hukporti",
+      "team": "NYK",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "peyton watson": {
+      "name": "Peyton Watson",
+      "team": "DEN",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "seth curry": {
+      "name": "Seth Curry",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "anthony gill": {
+      "name": "Anthony Gill",
+      "team": "WAS",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jaesean tate": {
+      "name": "Jae’Sean Tate",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "sandro mamukelashvili": {
+      "name": "Sandro Mamukelashvili",
+      "team": "TOR",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "trendon watford": {
+      "name": "Trendon Watford",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "lindy waters": {
+      "name": "Lindy Waters III",
+      "team": "SAS",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "xavier tillman": {
+      "name": "Xavier Tillman",
+      "team": "CHA",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "blake wesley": {
+      "name": "Blake Wesley",
+      "team": "POR",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "keaton wallace": {
+      "name": "Keaton Wallace",
+      "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "bryce mcgowens": {
+      "name": "Bryce McGowens",
+      "team": "NOP",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jalen pickett": {
+      "name": "Jalen Pickett",
+      "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jonathan mogbo": {
+      "name": "Jonathan Mogbo",
+      "team": "TOR",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jamal shead": {
+      "name": "Jamal Shead",
+      "team": "TOR",
+      "restriction": "RFA",
+      "birdStatus": "bird"
+    },
+    "julian phillips": {
+      "name": "Julian Phillips",
+      "team": "MIN",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "andre jackson": {
+      "name": "Andre Jackson Jr.",
+      "team": "MIL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "killian hayes": {
+      "name": "Killian Hayes",
+      "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jalen wilson": {
+      "name": "Jalen Wilson",
+      "team": "BKN",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "jamir watkins": {
+      "name": "Jamir Watkins",
+      "team": "WAS",
+      "restriction": "RFA",
+      "birdStatus": "early_bird"
+    },
+    "jordan miller": {
+      "name": "Jordan Miller",
+      "team": "LAC",
+      "restriction": "RFA",
+      "birdStatus": "non_bird"
+    },
+    "oliviermaxence prosper": {
+      "name": "Olivier-Maxence Prosper",
+      "team": "MEM",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "keshad johnson": {
+      "name": "Keshad Johnson",
+      "team": "MIA",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "nick smith": {
+      "name": "Nick Smith Jr.",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jahmir young": {
+      "name": "Jahmir Young",
+      "team": "MIA",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "quinten post": {
+      "name": "Quinten Post",
+      "team": "GSW",
+      "restriction": "RFA",
+      "birdStatus": "early_bird"
+    },
+    "max shulga": {
+      "name": "Max Shulga",
+      "team": "BOS",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jevon carter": {
+      "name": "Jevon Carter",
+      "team": "ORL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "brandon williams": {
+      "name": "Brandon Williams",
+      "team": "DAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "mike conley": {
+      "name": "Mike Conley",
+      "team": "MIN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "hayden gray": {
+      "name": "Hayden Gray",
+      "team": "UTA",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "mason plumlee": {
+      "name": "Mason Plumlee",
+      "team": "SAS",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "cameron thomas": {
+      "name": "Cameron Thomas",
+      "team": "MIL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "kyle anderson": {
+      "name": "Kyle Anderson",
+      "team": "MIN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "pat spencer": {
+      "name": "Pat Spencer",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "tyus jones": {
+      "name": "Tyus Jones",
+      "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jeremy sochan": {
+      "name": "Jeremy Sochan",
+      "team": "NYK",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "spencer jones": {
+      "name": "Spencer Jones",
+      "team": "DEN",
+      "restriction": "RFA",
+      "birdStatus": "early_bird"
+    },
+    "jeenathan williams": {
+      "name": "Jeenathan Williams",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "trevor keels": {
+      "name": "Trevor Keels",
+      "team": "MIA",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "sean pedulla": {
+      "name": "Sean Pedulla",
+      "team": "LAC",
+      "restriction": "RFA"
+    },
+    "tyrese martin": {
+      "name": "Tyrese Martin",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "norchad omier": {
+      "name": "Norchad Omier",
+      "team": "LAC",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jalen slawson": {
+      "name": "Jalen Slawson",
+      "team": "IND",
+      "restriction": "RFA"
+    },
+    "olivier sarr": {
+      "name": "Olivier Sarr",
+      "team": "CLE",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "josh oduro": {
+      "name": "Josh Oduro",
+      "team": "NOP",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "aj lawson": {
+      "name": "A.J. Lawson",
+      "team": "TOR",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "tony bradley": {
+      "name": "Tony Bradley",
+      "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "charles bassey": {
+      "name": "Charles Bassey",
+      "team": "GSW",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "christian koloko": {
+      "name": "Christian Koloko",
+      "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "rayan rupert": {
+      "name": "Rayan Rupert",
+      "team": "MEM",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "bez mbeng": {
+      "name": "Bez Mbeng",
+      "team": "UTA",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "john tonje": {
+      "name": "John Tonje",
+      "team": "BOS",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "alex morales": {
+      "name": "Alex Morales",
+      "team": "ORL",
+      "restriction": "RFA"
+    },
+    "yuki kawamura": {
+      "name": "Yuki Kawamura",
+      "team": "CHI",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "daeqwon plowden": {
+      "name": "Daeqwon Plowden",
+      "team": "SAC",
+      "restriction": "RFA"
+    },
+    "isaiah crawford": {
+      "name": "Isaiah Crawford",
+      "team": "HOU",
+      "restriction": "RFA"
+    },
+    "chris manon": {
+      "name": "Chris Manon",
+      "team": "LAL",
+      "restriction": "RFA"
+    },
+    "taelon peter": {
+      "name": "Taelon Peter",
+      "team": "IND",
+      "restriction": "RFA"
+    },
+    "curtis jones": {
+      "name": "Curtis Jones",
+      "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "koby brea": {
+      "name": "Koby Brea",
+      "team": "PHX",
+      "restriction": "RFA"
+    },
+    "tyson etienne": {
+      "name": "Tyson Etienne",
+      "team": "BKN",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "caleb love": {
+      "name": "Caleb Love",
+      "team": "POR",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "drew timme": {
+      "name": "Drew Timme",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "jahmai mashack": {
+      "name": "Jahmai Mashack",
+      "team": "MEM",
+      "restriction": "RFA"
+    },
+    "moussa cisse": {
+      "name": "Moussa Cisse",
+      "team": "DAL",
+      "restriction": "RFA"
+    },
+    "hunter dickinson": {
+      "name": "Hunter Dickinson",
+      "team": "NOP",
+      "restriction": "RFA"
+    },
+    "lachlan olbrich": {
+      "name": "Lachlan Olbrich",
+      "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "vladislav goldin": {
+      "name": "Vladislav Goldin",
+      "team": "MIA",
+      "restriction": "RFA"
+    },
+    "trey jemison": {
+      "name": "Trey Jemison",
+      "team": "NYK",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "ej liddell": {
+      "name": "E.J. Liddell",
+      "team": "BKN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "colin castleton": {
+      "name": "Colin Castleton",
+      "team": "ORL",
+      "restriction": "RFA"
+    },
+    "oscar tshiebwe": {
+      "name": "Oscar Tshiebwe",
+      "team": "UTA",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "enrique freeman": {
+      "name": "Enrique Freeman",
+      "team": "MIN",
+      "restriction": "RFA"
+    },
+    "tyler smith": {
+      "name": "Tyler Smith",
+      "team": "DAL",
+      "restriction": "RFA"
+    },
+    "leaky black": {
+      "name": "Leaky Black",
+      "team": "WAS",
+      "restriction": "RFA"
+    },
+    "dillon jones": {
+      "name": "Dillon Jones",
+      "team": "NYK",
+      "restriction": "RFA"
+    },
+    "alex antetokounmpo": {
+      "name": "Alex Antetokounmpo",
+      "team": "MIL",
+      "restriction": "UFA"
+    },
+    "harrison ingram": {
+      "name": "Harrison Ingram",
+      "team": "SAS",
+      "restriction": "RFA"
+    },
+    "david jonesgarcia": {
+      "name": "David Jones-Garcia",
+      "team": "SAS",
+      "restriction": "RFA"
+    },
+    "isaiah livers": {
+      "name": "Isaiah Livers",
+      "team": "PHX",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "brooks barnhizer": {
+      "name": "Brooks Barnhizer",
+      "team": "OKC",
+      "restriction": "RFA"
+    },
+    "ethan thompson": {
+      "name": "Ethan Thompson",
+      "team": "IND",
+      "restriction": "RFA"
+    },
+    "kevin mccullar": {
+      "name": "Kevin McCullar Jr.",
+      "team": "NYK",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "antonio reeves": {
+      "name": "Antonio Reeves",
+      "team": "CHA",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "alijah martin": {
+      "name": "Alijah Martin",
+      "team": "TOR",
+      "restriction": "RFA"
+    },
+    "trey alexander": {
+      "name": "Trey Alexander",
+      "team": "NOP",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "kj simpson": {
+      "name": "K.J. Simpson",
+      "team": "DEN",
+      "restriction": "RFA"
+    },
+    "mac mcclung": {
+      "name": "Mac McClung",
+      "team": "CHI",
+      "restriction": "UFA"
+    },
+    "rayj dennis": {
+      "name": "RayJ Dennis",
+      "team": "ATL",
+      "restriction": "RFA"
+    },
+    "tyty washington": {
+      "name": "TyTy Washington Jr.",
+      "team": "LAC",
+      "restriction": "RFA"
+    },
+    "sharife cooper": {
+      "name": "Sharife Cooper",
+      "team": "WAS",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "isaiah stevens": {
+      "name": "Isaiah Stevens",
+      "team": "SAC",
+      "restriction": "RFA"
+    },
+    "elijah harkless": {
+      "name": "Elijah Harkless",
+      "team": "UTA",
+      "restriction": "UFA"
+    }
+  }
+}

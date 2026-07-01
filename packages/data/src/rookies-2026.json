@@ -1,0 +1,902 @@
+[
+  {
+    "playerId": "dybanaj01",
+    "playerName": "AJ Dybantsa",
+    "teamId": "WAS",
+    "pick": 1,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 12294000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "peterda02",
+    "playerName": "Darryn Peterson",
+    "teamId": "UTA",
+    "pick": 2,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 10999000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "boozeca02",
+    "playerName": "Cameron Boozer",
+    "teamId": "MEM",
+    "pick": 3,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 9878000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "wilsoca01",
+    "playerName": "Caleb Wilson",
+    "teamId": "CHI",
+    "pick": 4,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 8906000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "wagleke01",
+    "playerName": "Keaton Wagler",
+    "teamId": "LAC",
+    "pick": 5,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 8065000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "brownmi02",
+    "playerName": "Mikel Brown Jr.",
+    "teamId": "NJN",
+    "pick": 6,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 7325000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "acuffda01",
+    "playerName": "Darius Acuff Jr.",
+    "teamId": "SAC",
+    "pick": 7,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 6687000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "flemiki01",
+    "playerName": "Kingston Flemings",
+    "teamId": "ATL",
+    "pick": 8,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 6126000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "johnsmo01",
+    "playerName": "Morez Johnson Jr.",
+    "teamId": "DAL",
+    "pick": 9,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 5631000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "burribr01",
+    "playerName": "Brayden Burries",
+    "teamId": "MIL",
+    "pick": 10,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 5349000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "lendeya01",
+    "playerName": "Yaxel Lendeborg",
+    "teamId": "GSW",
+    "pick": 11,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 5082000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "maraad01",
+    "playerName": "Aday Mara",
+    "teamId": "OKC",
+    "pick": 12,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 4828000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "amentna01",
+    "playerName": "Nate Ament",
+    "teamId": "MIA",
+    "pick": 13,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 4586000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "steinha02",
+    "playerName": "Hannes Steinbach",
+    "teamId": "CHA",
+    "pick": 14,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 4357000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "swainda01",
+    "playerName": "Dailyn Swain",
+    "teamId": "CHI",
+    "pick": 15,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 4139000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "stirtbe01",
+    "playerName": "Bennett Stirtz",
+    "teamId": "MEM",
+    "pick": 16,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 3932000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "okorieb01",
+    "playerName": "Ebuka Okorie",
+    "teamId": "OKC",
+    "pick": 17,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 3735000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "anderch02",
+    "playerName": "Christian Anderson Jr.",
+    "teamId": "CHA",
+    "pick": 18,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 3549000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "graveal01",
+    "playerName": "Allen Graves",
+    "teamId": "TOR",
+    "pick": 19,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 3389000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "quainja01",
+    "playerName": "Jayden Quaintance",
+    "teamId": "SAS",
+    "pick": 20,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 3253000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "lopezka01",
+    "playerName": "Karim López",
+    "teamId": "DET",
+    "pick": 21,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 3123000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "philola01",
+    "playerName": "Labaron Philon Jr.",
+    "teamId": "PHI",
+    "pick": 22,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2998000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "ejiofzu01",
+    "playerName": "Zuby Ejiofor",
+    "teamId": "ATL",
+    "pick": 23,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2879000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "carrca01",
+    "playerName": "Cameron Carr",
+    "teamId": "NYK",
+    "pick": 24,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2764000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "delarse01",
+    "playerName": "Sergio de Larrea",
+    "teamId": "LAL",
+    "pick": 25,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2653000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "reedjta01",
+    "playerName": "Tarris Reed Jr.",
+    "teamId": "DEN",
+    "pick": 26,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2565000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "cenacch01",
+    "playerName": "Chris Cenac Jr.",
+    "teamId": "BOS",
+    "pick": 27,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2491000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "jeffejo01",
+    "playerName": "Joshua Jefferson",
+    "teamId": "MIN",
+    "pick": 28,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2475000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "karabal01",
+    "playerName": "Alex Karaban",
+    "teamId": "CLE",
+    "pick": 29,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2458000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "peatko01",
+    "playerName": "Koa Peat",
+    "teamId": "DAL",
+    "pick": 30,
+    "round": 1,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 2440000,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "thornbr01",
+    "playerName": "Bruce Thornton",
+    "teamId": "NYK",
+    "pick": 31,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "saundri01",
+    "playerName": "Richie Saunders",
+    "teamId": "MEM",
+    "pick": 32,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "evansis01",
+    "playerName": "Isaiah Evans",
+    "teamId": "NJN",
+    "pick": 33,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "thomame01",
+    "playerName": "Meleek Thomas",
+    "teamId": "SAC",
+    "pick": 34,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "brazitr01",
+    "playerName": "Trevon Brazile",
+    "teamId": "SAS",
+    "pick": 35,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "milleba01",
+    "playerName": "Baba Miller",
+    "teamId": "LAC",
+    "pick": 36,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "conwery01",
+    "playerName": "Ryan Conwell",
+    "teamId": "OKC",
+    "pick": 37,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "smithbr01",
+    "playerName": "Braden Smith",
+    "teamId": "CHI",
+    "pick": 38,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "kayilja01",
+    "playerName": "Jack Kayil",
+    "teamId": "HOU",
+    "pick": 39,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "mitchdi01",
+    "playerName": "Dillon Mitchell",
+    "teamId": "BOS",
+    "pick": 40,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "owehot01",
+    "playerName": "Otega Oweh",
+    "teamId": "MIA",
+    "pick": 41,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "gilleja02",
+    "playerName": "Ja'Kobi Gillespie",
+    "teamId": "SAS",
+    "pick": 42,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "bilodty01",
+    "playerName": "Tyler Bilodeau",
+    "teamId": "NJN",
+    "pick": 43,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "brownma05",
+    "playerName": "Maliq Brown",
+    "teamId": "SAS",
+    "pick": 44,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "sharpem01",
+    "playerName": "Emanuel Sharp",
+    "teamId": "SAC",
+    "pick": 45,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "okparfe01",
+    "playerName": "Felix Okpara",
+    "teamId": "ORL",
+    "pick": 46,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "nickety01",
+    "playerName": "Tyler Nickel",
+    "teamId": "PHX",
+    "pick": 47,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "lawalto01",
+    "playerName": "Tobi Lawal",
+    "teamId": "DAL",
+    "pick": 48,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "hopkibr01",
+    "playerName": "Bryce Hopkins",
+    "teamId": "DEN",
+    "pick": 49,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "bradlja02",
+    "playerName": "Jaden Bradley",
+    "teamId": "TOR",
+    "pick": 50,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "nelsoiz01",
+    "playerName": "Izaiyah Nelson",
+    "teamId": "WAS",
+    "pick": 51,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "veesahe01",
+    "playerName": "Henri Veesaar",
+    "teamId": "LAC",
+    "pick": 52,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "onyenug01",
+    "playerName": "Ugonna Onyenso",
+    "teamId": "HOU",
+    "pick": 53,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "jonesla03",
+    "playerName": "Lajae Jones",
+    "teamId": "GSW",
+    "pick": 54,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "martini01",
+    "playerName": "Nick Martinelli",
+    "teamId": "NYK",
+    "pick": 55,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "ishchvs01",
+    "playerName": "Vsevolod Ishchenko",
+    "teamId": "CHI",
+    "pick": 56,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "ngoyna01",
+    "playerName": "Narcisse Ngoy",
+    "teamId": "ATL",
+    "pick": 57,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "pierrja01",
+    "playerName": "Jaron Pierre Jr.",
+    "teamId": "NOH",
+    "pick": 58,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "kaufmtr01",
+    "playerName": "Trey Kaufman-Renn",
+    "teamId": "MIN",
+    "pick": 59,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  },
+  {
+    "playerId": "lewisma06",
+    "playerName": "Malique Lewis",
+    "teamId": "WAS",
+    "pick": 60,
+    "round": 2,
+    "years": [
+      {
+        "leagueYear": "2026-27",
+        "salary": 1358152,
+        "guarantee": "full"
+      }
+    ],
+    "signedUsing": "2026 Rookie"
+  }
+]
