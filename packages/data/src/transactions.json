@@ -1,0 +1,2140 @@
+{
+  "source": "Spotrac (via Firecrawl)",
+  "transactions": [
+    {
+      "player": "Precious Achiuwa",
+      "pos": "PF",
+      "date": "Jun 30, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $11.5 million a contract with Sacramento (SAC)"
+    },
+    {
+      "player": "Gradey Dick",
+      "pos": "SG",
+      "date": "Jun 30, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, 1st-round pick, 1st-round pick, 1st-round pick swap, 2nd-round pick and 2nd-round pick for Kawhi Leonard"
+    },
+    {
+      "player": "Brandon Ingram",
+      "pos": "SF",
+      "date": "Jun 30, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Gradey Dick, 1st-round pick, 1st-round pick, 1st-round pick swap, 2nd-round pick and 2nd-round pick for Kawhi Leonard"
+    },
+    {
+      "player": "Kawhi Leonard",
+      "pos": "SF",
+      "date": "Jun 30, 2026",
+      "type": "Trade",
+      "detail": "Traded to Toronto (TOR) from LA (LAC) for Brandon Ingram, Gradey Dick, 1st-round pick, 1st-round pick, 1st-round pick swap, 2nd-round pick and 2nd-round pick"
+    },
+    {
+      "player": "Alpha Kaba",
+      "pos": "PF",
+      "date": "Jun 30, 2026",
+      "type": "Trade",
+      "detail": "Traded to Sacramento (SAC) from Atlanta (ATL) with a 2033 2nd round pick \\[SAC pick\\] for Devin Carter and future 2nd-round pick"
+    },
+    {
+      "player": "Kris Dunn",
+      "pos": "PG",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "LA Clippers (LAC) fully guaranteed $5.68 million salary for 2026-27"
+    },
+    {
+      "player": "Jock Landale",
+      "pos": "C",
+      "date": "Jun 30, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $14 million contract with Atlanta (ATL)"
+    },
+    {
+      "player": "Robert Williams III",
+      "pos": "C",
+      "date": "Jun 30, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $44 million contract extension with Portland (POR)"
+    },
+    {
+      "player": "Simone Fontecchio",
+      "pos": "SF",
+      "date": "Jun 30, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year contract with Miami (MIA)"
+    },
+    {
+      "player": "Devin Carter",
+      "pos": "PG",
+      "date": "Jun 30, 2026",
+      "type": "Trade",
+      "detail": "Traded to Atlanta (ATL) from Sacramento (SAC) with future 2nd-round pick for Alpha Kaba and a 2033 2nd round pick \\[SAC pick\\]"
+    },
+    {
+      "player": "Bronny James",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Other",
+      "detail": "Los Angeles (LAL) fully guaranteed $2.30 million salary for 2026-27"
+    },
+    {
+      "player": "Ja Morant",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Trade",
+      "detail": "Traded to Portland (POR) from Memphis (MEM) for Jerami Grant and Kris Murray"
+    },
+    {
+      "player": "Jeenathan Williams",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Golden State (GSW) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Oscar Tshiebwe",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Utah (UTA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Drew Timme",
+      "pos": "F",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Los Angeles (LAL) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Olivier Sarr",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Cleveland (CLE) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Rayan Rupert",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Memphis (MEM) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Antonio Reeves",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Charlotte (CHA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Norchad Omier",
+      "pos": "F",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "LA Clippers (LAC) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Lachlan Olbrich",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Chicago (CHI) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Josh Oduro",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "New Orleans (NOP) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Kevin McCullar Jr.",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "New York (NYK) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Mac McClung",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Chicago (CHI) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Tyrese Martin",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Philadelphia (PHI) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Caleb Love",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Portland (POR) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Isaiah Livers",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Phoenix (PHX) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "E.J. Liddell",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Brooklyn (BKN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Christian Koloko",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Atlanta (ATL) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Trevor Keels",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Miami (MIA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Yuki Kawamura",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Chicago (CHI) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Curtis Jones",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Denver (DEN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Trey Jemison",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "New York (NYK) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Elijah Harkless",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Utah (UTA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Tyson Etienne",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Brooklyn (BKN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Sharife Cooper",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Washington (WAS) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Branden Carlson",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Oklahoma City (OKC) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Alex Antetokounmpo",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Milwaukee (MIL) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Trey Alexander",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "New Orleans (NOP) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Jahmir Young",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Miami (MIA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Amari Williams",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Boston (BOS) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Keaton Wallace",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Atlanta (ATL) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Pat Spencer",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Golden State (GSW) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Jalen Pickett",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Denver (DEN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Julian Phillips",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Minnesota (MIN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Jonathan Mogbo",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Toronto (TOR) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Bez Mbeng",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Utah (UTA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Keshad Johnson",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Miami (MIA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Andre Jackson Jr.",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Milwaukee (MIL) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Ariel Hukporti",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "New York (NYK) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Hayden Gray",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Utah (UTA) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Moussa Cisse",
+      "pos": "F",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Dallas (DAL) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Tari Eason",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Houston (HOU) tendered $8.01 million Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Jamir Watkins",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Washington (WAS) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Jamir Watkins",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Washington (WAS) declined $2.15 million option for 2026-27"
+    },
+    {
+      "player": "De'Anthony Melton",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Declined $3.45 million Player Option Golden State (GSW) for 2026-27"
+    },
+    {
+      "player": "Killian Hayes",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Sacramento (SAC) declined $3.02 million option for 2026-27"
+    },
+    {
+      "player": "Nick Smith Jr.",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Los Angeles (LAL) declined $2.50 million option for 2026-27"
+    },
+    {
+      "player": "David Jones-Garcia",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "San Antonio (SAS) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Brooks Barnhizer",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Oklahoma City (OKC) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Harrison Ingram",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "San Antonio (SAS) tendered a Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "John Tonje",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Boston (BOS) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Max Shulga",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Boston (BOS) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Jalen Wilson",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Brooklyn (BKN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Ochai Agbaji",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Brooklyn (BKN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Harrison Barnes",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $8 million contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Kristaps Porzingis",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $40 million contract extension with Golden State (GSW) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Colin Castleton",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Orlando (ORL) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Kevin Huerter",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $27 million contract with Detroit (DET)"
+    },
+    {
+      "player": "Jamaree Bouyea",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Phoenix (PHX) exercised $2.58 million option for 2026-27"
+    },
+    {
+      "player": "Jamal Cain",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Orlando (ORL) exercised $2.58 million option for 2026-27"
+    },
+    {
+      "player": "Taurean Prince",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Milwaukee (MIL) exercised $3.82 million option for 2026-27"
+    },
+    {
+      "player": "Jahmir Young",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Miami (MIA) declined $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Jalen Pickett",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Denver (DEN) declined $2.4 million option for 2026-27"
+    },
+    {
+      "player": "Bez Mbeng",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Utah (UTA) declined $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Pat Connaughton",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Charlotte (CHA) exercised $3.82 million option for 2026-27"
+    },
+    {
+      "player": "Ousmane Dieng",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Milwaukee (MIL) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Julian Phillips",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Minnesota (MIN) declined $2.4 million option for 2026-27"
+    },
+    {
+      "player": "Hayden Gray",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Utah (UTA) declined $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Jonathan Mogbo",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Toronto (TOR) declined $2.30 million option for 2026-27"
+    },
+    {
+      "player": "Amari Williams",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with Boston (BOS)"
+    },
+    {
+      "player": "Jusuf Nurkic",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $22 million contract with Utah (UTA)"
+    },
+    {
+      "player": "Julian Champagnie",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $45 million contract extension with San Antonio (SAS)"
+    },
+    {
+      "player": "Julian Champagnie",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "San Antonio (SAS) declined $3 million option for 2026-27"
+    },
+    {
+      "player": "Nicolas Batum",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "LA Clippers (LAC) declined $5.88 million option for 2026-27"
+    },
+    {
+      "player": "Bogdan Bogdanovic",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "LA Clippers (LAC) declined $16.02 million option for 2026-27"
+    },
+    {
+      "player": "Kenrich Williams",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Oklahoma City (OKC) declined $7.16 million option for 2026-27"
+    },
+    {
+      "player": "Luguentz Dort",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Oklahoma City (OKC) exercised $17.72 million option for 2026-27"
+    },
+    {
+      "player": "Max Shulga",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Boston (BOS) declined $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Amari Williams",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Boston (BOS) declined $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Dalano Banton",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Boston (BOS) exercised $2.8 million option for 2026-27"
+    },
+    {
+      "player": "Jordan Walsh",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Boston (BOS) exercised $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Neemias Queta",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Boston (BOS) exercised $2.67 million option for 2026-27"
+    },
+    {
+      "player": "Landry Shamet",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 4 year $24 million contract with New York (NYK)"
+    },
+    {
+      "player": "Andre Jackson Jr.",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Milwaukee (MIL) declined $2.4 million option for 2026-27"
+    },
+    {
+      "player": "Brook Lopez",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "LA Clippers (LAC) exercised $9.19 million option for 2026-27"
+    },
+    {
+      "player": "Jonathan Kuminga",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Atlanta (ATL) declined $24.3 million option for 2026-27"
+    },
+    {
+      "player": "Kris Murray",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Portland (POR) with Jerami Grant for Ja Morant"
+    },
+    {
+      "player": "Jerami Grant",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Portland (POR) with Kris Murray for Ja Morant"
+    },
+    {
+      "player": "Walker Kessler",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Utah (UTA) tendered $7.06 million Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Tolu Smith III",
+      "pos": "F",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Detroit (DET) exercised $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Daniss Jenkins",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Detroit (DET) exercised $4 million option for 2026-27"
+    },
+    {
+      "player": "Bradley Beal",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Declined $5.62 million Player Option with LA Clippers (LAC) for 2026-27"
+    },
+    {
+      "player": "Chaney Johnson",
+      "pos": "F",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way Qualifying Offer contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Thomas Bryant",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.52 million contract with Cleveland (CLE)"
+    },
+    {
+      "player": "J.D. Davison",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Houston (HOU) exercised $2.58 million option for 2026-27"
+    },
+    {
+      "player": "Kobe Sanders",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "LA Clippers (LAC) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Kobe Sanders",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "LA Clippers (LAC) declined $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Jordan Miller",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "LA Clippers (LAC) tendered Qualifying Offer; becomes Restricted Free Agent"
+    },
+    {
+      "player": "Jordan Miller",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "LA Clippers (LAC) declined $2.50 million option for 2026-27"
+    },
+    {
+      "player": "Bennedict Mathurin",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "LA Clippers (LAC) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "G.G. Jackson",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Memphis (MEM) exercised $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Olivier-Maxence Prosper",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Memphis (MEM) exercised $2.50 million option for 2026-27"
+    },
+    {
+      "player": "Marcus Smart",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Declined $5.39 million Player Option Los Angeles (LAL) for 2026-27"
+    },
+    {
+      "player": "Ryan Nembhard",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Dallas (DAL) exercised $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Trendon Watford",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Philadelphia (PHI) declined $2.8 million option for 2026-27"
+    },
+    {
+      "player": "Dalen Terry",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Philadelphia (PHI) exercised $2.58 million option for 2026-27"
+    },
+    {
+      "player": "Dominick Barlow",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Philadelphia (PHI) exercised $3.42 million option for 2026-27"
+    },
+    {
+      "player": "Jalen Slawson",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Indiana (IND) tendered a Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Micah Potter",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Indiana (IND) exercised $2.8 million option for 2026-27"
+    },
+    {
+      "player": "Andrew Wiggins",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $64 million contract extension with Miami (MIA) - includes 2028-29 Player Option"
+    },
+    {
+      "player": "Andrew Wiggins",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Exercised $30.17 million Player Option Miami (MIA) for 2026-27"
+    },
+    {
+      "player": "Trayce Jackson-Davis",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Toronto (TOR) exercised $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Malachi Smith",
+      "pos": "G",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn (BKN) exercised $2.15 million option for 2026-27"
+    },
+    {
+      "player": "Deandre Ayton",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Exercised $8.1 million Player Option with Los Angeles (LAL) for 2026-27"
+    },
+    {
+      "player": "Day'Ron Sharpe",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $20 million contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Day'Ron Sharpe",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn (BKN) declined $6.25 million option for 2026-27"
+    },
+    {
+      "player": "Josh Minott",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $9 million contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Josh Minott",
+      "pos": "SF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn (BKN) declined $2.58 million option for 2026-27"
+    },
+    {
+      "player": "Sandro Mamukelashvili",
+      "pos": "C",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Declined $2.8 million Player Option with Toronto (TOR) for 2026-27"
+    },
+    {
+      "player": "Draymond Green",
+      "pos": "PF",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Declined $27.68 million Player Option with Golden State (GSW) for 2026-27"
+    },
+    {
+      "player": "Zach LaVine",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Exercised $48.97 million Player Option with Sacramento (SAC) for 2026-27"
+    },
+    {
+      "player": "James Harden",
+      "pos": "SG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Declined $4.23 million Player Option with Cleveland (CLE) for 2026-27"
+    },
+    {
+      "player": "Fred VanVleet",
+      "pos": "PG",
+      "date": "Jun 29, 2026",
+      "type": "Option",
+      "detail": "Exercised $25 million Player Option with Houston (HOU) for 2026-27"
+    },
+    {
+      "player": "Dru Smith",
+      "pos": "SG",
+      "date": "Jun 28, 2026",
+      "type": "Other",
+      "detail": "Miami (MIA) fully guaranteed $2.58 million salary for 2026-27"
+    },
+    {
+      "player": "Nico Mannion",
+      "pos": "PG",
+      "date": "Jun 28, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Golden State (GSW) tendered a Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Taran Armstrong",
+      "pos": "G",
+      "date": "Jun 28, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Golden State (GSW) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Quinten Post",
+      "pos": "C",
+      "date": "Jun 28, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Golden State (GSW) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Peyton Watson",
+      "pos": "SG",
+      "date": "Jun 28, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Denver (DEN) tendered $6.53 million Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Spencer Jones",
+      "pos": "SF",
+      "date": "Jun 28, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Denver (DEN) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Buddy Hield",
+      "pos": "SG",
+      "date": "Jun 28, 2026",
+      "type": "Other",
+      "detail": "Atlanta (ATL) fully guaranteed $9.66 million salary for 2026-27"
+    },
+    {
+      "player": "Ziaire Williams",
+      "pos": "SF",
+      "date": "Jun 28, 2026",
+      "type": "Option",
+      "detail": "Brooklyn (BKN) declined $6.25 million option for 2026-27"
+    },
+    {
+      "player": "Royce O'Neale",
+      "pos": "SF",
+      "date": "Jun 28, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Grayson Allen and a 2033 1st round pick \\[unprotected\\] for Miles Bridges, a 2029 1st round pick \\[least favorable CLE/MIN/UTA pick + top-5 protected\\] and a 2027 2nd round pick \\[least favorable of BOS/ORL pick\\]"
+    },
+    {
+      "player": "Grayson Allen",
+      "pos": "SG",
+      "date": "Jun 28, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Royce O'Neale and a 2033 1st round pick \\[unprotected\\] for Miles Bridges, a 2029 1st round pick \\[least favorable CLE/MIN/UTA pick + top-5 protected\\] and a 2027 2nd round pick \\[least favorable of BOS/ORL pick\\]"
+    },
+    {
+      "player": "Miles Bridges",
+      "pos": "SF",
+      "date": "Jun 28, 2026",
+      "type": "Trade",
+      "detail": "Traded to Phoenix (PHX) from Charlotte (CHA) with a 2029 1st round pick \\[least favorable CLE/MIN/UTA pick + top-5 protected\\] and a 2027 2nd round pick \\[least favorable of BOS/ORL pick\\] for Grayson Allen, Royce O'Neale and a 2033 1st round pick \\[unprotected\\]"
+    },
+    {
+      "player": "Jaylen Clark",
+      "pos": "SG",
+      "date": "Jun 27, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Minnesota (MIN) tendered $2.96 million Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Enrique Freeman",
+      "pos": "PF",
+      "date": "Jun 27, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Minnesota (MIN) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Chris Manon",
+      "pos": "G",
+      "date": "Jun 27, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Los Angeles (LAL) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Day'Ron Sharpe",
+      "pos": "C",
+      "date": "Jun 27, 2026",
+      "type": "Signing",
+      "detail": "Brooklyn (BKN) agreed to push back Club Option decision date to June 29"
+    },
+    {
+      "player": "Jonathan Isaac",
+      "pos": "PF",
+      "date": "Jun 27, 2026",
+      "type": "Release",
+      "detail": "Waived by Orlando (ORL); leaves behind $8 million in dead cap"
+    },
+    {
+      "player": "Ron Harper Jr.",
+      "pos": "SG",
+      "date": "Jun 27, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $8.99 million contract with Boston (BOS)"
+    },
+    {
+      "player": "Ron Harper Jr.",
+      "pos": "SG",
+      "date": "Jun 27, 2026",
+      "type": "Option",
+      "detail": "Boston (BOS) declined $2.58 million option for 2026-27"
+    },
+    {
+      "player": "Gary Trent Jr.",
+      "pos": "SG",
+      "date": "Jun 26, 2026",
+      "type": "Option",
+      "detail": "Declined $3.88 million Player Option with Milwaukee (MIL) for 2026-27"
+    },
+    {
+      "player": "Chaney Johnson",
+      "pos": "F",
+      "date": "Jun 26, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Brooklyn (BKN) tendered Two-Way Qualifying Offer; becomes Restricted Free Agent"
+    },
+    {
+      "player": "Isaiah Crawford",
+      "pos": "G",
+      "date": "Jun 26, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Houston (HOU) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Mouhamadou Gueye",
+      "pos": "F",
+      "date": "Jun 26, 2026",
+      "type": "Option",
+      "detail": "Chicago (CHI) exercised $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Hunter Dickinson",
+      "pos": "C",
+      "date": "Jun 26, 2026",
+      "type": "Qualifying Offer",
+      "detail": "New Orleans (NOP) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Vladislav Goldin",
+      "pos": "C",
+      "date": "Jun 26, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Miami (MIA) tendered Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Daeqwon Plowden",
+      "pos": "G",
+      "date": "Jun 26, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Sacramento (SAC) tendered a Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Leonard Miller",
+      "pos": "SF",
+      "date": "Jun 26, 2026",
+      "type": "Option",
+      "detail": "Chicago (CHI) exercised $2.4 million option for 2026-27"
+    },
+    {
+      "player": "Jaylen Clark",
+      "pos": "SG",
+      "date": "Jun 26, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $10 million contract with Minnesota (MIN)"
+    },
+    {
+      "player": "Kevon Looney",
+      "pos": "C",
+      "date": "Jun 26, 2026",
+      "type": "Option",
+      "detail": "New Orleans (NOP) declined $8 million option for 2026-27"
+    },
+    {
+      "player": "Isaiah Hartenstein",
+      "pos": "C",
+      "date": "Jun 26, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $75 million contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Isaiah Hartenstein",
+      "pos": "C",
+      "date": "Jun 26, 2026",
+      "type": "Option",
+      "detail": "Oklahoma City (OKC) declined $28.5 million option for 2026-27"
+    },
+    {
+      "player": "Jose Alvarado",
+      "pos": "PG",
+      "date": "Jun 26, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $14-plus million contract with New York (NYK)"
+    },
+    {
+      "player": "Jose Alvarado",
+      "pos": "PG",
+      "date": "Jun 26, 2026",
+      "type": "Option",
+      "detail": "Declined $4.5 million Player Option with New York (NYK) for 2026-27"
+    },
+    {
+      "player": "Bogdan Bogdanovic",
+      "pos": "SG",
+      "date": "Jun 26, 2026",
+      "type": "Signing",
+      "detail": "LA Clippers (LAC) agreed to push back Club Option decision date to June 29"
+    },
+    {
+      "player": "Buddy Hield",
+      "pos": "SG",
+      "date": "Jun 26, 2026",
+      "type": "Signing",
+      "detail": "Atlanta (ATL) agreed to push back guaranteed date to June 28"
+    },
+    {
+      "player": "Isaiah Joe",
+      "pos": "SG",
+      "date": "Jun 26, 2026",
+      "type": "Trade",
+      "detail": "Traded to Detroit (DET) from Oklahoma City (OKC) for a 2030 2nd round pick \\[MIN pick\\] and a 2031 2nd round pick \\[DET pick\\]"
+    },
+    {
+      "player": "Josh Green",
+      "pos": "SG",
+      "date": "Jun 25, 2026",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Charlotte (CHA) with LaMelo Ball, a 2028 pick \\[CHA right to swap with MIN\\] , a 2033 pick \\[unprotected\\] , a 2029 1st round pick \\[CHA right to swap with MIN\\] , a 2030 1st round pick \\[CHA right to swap with MIN\\] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick for Naz Reid"
+    },
+    {
+      "player": "Alijah Martin",
+      "pos": "SG",
+      "date": "Jun 25, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Toronto (TOR) tendered a Two-Way Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Kevin Porter Jr.",
+      "pos": "PG",
+      "date": "Jun 25, 2026",
+      "type": "Option",
+      "detail": "Exercised $5.39 million Player Option with Milwaukee (MIL) for 2026-27"
+    },
+    {
+      "player": "Mouhamed Gueye",
+      "pos": "PF",
+      "date": "Jun 25, 2026",
+      "type": "Option",
+      "detail": "Atlanta (ATL) exercised $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Mark Williams",
+      "pos": "C",
+      "date": "Jun 25, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $38 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Chucky Hepburn",
+      "pos": "G",
+      "date": "Jun 25, 2026",
+      "type": "Signing",
+      "detail": "Signed to sign a Two-Way Qualifying Offer contract with Toronto (TOR)"
+    },
+    {
+      "player": "Karlo Matkovic",
+      "pos": "PF",
+      "date": "Jun 25, 2026",
+      "type": "Option",
+      "detail": "New Orleans (NOP) exercised $2.30 million option for 2026-27"
+    },
+    {
+      "player": "Jamal Shead",
+      "pos": "PG",
+      "date": "Jun 25, 2026",
+      "type": "Option",
+      "detail": "Toronto (TOR) exercised $2.30 million option for 2026-27"
+    },
+    {
+      "player": "Jericho Sims",
+      "pos": "C",
+      "date": "Jun 25, 2026",
+      "type": "Option",
+      "detail": "Exercised $2.8 million Player Option with Milwaukee (MIL) for 2026-27"
+    },
+    {
+      "player": "Coby White",
+      "pos": "PG",
+      "date": "Jun 25, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $74 million contract with Charlotte (CHA)"
+    },
+    {
+      "player": "Naz Reid",
+      "pos": "C",
+      "date": "Jun 25, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Minnesota (MIN) for LaMelo Ball, Josh Green, a 2028 pick \\[CHA right to swap with MIN\\] , a 2033 pick \\[unprotected\\] , a 2029 1st round pick \\[CHA right to swap with MIN\\] , a 2030 1st round pick \\[CHA right to swap with MIN\\] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick"
+    },
+    {
+      "player": "LaMelo Ball",
+      "pos": "PG",
+      "date": "Jun 25, 2026",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Charlotte (CHA) with Josh Green, a 2028 pick \\[CHA right to swap with MIN\\] , a 2033 pick \\[unprotected\\] , a 2029 1st round pick \\[CHA right to swap with MIN\\] , a 2030 1st round pick \\[CHA right to swap with MIN\\] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick for Naz Reid"
+    },
+    {
+      "player": "Al Horford",
+      "pos": "C",
+      "date": "Jun 25, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $13.99 million contract with Golden State (GSW)"
+    },
+    {
+      "player": "Al Horford",
+      "pos": "C",
+      "date": "Jun 25, 2026",
+      "type": "Option",
+      "detail": "Declined $5.97 million Player Option with Golden State (GSW) for 2026-27"
+    },
+    {
+      "player": "Braden Smith",
+      "pos": "PG",
+      "date": "Jun 25, 2026",
+      "type": "Trade",
+      "detail": "Traded to Indiana (IND) from Chicago (CHI) for Kam Jones, future swaps and cash considerations"
+    },
+    {
+      "player": "Nick Martinelli",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Houston (HOU) for cash considerations"
+    },
+    {
+      "player": "Ugonna Onyenso",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Detroit (DET) from New York (NYK) for cash considerations"
+    },
+    {
+      "player": "Malique Lewis",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Washington (WAS) as part of a 3-team trade: Milwaukee (MIL) traded cash considerations to Orlando (ORL); Orlando (ORL) traded Felix Okpara to Washington (WAS); Washington (WAS) traded Izaiyah Nelson to Orlando (ORL)"
+    },
+    {
+      "player": "Izaiyah Nelson",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Orlando (ORL) from Washington (WAS) as part of a 3-team trade: Milwaukee (MIL) traded cash considerations to Orlando (ORL); Orlando (ORL) traded Felix Okpara to Washington (WAS); Washington (WAS) traded Malique Lewis to Milwaukee (MIL)"
+    },
+    {
+      "player": "Felix Okpara",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Washington (WAS) from Orlando (ORL) as part of a 3-team trade: Milwaukee (MIL) traded cash considerations to Orlando (ORL); Washington (WAS) traded Malique Lewis to Milwaukee (MIL); Washington (WAS) traded Izaiyah Nelson to Orlando (ORL)"
+    },
+    {
+      "player": "Narcisse N'Goy",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Atlanta (ATL) with cash considerations for Henri Veesaar"
+    },
+    {
+      "player": "Henri Veesaar",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Atlanta (ATL) from LA (LAC) for Narcisse N'Goy and cash considerations"
+    },
+    {
+      "player": "Otega Oweh",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Oklahoma City (OKC) from Miami (MIA) with cash considerations for Ryan Conwell"
+    },
+    {
+      "player": "Ryan Conwell",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Miami (MIA) from Oklahoma City (OKC) for Otega Oweh and cash considerations"
+    },
+    {
+      "player": "Vsevolod Ishchenko",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Los Angeles (LAL) from Chicago (CHI) Traded to Los Angeles (LAL) from Chicago (CHI) for cash considerations"
+    },
+    {
+      "player": "Vsevolod Ishchenko",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Los Angeles (LAL) from Chicago (CHI) Traded to Los Angeles (LAL) from Chicago (CHI) for cash considerations"
+    },
+    {
+      "player": "Mojave King",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to New York (NYK) from Houston (HOU) with Jack Kayil, Ugonna Onyenso and a 2029 2nd round pick \\[SAC pick\\] for Bruce Thornton and Nick Martinelli"
+    },
+    {
+      "player": "Ugonna Onyenso",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to New York (NYK) from Houston (HOU) with Jack Kayil, Mojave King and a 2029 2nd round pick \\[SAC pick\\] for Bruce Thornton and Nick Martinelli"
+    },
+    {
+      "player": "Jack Kayil",
+      "pos": "G",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to New York (NYK) from Houston (HOU) with Ugonna Onyenso, Mojave King and a 2029 2nd round pick \\[SAC pick\\] for Bruce Thornton and Nick Martinelli"
+    },
+    {
+      "player": "Nick Martinelli",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Houston (HOU) from New York (NYK) with Bruce Thornton for Jack Kayil, Ugonna Onyenso, Mojave King and a 2029 2nd round pick \\[SAC pick\\]"
+    },
+    {
+      "player": "Bruce Thornton",
+      "pos": "PG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Houston (HOU) from New York (NYK) with Nick Martinelli for Jack Kayil, Ugonna Onyenso, Mojave King and a 2029 2nd round pick \\[SAC pick\\]"
+    },
+    {
+      "player": "Kam Jones",
+      "pos": "PG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Chicago (CHI) from Indiana (IND) with future swaps and cash considerations for Braden Smith"
+    },
+    {
+      "player": "Malique Lewis",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Washington (WAS): Round 2 (#60 overall)"
+    },
+    {
+      "player": "Trey Kaufman-Renn",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Minnesota (MIN): Round 2 (#59 overall)"
+    },
+    {
+      "player": "Jaron Pierre Jr.",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by New Orleans (NOP): Round 2 (#58 overall)"
+    },
+    {
+      "player": "Narcisse N'Goy",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Atlanta (ATL): Round 2 (#57 overall)"
+    },
+    {
+      "player": "Vsevolod Ishchenko",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Chicago (CHI): Round 2 (#57 overall)"
+    },
+    {
+      "player": "Nick Martinelli",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by New York (NYK): Round 2 (#55 overall)"
+    },
+    {
+      "player": "Lajae Jones",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Golden State (GSW): Round 2 (#54 overall)"
+    },
+    {
+      "player": "Ugonna Onyenso",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Houston (HOU): Round 2 (#53 overall)"
+    },
+    {
+      "player": "Henri Veesaar",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by LA Clipper (LAC): Round 2 (#52 overall)"
+    },
+    {
+      "player": "Izaiyah Nelson",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Washington (WAS): Round 2 (#51 overall)"
+    },
+    {
+      "player": "Jaden Bradley",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Toronto (TOR): Round 2 (#50 overall)"
+    },
+    {
+      "player": "Bryce Hopkins",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Denver (DEN): Round 2 (#49 overall)"
+    },
+    {
+      "player": "Tobi Lawal",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Dallas (DAL): Round 2 (#48 overall)"
+    },
+    {
+      "player": "Felix Okpara",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Orlando (ORL): Round 2 (#46 overall)"
+    },
+    {
+      "player": "Emanuel Sharp",
+      "pos": "PG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Sacramento (SAC): Round 2 (#45 overall)"
+    },
+    {
+      "player": "Maliq Brown",
+      "pos": "PG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by San Antonio (SAS): Round 2 (#44 overall)"
+    },
+    {
+      "player": "Tyler Bilodeau",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Brooklyn (BKN): Round 2 (#43 overall)"
+    },
+    {
+      "player": "Ja'Kobi Gillespie",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by San Antonio (SAS): Round 2 (#42 overall)"
+    },
+    {
+      "player": "Otega Oweh",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Miami (MIA): Round 2 (#41 overall)"
+    },
+    {
+      "player": "Isaiah Stewart",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Detroit (DET) for 2nd-round pick, 2nd-round pick and 2nd-round pick"
+    },
+    {
+      "player": "Dillon Mitchell",
+      "pos": "F",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Boston (BOS): Round 2 (#40 overall)"
+    },
+    {
+      "player": "Jack Kayil",
+      "pos": "G",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Houston (HOU): Round 2 (#39 overall)"
+    },
+    {
+      "player": "Braden Smith",
+      "pos": "PG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Chicago (CHI): Round 2 (#38 overall)"
+    },
+    {
+      "player": "Ryan Conwell",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Oklahoma City (OKC): Round 2 (#37 overall)"
+    },
+    {
+      "player": "Trevon Brazile",
+      "pos": "PF",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by San Antonio (SAS): Round 2 (#35 overall)"
+    },
+    {
+      "player": "Meleek Thomas",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Sacramento (SAC): Round 2 (#34 overall)"
+    },
+    {
+      "player": "Isaiah Evans",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Brooklyn (BKN): Round 2 (#33 overall)"
+    },
+    {
+      "player": "Richie Saunders",
+      "pos": "G",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by Memphis (MEM): Round 2 (#32 overall)"
+    },
+    {
+      "player": "Bruce Thornton",
+      "pos": "PG",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by New York (NYK): Round 2 (#31 overall)"
+    },
+    {
+      "player": "Pelle Larsson",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Option",
+      "detail": "Miami (MIA) exercised $2.30 million option for 2026-27"
+    },
+    {
+      "player": "Chinemelu Elonu",
+      "pos": "SF",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to New York (NYK) from Los Angeles (LAL) as part of a 4-team trade: Dallas (DAL) traded Melvin Ajinca, a 2030 2nd round pick and a 2032 2nd round pick to New York (NYK); Dallas (DAL) traded Koa Peat to Phoenix (PHX); Los Angeles (LAL) traded Sergio de Larrea to Dallas (DAL); Los Angeles (LAL) traded Louis Labeyrie and cash considerations to New York (NYK); New York (NYK) traded Cameron Carr to Los Angeles (LAL); Phoenix (PHX) traded a 2026 2nd round pick (#47), a 2029 2nd round pick, a 2033 2nd round pick and cash considerations to New York (NYK)"
+    },
+    {
+      "player": "Louis Labeyrie",
+      "pos": "PF",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to New York (NYK) from Los Angeles (LAL) as part of a 4-team trade: Dallas (DAL) traded Melvin Ajinca, a 2030 2nd round pick and a 2032 2nd round pick to New York (NYK); Dallas (DAL) traded Koa Peat to Phoenix (PHX); Los Angeles (LAL) traded Sergio de Larrea to Dallas (DAL); Los Angeles (LAL) traded Chinemelu Elonu and cash considerations to New York (NYK); New York (NYK) traded Cameron Carr to Los Angeles (LAL); Phoenix (PHX) traded a 2026 2nd round pick (#47), a 2029 2nd round pick, a 2033 2nd round pick and cash considerations to New York (NYK)"
+    },
+    {
+      "player": "Cameron Carr",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Los Angeles (LAL) from New York (NYK) as part of a 4-team trade: Dallas (DAL) traded Melvin Ajinca, a 2030 2nd round pick and a 2032 2nd round pick to New York (NYK); Dallas (DAL) traded Koa Peat to Phoenix (PHX); Los Angeles (LAL) traded Sergio de Larrea to Dallas (DAL); Los Angeles (LAL) traded Louis Labeyrie, Chinemelu Elonu and cash considerations to New York (NYK); Phoenix (PHX) traded a 2026 2nd round pick (#47), a 2029 2nd round pick, a 2033 2nd round pick and cash considerations to New York (NYK)"
+    },
+    {
+      "player": "Melvin Ajinca",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to New York (NYK) from Dallas (DAL) as part of a 4-team trade: Dallas (DAL) traded a 2030 2nd round pick and a 2032 2nd round pick to New York (NYK); Dallas (DAL) traded Koa Peat to Phoenix (PHX); Los Angeles (LAL) traded Sergio de Larrea to Dallas (DAL); Los Angeles (LAL) traded Louis Labeyrie, Chinemelu Elonu and cash considerations to New York (NYK); New York (NYK) traded Cameron Carr to Los Angeles (LAL); Phoenix (PHX) traded a 2026 2nd round pick (#47), a 2029 2nd round pick, a 2033 2nd round pick and cash considerations to New York (NYK)"
+    },
+    {
+      "player": "Koa Peat",
+      "pos": "PF",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Phoenix (PHX) from Dallas (DAL) as part of a 4-team trade: Dallas (DAL) traded Melvin Ajinca, a 2030 2nd round pick and a 2032 2nd round pick to New York (NYK); Los Angeles (LAL) traded Sergio de Larrea to Dallas (DAL); Los Angeles (LAL) traded Louis Labeyrie, Chinemelu Elonu and cash considerations to New York (NYK); New York (NYK) traded Cameron Carr to Los Angeles (LAL); Phoenix (PHX) traded a 2026 2nd round pick (#47), a 2029 2nd round pick, a 2033 2nd round pick and cash considerations to New York (NYK)"
+    },
+    {
+      "player": "Sergio de Larrea",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Dallas (DAL) from Los Angeles (LAL) as part of a 4-team trade: Dallas (DAL) traded Melvin Ajinca, a 2030 2nd round pick and a 2032 2nd round pick to New York (NYK); Dallas (DAL) traded Koa Peat to Phoenix (PHX); Los Angeles (LAL) traded Louis Labeyrie, Chinemelu Elonu and cash considerations to New York (NYK); New York (NYK) traded Cameron Carr to Los Angeles (LAL); Phoenix (PHX) traded a 2026 2nd round pick (#47), a 2029 2nd round pick, a 2033 2nd round pick and cash considerations to New York (NYK)"
+    },
+    {
+      "player": "Austin Reaves",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 4 year $184.8 million maximum contract with Los Angeles (LAL) - includes 2029-30 Player Option"
+    },
+    {
+      "player": "Austin Reaves",
+      "pos": "SG",
+      "date": "Jun 24, 2026",
+      "type": "Option",
+      "detail": "Declined $14.9 million Player Option with Los Angeles (LAL) for 2026-27"
+    },
+    {
+      "player": "Alex Karaban",
+      "pos": "PF",
+      "date": "Jun 24, 2026",
+      "type": "Trade",
+      "detail": "Traded to Sacramento (SAC) from Cleveland (CLE) for a 2026 2nd round pick (#34) and a 2032 2nd round pick"
+    },
+    {
+      "player": "Baba Miller",
+      "pos": "C",
+      "date": "Jun 24, 2026",
+      "type": "Other",
+      "detail": "Drafted by LA Clippers (LAC): Round 2 (#36 overall)"
+    },
+    {
+      "player": "Tarris Reed Jr.",
+      "pos": "C",
+      "date": "Jun 23, 2026",
+      "type": "Trade",
+      "detail": "Traded to San Antonio (SAS) from Denver (DEN) for 2nd-round pick, 35th pick and 2nd-round pick"
+    },
+    {
+      "player": "Karim Lopez",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Detroit (DET) with a 2nd round pick, a 2nd round pick and a 2nd round pick for Ebuka Okorie"
+    },
+    {
+      "player": "Ebuka Okorie",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Trade",
+      "detail": "Traded to Detroit (DET) from Memphis (MEM) for Karim Lopez, a 2nd round pick, a 2nd round pick and a 2nd round pick"
+    },
+    {
+      "player": "Ebuka Okorie",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Oklahoma City (OKC) with a 2033 2nd round pick \\[OKC pick\\] and a 2034 2nd round pick \\[most favorable of DEN/MIA/HOU pick\\] for Bennett Stirtz"
+    },
+    {
+      "player": "Bennett Stirtz",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Trade",
+      "detail": "Traded to Oklahoma City (OKC) from Memphis (MEM) for Ebuka Okorie, a 2033 2nd round pick \\[OKC pick\\] and a 2034 2nd round pick \\[most favorable of DEN/MIA/HOU pick\\]"
+    },
+    {
+      "player": "Koa Peat",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Dallas (DAL): Round 1 (#30 overall)"
+    },
+    {
+      "player": "Alex Karaban",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Cleveland (CLE): Round 1 (#29 overall)"
+    },
+    {
+      "player": "Joshua Jefferson",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Brooklyn (BKN): Round 1 (#28 overall)"
+    },
+    {
+      "player": "Chris Cenac Jr.",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Boston (BOS): Round 1 (#27 overall)"
+    },
+    {
+      "player": "Tarris Reed Jr.",
+      "pos": "C",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Denver (DEN): Round 1 (#26 overall)"
+    },
+    {
+      "player": "Sergio de Larrea",
+      "pos": "SG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Los Angeles (LAL): Round 1 (#25 overall)"
+    },
+    {
+      "player": "Cameron Carr",
+      "pos": "SG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by New York (NYK): Round 1 (#24 overall)"
+    },
+    {
+      "player": "Zuby Ejiofor",
+      "pos": "C",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Atlanta (ATL): Round 1 (#23 overall)"
+    },
+    {
+      "player": "Labaron Philon Jr.",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Philadelphia (PHI): Round 1 (#22 overall)"
+    },
+    {
+      "player": "Karim Lopez",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Detroit (DET): Round 1 (#21 overall)"
+    },
+    {
+      "player": "Jayden Quaintance",
+      "pos": "C",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by San Antonio (SAS): Round 1 (#20 overall)"
+    },
+    {
+      "player": "Allen Graves",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Toronto (TOR): Round 1 (#19 overall)"
+    },
+    {
+      "player": "Christian Anderson",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Charlotte (CHA): Round 1 (#18 overall)"
+    },
+    {
+      "player": "Ebuka Okorie",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Oklahoma City (OKC): Round 1 (#17 overall)"
+    },
+    {
+      "player": "Bennett Stirtz",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Memphis (MEM): Round 1 (#16 overall)"
+    },
+    {
+      "player": "Dailyn Swain",
+      "pos": "SF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Chicago (CHI): Round 1 (#15 overall)"
+    },
+    {
+      "player": "Hannes Steinbach",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Charlotte (CHA): Round 1 (#14 overall)"
+    },
+    {
+      "player": "Nate Ament",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Miami (MIA): Round 1 (#13 overall)"
+    },
+    {
+      "player": "Aday Mara",
+      "pos": "C",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Oklahoma City (OKC): Round 1 (#12 overall)"
+    },
+    {
+      "player": "Yaxel Lendeborg",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Golden State (GSW): Round 1 (#11 overall)"
+    },
+    {
+      "player": "Brayden Burries",
+      "pos": "SG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Milwaukee (MIL): Round 1 (#10 overall)"
+    },
+    {
+      "player": "Morez Johnson Jr.",
+      "pos": "C",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Dallas (DAL): Round 1 (#9 overall)"
+    },
+    {
+      "player": "Kingston Flemings",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Atlanta (ATL): Round 1 (#8 overall)"
+    },
+    {
+      "player": "Darius Acuff Jr.",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Sacramento (SAC): Round 1 (#7 overall)"
+    },
+    {
+      "player": "Mikel Brown Jr.",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Brooklyn (BKN): Round 1 (#6 overall)"
+    },
+    {
+      "player": "Keaton Wagler",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by LA Clippers (LAC): Round 1 (#5 overall)"
+    },
+    {
+      "player": "Caleb Wilson",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Chicago (CHI): Round 1 (#4 overall)"
+    },
+    {
+      "player": "Cameron Boozer",
+      "pos": "PF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Memphis (MEM): Round 1 (#3 overall)"
+    },
+    {
+      "player": "Darryn Peterson",
+      "pos": "PG",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by Utah (UTA): Round 1 (#2 overall)"
+    },
+    {
+      "player": "AJ Dybantsa",
+      "pos": "SF",
+      "date": "Jun 23, 2026",
+      "type": "Other",
+      "detail": "Drafted by NBA Prospects (NBA Prospects): Round 1 (#1 overall)"
+    },
+    {
+      "player": "Micah Nori",
+      "pos": "COA",
+      "date": "Jun 23, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year contract with Portland (POR) as head coach - includes 2027-28 and 2028-29 Club Options"
+    },
+    {
+      "player": "Mouhamadou Gueye",
+      "pos": "F",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Chicago (CHI) as part of a 3-team trade: Minnesota (MIN) traded Julius Randle and a 2026 1st round pick (#28) to Brooklyn (BKN); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded a 2026 2nd round pick (#33) to Minnesota (MIN)"
+    },
+    {
+      "player": "Kasparas Jakucionis",
+      "pos": "PG",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Kel'el Ware",
+      "pos": "C",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Jaime Jaquez Jr.",
+      "pos": "SF",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Tyler Herro",
+      "pos": "SG",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Bobby Portis",
+      "pos": "PF",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Giannis Antetokounmpo for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
+    },
+    {
+      "player": "Giannis Antetokounmpo",
+      "pos": "PF",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Bobby Portis for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "pos": "PG",
+      "date": "Jun 22, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 5 year $112 million contract with Minnesota (MIN) - includes 2030-31 Player Option"
+    },
+    {
+      "player": "Nicolas Claxton",
+      "pos": "C",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Chicago (CHI) from Brooklyn (BKN) as part of a 3-team trade: Chicago (CHI) traded Mouhamadou Gueye to Minnesota (MIN); Minnesota (MIN) traded Julius Randle and a 2026 1st round pick (#28) to Brooklyn (BKN); Brooklyn (BKN) traded a 2026 2nd round pick (#33) to Minnesota (MIN)"
+    },
+    {
+      "player": "Julius Randle",
+      "pos": "PF",
+      "date": "Jun 22, 2026",
+      "type": "Trade",
+      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 3-team trade: Chicago (CHI) traded Mouhamadou Gueye to Minnesota (MIN); Minnesota (MIN) traded a 2026 1st round pick (#28) to Brooklyn (BKN); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded a 2026 2nd round pick (#33) to Minnesota (MIN)"
+    },
+    {
+      "player": "Mohamed Diawara",
+      "pos": "PF",
+      "date": "Jun 22, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 4 year $10 million contract with New York (NYK)"
+    },
+    {
+      "player": "Trae Young",
+      "pos": "PG",
+      "date": "Jun 22, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 4 year $212.85 million contract with Washington (WAS) - includes 2029-30 Player Option"
+    },
+    {
+      "player": "Craig Porter Jr.",
+      "pos": "G",
+      "date": "Jun 22, 2026",
+      "type": "Option",
+      "detail": "Cleveland (CLE) exercised a $2.41 million option for 2026-27"
+    },
+    {
+      "player": "Dusty May",
+      "pos": "COA",
+      "date": "Jun 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Dallas (DAL) as head coach"
+    },
+    {
+      "player": "Jalen Duren",
+      "pos": "C",
+      "date": "Jun 22, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Detroit (DET) tendered $9.62 million Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Gary Harris",
+      "pos": "SG",
+      "date": "Jun 22, 2026",
+      "type": "Option",
+      "detail": "Exercised $3.82 million Player Option with Milwaukee (MIL) for 2026-27"
+    },
+    {
+      "player": "C.J. McCollum",
+      "pos": "SG",
+      "date": "Jun 22, 2026",
+      "type": "Signing",
+      "detail": "Signed to a 1 year $21 million contract extension with Atlanta (ATL) - includes 7.5% Trade Bonus"
+    },
+    {
+      "player": "Aaron Wiggins",
+      "pos": "SG",
+      "date": "Jun 21, 2026",
+      "type": "Trade",
+      "detail": "Traded to Atlanta (ATL) from Oklahoma City (OKC) for a 2030 2nd round pick \\[ATL pick\\] and a 2032 2nd round pick \\[least favorable of ATL/LAL pick\\]"
+    },
+    {
+      "player": "Jordan Goodwin",
+      "pos": "PG",
+      "date": "Jun 21, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $19 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Collin Gillespie",
+      "pos": "PG",
+      "date": "Jun 20, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 4 year $48 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Kentavious Caldwell-Pope",
+      "pos": "SG",
+      "date": "Jun 19, 2026",
+      "type": "Option",
+      "detail": "Exercised $21.6 million Player Option with Memphis (MEM) for 2026-27"
+    },
+    {
+      "player": "D'Angelo Russell",
+      "pos": "PG",
+      "date": "Jun 19, 2026",
+      "type": "Option",
+      "detail": "Exercised $5.97 million Player Option with Washington (WAS) for 2026-27"
+    },
+    {
+      "player": "Koby Brea",
+      "pos": "G",
+      "date": "Jun 18, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Phoenix (PHX) tendered Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Mark Williams",
+      "pos": "C",
+      "date": "Jun 18, 2026",
+      "type": "Qualifying Offer",
+      "detail": "Phoenix (PHX) tendered $9.62 million Qualifying Offer; becomes a Restricted Free Agent"
+    },
+    {
+      "player": "Trae Young",
+      "pos": "PG",
+      "date": "Jun 17, 2026",
+      "type": "Option",
+      "detail": "Declined an $48.97 million Player Option with Washington (WAS) for 2026-27"
+    },
+    {
+      "player": "Tiago Splitter",
+      "pos": "COA",
+      "date": "Jun 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year contract with Chicago (CHI) as head coach - includes 2029-30 Club Option"
+    },
+    {
+      "player": "Quin Snyder",
+      "pos": "COA",
+      "date": "Jun 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a multi-year contract extension with Atlanta (ATL)"
+    },
+    {
+      "player": "Oso Ighodaro",
+      "pos": "C",
+      "date": "Jun 01, 2026",
+      "type": "Other",
+      "detail": "Phoenix (PHX) fully guaranteed $2.30 million salary for 2026-27"
+    },
+    {
+      "player": "Moussa Diabate",
+      "pos": "PF",
+      "date": "Jun 01, 2026",
+      "type": "Other",
+      "detail": "Charlotte (CHA) fully guaranteed $2.46 million salary for 2026-27"
+    }
+  ]
+}

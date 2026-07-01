@@ -1,0 +1,12 @@
+{
+  "name": "apron",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Apron — an NBA trade & free-agency simulator that actually encodes the 2023 CBA.",
+  "packageManager": "pnpm@10.34.3",
+  "scripts": {
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm -r build"
+  }
+}

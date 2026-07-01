@@ -1,0 +1,2992 @@
+{
+  "rows": [
+    {
+      "date": "6/30/2026",
+      "player": "Leonard Miller",
+      "team": "CHI",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2406205,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Kam Jones",
+      "team": "CHI",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2150917,
+      "note": "Guaranteed — — plays in at least 41 games during the 2026-27 Regular Season or 6/30/26"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Jay Huff",
+      "team": "IND",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 2667944,
+      "note": "Guaranteed — — via min/gm metric or date"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Kris Dunn",
+      "team": "LAC",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 5684800,
+      "note": "Guaranteed — — or makes All-Defensive First or Second Team in 24-25 or 25-26; guaranteed 6/29/26"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Cameron Christie",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2296271,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Ajay Mitchell",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2850000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Jamison Battle",
+      "team": "TOR",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2296271,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Sviatoslav Mykhailiuk",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 3850000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2026",
+      "player": "Kyle Filipowski",
+      "team": "UTA",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 3000000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Noah Clowney",
+      "team": "BKN",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Brandon Miller",
+      "team": "CHA",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Dereck Lively II",
+      "team": "DAL",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Jarace Walker",
+      "team": "IND",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Ben Sheppard",
+      "team": "IND",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Taylor Hendricks",
+      "team": "MEM",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Jaime Jaquez Jr.",
+      "team": "MIA",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Jordan Hawkins",
+      "team": "NOP",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Cason Wallace",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Anthony Black",
+      "team": "ORL",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Scoot Henderson",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Victor Wembanyama",
+      "team": "SAS",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Gradey Dick",
+      "team": "TOR",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Keyonte George",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Brice Sensabaugh",
+      "team": "UTA",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Bilal Coulibaly",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2026",
+      "player": "Cam Whitmore",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/2/2026",
+      "player": "Pelle Larsson",
+      "team": "MIA",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/3/2026",
+      "player": "Bronny James",
+      "team": "LAL",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/3/2026",
+      "player": "Scotty Pippen Jr.",
+      "team": "MEM",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2461462,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/4/2026",
+      "player": "Pete Nance",
+      "team": "MIL",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 2497812,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/4/2026",
+      "player": "Tyler Kolek",
+      "team": "NYK",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/4/2026",
+      "player": "Jamal Shead",
+      "team": "TOR",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/5/2026",
+      "player": "Cameron Christie",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Nicolas Claxton",
+      "team": "BKN",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "LaMelo Ball",
+      "team": "CHA",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Max Christie",
+      "team": "DAL",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Naji Marshall",
+      "team": "DAL",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Klay Thompson",
+      "team": "DAL",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Caleb Martin",
+      "team": "DAL",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Jonas Valanciunas",
+      "team": "DEN",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Tyrese Haliburton",
+      "team": "IND",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Pascal Siakam",
+      "team": "IND",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Obi Toppin",
+      "team": "IND",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Johnny Furphy",
+      "team": "IND",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Kentavious Caldwell-Pope",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Jaylen Wells",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Isaiah Hartenstein",
+      "team": "OKC",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Goga Bitadze",
+      "team": "ORL",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Paul George",
+      "team": "PHI",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Royce O'Neale",
+      "team": "PHX",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Domantas Sabonis",
+      "team": "SAC",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2026",
+      "player": "Malik Monk",
+      "team": "SAC",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/7/2026",
+      "player": "Donovan Mitchell",
+      "team": "CLE",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/7/2026",
+      "player": "Isaiah Joe",
+      "team": "OKC",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/7/2026",
+      "player": "Adem Bona",
+      "team": "PHI",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 2296271,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/8/2026",
+      "player": "Jalen Smith",
+      "team": "CHI",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/8/2026",
+      "player": "Jonas Valanciunas",
+      "team": "DEN",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 10000000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/8/2026",
+      "player": "Anthony Edwards",
+      "team": "MIN",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/8/2026",
+      "player": "Desmond Bane",
+      "team": "ORL",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/8/2026",
+      "player": "DeMar DeRozan",
+      "team": "SAC",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/9/2026",
+      "player": "Derrick Jones Jr.",
+      "team": "LAC",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/9/2026",
+      "player": "Jerami Grant",
+      "team": "MEM",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/9/2026",
+      "player": "Dejounte Murray",
+      "team": "NOP",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/10/2026",
+      "player": "Saddiq Bey",
+      "team": "NOP",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/11/2026",
+      "player": "Isaiah Stewart",
+      "team": "DET",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/11/2026",
+      "player": "James Harden",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 42317307,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/12/2026",
+      "player": "Vit Krejci",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/14/2026",
+      "player": "Miles Bridges",
+      "team": "CHA",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/15/2026",
+      "player": "Josh Minott",
+      "team": "BKN",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/15/2026",
+      "player": "Quenton Jackson",
+      "team": "IND",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/15/2026",
+      "player": "Zion Williamson",
+      "team": "NOP",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 42166510,
+      "note": "Guaranteed — — guarantee triggered"
+    },
+    {
+      "date": "7/15/2026",
+      "player": "Karlo Matkovic",
+      "team": "NOP",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/15/2026",
+      "player": "Sidy Cissoko",
+      "team": "POR",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2497812,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/18/2026",
+      "player": "Kris Dunn",
+      "team": "LAC",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/20/2026",
+      "player": "Jordan Walsh",
+      "team": "BOS",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2406205,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "7/21/2026",
+      "player": "Adem Bona",
+      "team": "PHI",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/26/2026",
+      "player": "Jaylen Brown",
+      "team": "BOS",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/26/2026",
+      "player": "Andrew Nembhard",
+      "team": "IND",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/1/2026",
+      "player": "Vit Krejci",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 250000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "8/4/2026",
+      "player": "Anthony Davis",
+      "team": "WAS",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/10/2026",
+      "player": "Josh Hart",
+      "team": "NYK",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/11/2026",
+      "player": "Sviatoslav Mykhailiuk",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/12/2026",
+      "player": "Kyle Filipowski",
+      "team": "UTA",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "9/3/2026",
+      "player": "Ivica Zubac",
+      "team": "IND",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "9/15/2026",
+      "player": "Jarred Vanderbilt",
+      "team": "LAL",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "9/17/2026",
+      "player": "Isaac Okoro",
+      "team": "CHI",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Onyeka Okongwu",
+      "team": "ATL",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Terance Mann",
+      "team": "BKN",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Payton Pritchard",
+      "team": "BOS",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Moses Moody",
+      "team": "GSW",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Jalen Green",
+      "team": "PHX",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Deni Avdija",
+      "team": "POR",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Deni Avdija",
+      "team": "POR",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Devin Vassell",
+      "team": "SAS",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/19/2026",
+      "player": "Moussa Diabate",
+      "team": "CHA",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 250000,
+      "note": "Guaranteed — — Opening Night - TBD; guaranteed 6/1/26"
+    },
+    {
+      "date": "10/19/2026",
+      "player": "Jaylen Wells",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2296271,
+      "note": "Guaranteed — — Opening Night TBD"
+    },
+    {
+      "date": "10/19/2026",
+      "player": "Pelle Larsson",
+      "team": "MIA",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — Opening Night TBD"
+    },
+    {
+      "date": "10/19/2026",
+      "player": "Oso Ighodaro",
+      "team": "PHX",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 500000,
+      "note": "Guaranteed — — guaranteed 6/1/26"
+    },
+    {
+      "date": "10/19/2026",
+      "player": "Vit Krejci",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2667944,
+      "note": "Guaranteed — — Opening Night TBD"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Neemias Queta",
+      "team": "BOS",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 2667944,
+      "note": "Guaranteed — — Opening Night TBD"
+    },
+    {
+      "date": "10/21/2026",
+      "player": "Jordan Walsh",
+      "team": "BOS",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 1110839,
+      "note": "Guaranteed — — Opening Night"
+    },
+    {
+      "date": "10/21/2026",
+      "player": "Zeke Nnaji",
+      "team": "DEN",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/23/2026",
+      "player": "Jaden McDaniels",
+      "team": "MIN",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/24/2026",
+      "player": "Rudy Gobert",
+      "team": "MIN",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Zaccharie Risacher",
+      "team": "ATL",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 17434637,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Devin Carter",
+      "team": "ATL",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 7370897,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Asa Newell",
+      "team": "ATL",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 3560880,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Egor Demin",
+      "team": "BKN",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 7578240,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Nolan Traore",
+      "team": "BKN",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 4193040,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Drake Powell",
+      "team": "BKN",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 3709320,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Ben Saraf",
+      "team": "BKN",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 3172920,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Danny Wolf",
+      "team": "BKN",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 3081840,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Baylor Scheierman",
+      "team": "BOS",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 4952993,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Hugo Gonzalez",
+      "team": "BOS",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 3062640,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Tidjane Salaun",
+      "team": "CHA",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 10445633,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Kon Knueppel",
+      "team": "CHA",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 11017560,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Liam McNeeley",
+      "team": "CHA",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 3040320,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Rob Dillingham",
+      "team": "CHI",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 8763216,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Matas Buzelis",
+      "team": "CHI",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 7584283,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Noa Essengue",
+      "team": "CHI",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 5972760,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Jaylon Tyson",
+      "team": "CLE",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 5641500,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "AJ Johnson",
+      "team": "DAL",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 5493394,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Cooper Flagg",
+      "team": "DAL",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 15208680,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "DaRon Holmes II",
+      "team": "DEN",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 5547138,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Ron Holland II",
+      "team": "DET",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 11491183,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Reed Sheppard",
+      "team": "HOU",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 14041625,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Yanic Konan Niederhauser",
+      "team": "LAC",
+      "pos": "F",
+      "kind": "CLUB",
+      "amount": 3018480,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Dalton Knecht",
+      "team": "LAL",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 6452860,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Zach Edey",
+      "team": "MEM",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 8067937,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Cedric Coward",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 6286920,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Walter Clayton Jr.",
+      "team": "MEM",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 4390320,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Kel'el Ware",
+      "team": "MIA",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 7135992,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Kasparas Jakucionis",
+      "team": "MIA",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 4024440,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Terrence Shannon Jr.",
+      "team": "MIN",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 5054159,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Joan Beringer",
+      "team": "MIN",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 4621200,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Yves Missi",
+      "team": "NOP",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 5595827,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Jeremiah Fears",
+      "team": "NOP",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 8271960,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Derik Queen",
+      "team": "NOP",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 5673840,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Pacome Dadiet",
+      "team": "NYK",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 5373608,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Nikola Topic",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 7482210,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Jared McCain",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 6784268,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Thomas Sorber",
+      "team": "OKC",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 5120400,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Tristan Da Silva",
+      "team": "ORL",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 6138466,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Jase Richardson",
+      "team": "ORL",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 3282000,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "VJ Edgecombe",
+      "team": "PHI",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 12219840,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Ryan Dunn",
+      "team": "PHX",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 5025553,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Khaman Maluach",
+      "team": "PHX",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 6617160,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Donovan Clingan",
+      "team": "POR",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 9550298,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Yang Hansen",
+      "team": "POR",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 4864920,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Nique Clifford",
+      "team": "SAC",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 3418800,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Stephon Castle",
+      "team": "SAS",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 12670139,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Dylan Harper",
+      "team": "SAS",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 13607760,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Carter Bryant",
+      "team": "SAS",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 5390640,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Ja'Kobe Walter",
+      "team": "TOR",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 5870172,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Collin Murray-Boyles",
+      "team": "TOR",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 6966000,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Cody Williams",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 7669890,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Isaiah Collier",
+      "team": "UTA",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 4988948,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Ace Bailey",
+      "team": "UTA",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 9976560,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Alex Sarr",
+      "team": "WAS",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 15611798,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Bub Carrington",
+      "team": "WAS",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 7257730,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Kyshawn George",
+      "team": "WAS",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 5435892,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Tre Johnson",
+      "team": "WAS",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 9061680,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "Will Riley",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 3864000,
+      "note": "Club Option"
+    },
+    {
+      "date": "1/6/2027",
+      "player": "Giannis Antetokounmpo",
+      "team": "MIL",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Mouhamed Gueye",
+      "team": "ATL",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 2406205,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Malachi Smith",
+      "team": "BKN",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2150917,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Ron Harper Jr.",
+      "team": "BOS",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Dalano Banton",
+      "team": "BOS",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2801346,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Moussa Diabate",
+      "team": "CHA",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 2461462,
+      "note": "Guaranteed — — guaranteed 6/1/26"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Pat Connaughton",
+      "team": "CHA",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 3815861,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Mouhamadou Gueye",
+      "team": "CHI",
+      "pos": "F",
+      "kind": "GUARANTEED",
+      "amount": 2411090,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Craig Porter Jr.",
+      "team": "CLE",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2406205,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Paul Reed",
+      "team": "DET",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 5602689,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Duncan Robinson",
+      "team": "DET",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 15992957,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Tolu Smith III",
+      "team": "DET",
+      "pos": "F",
+      "kind": "GUARANTEED",
+      "amount": 2411090,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "J.D. Davison",
+      "team": "HOU",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Micah Potter",
+      "team": "IND",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 2801346,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Kobe Sanders",
+      "team": "LAC",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2150917,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Taj Gibson",
+      "team": "MEM",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 3815861,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Myron Gardner",
+      "team": "MIA",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Jamal Cain",
+      "team": "ORL",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Jabari Walker",
+      "team": "PHI",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Dalen Terry",
+      "team": "PHI",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Oso Ighodaro",
+      "team": "PHX",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 2296271,
+      "note": "Guaranteed — — guaranteed 6/1/26"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Haywood Highsmith",
+      "team": "PHX",
+      "pos": "F",
+      "kind": "GUARANTEED",
+      "amount": 3018158,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Jamaree Bouyea",
+      "team": "PHX",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "DeMar DeRozan",
+      "team": "SAC",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 25740000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Trayce Jackson-Davis",
+      "team": "TOR",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 2406205,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Justin Champagnie",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "GUARANTEED",
+      "amount": 2667944,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "2/6/2027",
+      "player": "Jimmy Butler",
+      "team": "GSW",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "2/8/2027",
+      "player": "Moussa Diabate",
+      "team": "CHA",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "2/20/2027",
+      "player": "Bryce McGowens",
+      "team": "NOP",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "4/11/2027",
+      "player": "Jrue Holiday",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "4/16/2027",
+      "player": "Grayson Allen",
+      "team": "PHX",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "6/14/2027",
+      "player": "Steven Adams",
+      "team": "HOU",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "6/24/2027",
+      "player": "Kobe Sanders",
+      "team": "LAC",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/25/2027",
+      "player": "Buddy Hield",
+      "team": "ATL",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 10097560,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/25/2027",
+      "player": "T.J. McConnell",
+      "team": "IND",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 11800000,
+      "note": "Guaranteed — — day of NBA Draft 2nd Round - TBD"
+    },
+    {
+      "date": "6/26/2027",
+      "player": "Quenton Jackson",
+      "team": "IND",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2934742,
+      "note": "Guaranteed — — TBD - two days after the 2027 NBA Draft"
+    },
+    {
+      "date": "6/28/2027",
+      "player": "Dru Smith",
+      "team": "MIA",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2934742,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Buddy Hield",
+      "team": "ATL",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 3136364,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "RayJ Dennis",
+      "team": "ATL",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Keshon Gilbert",
+      "team": "ATL",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Noah Clowney",
+      "team": "BKN",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 8343027,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Malachi Smith",
+      "team": "BKN",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Brandon Miller",
+      "team": "CHA",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 21222000,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tre Mann",
+      "team": "CHA",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 8000000,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ryan Kalkbrenner",
+      "team": "CHA",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 2525901,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "P.J. Hall",
+      "team": "CHA",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tosan Evbuomwan",
+      "team": "CHA",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Matas Buzelis",
+      "team": "CHI",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 11141312,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tre Jones",
+      "team": "CHI",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 8000000,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Mouhamadou Gueye",
+      "team": "CHI",
+      "pos": "F",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Donovan Mitchell",
+      "team": "CLE",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 53817156,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Dennis Schröder",
+      "team": "CLE",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 15514400,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tristan Enaruna",
+      "team": "CLE",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Nae'qwan Tomlin",
+      "team": "CLE",
+      "pos": "F",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Riley Minix",
+      "team": "CLE",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Dereck Lively II",
+      "team": "DAL",
+      "pos": "C",
+      "kind": "RFA / QO",
+      "amount": 10684958,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Max Christie",
+      "team": "DAL",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 8857143,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Caleb Martin",
+      "team": "DAL",
+      "pos": "SF",
+      "kind": "PLAYER",
+      "amount": 9371351,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Kyrie Irving",
+      "team": "DAL",
+      "pos": "PG",
+      "kind": "PLAYER",
+      "amount": 42416562,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "John Poulakidas",
+      "team": "DAL",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tyler Smith",
+      "team": "DAL",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ryan Nembhard",
+      "team": "DAL",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Nikola Jokic",
+      "team": "DEN",
+      "pos": "C",
+      "kind": "PLAYER",
+      "amount": 62832000,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Julian Strawther",
+      "team": "DEN",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 7723090,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Zeke Nnaji",
+      "team": "DEN",
+      "pos": "PF",
+      "kind": "PLAYER",
+      "amount": 7466667,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "K.J. Simpson",
+      "team": "DEN",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ausar Thompson",
+      "team": "DET",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 15854162,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Marcus Sasser",
+      "team": "DET",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 8157205,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Isaiah Stewart",
+      "team": "DET",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 15000000,
+      "note": "Club Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Chaz Lanier",
+      "team": "DET",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2525901,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Daniss Jenkins",
+      "team": "DET",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 5400000,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Isaac Jones",
+      "team": "DET",
+      "pos": "C",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tolu Smith III",
+      "team": "DET",
+      "pos": "F",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Brandin Podziemski",
+      "team": "GSW",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 8666855,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "L.J. Cryer",
+      "team": "GSW",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Malevy Leons",
+      "team": "GSW",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Amen Thompson",
+      "team": "HOU",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 17394967,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Dorian Finney-Smith",
+      "team": "HOU",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 13335000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tristen Newton",
+      "team": "HOU",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jarace Walker",
+      "team": "IND",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 12276929,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ben Sheppard",
+      "team": "IND",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 7929911,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Kobe Brown",
+      "team": "IND",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 7667295,
+      "note": "Qualifying Offer to be paid on 06/29/2027 — — voided with 4th-year option declined"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Johnny Furphy",
+      "team": "IND",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 2486995,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jay Huff",
+      "team": "IND",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 427323,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Cameron Christie",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jordan Miller",
+      "team": "LAC",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — tendered 6/29/26"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jarred Vanderbilt",
+      "team": "LAL",
+      "pos": "PF",
+      "kind": "PLAYER",
+      "amount": 13285714,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Dalton Knecht",
+      "team": "LAL",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 9756725,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bronny James",
+      "team": "LAL",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 2486995,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bronny James",
+      "team": "LAL",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Adou Thiero",
+      "team": "LAL",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Taylor Hendricks",
+      "team": "MEM",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 11357585,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Kris Murray",
+      "team": "MEM",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 8264832,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jerami Grant",
+      "team": "MEM",
+      "pos": "PF",
+      "kind": "PLAYER",
+      "amount": 36413790,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jaylen Wells",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Scotty Pippen Jr.",
+      "team": "MEM",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 396604,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Santi Aldama",
+      "team": "MEM",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 17007043,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ty Jerome",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 9659100,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Javon Small",
+      "team": "MEM",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 2301485,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jaime Jaquez Jr.",
+      "team": "MIA",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 9021556,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Dru Smith",
+      "team": "MIA",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Giannis Antetokounmpo",
+      "team": "MIL",
+      "pos": "PF",
+      "kind": "PLAYER",
+      "amount": 62786682,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bobby Portis",
+      "team": "MIL",
+      "pos": "PF",
+      "kind": "PLAYER",
+      "amount": 15597074,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ryan Rollins",
+      "team": "MIL",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 4000000,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Cormac Ryan",
+      "team": "MIL",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Pete Nance",
+      "team": "MIL",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Rudy Gobert",
+      "team": "MIN",
+      "pos": "C",
+      "kind": "PLAYER",
+      "amount": 38000000,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Julius Randle",
+      "team": "MIN",
+      "pos": "PF",
+      "kind": "PLAYER",
+      "amount": 35802468,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Rocco Zikarsky",
+      "team": "MIN",
+      "pos": "C",
+      "kind": "RFA / QO",
+      "amount": 2301485,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Zyon Pullin",
+      "team": "MIN",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jordan Hawkins",
+      "team": "NOP",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 10469646,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Dejounte Murray",
+      "team": "NOP",
+      "pos": "PG",
+      "kind": "PLAYER",
+      "amount": 30751504,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Karlo Matkovic",
+      "team": "NOP",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 2650000,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Herb Jones",
+      "team": "NOP",
+      "pos": "SF",
+      "kind": "PLAYER",
+      "amount": 24195628,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bryce McGowens",
+      "team": "NOP",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 2934742,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Karl-Anthony Towns",
+      "team": "NYK",
+      "pos": "C",
+      "kind": "PLAYER",
+      "amount": 62062000,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Josh Hart",
+      "team": "NYK",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 22375280,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tyler Kolek",
+      "team": "NYK",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 2486995,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Cason Wallace",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 10849219,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Isaiah Joe",
+      "team": "OKC",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 11323006,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jaylin Williams",
+      "team": "OKC",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 7774648,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Ajay Mitchell",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 1500000,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Payton Sandfort",
+      "team": "OKC",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Anthony Black",
+      "team": "ORL",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 14492458,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jett Howard",
+      "team": "ORL",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 10779433,
+      "note": "Qualifying Offer to be paid on 06/29/2027 — — voided with 4th year option declined"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Alex Morales",
+      "team": "ORL",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Adem Bona",
+      "team": "PHI",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Justin Edwards",
+      "team": "PHI",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 2616754,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Grayson Allen",
+      "team": "PHX",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 19375000,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Oso Ighodaro",
+      "team": "PHX",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jalen Green",
+      "team": "PHX",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 36000000,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "CJ Huntley",
+      "team": "PHX",
+      "pos": "F",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Scoot Henderson",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 19182759,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jrue Holiday",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "PLAYER",
+      "amount": 37200000,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Vit Krejci",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Damian Lillard",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "PLAYER",
+      "amount": 14104000,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Chris Youngblood",
+      "team": "POR",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jayson Kent",
+      "team": "POR",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Malik Monk",
+      "team": "SAC",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 21582451,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Maxime Raynaud",
+      "team": "SAC",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Victor Wembanyama",
+      "team": "SAS",
+      "pos": "C",
+      "kind": "RFA / QO",
+      "amount": 23615545,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Emanuel Miller",
+      "team": "SAS",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Gradey Dick",
+      "team": "TOR",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 10576031,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jamal Shead",
+      "team": "TOR",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 2296271,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jamison Battle",
+      "team": "TOR",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 3134745,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Brandon Ingram",
+      "team": "TOR",
+      "pos": "SF",
+      "kind": "PLAYER",
+      "amount": 41904762,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Chucky Hepburn",
+      "team": "TOR",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Keyonte George",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 9878708,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Brice Sensabaugh",
+      "team": "UTA",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 7730957,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Isaiah Collier",
+      "team": "UTA",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 7982318,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Sviatoslav Mykhailiuk",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Kyle Filipowski",
+      "team": "UTA",
+      "pos": "PF",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Blake Hinson",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bilal Coulibaly",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 13314858,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Cam Whitmore",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 8367590,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Anthony Davis",
+      "team": "WAS",
+      "pos": "C",
+      "kind": "PLAYER",
+      "amount": 62786682,
+      "note": "Player Option to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bub Carrington",
+      "team": "WAS",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 10821276,
+      "note": "Qualifying Offer"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jaden Hardy",
+      "team": "WAS",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 6000000,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Justin Champagnie",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Leaky Black",
+      "team": "WAS",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Tristan Vukcevic",
+      "team": "WAS",
+      "pos": "C",
+      "kind": "CLUB",
+      "amount": 3000000,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Julian Reese",
+      "team": "WAS",
+      "pos": "F",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — Two-Way"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Kam Jones",
+      "team": "CHI",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2525901,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Jay Huff",
+      "team": "IND",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 3005085,
+      "note": "Guaranteed — — via min/gm metric or date"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Cameron Christie",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2486995,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Ajay Mitchell",
+      "team": "OKC",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2850000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Luke Kornet",
+      "team": "SAS",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 9900000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Sviatoslav Mykhailiuk",
+      "team": "UTA",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 4025000,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "6/30/2027",
+      "player": "Kyle Filipowski",
+      "team": "UTA",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 3000000,
+      "note": "Guaranteed"
+    }
+  ]
+}

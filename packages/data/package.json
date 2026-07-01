@@ -1,0 +1,23 @@
+{
+  "name": "@apron/data",
+  "version": "0.0.0",
+  "description": "Real NBA contract data for Apron, scraped from free public sources.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./contracts": "./src/contracts-2025-26.json"
+  },
+  "scripts": {
+    "scrape": "node scripts/scrape-bref.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@apron/cba-engine": "workspace:*"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0",
+    "typescript": "^5.6.3"
+  }
+}

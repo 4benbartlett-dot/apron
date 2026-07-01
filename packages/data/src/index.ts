@@ -1,0 +1,100 @@
+import type { Contract, LeagueData } from "@apron/cba-engine";
+import raw from "./contracts-2025-26.json";
+import rookiesRaw from "./rookies-2026.json";
+import transactionsRaw from "./transactions.json";
+import upcomingRaw from "./upcoming-deadlines.json";
+import extEligibleRaw from "./extension-eligible.json";
+import draftPicksRaw from "./draft-picks.json";
+import experienceRaw from "./experience.json";
+import freeAgentsRaw from "./free-agents.json";
+import ratingsRaw from "./ratings.json";
+
+/** Player years-of-service entering 2026-27 (Basketball-Reference). */
+export const EXPERIENCE = experienceRaw as Record<string, number>;
+
+export interface PlayerRating {
+  /** 0-99 OVR-style rating derived from Box Plus/Minus. */
+  rating: number;
+  vorp: number;
+  bpm: number;
+  mp: number;
+}
+
+/** Per-player value ratings (Basketball-Reference advanced, 2025-26). */
+export const RATINGS = (ratingsRaw as { byId: Record<string, PlayerRating> }).byId;
+
+export interface FreeAgentInfo {
+  name: string;
+  team: string;
+  /** UFA / RFA / Two-Way. */
+  restriction: string;
+  /** "bird" | "early_bird" | "non_bird" | undefined. */
+  birdStatus?: "bird" | "early_bird" | "non_bird";
+}
+
+/** 2026 free-agent Bird status + UFA/RFA, keyed by normalized name (Spotrac). */
+export const FREE_AGENT_INFO = (
+  freeAgentsRaw as { byName: Record<string, FreeAgentInfo> }
+).byName;
+
+export interface Transaction {
+  player: string;
+  pos: string;
+  date: string;
+  type: string;
+  detail: string;
+}
+
+/** Recent NBA transactions (Spotrac via Firecrawl). */
+export const TRANSACTIONS = (transactionsRaw as { transactions: Transaction[] })
+  .transactions;
+
+export interface DeadlineRow {
+  date: string;
+  player: string;
+  team: string;
+  pos: string;
+  kind: string;
+  amount: number;
+  note: string;
+}
+
+/** Upcoming option/guarantee decision deadlines (Spotrac via Firecrawl). */
+export const UPCOMING_DEADLINES = (
+  upcomingRaw as { rows: DeadlineRow[] }
+).rows;
+
+/** Extension-eligible players (Spotrac via Firecrawl). */
+export const EXTENSION_ELIGIBLE = (
+  extEligibleRaw as { rows: DeadlineRow[] }
+).rows;
+
+export interface DraftPick {
+  year: number;
+  headline: string;
+  detail: string;
+}
+export interface TeamPicks {
+  incoming: DraftPick[];
+  outgoing: DraftPick[];
+}
+
+/** Future draft-pick ledger by team (RealGM via Firecrawl). */
+export const DRAFT_PICKS = (
+  draftPicksRaw as { teams: Record<string, TeamPicks> }
+).teams;
+
+/**
+ * Real NBA contract data, scraped from Basketball-Reference per-team contract
+ * pages. Each contract carries multi-year base salaries (2025-26 … 2030-31), so
+ * the active league year can be selected by the consumer. Team totals include
+ * some non-guaranteed/dead-money rows pending a guarantee pass.
+ */
+export const LEAGUE_2025_26 = raw as unknown as LeagueData;
+
+/** 2026 draft class as rookie-scale contracts (2026-27, salaries approximate). */
+export const ROOKIES_2026 = rookiesRaw as unknown as Contract[];
+
+export function getLeagueData(): LeagueData {
+  return LEAGUE_2025_26;
+}

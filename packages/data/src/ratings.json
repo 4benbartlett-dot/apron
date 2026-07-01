@@ -1,0 +1,3497 @@
+{
+  "source": "Basketball-Reference advanced (2025-26)",
+  "byId": {
+    "thompam01": {
+      "rating": 71,
+      "vorp": 3.4,
+      "bpm": 2.6,
+      "mp": 2953
+    },
+    "duranke01": {
+      "rating": 77,
+      "vorp": 4.7,
+      "bpm": 4.5,
+      "mp": 2840
+    },
+    "banede01": {
+      "rating": 67,
+      "vorp": 2.3,
+      "bpm": 1.4,
+      "mp": 2756
+    },
+    "camarto01": {
+      "rating": 59,
+      "vorp": 0.7,
+      "bpm": -1,
+      "mp": 2731
+    },
+    "smithja05": {
+      "rating": 60,
+      "vorp": 0.9,
+      "bpm": -0.7,
+      "mp": 2705
+    },
+    "bridgmi01": {
+      "rating": 71,
+      "vorp": 3.2,
+      "bpm": 2.7,
+      "mp": 2692
+    },
+    "barnesc01": {
+      "rating": 76,
+      "vorp": 4.2,
+      "bpm": 4.2,
+      "mp": 2681
+    },
+    "maxeyty01": {
+      "rating": 80,
+      "vorp": 4.9,
+      "bpm": 5.4,
+      "mp": 2661
+    },
+    "murraja01": {
+      "rating": 76,
+      "vorp": 4.1,
+      "bpm": 4.1,
+      "mp": 2652
+    },
+    "whitede01": {
+      "rating": 73,
+      "vorp": 3.5,
+      "bpm": 3.2,
+      "mp": 2625
+    },
+    "edgecvj01": {
+      "rating": 60,
+      "vorp": 1,
+      "bpm": -0.5,
+      "mp": 2623
+    },
+    "randlju01": {
+      "rating": 67,
+      "vorp": 2.3,
+      "bpm": 1.5,
+      "mp": 2610
+    },
+    "ingrabr01": {
+      "rating": 64,
+      "vorp": 1.7,
+      "bpm": 0.5,
+      "mp": 2604
+    },
+    "alexani01": {
+      "rating": 66,
+      "vorp": 2.1,
+      "bpm": 1.2,
+      "mp": 2603
+    },
+    "brunsja01": {
+      "rating": 73,
+      "vorp": 3.3,
+      "bpm": 3.1,
+      "mp": 2590
+    },
+    "pritcpa01": {
+      "rating": 70,
+      "vorp": 2.8,
+      "bpm": 2.3,
+      "mp": 2556
+    },
+    "knuepko01": {
+      "rating": 72,
+      "vorp": 3.1,
+      "bpm": 2.8,
+      "mp": 2551
+    },
+    "johnsja05": {
+      "rating": 76,
+      "vorp": 4,
+      "bpm": 4.2,
+      "mp": 2532
+    },
+    "daniedy01": {
+      "rating": 66,
+      "vorp": 2.1,
+      "bpm": 1.3,
+      "mp": 2520
+    },
+    "banchpa01": {
+      "rating": 67,
+      "vorp": 2.1,
+      "bpm": 1.4,
+      "mp": 2502
+    },
+    "divindo01": {
+      "rating": 65,
+      "vorp": 1.7,
+      "bpm": 0.8,
+      "mp": 2494
+    },
+    "brownja02": {
+      "rating": 73,
+      "vorp": 3.3,
+      "bpm": 3.3,
+      "mp": 2443
+    },
+    "hardeja01": {
+      "rating": 75,
+      "vorp": 3.6,
+      "bpm": 3.9,
+      "mp": 2438
+    },
+    "derozde01": {
+      "rating": 62,
+      "vorp": 1.1,
+      "bpm": -0.1,
+      "mp": 2406
+    },
+    "sengual01": {
+      "rating": 76,
+      "vorp": 3.7,
+      "bpm": 4.2,
+      "mp": 2398
+    },
+    "bridgmi02": {
+      "rating": 66,
+      "vorp": 1.9,
+      "bpm": 1.1,
+      "mp": 2387
+    },
+    "goberru01": {
+      "rating": 65,
+      "vorp": 1.8,
+      "bpm": 1,
+      "mp": 2380
+    },
+    "rolliry01": {
+      "rating": 63,
+      "vorp": 1.3,
+      "bpm": 0.2,
+      "mp": 2376
+    },
+    "adebaba01": {
+      "rating": 69,
+      "vorp": 2.4,
+      "bpm": 2,
+      "mp": 2365
+    },
+    "flaggco01": {
+      "rating": 67,
+      "vorp": 2,
+      "bpm": 1.4,
+      "mp": 2344
+    },
+    "mitchdo01": {
+      "rating": 79,
+      "vorp": 4.2,
+      "bpm": 5.1,
+      "mp": 2342
+    },
+    "murphtr02": {
+      "rating": 70,
+      "vorp": 2.6,
+      "bpm": 2.4,
+      "mp": 2341
+    },
+    "podzibr01": {
+      "rating": 63,
+      "vorp": 1.3,
+      "bpm": 0.2,
+      "mp": 2333
+    },
+    "townska01": {
+      "rating": 73,
+      "vorp": 3.1,
+      "bpm": 3.3,
+      "mp": 2322
+    },
+    "mcdanja02": {
+      "rating": 61,
+      "vorp": 1,
+      "bpm": -0.3,
+      "mp": 2316
+    },
+    "okongon01": {
+      "rating": 64,
+      "vorp": 1.6,
+      "bpm": 0.7,
+      "mp": 2297
+    },
+    "doncilu01": {
+      "rating": 94,
+      "vorp": 6.6,
+      "bpm": 9.3,
+      "mp": 2289
+    },
+    "cartewe01": {
+      "rating": 60,
+      "vorp": 0.8,
+      "bpm": -0.6,
+      "mp": 2288
+    },
+    "gilleco01": {
+      "rating": 71,
+      "vorp": 2.6,
+      "bpm": 2.5,
+      "mp": 2282
+    },
+    "carrica01": {
+      "rating": 46,
+      "vorp": -1.6,
+      "bpm": -4.7,
+      "mp": 2271
+    },
+    "greenaj01": {
+      "rating": 51,
+      "vorp": -0.8,
+      "bpm": -3.3,
+      "mp": 2270
+    },
+    "champju02": {
+      "rating": 67,
+      "vorp": 1.9,
+      "bpm": 1.4,
+      "mp": 2266
+    },
+    "jokicni01": {
+      "rating": 99,
+      "vorp": 9.2,
+      "bpm": 14.2,
+      "mp": 2265
+    },
+    "mccolcj01": {
+      "rating": 61,
+      "vorp": 1,
+      "bpm": -0.3,
+      "mp": 2264
+    },
+    "gilgesh01": {
+      "rating": 99,
+      "vorp": 7.8,
+      "bpm": 11.7,
+      "mp": 2259
+    },
+    "buzelma01": {
+      "rating": 59,
+      "vorp": 0.5,
+      "bpm": -1,
+      "mp": 2248
+    },
+    "beysa01": {
+      "rating": 64,
+      "vorp": 1.4,
+      "bpm": 0.5,
+      "mp": 2246
+    },
+    "chrisma02": {
+      "rating": 57,
+      "vorp": 0.3,
+      "bpm": -1.5,
+      "mp": 2244
+    },
+    "foxde01": {
+      "rating": 69,
+      "vorp": 2.4,
+      "bpm": 2.2,
+      "mp": 2231
+    },
+    "quickim01": {
+      "rating": 70,
+      "vorp": 2.5,
+      "bpm": 2.4,
+      "mp": 2231
+    },
+    "dunnkr01": {
+      "rating": 59,
+      "vorp": 0.6,
+      "bpm": -0.8,
+      "mp": 2230
+    },
+    "anunoog01": {
+      "rating": 69,
+      "vorp": 2.3,
+      "bpm": 2,
+      "mp": 2224
+    },
+    "onealro01": {
+      "rating": 64,
+      "vorp": 1.5,
+      "bpm": 0.7,
+      "mp": 2213
+    },
+    "grimequ01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.6,
+      "mp": 2206
+    },
+    "avdijde01": {
+      "rating": 77,
+      "vorp": 3.5,
+      "bpm": 4.3,
+      "mp": 2199
+    },
+    "marshna01": {
+      "rating": 60,
+      "vorp": 0.8,
+      "bpm": -0.6,
+      "mp": 2184
+    },
+    "cunnica01": {
+      "rating": 83,
+      "vorp": 4.6,
+      "bpm": 6.3,
+      "mp": 2172
+    },
+    "sheppre01": {
+      "rating": 71,
+      "vorp": 2.5,
+      "bpm": 2.7,
+      "mp": 2147
+    },
+    "bookede01": {
+      "rating": 69,
+      "vorp": 2.3,
+      "bpm": 2.2,
+      "mp": 2146
+    },
+    "edwaran01": {
+      "rating": 77,
+      "vorp": 3.5,
+      "bpm": 4.5,
+      "mp": 2137
+    },
+    "hardati02": {
+      "rating": 60,
+      "vorp": 0.7,
+      "bpm": -0.7,
+      "mp": 2127
+    },
+    "jaqueja01": {
+      "rating": 62,
+      "vorp": 1.1,
+      "bpm": 0.1,
+      "mp": 2121
+    },
+    "robindu01": {
+      "rating": 65,
+      "vorp": 1.5,
+      "bpm": 0.8,
+      "mp": 2113
+    },
+    "fearsje01": {
+      "rating": 53,
+      "vorp": -0.4,
+      "bpm": -2.7,
+      "mp": 2112
+    },
+    "clingdo01": {
+      "rating": 72,
+      "vorp": 2.6,
+      "bpm": 3,
+      "mp": 2094
+    },
+    "leonaka01": {
+      "rating": 89,
+      "vorp": 5.3,
+      "bpm": 8,
+      "mp": 2085
+    },
+    "mobleev01": {
+      "rating": 72,
+      "vorp": 2.6,
+      "bpm": 3,
+      "mp": 2074
+    },
+    "wiggian01": {
+      "rating": 66,
+      "vorp": 1.7,
+      "bpm": 1.2,
+      "mp": 2063
+    },
+    "laravja01": {
+      "rating": 58,
+      "vorp": 0.4,
+      "bpm": -1.2,
+      "mp": 2061
+    },
+    "siakapa01": {
+      "rating": 64,
+      "vorp": 1.4,
+      "bpm": 0.7,
+      "mp": 2057
+    },
+    "wallaca01": {
+      "rating": 66,
+      "vorp": 1.7,
+      "bpm": 1.2,
+      "mp": 2046
+    },
+    "vassede01": {
+      "rating": 64,
+      "vorp": 1.3,
+      "bpm": 0.5,
+      "mp": 2044
+    },
+    "castlst01": {
+      "rating": 68,
+      "vorp": 2,
+      "bpm": 1.9,
+      "mp": 2038
+    },
+    "queende01": {
+      "rating": 59,
+      "vorp": 0.6,
+      "bpm": -0.8,
+      "mp": 2023
+    },
+    "ballla01": {
+      "rating": 78,
+      "vorp": 3.4,
+      "bpm": 4.7,
+      "mp": 2017
+    },
+    "reidna01": {
+      "rating": 65,
+      "vorp": 1.5,
+      "bpm": 0.9,
+      "mp": 2007
+    },
+    "mitchda01": {
+      "rating": 59,
+      "vorp": 0.6,
+      "bpm": -0.9,
+      "mp": 2000
+    },
+    "brownbr01": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.4,
+      "mp": 1998
+    },
+    "holmgch01": {
+      "rating": 76,
+      "vorp": 3.1,
+      "bpm": 4.2,
+      "mp": 1997
+    },
+    "hartjo01": {
+      "rating": 72,
+      "vorp": 2.5,
+      "bpm": 3,
+      "mp": 1994
+    },
+    "jamesle01": {
+      "rating": 74,
+      "vorp": 2.8,
+      "bpm": 3.5,
+      "mp": 1989
+    },
+    "baileac01": {
+      "rating": 47,
+      "vorp": -1.2,
+      "bpm": -4.4,
+      "mp": 1988
+    },
+    "barneha02": {
+      "rating": 62,
+      "vorp": 1,
+      "bpm": -0.1,
+      "mp": 1986
+    },
+    "durenja01": {
+      "rating": 79,
+      "vorp": 3.5,
+      "bpm": 5,
+      "mp": 1976
+    },
+    "millebr02": {
+      "rating": 67,
+      "vorp": 1.8,
+      "bpm": 1.6,
+      "mp": 1968
+    },
+    "raynama01": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.4,
+      "mp": 1964
+    },
+    "aytonde01": {
+      "rating": 59,
+      "vorp": 0.6,
+      "bpm": -0.9,
+      "mp": 1958
+    },
+    "walkeja02": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.4,
+      "mp": 1953
+    },
+    "hausesa01": {
+      "rating": 64,
+      "vorp": 1.3,
+      "bpm": 0.6,
+      "mp": 1934
+    },
+    "hachiru01": {
+      "rating": 55,
+      "vorp": -0.1,
+      "bpm": -2.2,
+      "mp": 1927
+    },
+    "quetane01": {
+      "rating": 72,
+      "vorp": 2.4,
+      "bpm": 2.8,
+      "mp": 1926
+    },
+    "claxtni01": {
+      "rating": 65,
+      "vorp": 1.4,
+      "bpm": 0.9,
+      "mp": 1920
+    },
+    "turnemy01": {
+      "rating": 59,
+      "vorp": 0.5,
+      "bpm": -0.9,
+      "mp": 1912
+    },
+    "johnske04": {
+      "rating": 65,
+      "vorp": 1.4,
+      "bpm": 0.9,
+      "mp": 1911
+    },
+    "blackan01": {
+      "rating": 60,
+      "vorp": 0.7,
+      "bpm": -0.6,
+      "mp": 1910
+    },
+    "dasiltr01": {
+      "rating": 60,
+      "vorp": 0.7,
+      "bpm": -0.6,
+      "mp": 1899
+    },
+    "diabamo01": {
+      "rating": 68,
+      "vorp": 1.8,
+      "bpm": 1.7,
+      "mp": 1899
+    },
+    "thompau01": {
+      "rating": 73,
+      "vorp": 2.4,
+      "bpm": 3.1,
+      "mp": 1896
+    },
+    "cliffni01": {
+      "rating": 45,
+      "vorp": -1.4,
+      "bpm": -4.9,
+      "mp": 1882
+    },
+    "dosunay01": {
+      "rating": 65,
+      "vorp": 1.4,
+      "bpm": 1,
+      "mp": 1881
+    },
+    "collijo01": {
+      "rating": 60,
+      "vorp": 0.7,
+      "bpm": -0.5,
+      "mp": 1872
+    },
+    "greendr01": {
+      "rating": 57,
+      "vorp": 0.3,
+      "bpm": -1.4,
+      "mp": 1869
+    },
+    "wembavi01": {
+      "rating": 98,
+      "vorp": 6,
+      "bpm": 10.7,
+      "mp": 1866
+    },
+    "westbru01": {
+      "rating": 61,
+      "vorp": 0.7,
+      "bpm": -0.4,
+      "mp": 1853
+    },
+    "sheadja01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 1852
+    },
+    "larsspe01": {
+      "rating": 58,
+      "vorp": 0.4,
+      "bpm": -1.2,
+      "mp": 1849
+    },
+    "dortlu01": {
+      "rating": 55,
+      "vorp": 0,
+      "bpm": -2,
+      "mp": 1849
+    },
+    "jamessi01": {
+      "rating": 55,
+      "vorp": 0,
+      "bpm": -2,
+      "mp": 1843
+    },
+    "willizi01": {
+      "rating": 72,
+      "vorp": 2.3,
+      "bpm": 2.9,
+      "mp": 1841
+    },
+    "wellsja01": {
+      "rating": 51,
+      "vorp": -0.5,
+      "bpm": -3.1,
+      "mp": 1821
+    },
+    "vucevni01": {
+      "rating": 67,
+      "vorp": 1.6,
+      "bpm": 1.5,
+      "mp": 1818
+    },
+    "ighodos01": {
+      "rating": 62,
+      "vorp": 0.9,
+      "bpm": 0.1,
+      "mp": 1808
+    },
+    "kuzmaky01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 1806
+    },
+    "filipky01": {
+      "rating": 58,
+      "vorp": 0.4,
+      "bpm": -1.1,
+      "mp": 1801
+    },
+    "nembhan01": {
+      "rating": 59,
+      "vorp": 0.6,
+      "bpm": -0.8,
+      "mp": 1786
+    },
+    "georgke01": {
+      "rating": 65,
+      "vorp": 1.3,
+      "bpm": 0.9,
+      "mp": 1786
+    },
+    "clownno01": {
+      "rating": 50,
+      "vorp": -0.6,
+      "bpm": -3.4,
+      "mp": 1780
+    },
+    "tysonja01": {
+      "rating": 62,
+      "vorp": 0.9,
+      "bpm": 0.1,
+      "mp": 1777
+    },
+    "smartma01": {
+      "rating": 55,
+      "vorp": -0.1,
+      "bpm": -2.2,
+      "mp": 1769
+    },
+    "sensabr01": {
+      "rating": 53,
+      "vorp": -0.3,
+      "bpm": -2.6,
+      "mp": 1762
+    },
+    "reaveau01": {
+      "rating": 72,
+      "vorp": 2.1,
+      "bpm": 2.8,
+      "mp": 1762
+    },
+    "jonestr01": {
+      "rating": 66,
+      "vorp": 1.5,
+      "bpm": 1.3,
+      "mp": 1752
+    },
+    "mamuksa01": {
+      "rating": 72,
+      "vorp": 2.1,
+      "bpm": 2.8,
+      "mp": 1751
+    },
+    "harrito02": {
+      "rating": 67,
+      "vorp": 1.5,
+      "bpm": 1.4,
+      "mp": 1746
+    },
+    "achiupr01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.6,
+      "mp": 1745
+    },
+    "washipj01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.6,
+      "mp": 1736
+    },
+    "giddejo01": {
+      "rating": 71,
+      "vorp": 2,
+      "bpm": 2.7,
+      "mp": 1731
+    },
+    "barrerj01": {
+      "rating": 63,
+      "vorp": 1,
+      "bpm": 0.2,
+      "mp": 1726
+    },
+    "huffja01": {
+      "rating": 63,
+      "vorp": 1.1,
+      "bpm": 0.4,
+      "mp": 1719
+    },
+    "powelno01": {
+      "rating": 67,
+      "vorp": 1.5,
+      "bpm": 1.6,
+      "mp": 1717
+    },
+    "spencca01": {
+      "rating": 69,
+      "vorp": 1.8,
+      "bpm": 2.2,
+      "mp": 1714
+    },
+    "wareke01": {
+      "rating": 69,
+      "vorp": 1.8,
+      "bpm": 2.1,
+      "mp": 1704
+    },
+    "brookdi01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 1702
+    },
+    "schrode01": {
+      "rating": 55,
+      "vorp": -0.1,
+      "bpm": -2.2,
+      "mp": 1697
+    },
+    "okorois01": {
+      "rating": 49,
+      "vorp": -0.8,
+      "bpm": -3.8,
+      "mp": 1695
+    },
+    "grantje01": {
+      "rating": 62,
+      "vorp": 0.9,
+      "bpm": 0,
+      "mp": 1695
+    },
+    "barlodo01": {
+      "rating": 58,
+      "vorp": 0.4,
+      "bpm": -1.1,
+      "mp": 1689
+    },
+    "portemi01": {
+      "rating": 72,
+      "vorp": 2.1,
+      "bpm": 3,
+      "mp": 1689
+    },
+    "kennalu01": {
+      "rating": 62,
+      "vorp": 0.9,
+      "bpm": 0.1,
+      "mp": 1681
+    },
+    "johnsca02": {
+      "rating": 60,
+      "vorp": 0.6,
+      "bpm": -0.6,
+      "mp": 1647
+    },
+    "lopezbr01": {
+      "rating": 59,
+      "vorp": 0.5,
+      "bpm": -0.9,
+      "mp": 1635
+    },
+    "rileywi01": {
+      "rating": 47,
+      "vorp": -1,
+      "bpm": -4.5,
+      "mp": 1633
+    },
+    "willico04": {
+      "rating": 43,
+      "vorp": -1.5,
+      "bpm": -5.5,
+      "mp": 1631
+    },
+    "mathube01": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.5,
+      "mp": 1620
+    },
+    "portibo01": {
+      "rating": 62,
+      "vorp": 0.8,
+      "bpm": 0,
+      "mp": 1619
+    },
+    "sextoco01": {
+      "rating": 64,
+      "vorp": 1.1,
+      "bpm": 0.6,
+      "mp": 1614
+    },
+    "cowarce01": {
+      "rating": 61,
+      "vorp": 0.7,
+      "bpm": -0.2,
+      "mp": 1598
+    },
+    "watsope01": {
+      "rating": 58,
+      "vorp": 0.3,
+      "bpm": -1.2,
+      "mp": 1598
+    },
+    "joneshe01": {
+      "rating": 51,
+      "vorp": -0.5,
+      "bpm": -3.1,
+      "mp": 1588
+    },
+    "suggsja01": {
+      "rating": 71,
+      "vorp": 1.8,
+      "bpm": 2.5,
+      "mp": 1574
+    },
+    "oubreke01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.4,
+      "mp": 1574
+    },
+    "goodwjo01": {
+      "rating": 68,
+      "vorp": 1.5,
+      "bpm": 1.8,
+      "mp": 1572
+    },
+    "holidjr01": {
+      "rating": 68,
+      "vorp": 1.6,
+      "bpm": 1.9,
+      "mp": 1560
+    },
+    "harpedy01": {
+      "rating": 67,
+      "vorp": 1.3,
+      "bpm": 1.4,
+      "mp": 1558
+    },
+    "hollaro01": {
+      "rating": 55,
+      "vorp": 0,
+      "bpm": -2,
+      "mp": 1551
+    },
+    "easonta01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.6,
+      "mp": 1549
+    },
+    "huertke01": {
+      "rating": 60,
+      "vorp": 0.6,
+      "bpm": -0.6,
+      "mp": 1549
+    },
+    "moodymo01": {
+      "rating": 62,
+      "vorp": 0.7,
+      "bpm": -0.1,
+      "mp": 1540
+    },
+    "mannte01": {
+      "rating": 50,
+      "vorp": -0.6,
+      "bpm": -3.4,
+      "mp": 1529
+    },
+    "allenja01": {
+      "rating": 71,
+      "vorp": 1.8,
+      "bpm": 2.6,
+      "mp": 1519
+    },
+    "colliis01": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.4,
+      "mp": 1517
+    },
+    "joeis01": {
+      "rating": 71,
+      "vorp": 1.7,
+      "bpm": 2.5,
+      "mp": 1507
+    },
+    "landajo01": {
+      "rating": 62,
+      "vorp": 0.7,
+      "bpm": -0.1,
+      "mp": 1506
+    },
+    "risacza01": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.5,
+      "mp": 1503
+    },
+    "thompkl01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.4,
+      "mp": 1497
+    },
+    "kalkbry01": {
+      "rating": 68,
+      "vorp": 1.4,
+      "bpm": 1.8,
+      "mp": 1479
+    },
+    "elliske01": {
+      "rating": 60,
+      "vorp": 0.6,
+      "bpm": -0.5,
+      "mp": 1478
+    },
+    "walteja01": {
+      "rating": 61,
+      "vorp": 0.6,
+      "bpm": -0.3,
+      "mp": 1474
+    },
+    "willipa01": {
+      "rating": 47,
+      "vorp": -0.9,
+      "bpm": -4.5,
+      "mp": 1474
+    },
+    "mitchaj01": {
+      "rating": 68,
+      "vorp": 1.4,
+      "bpm": 1.9,
+      "mp": 1473
+    },
+    "sharpsh01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.4,
+      "mp": 1471
+    },
+    "coulibi01": {
+      "rating": 55,
+      "vorp": -0.1,
+      "bpm": -2.1,
+      "mp": 1468
+    },
+    "allengr01": {
+      "rating": 69,
+      "vorp": 1.5,
+      "bpm": 2.1,
+      "mp": 1467
+    },
+    "willibr03": {
+      "rating": 63,
+      "vorp": 0.9,
+      "bpm": 0.4,
+      "mp": 1463
+    },
+    "jenkida01": {
+      "rating": 60,
+      "vorp": 0.5,
+      "bpm": -0.7,
+      "mp": 1455
+    },
+    "jacksja02": {
+      "rating": 60,
+      "vorp": 0.5,
+      "bpm": -0.6,
+      "mp": 1454
+    },
+    "greenja02": {
+      "rating": 69,
+      "vorp": 1.5,
+      "bpm": 2.1,
+      "mp": 1446
+    },
+    "zubaciv01": {
+      "rating": 61,
+      "vorp": 0.6,
+      "bpm": -0.3,
+      "mp": 1446
+    },
+    "johnstr03": {
+      "rating": 45,
+      "vorp": -1.1,
+      "bpm": -5,
+      "mp": 1443
+    },
+    "markkla01": {
+      "rating": 71,
+      "vorp": 1.6,
+      "bpm": 2.6,
+      "mp": 1443
+    },
+    "middlkh01": {
+      "rating": 47,
+      "vorp": -0.9,
+      "bpm": -4.4,
+      "mp": 1439
+    },
+    "cissosi01": {
+      "rating": 48,
+      "vorp": -0.7,
+      "bpm": -4,
+      "mp": 1435
+    },
+    "kornelu01": {
+      "rating": 74,
+      "vorp": 2,
+      "bpm": 3.6,
+      "mp": 1430
+    },
+    "scheiba01": {
+      "rating": 64,
+      "vorp": 0.9,
+      "bpm": 0.6,
+      "mp": 1429
+    },
+    "jonessp01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.4,
+      "mp": 1417
+    },
+    "willima07": {
+      "rating": 69,
+      "vorp": 1.4,
+      "bpm": 2,
+      "mp": 1416
+    },
+    "wiggiaa01": {
+      "rating": 59,
+      "vorp": 0.4,
+      "bpm": -0.9,
+      "mp": 1414
+    },
+    "claytwa01": {
+      "rating": 47,
+      "vorp": -0.8,
+      "bpm": -4.3,
+      "mp": 1410
+    },
+    "braunch01": {
+      "rating": 58,
+      "vorp": 0.3,
+      "bpm": -1.2,
+      "mp": 1399
+    },
+    "santogu01": {
+      "rating": 60,
+      "vorp": 0.5,
+      "bpm": -0.6,
+      "mp": 1395
+    },
+    "krejcvi01": {
+      "rating": 57,
+      "vorp": 0.1,
+      "bpm": -1.6,
+      "mp": 1392
+    },
+    "georgky01": {
+      "rating": 58,
+      "vorp": 0.3,
+      "bpm": -1.2,
+      "mp": 1391
+    },
+    "sheppbe01": {
+      "rating": 52,
+      "vorp": -0.4,
+      "bpm": -3,
+      "mp": 1390
+    },
+    "champju01": {
+      "rating": 61,
+      "vorp": 0.6,
+      "bpm": -0.4,
+      "mp": 1377
+    },
+    "richawi02": {
+      "rating": 56,
+      "vorp": 0.1,
+      "bpm": -1.7,
+      "mp": 1377
+    },
+    "trentga02": {
+      "rating": 44,
+      "vorp": -1.2,
+      "bpm": -5.4,
+      "mp": 1377
+    },
+    "merrisa01": {
+      "rating": 62,
+      "vorp": 0.7,
+      "bpm": 0.1,
+      "mp": 1377
+    },
+    "simonan01": {
+      "rating": 62,
+      "vorp": 0.7,
+      "bpm": -0.1,
+      "mp": 1372
+    },
+    "alvarjo01": {
+      "rating": 59,
+      "vorp": 0.3,
+      "bpm": -1,
+      "mp": 1370
+    },
+    "monkma01": {
+      "rating": 58,
+      "vorp": 0.2,
+      "bpm": -1.3,
+      "mp": 1364
+    },
+    "dunnry01": {
+      "rating": 59,
+      "vorp": 0.4,
+      "bpm": -0.9,
+      "mp": 1355
+    },
+    "okogijo01": {
+      "rating": 58,
+      "vorp": 0.3,
+      "bpm": -1.2,
+      "mp": 1354
+    },
+    "sandeko01": {
+      "rating": 52,
+      "vorp": -0.3,
+      "bpm": -2.9,
+      "mp": 1351
+    },
+    "jonesde02": {
+      "rating": 60,
+      "vorp": 0.5,
+      "bpm": -0.7,
+      "mp": 1350
+    },
+    "garlada01": {
+      "rating": 61,
+      "vorp": 0.6,
+      "bpm": -0.2,
+      "mp": 1344
+    },
+    "nesmiaa01": {
+      "rating": 50,
+      "vorp": -0.5,
+      "bpm": -3.4,
+      "mp": 1335
+    },
+    "murrakr01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.5,
+      "mp": 1333
+    },
+    "curryst01": {
+      "rating": 80,
+      "vorp": 2.5,
+      "bpm": 5.4,
+      "mp": 1329
+    },
+    "millejo02": {
+      "rating": 63,
+      "vorp": 0.8,
+      "bpm": 0.2,
+      "mp": 1325
+    },
+    "poweldr01": {
+      "rating": 42,
+      "vorp": -1.3,
+      "bpm": -6,
+      "mp": 1320
+    },
+    "simsje01": {
+      "rating": 51,
+      "vorp": -0.4,
+      "bpm": -3.1,
+      "mp": 1318
+    },
+    "wadede01": {
+      "rating": 63,
+      "vorp": 0.7,
+      "bpm": 0.2,
+      "mp": 1318
+    },
+    "stewais01": {
+      "rating": 62,
+      "vorp": 0.7,
+      "bpm": 0,
+      "mp": 1317
+    },
+    "demineg01": {
+      "rating": 57,
+      "vorp": 0.1,
+      "bpm": -1.6,
+      "mp": 1308
+    },
+    "sarral01": {
+      "rating": 64,
+      "vorp": 0.9,
+      "bpm": 0.7,
+      "mp": 1305
+    },
+    "missiyv01": {
+      "rating": 56,
+      "vorp": 0.1,
+      "bpm": -1.7,
+      "mp": 1297
+    },
+    "batumni01": {
+      "rating": 59,
+      "vorp": 0.3,
+      "bpm": -1,
+      "mp": 1295
+    },
+    "willizi02": {
+      "rating": 56,
+      "vorp": 0.1,
+      "bpm": -1.7,
+      "mp": 1281
+    },
+    "clarkjo01": {
+      "rating": 51,
+      "vorp": -0.4,
+      "bpm": -3.3,
+      "mp": 1279
+    },
+    "willija07": {
+      "rating": 71,
+      "vorp": 1.5,
+      "bpm": 2.7,
+      "mp": 1277
+    },
+    "porteke02": {
+      "rating": 69,
+      "vorp": 1.3,
+      "bpm": 2.1,
+      "mp": 1261
+    },
+    "whiteco01": {
+      "rating": 58,
+      "vorp": 0.2,
+      "bpm": -1.3,
+      "mp": 1249
+    },
+    "murraco01": {
+      "rating": 65,
+      "vorp": 1,
+      "bpm": 1,
+      "mp": 1246
+    },
+    "traorno01": {
+      "rating": 40,
+      "vorp": -1.5,
+      "bpm": -6.8,
+      "mp": 1243
+    },
+    "bonaad01": {
+      "rating": 52,
+      "vorp": -0.3,
+      "bpm": -2.9,
+      "mp": 1234
+    },
+    "drumman01": {
+      "rating": 60,
+      "vorp": 0.4,
+      "bpm": -0.6,
+      "mp": 1231
+    },
+    "spencpa01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 1229
+    },
+    "lavinza01": {
+      "rating": 57,
+      "vorp": 0.2,
+      "bpm": -1.5,
+      "mp": 1224
+    },
+    "walshjo01": {
+      "rating": 63,
+      "vorp": 0.7,
+      "bpm": 0.2,
+      "mp": 1212
+    },
+    "hayesja02": {
+      "rating": 66,
+      "vorp": 1,
+      "bpm": 1.2,
+      "mp": 1207
+    },
+    "embiijo01": {
+      "rating": 79,
+      "vorp": 2.1,
+      "bpm": 4.9,
+      "mp": 1201
+    },
+    "baglema01": {
+      "rating": 65,
+      "vorp": 0.8,
+      "bpm": 0.8,
+      "mp": 1201
+    },
+    "aldamsa01": {
+      "rating": 68,
+      "vorp": 1.1,
+      "bpm": 1.7,
+      "mp": 1198
+    },
+    "gaffoda01": {
+      "rating": 64,
+      "vorp": 0.8,
+      "bpm": 0.7,
+      "mp": 1195
+    },
+    "wolfda01": {
+      "rating": 54,
+      "vorp": -0.2,
+      "bpm": -2.5,
+      "mp": 1187
+    },
+    "butleji01": {
+      "rating": 81,
+      "vorp": 2.3,
+      "bpm": 5.5,
+      "mp": 1182
+    },
+    "gueyemo02": {
+      "rating": 58,
+      "vorp": 0.2,
+      "bpm": -1.3,
+      "mp": 1179
+    },
+    "jacksgg01": {
+      "rating": 58,
+      "vorp": 0.2,
+      "bpm": -1.2,
+      "mp": 1178
+    },
+    "hylanbo01": {
+      "rating": 68,
+      "vorp": 1.1,
+      "bpm": 1.7,
+      "mp": 1177
+    },
+    "huntede01": {
+      "rating": 49,
+      "vorp": -0.6,
+      "bpm": -3.9,
+      "mp": 1176
+    },
+    "robinmi01": {
+      "rating": 74,
+      "vorp": 1.6,
+      "bpm": 3.5,
+      "mp": 1175
+    },
+    "fontesi01": {
+      "rating": 64,
+      "vorp": 0.7,
+      "bpm": 0.5,
+      "mp": 1173
+    },
+    "nembhry01": {
+      "rating": 49,
+      "vorp": -0.6,
+      "bpm": -4.1,
+      "mp": 1171
+    },
+    "shamela01": {
+      "rating": 61,
+      "vorp": 0.5,
+      "bpm": -0.3,
+      "mp": 1171
+    },
+    "sharpda01": {
+      "rating": 67,
+      "vorp": 1,
+      "bpm": 1.4,
+      "mp": 1160
+    },
+    "mccaija01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.4,
+      "mp": 1160
+    },
+    "postqu01": {
+      "rating": 59,
+      "vorp": 0.3,
+      "bpm": -1.1,
+      "mp": 1159
+    },
+    "mykhasv01": {
+      "rating": 57,
+      "vorp": 0.1,
+      "bpm": -1.7,
+      "mp": 1156
+    },
+    "leverca01": {
+      "rating": 61,
+      "vorp": 0.5,
+      "bpm": -0.4,
+      "mp": 1154
+    },
+    "poeltja01": {
+      "rating": 67,
+      "vorp": 1,
+      "bpm": 1.6,
+      "mp": 1149
+    },
+    "portecr01": {
+      "rating": 69,
+      "vorp": 1.2,
+      "bpm": 2,
+      "mp": 1148
+    },
+    "paytoga02": {
+      "rating": 68,
+      "vorp": 1.1,
+      "bpm": 1.9,
+      "mp": 1142
+    },
+    "smithdr01": {
+      "rating": 69,
+      "vorp": 1.2,
+      "bpm": 2.2,
+      "mp": 1141
+    },
+    "harteis01": {
+      "rating": 76,
+      "vorp": 1.8,
+      "bpm": 4.2,
+      "mp": 1137
+    },
+    "georgpa01": {
+      "rating": 68,
+      "vorp": 1.1,
+      "bpm": 1.7,
+      "mp": 1135
+    },
+    "vandeja01": {
+      "rating": 58,
+      "vorp": 0.1,
+      "bpm": -1.5,
+      "mp": 1128
+    },
+    "meltode01": {
+      "rating": 54,
+      "vorp": -0.1,
+      "bpm": -2.5,
+      "mp": 1125
+    },
+    "garzalu01": {
+      "rating": 70,
+      "vorp": 1.2,
+      "bpm": 2.4,
+      "mp": 1118
+    },
+    "hendrta01": {
+      "rating": 55,
+      "vorp": -0.1,
+      "bpm": -2.4,
+      "mp": 1118
+    },
+    "konchjo01": {
+      "rating": 65,
+      "vorp": 0.8,
+      "bpm": 0.9,
+      "mp": 1115
+    },
+    "diengou01": {
+      "rating": 51,
+      "vorp": -0.5,
+      "bpm": -3.8,
+      "mp": 1099
+    },
+    "smithja04": {
+      "rating": 60,
+      "vorp": 0.4,
+      "bpm": -0.7,
+      "mp": 1095
+    },
+    "caldwke01": {
+      "rating": 55,
+      "vorp": -0.1,
+      "bpm": -2.5,
+      "mp": 1088
+    },
+    "gonzahu01": {
+      "rating": 58,
+      "vorp": 0.1,
+      "bpm": -1.5,
+      "mp": 1084
+    },
+    "nurkiju01": {
+      "rating": 66,
+      "vorp": 0.9,
+      "bpm": 1.1,
+      "mp": 1083
+    },
+    "mcbrimi01": {
+      "rating": 66,
+      "vorp": 0.9,
+      "bpm": 1.2,
+      "mp": 1080
+    },
+    "kispeco01": {
+      "rating": 57,
+      "vorp": 0,
+      "bpm": -1.9,
+      "mp": 1080
+    },
+    "ruperra01": {
+      "rating": 47,
+      "vorp": -0.8,
+      "bpm": -5.1,
+      "mp": 1072
+    },
+    "dickgr01": {
+      "rating": 52,
+      "vorp": -0.4,
+      "bpm": -3.6,
+      "mp": 1067
+    },
+    "antetgi01": {
+      "rating": 91,
+      "vorp": 3,
+      "bpm": 9.5,
+      "mp": 1039
+    },
+    "herroty01": {
+      "rating": 69,
+      "vorp": 1.1,
+      "bpm": 2,
+      "mp": 1033
+    },
+    "watkija01": {
+      "rating": 53,
+      "vorp": -0.3,
+      "bpm": -3.3,
+      "mp": 1032
+    },
+    "carusal01": {
+      "rating": 68,
+      "vorp": 1,
+      "bpm": 1.9,
+      "mp": 1020
+    },
+    "wagnefr01": {
+      "rating": 70,
+      "vorp": 1.2,
+      "bpm": 2.5,
+      "mp": 1019
+    },
+    "loveca01": {
+      "rating": 54,
+      "vorp": -0.3,
+      "bpm": -3.1,
+      "mp": 1013
+    },
+    "williro04": {
+      "rating": 76,
+      "vorp": 1.7,
+      "bpm": 4.5,
+      "mp": 1008
+    },
+    "yabusgu01": {
+      "rating": 57,
+      "vorp": -0.1,
+      "bpm": -2.2,
+      "mp": 1007
+    },
+    "gordoaa01": {
+      "rating": 68,
+      "vorp": 0.9,
+      "bpm": 1.7,
+      "mp": 1005
+    },
+    "tomlina01": {
+      "rating": 57,
+      "vorp": 0,
+      "bpm": -2.1,
+      "mp": 1004
+    },
+    "conlemi01": {
+      "rating": 59,
+      "vorp": 0.2,
+      "bpm": -1.3,
+      "mp": 991
+    },
+    "prospol01": {
+      "rating": 63,
+      "vorp": 0.5,
+      "bpm": -0.1,
+      "mp": 984
+    },
+    "jonesty01": {
+      "rating": 56,
+      "vorp": -0.1,
+      "bpm": -2.4,
+      "mp": 979
+    },
+    "edwarju01": {
+      "rating": 60,
+      "vorp": 0.2,
+      "bpm": -1.3,
+      "mp": 977
+    },
+    "agbajoc01": {
+      "rating": 52,
+      "vorp": -0.5,
+      "bpm": -4,
+      "mp": 973
+    },
+    "bitadgo01": {
+      "rating": 71,
+      "vorp": 1.2,
+      "bpm": 2.8,
+      "mp": 972
+    },
+    "dilliro01": {
+      "rating": 43,
+      "vorp": -1.3,
+      "bpm": -7.3,
+      "mp": 970
+    },
+    "horfoal01": {
+      "rating": 68,
+      "vorp": 0.9,
+      "bpm": 1.6,
+      "mp": 969
+    },
+    "mccontj01": {
+      "rating": 70,
+      "vorp": 1.1,
+      "bpm": 2.5,
+      "mp": 963
+    },
+    "brownko01": {
+      "rating": 56,
+      "vorp": -0.2,
+      "bpm": -2.7,
+      "mp": 963
+    },
+    "gillan01": {
+      "rating": 56,
+      "vorp": -0.2,
+      "bpm": -2.6,
+      "mp": 951
+    },
+    "jakucka01": {
+      "rating": 62,
+      "vorp": 0.4,
+      "bpm": -0.4,
+      "mp": 945
+    },
+    "willija06": {
+      "rating": 69,
+      "vorp": 1,
+      "bpm": 2.1,
+      "mp": 936
+    },
+    "poolejo01": {
+      "rating": 54,
+      "vorp": -0.4,
+      "bpm": -3.5,
+      "mp": 933
+    },
+    "capelca01": {
+      "rating": 64,
+      "vorp": 0.6,
+      "bpm": 0.4,
+      "mp": 926
+    },
+    "sarafbe01": {
+      "rating": 44,
+      "vorp": -1.2,
+      "bpm": -7.3,
+      "mp": 916
+    },
+    "peavymi01": {
+      "rating": 50,
+      "vorp": -0.7,
+      "bpm": -5.2,
+      "mp": 913
+    },
+    "matkoka01": {
+      "rating": 65,
+      "vorp": 0.6,
+      "bpm": 0.7,
+      "mp": 912
+    },
+    "greenjo02": {
+      "rating": 62,
+      "vorp": 0.3,
+      "bpm": -0.7,
+      "mp": 908
+    },
+    "pottemi01": {
+      "rating": 65,
+      "vorp": 0.6,
+      "bpm": 0.7,
+      "mp": 908
+    },
+    "jacksis01": {
+      "rating": 60,
+      "vorp": 0.2,
+      "bpm": -1.2,
+      "mp": 908
+    },
+    "cardwdy01": {
+      "rating": 59,
+      "vorp": 0,
+      "bpm": -1.9,
+      "mp": 907
+    },
+    "poweldw01": {
+      "rating": 60,
+      "vorp": 0.1,
+      "bpm": -1.4,
+      "mp": 904
+    },
+    "reedpa01": {
+      "rating": 77,
+      "vorp": 1.6,
+      "bpm": 5.3,
+      "mp": 901
+    },
+    "hardyja02": {
+      "rating": 51,
+      "vorp": -0.6,
+      "bpm": -4.8,
+      "mp": 898
+    },
+    "jacksqu01": {
+      "rating": 59,
+      "vorp": 0,
+      "bpm": -1.8,
+      "mp": 897
+    },
+    "clarkja02": {
+      "rating": 58,
+      "vorp": -0.1,
+      "bpm": -2.4,
+      "mp": 888
+    },
+    "thomaca02": {
+      "rating": 51,
+      "vorp": -0.7,
+      "bpm": -5.2,
+      "mp": 881
+    },
+    "mcgowbr01": {
+      "rating": 56,
+      "vorp": -0.2,
+      "bpm": -2.9,
+      "mp": 880
+    },
+    "vincega01": {
+      "rating": 53,
+      "vorp": -0.5,
+      "bpm": -4.3,
+      "mp": 879
+    },
+    "valanjo01": {
+      "rating": 64,
+      "vorp": 0.4,
+      "bpm": 0,
+      "mp": 871
+    },
+    "carteje01": {
+      "rating": 61,
+      "vorp": 0.2,
+      "bpm": -1.1,
+      "mp": 867
+    },
+    "watfotr01": {
+      "rating": 59,
+      "vorp": 0,
+      "bpm": -1.9,
+      "mp": 864
+    },
+    "strawju01": {
+      "rating": 58,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 861
+    },
+    "wilsoja03": {
+      "rating": 50,
+      "vorp": -0.8,
+      "bpm": -5.6,
+      "mp": 859
+    },
+    "martica02": {
+      "rating": 58,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 856
+    },
+    "willike04": {
+      "rating": 64,
+      "vorp": 0.5,
+      "bpm": 0.2,
+      "mp": 855
+    },
+    "anderky01": {
+      "rating": 65,
+      "vorp": 0.5,
+      "bpm": 0.4,
+      "mp": 853
+    },
+    "plowdda01": {
+      "rating": 53,
+      "vorp": -0.5,
+      "bpm": -4.4,
+      "mp": 844
+    },
+    "minotjo01": {
+      "rating": 70,
+      "vorp": 1,
+      "bpm": 2.5,
+      "mp": 834
+    },
+    "smallja01": {
+      "rating": 66,
+      "vorp": 0.6,
+      "bpm": 1,
+      "mp": 830
+    },
+    "kuminjo01": {
+      "rating": 59,
+      "vorp": 0,
+      "bpm": -2,
+      "mp": 830
+    },
+    "greenja05": {
+      "rating": 61,
+      "vorp": 0.2,
+      "bpm": -1.1,
+      "mp": 828
+    },
+    "willivi01": {
+      "rating": 62,
+      "vorp": 0.2,
+      "bpm": -1,
+      "mp": 820
+    },
+    "hieldbu01": {
+      "rating": 62,
+      "vorp": 0.2,
+      "bpm": -1,
+      "mp": 819
+    },
+    "bryanca01": {
+      "rating": 57,
+      "vorp": -0.2,
+      "bpm": -3,
+      "mp": 818
+    },
+    "jovicni01": {
+      "rating": 56,
+      "vorp": -0.3,
+      "bpm": -3.5,
+      "mp": 808
+    },
+    "pickeja02": {
+      "rating": 59,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 807
+    },
+    "murrake02": {
+      "rating": 57,
+      "vorp": -0.2,
+      "bpm": -3.1,
+      "mp": 793
+    },
+    "holidaa01": {
+      "rating": 59,
+      "vorp": -0.1,
+      "bpm": -2.4,
+      "mp": 781
+    },
+    "martity01": {
+      "rating": 57,
+      "vorp": -0.3,
+      "bpm": -3.4,
+      "mp": 777
+    },
+    "porzikr01": {
+      "rating": 68,
+      "vorp": 0.8,
+      "bpm": 1.9,
+      "mp": 769
+    },
+    "walkeja01": {
+      "rating": 58,
+      "vorp": -0.1,
+      "bpm": -2.7,
+      "mp": 762
+    },
+    "pendano01": {
+      "rating": 61,
+      "vorp": 0.1,
+      "bpm": -1.5,
+      "mp": 757
+    },
+    "hendesc01": {
+      "rating": 60,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 748
+    },
+    "nancepe01": {
+      "rating": 60,
+      "vorp": -0.1,
+      "bpm": -2.3,
+      "mp": 737
+    },
+    "bryanth01": {
+      "rating": 65,
+      "vorp": 0.4,
+      "bpm": 0.1,
+      "mp": 732
+    },
+    "adamsst01": {
+      "rating": 63,
+      "vorp": 0.3,
+      "bpm": -0.5,
+      "mp": 730
+    },
+    "balllo01": {
+      "rating": 62,
+      "vorp": 0.2,
+      "bpm": -1.1,
+      "mp": 728
+    },
+    "kolekty01": {
+      "rating": 63,
+      "vorp": 0.3,
+      "bpm": -0.6,
+      "mp": 727
+    },
+    "millele01": {
+      "rating": 62,
+      "vorp": 0.1,
+      "bpm": -1.3,
+      "mp": 719
+    },
+    "willigr01": {
+      "rating": 68,
+      "vorp": 0.7,
+      "bpm": 1.6,
+      "mp": 711
+    },
+    "richani01": {
+      "rating": 52,
+      "vorp": -0.7,
+      "bpm": -6.1,
+      "mp": 701
+    },
+    "coopesh01": {
+      "rating": 57,
+      "vorp": -0.3,
+      "bpm": -3.9,
+      "mp": 700
+    },
+    "cartede02": {
+      "rating": 59,
+      "vorp": -0.1,
+      "bpm": -2.6,
+      "mp": 700
+    },
+    "howarje01": {
+      "rating": 61,
+      "vorp": 0,
+      "bpm": -1.8,
+      "mp": 695
+    },
+    "hawkijo01": {
+      "rating": 52,
+      "vorp": -0.7,
+      "bpm": -6.2,
+      "mp": 692
+    },
+    "flemira01": {
+      "rating": 57,
+      "vorp": -0.3,
+      "bpm": -3.8,
+      "mp": 673
+    },
+    "mashaja01": {
+      "rating": 51,
+      "vorp": -0.8,
+      "bpm": -7,
+      "mp": 673
+    },
+    "vukcetr01": {
+      "rating": 65,
+      "vorp": 0.3,
+      "bpm": 0,
+      "mp": 671
+    },
+    "iveyja01": {
+      "rating": 65,
+      "vorp": 0.3,
+      "bpm": 0,
+      "mp": 670
+    },
+    "manntr01": {
+      "rating": 55,
+      "vorp": -0.5,
+      "bpm": -5.3,
+      "mp": 669
+    },
+    "harriga01": {
+      "rating": 60,
+      "vorp": -0.1,
+      "bpm": -2.5,
+      "mp": 661
+    },
+    "thompet01": {
+      "rating": 56,
+      "vorp": -0.5,
+      "bpm": -4.9,
+      "mp": 653
+    },
+    "bouyeja01": {
+      "rating": 64,
+      "vorp": 0.3,
+      "bpm": -0.4,
+      "mp": 644
+    },
+    "furphjo01": {
+      "rating": 58,
+      "vorp": -0.3,
+      "bpm": -3.7,
+      "mp": 643
+    },
+    "diawamo01": {
+      "rating": 62,
+      "vorp": 0,
+      "bpm": -1.7,
+      "mp": 634
+    },
+    "nnajize01": {
+      "rating": 59,
+      "vorp": -0.3,
+      "bpm": -3.5,
+      "mp": 626
+    },
+    "davisan02": {
+      "rating": 69,
+      "vorp": 0.7,
+      "bpm": 2.4,
+      "mp": 626
+    },
+    "finnedo01": {
+      "rating": 57,
+      "vorp": -0.4,
+      "bpm": -4.3,
+      "mp": 620
+    },
+    "joneska03": {
+      "rating": 54,
+      "vorp": -0.6,
+      "bpm": -6.2,
+      "mp": 616
+    },
+    "loveke01": {
+      "rating": 65,
+      "vorp": 0.3,
+      "bpm": 0.2,
+      "mp": 613
+    },
+    "princta02": {
+      "rating": 60,
+      "vorp": -0.2,
+      "bpm": -3.1,
+      "mp": 611
+    },
+    "richaja02": {
+      "rating": 61,
+      "vorp": -0.1,
+      "bpm": -2.5,
+      "mp": 587
+    },
+    "salauti01": {
+      "rating": 64,
+      "vorp": 0.2,
+      "bpm": -0.8,
+      "mp": 575
+    },
+    "moranja01": {
+      "rating": 63,
+      "vorp": 0.1,
+      "bpm": -1.5,
+      "mp": 569
+    },
+    "sabondo01": {
+      "rating": 66,
+      "vorp": 0.4,
+      "bpm": 0.6,
+      "mp": 564
+    },
+    "knechda01": {
+      "rating": 60,
+      "vorp": -0.2,
+      "bpm": -3.6,
+      "mp": 553
+    },
+    "eubandr01": {
+      "rating": 59,
+      "vorp": -0.2,
+      "bpm": -3.7,
+      "mp": 552
+    },
+    "terryda01": {
+      "rating": 63,
+      "vorp": 0,
+      "bpm": -1.7,
+      "mp": 551
+    },
+    "proctty01": {
+      "rating": 61,
+      "vorp": -0.1,
+      "bpm": -2.8,
+      "mp": 545
+    },
+    "harklej01": {
+      "rating": 57,
+      "vorp": -0.5,
+      "bpm": -5.6,
+      "mp": 545
+    },
+    "shannte01": {
+      "rating": 60,
+      "vorp": -0.2,
+      "bpm": -3.6,
+      "mp": 538
+    },
+    "wallake01": {
+      "rating": 61,
+      "vorp": -0.1,
+      "bpm": -2.7,
+      "mp": 536
+    },
+    "cissemo01": {
+      "rating": 61,
+      "vorp": -0.1,
+      "bpm": -2.9,
+      "mp": 530
+    },
+    "anthoco01": {
+      "rating": 58,
+      "vorp": -0.4,
+      "bpm": -4.7,
+      "mp": 527
+    },
+    "tatumja01": {
+      "rating": 72,
+      "vorp": 0.9,
+      "bpm": 4.8,
+      "mp": 522
+    },
+    "isaacjo01": {
+      "rating": 63,
+      "vorp": 0.1,
+      "bpm": -1.6,
+      "mp": 521
+    },
+    "battlja01": {
+      "rating": 62,
+      "vorp": -0.1,
+      "bpm": -2.6,
+      "mp": 517
+    },
+    "newelas01": {
+      "rating": 63,
+      "vorp": 0.1,
+      "bpm": -1.5,
+      "mp": 500
+    },
+    "hukpoar01": {
+      "rating": 62,
+      "vorp": 0,
+      "bpm": -2.3,
+      "mp": 498
+    },
+    "jackstr02": {
+      "rating": 65,
+      "vorp": 0.2,
+      "bpm": -0.4,
+      "mp": 496
+    },
+    "russeda01": {
+      "rating": 62,
+      "vorp": 0,
+      "bpm": -2.3,
+      "mp": 495
+    },
+    "peterta01": {
+      "rating": 59,
+      "vorp": -0.3,
+      "bpm": -4.6,
+      "mp": 492
+    },
+    "mbengbe01": {
+      "rating": 59,
+      "vorp": -0.4,
+      "bpm": -4.9,
+      "mp": 492
+    },
+    "coffeam01": {
+      "rating": 61,
+      "vorp": -0.1,
+      "bpm": -3.1,
+      "mp": 490
+    },
+    "carlsbr01": {
+      "rating": 67,
+      "vorp": 0.4,
+      "bpm": 0.8,
+      "mp": 488
+    },
+    "cainja01": {
+      "rating": 64,
+      "vorp": 0.1,
+      "bpm": -1.4,
+      "mp": 486
+    },
+    "chrisca02": {
+      "rating": 59,
+      "vorp": -0.3,
+      "bpm": -4.6,
+      "mp": 480
+    },
+    "thybuma01": {
+      "rating": 72,
+      "vorp": 0.8,
+      "bpm": 4.4,
+      "mp": 480
+    },
+    "sochaje01": {
+      "rating": 64,
+      "vorp": 0.1,
+      "bpm": -1.2,
+      "mp": 469
+    },
+    "klebima01": {
+      "rating": 61,
+      "vorp": -0.2,
+      "bpm": -3.9,
+      "mp": 461
+    },
+    "sassema01": {
+      "rating": 64,
+      "vorp": 0,
+      "bpm": -1.7,
+      "mp": 457
+    },
+    "johnsaj01": {
+      "rating": 54,
+      "vorp": -0.8,
+      "bpm": -8.9,
+      "mp": 454
+    },
+    "bogdabo01": {
+      "rating": 62,
+      "vorp": -0.1,
+      "bpm": -3.1,
+      "mp": 452
+    },
+    "bradlto01": {
+      "rating": 60,
+      "vorp": -0.3,
+      "bpm": -4.2,
+      "mp": 450
+    },
+    "nancela02": {
+      "rating": 61,
+      "vorp": -0.2,
+      "bpm": -3.4,
+      "mp": 449
+    },
+    "tshieos01": {
+      "rating": 63,
+      "vorp": 0,
+      "bpm": -1.8,
+      "mp": 448
+    },
+    "mcderdo01": {
+      "rating": 60,
+      "vorp": -0.3,
+      "bpm": -4.4,
+      "mp": 439
+    },
+    "blackle01": {
+      "rating": 59,
+      "vorp": -0.4,
+      "bpm": -5.3,
+      "mp": 433
+    },
+    "phillju01": {
+      "rating": 61,
+      "vorp": -0.2,
+      "bpm": -3.6,
+      "mp": 428
+    },
+    "wagnemo01": {
+      "rating": 63,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 427
+    },
+    "konanya01": {
+      "rating": 63,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 424
+    },
+    "toppiob01": {
+      "rating": 69,
+      "vorp": 0.5,
+      "bpm": 3,
+      "mp": 424
+    },
+    "maluakh01": {
+      "rating": 62,
+      "vorp": -0.2,
+      "bpm": -3.7,
+      "mp": 411
+    },
+    "gardnmy01": {
+      "rating": 67,
+      "vorp": 0.3,
+      "bpm": 0.9,
+      "mp": 411
+    },
+    "jacksan01": {
+      "rating": 58,
+      "vorp": -0.5,
+      "bpm": -7.1,
+      "mp": 408
+    },
+    "hayeski01": {
+      "rating": 59,
+      "vorp": -0.4,
+      "bpm": -6,
+      "mp": 406
+    },
+    "tateja01": {
+      "rating": 61,
+      "vorp": -0.2,
+      "bpm": -3.9,
+      "mp": 405
+    },
+    "reeseju01": {
+      "rating": 60,
+      "vorp": -0.3,
+      "bpm": -5.1,
+      "mp": 402
+    },
+    "murrade01": {
+      "rating": 68,
+      "vorp": 0.3,
+      "bpm": 1.4,
+      "mp": 389
+    },
+    "youngtr01": {
+      "rating": 69,
+      "vorp": 0.5,
+      "bpm": 2.8,
+      "mp": 384
+    },
+    "etienty01": {
+      "rating": 63,
+      "vorp": -0.1,
+      "bpm": -2.8,
+      "mp": 380
+    },
+    "jamesbr02": {
+      "rating": 62,
+      "vorp": -0.2,
+      "bpm": -4.3,
+      "mp": 375
+    },
+    "smithni01": {
+      "rating": 61,
+      "vorp": -0.3,
+      "bpm": -4.7,
+      "mp": 375
+    },
+    "payneca01": {
+      "rating": 66,
+      "vorp": 0.2,
+      "bpm": 0.3,
+      "mp": 374
+    },
+    "mcneeli01": {
+      "rating": 65,
+      "vorp": 0.1,
+      "bpm": -1.3,
+      "mp": 368
+    },
+    "weslebl01": {
+      "rating": 63,
+      "vorp": -0.1,
+      "bpm": -3.6,
+      "mp": 361
+    },
+    "robinje02": {
+      "rating": 61,
+      "vorp": -0.3,
+      "bpm": -5.2,
+      "mp": 361
+    },
+    "olynyke01": {
+      "rating": 66,
+      "vorp": 0.2,
+      "bpm": -0.1,
+      "mp": 360
+    },
+    "smithma02": {
+      "rating": 65,
+      "vorp": 0.1,
+      "bpm": -0.8,
+      "mp": 359
+    },
+    "kolokch01": {
+      "rating": 61,
+      "vorp": -0.2,
+      "bpm": -4.7,
+      "mp": 357
+    },
+    "chandke01": {
+      "rating": 60,
+      "vorp": -0.3,
+      "bpm": -5.7,
+      "mp": 355
+    },
+    "whitmca01": {
+      "rating": 63,
+      "vorp": -0.1,
+      "bpm": -3.3,
+      "mp": 354
+    },
+    "liddeej01": {
+      "rating": 63,
+      "vorp": -0.1,
+      "bpm": -3.3,
+      "mp": 349
+    },
+    "barnhbr01": {
+      "rating": 63,
+      "vorp": -0.1,
+      "bpm": -3.1,
+      "mp": 348
+    },
+    "johnsch06": {
+      "rating": 66,
+      "vorp": 0.2,
+      "bpm": 0.1,
+      "mp": 348
+    },
+    "liveris01": {
+      "rating": 64,
+      "vorp": 0,
+      "bpm": -2.5,
+      "mp": 347
+    },
+    "olbrila01": {
+      "rating": 63,
+      "vorp": -0.1,
+      "bpm": -3.4,
+      "mp": 344
+    },
+    "jeromty01": {
+      "rating": 74,
+      "vorp": 0.8,
+      "bpm": 7.7,
+      "mp": 339
+    },
+    "harpero02": {
+      "rating": 67,
+      "vorp": 0.3,
+      "bpm": 1.1,
+      "mp": 318
+    },
+    "berinjo01": {
+      "rating": 67,
+      "vorp": 0.2,
+      "bpm": 0.4,
+      "mp": 314
+    },
+    "slawsja01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -0.4,
+      "mp": 311
+    },
+    "looneke01": {
+      "rating": 65,
+      "vorp": 0,
+      "bpm": -1.8,
+      "mp": 308
+    },
+    "burtoty01": {
+      "rating": 62,
+      "vorp": -0.3,
+      "bpm": -5.3,
+      "mp": 307
+    },
+    "yangha01": {
+      "rating": 58,
+      "vorp": -0.6,
+      "bpm": -9.5,
+      "mp": 300
+    },
+    "connapa01": {
+      "rating": 67,
+      "vorp": 0.2,
+      "bpm": 0.1,
+      "mp": 297
+    },
+    "cryerlj01": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -4.7,
+      "mp": 292
+    },
+    "strusma01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -1.2,
+      "mp": 288
+    },
+    "waterli01": {
+      "rating": 64,
+      "vorp": -0.1,
+      "bpm": -3.2,
+      "mp": 285
+    },
+    "hinsobl01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -0.6,
+      "mp": 285
+    },
+    "edeyza01": {
+      "rating": 67,
+      "vorp": 0.2,
+      "bpm": 0.5,
+      "mp": 284
+    },
+    "mclaujo01": {
+      "rating": 67,
+      "vorp": 0.2,
+      "bpm": 0.6,
+      "mp": 282
+    },
+    "johnske10": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -1.3,
+      "mp": 280
+    },
+    "leonsma01": {
+      "rating": 64,
+      "vorp": -0.1,
+      "bpm": -2.8,
+      "mp": 276
+    },
+    "branhma01": {
+      "rating": 65,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 275
+    },
+    "ryanco01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -0.8,
+      "mp": 271
+    },
+    "laniech01": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -5.1,
+      "mp": 262
+    },
+    "reathdu01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -0.9,
+      "mp": 258
+    },
+    "simpskj01": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -5.1,
+      "mp": 257
+    },
+    "poulajo01": {
+      "rating": 65,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 253
+    },
+    "mogbojo01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -0.7,
+      "mp": 249
+    },
+    "balad01": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -5.4,
+      "mp": 241
+    },
+    "willije02": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -5,
+      "mp": 239
+    },
+    "timmedr01": {
+      "rating": 65,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 235
+    },
+    "jarrede01": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -5.2,
+      "mp": 231
+    },
+    "paulch01": {
+      "rating": 64,
+      "vorp": -0.1,
+      "bpm": -4.2,
+      "mp": 228
+    },
+    "lawsoaj01": {
+      "rating": 66,
+      "vorp": 0.1,
+      "bpm": -1,
+      "mp": 226
+    },
+    "willilu01": {
+      "rating": 62,
+      "vorp": -0.3,
+      "bpm": -7.6,
+      "mp": 224
+    },
+    "davisjd01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -1.1,
+      "mp": 218
+    },
+    "okanito01": {
+      "rating": 60,
+      "vorp": -0.5,
+      "bpm": -10.7,
+      "mp": 217
+    },
+    "hallpj01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -2.3,
+      "mp": 214
+    },
+    "pippesc02": {
+      "rating": 65,
+      "vorp": 0,
+      "bpm": -2.8,
+      "mp": 212
+    },
+    "holmeda01": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": -0.5,
+      "mp": 210
+    },
+    "kawamyu01": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -3.7,
+      "mp": 209
+    },
+    "dennira01": {
+      "rating": 63,
+      "vorp": -0.2,
+      "bpm": -6,
+      "mp": 206
+    },
+    "jordade01": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": -0.2,
+      "mp": 199
+    },
+    "mathega01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -1.3,
+      "mp": 196
+    },
+    "beaucma01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -1.6,
+      "mp": 196
+    },
+    "hayesni01": {
+      "rating": 63,
+      "vorp": -0.3,
+      "bpm": -7.3,
+      "mp": 195
+    },
+    "youngch01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -2.3,
+      "mp": 185
+    },
+    "colliza01": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": 0.2,
+      "mp": 184
+    },
+    "whiteda01": {
+      "rating": 63,
+      "vorp": -0.3,
+      "bpm": -8,
+      "mp": 183
+    },
+    "tillmxa01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -1.8,
+      "mp": 183
+    },
+    "scotttr01": {
+      "rating": 64,
+      "vorp": -0.2,
+      "bpm": -5.3,
+      "mp": 182
+    },
+    "greenje02": {
+      "rating": 64,
+      "vorp": -0.2,
+      "bpm": -5.6,
+      "mp": 175
+    },
+    "plumlma01": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": 0.5,
+      "mp": 172
+    },
+    "garcian01": {
+      "rating": 64,
+      "vorp": -0.2,
+      "bpm": -5.7,
+      "mp": 169
+    },
+    "smithty02": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -4.8,
+      "mp": 166
+    },
+    "tysonhu01": {
+      "rating": 64,
+      "vorp": -0.2,
+      "bpm": -6.8,
+      "mp": 162
+    },
+    "topicni01": {
+      "rating": 63,
+      "vorp": -0.3,
+      "bpm": -8.4,
+      "mp": 160
+    },
+    "mcculke01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -2.8,
+      "mp": 155
+    },
+    "kesslwa01": {
+      "rating": 69,
+      "vorp": 0.2,
+      "bpm": 3.3,
+      "mp": 154
+    },
+    "inglejo01": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": 0.2,
+      "mp": 153
+    },
+    "bassech01": {
+      "rating": 68,
+      "vorp": 0.2,
+      "bpm": 1.9,
+      "mp": 153
+    },
+    "thierad01": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -4.4,
+      "mp": 149
+    },
+    "antetth01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -1.7,
+      "mp": 148
+    },
+    "martial01": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -4.3,
+      "mp": 146
+    },
+    "william01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -2.1,
+      "mp": 146
+    },
+    "biyombi01": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -5.8,
+      "mp": 141
+    },
+    "smithto05": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": 0,
+      "mp": 137
+    },
+    "dadiepa01": {
+      "rating": 66,
+      "vorp": 0,
+      "bpm": -3.3,
+      "mp": 136
+    },
+    "mccluma01": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -5.1,
+      "mp": 135
+    },
+    "kellymi02": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -5.1,
+      "mp": 134
+    },
+    "curryse01": {
+      "rating": 67,
+      "vorp": 0.1,
+      "bpm": 0.2,
+      "mp": 133
+    },
+    "bealbr01": {
+      "rating": 64,
+      "vorp": -0.3,
+      "bpm": -10.6,
+      "mp": 121
+    },
+    "bufkiko01": {
+      "rating": 64,
+      "vorp": -0.2,
+      "bpm": -9.4,
+      "mp": 119
+    },
+    "lowryky01": {
+      "rating": 64,
+      "vorp": -0.3,
+      "bpm": -10.4,
+      "mp": 118
+    },
+    "livelde01": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 0.6,
+      "mp": 115
+    },
+    "alexatr01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -1.6,
+      "mp": 111
+    },
+    "yurtsom01": {
+      "rating": 65,
+      "vorp": -0.1,
+      "bpm": -7.6,
+      "mp": 104
+    },
+    "travelu01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.2,
+      "mp": 103
+    },
+    "baldwpa01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -4.4,
+      "mp": 102
+    },
+    "willial06": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 1.1,
+      "mp": 101
+    },
+    "gibsota01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.5,
+      "mp": 97
+    },
+    "cookeja01": {
+      "rating": 64,
+      "vorp": -0.2,
+      "bpm": -11.7,
+      "mp": 94
+    },
+    "bouchch01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.1,
+      "mp": 94
+    },
+    "crawfis01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3,
+      "mp": 92
+    },
+    "highsha01": {
+      "rating": 69,
+      "vorp": 0.1,
+      "bpm": 3.8,
+      "mp": 91
+    },
+    "juzanjo01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.3,
+      "mp": 88
+    },
+    "washity02": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 1.9,
+      "mp": 88
+    },
+    "jonescu01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.5,
+      "mp": 88
+    },
+    "enarutr01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -1,
+      "mp": 85
+    },
+    "breako01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0.2,
+      "mp": 84
+    },
+    "jemistr01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -8.6,
+      "mp": 82
+    },
+    "odurojo01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -7.7,
+      "mp": 82
+    },
+    "houstca01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0.3,
+      "mp": 75
+    },
+    "gordoer01": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 2.4,
+      "mp": 74
+    },
+    "gilbeke01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -4.6,
+      "mp": 74
+    },
+    "templga01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -4.9,
+      "mp": 73
+    },
+    "roddyda01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0,
+      "mp": 73
+    },
+    "klintbo01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -8.7,
+      "mp": 71
+    },
+    "jonesda06": {
+      "rating": 69,
+      "vorp": 0.1,
+      "bpm": 6.4,
+      "mp": 68
+    },
+    "reevean01": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 1.3,
+      "mp": 68
+    },
+    "richmka01": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 3.6,
+      "mp": 67
+    },
+    "morrimo01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -5.9,
+      "mp": 65
+    },
+    "peterdr01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -9.8,
+      "mp": 64
+    },
+    "sandfpa01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -5.8,
+      "mp": 63
+    },
+    "bantoda01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -4,
+      "mp": 62
+    },
+    "moorewe01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -1.3,
+      "mp": 60
+    },
+    "jeffrda01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -0.2,
+      "mp": 60
+    },
+    "youngja05": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -6.7,
+      "mp": 58
+    },
+    "wisemja01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -9,
+      "mp": 58
+    },
+    "minixri01": {
+      "rating": 68,
+      "vorp": 0.1,
+      "bpm": 1.8,
+      "mp": 58
+    },
+    "broomjo01": {
+      "rating": 65,
+      "vorp": -0.2,
+      "bpm": -16.2,
+      "mp": 55
+    },
+    "martico01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -8,
+      "mp": 55
+    },
+    "loverla01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.6,
+      "mp": 49
+    },
+    "manonch01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0.1,
+      "mp": 46
+    },
+    "gueyemo01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -3.9,
+      "mp": 45
+    },
+    "bambamo01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -8,
+      "mp": 44
+    },
+    "pullizy01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -1.1,
+      "mp": 43
+    },
+    "steveis01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.2,
+      "mp": 43
+    },
+    "tonjejo01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -5.1,
+      "mp": 42
+    },
+    "dickihu01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -11.4,
+      "mp": 42
+    },
+    "saricda01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -9,
+      "mp": 41
+    },
+    "huntlcj01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -4.4,
+      "mp": 40
+    },
+    "jonesdi01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -2.6,
+      "mp": 39
+    },
+    "sarrol01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.6,
+      "mp": 39
+    },
+    "labissk01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0.3,
+      "mp": 38
+    },
+    "freemen01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0,
+      "mp": 37
+    },
+    "shulgma01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -11.5,
+      "mp": 36
+    },
+    "fultzma01": {
+      "rating": 66,
+      "vorp": -0.1,
+      "bpm": -16.3,
+      "mp": 36
+    },
+    "zikarro01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.4,
+      "mp": 36
+    },
+    "jonesis01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -8.1,
+      "mp": 36
+    },
+    "nelsogr02": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.2,
+      "mp": 35
+    },
+    "milleem01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.5,
+      "mp": 33
+    },
+    "telfoja01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -13.8,
+      "mp": 32
+    },
+    "pedulse01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -11.8,
+      "mp": 31
+    },
+    "ingraha01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.3,
+      "mp": 26
+    },
+    "sallihu01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -10.6,
+      "mp": 26
+    },
+    "searsma01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -2.2,
+      "mp": 26
+    },
+    "robinor01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 1.4,
+      "mp": 25
+    },
+    "grayha01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -5.3,
+      "mp": 25
+    },
+    "goldivl01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -0.5,
+      "mp": 24
+    },
+    "omierno01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 6,
+      "mp": 24
+    },
+    "moralal01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -16,
+      "mp": 24
+    },
+    "kentja01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 4.2,
+      "mp": 22
+    },
+    "antetal01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 5.4,
+      "mp": 21
+    },
+    "castlco01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -7.7,
+      "mp": 21
+    },
+    "clarkbr01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -4.9,
+      "mp": 20
+    },
+    "toppija01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0.5,
+      "mp": 17
+    },
+    "livinch01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -2.7,
+      "mp": 17
+    },
+    "keelstr01": {
+      "rating": 67,
+      "vorp": 0,
+      "bpm": -14.5,
+      "mp": 15
+    },
+    "boehebu01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -8.4,
+      "mp": 15
+    },
+    "nfalyda01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -4.5,
+      "mp": 15
+    },
+    "hepbuch01": {
+      "rating": 67,
+      "vorp": -0.1,
+      "bpm": -23.8,
+      "mp": 13
+    },
+    "newtotr01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 8.4,
+      "mp": 12
+    },
+    "evbuoto01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -11.5,
+      "mp": 8
+    },
+    "umudest01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 0.4,
+      "mp": 7
+    },
+    "jonesco02": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": 2.4,
+      "mp": 7
+    },
+    "essenno01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -23.7,
+      "mp": 6
+    },
+    "flowetr01": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -1,
+      "mp": 6
+    },
+    "brownda04": {
+      "rating": 68,
+      "vorp": 0,
+      "bpm": -18.7,
+      "mp": 3
+    }
+  }
+}
