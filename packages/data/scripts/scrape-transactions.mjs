@@ -34,7 +34,7 @@ async function scrape(url, key) {
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ url, formats: ["markdown"], onlyMainContent: true }),
+    body: JSON.stringify({ url, formats: ["markdown"], onlyMainContent: true, maxAge: 0 }),
   });
   const j = await res.json();
   if (!j.success) {

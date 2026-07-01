@@ -317,20 +317,22 @@ export function experienceOf(playerId: string): number {
 export function ratingOf(playerId: string): number | undefined {
   return RATINGS[playerId]?.rating;
 }
-/** Convex trade value from a rating. Floored at rotation-average (~62): a
- * below-average filler / salary-matching throw-in carries ~no trade value, so
- * taking on a bad contract to match salary doesn't "win" a deal. Stars ramp up
- * convexly. */
+/** Convex trade value from a rating. Floored near rotation level (~58) so a
+ * salary-matching throw-in carries ~no value, while the star curve is steep
+ * enough that real market packages read sanely (calibrated against actual 2026
+ * deals: Brown ≈ George + two 1sts + two 2nds reads "fair", Murray+filler for
+ * Brown reads "slight edge", not a fleece). */
 export function tradeValue(rating: number | undefined): number {
   if (rating == null) return 0;
-  return Math.round(Math.pow(Math.max(0, rating - 62), 1.7) / 3.5);
+  return Math.round(Math.pow(Math.max(0, rating - 58), 1.7) / 2.8);
 }
 
-/** Rough trade value of a future draft pick (slot unknown → assume mid-round).
- * Nearer picks are a touch more valuable; a 1st is worth far more than a 2nd. */
+/** Rough trade value of a future draft pick (slot unknown → assume a mid/late
+ * first, which is what actually gets traded). Nearer picks are worth a touch
+ * more; a 1st ≫ a 2nd. */
 export function pickValue(year: number, round: 1 | 2): number {
   const dist = Math.max(0, year - (Number(YEAR.slice(0, 4)) + 1));
-  const base = round === 1 ? 28 : 6;
+  const base = round === 1 ? 20 : 4;
   return Math.round(base * Math.pow(0.93, dist));
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {

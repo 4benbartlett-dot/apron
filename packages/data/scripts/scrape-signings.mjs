@@ -34,15 +34,20 @@ export function normName(name) {
     .trim();
 }
 
-// …![](logo)TEAM | [Name](…/id/N/…) | POS | YEARS | $TOTAL | $AAV | STATUS |
+// Format A: …![](logo)TEAM | [Name](…/id/N/…) | POS | YEARS | $TOTAL | $AAV | STATUS |
 const ROW =
   /!\[\]\([^)]*\)([A-Za-z]{2,4})\s*\|\s*\[([^\]]+)\]\(https:\/\/www\.spotrac\.com\/nba\/player\/_\/id\/\d+\/[^)]*\)\s*\|\s*[A-Z/]+\s*\|\s*(\d+)\s*\|\s*\$([\d,]+)\s*\|\s*\$([\d,]+)\s*\|\s*([A-Za-z]+)\s*\|/g;
+
+// Format B (2026 refresh): | ![](…/nba_wsh.png) | [Name](…)<br>Pos <br>Age… | 4 yr, $TOTAL <br>AAV: $AAV …
+// Team is only in the logo slug (nba_wsh → WSH, orl_20251 → ORL, nba_lac1 → LAC).
+const ROW2 =
+  /!\[\]\([^)]*\/(?:nba_)?([a-z]+)[0-9_]*\.png\)\s*\|\s*\[([^\]]+)\]\(https:\/\/www\.spotrac\.com\/nba\/player\/_\/id\/\d+\/[^)]*\)[^|]*\|\s*(\d+)\s*yr,\s*\$([\d,]+)\s*<br>\s*AAV:\s*\$([\d,]+)/g;
 
 async function main() {
   const res = await fetch("https://api.firecrawl.dev/v2/scrape", {
     method: "POST",
     headers: { Authorization: `Bearer ${getKey()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ url: URL, formats: ["markdown"], onlyMainContent: true }),
+    body: JSON.stringify({ url: URL, formats: ["markdown"], onlyMainContent: true, maxAge: 0 }),
   });
   const j = await res.json();
   if (!j.success) throw new Error("Firecrawl failed: " + JSON.stringify(j).slice(0, 200));
@@ -59,6 +64,18 @@ async function main() {
       total: Number(total.replace(/,/g, "")),
       aav: Number(aav.replace(/,/g, "")),
       status,
+    };
+  }
+  while ((m = ROW2.exec(md))) {
+    const [, slug, name, years, total, aav] = m;
+    if (byName[normName(name)]) continue; // format A already captured it
+    byName[normName(name)] = {
+      name,
+      team: slug.toUpperCase(),
+      years: Number(years),
+      total: Number(total.replace(/,/g, "")),
+      aav: Number(aav.replace(/,/g, "")),
+      status: "Signed",
     };
   }
 

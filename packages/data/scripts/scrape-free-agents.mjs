@@ -45,7 +45,7 @@ async function main() {
   const res = await fetch("https://api.firecrawl.dev/v2/scrape", {
     method: "POST",
     headers: { Authorization: `Bearer ${getKey()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ url: URL, formats: ["markdown"], onlyMainContent: true }),
+    body: JSON.stringify({ url: URL, formats: ["markdown"], onlyMainContent: true, maxAge: 0 }),
   });
   const j = await res.json();
   if (!j.success) throw new Error("Firecrawl failed: " + JSON.stringify(j).slice(0, 200));
