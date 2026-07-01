@@ -31,21 +31,9 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "tobias harris": {
-      "name": "Tobias Harris",
-      "team": "DET",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
     "draymond green": {
       "name": "Draymond Green",
       "team": "GSW",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "john collins": {
-      "name": "John Collins",
-      "team": "LAC",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -61,39 +49,9 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "nikola vucevic": {
-      "name": "Nikola Vucevic",
-      "team": "BOS",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "norman powell": {
-      "name": "Norman Powell",
-      "team": "MIA",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "collin sexton": {
-      "name": "Collin Sexton",
-      "team": "CHI",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "rui hachimura": {
       "name": "Rui Hachimura",
       "team": "LAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "bogdan bogdanovic": {
-      "name": "Bogdan Bogdanovic",
-      "team": "LAC",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "mitchell robinson": {
-      "name": "Mitchell Robinson",
-      "team": "NYK",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -109,12 +67,6 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "moritz wagner": {
-      "name": "Moritz Wagner",
-      "team": "ORL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "maxi kleber": {
       "name": "Maxi Kleber",
       "team": "LAL",
@@ -124,18 +76,6 @@
     "gabe vincent": {
       "name": "Gabe Vincent",
       "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "quentin grimes": {
-      "name": "Quentin Grimes",
-      "team": "PHI",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "kelly oubre": {
-      "name": "Kelly Oubre Jr.",
-      "team": "PHI",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -190,12 +130,6 @@
     "bradley beal": {
       "name": "Bradley Beal",
       "team": "LAC",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
-    "marcus smart": {
-      "name": "Marcus Smart",
-      "team": "LAL",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
@@ -318,35 +252,17 @@
       "team": "SAC",
       "restriction": "RFA"
     },
-    "jaxson hayes": {
-      "name": "Jaxson Hayes",
-      "team": "LAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "russell westbrook": {
       "name": "Russell Westbrook",
       "team": "SAC",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "walker kessler": {
-      "name": "Walker Kessler",
-      "team": "UTA",
-      "restriction": "RFA",
-      "birdStatus": "bird"
-    },
     "gary payton": {
       "name": "Gary Payton II",
       "team": "GSW",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "deanthony melton": {
-      "name": "De'Anthony Melton",
-      "team": "GSW",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "david roddy": {
       "name": "David Roddy",
@@ -412,12 +328,6 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "ariel hukporti": {
-      "name": "Ariel Hukporti",
-      "team": "NYK",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
     "peyton watson": {
       "name": "Peyton Watson",
       "team": "DEN",
@@ -441,12 +351,6 @@
       "team": "HOU",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "sandro mamukelashvili": {
-      "name": "Sandro Mamukelashvili",
-      "team": "TOR",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "trendon watford": {
       "name": "Trendon Watford",
@@ -490,12 +394,6 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "jonathan mogbo": {
-      "name": "Jonathan Mogbo",
-      "team": "TOR",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "jamal shead": {
       "name": "Jamal Shead",
       "team": "TOR",
@@ -525,12 +423,6 @@
       "team": "BKN",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "jamir watkins": {
-      "name": "Jamir Watkins",
-      "team": "WAS",
-      "restriction": "RFA",
-      "birdStatus": "early_bird"
     },
     "jordan miller": {
       "name": "Jordan Miller",
@@ -574,23 +466,11 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "jevon carter": {
-      "name": "Jevon Carter",
-      "team": "ORL",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "brandon williams": {
       "name": "Brandon Williams",
       "team": "DAL",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "mike conley": {
-      "name": "Mike Conley",
-      "team": "MIN",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "hayden gray": {
       "name": "Hayden Gray",
@@ -847,11 +727,6 @@
       "team": "DAL",
       "restriction": "RFA"
     },
-    "leaky black": {
-      "name": "Leaky Black",
-      "team": "WAS",
-      "restriction": "RFA"
-    },
     "dillon jones": {
       "name": "Dillon Jones",
       "team": "NYK",
@@ -899,11 +774,6 @@
       "team": "CHA",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "alijah martin": {
-      "name": "Alijah Martin",
-      "team": "TOR",
-      "restriction": "RFA"
     },
     "trey alexander": {
       "name": "Trey Alexander",
