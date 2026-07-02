@@ -25,7 +25,8 @@ const MODELED = [
   "Ted Stepien rule against full pick inventory — sees picks traded in PRIOR moves, not just the current proposal",
   "Restricted free agents: Gilbert Arenas first-year cap (1-2 YOS → NT-MLE) and a real match flow — the original team can match your offer sheet and keep the player at your terms",
   "Roster limits: 21-player offseason hard cap on signings, 15-by-opening-night warning",
-  "Sign-and-trade contracts enforce the 3-year minimum length; extended players are trade-frozen 6 months",
+  "Sign-and-trade contracts enforce the 3–4 season term (§8(e)(1)(ii)) AND the acquirer must have room or match salary with the return package (§8(e)(1)(vii))",
+  "Trade freezes per Art. VII §8(d)/(f): rookie signings 30 days; FA signings Dec 15; over-cap Bird re-signs at >120% until Jan 15; extensions beyond extend-and-trade limits 6 months; matched RFA offer sheets one year (§5(j))",
   "Renegotiation Mar–Jun blackout window",
   "Validated against reality: every real July 1, 2026 trade, sign-and-trade, and signing replays as legal through the engine (see lib/realmoves.test.ts)",
 ];

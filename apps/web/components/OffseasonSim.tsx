@@ -735,9 +735,18 @@ function SignEditor({
     C,
   );
   const senderOk = returnSalary <= sendMatch.maxIncoming + 1;
-  // Acquirer stays under the first-apron hard cap after sending the return out.
+  // Acquirer stays under the first-apron hard cap after sending the return out…
   const acquirerSt = validateSignAndTrade(committed - returnSalary, salary, C);
-  const stFullLegal = acquirerSt.legal && senderOk;
+  // …AND (CBA §8(e)(1)(vii)) must have Room for the new salary or match it with
+  // the outgoing return package — free absorption into an over-cap sheet is out.
+  const acquirerMatch = maxIncomingSalary(
+    returnSalary,
+    classifyTier(committed, C),
+    C.salaryCap - committed,
+    C,
+  );
+  const acquirerOk = salary <= acquirerMatch.maxIncoming + 1;
+  const stFullLegal = acquirerSt.legal && senderOk && acquirerOk;
   const toggleReturn = (id: string) =>
     setReturnIds((s) => {
       const n = new Set(s);
@@ -771,6 +780,9 @@ function SignEditor({
       salary,
       years,
       mechanism: "bird", // matching uses the incumbent's rights, regardless of cap
+      // Art. XI §5(j): a matched RFA can't be traded for one year (and never
+      // to the offering team).
+      restrictionText: "matched offer sheet (not trade-eligible for one year)",
     });
     onDone();
   };
@@ -950,7 +962,9 @@ function SignEditor({
               ? "✓ Legal sign-and-trade — acquirer hard-capped at the first apron."
               : !acquirerSt.legal
                 ? `✗ ${acquirerSt.reason}`
-                : `✗ ${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(salary)} (max ${fmtM(sendMatch.maxIncoming)}).`}
+                : !acquirerOk
+                  ? `✗ ${teamMeta(team).name} can only take in ${fmtM(acquirerMatch.maxIncoming)} for ${fmtM(returnSalary)} out (${acquirerMatch.rule}) — add salary to the return package or open cap room.`
+                  : `✗ ${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(salary)} (max ${fmtM(sendMatch.maxIncoming)}).`}
           </div>
         </div>
       )}
