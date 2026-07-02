@@ -177,10 +177,10 @@ export function validateTrade(
       reason: matchOk
         ? `${teamId} sends ${fmt(outgoingSalary)} and takes back ${fmt(
             incomingSalary,
-          )} — within its ${fmt(match.maxIncoming)} limit (${match.rule}).`
+          )} — within its ${fmt(match.maxIncoming)} limit (${match.ruleLabel}).`
         : `${teamId} can take back at most ${fmt(match.maxIncoming)} for ${fmt(
             outgoingSalary,
-          )} sent out (${match.rule}), but is acquiring ${fmt(
+          )} sent out (${match.ruleLabel}), but is acquiring ${fmt(
             incomingSalary,
           )} — over by ${fmt(incomingSalary - match.maxIncoming)}.`,
       citation: isApronTeam ? CITE.apronMatching : CITE.matching,
