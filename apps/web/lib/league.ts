@@ -385,8 +385,16 @@ export function holdsByTeam(fas: FreeAgent[]): Record<string, number> {
 
 /* ----------------------------- GM moves ----------------------------- */
 
+/** Pick ids are `TEAM|YEAR|ROUND` (e.g. "BOS|2028|1") — TEAM is the ORIGINAL
+ * owner; current ownership is derived from the move ledger. */
 export type Move =
-  | { kind: "trade"; label: string; players: { playerId: string; to: string }[] }
+  | {
+      kind: "trade";
+      label: string;
+      players: { playerId: string; to: string }[];
+      /** Draft picks changing hands (by original-owner pick id). */
+      picks?: { id: string; to: string }[];
+    }
   | {
       kind: "sign";
       label: string;
@@ -408,6 +416,8 @@ export type Move =
       playerName: string;
       toTeam: string;
       salary: number;
+      /** Contract length — a sign-and-trade contract must run 3+ seasons. */
+      years?: number;
       /** The free agent's old team (receives the return package). */
       fromTeam?: string;
       /** Players the acquirer sends back to fromTeam to match. */
@@ -422,8 +432,8 @@ export type Move =
       team: string;
     }
   | {
-      // Add extension years to a rostered player's contract (immediately
-      // trade-eligible, unlike a new signing).
+      // Add extension years to a rostered player's contract. The extended
+      // player is trade-frozen for 6 months (2023 CBA).
       kind: "extend";
       label: string;
       playerId: string;
@@ -515,7 +525,15 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     ];
   }
   if (m.kind === "sign_trade") {
-    const yr: ContractYear = { leagueYear: YEAR, salary: m.salary, guarantee: "full" };
+    // A sign-and-trade contract must run at least 3 seasons (year 1 guaranteed).
+    // The re-sign leg uses Bird rights, so 8% raises.
+    const n = Math.max(3, Math.min(m.years ?? 3, 4));
+    const start = Number(YEAR.slice(0, 4));
+    const yrs: ContractYear[] = Array.from({ length: n }, (_, k) => ({
+      leagueYear: `${start + k}-${String((start + 1 + k) % 100).padStart(2, "0")}`,
+      salary: Math.round(m.salary * (1 + 0.08 * k)),
+      guarantee: "full",
+    }));
     const base = {
       teamId: m.toTeam,
       noAggregate: true,
@@ -535,12 +553,12 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     if (i >= 0) {
       const c = out[i]!;
       out = [...out];
-      out[i] = { ...c, ...base, years: [...c.years.filter((y) => y.leagueYear !== YEAR), yr] };
+      out[i] = { ...c, ...base, years: [...c.years.filter((y) => y.leagueYear < YEAR), ...yrs] };
       return out;
     }
     return [
       ...out,
-      { playerId: m.playerId, playerName: m.playerName, ...base, years: [yr] },
+      { playerId: m.playerId, playerName: m.playerName, ...base, years: yrs },
     ];
   }
   // Renouncing changes no contract — its effect (dropping the free agent's cap
@@ -562,7 +580,12 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
       guarantee: "full",
     }));
     const copy = [...contracts];
-    copy[i] = { ...c, years: [...c.years, ...newYears], restriction: undefined };
+    copy[i] = {
+      ...c,
+      years: [...c.years, ...newYears],
+      // 2023 CBA: an extended player can't be traded for 6 months.
+      restriction: "extended this offseason (not trade-eligible for 6 months)",
+    };
     return copy;
   }
   // waive — drops this year's salary and clears any trade-derived flags, since

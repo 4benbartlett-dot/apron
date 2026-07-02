@@ -32,6 +32,33 @@ describe("applyMove: sign", () => {
   });
 });
 
+describe("applyMove: sign_trade enforces the 3-year minimum", () => {
+  it("builds at least 3 seasons with 8% raises", () => {
+    const out = applyMove([c("fa2", "OLD", 20_000_000)], {
+      kind: "sign_trade",
+      label: "",
+      playerId: "fa2",
+      playerName: "fa2",
+      toTeam: "NEW",
+      salary: 10_000_000,
+      years: 1, // below the CBA floor — must be raised to 3
+      fromTeam: "OLD",
+    });
+    const p = out.find((x) => x.playerId === "fa2")!;
+    const future = p.years.filter((y) => y.leagueYear >= YEAR);
+    expect(future.length).toBe(3);
+    expect(future[1]!.salary).toBe(10_800_000); // +8%
+  });
+});
+
+describe("applyMove: extend freezes the player", () => {
+  it("sets a 6-month trade restriction", () => {
+    const p: Contract = { playerId: "x2", playerName: "x2", teamId: "BOS", years: [{ leagueYear: YEAR, salary: 20_000_000, guarantee: "full" }] };
+    const out = applyMove([p], { kind: "extend", label: "", playerId: "x2", playerName: "x2", salary: 22_000_000, years: 2 });
+    expect(out[0]!.restriction).toMatch(/extended/i);
+  });
+});
+
 describe("applyMove: extend", () => {
   it("appends extension years after the current last year with 8% raises", () => {
     const p: Contract = { playerId: "x", playerName: "x", teamId: "BOS", years: [{ leagueYear: YEAR, salary: 20_000_000, guarantee: "full" }] };
