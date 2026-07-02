@@ -14,7 +14,7 @@ export async function generateMetadata({
   const headline = s.perTeam
     .map((pt) => `${pt.team} get ${pt.incoming.map(lastName).join(", ") || "—"}`)
     .join("  •  ");
-  const title = `${s.legal ? "✅ LEGAL" : "❌ ILLEGAL"} NBA trade · Apron`;
+  const title = `${s.legal ? "Legal" : "Illegal"} NBA trade · Apron`;
   const og = `/api/og?t=${encodeURIComponent(t!)}`;
 
   return {

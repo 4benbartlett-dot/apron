@@ -24,7 +24,7 @@ export default function TransactionsPage() {
       <div className="mb-4">
         <h1 className="text-2xl font-bold tracking-tight">Recent Transactions</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          {txns.length} live moves from Spotrac (via Firecrawl) — trades,
+          {txns.length} reported moves — trades,
           signings, options, and qualifying offers as the 2026-27 league year
           opens.
         </p>
