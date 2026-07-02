@@ -59,15 +59,15 @@ export function GmBar() {
         </div>
       )}
       <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-2.5 sm:px-5">
-        <span className="rounded-full bg-[var(--tier-second_apron)] px-2 py-0.5 text-[11px] font-bold text-white">
-          GM MODE
+        <span className="label shrink-0 rounded-[4px] bg-[var(--text)] px-1.5 py-1 !text-[var(--bg)]">
+          Your moves
         </span>
         <button
           onClick={() => setOpen((o) => !o)}
-          className="shrink-0 text-sm font-semibold hover:text-[var(--accent)]"
+          className="tabular shrink-0 text-sm font-semibold hover:text-[var(--accent)]"
           title="Show all moves"
         >
-          {moves.length} move{moves.length > 1 ? "s" : ""} {open ? "▾" : "▸"}
+          {moves.length} {open ? "▾" : "▸"}
         </button>
         <div className="min-w-0 flex-1 truncate text-xs text-[var(--muted)]">
           {moves

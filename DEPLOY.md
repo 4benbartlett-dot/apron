@@ -27,8 +27,8 @@ cd apps/web && vercel    # log in via browser, accept the defaults
 
 ## Notes
 
-- **No secrets are in the repo.** The scrapers read `FIRECRAWL_API_KEY` from
-  your local `~/.env` at scrape time; nothing is needed at runtime, so no env
-  vars are required on Vercel.
+- **No runtime secrets.** The app serves committed JSON snapshots, so no env
+  vars are required on Vercel. (Data-refresh scripts run locally and read their
+  own credentials from your environment.)
 - To refresh the data later: `cd packages/data && node scripts/scrape-*.mjs`,
   then commit the updated JSON and push (Vercel redeploys automatically).

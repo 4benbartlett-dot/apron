@@ -2,18 +2,151 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Kenrich Williams",
+      "pos": "PF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $5 million contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Kyle Anderson",
+      "pos": "PF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Toronto (TOR)"
+    },
+    {
+      "player": "Enrique Freeman",
+      "pos": "PF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with Minnesota (MIN)"
+    },
+    {
+      "player": "Payton Sandfort",
+      "pos": "SF",
+      "date": "Jul 02, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City (OKC)"
+    },
+    {
+      "player": "Kingston Flemings",
+      "pos": "PG",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $33.43 million Rookie Scale contract with Atlanta (ATL)"
+    },
+    {
+      "player": "Anfernee Simons",
+      "pos": "SG",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $12.25 million contract with Philadelphia (PHI) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "AJ Dybantsa",
+      "pos": "SF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $66.91 million Rookie Scale contract with Washington (WAS)"
+    },
+    {
+      "player": "Allen Graves",
+      "pos": "PF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $19.70 million Rookie Scale contract with Toronto (TOR)"
+    },
+    {
+      "player": "Darko Rajakovic",
+      "pos": "COA",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a mutli-year contract extension with Toronto (TOR)"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "pos": "PF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.5 million contract with Denver (DEN)"
+    },
+    {
+      "player": "Jonathan Mogbo",
+      "pos": "C",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Sacramento (SAC)"
+    },
+    {
+      "player": "Simone Fontecchio",
+      "pos": "SF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.62 million contract with Miami (MIA)"
+    },
+    {
+      "player": "Darius Acuff Jr.",
+      "pos": "PG",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $36.47 million Rookie Scale contract with Sacramento (SAC)"
+    },
+    {
+      "player": "Alex Karaban",
+      "pos": "PF",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $15.14 million Rookie Scale contract with Sacramento (SAC)"
+    },
+    {
+      "player": "Emanuel Sharp",
+      "pos": "PG",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $6.35 million contract with Sacramento (SAC) via 2nd-round exception - includes 2028-29 Team Option"
+    },
+    {
+      "player": "Izaiyah Nelson",
+      "pos": "C",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Orlando (ORL)"
+    },
+    {
+      "player": "Colin Castleton",
+      "pos": "PF",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Orlando (ORL)"
+    },
+    {
+      "player": "Darryn Peterson",
+      "pos": "PG",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Utah (UTA)"
+    },
+    {
+      "player": "Tarik Biberovic",
+      "pos": "PF",
+      "date": "Jul 01, 2026",
+      "type": "Trade",
+      "detail": "Traded to Dallas (DAL) from Memphis (MEM) with Santi Aldama for AJ Johnson, a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick"
+    },
+    {
       "player": "AJ Johnson",
       "pos": "PG",
       "date": "Jul 01, 2026",
       "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Dallas (DAL) with a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick for Santi Aldama"
+      "detail": "Traded to Memphis (MEM) from Dallas (DAL) with a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick for Santi Aldama and Tarik Biberovic"
     },
     {
       "player": "Santi Aldama",
       "pos": "C",
       "date": "Jul 01, 2026",
       "type": "Trade",
-      "detail": "Traded to Dallas (DAL) from Memphis (MEM) for AJ Johnson, a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick"
+      "detail": "Traded to Dallas (DAL) from Memphis (MEM) with Tarik Biberovic for AJ Johnson, a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick"
     },
     {
       "player": "Paul George",
@@ -41,7 +174,7 @@
       "pos": "SG",
       "date": "Jul 01, 2026",
       "type": "Signing",
-      "detail": "Signed a contract with Miami (MIA)"
+      "detail": "Signed a 3 year $6.35 million contract with Miami (MIA) via 2nd-round exception - includes 2028-29 Team Option"
     },
     {
       "player": "Henri Veesaar",
@@ -55,7 +188,7 @@
       "pos": "G",
       "date": "Jul 01, 2026",
       "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Sacramento (SAC)"
+      "detail": "Signed a Two-Way contract with Sacramento (SAC)"
     },
     {
       "player": "Yaxel Lendeborg",
@@ -205,13 +338,6 @@
       "detail": "Agreed to a 2 year $19 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
     },
     {
-      "player": "Jonathan Mogbo",
-      "pos": "C",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Sacramento (SAC)"
-    },
-    {
       "player": "Ariel Hukporti",
       "pos": "C",
       "date": "Jul 01, 2026",
@@ -279,7 +405,7 @@
       "pos": "C",
       "date": "Jun 30, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $17 million contract extension with Chicago (CHI)"
+      "detail": "Signed a 2 year $17 million contract extension with Chicago (CHI) - includes 2027-28 Team Option"
     },
     {
       "player": "Luke Kennard",
@@ -398,14 +524,7 @@
       "pos": "C",
       "date": "Jun 30, 2026",
       "type": "Signing",
-      "detail": "Signed a 3 year $44 million contract extension with Portland (POR)"
-    },
-    {
-      "player": "Simone Fontecchio",
-      "pos": "SF",
-      "date": "Jun 30, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year contract with Miami (MIA)"
+      "detail": "Signed a 3 year $43.5 million contract extension with Portland (POR)"
     },
     {
       "player": "Kristaps Porzingis",
@@ -916,7 +1035,7 @@
       "pos": "SF",
       "date": "Jun 29, 2026",
       "type": "Signing",
-      "detail": "Agreed to a 3 year $45 million contract extension with San Antonio (SAS)"
+      "detail": "Signed a 3 year $45 million contract extension with San Antonio (SAS)"
     },
     {
       "player": "Julian Champagnie",
@@ -2471,20 +2590,6 @@
       "date": "Jun 08, 2026",
       "type": "Signing",
       "detail": "Signed a multi-year contract extension with Atlanta (ATL)"
-    },
-    {
-      "player": "Oso Ighodaro",
-      "pos": "C",
-      "date": "Jun 01, 2026",
-      "type": "Other",
-      "detail": "Phoenix (PHX) fully guaranteed $2.30 million salary for 2026-27"
-    },
-    {
-      "player": "Moussa Diabate",
-      "pos": "PF",
-      "date": "Jun 01, 2026",
-      "type": "Other",
-      "detail": "Charlotte (CHA) fully guaranteed $2.46 million salary for 2026-27"
     }
   ]
 }

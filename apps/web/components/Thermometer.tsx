@@ -32,17 +32,17 @@ export function Thermometer({
   return (
     <div className="w-full">
       <div
-        className="relative w-full overflow-hidden rounded-full"
+        className="relative w-full overflow-hidden rounded-[3px] border border-[var(--border)]"
         style={{ height, background: "var(--panel-2)" }}
       >
         <div
-          className="absolute left-0 top-0 h-full rounded-full transition-all"
-          style={{ width: pct(salary), background: tierColor(tier) }}
+          className="absolute left-0 top-0 h-full transition-all"
+          style={{ width: pct(salary), background: tierColor(tier), opacity: 0.85 }}
         />
         {ghost !== undefined && ghost !== salary && (
           <div
-            className="absolute top-0 h-full w-[2px] bg-white"
-            style={{ left: pct(ghost), opacity: 0.9 }}
+            className="absolute top-0 h-full w-[2px]"
+            style={{ left: pct(ghost), background: "var(--text)", opacity: 0.8 }}
             title="post-trade"
           />
         )}
@@ -50,7 +50,7 @@ export function Thermometer({
           <div
             key={t.label}
             className="absolute top-0 h-full w-px"
-            style={{ left: pct(t.v), background: "rgba(255,255,255,0.28)" }}
+            style={{ left: pct(t.v), background: "var(--border-strong)" }}
           />
         ))}
       </div>

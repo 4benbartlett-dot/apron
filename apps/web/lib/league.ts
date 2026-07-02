@@ -291,13 +291,33 @@ const afterSignings = applySignings(afterTrades.contracts);
 // it last so it corrects team/salary from the looser transactions-prose pass.
 const afterSignedFA = applySignedFA(afterSignings.contracts);
 const existingIds = new Set(afterSignedFA.contracts.map((c) => c.playerId));
+// Real reported rookie-scale terms (e.g. "Signed a 4 year $66.91 million Rookie
+// Scale contract") supersede our estimated scale numbers.
+const ROOKIE_DEALS = new Map(
+  TRANSACTIONS.filter(
+    (t) => t.type === "Signing" && /Rookie Scale contract/i.test(t.detail),
+  ).map((t) => {
+    const yearsM = t.detail.match(/(\d+)\s*year/);
+    const totalM = t.detail.match(/\$([\d.]+)\s*million/);
+    const yrs = yearsM ? Number(yearsM[1]) : 4;
+    const total = totalM ? Number(totalM[1]) * 1_000_000 : 0;
+    return [normName(t.player), { yrs, total }] as const;
+  }),
+);
 // CBA Art. VII §8(d)(i): a drafted rookie who signs can't be traded for 30
 // days — every 2026 draftee just signed, so the freeze is live in-sim.
 const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId)).map(
-  (r) => ({
-    ...r,
-    restriction: "signed his rookie-scale contract (30-day trade freeze)",
-  }),
+  (r) => {
+    const deal = ROOKIE_DEALS.get(normName(r.playerName));
+    return {
+      ...r,
+      years:
+        deal && deal.total > 0
+          ? dealFromAav(Math.round(deal.total / deal.yrs), deal.yrs)
+          : r.years,
+      restriction: "signed his rookie-scale contract (30-day trade freeze)",
+    };
+  },
 );
 
 /** Base working roster set: trades + signings applied, rookies added. */

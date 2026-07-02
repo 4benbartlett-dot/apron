@@ -13,33 +13,15 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "cj mccollum": {
-      "name": "C.J. McCollum",
-      "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "khris middleton": {
       "name": "Khris Middleton",
       "team": "DAL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "kristaps porzingis": {
-      "name": "Kristaps Porzingis",
-      "team": "GSW",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "draymond green": {
       "name": "Draymond Green",
       "team": "GSW",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "anfernee simons": {
-      "name": "Anfernee Simons",
-      "team": "CHI",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -95,12 +77,6 @@
       "name": "Bennedict Mathurin",
       "team": "LAC",
       "restriction": "RFA",
-      "birdStatus": "bird"
-    },
-    "kenrich williams": {
-      "name": "Kenrich Williams",
-      "team": "OKC",
-      "restriction": "UFA",
       "birdStatus": "bird"
     },
     "ziaire williams": {
@@ -278,12 +254,6 @@
     "drew eubanks": {
       "name": "Drew Eubanks",
       "team": "SAC",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
-    "marvin bagley": {
-      "name": "Marvin Bagley III",
-      "team": "DAL",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
@@ -487,12 +457,6 @@
     "cameron thomas": {
       "name": "Cameron Thomas",
       "team": "MIL",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
-    "kyle anderson": {
-      "name": "Kyle Anderson",
-      "team": "MIN",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
@@ -706,21 +670,11 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "colin castleton": {
-      "name": "Colin Castleton",
-      "team": "ORL",
-      "restriction": "RFA"
-    },
     "oscar tshiebwe": {
       "name": "Oscar Tshiebwe",
       "team": "UTA",
       "restriction": "UFA",
       "birdStatus": "early_bird"
-    },
-    "enrique freeman": {
-      "name": "Enrique Freeman",
-      "team": "MIN",
-      "restriction": "RFA"
     },
     "tyler smith": {
       "name": "Tyler Smith",
