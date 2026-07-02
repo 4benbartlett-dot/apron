@@ -51,11 +51,19 @@ describe("applyMove: sign_trade enforces the 3-year minimum", () => {
   });
 });
 
-describe("applyMove: extend freezes the player", () => {
-  it("sets a 6-month trade restriction", () => {
-    const p: Contract = { playerId: "x2", playerName: "x2", teamId: "BOS", years: [{ leagueYear: YEAR, salary: 20_000_000, guarantee: "full" }] };
-    const out = applyMove([p], { kind: "extend", label: "", playerId: "x2", playerName: "x2", salary: 22_000_000, years: 2 });
+describe("applyMove: extension trade freeze (CBA §8(f)(i))", () => {
+  const base = (): Contract => ({ playerId: "x2", playerName: "x2", teamId: "BOS", years: [{ leagueYear: YEAR, salary: 20_000_000, guarantee: "full" }] });
+  it("freezes when the extension exceeds extend-and-trade limits (>120% raise)", () => {
+    const out = applyMove([base()], { kind: "extend", label: "", playerId: "x2", playerName: "x2", salary: 30_000_000, years: 2 });
     expect(out[0]!.restriction).toMatch(/extended/i);
+  });
+  it("freezes when the extended contract covers 5+ seasons", () => {
+    const out = applyMove([base()], { kind: "extend", label: "", playerId: "x2", playerName: "x2", salary: 21_000_000, years: 4 });
+    expect(out[0]!.restriction).toMatch(/extended/i);
+  });
+  it("does NOT freeze a modest extension within extend-and-trade limits", () => {
+    const out = applyMove([base()], { kind: "extend", label: "", playerId: "x2", playerName: "x2", salary: 22_000_000, years: 2 });
+    expect(out[0]!.restriction).toBeUndefined();
   });
 });
 

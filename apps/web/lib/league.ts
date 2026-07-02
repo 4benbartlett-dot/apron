@@ -291,7 +291,14 @@ const afterSignings = applySignings(afterTrades.contracts);
 // it last so it corrects team/salary from the looser transactions-prose pass.
 const afterSignedFA = applySignedFA(afterSignings.contracts);
 const existingIds = new Set(afterSignedFA.contracts.map((c) => c.playerId));
-const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId));
+// CBA Art. VII §8(d)(i): a drafted rookie who signs can't be traded for 30
+// days — every 2026 draftee just signed, so the freeze is live in-sim.
+const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId)).map(
+  (r) => ({
+    ...r,
+    restriction: "signed his rookie-scale contract (30-day trade freeze)",
+  }),
+);
 
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = [
@@ -408,6 +415,8 @@ export type Move =
       mechanism?: MechanismId;
       /** A new FA signing is trade-restricted; an extension (false) stays eligible. */
       restricted?: boolean;
+      /** Override the default Dec-15 restriction text (e.g. matched offer sheets). */
+      restrictionText?: string;
     }
   | {
       kind: "sign_trade";
@@ -480,7 +489,8 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
   }
   if (m.kind === "sign") {
     const yrs = signingYears(m.salary, m.years ?? 1, m.mechanism);
-    const restriction = m.restricted === false ? undefined : FA_RESTRICTION;
+    const restriction =
+      m.restricted === false ? undefined : (m.restrictionText ?? FA_RESTRICTION);
     const idx = contracts.findIndex((c) => c.playerId === m.playerId);
     if (idx >= 0) {
       const c = contracts[idx]!;
@@ -507,7 +517,16 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
             0,
           );
         if (teamAfter > C.salaryCap) {
-          copy[idx] = { ...copy[idx]!, bycPriorSalary: prior };
+          copy[idx] = {
+            ...copy[idx]!,
+            bycPriorSalary: prior,
+            // CBA Art. VII §8(d)(iii): this exact re-signing (over-cap Bird at
+            // >120%) is frozen until Jan 15, not Dec 15.
+            restriction:
+              m.restricted === false
+                ? undefined
+                : "re-signed over the cap at a >20% raise (not trade-eligible until Jan 15)",
+          };
         }
       }
       return copy;
@@ -579,12 +598,25 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
       salary: Math.round(m.salary * (1 + 0.08 * k)), // 8% extension raises
       guarantee: "full",
     }));
+    // CBA Art. VII §8(f)(i): the 6-month trade freeze applies only when the
+    // extension EXCEEDS extend-and-trade limits — covers 5+ seasons, or a
+    // first-year salary beyond 120% of the final existing year (or 120% of the
+    // estimated average salary). A modest extension stays trade-eligible.
+    const finalExisting = [...c.years]
+      .filter((y) => y.leagueYear >= YEAR)
+      .sort((a, b) => a.leagueYear.localeCompare(b.leagueYear))
+      .at(-1)?.salary ?? 0;
+    const coveredSeasons =
+      c.years.filter((y) => y.leagueYear >= YEAR).length + m.years;
+    const etLimit = Math.max(finalExisting * 1.2, C.estimatedAverageSalary * 1.2);
+    const freezes = coveredSeasons >= 5 || m.salary > etLimit + 1;
     const copy = [...contracts];
     copy[i] = {
       ...c,
       years: [...c.years, ...newYears],
-      // 2023 CBA: an extended player can't be traded for 6 months.
-      restriction: "extended this offseason (not trade-eligible for 6 months)",
+      restriction: freezes
+        ? "extended beyond extend-and-trade limits (not trade-eligible for 6 months)"
+        : undefined,
     };
     return copy;
   }

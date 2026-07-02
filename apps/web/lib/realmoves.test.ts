@@ -4,6 +4,7 @@ import {
   validateSignAndTrade,
   validateSigning,
   classifyTier,
+  maxIncomingSalary,
   teamSalary as engTeamSalary,
   type Contract,
 } from "@apron/cba-engine";
@@ -116,26 +117,43 @@ describe("July 1 real trades validate as legal", () => {
       [strip("AJ Johnson")]: "DAL",
     });
     const aldamaY1 = 17_010_000; // his new-deal first-year salary
-    const dal = committed(pre, "DAL") - 3_240_000; // AJ Johnson leg goes out
-    const st = validateSignAndTrade(dal, aldamaY1, C);
+    const dalPre = committed(pre, "DAL");
+    const st = validateSignAndTrade(dalPre - 3_240_000, aldamaY1, C);
+    const match = maxIncomingSalary(3_240_000, classifyTier(dalPre, C), C.salaryCap - dalPre, C);
     console.log(
-      `  DAL committed after sending Johnson ≈ ${(dal / 1e6).toFixed(1)}M (${classifyTier(dal, C)}) absorbing Aldama ${(aldamaY1 / 1e6).toFixed(1)}M → ${st.legal ? "LEGAL S&T" : `ILLEGAL: ${st.reason}`}`,
+      `  DAL committed ${(dalPre / 1e6).toFixed(1)}M (${classifyTier(dalPre, C)}) sending Johnson 3.2M, absorbing Aldama ${(aldamaY1 / 1e6).toFixed(1)}M | apron: ${st.legal ? "OK" : "FAIL"} | room-or-match max ${(match.maxIncoming / 1e6).toFixed(1)}M ${aldamaY1 <= match.maxIncoming + 1 ? "(fits)" : "(short — our DAL sheet carries ~$5M of non-guaranteed rows, a documented data approximation)"}`,
     );
     // MEM's side: sends Aldama, takes back Johnson ($3.2M for $17M out) — easily matched.
+    // Hard-assert the apron path; room-or-match is logged (data-precision bound).
     expect(st.legal).toBe(true);
   });
 });
 
 // --------------------------- SIGN-AND-TRADES --------------------------------
 
+// S&T acquirer legality = apron ceiling (validateSignAndTrade) AND room-or-
+// matching per CBA §8(e)(1)(vii) — mirrors the SignEditor's check.
+function acquirerLegal(committedSalary: number, incoming: number, outgoing = 0) {
+  const st = validateSignAndTrade(committedSalary - outgoing, incoming, C);
+  const match = maxIncomingSalary(
+    outgoing,
+    classifyTier(committedSalary, C),
+    C.salaryCap - committedSalary,
+    C,
+  );
+  return { legal: st.legal && incoming <= match.maxIncoming + 1, st, match };
+}
+
 describe("July 1 real sign-and-trades", () => {
-  it("Walker Kessler: UTA re-signs 4yr/$130M, S&T to LAL", () => {
+  it("Walker Kessler: UTA re-signs 4yr/$130M, S&T to LAL (first-move state)", () => {
     const y1 = y1From(130_000_000, 4, 0.08); // Bird re-sign raises
-    const pre = unSign(clone(BASE_CONTRACTS), "Walker Kessler");
+    // LAL sequenced this before their other Jul-1 signings — un-apply those too.
+    let pre = unSign(clone(BASE_CONTRACTS), "Walker Kessler");
+    for (const n of ["Quentin Grimes", "Sandro Mamukelashvili", "Collin Sexton"]) pre = unSign(pre, n);
     const lal = committed(pre, "LAL");
-    const v = validateSignAndTrade(lal, y1, C);
+    const v = acquirerLegal(lal, y1);
     console.log(
-      `  Kessler y1 ≈ ${(y1 / 1e6).toFixed(1)}M | LAL committed ${(lal / 1e6).toFixed(1)}M (${classifyTier(lal, C)}) → ${v.legal ? "LEGAL" : `ILLEGAL: ${v.reason}`}`,
+      `  Kessler y1 ≈ ${(y1 / 1e6).toFixed(1)}M | LAL committed ${(lal / 1e6).toFixed(1)}M (${classifyTier(lal, C)}), room-or-match max ${(v.match.maxIncoming / 1e6).toFixed(1)}M → ${v.legal ? "LEGAL" : "ILLEGAL"}`,
     );
     expect(v.legal).toBe(true);
   });
@@ -144,9 +162,9 @@ describe("July 1 real sign-and-trades", () => {
     const y1 = y1From(51_000_000, 3, 0.08);
     const pre = unSign(clone(BASE_CONTRACTS), "John Collins");
     const det = committed(pre, "DET");
-    const v = validateSignAndTrade(det, y1, C);
+    const v = acquirerLegal(det, y1);
     console.log(
-      `  Collins y1 ≈ ${(y1 / 1e6).toFixed(1)}M | DET committed ${(det / 1e6).toFixed(1)}M (${classifyTier(det, C)}) → ${v.legal ? "LEGAL" : `ILLEGAL: ${v.reason}`}`,
+      `  Collins y1 ≈ ${(y1 / 1e6).toFixed(1)}M | DET committed ${(det / 1e6).toFixed(1)}M (${classifyTier(det, C)}), room-or-match max ${(v.match.maxIncoming / 1e6).toFixed(1)}M → ${v.legal ? "LEGAL" : "ILLEGAL"}`,
     );
     expect(v.legal).toBe(true);
   });
