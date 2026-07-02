@@ -3,9 +3,21 @@ import type { ApronTier, LeagueConstants } from "./types";
 export interface MatchResult {
   /** Maximum incoming salary the acquiring team may absorb. */
   maxIncoming: number;
-  /** Identifier for which matching rule applied (for the explain panel). */
+  /** Machine identifier for which matching rule applied (stable, for tests). */
   rule: string;
+  /** Human-readable name of the applied rule, for user-facing copy. */
+  ruleLabel: string;
 }
+
+/** Display names for the matching rules — what users see in verdicts. */
+export const MATCH_RULE_LABEL: Record<string, string> = {
+  first_apron_100pct: "100% matching — first-apron team",
+  second_apron_100pct: "100% matching — second-apron team",
+  expanded_tier1_200pct: "expanded matching, 200% + $250k band",
+  expanded_tier2_flat: "expanded matching, outgoing + $7.5M band",
+  expanded_tier3_125pct: "expanded matching, 125% + $250k band",
+  cap_room_absorption: "absorbed into cap room",
+};
 
 /**
  * Maximum salary a team may take back, given how much it sends out and its
@@ -30,10 +42,10 @@ export function maxIncomingSalary(
 ): MatchResult {
   // Apron teams: strict 100%. No expanded bands, no aggregation premium.
   if (tier === "first_apron") {
-    return { maxIncoming: outgoing, rule: "first_apron_100pct" };
+    return { maxIncoming: outgoing, rule: "first_apron_100pct", ruleLabel: MATCH_RULE_LABEL.first_apron_100pct! };
   }
   if (tier === "second_apron") {
-    return { maxIncoming: outgoing, rule: "second_apron_100pct" };
+    return { maxIncoming: outgoing, rule: "second_apron_100pct", ruleLabel: MATCH_RULE_LABEL.second_apron_100pct! };
   }
 
   // Over-the-cap expanded traded-player bands.
@@ -58,8 +70,8 @@ export function maxIncomingSalary(
   if (tier === "below_cap") {
     const absorption = outgoing + Math.max(0, capRoom) + 250_000;
     if (absorption >= expanded) {
-      return { maxIncoming: absorption, rule: "cap_room_absorption" };
+      return { maxIncoming: absorption, rule: "cap_room_absorption", ruleLabel: MATCH_RULE_LABEL.cap_room_absorption! };
     }
   }
-  return { maxIncoming: expanded, rule };
+  return { maxIncoming: expanded, rule, ruleLabel: MATCH_RULE_LABEL[rule] ?? rule };
 }
