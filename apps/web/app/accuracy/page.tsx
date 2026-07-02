@@ -21,8 +21,13 @@ const MODELED = [
   "Base-year compensation: re-sign your own FA to a >20% raise over the cap, then trade — outgoing value = max(50% of new salary, prior salary)",
   "Trade kicker bonus boosts the acquiring team's incoming matching value (applied when kicker data is present)",
   "Sign-and-trade outgoing leg: build a return package to the FA's old team — validates both the acquirer's first-apron hard cap and the old team's salary matching",
-  "Ted Stepien rule: blocks trading first-round picks in consecutive years",
-  "Restricted free agents: Gilbert Arenas first-year cap (1-2 YOS → NT-MLE) and 'original team can match' flagging; renegotiation Mar–Jun blackout window",
+  "Pick-ownership ledger: executed trades actually transfer draft picks; boards show real inventory",
+  "Ted Stepien rule against full pick inventory — sees picks traded in PRIOR moves, not just the current proposal",
+  "Restricted free agents: Gilbert Arenas first-year cap (1-2 YOS → NT-MLE) and a real match flow — the original team can match your offer sheet and keep the player at your terms",
+  "Roster limits: 21-player offseason hard cap on signings, 15-by-opening-night warning",
+  "Sign-and-trade contracts enforce the 3-year minimum length; extended players are trade-frozen 6 months",
+  "Renegotiation Mar–Jun blackout window",
+  "Validated against reality: every real July 1, 2026 trade, sign-and-trade, and signing replays as legal through the engine (see lib/realmoves.test.ts)",
 ];
 
 const APPROXIMATE = [
@@ -34,10 +39,11 @@ const APPROXIMATE = [
 ];
 
 const NOT_MODELED = [
-  "The RFA match decision itself (offer sheets are validated + flagged matchable, but the original team's match/decline isn't simulated)",
+  "Pick protections & swap rights on ledger picks (protections shown in deal text; the ledger tracks unprotected ownership)",
   "The >10%-renegotiation-blocks-a-later-extension rule",
   "Traded-player exceptions as separate expiring objects",
   "Likely vs. unlikely incentives in matching / apron math",
+  "Second-round pick exception & two-way contracts as signing mechanisms (reconciled from real data, not user-simulable)",
   "Poison-pill provision (engine function exists; not wired to the trade UI — needs structured extension data)",
   "Designated-player criteria (All-NBA/MVP triggers, 6-year DV extension length)",
 ];

@@ -11,6 +11,7 @@ import {
   YEAR,
   C,
   CAP_SHEET_YEARS,
+  TEAM_IDS,
   projectedCap,
   applyMove,
   leagueData,
@@ -19,6 +20,17 @@ import {
   holdsByTeam,
   type Move,
 } from "./league";
+
+export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
+
+export interface OwnedPick {
+  /** `ORIGIN|YEAR|ROUND` — origin team never changes; ownership does. */
+  id: string;
+  origin: string;
+  year: number;
+  round: 1 | 2;
+  label: string;
+}
 
 // Session of GM moves layered on the base (feed-applied) league, persisted to
 // localStorage so an offseason survives reloads.
@@ -145,6 +157,17 @@ export function useLeague() {
     const holds = holdsByTeam(fas.filter((f) => !f.renounced));
     const nameOf = (id: string) =>
       contracts.find((c) => c.playerId === id)?.playerName ?? id;
+    // Pick-ownership ledger: every team starts with its own 1sts/2nds; executed
+    // trades transfer them, so Stepien and the boards see real inventory.
+    const pickOwner = new Map<string, string>();
+    for (const t of TEAM_IDS)
+      for (const y of PICK_YEARS)
+        for (const r of [1, 2] as const) pickOwner.set(`${t}|${y}|${r}`, t);
+    for (const m of moveList) {
+      if (m.kind === "trade" && m.picks) {
+        for (const p of m.picks) if (pickOwner.has(p.id)) pickOwner.set(p.id, p.to);
+      }
+    }
     return {
       data,
       contracts,
@@ -163,6 +186,37 @@ export function useLeague() {
         }),
       freeAgents: () => fas,
       teamHolds: (t: string) => holds[t] ?? 0,
+      /** Picks CURRENTLY owned by a team (own + acquired via session trades). */
+      picksOf: (t: string): OwnedPick[] => {
+        const out: OwnedPick[] = [];
+        for (const [id, owner] of pickOwner) {
+          if (owner !== t) continue;
+          const [origin, yearStr, roundStr] = id.split("|");
+          const year = Number(yearStr);
+          const round = Number(roundStr) as 1 | 2;
+          out.push({
+            id,
+            origin: origin!,
+            year,
+            round,
+            label: `${origin === t ? "" : origin + " "}${year} ${round === 1 ? "1st" : "2nd"}`,
+          });
+        }
+        return out.sort((a, b) => a.year - b.year || a.round - b.round || a.origin.localeCompare(b.origin));
+      },
+      /** Current owner of a pick id (ledger view). */
+      pickOwnerOf: (id: string) => pickOwner.get(id),
+      /** Future first-round years where a team owns NO first (for Stepien). */
+      yearsWithoutFirst: (t: string, extraOut: string[] = [], extraIn: string[] = []): number[] => {
+        const owned = new Set<string>();
+        for (const [id, owner] of pickOwner) {
+          if (owner === t && id.endsWith("|1")) owned.add(id);
+        }
+        for (const id of extraOut) owned.delete(id);
+        for (const id of extraIn) if (id.endsWith("|1")) owned.add(id);
+        const yearsWithFirst = new Set([...owned].map((id) => Number(id.split("|")[1])));
+        return PICK_YEARS.filter((y) => !yearsWithFirst.has(y));
+      },
       // The tightest apron a team has HARD-CAPPED itself at this session (via an
       // NT-MLE/BAE or sign-and-trade → first apron, or a Taxpayer MLE → second
       // apron). Persists across moves so a later Bird re-sign / min / trade can't

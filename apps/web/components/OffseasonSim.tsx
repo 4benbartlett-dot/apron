@@ -28,12 +28,8 @@ interface Sel {
 }
 type LG = ReturnType<typeof useLeague>;
 
-const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032];
-const ownPicks = (id: string) =>
-  PICK_YEARS.flatMap((y) => [
-    { id: `${id}|${y}|1`, label: `${y} 1st` },
-    { id: `${id}|${y}|2`, label: `${y} 2nd` },
-  ]);
+// Picks come from the session pick-ownership ledger (lg.picksOf) — executed
+// trades actually transfer them.
 
 function mechColor(id: MechanismId | null): string {
   if (id === "bird" || id === "cap_room") return "var(--tier-below_cap)";
@@ -158,19 +154,23 @@ export default function OffseasonSim() {
 
   const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0;
 
-  // Ted Stepien rule: a team can't trade first-round picks in consecutive years.
+  // Ted Stepien rule, against the FULL pick-ownership ledger: after this trade
+  // (and every prior executed one), no team may lack a first-round pick in
+  // consecutive future years.
   const stepienViolations = useMemo(() => {
-    const firstsByTeam: Record<string, number[]> = {};
+    const outBy: Record<string, string[]> = {};
+    const inBy: Record<string, string[]> = {};
+    const touched = new Set<string>();
     for (const [id, mv] of Object.entries(pickSel)) {
-      const [team, yearStr, round] = id.split("|");
-      if (round === "1" && mv.from === team) {
-        (firstsByTeam[team!] ??= []).push(Number(yearStr));
-      }
+      (outBy[mv.from] ??= []).push(id);
+      (inBy[mv.to] ??= []).push(id);
+      touched.add(mv.from);
+      touched.add(mv.to);
     }
-    return Object.keys(firstsByTeam)
-      .filter((t) => violatesStepien(firstsByTeam[t]!))
-      .map((t) => `${teamMeta(t).name} can't trade first-round picks in consecutive years (Stepien rule).`);
-  }, [pickSel]);
+    return [...touched]
+      .filter((t) => violatesStepien(lg.yearsWithoutFirst(t, outBy[t] ?? [], inBy[t] ?? [])))
+      .map((t) => `${teamMeta(t).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`);
+  }, [pickSel, lg]);
 
   // Player + pick value flowing in/out per team (for the fair-trade meter).
   const valueByTeam = useMemo(() => {
@@ -203,11 +203,12 @@ export default function OffseasonSim() {
 
   const executeTrade = () => {
     const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
-    const picks = Object.keys(pickSel).length;
+    const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
     dispatchMove({
       kind: "trade",
-      label: `Trade: ${names.join(", ")}${picks ? ` +${picks} pick${picks > 1 ? "s" : ""}` : ""}`,
+      label: `Trade: ${names.join(", ")}${pickMoves.length ? ` +${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : ""}`,
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
+      picks: pickMoves,
     });
     setSel({});
     setPickSel({});
@@ -267,7 +268,7 @@ export default function OffseasonSim() {
             sel={sel}
             onTogglePlayer={togglePlayer}
             onDest={setDest}
-            picks={ownPicks(id)}
+            picks={lg.picksOf(id)}
             pickSel={pickSel}
             onTogglePick={togglePick}
             onSign={() => setSignFor(id)}
@@ -533,7 +534,7 @@ function TeamColumn({
 
       {others.length > 0 && (
         <div className="mt-3 border-t border-[var(--border)] pt-2">
-          <div className="mb-1 text-[10px] uppercase tracking-wide text-[var(--muted)]">Own picks</div>
+          <div className="mb-1 text-[10px] uppercase tracking-wide text-[var(--muted)]">Draft picks (owned)</div>
           <div className="flex flex-wrap gap-1">
             {picks.map((p) => {
               const mv = pickSel[p.id];
@@ -711,7 +712,10 @@ function SignEditor({
   // Bird re-sign or a minimum. Enforce it on top of the mechanism check.
   const hardCap = lg.hardCapOf(team);
   const exceedsHardCap = afterCharge > hardCap + 1;
-  const legalSign = v.legal && !exceedsHardCap;
+  // Roster limit: 21 in the offseason (hard), 15 by opening night (warn).
+  const rosterCount = lg.roster(team).length;
+  const rosterFull = rosterCount >= 21;
+  const legalSign = v.legal && !exceedsHardCap && !rosterFull;
 
   // Sign-and-trade: offered for another team's FA the acquirer can't sign
   // outright, as long as the acquirer isn't over the second apron.
@@ -755,15 +759,32 @@ function SignEditor({
     });
     onDone();
   };
+  // Restricted FA: the original team may MATCH the offer sheet — the player
+  // stays with them at these exact terms (and is trade-frozen).
+  const matchOfferSheet = () => {
+    dispatchMove({
+      kind: "sign",
+      label: `Matched offer sheet: ${fa.playerName} stays ${fa.priorTeam} (${fmtM(salary)}${years > 1 ? ` × ${years}y` : ""})`,
+      playerId: fa.playerId,
+      playerName: fa.playerName,
+      teamId: fa.priorTeam,
+      salary,
+      years,
+      mechanism: "bird", // matching uses the incumbent's rights, regardless of cap
+    });
+    onDone();
+  };
   const signTrade = () => {
     if (!stFullLegal) return;
+    const stYears = Math.max(3, years); // S&T contracts must run 3+ seasons
     dispatchMove({
       kind: "sign_trade",
-      label: `S&T: ${fa.playerName} → ${team} (${fmtM(salary)}${returnIds.size ? ` for ${returnIds.size}` : ""})`,
+      label: `S&T: ${fa.playerName} → ${team} (${fmtM(salary)} × ${stYears}y${returnIds.size ? ` for ${returnIds.size}` : ""})`,
       playerId: fa.playerId,
       playerName: fa.playerName,
       toTeam: team,
       salary,
+      years: stYears,
       fromTeam: fa.priorTeam,
       returnPlayers: [...returnIds],
     });
@@ -880,6 +901,16 @@ function SignEditor({
             {isArenasRfa ? "; 1–2 yr Arenas cap applies (year 1 ≤ NT-MLE)" : ""}.
           </div>
         )}
+        {rosterFull && (
+          <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
+            ✗ Roster is at the 21-player offseason limit.
+          </div>
+        )}
+        {!rosterFull && rosterCount >= 15 && (
+          <div className="mt-1 text-[var(--tier-taxpayer)]">
+            Roster at {rosterCount} — must be down to 15 (plus two-ways) by opening night.
+          </div>
+        )}
       </div>
 
       {/* Sign-and-trade return package */}
@@ -887,6 +918,7 @@ function SignEditor({
         <div className="mb-4 rounded-md border border-[var(--accent)] p-3 text-xs">
           <div className="mb-2 font-semibold text-[var(--accent)]">
             Sign &amp; trade from {teamMeta(fa.priorTeam).name}
+            <span className="ml-2 font-normal text-[var(--muted)]">({Math.max(3, years)}yr — S&amp;T contracts must run 3+ seasons)</span>
           </div>
           <div className="mb-2 text-[var(--muted)]">
             Send {teamMeta(team).name} players to {teamMeta(fa.priorTeam).name} to match {fmtM(salary)} (they can take back ≤ {fmtM(sendMatch.maxIncoming)}):
@@ -944,10 +976,20 @@ function SignEditor({
               disabled={!legalSign}
               className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-30"
             >
-              Sign {fmtM(salary)}{years > 1 ? ` × ${years}yr` : ""}
+              {fa.faType === "RFA" && !isOwn ? "Offer sheet — they decline" : `Sign ${fmtM(salary)}${years > 1 ? ` × ${years}yr` : ""}`}
             </button>
+            {fa.faType === "RFA" && !isOwn && (
+              <button
+                onClick={matchOfferSheet}
+                disabled={!legalSign}
+                title={`${teamMeta(fa.priorTeam).name} match the offer sheet — ${fa.playerName} stays at these exact terms`}
+                className="rounded-md border border-[var(--tier-taxpayer)] px-3 py-2.5 text-sm font-bold text-[var(--tier-taxpayer)] hover:bg-[var(--tier-taxpayer)] hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                {fa.priorTeam} match
+              </button>
+            )}
             {canOfferSt && (
-              <button onClick={() => setStMode(true)} className="rounded-md border border-[var(--accent)] px-3 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black">
+              <button onClick={() => { setStMode(true); setYears((y) => Math.max(3, y)); }} className="rounded-md border border-[var(--accent)] px-3 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black">
                 Sign &amp; Trade
               </button>
             )}
