@@ -1,40 +1,81 @@
 @import "tailwindcss";
 
-:root {
-  --bg: #0a0a0c;
-  --panel: #141418;
-  --panel-2: #1c1c22;
-  --border: #2a2a32;
-  --text: #ededf0;
-  --muted: #9a9aa5;
-  --accent: #a78bfa;
+/* ------------------------------------------------------------------ */
+/*  Apron — "paper cap sheet" design system                            */
+/*  Warm paper, ink text, burnt-sienna accent, mono numerals,          */
+/*  hairline rules. Editorial, not dashboard.                          */
+/* ------------------------------------------------------------------ */
 
-  /* apron tier colors */
-  --tier-below_cap: #22c55e;
-  --tier-over_cap: #38bdf8;
-  --tier-taxpayer: #f59e0b;
-  --tier-first_apron: #fb923c;
-  --tier-second_apron: #ef4444;
+:root {
+  --bg: #f4f1e9;
+  --panel: #fdfcf8;
+  --panel-2: #ece8db;
+  --border: #ddd6c3;
+  --border-strong: #b9ae91;
+  --text: #211d13;
+  --muted: #746c57;
+  --accent: #b4501e;
+  --accent-ink: #8a3a12;
+
+  /* apron tier scale (legible on paper) */
+  --tier-below_cap: #2b7a3f;
+  --tier-over_cap: #33619f;
+  --tier-taxpayer: #96690a;
+  --tier-first_apron: #b65410;
+  --tier-second_apron: #bd2828;
 }
 
 html,
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01";
 }
 
 * {
   box-sizing: border-box;
 }
 
+::selection {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+/* Cards: flat, hairline-ruled, barely rounded. */
 .panel {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(33, 29, 19, 0.04);
 }
 
+/* Numerals set in mono — the cap sheet look. */
 .tabular {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Small-caps section labels. */
+.label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Hairline divider. */
+.rule {
+  border-top: 1px solid var(--border);
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+input[type="number"],
+input[type="text"] {
   font-variant-numeric: tabular-nums;
 }

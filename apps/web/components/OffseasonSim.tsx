@@ -218,37 +218,42 @@ export default function OffseasonSim() {
 
   return (
     <div className="pb-24">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold tracking-tight">Offseason Command Center</h1>
-        <p className="mt-1 text-sm text-[var(--muted)]">
-          The full 2026-27 offseason: put any teams on the board, then trade and sign
-          — every move builds on the last, from today’s real starting point.
-        </p>
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-[26px] font-bold leading-tight tracking-tight">
+            The offseason, under the real CBA.
+          </h1>
+          <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
+            Put teams on the board, then trade, sign, extend, and renounce — every
+            move builds on the last from today&rsquo;s live rosters, and every verdict
+            cites the rule.
+          </p>
+        </div>
+        <button
+          onClick={() => setFinderOpen(true)}
+          className="rounded-md border border-[var(--accent)] px-3 py-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
+        >
+          Trade finder
+        </button>
       </div>
 
       {/* board controls */}
-      <div className="mb-3 flex flex-wrap items-center gap-2">
+      <div className="mb-3 flex flex-wrap items-center gap-1.5">
         {board.map((id) => (
-          <span key={id} className="inline-flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--panel)] px-2.5 py-1.5 text-sm font-semibold">
-            <TeamLogo id={id} size={18} />
+          <span key={id} className="inline-flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--panel)] py-1 pl-2 pr-1.5 text-[13px] font-medium">
+            <TeamLogo id={id} size={16} />
             {teamMeta(id).name}
-            <button onClick={() => removeTeam(id)} className="text-[var(--muted)] hover:text-[var(--tier-second_apron)]">✕</button>
+            <button onClick={() => removeTeam(id)} aria-label={`Remove ${teamMeta(id).name}`} className="rounded px-0.5 text-[var(--muted)] hover:bg-[var(--panel-2)] hover:text-[var(--tier-second_apron)]">✕</button>
           </span>
         ))}
         {board.length < 8 && (
-          <select value="" onChange={(e) => e.target.value && addTeam(e.target.value)} className="rounded-md border border-[var(--border)] bg-[var(--panel)] px-2.5 py-1.5 text-sm text-[var(--muted)]">
-            <option value="">+ Add team to board</option>
+          <select value="" onChange={(e) => e.target.value && addTeam(e.target.value)} className="rounded-md border border-dashed border-[var(--border-strong)] bg-transparent px-2 py-1 text-[13px] text-[var(--muted)] hover:border-[var(--text)]">
+            <option value="">+ Add team</option>
             {available.map((id) => (
               <option key={id} value={id}>{teamMeta(id).name}</option>
             ))}
           </select>
         )}
-        <button
-          onClick={() => setFinderOpen(true)}
-          className="ml-auto rounded-md border border-[var(--accent)] px-2.5 py-1.5 text-sm font-semibold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
-        >
-          🔍 Find a trade
-        </button>
       </div>
 
       {/* trade verdict */}
@@ -311,31 +316,37 @@ function TradeVerdict({
   const fairness = maxNet / totalVal; // 0 = perfectly even
   const fairLabel = fairness < 0.15 ? "Even value" : fairness < 0.4 ? "Slight edge" : "Lopsided";
   return (
-    <div className="rounded-xl border p-3" style={{ borderColor: color, background: `color-mix(in srgb, ${color} 10%, transparent)` }}>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <span className="text-base font-bold" style={{ color }}>
-            {legal ? "✅ LEGAL TRADE" : "❌ ILLEGAL"}
+    <div className="panel overflow-hidden" style={{ borderLeft: `3px solid ${color}` }}>
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
+        <div className="min-w-0">
+          <span className="label !text-[11px]" style={{ color }}>
+            {legal ? "Legal trade" : "Blocked"}
           </span>
-          {!legal && <span className="ml-2 text-sm">{firstReason}</span>}
+          {!legal && (
+            <div className="mt-0.5 text-sm leading-snug text-[var(--text)]">{firstReason}</div>
+          )}
         </div>
         {legal && (
-          <button onClick={onExecute} className="rounded-md border px-3 py-1.5 text-sm font-semibold" style={{ borderColor: color, color }}>
-            ⚡ Execute trade
+          <button
+            onClick={onExecute}
+            className="shrink-0 rounded-md px-3.5 py-1.5 text-sm font-semibold text-white hover:brightness-95"
+            style={{ background: color }}
+          >
+            Execute trade
           </button>
         )}
       </div>
       {valTeams.length >= 2 && (
-        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-[var(--border)] pt-2 text-xs">
-          <span className="font-semibold text-[var(--muted)]">Value · {fairLabel}</span>
+        <div className="rule flex flex-wrap items-center gap-x-5 gap-y-1 bg-[var(--panel-2)]/50 px-4 py-2 text-xs">
+          <span className="label">{fairLabel}</span>
           {valTeams.map(([t, v]) => {
             const net = v.in - v.out;
             const c = net > 0 ? "var(--tier-below_cap)" : net < 0 ? "var(--tier-second_apron)" : "var(--muted)";
             return (
-              <span key={t} className="tabular">
+              <span key={t} className="tabular text-[11.5px]">
                 <span className="font-semibold">{t}</span>{" "}
                 <span style={{ color: c }}>{net > 0 ? "+" : ""}{net}</span>
-                <span className="text-[var(--muted)]"> (gets {v.in} / gives {v.out})</span>
+                <span className="text-[var(--muted)]"> · in {v.in} / out {v.out}</span>
               </span>
             );
           })}
@@ -366,7 +377,7 @@ function TeamColumn({
   sel: Record<string, Sel>;
   onTogglePlayer: (id: string, from: string) => void;
   onDest: (id: string, to: string) => void;
-  picks: { id: string; label: string }[];
+  picks: { id: string; label: string; origin: string }[];
   pickSel: Record<string, Sel>;
   onTogglePick: (id: string, from: string) => void;
   onSign: () => void;
@@ -401,89 +412,97 @@ function TeamColumn({
     Math.min(m.maxSalary, m.hardCap === "first_apron" ? Math.max(0, C.firstApron - committed) : m.hardCap === "second_apron" ? Math.max(0, C.secondApron - committed) : Infinity);
 
   return (
-    <div className="panel p-4">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-2">
+    <div className="panel overflow-hidden">
+      {/* header */}
+      <div className="flex items-start justify-between gap-2 px-4 pt-3.5">
+        <div className="flex min-w-0 items-center gap-2.5">
           <TeamLogo id={teamId} size={30} />
-          <div>
-            <div className="text-base font-semibold">{meta.name}</div>
-            <div className="tabular text-xs text-[var(--muted)]">
+          <div className="min-w-0">
+            <div className="truncate text-[15px] font-semibold leading-tight">{meta.name}</div>
+            <div className="tabular mt-0.5 text-xs text-[var(--muted)]">
               {fmtFull(post)}
               {post !== pre && ` (${post > pre ? "+" : ""}${fmtM(post - pre)})`}
-              {holds > 0 && <span className="text-[var(--muted)]"> · +{fmtM(holds)} holds</span>}
+              {holds > 0 && <span> · +{fmtM(holds)} holds</span>}
             </div>
           </div>
         </div>
         <TierBadge tier={classifyTier(postCharge, C)} />
       </div>
 
-      <div className="mt-3">
+      <div className="px-4 pt-3">
         <Thermometer salary={capCharge} ghost={postCharge !== capCharge ? postCharge : undefined} c={C} />
       </div>
 
-      {/* Multi-year committed-salary cap sheet */}
-      <div className="mt-3 grid grid-cols-4 gap-1">
+      {/* four-season commitments */}
+      <div className="mx-4 mt-2.5 grid grid-cols-4 divide-x divide-[var(--border)] overflow-hidden rounded-md border border-[var(--border)]">
         {lg.multiYear(teamId).map((y) => {
           const pct = Math.max(4, Math.min(100, (y.salary / y.cap) * 100));
           const over = y.salary > y.cap;
           return (
-            <div key={y.year} className="rounded-md bg-[var(--panel-2)] p-1.5 text-center" title={`${y.year}: ${fmtFull(y.salary)} committed across ${y.players} players (proj. cap ${fmtM(y.cap)})`}>
-              <div className="text-[9px] text-[var(--muted)]">’{y.year.slice(2)}</div>
+            <div key={y.year} className="bg-[var(--panel-2)]/40 px-1.5 py-1.5 text-center" title={`${y.year}: ${fmtFull(y.salary)} committed across ${y.players} players (proj. cap ${fmtM(y.cap)})`}>
+              <div className="label !text-[9px]">’{y.year.slice(2)}</div>
               <div className="tabular text-[11px] font-semibold">{fmtM(y.salary)}</div>
-              <div className="mx-auto mt-0.5 h-1 w-full overflow-hidden rounded bg-[var(--bg)]">
-                <div className="h-full" style={{ width: `${pct}%`, background: over ? "var(--tier-first_apron)" : "var(--tier-over_cap)" }} />
+              <div className="mx-auto mt-1 h-[3px] w-full overflow-hidden rounded-full bg-[var(--border)]">
+                <div className="h-full" style={{ width: `${pct}%`, background: over ? "var(--tier-first_apron)" : "var(--border-strong)" }} />
               </div>
-              <div className="text-[8px] text-[var(--muted)]">{y.players} plyr</div>
             </div>
           );
         })}
       </div>
 
-      <div className="mt-2 flex flex-wrap gap-1">
+      {/* spending tools */}
+      <div className="flex flex-wrap gap-1 px-4 pt-2.5">
         {power.mechanisms.map((m) => {
           const used = exceptionUsed[m.id] ?? 0;
           const remaining = Math.max(0, Math.min(m.maxSalary - used, line(m)));
           return (
             <span
               key={m.id}
-              className="rounded-full border bg-[var(--panel-2)] px-1.5 py-0.5 text-[10px] font-semibold"
+              className="tabular rounded-[4px] border bg-[var(--panel)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--muted)]"
               style={{ borderColor: used > 0 ? "var(--tier-taxpayer)" : "var(--border)" }}
               title={used > 0 ? `${fmtM(used)} of the ${m.label} used` : m.citation}
             >
-              {m.label} {fmtM(remaining)}
+              {m.label} <span className="font-semibold text-[var(--text)]">{fmtM(remaining)}</span>
               {used > 0 ? " left" : ""}
             </span>
           );
         })}
       </div>
 
-      <button onClick={onSign} className="mt-3 w-full rounded-md border border-[var(--tier-below_cap)] px-2 py-1.5 text-xs font-semibold text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_12%,transparent)]">
-        + Sign a free agent
-      </button>
+      <div className="px-4 pt-3">
+        <button onClick={onSign} className="w-full rounded-md border border-[var(--tier-below_cap)] px-2 py-1.5 text-xs font-semibold text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]">
+          Sign a free agent
+        </button>
+      </div>
 
       {summary && (summary.outgoingSalary > 0 || summary.incomingSalary > 0) && (
-        <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-          <div className="rounded-md bg-[var(--panel-2)] p-2">
-            <div className="text-[var(--muted)]">Sends out</div>
-            <div className="tabular font-semibold">{fmtM(summary.outgoingSalary)}</div>
+        <div className="mx-4 mt-3 grid grid-cols-2 divide-x divide-[var(--border)] overflow-hidden rounded-md border border-[var(--border)] text-xs">
+          <div className="bg-[var(--panel-2)]/40 px-2.5 py-1.5">
+            <div className="label !text-[9px]">Sends out</div>
+            <div className="tabular mt-0.5 font-semibold">{fmtM(summary.outgoingSalary)}</div>
           </div>
-          <div className="rounded-md bg-[var(--panel-2)] p-2">
-            <div className="text-[var(--muted)]">Takes back (max {fmtM(summary.maxIncomingAllowed)})</div>
-            <div className="tabular font-semibold">{fmtM(summary.incomingSalary)}</div>
+          <div className="bg-[var(--panel-2)]/40 px-2.5 py-1.5">
+            <div className="label !text-[9px]">Takes back · max {fmtM(summary.maxIncomingAllowed)}</div>
+            <div className="tabular mt-0.5 font-semibold">{fmtM(summary.incomingSalary)}</div>
           </div>
         </div>
       )}
 
-      <div className="mt-3 max-h-[300px] space-y-1 overflow-y-auto pr-1">
+      {/* roster */}
+      <div className="mt-3 max-h-[300px] overflow-y-auto border-t border-[var(--border)]">
         {roster.map((c) => {
           const mv = sel[c.playerId];
           const out = !!mv;
           return (
-            <div key={c.playerId} className="flex items-center justify-between gap-2 rounded-md px-2.5 py-1.5 text-sm" style={{ background: out ? "color-mix(in srgb, var(--tier-second_apron) 18%, transparent)" : "var(--panel-2)" }}>
-              <button onClick={() => onTogglePlayer(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-1.5 text-left" disabled={others.length === 0}>
+            <div
+              key={c.playerId}
+              className="flex items-center justify-between gap-2 border-b border-[var(--border)]/60 px-4 py-[7px] text-[13.5px] leading-none transition-colors"
+              style={{ background: out ? "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" : undefined }}
+            >
+              <button onClick={() => onTogglePlayer(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-2 text-left hover:text-[var(--accent-ink)]" disabled={others.length === 0}>
                 <OvrPill id={c.playerId} />
                 <span className="truncate">{c.playerName}</span>
-                {c.restriction && <span title={c.restriction} className="shrink-0 rounded px-1 text-[9px] font-bold" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 16%, transparent)" }}>NO-TRADE</span>}
+                {c.restriction && <span title={c.restriction} className="shrink-0 rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>NO-TRADE</span>}
               </button>
               <div className="flex shrink-0 items-center gap-2">
                 {out && others.length > 1 ? (
@@ -491,14 +510,14 @@ function TeamColumn({
                     {others.map((t) => <option key={t} value={t}>→ {t}</option>)}
                   </select>
                 ) : (
-                  out && <span className="text-[10px] font-bold text-[var(--tier-second_apron)]">→ {mv.to}</span>
+                  out && <span className="tabular text-[10px] font-bold text-[var(--tier-second_apron)]">→ {mv.to}</span>
                 )}
                 {!out && currentSalary(c) > 0 && isExtensionEligible(c.playerName) && (
-                  <button onClick={() => onExtend(c.playerId, c.playerName)} title="Extend this contract" className="rounded border border-[var(--border)] px-1 py-0.5 text-[9px] font-bold text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]">
+                  <button onClick={() => onExtend(c.playerId, c.playerName)} title="Extend this contract" className="rounded-[3px] border border-[var(--border)] px-1 py-px text-[8.5px] font-bold tracking-[0.05em] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent-ink)]">
                     EXT
                   </button>
                 )}
-                <span className="tabular text-[var(--muted)]">{currentSalary(c) > 0 ? fmtM(currentSalary(c)) : "—"}</span>
+                <span className="tabular w-14 text-right text-xs text-[var(--muted)]">{currentSalary(c) > 0 ? fmtM(currentSalary(c)) : "—"}</span>
               </div>
             </div>
           );
@@ -506,23 +525,23 @@ function TeamColumn({
       </div>
 
       {ownFAs.length > 0 && (
-        <div className="mt-3 border-t border-[var(--border)] pt-2">
-          <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-wide text-[var(--muted)]">
-            <span>Free agents · holds</span>
-            <span className={capRoom > 0 ? "text-[var(--tier-below_cap)]" : "text-[var(--muted)]"}>
+        <div className="border-t border-[var(--border)] px-4 py-2.5">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="label">Free agents · holds</span>
+            <span className={`tabular text-[10px] font-semibold ${capRoom > 0 ? "text-[var(--tier-below_cap)]" : "text-[var(--muted)]"}`}>
               {capRoom > 0 ? `room ${fmtM(capRoom)}` : `${fmtM(holds)} in holds`}
             </span>
           </div>
-          <div className="max-h-[168px] space-y-1 overflow-y-auto pr-1">
+          <div className="max-h-[168px] space-y-px overflow-y-auto">
             {ownFAs.map((fa) => (
-              <div key={fa.playerId} className="flex items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-2.5 py-1 text-xs">
+              <div key={fa.playerId} className="flex items-center justify-between gap-2 py-[3px] text-xs">
                 <span className={`min-w-0 flex-1 truncate ${fa.renounced ? "text-[var(--muted)] line-through" : ""}`} title={`${fmtM(fa.lastSalary)} last salary`}>
                   {fa.playerName}
                 </span>
                 <span className="tabular shrink-0 text-[var(--muted)]">{fa.renounced ? "—" : fmtM(fa.hold)}</span>
                 <button
                   onClick={() => toggleRenounce(fa.playerId, fa.playerName, teamId)}
-                  className={`shrink-0 rounded border px-1.5 py-0.5 text-[9px] font-bold hover:brightness-150 ${fa.renounced ? "border-[var(--tier-below_cap)] text-[var(--tier-below_cap)]" : "border-[var(--border)] text-[var(--muted)]"}`}
+                  className={`w-[68px] shrink-0 rounded-[4px] border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.05em] ${fa.renounced ? "border-[var(--tier-below_cap)] text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]" : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]"}`}
                 >
                   {fa.renounced ? "Restore" : "Renounce"}
                 </button>
@@ -533,14 +552,21 @@ function TeamColumn({
       )}
 
       {others.length > 0 && (
-        <div className="mt-3 border-t border-[var(--border)] pt-2">
-          <div className="mb-1 text-[10px] uppercase tracking-wide text-[var(--muted)]">Draft picks (owned)</div>
+        <div className="border-t border-[var(--border)] px-4 py-2.5 pb-3">
+          <div className="label mb-1.5">Draft picks owned</div>
           <div className="flex flex-wrap gap-1">
             {picks.map((p) => {
               const mv = pickSel[p.id];
               const out = !!mv;
               return (
-                <button key={p.id} onClick={() => onTogglePick(p.id, teamId)} className="rounded px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: out ? "color-mix(in srgb, var(--tier-second_apron) 20%, transparent)" : "var(--panel-2)", color: out ? "var(--tier-second_apron)" : "var(--muted)" }}>
+                <button
+                  key={p.id}
+                  onClick={() => onTogglePick(p.id, teamId)}
+                  className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
+                  style={out
+                    ? { borderColor: "var(--tier-second_apron)", color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" }
+                    : { borderColor: "var(--border)", color: p.origin === teamId ? "var(--muted)" : "var(--accent-ink)", background: "var(--panel)" }}
+                >
                   {p.label}{out ? ` → ${mv.to}` : ""}
                 </button>
               );
@@ -570,7 +596,7 @@ function SignDrawer({ team, lg, onClose }: { team: string; lg: LG; onClose: () =
     committed + holds - (isOwnKept(fa, team) ? fa.hold : 0);
 
   return (
-    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-2xl">
+    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
       <div className="flex items-center justify-between border-b border-[var(--border)] p-4">
         <div className="flex items-center gap-2">
           <TeamLogo id={team} size={24} />
@@ -865,7 +891,7 @@ function SignEditor({
           <button
             key={n}
             onClick={() => setYears(n)}
-            className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${years === n ? "border-[var(--accent)] bg-[var(--accent)] text-black" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
+            className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${years === n ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
           >
             {n}yr
           </button>
@@ -890,7 +916,7 @@ function SignEditor({
       <div className="mb-4 rounded-md border p-3 text-xs" style={{ borderColor: v.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)", background: `color-mix(in srgb, ${v.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)"} 8%, transparent)` }}>
         <div className="mb-1 flex items-center justify-between">
           <span className="font-semibold" style={{ color: v.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
-            {v.legal ? `✓ Legal — ${v.mechanism!.label}` : "✗ Not allowed"}
+            {v.legal ? `Legal — ${v.mechanism!.label}` : "Not allowed"}
           </span>
           {v.legal && v.hardCap && (
             <span className="rounded-full px-2 py-0.5 text-[9px] font-bold" style={{ color: mColor, border: `1px solid ${mColor}` }}>
@@ -904,7 +930,7 @@ function SignEditor({
         </div>
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            ✗ {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put them at {fmtM(afterCharge)}.
+            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put them at {fmtM(afterCharge)}.
           </div>
         )}
         {fa.faType === "RFA" && !isOwn && (
@@ -915,7 +941,7 @@ function SignEditor({
         )}
         {rosterFull && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            ✗ Roster is at the 21-player offseason limit.
+            Roster is at the 21-player offseason limit.
           </div>
         )}
         {!rosterFull && rosterCount >= 15 && (
@@ -959,12 +985,12 @@ function SignEditor({
           </div>
           <div className="mt-1" style={{ color: stFullLegal ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
             {stFullLegal
-              ? "✓ Legal sign-and-trade — acquirer hard-capped at the first apron."
+              ? "Legal sign-and-trade — acquirer hard-capped at the first apron."
               : !acquirerSt.legal
-                ? `✗ ${acquirerSt.reason}`
+                ? acquirerSt.reason
                 : !acquirerOk
-                  ? `✗ ${teamMeta(team).name} can only take in ${fmtM(acquirerMatch.maxIncoming)} for ${fmtM(returnSalary)} out (${acquirerMatch.rule}) — add salary to the return package or open cap room.`
-                  : `✗ ${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(salary)} (max ${fmtM(sendMatch.maxIncoming)}).`}
+                  ? `${teamMeta(team).name} can only take in ${fmtM(acquirerMatch.maxIncoming)} for ${fmtM(returnSalary)} out (${acquirerMatch.rule}) — add salary to the return package or open cap room.`
+                  : `${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(salary)} (max ${fmtM(sendMatch.maxIncoming)}).`}
           </div>
         </div>
       )}
@@ -978,7 +1004,7 @@ function SignEditor({
             <button
               onClick={signTrade}
               disabled={!stFullLegal}
-              className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-30"
             >
               Execute S&amp;T{returnIds.size ? ` (${returnIds.size} back)` : ""}
             </button>
@@ -988,7 +1014,7 @@ function SignEditor({
             <button
               onClick={sign}
               disabled={!legalSign}
-              className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-30"
             >
               {fa.faType === "RFA" && !isOwn ? "Offer sheet — they decline" : `Sign ${fmtM(salary)}${years > 1 ? ` × ${years}yr` : ""}`}
             </button>
@@ -997,13 +1023,13 @@ function SignEditor({
                 onClick={matchOfferSheet}
                 disabled={!legalSign}
                 title={`${teamMeta(fa.priorTeam).name} match the offer sheet — ${fa.playerName} stays at these exact terms`}
-                className="rounded-md border border-[var(--tier-taxpayer)] px-3 py-2.5 text-sm font-bold text-[var(--tier-taxpayer)] hover:bg-[var(--tier-taxpayer)] hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
+                className="rounded-md border border-[var(--tier-taxpayer)] px-3 py-2.5 text-sm font-bold text-[var(--tier-taxpayer)] hover:bg-[var(--tier-taxpayer)] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
               >
                 {fa.priorTeam} match
               </button>
             )}
             {canOfferSt && (
-              <button onClick={() => { setStMode(true); setYears((y) => Math.max(3, y)); }} className="rounded-md border border-[var(--accent)] px-3 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black">
+              <button onClick={() => { setStMode(true); setYears((y) => Math.max(3, y)); }} className="rounded-md border border-[var(--accent)] px-3 py-2.5 text-sm font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white">
                 Sign &amp; Trade
               </button>
             )}
@@ -1078,7 +1104,7 @@ function ExtendDrawer({
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-2xl">
+    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
       <div className="flex items-center justify-between border-b border-[var(--border)] p-4">
         <div className="flex items-center gap-2">
           <TeamLogo id={team} size={24} />
@@ -1125,7 +1151,7 @@ function ExtendDrawer({
             <button
               key={n}
               onClick={() => setYears(n)}
-              className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${years === n ? "border-[var(--accent)] bg-[var(--accent)] text-black" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
+              className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${years === n ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
             >
               +{n}yr
             </button>
@@ -1147,7 +1173,7 @@ function ExtendDrawer({
 
         <button
           onClick={doExtend}
-          className="rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-black"
+          className="rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95"
         >
           Extend · {fmtM(clamped)} × {years}yr
         </button>
@@ -1191,7 +1217,7 @@ function TradeFinderDrawer({
   );
 
   return (
-    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-2xl">
+    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
       <div className="flex items-center justify-between border-b border-[var(--border)] p-4">
         <div className="text-sm font-semibold">🔍 Trade finder</div>
         <button onClick={onClose} className="text-[var(--muted)] hover:text-[var(--text)]">✕</button>
@@ -1243,7 +1269,7 @@ function TradeFinderDrawer({
                   <span className="tabular">out {fmtM(pkg.outSalary)} · value {pkg.valueGiven}</span>
                   <button
                     onClick={() => onLoad(acquirer, pkg.seller, target.playerId, pkg.players.map((p) => p.playerId))}
-                    className="rounded border border-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
+                    className="rounded border border-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
                   >
                     Load into board
                   </button>

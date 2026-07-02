@@ -1,97 +1,103 @@
 # Apron
 
-**An NBA trade & free-agency simulator that actually encodes the 2023 CBA.**
+**The NBA offseason, under the real CBA.**
 
-Build any trade, sign any free agent, and get an instant legal/illegal verdict —
-with the rule that explains *why*. The wedge: every public tool (ESPN, Spotrac,
-Fanspo, RealGM) is strong at salary-matching and weak-to-absent at the two things
-front offices actually care about — **correct apron enforcement** and
-**free-agency sequencing** (cap holds, order-of-operations, exception
-consumption, the hard cap a move *triggers*). No public tool models a *sequence*
-of offseason moves as a first-class object. That's the gap.
+Apron is a trade machine and free-agency simulator that actually enforces the
+2023 collective bargaining agreement. Build any trade, sign any free agent,
+extend, renounce, and run a full offseason — every move builds on the last from
+live rosters, and every verdict tells you *which rule* made it legal or illegal.
 
-> Salary figures are facts (legal to publish, per *Feist* / *NBA v. Motorola*).
-> This project is not affiliated with, endorsed by, or sponsored by the NBA or
-> NBPA. No team logos or player likenesses are used.
+Most trade machines check salary matching and stop. Apron enforces the rules
+that actually decide deals in the apron era:
 
-## Status
+- **Apron system** — first/second-apron tiers with strict "exceeds" boundaries,
+  100% matching for apron teams, second-apron prohibitions (no aggregation via a
+  true bin-packing test, no cash out, no sign-and-trade acquisitions), and
+  **hard caps that persist**: use the Non-Taxpayer MLE and every later signing
+  and trade is checked against the first apron for the rest of the year.
+- **Trade matching** — the expanded bands (200% + $250k / +$7.5M / 125% + $250k),
+  below-cap room absorption, trade kickers, base-year compensation, and the full
+  trade-freeze calendar (rookies 30 days, offseason signings Dec 15, over-cap
+  Bird raises Jan 15, out-of-bounds extensions 6 months, matched RFAs one year).
+- **Free agency** — Bird / Early-Bird / Non-Bird ceilings with each player's
+  real rights status, cap holds by Bird type, renouncing (with Bird rights
+  forfeited), MLE/BAE/room gating and consumption, max-salary tiers, restricted
+  free agency with the Gilbert Arenas cap and a real offer-sheet **match flow**.
+- **Sign-and-trade, both sides** — 3–4 season term, first-apron hard cap, the
+  old team's salary-matching on the return package, and the acquirer's
+  room-or-matching requirement.
+- **Draft picks as real assets** — a pick-ownership ledger where executed trades
+  transfer picks, valued sensibly in the fairness meter, with the Stepien rule
+  checked against full inventory (including picks you traded three moves ago).
+- **A trade finder** — pick a target and it searches the acquirer's roster for
+  every package that survives the full rulebook, ranked by fit and value given.
 
-Early build. The **CBA rules engine** (`packages/cba-engine`) is the moat and is
-being built first, with golden tests, before any UI.
+## Accuracy
 
-- ✅ League-year constants (2025-26 **official**; 2026-27 **projection**, flagged)
-- ✅ Cap-sheet derivation + apron-tier classification
-- ✅ Trade salary-matching (expanded bands below the apron; strict 100% at/above)
-- ✅ Hard-cap-on-trigger (expanded matching can't vault you over the first apron)
-- ✅ Second-apron prohibitions (no aggregation, no cash-out) with cited reasons
-- ✅ **Real data** — 509 contracts across all 30 teams scraped from
-  Basketball-Reference (`packages/data`, multi-year salaries)
-- ✅ **Web app** (`apps/web`, Next.js) — League Cap Board (apron thermometers) +
-  interactive Trade Machine with live legal/illegal verdicts and explanations
-- ⏳ Free-agency signing sim (exceptions + Bird rights + cap-hold order-of-ops)
-- ⏳ Dead-money/guarantee pass (subtract non-guaranteed/dead rows from team totals)
-- ⏳ Multi-team (3-5) trades, draft-pick ledger, shareable trade cards
-- ⏳ TPEs, trade kickers, base-year comp, poison-pill, sign-and-trade
+Two kinds of proof back every verdict:
 
-## Architecture
+1. **Text verification** — the engine's constants and formulas are asserted
+   against the CBA's own definitions in unit tests (exception amounts as % of
+   cap, max-salary tiers, matching bands), and each rule carries its
+   Article/Section citation into the UI.
+2. **Reality replay** — `apps/web/lib/realmoves.test.ts` reconstructs real 2026
+   free-agency transactions (trades, sign-and-trades, signings) against their
+   pre-move state and asserts the engine calls them legal. Real moves are legal
+   by definition; a rejection is a bug. The suite runs on every push.
 
-A TypeScript monorepo. The heart is `packages/cba-engine`: a **pure, I/O-free**
-rules engine that runs **identically in the browser** (instant simulation) **and
-on the server** (canonical validation, so a shared link can't smuggle in an
-illegal trade).
+What's approximated or not yet modeled is documented in the app at
+[`/accuracy`](apps/web/app/accuracy/page.tsx) — pick protections/swaps, TPEs as
+expiring objects, designated-player criteria, and a few data-precision notes.
 
-- A team's salary / apron tier / room are **never stored** — always *derived*
-  from contracts via pure functions. Deterministic and replayable.
-- League-year dollar thresholds live in **one versioned file per season**
-  (`src/constants/`). The annual July update = swap constants + re-run golden tests.
-- Every legality verdict carries a **plain-English reason + a CBA citation**, so
-  the UI can always explain *why*.
+## Stack
 
-## Quickstart
+pnpm + TypeScript monorepo:
 
-```bash
-pnpm install
-pnpm --filter @apron/cba-engine test       # 23 golden + unit tests
-pnpm --filter @apron/cba-engine typecheck
-pnpm --filter @apron/cba-engine demo        # prints a cited legal/illegal verdict
+```
+packages/cba-engine   Pure, dependency-free rules engine (validateTrade,
+                      validateSigning, sign-and-trade, extensions, provisions)
+                      — 81 unit tests, every check returns a reason + citation
+packages/data         League data: contracts, transactions, free-agent rights,
+                      draft picks, player ratings, plus the refresh scripts
+apps/web              Next.js app — the offseason board, drawers, trade finder,
+                      league cap board, and shareable sessions
 ```
 
-### Using the engine
+The engine is I/O-free and runs identically in the browser (instant simulation)
+and on the server. Team salary, apron tier, and room are never stored — always
+derived from contracts, so sessions are deterministic and replayable.
+League-year dollar thresholds live in one versioned file per season; the annual
+July update is a constants swap plus a green test run.
 
 ```ts
-import { validateTrade, SEASON_2025_26, capSheet } from "@apron/cba-engine";
+import { validateTrade, SEASON_2026_27 } from "@apron/cba-engine";
 
-const verdict = validateTrade(leagueData, trade, SEASON_2025_26);
+const verdict = validateTrade(leagueData, trade, SEASON_2026_27);
 if (!verdict.legal) {
   for (const v of verdict.violations) console.log(v.reason, "—", v.citation);
 }
 ```
 
-## Verified CBA reference (the engine's source of truth)
+## Develop
 
-**2025-26 (official, exact):** cap `$154,647,000` · tax `$187,895,000` · first
-apron `$195,945,000` · second apron `$207,824,000` · floor `$139,182,300`.
-Non-Tax MLE `$14,104,000` · Taxpayer MLE `$5,685,000` · Room MLE `$8,781,000` ·
-BAE `$5,134,000`. Max salary 25/30/35% = `$38.66M / $46.39M / $54.13M`.
+```bash
+pnpm install
+pnpm --filter @apron/web dev          # http://localhost:3000
+pnpm -r test                          # engine + app suites
+pnpm --filter @apron/web typecheck
+```
 
-**2026-27 (projection until the July cap memo):** cap ~`$165M` · tax ~`$201M` ·
-first apron ~`$209M` · second apron ~`$222M`. ~7% growth (below the 10% smoothing
-max) after a local-media revenue dip. **Do not treat as final** — the engine
-derives the cap-linked figures (tax/floor/max) from the official cap when posted;
-the aprons are separately specified and must come from the memo.
+Data refresh: the scripts in `packages/data/scripts/` rebuild the JSON
+snapshots from public sources (set `FIRECRAWL_API_KEY` in your environment for
+sources that need a rendering proxy), then commit the updated JSON.
 
-**Salary matching (current 2023 CBA):**
-- Below the first apron: outgoing ≤ $7.5M → 200% + $250k; $7.5M–$29M → outgoing +
-  $7.5M; > $29M → 125% + $250k.
-- At/above either apron: strict **100%** (the 110% figure was a 2023-24
-  transition-only rule and is dead — a common bug in competing machines).
-- Second apron additionally: **no aggregation**, no cash out, no MLE, no S&T
-  acquisition, frozen pick 7 years out.
+## Deploy
 
-## License / data posture
+See [DEPLOY.md](DEPLOY.md) — it's a standard Next.js app; on Vercel set the
+project root to `apps/web`.
 
-Code: TBD. Player names + salaries are facts and publishable. The real exposure
-is trademark/likeness — avoid official logos and headshots; carry the NBA/NBPA
-disclaimer. Contract data will come from **free/open sources only** (no paid
-APIs); ToS-prohibited scrape-and-redistribute sources (Spotrac,
-Basketball-Reference) are off the table for the public build.
+## Status & data posture
+
+Active personal project, built during the 2026 offseason. Player names and
+salary figures are facts compiled from publicly available sources. Not
+affiliated with, endorsed by, or sponsored by the NBA or the NBPA.

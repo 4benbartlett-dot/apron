@@ -249,6 +249,14 @@
       "aav": 6215600,
       "status": "Signed"
     },
+    "anfernee simons": {
+      "name": "Anfernee Simons",
+      "team": "PHI",
+      "years": 2,
+      "total": 12247178,
+      "aav": 6123589,
+      "status": "Signed"
+    },
     "precious achiuwa": {
       "name": "Precious Achiuwa",
       "team": "SAC",
@@ -321,6 +329,14 @@
       "aav": 6500000,
       "status": "Signed"
     },
+    "kenrich williams": {
+      "name": "Kenrich Williams",
+      "team": "OKC",
+      "years": 1,
+      "total": 5000000,
+      "aav": 5000000,
+      "status": "Signed"
+    },
     "alijah martin": {
       "name": "Alijah Martin",
       "team": "TOR",
@@ -340,6 +356,14 @@
     "nikola vucevic": {
       "name": "Nikola Vucevic",
       "team": "ORL",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "kyle anderson": {
+      "name": "Kyle Anderson",
+      "team": "TOR",
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
@@ -367,6 +391,14 @@
       "years": 1,
       "total": 3524948,
       "aav": 3524948,
+      "status": "Signed"
+    },
+    "marvin bagley": {
+      "name": "Marvin Bagley III",
+      "team": "DEN",
+      "years": 1,
+      "total": 3506659,
+      "aav": 3506659,
       "status": "Signed"
     },
     "jevon carter": {
@@ -425,6 +457,14 @@
       "aav": 678882,
       "status": "Signed"
     },
+    "colin castleton": {
+      "name": "Colin Castleton",
+      "team": "ORL",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
     "jonathan mogbo": {
       "name": "Jonathan Mogbo",
       "team": "SAC",
@@ -436,6 +476,14 @@
     "chucky hepburn": {
       "name": "Chucky Hepburn",
       "team": "TOR",
+      "years": 1,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
+    },
+    "enrique freeman": {
+      "name": "Enrique Freeman",
+      "team": "MIN",
       "years": 1,
       "total": 0,
       "aav": 0,
