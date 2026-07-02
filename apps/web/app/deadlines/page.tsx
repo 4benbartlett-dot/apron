@@ -11,7 +11,7 @@ export default function DeadlinesPage() {
         <h1 className="text-2xl font-bold tracking-tight">Deadlines & Eligibility</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Upcoming option/guarantee decisions and extension-eligible players —
-          live from Spotrac (via Firecrawl).
+          compiled from public reporting.
         </p>
       </div>
 

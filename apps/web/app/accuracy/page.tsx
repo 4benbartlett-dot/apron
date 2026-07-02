@@ -8,7 +8,7 @@ const MODELED = [
   "Second apron: no aggregation (bin-packing combination test), no cash out; exact-boundary tiers use strict 'exceeds'",
   "Exception gating by apron tier: cap room, NT-MLE, Taxpayer MLE, Room MLE, BAE, minimum, Bird",
   "Maximum-salary tiers by years of service (25% / 30% / 35%)",
-  "Bird / Early-Bird / Non-Bird re-signing ceilings (175% / 120%-of-prior-or-min, etc.), with each FA's real Bird status + UFA/RFA from Spotrac",
+  "Bird / Early-Bird / Non-Bird re-signing ceilings (175% / 120%-of-prior-or-min, etc.), with each FA's real Bird-rights status and UFA/RFA designation",
   "Multi-year committed-salary cap sheet (4 seasons per team)",
   "Veteran extension & extend-and-trade first-year ceilings (140% / 120% of prior-or-estimated-average)",
   "Renegotiation ceiling (under-cap teams only, raise limited to cap room) and the stretch provision (2N+1 years, 15%-of-cap guardrail)",
@@ -32,7 +32,7 @@ const MODELED = [
 ];
 
 const APPROXIMATE = [
-  "Bird sub-type comes from Spotrac free-agent data for ~half of free agents; the rest default to full Bird",
+  "Bird sub-type is sourced from public free-agent listings for ~half of free agents; the rest default to full Bird",
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Team salary totals include some non-guaranteed / dead-money rows from the source",
   "Years of service covers ~91% of players; the rest default to a mid-career value",
@@ -89,7 +89,7 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet —
-          verified by 50 golden tests and a multi-agent CBA stress-test. No hand-waving.
+          verified by 100 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

@@ -1219,7 +1219,7 @@ function TradeFinderDrawer({
   return (
     <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
       <div className="flex items-center justify-between border-b border-[var(--border)] p-4">
-        <div className="text-sm font-semibold">🔍 Trade finder</div>
+        <div className="text-sm font-semibold">Trade finder</div>
         <button onClick={onClose} className="text-[var(--muted)] hover:text-[var(--text)]">✕</button>
       </div>
 

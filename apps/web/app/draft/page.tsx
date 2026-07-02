@@ -40,7 +40,7 @@ export default function DraftPicksPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Draft-Pick Ledger</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            Every team’s future picks — owed, owned, swaps, and protections (RealGM via Firecrawl).
+            Every team’s future picks — owed, owned, swaps, and protections.
           </p>
         </div>
         <select

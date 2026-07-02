@@ -145,7 +145,7 @@ export default function TradeBuilder() {
                 onClick={execute}
                 className="rounded-md border border-[var(--tier-below_cap)] bg-[color-mix(in_srgb,var(--tier-below_cap)_15%,transparent)] px-3 py-1.5 text-sm font-semibold text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_25%,transparent)]"
               >
-                ⚡ Execute trade
+                Execute trade
               </button>
             )}
           </div>
@@ -215,8 +215,8 @@ export default function TradeBuilder() {
 function VerdictBanner({ hasMoves, legal, violations }: { hasMoves: boolean; legal: boolean; violations: string[] }) {
   if (!hasMoves)
     return <Banner color="var(--muted)" title="Build a trade" sub="Click players to send them out; pick where they land if 3+ teams." />;
-  if (legal) return <Banner color="var(--tier-below_cap)" title="✅ LEGAL TRADE" sub="Satisfies all salary-matching and apron rules. Execute to add it to your offseason." />;
-  return <Banner color="var(--tier-second_apron)" title="❌ ILLEGAL TRADE" sub={violations[0]} />;
+  if (legal) return <Banner color="var(--tier-below_cap)" title="LEGAL TRADE" sub="Satisfies all salary-matching and apron rules. Execute to add it to your offseason." />;
+  return <Banner color="var(--tier-second_apron)" title="ILLEGAL TRADE" sub={violations[0]} />;
 }
 
 function Banner({ color, title, sub }: { color: string; title: string; sub?: string }) {
