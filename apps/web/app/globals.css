@@ -7,6 +7,7 @@
 /* ------------------------------------------------------------------ */
 
 :root {
+  color-scheme: light;
   --bg: #f4f1e9;
   --panel: #fdfcf8;
   --panel-2: #ece8db;
@@ -23,6 +24,29 @@
   --tier-taxpayer: #96690a;
   --tier-first_apron: #b65410;
   --tier-second_apron: #bd2828;
+}
+
+/* Night ledger: same paper idiom, lamplight version. Warm ink background,
+   aged-paper text, tier colors brightened to hold contrast. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #17140e;
+    --panel: #201c13;
+    --panel-2: #2b261a;
+    --border: #3b3424;
+    --border-strong: #5d5439;
+    --text: #ece7d8;
+    --muted: #a69c80;
+    --accent: #d06a2e;
+    --accent-ink: #e0834a;
+
+    --tier-below_cap: #5cb572;
+    --tier-over_cap: #82aadd;
+    --tier-taxpayer: #d1a339;
+    --tier-first_apron: #e07f40;
+    --tier-second_apron: #e26060;
+  }
 }
 
 html,
@@ -157,4 +181,66 @@ input[type="text"] {
   .stamp-in { transform: rotate(-4deg) !important; }
   .logo-arc { animation: none !important; stroke-dashoffset: 0 !important; }
   .team-pick, .team-pick:hover, .team-pick:active { transform: none; transition: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Paper craft                                                        */
+/* ------------------------------------------------------------------ */
+
+/* Paper grain over everything — barely there, but the page stops being
+   a flat fill. Multiplies in daylight, sits as dust at night. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='11'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 280px 280px;
+}
+@media (prefers-color-scheme: dark) {
+  body::after {
+    mix-blend-mode: screen;
+    opacity: 0.05;
+  }
+}
+
+/* Ledger header rule: a strong line over a hairline, like the top of a
+   column ledger. */
+.ledger-rule {
+  position: relative;
+}
+.ledger-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background:
+    linear-gradient(var(--border-strong), var(--border-strong)) top / 100% 1.5px no-repeat,
+    linear-gradient(var(--border), var(--border)) bottom / 100% 1px no-repeat;
+}
+
+/* Accounting total: the double rule under a summed figure. */
+.total-rule {
+  border-bottom: 3px double var(--border-strong);
+  padding-bottom: 1px;
+}
+
+/* Receipt tear line (share card footer). */
+.tear {
+  border-top: 1px dashed var(--border-strong);
+}
+
+/* Ledger rows warm slightly under the pen. */
+.ledger-row:hover {
+  background: color-mix(in srgb, var(--panel-2) 55%, transparent);
+}
+
+/* iOS bottom bar clearance. */
+.safe-bottom {
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
 }

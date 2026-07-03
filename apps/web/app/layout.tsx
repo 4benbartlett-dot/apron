@@ -1,8 +1,9 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GmBar } from "@/components/GmBar";
+import { BrandLink } from "@/components/BrandLink";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -34,6 +35,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
+export const viewport: Viewport = {
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f1e9" },
+    { media: "(prefers-color-scheme: dark)", color: "#17140e" },
+  ],
+};
+
 const NAV = [
   { href: "/", label: "Offseason" },
   { href: "/league", label: "League" },
@@ -50,41 +59,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>
-        <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur">
+        <header className="ledger-rule sticky top-0 z-20 bg-[var(--bg)]/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">
-            <Link href="/" className="flex shrink-0 items-center gap-2">
-              <svg
-                width="26"
-                height="26"
-                viewBox="0 0 64 64"
-                className="shrink-0"
-                aria-hidden
-              >
-                <rect width="64" height="64" rx="14" fill="var(--text)" />
-                <line
-                  x1="11"
-                  y1="41"
-                  x2="53"
-                  y2="41"
-                  stroke="var(--accent)"
-                  strokeWidth="4.5"
-                  strokeDasharray="7.5 6"
-                  strokeLinecap="round"
-                />
-                <path
-                  className="logo-arc"
-                  d="M13 54 C 20 25, 37 14, 50 22"
-                  fill="none"
-                  stroke="var(--bg)"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                />
-                <circle className="logo-ball" cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
-              </svg>
-              <span className="text-[17px] font-semibold tracking-tight">
-                Over the Apron
-              </span>
-            </Link>
+            <BrandLink />
             <span className="hidden h-4 w-px shrink-0 bg-[var(--border-strong)] sm:block" />
             <nav className="flex shrink-0 items-center gap-0.5 whitespace-nowrap text-[13.5px]">
               {NAV.map((n, i) => (
