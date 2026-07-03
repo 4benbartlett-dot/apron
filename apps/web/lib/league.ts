@@ -212,6 +212,22 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
   const signed: string[] = [];
   for (const t of TRANSACTIONS) {
     if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    // Two-way deals carry no cap salary — move the player out of the FA pool
+    // (old team keeps no hold) into the new team's two-way slot.
+    if (/two-way contract/i.test(t.detail)) {
+      const k = norm(t.player);
+      const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+      const c = byName.get(k);
+      if (seen.has(k) || !teamM || !c) continue;
+      const team = stdTeam(teamM[1]!);
+      if (!VALID_TEAMS.has(team)) continue;
+      seen.add(k);
+      c.teamId = team;
+      c.signedUsing = "Two-Way";
+      c.restriction = undefined;
+      signed.push(`${c.playerName} → ${team} (two-way)`);
+      continue;
+    }
     // Must be an actual term/dollar contract (skip qualifying offers, options…).
     if (!/\d+\s*year|\$[\d.]+\s*million/i.test(t.detail)) continue;
     const k = norm(t.player);
@@ -476,7 +492,10 @@ export interface FreeAgent {
 export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
   return contracts
     .filter(
-      (c) => salaryForYear(c, "2025-26") > 0 && salaryForYear(c, "2026-27") === 0,
+      (c) =>
+        salaryForYear(c, "2025-26") > 0 &&
+        salaryForYear(c, "2026-27") === 0 &&
+        c.signedUsing !== "Two-Way",
     )
     .map((c) => {
       const lastSalary = salaryForYear(c, "2025-26");

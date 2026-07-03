@@ -2,6 +2,7 @@ import type { Contract, LeagueData } from "@apron/cba-engine";
 import raw from "./contracts-2025-26.json";
 import rookiesRaw from "./rookies-2026.json";
 import transactionsRaw from "./transactions.json";
+import manualMovesRaw from "./manual-moves.json";
 import upcomingRaw from "./upcoming-deadlines.json";
 import extEligibleRaw from "./extension-eligible.json";
 import draftPicksRaw from "./draft-picks.json";
@@ -65,8 +66,12 @@ export interface Transaction {
 }
 
 /** Recent NBA transactions (Spotrac via Firecrawl). */
-export const TRANSACTIONS = (transactionsRaw as { transactions: Transaction[] })
-  .transactions;
+// Feed rows first (newest-first); manually curated breaking moves appended so a
+// later feed row for the same player supersedes the manual entry.
+export const TRANSACTIONS = [
+  ...(transactionsRaw as { transactions: Transaction[] }).transactions,
+  ...(manualMovesRaw as { transactions: Transaction[] }).transactions,
+];
 
 export interface DeadlineRow {
   date: string;
