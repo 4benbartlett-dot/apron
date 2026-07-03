@@ -267,6 +267,22 @@ describe("extension vs. FA-signing trade eligibility (CBA §8(d)/(f))", () => {
   });
 });
 
+// ------------------------- MANUAL-MOVES OVERLAY -------------------------------
+
+describe("manual-moves overlay + two-way reconciliation", () => {
+  it("Pat Spencer's two-way with CLE lands before the feeds carry it", () => {
+    const c = find("Pat Spencer");
+    expect(c.teamId).toBe("CLE");
+    expect(c.signedUsing).toBe("Two-Way");
+    // No cap salary, no Dec-15 freeze — and he's out of GSW's FA pool.
+    expect(c.years.some((y) => y.leagueYear === "2026-27" && y.salary > 0)).toBe(false);
+    expect(c.restriction).toBeUndefined();
+    expect(
+      freeAgentsOf(BASE_CONTRACTS).some((fa) => fa.playerName === "Pat Spencer"),
+    ).toBe(false);
+  });
+});
+
 // ---------------------------- VALUE PRIORS -----------------------------------
 
 describe("value priors on the real blockbusters", () => {
