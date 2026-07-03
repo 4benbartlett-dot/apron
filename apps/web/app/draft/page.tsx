@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DRAFT_PICKS, type DraftPick } from "@apron/data";
-import { TEAM_IDS, teamMeta } from "@/lib/league";
+import { TEAM_IDS, teamMeta, byNickname } from "@/lib/league";
 
 function isFirst(p: DraftPick) {
   return /first round/i.test(p.headline);
@@ -30,7 +30,7 @@ function PickRow({ p }: { p: DraftPick }) {
 }
 
 export default function DraftPicksPage() {
-  const teamsWithPicks = TEAM_IDS.filter((id) => DRAFT_PICKS[id]);
+  const teamsWithPicks = TEAM_IDS.filter((id) => DRAFT_PICKS[id]).sort(byNickname);
   const [team, setTeam] = useState(teamsWithPicks.includes("BKN") ? "BKN" : teamsWithPicks[0]!);
   const picks = DRAFT_PICKS[team] ?? { incoming: [], outgoing: [] };
 

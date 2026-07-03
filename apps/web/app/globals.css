@@ -254,3 +254,15 @@ body::after {
   box-shadow: 0 12px 32px rgba(33, 29, 19, 0.22);
   animation: fade-up 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+/* Dotted affordance for tappable text terms. */
+.term-underline {
+  border-bottom: 1px dotted var(--border-strong);
+}
+
+/* During PNG capture: html-to-image can't resolve the stamp's turbulence
+   mask (url(#n) inside a data URI), so drop the ink texture for the shot. */
+.capture .stamp {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}

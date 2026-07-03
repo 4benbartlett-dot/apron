@@ -6,7 +6,6 @@ export function TeamLogo({ id, size = 28 }: { id: string; size?: number }) {
       alt={id}
       width={size}
       height={size}
-      loading="lazy"
       style={{ objectFit: "contain", flexShrink: 0 }}
     />
   );

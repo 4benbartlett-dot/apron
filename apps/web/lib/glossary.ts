@@ -92,6 +92,28 @@ export const GLOSSARY = {
     cite: "2023 CBA · Art. VII §6(i)",
   },
 
+  // ---- cap-sheet numbers ---------------------------------------------------
+  committed_salary: {
+    title: "Committed salary",
+    body: "The sum of every guaranteed salary a team has on the books for a season — the number measured against the cap, tax, and aprons. For signing purposes the league also counts your own free agents' cap holds until they're re-signed or renounced.",
+    cite: "2023 CBA · Art. VII §1",
+  },
+  max_salary: {
+    title: "Maximum salary",
+    body: "A player's max is a share of the cap set by experience: 25% with 0–6 years of service, 30% with 7–9, 35% with 10+. A team re-signing its own player can always offer at least 105% of his previous salary, even past those lines.",
+    cite: "2023 CBA · Art. II §7",
+  },
+  yos: {
+    title: "Years of service",
+    body: "Seasons on an NBA roster. It sets a player's minimum salary, his maximum-salary tier (25/30/35% of cap), Bird-rights eligibility, and which special rules apply — like the Gilbert Arenas cap on offer sheets to 1st/2nd-year restricted free agents.",
+    cite: "2023 CBA · Art. II",
+  },
+  raises: {
+    title: "Raises",
+    body: "Multi-year deals step up from the first-year salary: 8% annual raises when a team re-signs its own free agent with Bird or Early-Bird rights, 5% for everyone else (outside signings, cap room, exceptions). That first-year number is what all the rules test.",
+    cite: "2023 CBA · Art. VII §5",
+  },
+
   // ---- trade rules ---------------------------------------------------------
   matching: {
     title: "Salary matching",

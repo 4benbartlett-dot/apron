@@ -2,7 +2,9 @@ import { UPCOMING_DEADLINES, EXTENSION_ELIGIBLE } from "@apron/data";
 import { fmtFull } from "@/lib/format";
 
 export default function DeadlinesPage() {
-  const deadlines = UPCOMING_DEADLINES.filter((r) => r.kind && r.kind !== "EXTENSION ELIGIBLE");
+  const deadlines = UPCOMING_DEADLINES.filter(
+    (r) => r.kind && r.kind !== "EXTENSION ELIGIBLE",
+  ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   const ext = EXTENSION_ELIGIBLE;
 
   return (

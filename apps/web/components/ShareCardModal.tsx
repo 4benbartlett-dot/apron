@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { toPng } from "html-to-image";
 import { MATCH_RULE_LABEL, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
@@ -36,6 +37,7 @@ export function ShareCardModal({
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -100,18 +102,34 @@ export function ShareCardModal({
     }
   };
 
+  // Renders THE CARD ITSELF (exactly what's on screen) to a PNG. Falls back
+  // to the server-rendered OG card if in-browser rendering stalls.
   const downloadImage = async () => {
+    const node = cardRef.current;
+    if (!node) return;
     setDownloading(true);
+    const name = `over-the-apron-${legal ? "legal" : "blocked"}-${involved.map((t) => t.teamId).join("-")}.png`;
+    const save = (href: string) => {
+      const a = document.createElement("a");
+      a.href = href;
+      a.download = name;
+      a.click();
+    };
+    node.classList.add("capture");
     try {
+      const url = await Promise.race([
+        toPng(node, { pixelRatio: 2, style: { maxHeight: "none", overflow: "visible" } }),
+        new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
+      ]);
+      save(url);
+    } catch {
       const res = await fetch(`/api/og?t=${encodeURIComponent(token)}`);
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `over-the-apron-${legal ? "legal" : "blocked"}-${involved.map((t) => t.teamId).join("-")}.png`;
-      a.click();
+      save(url);
       URL.revokeObjectURL(url);
     } finally {
+      node.classList.remove("capture");
       setDownloading(false);
     }
   };
@@ -131,7 +149,7 @@ export function ShareCardModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* the card */}
-        <div className="relative overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-[0_24px_64px_rgba(33,29,19,0.35)]">
+        <div ref={cardRef} className="relative overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-[0_24px_64px_rgba(33,29,19,0.35)]">
           {/* masthead */}
           <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-3">
             <div className="flex items-center gap-2">
