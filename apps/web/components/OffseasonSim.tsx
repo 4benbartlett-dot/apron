@@ -15,7 +15,8 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, currentSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
+import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -51,9 +52,9 @@ function ValuePill({ c }: { c?: Contract }) {
   if (v == null) return null;
   const col = valueColor(v);
   return (
-    <span className="tabular shrink-0 rounded px-1 text-[9px] font-bold" style={{ color: col, background: `color-mix(in srgb, ${col} 16%, transparent)` }} title={`Trade value ${v}/99 — production vs. contract (not a player rating)`}>
-      {v}
-    </span>
+    <Term k="trade_value" extra={`this player rates ${v}/99.`} className="tabular shrink-0 rounded px-1 text-[9px] font-bold" >
+      <span style={{ color: col, background: `color-mix(in srgb, ${col} 16%, transparent)` }} className="rounded px-1">{v}</span>
+    </Term>
   );
 }
 
@@ -85,7 +86,7 @@ export default function OffseasonSim() {
   const [finderOpen, setFinderOpen] = useState(false);
 
   // Stage a found trade package onto the board (adds both teams + selects moves).
-  const loadTradePackage = (acquirer: string, seller: string, targetId: string, playerIds: string[]) => {
+  const loadTradePackage = (acquirer: string, seller: string, targetId: string, playerIds: string[], sweetenerIds: string[] = []) => {
     setBoard((b) => {
       const next = [...b];
       for (const t of [acquirer, seller]) if (!next.includes(t) && next.length < 8) next.push(t);
@@ -93,6 +94,7 @@ export default function OffseasonSim() {
     });
     setSel(() => {
       const s: Record<string, Sel> = { [targetId]: { from: seller, to: acquirer } };
+      for (const pid of sweetenerIds) s[pid] = { from: seller, to: acquirer };
       for (const pid of playerIds) s[pid] = { from: acquirer, to: seller };
       return s;
     });
@@ -235,7 +237,7 @@ export default function OffseasonSim() {
     setPickSel({});
   };
 
-  const available = TEAM_IDS.filter((t) => !board.includes(t));
+  const available = TEAM_IDS.filter((t) => !board.includes(t)).sort(byNickname);
   const sharePicks: DecodedPick[] = Object.entries(pickSel)
     .filter(([, mv]) => board.includes(mv.from) && board.includes(mv.to))
     .map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
@@ -404,7 +406,7 @@ function TradeVerdict({
       </div>
       {valTeams.length >= 2 && (
         <div className="rule flex flex-wrap items-center gap-x-5 gap-y-1 bg-[var(--panel-2)]/50 px-4 py-2 text-xs">
-          <span className="label">{fairLabel}</span>
+          <Term k="trade_value" className="label">{fairLabel}</Term>
           {valTeams.map(([t, v]) => {
             const net = v.in - v.out;
             const c = net > 0 ? "var(--tier-below_cap)" : net < 0 ? "var(--tier-second_apron)" : "var(--muted)";
@@ -492,7 +494,9 @@ function TeamColumn({
             </div>
           </div>
         </div>
-        <TierBadge tier={classifyTier(postCharge, C)} />
+        <Term k={classifyTier(postCharge, C)}>
+          <TierBadge tier={classifyTier(postCharge, C)} />
+        </Term>
       </div>
 
       <div className="px-4 pt-3">
@@ -522,15 +526,19 @@ function TeamColumn({
           const used = exceptionUsed[m.id] ?? 0;
           const remaining = Math.max(0, Math.min(m.maxSalary - used, line(m)));
           return (
-            <span
+            <Term
               key={m.id}
-              className="tabular rounded-[4px] border bg-[var(--panel)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--muted)]"
-              style={{ borderColor: used > 0 ? "var(--tier-taxpayer)" : "var(--border)" }}
-              title={used > 0 ? `${fmtM(used)} of the ${m.label} used` : m.citation}
+              k={m.id}
+              extra={used > 0 ? `${fmtM(used)} already used this offseason; ${fmtM(remaining)} left.` : undefined}
             >
-              {m.label} <span className="font-semibold text-[var(--text)]">{fmtM(remaining)}</span>
-              {used > 0 ? " left" : ""}
-            </span>
+              <span
+                className="tabular inline-block rounded-[4px] border bg-[var(--panel)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--muted)]"
+                style={{ borderColor: used > 0 ? "var(--tier-taxpayer)" : "var(--border)" }}
+              >
+                {m.label} <span className="font-semibold text-[var(--text)]">{fmtM(remaining)}</span>
+                {used > 0 ? " left" : ""}
+              </span>
+            </Term>
           );
         })}
       </div>
@@ -568,12 +576,16 @@ function TeamColumn({
               <button onClick={() => onTogglePlayer(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-2 text-left hover:text-[var(--accent-ink)]" disabled={others.length === 0}>
                 <ValuePill c={c} />
                 <span className="truncate">{c.playerName}</span>
-                {c.restriction && <span title={c.restriction} className="shrink-0 rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>NO-TRADE</span>}
+                {c.restriction && (
+                  <Term k="no_trade" extra={`${c.playerName} ${c.restriction}.`} className="shrink-0">
+                    <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>NO-TRADE</span>
+                  </Term>
+                )}
               </button>
               <div className="flex shrink-0 items-center gap-2">
                 {out && others.length > 1 ? (
                   <select value={mv.to} onChange={(e) => onDest(c.playerId, e.target.value)} className="rounded border border-[var(--border)] bg-[var(--panel)] px-1 py-0.5 text-[10px]">
-                    {others.map((t) => <option key={t} value={t}>→ {t}</option>)}
+                    {[...others].sort(byNickname).map((t) => <option key={t} value={t}>→ {t}</option>)}
                   </select>
                 ) : (
                   out && <span className="tabular text-[10px] font-bold text-[var(--tier-second_apron)]">→ {mv.to}</span>
@@ -593,7 +605,7 @@ function TeamColumn({
       {ownFAs.length > 0 && (
         <div className="border-t border-[var(--border)] px-4 py-2.5">
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="label">Free agents · holds</span>
+            <Term k="cap_hold" className="label">Free agents · holds</Term>
             <span className={`tabular text-[10px] font-semibold ${capRoom > 0 ? "text-[var(--tier-below_cap)]" : "text-[var(--muted)]"}`}>
               {capRoom > 0 ? `room ${fmtM(capRoom)}` : `${fmtM(holds)} in holds`}
             </span>
@@ -619,7 +631,7 @@ function TeamColumn({
 
       {others.length > 0 && (
         <div className="border-t border-[var(--border)] px-4 py-2.5 pb-3">
-          <div className="label mb-1.5">Draft picks owned</div>
+          <div className="mb-1.5"><Term k="picks" className="label">Draft picks owned</Term></div>
           <div className="flex flex-wrap gap-1">
             {picks.map((p) => {
               const mv = pickSel[p.id];
@@ -694,8 +706,8 @@ function SignDrawer({ team, lg, onClose }: { team: string; lg: LG; onClose: () =
                 <button key={fa.playerId} onClick={() => setSelected(fa)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-2 text-left text-sm hover:brightness-125" title="Set the salary and term">
                   <span className="flex min-w-0 items-center gap-2">
                     <span className="truncate">{fa.playerName}</span>
-                    {isOwn && <span className="text-[9px] font-bold text-[var(--tier-below_cap)]">OWN</span>}
-                    {fa.faType === "RFA" && <span className="text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span>}
+                    {isOwn && <Term k={fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird" ? fa.birdStatus : "bird"}><span className="text-[9px] font-bold text-[var(--tier-below_cap)]">OWN · {BIRD_LABEL[fa.birdStatus] ?? "BIRD"}</span></Term>}
+                    {fa.faType === "RFA" && <Term k="rfa"><span className="text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span></Term>}
                     {fa.renounced && <span className="text-[9px] font-bold text-[var(--muted)]">RENOUNCED</span>}
                     <span className="tabular text-xs text-[var(--muted)]">{fmtM(fa.lastSalary)}</span>
                   </span>
@@ -1257,7 +1269,7 @@ function TradeFinderDrawer({
   board: string[];
   lg: LG;
   onClose: () => void;
-  onLoad: (acquirer: string, seller: string, targetId: string, playerIds: string[]) => void;
+  onLoad: (acquirer: string, seller: string, targetId: string, playerIds: string[], sweetenerIds?: string[]) => void;
 }) {
   const [acquirer, setAcquirer] = useState<string>(board[0] ?? TEAM_IDS[0]!);
   const [q, setQ] = useState("");
@@ -1295,7 +1307,7 @@ function TradeFinderDrawer({
           onChange={(e) => { setAcquirer(e.target.value); setTargetId(null); }}
           className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm"
         >
-          {TEAM_IDS.map((t) => (
+          {[...TEAM_IDS].sort(byNickname).map((t) => (
             <option key={t} value={t}>{teamMeta(t).name}</option>
           ))}
         </select>
@@ -1329,11 +1341,30 @@ function TradeFinderDrawer({
                       <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
                     </div>
                   ))}
+                  {pkg.players.length === 0 && (
+                    <div className="text-xs text-[var(--muted)]">
+                      No salary needed — <Term k="cap_room" className="underline decoration-dotted underline-offset-2">absorbed into cap room</Term>
+                    </div>
+                  )}
+                  {pkg.sweeteners.length > 0 && (
+                    <div className="mt-1 border-t border-dashed border-[var(--border)] pt-1">
+                      <div className="label !text-[9px]">You also get</div>
+                      {pkg.sweeteners.map((p) => (
+                        <div key={p.playerId} className="flex items-center justify-between gap-2 text-sm">
+                          <span className="flex min-w-0 items-center gap-1.5">
+                            <ValuePill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
+                            <span className="truncate">{p.playerName}</span>
+                          </span>
+                          <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center justify-between border-t border-[var(--border)] pt-1.5 text-[11px] text-[var(--muted)]">
-                  <span className="tabular">out {fmtM(pkg.outSalary)} · value {pkg.valueGiven}</span>
+                  <span className="tabular">out {fmtM(pkg.outSalary)} · in {fmtM(pkg.inSalary)} · value {pkg.valueGiven}</span>
                   <button
-                    onClick={() => onLoad(acquirer, pkg.seller, target.playerId, pkg.players.map((p) => p.playerId))}
+                    onClick={() => onLoad(acquirer, pkg.seller, target.playerId, pkg.players.map((p) => p.playerId), pkg.sweeteners.map((p) => p.playerId))}
                     className="rounded border border-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
                   >
                     Load into board

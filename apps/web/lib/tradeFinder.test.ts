@@ -24,17 +24,21 @@ const data: LeagueData = {
 };
 
 describe("findTradePackages", () => {
-  it("returns only legal packages, ranked by salary fit", () => {
+  it("returns legal packages ranked by two-way salary fit", () => {
     const pkgs = findTradePackages(data, "AAA", "target");
     expect(pkgs.length).toBeGreaterThan(0);
-    // The tightest salary match comes first.
-    const fits = pkgs.map((p) => Math.abs(p.outSalary - 30_000_000));
+    // The tightest two-way salary match comes first.
+    const fits = pkgs.map((p) => Math.abs(p.outSalary - p.inSalary));
     expect(fits).toEqual([...fits].sort((x, y) => x - y));
-    // Every returned package is in a sane matching band of the target.
     for (const p of pkgs) {
-      expect(p.outSalary).toBeGreaterThan(30_000_000 * 0.5);
-      expect(p.players.length).toBeGreaterThan(0);
+      expect(Array.isArray(p.sweeteners)).toBe(true);
+      // A package either sends salary in a sane band of what comes back, or
+      // sends nothing at all (pure cap-room absorption — AAA is far under cap).
+      if (p.players.length > 0) expect(p.outSalary).toBeGreaterThan(p.inSalary * 0.35);
     }
+    // This far under the cap, absorbing the target with no outgoing salary
+    // must be among the options (the old finder could never propose it).
+    expect(pkgs.some((p) => p.players.length === 0)).toBe(true);
   });
   it("never proposes a package to the seller's own team", () => {
     expect(findTradePackages(data, "BBB", "target")).toEqual([]);

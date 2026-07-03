@@ -244,3 +244,13 @@ body::after {
 .safe-bottom {
   padding-bottom: max(0px, env(safe-area-inset-bottom));
 }
+
+/* Term explainer infobox: a small filing card. */
+.infobox {
+  background: var(--panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 32px rgba(33, 29, 19, 0.22);
+  animation: fade-up 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
