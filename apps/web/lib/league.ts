@@ -371,19 +371,22 @@ export function assetScoreOf(c: Contract): number | undefined {
   if (r.mp < 1600 && r.mp >= 400) {
     vorp = Math.max(vorp, 0.6 * (r.bpm + 2) * 0.514);
   }
-  // Star scarcity: wins above ~3 VORP don't come apart — they're worth extra.
-  let prod = (vorp + Math.max(0, vorp - 3) * 0.35) * 2.7 * WIN$;
+  // Star scarcity: wins above ~2.5 VORP don't come apart — they're worth extra.
+  let prod = (vorp + Math.max(0, vorp - 2.5) * 0.6) * 2.7 * WIN$;
   // Market floors by current production rate — the trade market never treats a
   // currently-elite player as a strongly negative asset, whatever his salary.
-  if (r.bpm >= 7) prod = Math.max(prod, salary * 1.2);
-  else if (r.bpm >= 4) prod = Math.max(prod, salary * 1.0);
+  if (r.bpm >= 7) prod = Math.max(prod, salary * 1.35);
+  else if (r.bpm >= 4) prod = Math.max(prod, salary * 1.1);
   else if (r.bpm >= 2) prod = Math.max(prod, salary * 0.85);
   // A prime-age near-max player is worth ≥ ~125% of a binding max.
-  if (yos <= 10 && salary >= 0.18 * C.salaryCap) prod = Math.max(prod, salary * 1.25);
+  if (yos <= 10 && salary >= 0.18 * C.salaryCap) prod = Math.max(prod, salary * 1.4);
   if (yos >= 12) prod *= Math.max(0.78, 1 - 0.03 * (yos - 11));
   if (yos <= 5) prod *= 1 + 0.06 * (6 - yos);
 
   let surplus = prod - salary;
+  // Salary-credibility damper: surplus earned on tiny contracts is partly
+  // opportunity, not proven asset value — stars on real money keep 100%.
+  if (surplus > 0) surplus *= Math.min(1, 0.55 + salary / 40_000_000);
   const yrs = Math.min(yrsRemaining, 4);
   if (surplus > 0) surplus *= Math.min(1.2, 1 + 0.07 * (yrs - 1));
   // A bad contract's drag caps near half its salary (the picks-to-dump price).
