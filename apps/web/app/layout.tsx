@@ -54,23 +54,32 @@ export default function RootLayout({
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">
             <Link href="/" className="flex shrink-0 items-center gap-2">
               <svg
-                width="24"
-                height="24"
+                width="26"
+                height="26"
                 viewBox="0 0 64 64"
                 className="shrink-0"
                 aria-hidden
               >
-                <rect width="64" height="64" rx="12" fill="var(--text)" />
+                <rect width="64" height="64" rx="14" fill="var(--text)" />
                 <line
-                  x1="13"
-                  y1="46"
-                  x2="51"
-                  y2="46"
+                  x1="11"
+                  y1="41"
+                  x2="53"
+                  y2="41"
                   stroke="var(--accent)"
-                  strokeWidth="6"
+                  strokeWidth="4.5"
+                  strokeDasharray="7.5 6"
                   strokeLinecap="round"
                 />
-                <circle cx="32" cy="24" r="9" fill="var(--bg)" />
+                <path
+                  className="logo-arc"
+                  d="M13 54 C 20 25, 37 14, 50 22"
+                  fill="none"
+                  stroke="var(--bg)"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                />
+                <circle className="logo-ball" cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
               </svg>
               <span className="text-[17px] font-semibold tracking-tight">
                 Over the Apron

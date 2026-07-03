@@ -79,3 +79,82 @@ input[type="number"],
 input[type="text"] {
   font-variant-numeric: tabular-nums;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Motion & set-dressing                                              */
+/* ------------------------------------------------------------------ */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up { animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Rubber-stamp verdicts: slams in, settles slightly crooked, inked
+   unevenly (turbulence mask) like a real stamp on paper. */
+.stamp {
+  display: inline-block;
+  transform: rotate(-4deg);
+  border: 2.5px solid currentColor;
+  border-radius: 7px;
+  padding: 1px 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' seed='7'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.1 1.4'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-size: 240px 240px;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' seed='7'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.1 1.4'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 240px 240px;
+}
+@keyframes stamp-in {
+  0% { opacity: 0; transform: scale(2.1) rotate(-13deg); }
+  52% { opacity: 1; transform: scale(0.94) rotate(-2deg); }
+  74% { transform: scale(1.05) rotate(-5.5deg); }
+  100% { transform: scale(1) rotate(-4deg); }
+}
+.stamp-in { animation: stamp-in 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+
+/* Header mark: the arc draws itself, then the ball drops in. */
+@keyframes draw-in { to { stroke-dashoffset: 0; } }
+.logo-arc {
+  stroke-dasharray: 84;
+  stroke-dashoffset: 84;
+  animation: draw-in 0.8s 0.1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes ball-in {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: none; }
+}
+.logo-ball { opacity: 0; animation: ball-in 0.3s 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+/* Team picker */
+.team-pick {
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+.team-pick:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent) !important;
+  background: var(--panel);
+  box-shadow: 0 8px 20px rgba(33, 29, 19, 0.1);
+}
+.team-pick:active { transform: translateY(-1px) scale(0.98); }
+
+/* Share modal */
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.965); }
+  to { opacity: 1; transform: none; }
+}
+.overlay-in { animation: overlay-in 0.22s ease both; }
+.modal-in { animation: modal-in 0.34s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .stamp-in, .modal-in, .overlay-in, .logo-ball {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .stamp-in { transform: rotate(-4deg) !important; }
+  .logo-arc { animation: none !important; stroke-dashoffset: 0 !important; }
+  .team-pick, .team-pick:hover, .team-pick:active { transform: none; transition: none; }
+}
