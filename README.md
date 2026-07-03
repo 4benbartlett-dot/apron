@@ -1,14 +1,14 @@
-# Apron
+# Over the Apron
 
 **The NBA offseason, under the real CBA.** — live at
 [overtheapron.com](https://overtheapron.com)
 
-Apron is a trade machine and free-agency simulator that actually enforces the
+Over the Apron is a trade machine and free-agency simulator that actually enforces the
 2023 collective bargaining agreement. Build any trade, sign any free agent,
 extend, renounce, and run a full offseason — every move builds on the last from
 live rosters, and every verdict tells you *which rule* made it legal or illegal.
 
-Most trade machines check salary matching and stop. Apron enforces the rules
+Most trade machines check salary matching and stop. Over the Apron enforces the rules
 that actually decide deals in the apron era:
 
 - **Apron system** — first/second-apron tiers with strict "exceeds" boundaries,

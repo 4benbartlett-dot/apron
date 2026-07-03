@@ -38,6 +38,7 @@ const APPROXIMATE = [
   "Years of service covers ~91% of players; the rest default to a mid-career value",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
   "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
+  "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
 ];
 
 const NOT_MODELED = [

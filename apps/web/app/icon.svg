@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Over the Apron: the ball, over the line. -->
   <rect width="64" height="64" rx="12" fill="#211d13"/>
-  <text x="32" y="45" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="700" fill="#f4f1e9">A</text>
+  <line x1="13" y1="46" x2="51" y2="46" stroke="#b4501e" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="32" cy="24" r="9" fill="#f4f1e9"/>
 </svg>

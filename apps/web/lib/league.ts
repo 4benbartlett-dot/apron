@@ -461,13 +461,40 @@ export function tradeValue(rating: number | undefined): number {
   return Math.round(Math.pow(Math.max(0, rating - 58), 1.7) / 2.8);
 }
 
-/** Rough trade value of a future draft pick (slot unknown → assume a mid/late
- * first, which is what actually gets traded). Nearer picks are worth a touch
- * more; a 1st ≫ a 2nd. */
-export function pickValue(year: number, round: 1 | 2): number {
+/** Where the ORIGIN team's pick is expected to land: rank all 30 rosters by
+ * VORP (1 = weakest → best pick), lottery-flattened at the top. */
+let strengthRank: Map<string, number> | null = null;
+function pickRankOf(team: string): number {
+  if (!strengthRank) {
+    const vorp = new Map<string, number>();
+    for (const c of BASE_CONTRACTS) {
+      if (currentSalary(c) <= 0) continue;
+      const r = RATINGS[c.playerId];
+      if (r) vorp.set(c.teamId, (vorp.get(c.teamId) ?? 0) + Math.max(0, r.vorp));
+    }
+    const order = [...TEAM_IDS].sort((a, b) => (vorp.get(a) ?? 0) - (vorp.get(b) ?? 0));
+    strengthRank = new Map(order.map((t, i) => [t, i + 1]));
+  }
+  return strengthRank.get(team) ?? 15.5;
+}
+
+/** Trade value of a future draft pick, in the same meter units as
+ * assetMeterValue. Expected slot comes from the origin team's current roster
+ * strength, mean-reverting toward mid-round the further out the draft year
+ * (a 2031 pick from anyone is close to a coin flip); slot maps to value on a
+ * rookie-contract surplus curve. Unknown origin → league-average slot. */
+export function pickValue(year: number, round: 1 | 2, origin?: string): number {
   const dist = Math.max(0, year - (Number(YEAR.slice(0, 4)) + 1));
-  const base = round === 1 ? 20 : 4;
-  return Math.round(base * Math.pow(0.93, dist));
+  const revert = Math.pow(0.72, dist);
+  const rank = origin ? pickRankOf(origin) : 15.5;
+  // Lottery flattening: the worst team's EXPECTED slot is ~2.5, not 1.
+  const now = 2.5 + (rank - 1) * (27.5 / 29);
+  const slot = now * revert + 15.5 * (1 - revert);
+  const meter =
+    round === 1
+      ? 50 * Math.exp(-0.075 * (slot - 1))
+      : 6.5 * Math.exp(-0.045 * (slot - 1));
+  return Math.round(meter * Math.pow(0.97, dist));
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {
   return contracts

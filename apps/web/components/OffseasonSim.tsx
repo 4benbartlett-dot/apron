@@ -184,8 +184,8 @@ export default function OffseasonSim() {
       (m[p.to] ??= { in: 0, out: 0 }).in += val;
     }
     for (const [id, mv] of Object.entries(pickSel)) {
-      const [, yearStr, round] = id.split("|");
-      const val = pickValue(Number(yearStr), round === "1" ? 1 : 2);
+      const [origin, yearStr, round] = id.split("|");
+      const val = pickValue(Number(yearStr), round === "1" ? 1 : 2, origin);
       (m[mv.from] ??= { in: 0, out: 0 }).out += val;
       (m[mv.to] ??= { in: 0, out: 0 }).in += val;
     }
