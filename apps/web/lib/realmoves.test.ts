@@ -14,8 +14,7 @@ import {
   YEAR,
   leagueData,
   freeAgentsOf,
-  ratingOf,
-  tradeValue,
+  assetMeterValue,
   pickValue,
 } from "@/lib/league";
 import { getLeagueData } from "@apron/data";
@@ -259,8 +258,8 @@ describe("July 1 real veteran signings validate as legal", () => {
 
 describe("value priors on the real blockbusters", () => {
   it("PG+picks ⇄ Brown reads as roughly fair (not a fleece)", () => {
-    const pg = tradeValue(ratingOf(find("Paul George").playerId));
-    const brown = tradeValue(ratingOf(find("Jaylen Brown").playerId));
+    const pg = assetMeterValue(find("Paul George"));
+    const brown = assetMeterValue(find("Jaylen Brown"));
     const picksToBos = pickValue(2028, 1) + pickValue(2031, 1) + pickValue(2028, 2) + pickValue(2030, 2);
     const bosGets = pg + picksToBos;
     console.log(`  BOS gets PG(${pg}) + picks(${picksToBos}) = ${bosGets} | PHI gets Brown(${brown})`);
