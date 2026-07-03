@@ -37,6 +37,7 @@ const APPROXIMATE = [
   "Team salary totals include some non-guaranteed / dead-money rows from the source",
   "Years of service covers ~91% of players; the rest default to a mid-career value",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
+  "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
 ];
 
 const NOT_MODELED = [

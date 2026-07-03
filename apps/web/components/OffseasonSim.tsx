@@ -10,11 +10,12 @@ import {
   maxIncomingSalary,
   spendingPower,
   classifyTier,
+  type Contract,
   type Trade,
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, currentSalary, experienceOf, ratingOf, tradeValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, currentSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -38,16 +39,17 @@ function mechColor(id: MechanismId | null): string {
   return "var(--tier-taxpayer)";
 }
 
-function ovrColor(r: number): string {
-  return r >= 90 ? "var(--tier-below_cap)" : r >= 80 ? "var(--tier-over_cap)" : r >= 70 ? "var(--tier-taxpayer)" : "var(--muted)";
+function valueColor(v: number): string {
+  return v >= 85 ? "var(--tier-below_cap)" : v >= 70 ? "var(--tier-over_cap)" : v >= 55 ? "var(--tier-taxpayer)" : "var(--muted)";
 }
-function OvrPill({ id }: { id: string }) {
-  const r = ratingOf(id);
-  if (r == null) return null;
-  const c = ovrColor(r);
+/** Trade-value pill (5-99): production vs. contract, not a player rating. */
+function ValuePill({ c }: { c?: Contract }) {
+  const v = c ? assetScoreOf(c) : undefined;
+  if (v == null) return null;
+  const col = valueColor(v);
   return (
-    <span className="tabular shrink-0 rounded px-1 text-[9px] font-bold" style={{ color: c, background: `color-mix(in srgb, ${c} 16%, transparent)` }} title={`${r} OVR`}>
-      {r}
+    <span className="tabular shrink-0 rounded px-1 text-[9px] font-bold" style={{ color: col, background: `color-mix(in srgb, ${col} 16%, transparent)` }} title={`Trade value ${v}/99 — production vs. contract (not a player rating)`}>
+      {v}
     </span>
   );
 }
@@ -176,7 +178,8 @@ export default function OffseasonSim() {
   const valueByTeam = useMemo(() => {
     const m: Record<string, { in: number; out: number }> = {};
     for (const p of trade.players) {
-      const val = tradeValue(ratingOf(p.playerId));
+      const contract = lg.contracts.find((c) => c.playerId === p.playerId);
+      const val = contract ? assetMeterValue(contract) : 0;
       (m[p.from] ??= { in: 0, out: 0 }).out += val;
       (m[p.to] ??= { in: 0, out: 0 }).in += val;
     }
@@ -187,7 +190,7 @@ export default function OffseasonSim() {
       (m[mv.to] ??= { in: 0, out: 0 }).in += val;
     }
     return m;
-  }, [trade, pickSel]);
+  }, [trade, pickSel, lg]);
 
   // A hard cap triggered earlier (MLE/BAE/S&T) binds later trades too.
   const hardCapTradeViolations = useMemo(() => {
@@ -500,7 +503,7 @@ function TeamColumn({
               style={{ background: out ? "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" : undefined }}
             >
               <button onClick={() => onTogglePlayer(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-2 text-left hover:text-[var(--accent-ink)]" disabled={others.length === 0}>
-                <OvrPill id={c.playerId} />
+                <ValuePill c={c} />
                 <span className="truncate">{c.playerName}</span>
                 {c.restriction && <span title={c.restriction} className="shrink-0 rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>NO-TRADE</span>}
               </button>
@@ -627,7 +630,6 @@ function SignDrawer({ team, lg, onClose }: { team: string; lg: LG; onClose: () =
               return (
                 <button key={fa.playerId} onClick={() => setSelected(fa)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-2 text-left text-sm hover:brightness-125" title="Set the salary and term">
                   <span className="flex min-w-0 items-center gap-2">
-                    <OvrPill id={fa.playerId} />
                     <span className="truncate">{fa.playerName}</span>
                     {isOwn && <span className="text-[9px] font-bold text-[var(--tier-below_cap)]">OWN</span>}
                     {fa.faType === "RFA" && <span className="text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span>}
@@ -1240,7 +1242,7 @@ function TradeFinderDrawer({
         <div className="flex flex-1 flex-col overflow-y-auto">
           <div className="flex items-center justify-between border-b border-[var(--border)] p-3">
             <div className="flex items-center gap-2 text-sm">
-              <OvrPill id={target.playerId} />
+              <ValuePill c={target} />
               <span className="font-semibold">{target.playerName}</span>
               <span className="tabular text-xs text-[var(--muted)]">{fmtM(currentSalary(target))} · {teamMeta(target.teamId).name}</span>
             </div>
@@ -1258,7 +1260,7 @@ function TradeFinderDrawer({
                   {pkg.players.map((p) => (
                     <div key={p.playerId} className="flex items-center justify-between gap-2 text-sm">
                       <span className="flex min-w-0 items-center gap-1.5">
-                        <OvrPill id={p.playerId} />
+                        <ValuePill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
                         <span className="truncate">{p.playerName}</span>
                       </span>
                       <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
@@ -1285,7 +1287,7 @@ function TradeFinderDrawer({
             {list.map((c) => (
               <button key={c.playerId} onClick={() => setTargetId(c.playerId)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-2 text-left text-sm hover:brightness-125">
                 <span className="flex min-w-0 items-center gap-2">
-                  <OvrPill id={c.playerId} />
+                  <ValuePill c={c} />
                   <span className="truncate">{c.playerName}</span>
                   <span className="text-[10px] text-[var(--muted)]">{c.teamId}</span>
                 </span>

@@ -344,11 +344,64 @@ export function experienceOf(playerId: string): number {
 export function ratingOf(playerId: string): number | undefined {
   return RATINGS[playerId]?.rating;
 }
-/** Convex trade value from a rating. Floored near rotation level (~58) so a
- * salary-matching throw-in carries ~no value, while the star curve is steep
- * enough that real market packages read sanely (calibrated against actual 2026
- * deals: Brown ≈ George + two 1sts + two 2nds reads "fair", Murray+filler for
- * Brown reads "slight edge", not a fleece). */
+
+/**
+ * TRADE VALUE (5–99): what a player is worth as an asset — his production
+ * (wins from VORP/BPM, dollar-valued) against what his contract pays, with
+ * market floors for currently-elite players, a prime-max floor, youth premium,
+ * aging discount, and contract-term effects. Calibrated so the ladder matches
+ * consensus: young stars on value deals at the top, fair-market stars in the
+ * 60s–90s, and the contracts teams attach picks to at the bottom.
+ */
+export function assetScoreOf(c: Contract): number | undefined {
+  const salary = salaryForYear(c, YEAR);
+  if (salary <= 0) return undefined;
+  const r = RATINGS[c.playerId];
+  const yos = EXPERIENCE[c.playerId] ?? 8;
+  const yrsRemaining = c.years.filter((y) => y.leagueYear >= YEAR && y.salary > 0).length;
+
+  if (!r) {
+    // No NBA sample (rookies): asset value tracks draft slot via scale salary.
+    return Math.round(Math.min(92, 32 + (salary / 16_000_000) * 58));
+  }
+
+  const WIN$ = 3_300_000;
+  // Injury-adjust: a low-minutes season projects from the per-minute rate.
+  let vorp = r.vorp;
+  if (r.mp < 1600 && r.mp >= 400) {
+    vorp = Math.max(vorp, 0.6 * (r.bpm + 2) * 0.514);
+  }
+  // Star scarcity: wins above ~3 VORP don't come apart — they're worth extra.
+  let prod = (vorp + Math.max(0, vorp - 3) * 0.35) * 2.7 * WIN$;
+  // Market floors by current production rate — the trade market never treats a
+  // currently-elite player as a strongly negative asset, whatever his salary.
+  if (r.bpm >= 7) prod = Math.max(prod, salary * 1.2);
+  else if (r.bpm >= 4) prod = Math.max(prod, salary * 1.0);
+  else if (r.bpm >= 2) prod = Math.max(prod, salary * 0.85);
+  // A prime-age near-max player is worth ≥ ~125% of a binding max.
+  if (yos <= 10 && salary >= 0.18 * C.salaryCap) prod = Math.max(prod, salary * 1.25);
+  if (yos >= 12) prod *= Math.max(0.78, 1 - 0.03 * (yos - 11));
+  if (yos <= 5) prod *= 1 + 0.06 * (6 - yos);
+
+  let surplus = prod - salary;
+  const yrs = Math.min(yrsRemaining, 4);
+  if (surplus > 0) surplus *= Math.min(1.2, 1 + 0.07 * (yrs - 1));
+  // A bad contract's drag caps near half its salary (the picks-to-dump price).
+  else surplus = Math.max(surplus * (0.6 + 0.2 * yrs), -0.55 * salary);
+
+  const score =
+    surplus >= 0
+      ? 40 + 29 * Math.asinh(surplus / 15_000_000)
+      : 40 - 20 * Math.asinh(-surplus / 22_000_000);
+  return Math.round(Math.max(5, Math.min(99, score)));
+}
+
+/** Value units for the fairness meter: throw-ins (score ≤ 35) count ~nothing. */
+export function assetMeterValue(c: Contract): number {
+  return Math.max(0, (assetScoreOf(c) ?? 0) - 35);
+}
+
+/** @deprecated superseded by assetScoreOf/assetMeterValue (kept for compat). */
 export function tradeValue(rating: number | undefined): number {
   if (rating == null) return 0;
   return Math.round(Math.pow(Math.max(0, rating - 58), 1.7) / 2.8);

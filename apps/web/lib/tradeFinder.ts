@@ -1,11 +1,10 @@
 import { validateTrade, type LeagueData } from "@apron/cba-engine";
-import { C, currentSalary, rosterOf, ratingOf, tradeValue } from "./league";
+import { C, currentSalary, rosterOf, assetMeterValue } from "./league";
 
 export interface FinderPlayer {
   playerId: string;
   playerName: string;
   salary: number;
-  rating?: number;
 }
 export interface TradePackage {
   seller: string;
@@ -22,7 +21,6 @@ const toFinder = (c: {
   playerId: c.playerId,
   playerName: c.playerName,
   salary,
-  rating: ratingOf(c.playerId),
 });
 
 /** All subsets of `arr` with size 1..k. */
@@ -82,7 +80,7 @@ export function findTradePackages(
       players: pkg.map((c) => toFinder(c, currentSalary(c))),
       outSalary,
       targetSalary,
-      valueGiven: pkg.reduce((s, c) => s + tradeValue(ratingOf(c.playerId)), 0),
+      valueGiven: pkg.reduce((s, c) => s + assetMeterValue(c), 0),
     });
   }
 
