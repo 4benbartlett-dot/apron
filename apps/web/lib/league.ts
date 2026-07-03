@@ -68,6 +68,32 @@ export function faTypeOf(playerName: string): string | undefined {
  * become free agents, so their 2026-27 salary is stripped from the base data
  * (Basketball-Reference still lists the option year as if it were guaranteed).
  */
+/**
+ * Players whose reported deal is an EXTENSION (e.g. a pre-moratorium extension
+ * of an expiring contract, signed in the old league year). Per CBA Art. VII
+ * §8(f), an extension is immediately trade-eligible unless it exceeds
+ * extend-and-trade limits — the Dec-15 free-agent freeze does NOT apply.
+ */
+const EXTENSION_DEALS = new Set(
+  TRANSACTIONS.filter(
+    (t) => (t.type === "Signing" || t.type === "Re-sign") && /extension/i.test(t.detail),
+  ).map((t) => normName(t.player)),
+);
+
+/** §8(f)(i) trade restriction for a freshly-extended player: 6 months only if
+ * the extension exceeds extend-and-trade limits (first-year salary beyond 120%
+ * of the final prior-year salary / estimated average, or a 5+ season deal). */
+function extensionRestriction(
+  priorFinalSalary: number,
+  y1: number,
+  years: number,
+): string | undefined {
+  const limit = Math.max(priorFinalSalary * 1.2, C.estimatedAverageSalary * 1.2);
+  return years >= 5 || y1 > limit + 1
+    ? "extended beyond extend-and-trade limits (not trade-eligible for 6 months)"
+    : undefined;
+}
+
 const OPTION_DECLINED = new Set(
   TRANSACTIONS.filter(
     (t) => t.type === "Option" && /declined/i.test(t.detail) && /2026-27/.test(t.detail),
@@ -210,9 +236,14 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     const aav =
       total > 0 ? Math.round(total / yrs) : (C.minimumSalaries[5] ?? 2_800_000);
     c.teamId = team;
-    c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...dealFromAav(aav, yrs)];
-    // Signed this offseason → not trade-eligible until Dec 15.
-    c.restriction = FA_RESTRICTION;
+    const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
+    const rows = dealFromAav(aav, yrs);
+    c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...rows];
+    // An extension of an expiring deal (signed pre-moratorium) is NOT a free-
+    // agent signing — no Dec-15 freeze; only the §8(f) extend-and-trade test.
+    c.restriction = /extension/i.test(t.detail)
+      ? extensionRestriction(prior, rows[0]!.salary, yrs)
+      : FA_RESTRICTION;
     // Capture a trade bonus (kicker) if the deal mentions one.
     const kickM = t.detail.match(/([\d.]+)\s*%\s*Trade Bonus/i);
     if (kickM) c.tradeKickerPct = Number(kickM[1]) / 100;
@@ -251,13 +282,17 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     const team = stdTeam(s.team);
     if (!VALID_TEAMS.has(team)) return c;
     signed.push(`${c.playerName} → ${team}`);
+    const rows = dealFromAav(s.aav, s.years);
+    const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
     return {
       ...cloneContract(c),
       teamId: team,
       // Keep past seasons; the new deal replaces this year forward.
-      years: [...c.years.filter((y) => y.leagueYear < YEAR), ...dealFromAav(s.aav, s.years)],
-      // Signed this offseason → not trade-eligible until Dec 15.
-      restriction: FA_RESTRICTION,
+      years: [...c.years.filter((y) => y.leagueYear < YEAR), ...rows],
+      // Extensions (pre-moratorium, e.g. Porziņģis) skip the Dec-15 FA freeze.
+      restriction: EXTENSION_DEALS.has(normName(c.playerName))
+        ? extensionRestriction(prior, rows[0]!.salary, s.years)
+        : FA_RESTRICTION,
     };
   });
   return { contracts: out, signed };
