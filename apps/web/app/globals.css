@@ -266,3 +266,112 @@ body::after {
   mask-image: none !important;
   -webkit-mask-image: none !important;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Playbook & glossary set pieces                                     */
+/* ------------------------------------------------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Play number: a coach's call chip. */
+.play-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  border: 1.5px solid var(--accent);
+  color: var(--accent-ink);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transform: rotate(-1.2deg);
+}
+
+/* Stamps that re-slam on a loop (guide demo). */
+@keyframes stamp-cycle {
+  0% { opacity: 0; transform: scale(2.1) rotate(-13deg); }
+  5% { opacity: 1; transform: scale(0.94) rotate(-2deg); }
+  8% { transform: scale(1.05) rotate(-5.5deg); }
+  10%, 86% { opacity: 1; transform: scale(1) rotate(-4deg); }
+  94%, 100% { opacity: 0; transform: scale(1) rotate(-4deg); }
+}
+.stamp-loop { animation: stamp-cycle 7s infinite both; }
+.stamp-loop-b { animation: stamp-cycle 7s 3.5s infinite both; }
+
+/* Mock roster row that stages itself on a loop. */
+@keyframes stage-row {
+  0%, 20% { background: transparent; }
+  30%, 78% { background: color-mix(in srgb, var(--tier-second_apron) 10%, transparent); }
+  88%, 100% { background: transparent; }
+}
+.demo-stage { animation: stage-row 6s infinite; }
+@keyframes stage-tag {
+  0%, 26% { opacity: 0; transform: translateX(-4px); }
+  34%, 76% { opacity: 1; transform: none; }
+  86%, 100% { opacity: 0; }
+}
+.demo-stage-tag { animation: stage-tag 6s infinite both; }
+
+/* Hard-cap timeline: the red line that rises after move one. */
+@keyframes capline-in {
+  0%, 18% { transform: scaleX(0); }
+  38%, 100% { transform: scaleX(1); }
+}
+.demo-capline {
+  transform-origin: left;
+  animation: capline-in 7s infinite both;
+}
+
+/* File-drawer tab (glossary sections). */
+.drawer-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  padding: 7px 16px 9px;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Glossary term card: paper slip with a leader line to the citation. */
+.term-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.term-card:hover {
+  transform: translateY(-3px) rotate(-0.25deg);
+  box-shadow: 0 10px 26px rgba(33, 29, 19, 0.1);
+}
+.leader {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.leader::before {
+  content: "";
+  flex: 1;
+  border-bottom: 1px dotted var(--border-strong);
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  .stamp-loop, .stamp-loop-b { animation: none; opacity: 1; transform: rotate(-4deg); }
+  .demo-stage, .demo-stage-tag, .demo-capline { animation: none; opacity: 1; transform: none; }
+}
