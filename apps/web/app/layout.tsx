@@ -17,7 +17,10 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3100",
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.NODE_ENV === "production"
+        ? "https://overtheapron.com"
+        : "http://localhost:3100"),
   ),
   title: "Apron — the NBA offseason, under the real CBA",
   description:
