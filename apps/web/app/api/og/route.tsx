@@ -21,6 +21,8 @@ const TIER: Record<ApronTier, { label: string; color: string }> = {
 
 const mono = "ui-monospace, Menlo, monospace";
 
+const sienna = "#b4501e";
+
 function Wordmark() {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
@@ -30,19 +32,39 @@ function Wordmark() {
           height: 44,
           background: ink,
           borderRadius: 9,
+          position: "relative",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 27,
-          fontWeight: 700,
-          color: bg,
           marginRight: 14,
         }}
       >
-        A
+        {/* the ball, over the line */}
+        <div
+          style={{
+            position: "absolute",
+            left: 9,
+            right: 9,
+            top: 30,
+            height: 4,
+            borderRadius: 3,
+            background: sienna,
+            display: "flex",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 16,
+            top: 10,
+            width: 12,
+            height: 12,
+            borderRadius: 12,
+            background: bg,
+            display: "flex",
+          }}
+        />
       </div>
-      <div style={{ fontSize: 34, fontWeight: 700, color: ink, letterSpacing: -0.5 }}>
-        Apron
+      <div style={{ fontSize: 32, fontWeight: 700, color: ink, letterSpacing: -0.5 }}>
+        Over the Apron
       </div>
     </div>
   );
@@ -90,8 +112,8 @@ export async function GET(req: Request) {
               fontFamily: mono,
             }}
           >
-            <div>2026–27 · FREE AGENCY</div>
-            <div>2023 CBA · ART. VII</div>
+            <div>2026–27 · FREE AGENCY · 2023 CBA</div>
+            <div>OVERTHEAPRON.COM</div>
           </div>
         </div>
       ),
@@ -118,7 +140,7 @@ export async function GET(req: Request) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Wordmark />
           <div style={{ fontSize: 20, color: muted, fontFamily: mono }}>
-            2026–27 · 2023 CBA
+            OVERTHEAPRON.COM · 2023 CBA
           </div>
         </div>
 

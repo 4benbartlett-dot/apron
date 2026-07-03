@@ -22,11 +22,11 @@ export const metadata: Metadata = {
         ? "https://overtheapron.com"
         : "http://localhost:3100"),
   ),
-  title: "Apron — the NBA offseason, under the real CBA",
+  title: "Over the Apron — the NBA offseason, under the real CBA",
   description:
     "Build trades, sign free agents, and run a full NBA offseason with every 2023 CBA rule enforced — apron limits, Bird rights, hard caps, and the reasons why.",
   openGraph: {
-    title: "Apron — the NBA offseason, under the real CBA",
+    title: "Over the Apron — the NBA offseason, under the real CBA",
     description:
       "Build trades, sign free agents, and run a full NBA offseason with every 2023 CBA rule enforced.",
     images: ["/api/og"],
@@ -52,12 +52,28 @@ export default function RootLayout({
       <body>
         <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">
-            <Link href="/" className="flex shrink-0 items-baseline gap-2">
-              <span className="grid h-6 w-6 shrink-0 translate-y-0.5 place-items-center rounded-[5px] bg-[var(--text)] text-[13px] font-bold leading-none text-[var(--bg)]">
-                A
-              </span>
+            <Link href="/" className="flex shrink-0 items-center gap-2">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 64 64"
+                className="shrink-0"
+                aria-hidden
+              >
+                <rect width="64" height="64" rx="12" fill="var(--text)" />
+                <line
+                  x1="13"
+                  y1="46"
+                  x2="51"
+                  y2="46"
+                  stroke="var(--accent)"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+                <circle cx="32" cy="24" r="9" fill="var(--bg)" />
+              </svg>
               <span className="text-[17px] font-semibold tracking-tight">
-                Apron
+                Over the Apron
               </span>
             </Link>
             <span className="hidden h-4 w-px shrink-0 bg-[var(--border-strong)] sm:block" />
