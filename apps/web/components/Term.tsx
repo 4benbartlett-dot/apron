@@ -13,12 +13,15 @@ export function Term({
   children,
   className,
   extra,
+  underline,
 }: {
   k: TermKey;
   children: React.ReactNode;
   className?: string;
   /** Case-specific detail appended after the general explanation. */
   extra?: string;
+  /** Dotted underline for plain-text labels (badges/chips skip it). */
+  underline?: boolean;
 }) {
   const [pos, setPos] = useState<{ x: number; y: number; up: boolean } | null>(null);
   const g = GLOSSARY[k];
@@ -47,7 +50,7 @@ export function Term({
         tabIndex={0}
         onClick={open}
         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && open(e)}
-        className={`${className ?? ""} cursor-help`}
+        className={`${className ?? ""} cursor-help${underline ? " term-underline" : ""}`}
         title={`What is “${g.title}”?`}
       >
         {children}

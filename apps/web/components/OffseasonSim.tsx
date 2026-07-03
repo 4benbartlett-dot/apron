@@ -81,7 +81,7 @@ export default function OffseasonSim() {
   const [shareOpen, setShareOpen] = useState(false);
   const [sel, setSel] = useState<Record<string, Sel>>({});
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
-  const [signFor, setSignFor] = useState<string | null>(null);
+  const [signFor, setSignFor] = useState<{ team: string; faId?: string } | null>(null);
   const [extendFor, setExtendFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
   const [finderOpen, setFinderOpen] = useState(false);
 
@@ -146,7 +146,7 @@ export default function OffseasonSim() {
       for (const [p, mv] of Object.entries(n)) if (mv.from === id || mv.to === id) delete n[p];
       return n;
     });
-    if (signFor === id) setSignFor(null);
+    if (signFor?.team === id) setSignFor(null);
   };
   const togglePlayer = (pid: string, from: string) =>
     setSel((s) => {
@@ -319,7 +319,7 @@ export default function OffseasonSim() {
             picks={lg.picksOf(id)}
             pickSel={pickSel}
             onTogglePick={togglePick}
-            onSign={() => setSignFor(id)}
+            onSign={(faId) => setSignFor({ team: id, faId })}
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
           />
           </div>
@@ -340,7 +340,7 @@ export default function OffseasonSim() {
           onClose={() => setShareOpen(false)}
         />
       )}
-      {signFor && <SignDrawer team={signFor} lg={lg} onClose={() => setSignFor(null)} />}
+      {signFor && <SignDrawer team={signFor.team} initialId={signFor.faId} lg={lg} onClose={() => setSignFor(null)} />}
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
       {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
     </div>
@@ -406,7 +406,7 @@ function TradeVerdict({
       </div>
       {valTeams.length >= 2 && (
         <div className="rule flex flex-wrap items-center gap-x-5 gap-y-1 bg-[var(--panel-2)]/50 px-4 py-2 text-xs">
-          <Term k="trade_value" className="label">{fairLabel}</Term>
+          <Term k="trade_value" underline className="label">{fairLabel}</Term>
           {valTeams.map(([t, v]) => {
             const net = v.in - v.out;
             const c = net > 0 ? "var(--tier-below_cap)" : net < 0 ? "var(--tier-second_apron)" : "var(--muted)";
@@ -448,7 +448,7 @@ function TeamColumn({
   picks: { id: string; label: string; origin: string }[];
   pickSel: Record<string, Sel>;
   onTogglePick: (id: string, from: string) => void;
-  onSign: () => void;
+  onSign: (faId?: string) => void;
   onExtend: (playerId: string, playerName: string) => void;
 }) {
   const meta = teamMeta(teamId);
@@ -488,9 +488,15 @@ function TeamColumn({
           <div className="min-w-0">
             <div className="truncate text-[15px] font-semibold leading-tight">{meta.name}</div>
             <div className="tabular mt-0.5 text-xs text-[var(--muted)]">
-              <span className="total-rule">{fmtFull(post)}</span>
+              <Term k="committed_salary" extra={`${meta.name} have ${fmtFull(post)} in guaranteed 2026-27 salary.`}>
+                <span className="total-rule">{fmtFull(post)}</span>
+              </Term>
               {post !== pre && <span> ({post > pre ? "+" : ""}{fmtM(post - pre)})</span>}
-              {holds > 0 && <span> · +{fmtM(holds)} holds</span>}
+              {holds > 0 && (
+                <Term k="cap_hold" extra={`${fmtM(holds)} of free-agent holds currently count on this sheet.`}>
+                  <span className="term-underline"> · +{fmtM(holds)} holds</span>
+                </Term>
+              )}
             </div>
           </div>
         </div>
@@ -509,13 +515,18 @@ function TeamColumn({
           const pct = Math.max(4, Math.min(100, (y.salary / y.cap) * 100));
           const over = y.salary > y.cap;
           return (
-            <div key={y.year} className="bg-[var(--panel-2)]/40 px-1.5 py-1.5 text-center" title={`${y.year}: ${fmtFull(y.salary)} committed across ${y.players} players (proj. cap ${fmtM(y.cap)})`}>
+            <Term
+              key={y.year}
+              k="committed_salary"
+              extra={`${y.year}: ${fmtFull(y.salary)} committed across ${y.players} players (projected cap ${fmtM(y.cap)}).`}
+              className="block bg-[var(--panel-2)]/40 px-1.5 py-1.5 text-center"
+            >
               <div className="label !text-[9px]">’{y.year.slice(2)}</div>
               <div className="tabular text-[11px] font-semibold">{fmtM(y.salary)}</div>
               <div className="mx-auto mt-1 h-[3px] w-full overflow-hidden rounded-full bg-[var(--border)]">
                 <div className="h-full" style={{ width: `${pct}%`, background: over ? "var(--tier-first_apron)" : "var(--border-strong)" }} />
               </div>
-            </div>
+            </Term>
           );
         })}
       </div>
@@ -544,7 +555,7 @@ function TeamColumn({
       </div>
 
       <div className="px-4 pt-3">
-        <button onClick={onSign} className="w-full rounded-md border border-[var(--tier-below_cap)] px-2 py-1.5 text-xs font-semibold text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]">
+        <button onClick={() => onSign()} className="w-full rounded-md border border-[var(--tier-below_cap)] px-2 py-1.5 text-xs font-semibold text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]">
           Sign a free agent
         </button>
       </div>
@@ -605,7 +616,7 @@ function TeamColumn({
       {ownFAs.length > 0 && (
         <div className="border-t border-[var(--border)] px-4 py-2.5">
           <div className="mb-1.5 flex items-center justify-between">
-            <Term k="cap_hold" className="label">Free agents · holds</Term>
+            <Term k="cap_hold" underline className="label">Free agents · holds</Term>
             <span className={`tabular text-[10px] font-semibold ${capRoom > 0 ? "text-[var(--tier-below_cap)]" : "text-[var(--muted)]"}`}>
               {capRoom > 0 ? `room ${fmtM(capRoom)}` : `${fmtM(holds)} in holds`}
             </span>
@@ -617,6 +628,13 @@ function TeamColumn({
                   {fa.playerName}
                 </span>
                 <span className="tabular shrink-0 text-[var(--muted)]">{fa.renounced ? "—" : fmtM(fa.hold)}</span>
+                <button
+                  onClick={() => onSign(fa.playerId)}
+                  title={`Open the signing sheet for ${fa.playerName}`}
+                  className="shrink-0 rounded-[4px] border border-[var(--tier-below_cap)] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.05em] text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]"
+                >
+                  Sign
+                </button>
                 <button
                   onClick={() => toggleRenounce(fa.playerId, fa.playerName, teamId)}
                   className={`w-[68px] shrink-0 rounded-[4px] border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.05em] ${fa.renounced ? "border-[var(--tier-below_cap)] text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]" : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]"}`}
@@ -631,7 +649,7 @@ function TeamColumn({
 
       {others.length > 0 && (
         <div className="border-t border-[var(--border)] px-4 py-2.5 pb-3">
-          <div className="mb-1.5"><Term k="picks" className="label">Draft picks owned</Term></div>
+          <div className="mb-1.5"><Term k="picks" underline className="label">Draft picks owned</Term></div>
           <div className="flex flex-wrap gap-1">
             {picks.map((p) => {
               const mv = pickSel[p.id];
@@ -661,12 +679,14 @@ function TeamColumn({
 const isOwnKept = (fa: FreeAgent, team: string) =>
   fa.priorTeam === team && !fa.renounced;
 
-function SignDrawer({ team, lg, onClose }: { team: string; lg: LG; onClose: () => void }) {
+function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?: string; lg: LG; onClose: () => void }) {
   const committed = lg.teamSalary(team);
   const holds = lg.teamHolds(team);
   const fas = lg.freeAgents();
   const [q, setQ] = useState("");
-  const [selected, setSelected] = useState<FreeAgent | null>(null);
+  const [selected, setSelected] = useState<FreeAgent | null>(
+    () => (initialId ? fas.find((f) => f.playerId === initialId) ?? null : null),
+  );
   const list = q ? fas.filter((f) => f.playerName.toLowerCase().includes(q.toLowerCase())) : fas;
   // Signing base = committed + kept holds; re-signing your own FA converts HIS
   // hold to salary, so it drops out of the base for that player.
@@ -914,17 +934,28 @@ function SignEditor({
 
       <div className="mb-1 flex flex-wrap items-center gap-2">
         <span className="text-base font-semibold">{fa.playerName}</span>
-        {isOwn && <span className="rounded bg-[color-mix(in_srgb,var(--tier-below_cap)_20%,transparent)] px-1.5 py-0.5 text-[9px] font-bold text-[var(--tier-below_cap)]">OWN · {BIRD_LABEL[fa.birdStatus]}</span>}
-        {fa.faType === "RFA" && <span className="rounded bg-[color-mix(in_srgb,var(--tier-taxpayer)_20%,transparent)] px-1.5 py-0.5 text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span>}
+        {isOwn && (
+          <Term k={fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird" ? fa.birdStatus : "bird"}>
+            <span className="rounded bg-[color-mix(in_srgb,var(--tier-below_cap)_20%,transparent)] px-1.5 py-0.5 text-[9px] font-bold text-[var(--tier-below_cap)]">OWN · {BIRD_LABEL[fa.birdStatus]}</span>
+          </Term>
+        )}
+        {fa.faType === "RFA" && (
+          <Term k="rfa">
+            <span className="rounded bg-[color-mix(in_srgb,var(--tier-taxpayer)_20%,transparent)] px-1.5 py-0.5 text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span>
+          </Term>
+        )}
       </div>
       <div className="mb-4 text-xs text-[var(--muted)]">
-        {fa.yearsOfService} yrs service · last salary {fmtM(fa.lastSalary)} · {fa.priorTeam === team ? BIRD_LABEL[fa.birdStatus].toLowerCase() : `from ${teamMeta(fa.priorTeam).name}`}
+        <Term k="yos" underline extra={`${fa.playerName}: ${fa.yearsOfService} years of service.`}>{fa.yearsOfService} yrs service</Term>
+        {" "}· last salary {fmtM(fa.lastSalary)} · {fa.priorTeam === team ? BIRD_LABEL[fa.birdStatus].toLowerCase() : `from ${teamMeta(fa.priorTeam).name}`}
       </div>
 
       {/* Salary picker */}
       <label className="mb-1 flex items-baseline justify-between text-xs text-[var(--muted)]">
-        <span>First-year salary</span>
-        <span className="tabular text-[10px]">max {fmtM(ceiling)}</span>
+        <Term k="raises" underline>First-year salary</Term>
+        <Term k="max_salary" underline extra={`the largest legal first-year offer here is ${fmtM(ceiling)}.`}>
+          <span className="tabular text-[10px]">max {fmtM(ceiling)}</span>
+        </Term>
       </label>
       <div className="mb-2 flex items-center gap-2">
         <span className="text-[var(--muted)]">$</span>
@@ -992,18 +1023,27 @@ function SignEditor({
       {/* Live legality readout */}
       <div className="mb-4 rounded-md border p-3 text-xs" style={{ borderColor: v.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)", background: `color-mix(in srgb, ${v.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)"} 8%, transparent)` }}>
         <div className="mb-1 flex items-center justify-between">
-          <span className="font-semibold" style={{ color: v.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
-            {v.legal ? `Legal — ${v.mechanism!.label}` : "Not allowed"}
-          </span>
+          {v.legal ? (
+            <Term k={v.mechanism!.id} underline>
+              <span className="font-semibold" style={{ color: "var(--tier-below_cap)" }}>
+                Legal — {v.mechanism!.label}
+              </span>
+            </Term>
+          ) : (
+            <span className="font-semibold" style={{ color: "var(--tier-second_apron)" }}>Not allowed</span>
+          )}
           {v.legal && v.hardCap && (
-            <span className="rounded-full px-2 py-0.5 text-[9px] font-bold" style={{ color: mColor, border: `1px solid ${mColor}` }}>
-              hard-caps at {v.hardCap === "first_apron" ? "1st apron" : "2nd apron"}
-            </span>
+            <Term k="hard_cap" extra={`this signing hard-caps ${teamMeta(team).name} at the ${v.hardCap === "first_apron" ? "first" : "second"} apron for the season.`}>
+              <span className="rounded-full px-2 py-0.5 text-[9px] font-bold" style={{ color: mColor, border: `1px solid ${mColor}` }}>
+                hard-caps at {v.hardCap === "first_apron" ? "1st apron" : "2nd apron"}
+              </span>
+            </Term>
           )}
         </div>
         <div className="text-[var(--muted)]">{v.reason}</div>
         <div className="mt-1 text-[var(--muted)]">
-          Team after: <span className="tabular text-[var(--text)]">{fmtM(afterCharge)}</span> · {afterTier.replace("_", " ")}
+          Team after: <span className="tabular text-[var(--text)]">{fmtM(afterCharge)}</span> ·{" "}
+          <Term k={afterTier} underline>{afterTier.replace("_", " ")}</Term>
         </div>
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">

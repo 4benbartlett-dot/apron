@@ -47,8 +47,10 @@ const NAV = [
   { href: "/", label: "Offseason" },
   { href: "/league", label: "League" },
   { href: "/transactions", label: "Transactions" },
-  { href: "/deadlines", label: "Deadlines" },
   { href: "/draft", label: "Draft picks" },
+  { href: "/deadlines", label: "Deadlines" },
+  { href: "/glossary", label: "Glossary" },
+  { href: "/guide", label: "How to play" },
 ] as const;
 
 export default function RootLayout({
@@ -78,7 +80,7 @@ export default function RootLayout({
                 </Link>
               ))}
             </nav>
-            <div className="label ml-auto hidden shrink-0 whitespace-nowrap sm:block">
+            <div className="label ml-auto hidden shrink-0 whitespace-nowrap xl:block">
               2026–27 · Free agency
             </div>
           </div>
