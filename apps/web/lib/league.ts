@@ -122,6 +122,16 @@ export const TEAM_IDS: string[] = [...TEAMS]
   .map((t) => t.id)
   .sort((a, b) => a.localeCompare(b));
 
+const TWO_WORD_CITIES = ["Los Angeles", "New York", "New Orleans", "Golden State", "San Antonio", "Oklahoma City"];
+/** "Portland Trail Blazers" → "Trail Blazers"; "Los Angeles Lakers" → "Lakers". */
+export function teamNickname(id: string): string {
+  const n = teamMeta(id).name;
+  const cut = TWO_WORD_CITIES.some((c) => n.startsWith(c)) ? 2 : 1;
+  return n.split(" ").slice(cut).join(" ") || n;
+}
+/** Sort team ids alphabetically by nickname (Bucks, Bulls, Cavaliers…). */
+export const byNickname = (a: string, b: string) => teamNickname(a).localeCompare(teamNickname(b));
+
 const teamById = new Map<string, Team>(TEAMS.map((t) => [t.id, t]));
 export function teamMeta(id: string): Team {
   return teamById.get(id) ?? { id, name: id };

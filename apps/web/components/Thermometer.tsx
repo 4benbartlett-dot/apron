@@ -1,6 +1,15 @@
 import type { ApronTier, LeagueConstants } from "@apron/cba-engine";
 import { classifyTier } from "@apron/cba-engine";
 import { tierColor } from "@/lib/format";
+import { Term } from "@/components/Term";
+import type { TermKey } from "@/lib/glossary";
+
+const TICK_TERM: Record<string, TermKey> = {
+  Cap: "cap",
+  Tax: "tax",
+  "1A": "first_apron",
+  "2A": "second_apron",
+};
 
 interface Props {
   salary: number;
@@ -62,7 +71,7 @@ export function Thermometer({
               className="absolute -translate-x-1/2 text-[9px] text-[var(--muted)]"
               style={{ left: pct(t.v) }}
             >
-              {t.label}
+              <Term k={TICK_TERM[t.label] ?? "cap"}>{t.label}</Term>
             </span>
           ))}
         </div>
