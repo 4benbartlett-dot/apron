@@ -20,6 +20,9 @@ import { findTradePackages } from "@/lib/tradeFinder";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
+import { TeamPicker } from "@/components/TeamPicker";
+import { ShareCardModal } from "@/components/ShareCardModal";
+import type { DecodedPick } from "@/lib/trade-share";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
@@ -72,7 +75,9 @@ const MECH_SHORT: Record<MechanismId, string> = {
 
 export default function OffseasonSim() {
   const lg = useLeague();
-  const [board, setBoard] = useState<string[]>(["BOS", "LAL"]);
+  const [board, setBoard] = useState<string[]>([]);
+  const [ready, setReady] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [sel, setSel] = useState<Record<string, Sel>>({});
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
   const [signFor, setSignFor] = useState<string | null>(null);
@@ -108,14 +113,16 @@ export default function OffseasonSim() {
     } catch {
       /* ignore */
     }
+    setReady(true);
   }, []);
   useEffect(() => {
+    if (!ready) return;
     try {
       localStorage.setItem("apron_board_v1", JSON.stringify(board));
     } catch {
       /* ignore */
     }
-  }, [board]);
+  }, [board, ready]);
 
   const addTeam = (id: string) =>
     setBoard((b) => (b.includes(id) || b.length >= 8 ? b : [...b, id]));
@@ -218,6 +225,19 @@ export default function OffseasonSim() {
   };
 
   const available = TEAM_IDS.filter((t) => !board.includes(t));
+  const sharePicks: DecodedPick[] = Object.entries(pickSel)
+    .filter(([, mv]) => board.includes(mv.from) && board.includes(mv.to))
+    .map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
+
+  // First run: no team yet — the landing IS the team picker.
+  if (!ready) return <div className="min-h-[50vh]" />;
+  if (board.length === 0) {
+    return (
+      <div className="pb-24 pt-2">
+        <TeamPicker onPick={(id) => setBoard([id])} />
+      </div>
+    );
+  }
 
   return (
     <div className="pb-24">
@@ -261,7 +281,7 @@ export default function OffseasonSim() {
 
       {/* trade verdict */}
       {hasTrade && (
-        <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} lg={lg} />
+        <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
       )}
 
       {/* board */}
@@ -283,13 +303,22 @@ export default function OffseasonSim() {
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
           />
         ))}
-        {board.length === 0 && (
-          <div className="panel p-6 text-center text-sm text-[var(--muted)]">
-            Add teams to your board to start building your offseason.
-          </div>
-        )}
       </div>
 
+      {shareOpen && hasTrade && (
+        <ShareCardModal
+          trade={trade}
+          picks={sharePicks}
+          verdict={verdict}
+          extraViolations={[...stepienViolations, ...hardCapTradeViolations]}
+          nameOf={lg.playerName}
+          salaryOf={(id) => {
+            const c = lg.contracts.find((x) => x.playerId === id);
+            return c ? currentSalary(c) : 0;
+          }}
+          onClose={() => setShareOpen(false)}
+        />
+      )}
       {signFor && <SignDrawer team={signFor} lg={lg} onClose={() => setSignFor(null)} />}
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
       {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
@@ -302,12 +331,14 @@ function TradeVerdict({
   extraViolations = [],
   valueByTeam = {},
   onExecute,
+  onShare,
   lg,
 }: {
   verdict: ReturnType<typeof validateTrade>;
   extraViolations?: string[];
   valueByTeam?: Record<string, { in: number; out: number }>;
   onExecute: () => void;
+  onShare: () => void;
   lg: LG;
 }) {
   const legal = verdict.legal && extraViolations.length === 0;
@@ -321,23 +352,36 @@ function TradeVerdict({
   return (
     <div className="panel overflow-hidden" style={{ borderLeft: `3px solid ${color}` }}>
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
-        <div className="min-w-0">
-          <span className="label !text-[11px]" style={{ color }}>
+        <div className="flex min-w-0 items-center gap-3">
+          <span
+            key={`${legal}-${firstReason ?? ""}`}
+            className="stamp stamp-in shrink-0 text-[12px]"
+            style={{ color }}
+          >
             {legal ? "Legal trade" : "Blocked"}
           </span>
           {!legal && (
-            <div className="mt-0.5 text-sm leading-snug text-[var(--text)]">{firstReason}</div>
+            <div className="min-w-0 text-sm leading-snug text-[var(--text)]">{firstReason}</div>
           )}
         </div>
-        {legal && (
+        <div className="flex shrink-0 items-center gap-2">
           <button
-            onClick={onExecute}
-            className="shrink-0 rounded-md px-3.5 py-1.5 text-sm font-semibold text-white hover:brightness-95"
-            style={{ background: color }}
+            onClick={onShare}
+            className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-sm font-semibold text-[var(--text)] hover:border-[var(--text)]"
+            title="Share this verdict as a card"
           >
-            Execute trade
+            Share card
           </button>
-        )}
+          {legal && (
+            <button
+              onClick={onExecute}
+              className="rounded-md px-3.5 py-1.5 text-sm font-semibold text-white hover:brightness-95"
+              style={{ background: color }}
+            >
+              Execute trade
+            </button>
+          )}
+        </div>
       </div>
       {valTeams.length >= 2 && (
         <div className="rule flex flex-wrap items-center gap-x-5 gap-y-1 bg-[var(--panel-2)]/50 px-4 py-2 text-xs">

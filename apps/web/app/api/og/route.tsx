@@ -31,33 +31,48 @@ function Wordmark() {
           width: 44,
           height: 44,
           background: ink,
-          borderRadius: 9,
+          borderRadius: 10,
           position: "relative",
           display: "flex",
           marginRight: 14,
         }}
       >
-        {/* the ball, over the line */}
+        {/* the vault: dashed apron line, arc clearing it, ball at the apex */}
         <div
           style={{
             position: "absolute",
-            left: 9,
-            right: 9,
-            top: 30,
-            height: 4,
-            borderRadius: 3,
-            background: sienna,
+            left: 7,
+            right: 7,
+            top: 28,
+            height: 4.5,
+            background: `repeating-linear-gradient(90deg, ${sienna} 0px, ${sienna} 6px, transparent 6px, transparent 10px)`,
+            borderRadius: 2,
             display: "flex",
           }}
         />
         <div
           style={{
             position: "absolute",
-            left: 16,
-            top: 10,
-            width: 12,
-            height: 12,
-            borderRadius: 12,
+            left: 7,
+            top: 12,
+            width: 26,
+            height: 30,
+            border: "3.5px solid transparent",
+            borderTopColor: bg,
+            borderLeftColor: bg,
+            borderRadius: "100%",
+            transform: "rotate(32deg)",
+            display: "flex",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 29,
+            top: 9,
+            width: 10,
+            height: 10,
+            borderRadius: 10,
             background: bg,
             display: "flex",
           }}
@@ -144,9 +159,20 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", marginTop: 30 }}>
-          <div style={{ display: "flex", width: 6, height: 40, background: accent, borderRadius: 2, marginRight: 16 }} />
-          <div style={{ fontSize: 38, fontWeight: 700, color: accent, letterSpacing: 1.5 }}>
+        <div style={{ display: "flex", alignItems: "center", marginTop: 26 }}>
+          <div
+            style={{
+              display: "flex",
+              border: `4px solid ${accent}`,
+              borderRadius: 10,
+              padding: "4px 20px",
+              fontSize: 34,
+              fontWeight: 800,
+              color: accent,
+              letterSpacing: 3,
+              transform: "rotate(-3deg)",
+            }}
+          >
             {s.legal ? "LEGAL TRADE" : "BLOCKED"}
           </div>
         </div>
@@ -177,6 +203,12 @@ export async function GET(req: Request) {
               <div style={{ display: "flex", fontSize: 19, color: muted, marginTop: 2, fontFamily: mono }}>
                 OUT&nbsp;{pt.outgoing.join(", ") || "—"}
               </div>
+              {pt.rule ? (
+                <div style={{ display: "flex", alignItems: "center", fontSize: 15, color: muted, marginTop: 7 }}>
+                  <div style={{ display: "flex", width: 7, height: 7, borderRadius: 7, background: TIER.below_cap.color, marginRight: 8 }} />
+                  legal under {pt.rule}
+                </div>
+              ) : null}
             </div>
           ))}
         </div>
