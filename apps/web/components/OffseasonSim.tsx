@@ -124,6 +124,17 @@ export default function OffseasonSim() {
     }
   }, [board, ready]);
 
+  // Header wordmark on the home page → back to the team picker.
+  useEffect(() => {
+    const toPicker = () => {
+      setBoard([]);
+      setSel({});
+      setPickSel({});
+    };
+    window.addEventListener("ota:pick-team", toPicker);
+    return () => window.removeEventListener("ota:pick-team", toPicker);
+  }, []);
+
   const addTeam = (id: string) =>
     setBoard((b) => (b.includes(id) || b.length >= 8 ? b : [...b, id]));
   const removeTeam = (id: string) => {
@@ -277,6 +288,13 @@ export default function OffseasonSim() {
             ))}
           </select>
         )}
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent("ota:pick-team"))}
+          className="ml-auto rounded-md px-2 py-1 text-[12px] font-medium text-[var(--muted)] underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]"
+          title="Back to the team picker"
+        >
+          Switch team
+        </button>
       </div>
 
       {/* trade verdict */}
@@ -286,9 +304,9 @@ export default function OffseasonSim() {
 
       {/* board */}
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {board.map((id) => (
+        {board.map((id, i) => (
+          <div key={id} className="fade-up" style={{ animationDelay: `${i * 70}ms` }}>
           <TeamColumn
-            key={id}
             teamId={id}
             board={board}
             lg={lg}
@@ -302,6 +320,7 @@ export default function OffseasonSim() {
             onSign={() => setSignFor(id)}
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
           />
+          </div>
         ))}
       </div>
 
@@ -467,8 +486,8 @@ function TeamColumn({
           <div className="min-w-0">
             <div className="truncate text-[15px] font-semibold leading-tight">{meta.name}</div>
             <div className="tabular mt-0.5 text-xs text-[var(--muted)]">
-              {fmtFull(post)}
-              {post !== pre && ` (${post > pre ? "+" : ""}${fmtM(post - pre)})`}
+              <span className="total-rule">{fmtFull(post)}</span>
+              {post !== pre && <span> ({post > pre ? "+" : ""}{fmtM(post - pre)})</span>}
               {holds > 0 && <span> · +{fmtM(holds)} holds</span>}
             </div>
           </div>
@@ -543,7 +562,7 @@ function TeamColumn({
           return (
             <div
               key={c.playerId}
-              className="flex items-center justify-between gap-2 border-b border-[var(--border)]/60 px-4 py-[7px] text-[13.5px] leading-none transition-colors"
+              className="ledger-row flex items-center justify-between gap-2 border-b border-[var(--border)]/60 px-4 py-[7px] text-[13.5px] leading-none transition-colors"
               style={{ background: out ? "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" : undefined }}
             >
               <button onClick={() => onTogglePlayer(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-2 text-left hover:text-[var(--accent-ink)]" disabled={others.length === 0}>

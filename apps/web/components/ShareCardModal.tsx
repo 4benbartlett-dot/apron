@@ -224,9 +224,11 @@ export function ShareCardModal({
             </ul>
           </div>
 
-          <div className="flex items-center justify-between border-t border-[var(--border)] px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
-            <span>Every verdict cites the 2023 CBA</span>
-            <span className="tabular">2026–27 · overtheapron.com</span>
+          <div className="tear flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
+            <span className="tabular uppercase tracking-[0.08em]">
+              Filed {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · 2023 CBA
+            </span>
+            <span className="tabular">overtheapron.com</span>
           </div>
         </div>
 
@@ -241,7 +243,7 @@ export function ShareCardModal({
           <a href={tweetHref} target="_blank" rel="noopener noreferrer" className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Post on 𝕏
           </a>
-          <button onClick={onClose} className="rounded-md px-3 py-1.5 text-xs font-semibold text-[var(--bg)]/90 hover:text-[var(--bg)]">
+          <button onClick={onClose} className="rounded-md px-3 py-1.5 text-xs font-semibold text-[#f4f1e9]/85 hover:text-[#f4f1e9]">
             Close
           </button>
         </div>
