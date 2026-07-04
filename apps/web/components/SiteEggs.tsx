@@ -2,6 +2,25 @@
 
 import { useEffect } from "react";
 
+/** A paper-slip toast from the league office. */
+export function leagueToast(stamp: string, text: string, tone: "green" | "red" = "green") {
+  if (typeof document === "undefined") return;
+  document.querySelector(".egg-toast")?.remove();
+  const el = document.createElement("div");
+  el.className = "egg-toast";
+  const color = tone === "green" ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
+  const safe = (t: string) => t.replace(/[<>&]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[ch]!);
+  el.innerHTML = `<span class="stamp" style="color:${color}">${safe(stamp)}</span><span>${safe(text)}</span>`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2900);
+}
+
+/** Type a name, get a reply. (Outside inputs only.) */
+const WORD_EGGS: Record<string, [string, string]> = {
+  stepien: ["Denied", "The league office would like a word before you finish that thought, Ted."],
+  woj: ["Filed", "He would have reported it before you finished typing."],
+};
+
 const KONAMI = [
   "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
   "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
@@ -62,6 +81,7 @@ export function SiteEggs() {
     // Sliding buffer instead of an index machine: correct for every overlap
     // (Up-Up-Up-Down… still fires — key repeat happens to real people).
     const buf: string[] = [];
+    let letters = "";
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
       if (e.isComposing) return;
@@ -72,6 +92,18 @@ export function SiteEggs() {
       if (buf.length === KONAMI.length && buf.every((x, j) => x === KONAMI[j])) {
         buf.length = 0;
         veto();
+      }
+      // Word eggs ride the same buffer (letters only).
+      if (/^[a-z]$/.test(k)) {
+        letters = (letters + k).slice(-12);
+        for (const [word, [stamp, text]] of Object.entries(WORD_EGGS)) {
+          if (letters.endsWith(word)) {
+            letters = "";
+            leagueToast(stamp, text, stamp === "Denied" ? "red" : "green");
+          }
+        }
+      } else if (e.key.length === 1 || e.key === " ") {
+        letters = "";
       }
     };
     window.addEventListener("keydown", onKey);

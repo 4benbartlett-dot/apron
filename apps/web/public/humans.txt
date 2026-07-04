@@ -5,7 +5,7 @@ Site: https://overtheapron.com
 /* SCOUTING REPORT */
 Engine: a pure-TypeScript 2023 CBA rules engine.
 Validated by replaying every real July 2026 move. All legal.
-103 tests and counting — every confirmed miss becomes one more.
+109 tests and counting — every confirmed miss becomes one more.
 
 /* COLOPHON */
 Paper: warm ledger. Ink: IBM Plex.
@@ -15,3 +15,4 @@ The ball clears the apron line at 50.5, 21.5.
 /* FINE PRINT */
 Independent project; not affiliated with the NBA or NBPA.
 The Konami code works. The commissioner reserves all rights.
+Certain names, typed anywhere, get a reply from the league office.
