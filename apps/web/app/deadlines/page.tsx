@@ -13,7 +13,8 @@ export default function DeadlinesPage() {
         <h1 className="text-2xl font-bold tracking-tight">Deadlines & Eligibility</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Upcoming option/guarantee decisions and extension-eligible players —
-          compiled from public reporting.
+          compiled from public reporting. Real-world calendar; your sim moves
+          don&rsquo;t change these dates.
         </p>
       </div>
 

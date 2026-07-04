@@ -1,18 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useLeague } from "@/lib/store";
-import { TEAMS, C, teamMeta } from "@/lib/league";
+import { useState } from "react";
+import { capSheet as engCapSheet } from "@apron/cba-engine";
+import { useLeague, useMoves } from "@/lib/store";
+import { TEAMS, C, teamMeta, BASE_CONTRACTS, leagueData } from "@/lib/league";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
+const BASE_DATA = leagueData(BASE_CONTRACTS);
+
 export default function LeaguePage() {
   const lg = useLeague();
-  const sheets = TEAMS.map((t) => lg.capSheet(t.id)).sort(
-    (a, b) => b.salary - a.salary,
-  );
+  const moves = useMoves();
+  const [applyMine, setApplyMine] = useState(true);
+  const sheets = TEAMS.map((t) =>
+    applyMine ? lg.capSheet(t.id) : engCapSheet(BASE_DATA, t.id, C),
+  ).sort((a, b) => b.salary - a.salary);
 
   const overSecond = sheets.filter((s) => s.isOverSecondApron).length;
   const overFirst = sheets.filter((s) => s.isOverFirstApron && !s.isOverSecondApron).length;
@@ -26,6 +32,18 @@ export default function LeaguePage() {
           <p className="mt-1 text-sm text-[var(--muted)]">
             All 30 teams by 2026-27 committed salary, against the four CBA thresholds.
           </p>
+          {moves.length > 0 && (
+            <button
+              onClick={() => setApplyMine((v) => !v)}
+              className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)] px-2.5 py-1 text-[11px] font-semibold text-[var(--accent-ink)] hover:bg-[color-mix(in_srgb,var(--accent)_10%,transparent)]"
+              aria-pressed={applyMine}
+            >
+              <span className="h-2 w-2 rounded-full" style={{ background: applyMine ? "var(--accent)" : "var(--border-strong)" }} />
+              {applyMine
+                ? `Your ${moves.length} move${moves.length > 1 ? "s" : ""} applied — tap for the league as of today`
+                : "League as of today — tap to apply your offseason"}
+            </button>
+          )}
           <p className="mt-0.5 text-xs text-[var(--muted)]">
             New league year · free agency open. Rosters reflect applied trades &amp;
             signings; each card shows the team’s free-agent cap holds.
