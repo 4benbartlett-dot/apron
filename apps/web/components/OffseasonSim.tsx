@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { explainBlocked } from "@/lib/tradeFix";
@@ -582,6 +582,7 @@ function TeamColumn({
     .freeAgents()
     .filter((f) => f.priorTeam === teamId)
     .sort((a, b) => b.hold - a.hold);
+  const deadRows = deadMoneyOf(lg.contracts, teamId);
 
   // MLE / exception consumption from this offseason's signings.
   const exceptionUsed: Partial<Record<MechanismId, number>> = {};
@@ -773,6 +774,23 @@ function TeamColumn({
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {deadRows.length > 0 && (
+        <div className="border-t border-[var(--border)] px-4 py-2.5">
+          <div className="mb-1 flex items-center justify-between">
+            <Term k="dead_money" underline className="label">Dead money</Term>
+            <span className="tabular text-[10px] font-semibold text-[var(--muted)]">
+              {fmtM(deadRows.reduce((sum, c) => sum + currentSalary(c), 0))} on the books
+            </span>
+          </div>
+          {deadRows.map((c) => (
+            <div key={c.playerId} className="flex items-center justify-between py-[3px] text-xs text-[var(--muted)]">
+              <span className="truncate italic">{c.playerName}</span>
+              <span className="tabular shrink-0">{fmtM(currentSalary(c))}</span>
+            </div>
+          ))}
         </div>
       )}
 

@@ -120,6 +120,12 @@ export const GLOSSARY = {
     cite: "2023 CBA · Art. VII \u00a72(b)",
   },
 
+  dead_money: {
+    title: "Dead money",
+    body: "Salary still owed to a player the team waived. It stays on the cap sheet — counting against the cap, tax, and aprons — even though he's gone; the stretch provision can spread it over twice the remaining years plus one. You can't trade a cap charge, and he isn't your free agent.",
+    cite: "2023 CBA · Art. VII \u00a77(d) (stretch)",
+  },
+
   // ---- trade rules ---------------------------------------------------------
   matching: {
     title: "Salary matching",

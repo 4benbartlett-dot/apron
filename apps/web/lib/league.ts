@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026 } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -167,13 +167,62 @@ function preferred(a: Contract, b: Contract): Contract {
   if (a27 !== b27) return a27 > b27 ? a : b;
   return salaryForYear(a, "2025-26") >= salaryForYear(b, "2025-26") ? a : b;
 }
+
+/** A waived-and-stretched cap charge reads as 3+ seasons of IDENTICAL
+ * salary — real contracts have raises. (Lillard's $22.5M×5 on Milwaukee's
+ * books vs. his actual Portland deal is the canonical case.) */
+function looksStretched(c: Contract): boolean {
+  const sals = c.years.filter((y) => y.salary > 0).map((y) => y.salary);
+  return sals.length >= 3 && new Set(sals).size === 1;
+}
+
+/** Single-row dead money: a flat multi-year charge for a player who did NOT
+ * appear in the 2025-26 season (no Basketball-Reference row) — JaVale McGee's
+ * $2.2M×3 on Dallas, Rubio's $425k×2 buyout remnant on Cleveland. The
+ * no-appearance guard matters because this source also lists some ACTIVE
+ * contracts as flat AAV (Quickley's $32.5M×4 is a real deal, and he played). */
+function looksDeadSolo(c: Contract): boolean {
+  if (RATINGS[c.playerId]) return false; // played in 2025-26 → a real player
+  const sals = c.years.filter((y) => y.salary > 0).map((y) => y.salary);
+  if (sals.length < 2 || new Set(sals).size !== 1) return false;
+  return sals.length >= 3 || sals[0]! < 1_000_000;
+}
+
+/** The source cap sheets carry BOTH a stretched player's dead-money charge
+ * (on the team that waived him) and his real contract. Keep the real one as
+ * the player; keep dead charges on the paying team's books, flagged, under a
+ * synthetic id so nothing roster-shaped ever picks them up. */
 function dedupe(contracts: Contract[]): Contract[] {
-  const map = new Map<string, Contract>();
+  const groups = new Map<string, Contract[]>();
   for (const c of contracts) {
-    const cur = map.get(c.playerId);
-    map.set(c.playerId, cur ? preferred(cur, c) : c);
+    const g = groups.get(c.playerId);
+    if (g) g.push(c);
+    else groups.set(c.playerId, [c]);
   }
-  return [...map.values()];
+  const out: Contract[] = [];
+  for (const [pid, rows] of groups) {
+    if (rows.length === 1) {
+      const only = rows[0]!;
+      out.push(looksDeadSolo(only) ? { ...only, deadMoney: true } : only);
+      continue;
+    }
+    const real = rows.filter((r) => !looksStretched(r));
+    // Active row: the non-stretch one if exactly identifiable, else the old
+    // higher-salary tiebreak among candidates.
+    const pool = real.length >= 1 ? real : rows;
+    let active = pool[0]!;
+    for (const r of pool.slice(1)) active = preferred(active, r);
+    out.push(active);
+    for (const r of rows) {
+      if (r === active) continue;
+      out.push({
+        ...r,
+        playerId: `${pid}::dead-${r.teamId}`,
+        deadMoney: true,
+      });
+    }
+  }
+  return out;
 }
 
 const cloneContract = (c: Contract): Contract => ({ ...c, years: [...c.years] });
@@ -183,6 +232,7 @@ function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: str
   const cloned = contracts.map(cloneContract);
   const byName = new Map<string, Contract>();
   for (const c of cloned) {
+    if (c.deadMoney) continue;
     const k = norm(c.playerName);
     if (!byName.has(k)) byName.set(k, c);
   }
@@ -215,6 +265,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
   const cloned = contracts.map(cloneContract);
   const byName = new Map<string, Contract>();
   for (const c of cloned) {
+    if (c.deadMoney) continue;
     const k = norm(c.playerName);
     if (!byName.has(k)) byName.set(k, c);
   }
@@ -303,6 +354,7 @@ function dealFromAav(aav: number, term: number): ContractYear[] {
 function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: string[] } {
   const signed: string[] = [];
   const out = contracts.map((c) => {
+    if (c.deadMoney) return c;
     const s = SIGNINGS[normName(c.playerName)];
     if (!s || !s.aav || s.aav <= 0) return c;
     const team = stdTeam(s.team);
@@ -332,6 +384,7 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
 function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: string[] } {
   const freed: string[] = [];
   const out = contracts.map((c) => {
+    if (c.deadMoney) return c;
     if (!OPTION_DECLINED.has(normName(c.playerName))) return c;
     freed.push(c.playerName);
     return {
@@ -342,7 +395,10 @@ function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: st
   return { contracts: out, freed };
 }
 
-const deduped = dedupe(base.contracts);
+const RETIRED = new Set(RETIRED_2026.map(normName));
+// Announced retirements leave the league entirely — no roster spot, no hold.
+const activeRaw = base.contracts.filter((c) => !RETIRED.has(normName(c.playerName)));
+const deduped = dedupe(activeRaw);
 // Options first (a declined option makes a player a FA), then trades, then the
 // offseason's signings restore/re-sign anyone who agreed to a new deal.
 const afterOptions = applyOptions(deduped);
@@ -508,7 +564,14 @@ export function pickValue(year: number, round: 1 | 2, origin?: string): number {
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {
   return contracts
-    .filter((c) => c.teamId === teamId && currentSalary(c) > 0)
+    .filter((c) => c.teamId === teamId && currentSalary(c) > 0 && !c.deadMoney)
+    .sort((a, b) => currentSalary(b) - currentSalary(a));
+}
+
+/** Waived/stretched charges on this team's books — on the sheet, off the roster. */
+export function deadMoneyOf(contracts: Contract[], teamId: string): Contract[] {
+  return contracts
+    .filter((c) => c.teamId === teamId && c.deadMoney && currentSalary(c) > 0)
     .sort((a, b) => currentSalary(b) - currentSalary(a));
 }
 
@@ -532,7 +595,8 @@ export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
       (c) =>
         salaryForYear(c, "2025-26") > 0 &&
         salaryForYear(c, "2026-27") === 0 &&
-        c.signedUsing !== "Two-Way",
+        c.signedUsing !== "Two-Way" &&
+        !c.deadMoney,
     )
     .map((c) => {
       const lastSalary = salaryForYear(c, "2025-26");

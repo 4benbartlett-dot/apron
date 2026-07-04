@@ -37,6 +37,10 @@ export interface Contract {
   birdStatus?: BirdStatus;
   /** The exception/mechanism used to sign the deal (informational for now). */
   signedUsing?: string;
+  /** A waived/stretched cap charge: counts toward team salary and aprons,
+   * but the player is not on the roster — not tradeable, not extendable,
+   * never a free agent of this team. */
+  deadMoney?: boolean;
   /**
    * If set, the player currently cannot be traded, with this human reason
    * (e.g. a free agent signed this offseason is trade-restricted until Dec 15).
