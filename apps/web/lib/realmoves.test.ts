@@ -283,6 +283,41 @@ describe("manual-moves overlay + two-way reconciliation", () => {
   });
 });
 
+// ---------------------------- DEAD MONEY --------------------------------------
+
+describe("dead money rides the cap sheet, never the roster", () => {
+  it("Lillard plays for Portland; Milwaukee only pays him", () => {
+    const real = BASE_CONTRACTS.find((c) => c.playerName === "Damian Lillard" && !c.deadMoney)!;
+    expect(real.teamId).toBe("POR");
+    const dead = BASE_CONTRACTS.find((c) => c.playerName === "Damian Lillard" && c.deadMoney)!;
+    expect(dead.teamId).toBe("MIL");
+    // the stretch charge still counts in Milwaukee's team salary
+    expect(dead.years.find((y) => y.leagueYear === "2026-27")!.salary).toBeGreaterThan(20_000_000);
+  });
+  it("stretched players never become phantom free agents of the paying team", () => {
+    for (const fa of freeAgentsOf(BASE_CONTRACTS)) {
+      const dead = BASE_CONTRACTS.find((c) => c.deadMoney && c.playerName === fa.playerName);
+      if (dead) expect(fa.priorTeam).not.toBe(dead.teamId);
+    }
+  });
+});
+
+describe("single-row stretch charges and retirements (league-wide audit)", () => {
+  it.each([
+    ["JaVale McGee", "DAL"],
+    ["Nassir Little", "PHX"],
+    ["Didi Louzada", "POR"],
+    ["Ricky Rubio", "CLE"],
+  ])("%s is dead money on %s, not a rostered player", (name, team) => {
+    const c = BASE_CONTRACTS.find((x) => x.playerName === name)!;
+    expect(c.teamId).toBe(team);
+    expect(c.deadMoney).toBe(true);
+  });
+  it("Chris Paul rode off into the sunset — not in the FA pool, not on a roster", () => {
+    expect(BASE_CONTRACTS.some((c) => c.playerName === "Chris Paul")).toBe(false);
+  });
+});
+
 // ---------------------------- VALUE PRIORS -----------------------------------
 
 describe("value priors on the real blockbusters", () => {

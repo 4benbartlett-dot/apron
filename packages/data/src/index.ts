@@ -3,6 +3,7 @@ import raw from "./contracts-2025-26.json";
 import rookiesRaw from "./rookies-2026.json";
 import transactionsRaw from "./transactions.json";
 import manualMovesRaw from "./manual-moves.json";
+import retiredRaw from "./retired-2026.json";
 import upcomingRaw from "./upcoming-deadlines.json";
 import extEligibleRaw from "./extension-eligible.json";
 import draftPicksRaw from "./draft-picks.json";
@@ -66,6 +67,9 @@ export interface Transaction {
 }
 
 /** Recent NBA transactions (Spotrac via Firecrawl). */
+/** Announced retirements effective end of 2025-26 (curated). */
+export const RETIRED_2026: string[] = (retiredRaw as { players: string[] }).players;
+
 // Feed rows first (newest-first); manually curated breaking moves appended so a
 // later feed row for the same player supersedes the manual entry.
 export const TRANSACTIONS = [

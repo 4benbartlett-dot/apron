@@ -28,13 +28,13 @@ const MODELED = [
   "Sign-and-trade contracts enforce the 3–4 season term (§8(e)(1)(ii)) AND the acquirer must have room or match salary with the return package (§8(e)(1)(vii))",
   "Trade freezes per Art. VII §8(d)/(f): rookie signings 30 days; FA signings Dec 15; over-cap Bird re-signs at >120% until Jan 15; extensions beyond extend-and-trade limits 6 months; matched RFA offer sheets one year (§5(j))",
   "Renegotiation Mar–Jun blackout window",
-  "Validated against reality: every real July 1, 2026 trade, sign-and-trade, and signing replays as legal through the engine (see lib/realmoves.test.ts)",
+  "Dead money (waived/stretched salary, e.g. Lillard's charge on Milwaukee's books) rides the cap sheet and counts against every line, but is off the roster — never tradeable, extendable, or a phantom free agent",
+    "Validated against reality: every real July 1, 2026 trade, sign-and-trade, and signing replays as legal through the engine (see lib/realmoves.test.ts)",
 ];
 
 const APPROXIMATE = [
   "Bird sub-type (full / Early / Non-Bird) is sourced from public listings for 55% of current free agents; the rest default to full Bird — which can overstate a re-sign ceiling, never a trade verdict",
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
-  "Team salary totals include some non-guaranteed / dead-money rows from the source",
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
   "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
