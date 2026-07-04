@@ -48,7 +48,7 @@ export const GLOSSARY = {
   // ---- signing mechanisms --------------------------------------------------
   bird: {
     title: "Bird rights",
-    body: "An exception letting a team exceed the cap to re-sign its own free agent who's been on the roster ~3 seasons, up to his max. This is how expensive rosters keep their stars — and it's the one signing tool even second-apron teams keep. Renouncing a free agent forfeits it.",
+    body: "An exception letting a team exceed the cap to re-sign its own free agent who's been on the roster ~3 seasons, up to his max. This is how expensive rosters keep their stars — and it's the one signing tool even second-apron teams keep. Renouncing a free agent forfeits it. (And yes — named after Larry.)",
     cite: "2023 CBA · Art. VII §6(b)",
   },
   early_bird: {

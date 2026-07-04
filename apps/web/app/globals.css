@@ -374,6 +374,7 @@ body::after {
   .reveal { opacity: 1 !important; transform: none !important; transition: none; }
   .stamp-loop, .stamp-loop-b { animation: none; opacity: 1; transform: rotate(-4deg); }
   .demo-stage, .demo-stage-tag, .demo-capline { animation: none; opacity: 1; transform: none; }
+  .term-card, .term-card:hover { transform: none; transition: none; }
 }
 
 /* ------------------------------------------------------------------ */
@@ -461,7 +462,6 @@ header a[title="Switch team"]:hover .logo-ball { animation: ball-hop 0.5s cubic-
 :focus-visible {
   outline: 2px dotted var(--accent);
   outline-offset: 2px;
-  border-radius: 3px;
 }
 
 /* Every button acknowledges the press. */
@@ -472,4 +472,58 @@ button:active { transform: translateY(0.5px); }
   .route-in, .ledger-row, .count-pop { animation: none !important; }
   .underline-swipe { animation: none; background-size: 100% 3px; }
   header a[title="Switch team"]:hover .logo-ball { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Commissioner's office & fine print                                 */
+/* ------------------------------------------------------------------ */
+
+/* ↑↑↓↓←→←→BA */
+@keyframes veto-cycle {
+  0% { opacity: 0; }
+  4%, 82% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.veto-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(1.5px);
+  animation: veto-cycle 3s both;
+}
+.veto-inner { text-align: center; }
+.veto-stamp {
+  font-size: clamp(44px, 9vw, 110px);
+  color: var(--tier-second_apron);
+  border-width: 6px;
+  border-radius: 18px;
+  padding: 6px 40px;
+  animation: stamp-in 0.5s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+}
+.veto-sub {
+  margin-top: 18px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: fade-up 0.4s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The cap sheet prints like the paper it is. */
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body::after { display: none; }
+  .panel, .term-card { box-shadow: none !important; break-inside: avoid; }
+  main { max-width: none; padding: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .veto-overlay { animation-duration: 2s; }
+  .veto-stamp { animation: none; transform: rotate(-4deg); }
+  .veto-sub { animation: none; opacity: 1; transform: none; }
 }
