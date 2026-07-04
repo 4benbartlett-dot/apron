@@ -158,13 +158,13 @@ export function ShareCardModal({
     (t) => linesFor(t.teamId, "in").players.length > 0 || linesFor(t.teamId, "in").pickLabels.length > 0,
   );
   const tweetText = [
-    "Thoughts on this trade?",
+    "Who says no?",
     "",
     ...receiving.map((t) => `▸ ${t.teamId} get: ${haulFor(t.teamId)}`),
     "",
     legal
-      ? "✅ Legal under the 2023 CBA, per overtheapron.com — receipts:"
-      : "⛔ Except it's illegal under the 2023 CBA, per overtheapron.com — the rule that kills it:",
+      ? "✅ Not the CBA — legal, per overtheapron.com. Receipts:"
+      : "⛔ The CBA does — illegal, per overtheapron.com. The rule:",
   ].join("\n");
   const tweetHref = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
 
