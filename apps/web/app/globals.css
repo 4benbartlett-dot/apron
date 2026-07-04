@@ -527,3 +527,66 @@ button:active { transform: translateY(0.5px); }
   .veto-stamp { animation: none; transform: rotate(-4deg); }
   .veto-sub { animation: none; opacity: 1; transform: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/*  League office correspondence                                       */
+/* ------------------------------------------------------------------ */
+
+/* Paper slip toasts: FILED receipts and league-office replies. */
+@keyframes toast-in {
+  0% { opacity: 0; transform: translate(-50%, 14px); }
+  10%, 84% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, 0); }
+}
+.egg-toast {
+  position: fixed;
+  bottom: 76px;
+  left: 50%;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(440px, calc(100vw - 24px));
+  background: var(--panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 10px 16px;
+  box-shadow: 0 10px 30px rgba(33, 29, 19, 0.18);
+  font-size: 12.5px;
+  line-height: 1.45;
+  pointer-events: none;
+  animation: toast-in 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.egg-toast .stamp { font-size: 10px; flex-shrink: 0; }
+
+/* Shortcuts card (opened with "?") */
+.shortcut-key {
+  display: inline-block;
+  min-width: 22px;
+  text-align: center;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--panel-2);
+  padding: 1px 6px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* The cap sheet signs itself on the way out of the printer. */
+@media print {
+  main::after {
+    content: "Filed from overtheapron.com — every verdict cites the 2023 CBA.";
+    display: block;
+    margin-top: 28px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #746c57;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-toast { animation: veto-cycle 2.8s both; transform: translate(-50%, 0); }
+}

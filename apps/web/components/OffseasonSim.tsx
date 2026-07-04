@@ -21,7 +21,10 @@ import { findTradePackages } from "@/lib/tradeFinder";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Thermometer } from "@/components/Thermometer";
+import { leagueToast } from "@/components/SiteEggs";
 import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
 import type { DecodedPick } from "@/lib/trade-share";
@@ -80,6 +83,8 @@ export default function OffseasonSim() {
   const [board, setBoard] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const router = useRouter();
   const [sel, setSel] = useState<Record<string, Sel>>({});
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
   const [signFor, setSignFor] = useState<{ team: string; faId?: string } | null>(null);
@@ -126,6 +131,37 @@ export default function OffseasonSim() {
       /* ignore */
     }
   }, [board, ready]);
+
+  // Power-user keys: T finder · S sign · G glossary · ? this card.
+  // Escape closes the topmost surface from anywhere (including inputs);
+  // open-a-surface keys go inert while any overlay is already up.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "Escape") {
+        if (shortcutsOpen) setShortcutsOpen(false);
+        else if (shareOpen) return; // the share modal closes itself
+        else if (finderOpen) setFinderOpen(false);
+        else if (signFor) setSignFor(null);
+        else if (extendFor) setExtendFor(null);
+        return;
+      }
+      if (e.key === "?" && shortcutsOpen) {
+        setShortcutsOpen(false);
+        return;
+      }
+      const el = e.target as HTMLElement | null;
+      if (el && (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) || el.isContentEditable)) return;
+      if (shareOpen || signFor || extendFor || finderOpen || shortcutsOpen) return;
+      const k = e.key.toLowerCase();
+      if (e.key === "?") setShortcutsOpen(true);
+      else if (k === "t") setFinderOpen(true);
+      else if (k === "g") router.push("/glossary");
+      else if (k === "s" && board.length) setSignFor({ team: board[0]! });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [router, board, shareOpen, signFor, extendFor, finderOpen, shortcutsOpen]);
 
   // Header wordmark on the home page → back to the team picker.
   useEffect(() => {
@@ -234,6 +270,7 @@ export default function OffseasonSim() {
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
       picks: pickMoves,
     });
+    leagueToast("Filed", `Trade executed — ${names.join(", ")}${pickMoves.length ? ` (+${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""})` : ""}. The league office thanks you.`);
     setSel({});
     setPickSel({});
   };
@@ -327,6 +364,26 @@ export default function OffseasonSim() {
         ))}
       </div>
 
+      {shortcutsOpen && (
+        <div className="fixed inset-0 z-[70]" onClick={() => setShortcutsOpen(false)}>
+          <div className="infobox fixed left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-2 flex items-baseline justify-between">
+              <span className="label !text-[10px] !text-[var(--accent-ink)]">Front-office shortcuts</span>
+              <button onClick={() => setShortcutsOpen(false)} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">✕</button>
+            </div>
+            <div className="space-y-2 text-[12.5px]">
+              <div className="flex items-center justify-between"><span>Trade finder</span><span className="shortcut-key">T</span></div>
+              <div className="flex items-center justify-between"><span>Sign a free agent</span><span className="shortcut-key">S</span></div>
+              <div className="flex items-center justify-between"><span>Glossary</span><span className="shortcut-key">G</span></div>
+              <div className="flex items-center justify-between"><span>Close anything</span><span className="shortcut-key">Esc</span></div>
+              <div className="tear mt-2 flex items-center justify-between pt-2 text-[11px] text-[var(--muted)]">
+                <span>Ask the commissioner</span>
+                <span className="tabular">↑↑↓↓←→←→BA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {shareOpen && hasTrade && (
         <ShareCardModal
           trade={trade}
@@ -543,7 +600,18 @@ function TeamColumn({
         <div className="flex min-w-0 items-center gap-2.5">
           <TeamLogo id={teamId} size={30} />
           <div className="min-w-0">
-            <div className="truncate text-[15px] font-semibold leading-tight">{meta.name}</div>
+            <div className="truncate text-[15px] font-semibold leading-tight">
+              <Link href={`/team/${teamId}`} className="hover:underline decoration-[var(--border-strong)] underline-offset-2" title={`${meta.name} team page`}>
+                {meta.name}
+              </Link>
+              {post < C.minTeamSalary && (
+                <Term k="team_floor" extra={`${meta.name} sit ${fmtM(C.minTeamSalary - post)} below the ${fmtM(C.minTeamSalary)} floor.`}>
+                  <span className="ml-1.5 rounded-[3px] px-1 py-px align-middle text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-taxpayer)", background: "color-mix(in srgb, var(--tier-taxpayer) 14%, transparent)" }}>
+                    BELOW FLOOR
+                  </span>
+                </Term>
+              )}
+            </div>
             <div className="tabular mt-0.5 text-xs text-[var(--muted)]">
               <Term k="committed_salary" extra={`${meta.name} have ${fmtFull(post)} in guaranteed 2026-27 salary.`}>
                 <span className="total-rule">{fmtFull(post)}</span>
@@ -1099,6 +1167,11 @@ function SignEditor({
             </Term>
           ) : (
             <span className="font-semibold" style={{ color: "var(--tier-second_apron)" }}>Not allowed</span>
+          )}
+          {v.legal && Math.floor(ceiling) - 50_000 > floor && Math.round(salary) >= Math.floor(ceiling) - 50_000 && (
+            <Term k="max_salary" extra={`${fa.playerName}'s ceiling here is ${fmtM(ceiling)}.`}>
+              <span className="rounded-full border border-[var(--accent)] px-2 py-0.5 text-[9px] font-bold text-[var(--accent-ink)]">THE MAX</span>
+            </Term>
           )}
           {v.legal && v.hardCap && (
             <Term k="hard_cap" extra={`this signing hard-caps ${teamMeta(team).name} at the ${v.hardCap === "first_apron" ? "first" : "second"} apron for the season.`}>

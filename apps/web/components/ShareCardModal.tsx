@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { MATCH_RULE_LABEL, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta } from "@/lib/league";
-import { encodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
+import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick } from "@/lib/trade-share";
 import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -252,7 +252,7 @@ export function ShareCardModal({
 
           <div className="tear flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
             <span className="tabular uppercase tracking-[0.08em]">
-              Filed {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · 2023 CBA
+              Filed {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {filingNo(token)}
             </span>
             <span className="tabular">overtheapron.com</span>
           </div>

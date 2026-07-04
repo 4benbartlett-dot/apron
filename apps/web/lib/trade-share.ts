@@ -57,6 +57,13 @@ export function encodeTradeParam(
   return btoa(JSON.stringify(payload));
 }
 
+/** Deterministic filing number for a share token — every card is a filing. */
+export function filingNo(token: string): string {
+  let h = 0;
+  for (let i = 0; i < token.length; i++) h = (h * 31 + token.charCodeAt(i)) >>> 0;
+  return `NO. 26-${h.toString(36).toUpperCase().padStart(5, "0").slice(-5)}`;
+}
+
 export interface TradeSummary {
   legal: boolean;
   reason?: string;

@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { summarizeTrade } from "@/lib/trade-share";
+import { summarizeTrade, filingNo } from "@/lib/trade-share";
 import type { ApronTier } from "@apron/cba-engine";
 
 export const runtime = "nodejs";
@@ -155,7 +155,7 @@ export async function GET(req: Request) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Wordmark />
           <div style={{ fontSize: 20, color: muted, fontFamily: mono }}>
-            OVERTHEAPRON.COM · 2023 CBA
+            OVERTHEAPRON.COM · {filingNo(t)}
           </div>
         </div>
 

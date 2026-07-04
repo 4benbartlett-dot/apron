@@ -114,6 +114,12 @@ export const GLOSSARY = {
     cite: "2023 CBA · Art. VII §5",
   },
 
+  team_floor: {
+    title: "Minimum team salary",
+    body: "Teams must spend at least 90% of the cap each season. Finish below the floor and the shortfall is paid out to the roster anyway — so tanking saves face, not money. The sim flags any sheet sitting under the line.",
+    cite: "2023 CBA · Art. VII \u00a72(b)",
+  },
+
   // ---- trade rules ---------------------------------------------------------
   matching: {
     title: "Salary matching",
