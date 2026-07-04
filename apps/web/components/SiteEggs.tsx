@@ -15,10 +15,16 @@ export function leagueToast(stamp: string, text: string, tone: "green" | "red" =
   setTimeout(() => el.remove(), 2900);
 }
 
-/** Type a name, get a reply. (Outside inputs only.) */
-const WORD_EGGS: Record<string, [string, string]> = {
-  stepien: ["Denied", "The league office would like a word before you finish that thought, Ted."],
-  woj: ["Filed", "He would have reported it before you finished typing."],
+/** Type a name, get a reply — anywhere, including search boxes. Matched
+ * against the tail of the letters typed since the last non-letter key —
+ * none of these words occur as the tail of real typing, so no false fires. */
+const WORD_EGGS: Record<string, [string, string, "green" | "red"]> = {
+  stepien: ["Denied", "The league office would like a word before you finish that thought, Ted.", "red"],
+  woj: ["Filed", "He would have reported it before you finished typing.", "green"],
+  shams: ["Filed", "He had the terms before you hit the S.", "green"],
+  tank: ["Noticed", "The floor is 90% of the cap. The league office sees you.", "red"],
+  godmode: ["Denied", "There is no god mode here. There is only the collective bargaining agreement.", "red"],
+  cba: ["Filed", "You're in the right place.", "green"],
 };
 
 const KONAMI = [
@@ -83,27 +89,33 @@ export function SiteEggs() {
     const buf: string[] = [];
     let letters = "";
     const onKey = (e: KeyboardEvent) => {
+      if (e.isComposing || e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
-      if (e.isComposing) return;
-      if (target && (/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable)) return;
+      const inField =
+        !!target && (/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable);
       const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+
+      // Word eggs listen everywhere — search boxes are where people try them.
+      if (/^[a-z]$/.test(k)) {
+        letters = (letters + k).slice(-12);
+        for (const [word, [stamp, text, tone]] of Object.entries(WORD_EGGS)) {
+          if (letters.endsWith(word)) {
+            letters = "";
+            leagueToast(stamp, text, tone);
+            break;
+          }
+        }
+      } else {
+        letters = "";
+      }
+
+      // The commissioner's code only works outside form fields.
+      if (inField) return;
       buf.push(k);
       if (buf.length > KONAMI.length) buf.shift();
       if (buf.length === KONAMI.length && buf.every((x, j) => x === KONAMI[j])) {
         buf.length = 0;
         veto();
-      }
-      // Word eggs ride the same buffer (letters only).
-      if (/^[a-z]$/.test(k)) {
-        letters = (letters + k).slice(-12);
-        for (const [word, [stamp, text]] of Object.entries(WORD_EGGS)) {
-          if (letters.endsWith(word)) {
-            letters = "";
-            leagueToast(stamp, text, stamp === "Denied" ? "red" : "green");
-          }
-        }
-      } else if (e.key.length === 1 || e.key === " ") {
-        letters = "";
       }
     };
     window.addEventListener("keydown", onKey);

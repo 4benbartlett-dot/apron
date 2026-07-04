@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DRAFT_PICKS, type DraftPick } from "@apron/data";
 import { TEAM_IDS, teamMeta, byNickname } from "@/lib/league";
+import { useMoves } from "@/lib/store";
 
 function isFirst(p: DraftPick) {
   return /first round/i.test(p.headline);
@@ -30,6 +31,8 @@ function PickRow({ p }: { p: DraftPick }) {
 }
 
 export default function DraftPicksPage() {
+  const moves = useMoves();
+  const picksMoved = moves.reduce((n, m) => n + (m.kind === "trade" ? m.picks?.length ?? 0 : 0), 0);
   const teamsWithPicks = TEAM_IDS.filter((id) => DRAFT_PICKS[id]).sort(byNickname);
   const [team, setTeam] = useState(teamsWithPicks.includes("BKN") ? "BKN" : teamsWithPicks[0]!);
   const picks = DRAFT_PICKS[team] ?? { incoming: [], outgoing: [] };
@@ -41,6 +44,10 @@ export default function DraftPicksPage() {
           <h1 className="text-2xl font-bold tracking-tight">Draft-Pick Ledger</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Every team’s future picks — owed, owned, swaps, and protections.
+            This page is the real-world ledger
+            {picksMoved > 0
+              ? ` — the ${picksMoved} pick${picksMoved > 1 ? "s" : ""} you've traded this session live in the boards' DRAFT PICKS OWNED chips.`
+              : "; picks you trade in the sim move on the board's chips."}
           </p>
         </div>
         <select

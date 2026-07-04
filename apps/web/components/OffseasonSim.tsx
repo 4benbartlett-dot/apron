@@ -270,7 +270,13 @@ export default function OffseasonSim() {
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
       picks: pickMoves,
     });
-    leagueToast("Filed", `Trade executed — ${names.join(", ")}${pickMoves.length ? ` (+${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""})` : ""}. The league office thanks you.`);
+    const teamsInvolved = new Set(trade.players.flatMap((p) => [p.from, p.to])).size;
+    leagueToast(
+      "Filed",
+      teamsInvolved >= 3
+        ? `A ${teamsInvolved}-team special — ${names.join(", ")}. The fax machines are humming.`
+        : `Trade executed — ${names.join(", ")}${pickMoves.length ? ` (+${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""})` : ""}. The league office thanks you.`,
+    );
     setSel({});
     setPickSel({});
   };
