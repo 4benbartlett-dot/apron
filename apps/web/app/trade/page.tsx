@@ -11,10 +11,11 @@ export async function generateMetadata({
   const s = t ? summarizeTrade(t) : null;
   if (!s) return { title: "Trade Machine · Over the Apron" };
 
-  const headline = s.perTeam
+  const active = s.perTeam.filter((pt) => pt.incoming.length + pt.outgoing.length > 0);
+  const headline = active
     .map((pt) => `${pt.team} get ${pt.incoming.map(lastName).join(", ") || "—"}`)
     .join("  •  ");
-  const title = `${s.legal ? "Legal" : "Illegal"} NBA trade · Over the Apron`;
+  const title = `${s.legal ? "LEGAL" : "BLOCKED"}: ${active.map((pt) => pt.team).join("–")} trade · Over the Apron`;
   const og = `/api/og?t=${encodeURIComponent(t!)}`;
 
   return {
