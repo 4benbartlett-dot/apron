@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { validateTrade, type Trade, type TeamTradeSummary, type Contract } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, currentSalary } from "@/lib/league";
+import { decodeTradeParam, encodeTradeParam } from "@/lib/trade-share";
 import { useLeague, dispatchMove } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
@@ -22,22 +23,6 @@ function ownPicks(id: string) {
   ]);
 }
 
-function encode(teams: string[], sel: Record<string, Sel>): string {
-  try {
-    return btoa(JSON.stringify({ t: teams, s: sel }));
-  } catch {
-    return "";
-  }
-}
-function decode(s: string): { teams: string[]; sel: Record<string, Sel> } | null {
-  try {
-    const o = JSON.parse(atob(s));
-    if (Array.isArray(o.t) && o.s && typeof o.s === "object") return { teams: o.t, sel: o.s };
-  } catch {
-    /* ignore */
-  }
-  return null;
-}
 
 export default function TradeBuilder() {
   const lg = useLeague();
@@ -58,10 +43,12 @@ export default function TradeBuilder() {
     const p = new URLSearchParams(window.location.search);
     const t = p.get("t");
     if (t) {
-      const d = decode(t);
+      // The full share token: teams, player legs, AND pick legs.
+      const d = decodeTradeParam(t);
       if (d) {
         setTeams(d.teams);
-        setSel(d.sel);
+        setSel(Object.fromEntries(d.players.map((m) => [m.playerId, { from: m.from, to: m.to }])));
+        setPickSel(Object.fromEntries(d.picks.map((m) => [m.id, { from: m.from, to: m.to }])));
         return;
       }
     }
@@ -100,10 +87,12 @@ export default function TradeBuilder() {
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
   }, [teams, sel, lg]);
 
-  const hasMoves = trade.players.length > 0;
+  const hasMoves = trade.players.length > 0 || Object.keys(pickSel).length > 0;
 
   const share = async () => {
-    const url = `${window.location.origin}/trade?t=${encode(teams, sel)}`;
+    const picks = Object.entries(pickSel).map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
+    const token = encodeTradeParam(teams, trade.players, picks);
+    const url = `${window.location.origin}/trade?t=${encodeURIComponent(token)}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -115,12 +104,15 @@ export default function TradeBuilder() {
 
   const execute = () => {
     const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
+    const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
     dispatchMove({
       kind: "trade",
-      label: `Trade: ${names.join(", ")}`,
+      label: `Trade: ${names.join(", ")}${pickMoves.length ? ` +${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : ""}`,
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
+      picks: pickMoves,
     });
     setSel({});
+    setPickSel({});
   };
 
   const available = TEAM_IDS.filter((t) => !teams.includes(t));
