@@ -38,7 +38,7 @@ export function GmBar() {
   };
 
   return (
-    <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-[var(--border)] bg-[var(--panel)]/95 backdrop-blur">
+    <div className="no-print safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-[var(--border)] bg-[var(--panel)]/95 backdrop-blur">
       {open && (
         <div className="mx-auto max-h-64 max-w-7xl overflow-y-auto px-5 pt-3">
           {moves.map((m, i) => (

@@ -1,10 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { TEAM_IDS, teamMeta } from "@/lib/league";
 import { TeamLogo } from "@/components/TeamLogo";
 
 /** First-run landing: pick whose front office you're running. */
 export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
+  // A nod to anyone doing cap math at 1 AM.
+  const [late, setLate] = useState(false);
+  useEffect(() => {
+    const h = new Date().getHours();
+    setLate(h >= 23 || h < 5);
+  }, []);
   return (
     <div className="fade-up panel relative overflow-hidden px-5 py-8 sm:px-8">
       {/* watermark: the vault, faint, oversized */}
@@ -48,7 +55,9 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
       </div>
 
       <p className="relative mt-6 text-center text-xs text-[var(--muted)]">
-        Live rosters, cap holds, and apron lines — every verdict cites the 2023 CBA.
+        {late
+          ? "Working late, GM? Front offices never sleep — and every verdict still cites the 2023 CBA."
+          : "Live rosters, cap holds, and apron lines — every verdict cites the 2023 CBA."}
       </p>
     </div>
   );

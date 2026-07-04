@@ -5,6 +5,8 @@ import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GmBar } from "@/components/GmBar";
 import { BrandLink } from "@/components/BrandLink";
 import { NavLinks } from "@/components/NavLinks";
+import { SiteEggs } from "@/components/SiteEggs";
+import { SeasonTicker } from "@/components/SeasonTicker";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -52,14 +54,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>
+        <SiteEggs />
         <header className="ledger-rule sticky top-0 z-20 bg-[var(--bg)]/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">
             <BrandLink />
             <span className="hidden h-4 w-px shrink-0 bg-[var(--border-strong)] sm:block" />
             <NavLinks />
-            <div className="label ml-auto hidden shrink-0 whitespace-nowrap xl:block">
-              2026–27 · Free agency
-            </div>
+            <SeasonTicker />
           </div>
         </header>
         <main className="mx-auto max-w-7xl px-4 py-6 pb-20 sm:px-6">

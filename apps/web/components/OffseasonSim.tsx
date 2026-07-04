@@ -365,6 +365,17 @@ function TradeVerdict({
   const legal = verdict.legal && extraViolations.length === 0;
   const firstReason = verdict.violations[0]?.reason ?? extraViolations[0];
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
+  // The cap-nerd detail: on legal deals, how close did the tightest leg come?
+  const margins = verdict.teams
+    .filter((t) => t.incomingSalary > 0)
+    .map((t) => t.maxIncomingAllowed - t.incomingSalary);
+  const minMargin = margins.length ? Math.min(...margins) : Infinity;
+  const clearedBy =
+    legal && minMargin < 999_500
+      ? minMargin < 1_000
+        ? "clears matching to the dollar"
+        : `clears matching by $${Math.floor(minMargin / 1_000)}k`
+      : null;
   const valTeams = Object.entries(valueByTeam).filter(([, v]) => v.in > 0 || v.out > 0);
   const maxNet = Math.max(1, ...valTeams.map(([, v]) => Math.abs(v.in - v.out)));
   const totalVal = Math.max(1, ...valTeams.map(([, v]) => v.in + v.out));
@@ -383,6 +394,14 @@ function TradeVerdict({
           </span>
           {!legal && (
             <div className="min-w-0 text-sm leading-snug text-[var(--text)]">{firstReason}</div>
+          )}
+          {clearedBy && (
+            <span
+              className="tabular shrink-0 text-[11px] font-semibold text-[var(--tier-taxpayer)]"
+              title="Smallest salary-matching margin in the deal"
+            >
+              {clearedBy}
+            </span>
           )}
         </div>
         <div className="flex shrink-0 items-center gap-2">
@@ -445,7 +464,7 @@ function TeamColumn({
   sel: Record<string, Sel>;
   onTogglePlayer: (id: string, from: string) => void;
   onDest: (id: string, to: string) => void;
-  picks: { id: string; label: string; origin: string }[];
+  picks: { id: string; label: string; origin: string; year: number; round: 1 | 2 }[];
   pickSel: Record<string, Sel>;
   onTogglePick: (id: string, from: string) => void;
   onSign: (faId?: string) => void;
@@ -618,7 +637,11 @@ function TeamColumn({
           <div className="mb-1.5 flex items-center justify-between">
             <Term k="cap_hold" underline className="label">Free agents · holds</Term>
             <span className={`tabular text-[10px] font-semibold ${capRoom > 0 ? "text-[var(--tier-below_cap)]" : "text-[var(--muted)]"}`}>
-              {capRoom > 0 ? `room ${fmtM(capRoom)}` : `${fmtM(holds)} in holds`}
+              {ownFAs.length >= 3 && ownFAs.every((fa) => fa.renounced)
+                ? "scorched earth"
+                : capRoom > 0
+                  ? `room ${fmtM(capRoom)}`
+                  : `${fmtM(holds)} in holds`}
             </span>
           </div>
           <div className="max-h-[168px] space-y-px overflow-y-auto">
@@ -658,6 +681,7 @@ function TeamColumn({
                 <button
                   key={p.id}
                   onClick={() => onTogglePick(p.id, teamId)}
+                  title={`est. trade value ${pickValue(p.year, p.round, p.origin)} — origin ${teamMeta(p.origin).name}`}
                   className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
                   style={out
                     ? { borderColor: "var(--tier-second_apron)", color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" }
@@ -717,6 +741,12 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
         <>
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search free agents…" className="m-3 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
           <div className="flex-1 overflow-y-auto px-3 pb-4">
+            {list.length === 0 && (
+              <div className="px-3 py-8 text-center text-xs leading-relaxed text-[var(--muted)]">
+                No free agent by that name. He may be under contract, on a
+                two-way — or having a wonderful career in Greece.
+              </div>
+            )}
             {list.map((fa) => {
               const isOwn = isOwnKept(fa, team);
               const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined });
