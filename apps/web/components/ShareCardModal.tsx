@@ -137,17 +137,20 @@ export function ShareCardModal({
     }
   };
 
-  // A tweet that reads like a wire report: verdict, per-team hauls, link.
+  // A conversation starter: the deal laid out, then the ruling as the hook.
   const last = (n: string) => n.split(" ").slice(-1)[0] ?? n;
   const haulFor = (teamId: string) => {
     const { players, pickLabels } = linesFor(teamId, "in");
     const names = players.map((p) => last(p.name));
-    const shown = names.slice(0, 3);
-    const extra = names.length - shown.length;
+    const shownNames = names.slice(0, 3);
+    const extraNames = names.length - shownNames.length;
+    const shownPicks = pickLabels.slice(0, 2);
+    const extraPicks = pickLabels.length - shownPicks.length;
     const parts = [
-      shown.join(", "),
-      extra > 0 ? `+${extra} more` : "",
-      pickLabels.length ? `+${pickLabels.length} pick${pickLabels.length > 1 ? "s" : ""}` : "",
+      shownNames.join(", "),
+      extraNames > 0 ? `+${extraNames} more` : "",
+      shownPicks.length ? `+ ${shownPicks.join(", ")}` : "",
+      extraPicks > 0 ? `+${extraPicks} more picks` : "",
     ].filter(Boolean);
     return parts.join(" ") || "—";
   };
@@ -155,13 +158,13 @@ export function ShareCardModal({
     (t) => linesFor(t.teamId, "in").players.length > 0 || linesFor(t.teamId, "in").pickLabels.length > 0,
   );
   const tweetText = [
-    legal ? "✅ LEGAL under the 2023 CBA" : "⛔ BLOCKED by the 2023 CBA",
+    "Thoughts on this trade?",
     "",
     ...receiving.map((t) => `▸ ${t.teamId} get: ${haulFor(t.teamId)}`),
     "",
     legal
-      ? "Receipts and the rule it clears under:"
-      : "The exact rule that kills it:",
+      ? "✅ Legal under the 2023 CBA, per overtheapron.com — receipts:"
+      : "⛔ Except it's illegal under the 2023 CBA, per overtheapron.com — the rule that kills it:",
   ].join("\n");
   const tweetHref = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
 

@@ -18,6 +18,16 @@ export function pickShareLabel(id: string): string {
   return `${origin} ${year} ${round === "1" ? "1st" : "2nd"}`;
 }
 
+/** btoa/atob with a URL-safe alphabet: no +, /, or = to get mangled by
+ * crawlers, chat apps, or query-string handling. Decode accepts both the
+ * url-safe and classic forms (old shared links keep working), and restores
+ * spaces to + in case an intermediary already decoded %2B. */
+const toB64Url = (s: string) => s.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const fromB64Url = (s: string) => {
+  const restored = s.replace(/ /g, "+").replace(/-/g, "+").replace(/_/g, "/");
+  return restored + "=".repeat((4 - (restored.length % 4)) % 4);
+};
+
 /** Decode a shared trade (?t=) into teams + player/pick movements. */
 export function decodeTradeParam(t: string): {
   teams: string[];
@@ -25,7 +35,7 @@ export function decodeTradeParam(t: string): {
   picks: DecodedPick[];
 } | null {
   try {
-    const o = JSON.parse(atob(t)) as {
+    const o = JSON.parse(atob(fromB64Url(t))) as {
       t?: unknown;
       s?: Record<string, DecodedMove>;
       p?: Record<string, DecodedMove>;
@@ -54,7 +64,7 @@ export function encodeTradeParam(
   const s = Object.fromEntries(players.map((p) => [p.playerId, { from: p.from, to: p.to }]));
   const payload: Record<string, unknown> = { t: teams, s };
   if (picks.length) payload.p = Object.fromEntries(picks.map((k) => [k.id, { from: k.from, to: k.to }]));
-  return btoa(JSON.stringify(payload));
+  return toB64Url(btoa(JSON.stringify(payload)));
 }
 
 /** Deterministic filing number for a share token — every card is a filing. */
