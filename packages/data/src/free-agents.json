@@ -109,12 +109,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "andre drummond": {
-      "name": "Andre Drummond",
-      "team": "PHI",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
     "nick richards": {
       "name": "Nick Richards",
       "team": "CHI",
@@ -137,12 +131,6 @@
       "name": "Ochai Agbaji",
       "team": "BKN",
       "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "tari eason": {
-      "name": "Tari Eason",
-      "team": "HOU",
-      "restriction": "RFA",
       "birdStatus": "bird"
     },
     "kevin love": {
@@ -286,12 +274,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "javonte green": {
-      "name": "Javonte Green",
-      "team": "DET",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "jordan mclaughlin": {
       "name": "Jordan McLaughlin",
       "team": "SAS",
@@ -394,12 +376,6 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "jordan miller": {
-      "name": "Jordan Miller",
-      "team": "LAC",
-      "restriction": "RFA",
-      "birdStatus": "non_bird"
-    },
     "oliviermaxence prosper": {
       "name": "Olivier-Maxence Prosper",
       "team": "MEM",
@@ -459,12 +435,6 @@
       "team": "MIL",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "pat spencer": {
-      "name": "Pat Spencer",
-      "team": "GSW",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
     },
     "tyus jones": {
       "name": "Tyus Jones",
@@ -554,12 +524,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "rayan rupert": {
-      "name": "Rayan Rupert",
-      "team": "MEM",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "bez mbeng": {
       "name": "Bez Mbeng",
       "team": "UTA",
@@ -582,11 +546,6 @@
       "team": "CHI",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "daeqwon plowden": {
-      "name": "Daeqwon Plowden",
-      "team": "SAC",
-      "restriction": "RFA"
     },
     "isaiah crawford": {
       "name": "Isaiah Crawford",
@@ -619,12 +578,6 @@
       "team": "BKN",
       "restriction": "UFA",
       "birdStatus": "early_bird"
-    },
-    "caleb love": {
-      "name": "Caleb Love",
-      "team": "POR",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "drew timme": {
       "name": "Drew Timme",
@@ -706,11 +659,6 @@
       "team": "PHX",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "brooks barnhizer": {
-      "name": "Brooks Barnhizer",
-      "team": "OKC",
-      "restriction": "RFA"
     },
     "ethan thompson": {
       "name": "Ethan Thompson",

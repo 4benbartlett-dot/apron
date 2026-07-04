@@ -33,6 +33,14 @@
       "aav": 22400000,
       "status": "Signed"
     },
+    "tari eason": {
+      "name": "Tari Eason",
+      "team": "HOU",
+      "years": 5,
+      "total": 81500000,
+      "aav": 16300000,
+      "status": "Signed"
+    },
     "isaiah hartenstein": {
       "name": "Isaiah Hartenstein",
       "team": "OKC",
@@ -201,6 +209,14 @@
       "aav": 8500000,
       "status": "Signed"
     },
+    "jordan miller": {
+      "name": "Jordan Miller",
+      "team": "LAC",
+      "years": 3,
+      "total": 15300000,
+      "aav": 5100000,
+      "status": "Signed"
+    },
     "jose alvarado": {
       "name": "Jose Alvarado",
       "team": "NY",
@@ -329,6 +345,14 @@
       "aav": 6500000,
       "status": "Signed"
     },
+    "daeqwon plowden": {
+      "name": "Daeqwon Plowden",
+      "team": "SAC",
+      "years": 2,
+      "total": 5113822,
+      "aav": 2556911,
+      "status": "Signed"
+    },
     "kenrich williams": {
       "name": "Kenrich Williams",
       "team": "OKC",
@@ -345,6 +369,14 @@
       "aav": 2378506,
       "status": "Signed"
     },
+    "javonte green": {
+      "name": "Javonte Green",
+      "team": "DET",
+      "years": 1,
+      "total": 3943679,
+      "aav": 3943679,
+      "status": "Signed"
+    },
     "bogdan bogdanovic": {
       "name": "Bogdan Bogdanovic",
       "team": "HOU",
@@ -356,6 +388,14 @@
     "nikola vucevic": {
       "name": "Nikola Vucevic",
       "team": "ORL",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "andre drummond": {
+      "name": "Andre Drummond",
+      "team": "NY",
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
@@ -429,8 +469,8 @@
       "name": "Simone Fontecchio",
       "team": "MIA",
       "years": 1,
-      "total": 2626248,
-      "aav": 2626248,
+      "total": 2625627,
+      "aav": 2625627,
       "status": "Signed"
     },
     "branden carlson": {
@@ -447,6 +487,30 @@
       "years": 1,
       "total": 679042,
       "aav": 679042,
+      "status": "Signed"
+    },
+    "rayan rupert": {
+      "name": "Rayan Rupert",
+      "team": "PHI",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "caleb love": {
+      "name": "Caleb Love",
+      "team": "PHI",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "brooks barnhizer": {
+      "name": "Brooks Barnhizer",
+      "team": "OKC",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
       "status": "Signed"
     },
     "jamir watkins": {
@@ -484,6 +548,14 @@
     "enrique freeman": {
       "name": "Enrique Freeman",
       "team": "MIN",
+      "years": 1,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
+    },
+    "pat spencer": {
+      "name": "Pat Spencer",
+      "team": "PHX",
       "years": 1,
       "total": 0,
       "aav": 0,

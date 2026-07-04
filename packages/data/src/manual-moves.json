@@ -1,12 +1,4 @@
 {
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
-  "transactions": [
-    {
-      "player": "Pat Spencer",
-      "pos": "G",
-      "date": "Jul 2, 2026",
-      "type": "Signing",
-      "detail": "Signed a Two-Way contract with Cleveland (CLE)"
-    }
-  ]
+  "transactions": []
 }

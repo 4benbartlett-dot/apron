@@ -4,6 +4,7 @@ import Link from "next/link";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GmBar } from "@/components/GmBar";
 import { BrandLink } from "@/components/BrandLink";
+import { NavLinks } from "@/components/NavLinks";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -43,16 +44,6 @@ export const viewport: Viewport = {
   ],
 };
 
-const NAV = [
-  { href: "/", label: "Offseason" },
-  { href: "/league", label: "League" },
-  { href: "/transactions", label: "Transactions" },
-  { href: "/draft", label: "Draft picks" },
-  { href: "/deadlines", label: "Deadlines" },
-  { href: "/glossary", label: "Glossary" },
-  { href: "/guide", label: "How to play" },
-] as const;
-
 export default function RootLayout({
   children,
 }: {
@@ -65,21 +56,7 @@ export default function RootLayout({
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">
             <BrandLink />
             <span className="hidden h-4 w-px shrink-0 bg-[var(--border-strong)] sm:block" />
-            <nav className="flex shrink-0 items-center gap-0.5 whitespace-nowrap text-[13.5px]">
-              {NAV.map((n, i) => (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  className={
-                    i === 0
-                      ? "rounded-md px-2.5 py-1 font-semibold text-[var(--text)] hover:bg-[var(--panel-2)]"
-                      : "rounded-md px-2.5 py-1 text-[var(--muted)] hover:bg-[var(--panel-2)] hover:text-[var(--text)]"
-                  }
-                >
-                  {n.label}
-                </Link>
-              ))}
-            </nav>
+            <NavLinks />
             <div className="label ml-auto hidden shrink-0 whitespace-nowrap xl:block">
               2026–27 · Free agency
             </div>
@@ -89,17 +66,26 @@ export default function RootLayout({
           {children}
         </main>
         <GmBar />
-        <footer className="mx-auto max-w-7xl border-t border-[var(--border)] px-4 py-6 text-xs text-[var(--muted)] sm:px-6">
-          Every verdict cites the 2023 collective bargaining agreement.{" "}
-          <Link
-            href="/accuracy"
-            className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]"
-          >
-            Rules coverage &amp; accuracy →
-          </Link>
-          <span className="ml-2">
-            Independent project; not affiliated with the NBA or NBPA.
-          </span>
+        <footer className="ledger-rule mx-auto max-w-7xl px-4 pb-8 pt-6 text-xs text-[var(--muted)] sm:px-6" style={{ borderTop: "1px solid var(--border)" }}>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <span className="flex items-center gap-1.5 font-semibold text-[var(--text)]">
+              <svg width="15" height="15" viewBox="0 0 64 64" aria-hidden>
+                <rect width="64" height="64" rx="14" fill="var(--text)" />
+                <line x1="11" y1="41" x2="53" y2="41" stroke="var(--accent)" strokeWidth="4.5" strokeDasharray="7.5 6" strokeLinecap="round" />
+                <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--bg)" strokeWidth="5" strokeLinecap="round" />
+                <circle cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
+              </svg>
+              Over the Apron
+            </span>
+            <span>Every verdict cites the 2023 CBA.</span>
+            <Link href="/accuracy" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+              Rules coverage &amp; accuracy
+            </Link>
+            <Link href="/guide" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+              How to play
+            </Link>
+            <span className="tabular ml-auto">2026–27 · independent; not affiliated with the NBA or NBPA</span>
+          </div>
         </footer>
       </body>
     </html>

@@ -67,7 +67,7 @@ export function GmBar() {
           className="tabular shrink-0 text-sm font-semibold hover:text-[var(--accent)]"
           title="Show all moves"
         >
-          {moves.length} {open ? "▾" : "▸"}
+          <span key={moves.length} className="count-pop">{moves.length}</span> {open ? "▾" : "▸"}
         </button>
         <div className="min-w-0 flex-1 truncate text-xs text-[var(--muted)]">
           {moves
