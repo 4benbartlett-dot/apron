@@ -163,8 +163,8 @@ export function ShareCardModal({
     ...receiving.map((t) => `▸ ${t.teamId} get: ${haulFor(t.teamId)}`),
     "",
     legal
-      ? "✅ Not the CBA — legal, per overtheapron.com. Receipts:"
-      : "⛔ The CBA does — illegal, per overtheapron.com. The rule:",
+      ? "✅ Not the CBA — legal under the NBA CBA:"
+      : "⛔ The CBA says no — here's the rule:",
   ].join("\n");
   const tweetHref = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
 
