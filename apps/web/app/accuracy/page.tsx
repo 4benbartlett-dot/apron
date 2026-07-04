@@ -5,7 +5,7 @@ const MODELED = [
   "Apron teams limited to 100% matching (no 110%)",
   "Below-cap absorption capped at cap+$250k (or standard matching if larger)",
   "Hard-cap triggers: NT-MLE / BAE / sign-and-trade → first apron; Taxpayer MLE → second apron",
-  "Second apron: no aggregation (bin-packing combination test), no cash out; exact-boundary tiers use strict 'exceeds'",
+  "Second apron: no aggregation or cash-out, tested on POST-trade apron salary per Art. VII \u00a72(e)(2)(i)(A) \u2014 a team may aggregate down through the line (bin-packing combination test); exact-boundary tiers use strict 'exceeds'",
   "Exception gating by apron tier: cap room, NT-MLE, Taxpayer MLE, Room MLE, BAE, minimum, Bird",
   "Maximum-salary tiers by years of service (25% / 30% / 35%)",
   "Bird / Early-Bird / Non-Bird re-signing ceilings (175% / 120%-of-prior-or-min, etc.), with each FA's real Bird-rights status and UFA/RFA designation",
@@ -32,10 +32,10 @@ const MODELED = [
 ];
 
 const APPROXIMATE = [
-  "Bird sub-type is sourced from public free-agent listings for ~half of free agents; the rest default to full Bird",
+  "Bird sub-type (full / Early / Non-Bird) is sourced from public listings for 55% of current free agents; the rest default to full Bird — which can overstate a re-sign ceiling, never a trade verdict",
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Team salary totals include some non-guaranteed / dead-money rows from the source",
-  "Years of service covers ~91% of players; the rest default to a mid-career value",
+  "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
   "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
   "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
@@ -49,6 +49,7 @@ const NOT_MODELED = [
   "Second-round pick exception & two-way contracts as signing mechanisms (reconciled from real data, not user-simulable)",
   "Poison-pill provision (engine function exists; not wired to the trade UI — needs structured extension data)",
   "Designated-player criteria (All-NBA/MVP triggers, 6-year DV extension length)",
+  "The lingering hard cap a team accepts by aggregating down through the second apron (the verdict is correct; the season-long cap it creates isn't tracked)",
 ];
 
 function Section({

@@ -129,3 +129,74 @@ describe("validateTrade — the four correctness wins vs. ESPN/Spotrac machines"
     );
   });
 });
+
+// Art. VII §2(e)(2)(i)(A): the aggregation ban tests apron salary IMMEDIATELY
+// FOLLOWING the trade — a team starting above the second apron may aggregate
+// in a deal that itself sheds it to or below the line.
+import { describe as d2, it as i2, expect as e2 } from "vitest";
+import { validateTrade as vt2, type LeagueData as LD2, type Contract as C2 } from "../src";
+import { SEASON_2026_27 as K2 } from "../src/constants";
+
+const mk = (playerId: string, teamId: string, salary: number): C2 => ({
+  playerId,
+  playerName: playerId,
+  teamId,
+  years: [{ leagueYear: "2026-27", salary, guarantee: "full" }],
+});
+
+d2("second-apron aggregation: post-trade basis", () => {
+  i2("a 2A team aggregating DOWN through the line is legal", () => {
+    // ~$223M team (2A ≈ $221.7M) sends $12M + $12M for one $20M player:
+    // post = $219M ≤ 2A → aggregation allowed per the CBA's post-trade test.
+    const data: LD2 = {
+      leagueYear: "2026-27",
+      teams: [{ id: "AAA", name: "AAA" }, { id: "BBB", name: "BBB" }],
+      contracts: [
+        mk("a1", "AAA", 12_000_000),
+        mk("a2", "AAA", 12_000_000),
+        mk("a3", "AAA", 199_000_000),
+        mk("b1", "BBB", 20_000_000),
+        mk("b2", "BBB", 160_000_000),
+      ],
+    };
+    const v = vt2(
+      data,
+      {
+        teams: ["AAA", "BBB"],
+        players: [
+          { playerId: "a1", from: "AAA", to: "BBB" },
+          { playerId: "a2", from: "AAA", to: "BBB" },
+          { playerId: "b1", from: "BBB", to: "AAA" },
+        ],
+      },
+      K2,
+    );
+    e2(v.violations.map((x) => x.ruleId)).not.toContain("second_apron_no_aggregation");
+  });
+  i2("a 2A team aggregating while STAYING above the line is still blocked", () => {
+    const data: LD2 = {
+      leagueYear: "2026-27",
+      teams: [{ id: "AAA", name: "AAA" }, { id: "BBB", name: "BBB" }],
+      contracts: [
+        mk("a1", "AAA", 12_000_000),
+        mk("a2", "AAA", 12_000_000),
+        mk("a3", "AAA", 215_000_000),
+        mk("b1", "BBB", 23_000_000),
+        mk("b2", "BBB", 160_000_000),
+      ],
+    };
+    const v = vt2(
+      data,
+      {
+        teams: ["AAA", "BBB"],
+        players: [
+          { playerId: "a1", from: "AAA", to: "BBB" },
+          { playerId: "a2", from: "AAA", to: "BBB" },
+          { playerId: "b1", from: "BBB", to: "AAA" },
+        ],
+      },
+      K2,
+    );
+    e2(v.violations.map((x) => x.ruleId)).toContain("second_apron_no_aggregation");
+  });
+});

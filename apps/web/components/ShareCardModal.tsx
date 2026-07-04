@@ -5,6 +5,7 @@ import { toPng } from "html-to-image";
 import { MATCH_RULE_LABEL, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
+import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
@@ -67,6 +68,8 @@ export function ShareCardModal({
       .map((p) => pickShareLabel(p.id));
     return { players, pickLabels };
   };
+
+  const firstFix = legal ? null : explainBlocked(verdict, extraViolations, C).fixes[0] ?? null;
 
   // The receipt: every rule the deal passes, or every reason it fails.
   const checks: { ok: boolean; text: string }[] = legal
@@ -240,6 +243,11 @@ export function ShareCardModal({
                 </li>
               ))}
             </ul>
+            {!legal && firstFix && (
+              <p className="mt-2.5 border-t border-dashed border-[var(--border)] pt-2 text-[11.5px] leading-snug text-[var(--muted)]">
+                <span className="font-semibold text-[var(--accent-ink)]">One route to legal:</span> {firstFix}
+              </p>
+            )}
           </div>
 
           <div className="tear flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
