@@ -257,7 +257,7 @@ export default function OffseasonSim() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-[26px] font-bold leading-tight tracking-tight">
-            The offseason, under the real CBA.
+            The offseason, under the <span className="underline-swipe">real CBA</span>.
           </h1>
           <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
             Put teams on the board, then trade, sign, extend, and renounce — every

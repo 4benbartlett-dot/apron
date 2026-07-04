@@ -2,6 +2,258 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Andre Drummond",
+      "pos": "C",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with New York (NYK)"
+    },
+    {
+      "player": "Sergio de Larrea",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $16.33 million Rookie Scale contract with Dallas (DAL)"
+    },
+    {
+      "player": "Pete Nance",
+      "pos": "PF",
+      "date": "Jul 03, 2026",
+      "type": "Release",
+      "detail": "Waived by Milwaukee (MIL)"
+    },
+    {
+      "player": "Tobi Lawal",
+      "pos": "F",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Dallas (DAL)"
+    },
+    {
+      "player": "Tobe Awaka",
+      "pos": "PF",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Chicago (CHI)"
+    },
+    {
+      "player": "Tamar Bates",
+      "pos": "G",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Utah (UTA)"
+    },
+    {
+      "player": "Aday Mara",
+      "pos": "C",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $27.02 million Rookie Scale contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Bennett Stirtz",
+      "pos": "PG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $22.82 million Rookie Scale contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Jayden Quaintance",
+      "pos": "C",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $18.91 million Rookie Scale contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Tarris Reed Jr.",
+      "pos": "C",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $15.79 million Rookie Scale contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Josh Dix",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Brooks Barnhizer",
+      "pos": "SF",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Otega Oweh",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Oklahoma City (OKC)"
+    },
+    {
+      "player": "Ja'Kobi Gillespie",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Tre Donaldson",
+      "pos": "G",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Miami (MIA)"
+    },
+    {
+      "player": "Maliq Brown",
+      "pos": "PG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Trey Lyles",
+      "pos": "PF",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Minnesota (MIN)"
+    },
+    {
+      "player": "Jordan Miller",
+      "pos": "SF",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $15.3 million contract with LA Clippers (LAC)"
+    },
+    {
+      "player": "Caleb Love",
+      "pos": "G",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with Portland (POR)"
+    },
+    {
+      "player": "Jaden Hardy",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Trade",
+      "detail": "Traded to Los Angeles (LAL) from Washington (WAS) with a 2031 2nd round pick and a 2032 2nd round pick for Deandre Ayton"
+    },
+    {
+      "player": "Deandre Ayton",
+      "pos": "C",
+      "date": "Jul 03, 2026",
+      "type": "Trade",
+      "detail": "Traded to Washington (WAS) from Los Angeles (LAL) for Jaden Hardy, a 2031 2nd round pick and a 2032 2nd round pick"
+    },
+    {
+      "player": "Dorian Finney-Smith",
+      "pos": "PF",
+      "date": "Jul 03, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick \\[MEM pick\\] , a 2028 2nd round pick \\[HOU pick\\] and a 2033 2nd round pick \\[HOU pick\\]"
+    },
+    {
+      "player": "Tyler Bilodeau",
+      "pos": "F",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Rayan Rupert",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with Philadelphia (PHI)"
+    },
+    {
+      "player": "Javonte Green",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.94 million contract with Detroit (DET)"
+    },
+    {
+      "player": "Neemias Queta",
+      "pos": "C",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to 4 year $56 million a contract extension with Boston (BOS)"
+    },
+    {
+      "player": "Alijah Martin",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $4.76 million contract with Toronto (TOR) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Nah'Shon Hyland",
+      "pos": "PG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.85 million contract with Minnesota (MIN)"
+    },
+    {
+      "player": "Mikel Brown Jr.",
+      "pos": "PG",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $39.93 million Rookie Scale contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Kyle Lowry",
+      "pos": "PG",
+      "date": "Jul 02, 2026",
+      "type": "Other",
+      "detail": "Retired from Professional Basketball"
+    },
+    {
+      "player": "Cameron Carr",
+      "pos": "SG",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $16.82 million Rookie Scale contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Ugonna Onyenso",
+      "pos": "C",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Detroit (DET)"
+    },
+    {
+      "player": "Morez Johnson Jr.",
+      "pos": "C",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $30.75 million Rookie Scale contract with Dallas (DAL)"
+    },
+    {
+      "player": "Pat Spencer",
+      "pos": "G",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Daeqwon Plowden",
+      "pos": "G",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to 2 year $5.11 million contract with Sacramento (SAC)"
+    },
+    {
+      "player": "Tari Eason",
+      "pos": "PF",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 5 year $81.5 million contract with Houston (HOU) - includes 2030-31 Player Option"
+    },
+    {
       "player": "Kenrich Williams",
       "pos": "PF",
       "date": "Jul 02, 2026",
@@ -83,7 +335,7 @@
       "pos": "SF",
       "date": "Jul 02, 2026",
       "type": "Signing",
-      "detail": "Signed a 1 year $2.62 million contract with Miami (MIA)"
+      "detail": "Signed a 1 year $2.63 million contract with Miami (MIA)"
     },
     {
       "player": "Darius Acuff Jr.",
@@ -188,7 +440,7 @@
       "pos": "G",
       "date": "Jul 01, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Sacramento (SAC)"
+      "detail": "Signed a 2 year Two-Way contract with Sacramento (SAC)"
     },
     {
       "player": "Yaxel Lendeborg",
@@ -266,13 +518,6 @@
       "date": "Jul 01, 2026",
       "type": "Signing",
       "detail": "Signed a 1 year $3.52 million contract with Orlando (ORL)"
-    },
-    {
-      "player": "Alijah Martin",
-      "pos": "SG",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 2 year $4.76 million contract with Toronto (TOR) - includes 2027-28 Player Option"
     },
     {
       "player": "De'Anthony Melton",
@@ -441,13 +686,6 @@
       "date": "Jun 30, 2026",
       "type": "Other",
       "detail": "Chicago (CHI) fully guaranteed $2.4 million salary for 2026-27"
-    },
-    {
-      "player": "Nah'Shon Hyland",
-      "pos": "PG",
-      "date": "Jun 30, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $2.85 million contract with Minnesota (MIN)"
     },
     {
       "player": "Tim Hardaway Jr.",
