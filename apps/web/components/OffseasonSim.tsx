@@ -18,6 +18,7 @@ import {
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
+import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
@@ -376,6 +377,12 @@ function TradeVerdict({
         ? "clears matching to the dollar"
         : `clears matching by $${Math.floor(minMargin / 1_000)}k`
       : null;
+  const [showFix, setShowFix] = useState(false);
+  const explainer = useMemo(
+    () => (legal ? null : explainBlocked(verdict, extraViolations, C)),
+    [legal, verdict, extraViolations],
+  );
+  const hasFix = !!explainer && (explainer.subject.length > 0 || explainer.fixes.length > 0);
   const valTeams = Object.entries(valueByTeam).filter(([, v]) => v.in > 0 || v.out > 0);
   const maxNet = Math.max(1, ...valTeams.map(([, v]) => Math.abs(v.in - v.out)));
   const totalVal = Math.max(1, ...valTeams.map(([, v]) => v.in + v.out));
@@ -405,6 +412,15 @@ function TradeVerdict({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          {hasFix && (
+            <button
+              onClick={() => setShowFix((v) => !v)}
+              className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:border-[var(--accent)]"
+              aria-expanded={showFix}
+            >
+              Make it work {showFix ? "▾" : "▸"}
+            </button>
+          )}
           <button
             onClick={onShare}
             className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-sm font-semibold text-[var(--text)] hover:border-[var(--text)]"
@@ -423,6 +439,28 @@ function TradeVerdict({
           )}
         </div>
       </div>
+      {showFix && explainer && (
+        <div className="fade-up rule bg-[var(--panel-2)]/40 px-4 py-3">
+          {explainer.subject.map((line, i) => (
+            <p key={i} className="mb-2 max-w-3xl text-[12.5px] leading-relaxed text-[var(--text)]">
+              {line}
+            </p>
+          ))}
+          {explainer.fixes.length > 0 && (
+            <>
+              <div className="label mb-1.5 !text-[10px]">Routes to legal</div>
+              <ul className="max-w-3xl space-y-1.5">
+                {explainer.fixes.map((fix, i) => (
+                  <li key={i} className="flex gap-2 text-[12.5px] leading-relaxed">
+                    <span className="shrink-0 font-bold text-[var(--accent-ink)]">{i + 1}.</span>
+                    <span>{fix}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
       {valTeams.length >= 2 && (
         <div className="rule flex flex-wrap items-center gap-x-5 gap-y-1 bg-[var(--panel-2)]/50 px-4 py-2 text-xs">
           <Term k="trade_value" underline className="label">{fairLabel}</Term>

@@ -212,13 +212,18 @@ export function validateTrade(
     }
 
     // --- Rule 3: second apron cannot aggregate salaries ---
-    // A second-apron team may not combine 2+ outgoing salaries to acquire a
-    // player. Each outgoing player is its own matching bin (100% capacity). The
-    // deal is non-aggregating iff the incoming salaries can be packed so every
-    // incoming fits within a single outgoing bin — one bin may absorb several
-    // smaller incoming (a legal split); aggregation is required only when no
-    // such packing exists.
-    if (preTier === "second_apron" && outgoingPlayerSalaries.length >= 2) {
+    // A team may not combine 2+ outgoing salaries to acquire a player if its
+    // apron team salary IMMEDIATELY FOLLOWING the transaction is above the
+    // second apron (Art. VII §2(e)(2)(i)(A)) — so a team that starts above the
+    // line may still aggregate in a trade that itself sheds it to or below the
+    // line (that choice hard-caps it at the second apron for the year). Each
+    // outgoing player is its own matching bin (100% capacity). The deal is
+    // non-aggregating iff the incoming salaries can be packed so every incoming
+    // fits within a single outgoing bin — one bin may absorb several smaller
+    // incoming (a legal split); aggregation is required only when no such
+    // packing exists.
+    const overSecondApronAfter = classifyTier(post, c) === "second_apron";
+    if (overSecondApronAfter && outgoingPlayerSalaries.length >= 2) {
       const aggregating = !binPackable(
         incomingPlayerSalaries,
         outgoingPlayerSalaries,
@@ -228,14 +233,14 @@ export function validateTrade(
         ok: !aggregating,
         teamId,
         reason: aggregating
-          ? `${teamId} is over the second apron and cannot aggregate salaries: at least one incoming salary can only be matched by combining two or more outgoing players.`
-          : `${teamId} is over the second apron but is not aggregating (each incoming salary matches a single outgoing player).`,
+          ? `${teamId} would finish over the second apron and so cannot aggregate salaries: at least one incoming salary can only be matched by combining two or more outgoing players. (Aggregating is only legal if the trade itself drops the team to or below the second apron.)`
+          : `${teamId} finishes over the second apron but is not aggregating (each incoming salary matches a single outgoing player).`,
         citation: CITE.secondApronAgg,
       });
     }
 
-    // --- Rule 4: second apron cannot send out cash ---
-    if (preTier === "second_apron") {
+    // --- Rule 4: second apron cannot send out cash (same post-trade test) ---
+    if (overSecondApronAfter) {
       const sendsCash = (trade.cash ?? []).some(
         (mv) => mv.from === teamId && mv.amount > 0,
       );
