@@ -115,16 +115,14 @@ export interface LeagueConstants {
   /** First-year maximum salary by years-of-service tier. */
   maxSalary: { "0-6": number; "7-9": number; "10+": number };
 
-  /** Sub-apron expanded traded-player matching breakpoints. */
+  /** Expanded traded-player matching (Art. VII §6(j)(1)(iv)):
+   * max( min(200%·out + addOn, out + escalatedFlatAddOn), 125%·out + addOn ). */
   tradeMatch: {
-    /** Outgoing at/under this -> 200% + addOn. (2025-26: $7.5M) */
-    tier1Ceiling: number;
-    /** Outgoing at/under this -> outgoing + tier2FlatAddOn. (2025-26: $29M) */
-    tier2Ceiling: number;
-    /** Flat dollar add-on for tiers 1 & 3. (2025-26: $250k) */
+    /** Flat $250,000 allowance — NOT indexed to cap growth. */
     addOn: number;
-    /** Flat add-on for tier 2. (2025-26: $7.5M) */
-    tier2FlatAddOn: number;
+    /** The "$7.5M" middle-band add-on, escalated by capGrowth since 2023-24:
+     * $7,500,000 × (current cap ÷ $136,021,000 [2023-24 cap]). */
+    escalatedFlatAddOn: number;
   };
 
   /** Minimum salary by years of service (0..10, where 10 = "10+"). */

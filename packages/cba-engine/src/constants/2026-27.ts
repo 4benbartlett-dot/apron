@@ -5,11 +5,14 @@ import type { LeagueConstants } from "../types";
  * June 30, 2026). Cap rose +$10,314,000 (+6.669%) to $164,961,000.
  *
  * Cap / floor / tax / aprons / MLEs are the official cap-memo figures. The
- * minimum-salary table follows the CBA minimum scale (a clean +7.0% over
- * 2025-26, not the cap dollar ratio). The Bi-Annual Exception is 3.32% of the
- * cap rounded to the nearest $1,000 (164,961,000 × 0.0332 → 5,477,000).
+ * minimum-salary table follows Art. I (jj): each year's scale is the prior
+ * year's scale grown by the cap's percentage increase (×164,961/154,647 —
+ * confirmed against the CBA text; an earlier version of this file used a
+ * flat +7.0% and ran ~$8–12k hot on every row). The Bi-Annual Exception is
+ * 3.32% of the cap rounded to the nearest $1,000.
  */
 const CAP = 164_961_000;
+const CAP_2023_24 = 136_021_000; // escalation denominator (Art. VII §6(j))
 
 export const SEASON_2026_27: LeagueConstants = {
   leagueYear: "2026-27",
@@ -37,25 +40,23 @@ export const SEASON_2026_27: LeagueConstants = {
   },
 
   tradeMatch: {
-    tier1Ceiling: 7_500_000,
-    tier2Ceiling: 29_000_000,
-    addOn: 250_000,
-    tier2FlatAddOn: 7_500_000,
+    addOn: 250_000, // flat — the CBA does not escalate the $250k
+    escalatedFlatAddOn: Math.round((7_500_000 * CAP) / CAP_2023_24), // $9,095,709
   },
 
-  // Official 2026-27 minimum scale (+7.0% over 2025-26).
+  // 2026-27 minimum scale = 2025-26 scale × cap growth (Art. I (jj)).
   minimumSalaries: {
-    0: 1_361_969,
-    1: 2_191_886,
-    2: 2_457_010,
-    3: 2_545_388,
-    4: 2_633_762,
-    5: 2_854_699,
-    6: 3_075_642,
-    7: 3_296_581,
-    8: 3_517_523,
-    9: 3_535_034,
-    10: 3_888_538, // 10+ years
+    0: 1_357_763,
+    1: 2_185_116,
+    2: 2_449_421,
+    3: 2_537_526,
+    4: 2_625_627,
+    5: 2_845_883,
+    6: 3_066_143,
+    7: 3_286_399,
+    8: 3_506_659,
+    9: 3_524_115,
+    10: 3_876_529, // 10+ years
   },
 };
 

@@ -111,6 +111,14 @@ export interface TeamPicks {
   outgoing: DraftPick[];
 }
 
+export {
+  FIRST_ENCUMBRANCES,
+  PICK_LEDGER_TEAMS,
+  firstEncumbranceOf,
+  type FirstEncumbrance,
+  type FirstEncumbranceStatus,
+} from "./pick-encumbrances";
+
 /** Future draft-pick ledger by team (RealGM via Firecrawl). */
 export const DRAFT_PICKS = (
   draftPicksRaw as { teams: Record<string, TeamPicks> }

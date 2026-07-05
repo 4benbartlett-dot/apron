@@ -13,6 +13,10 @@ const near = (actual: number, expected: number, tol = 1_500) =>
   expect(Math.abs(actual - expected)).toBeLessThanOrEqual(tol);
 
 function checkAgainstCBA(c: LeagueConstants) {
+  // Expanded-matching middle band = $7.5M × (cap ÷ 2023-24 cap), Art. VII
+  // §6(j)(1)(iv) (p. 241): only the $7.5M escalates; the $250k stays flat.
+  near(c.tradeMatch.escalatedFlatAddOn, 7_500_000 * (c.salaryCap / CAP_2023_24), 2);
+  expect(c.tradeMatch.addOn).toBe(250_000);
   // Bi-Annual Exception = 3.32% of the cap (p. 235).
   near(c.biAnnualException, c.salaryCap * 0.0332);
   // Non-Taxpayer MLE = 9.12% of the cap (p. 236).
@@ -35,5 +39,20 @@ describe("constants match the CBA's own formulas", () => {
   });
   it("2026-27 exceptions/tiers derive from the cap per the CBA", () => {
     checkAgainstCBA(SEASON_2026_27);
+  });
+
+  // Art. I (jj): each year's minimum scale is the prior year's scale grown by
+  // the cap's percentage increase. Anchors the whole 2026-27 table to the
+  // official 2025-26 table. (Surfaced auditing @penguinem30's launch-day
+  // reports: our old table used +7.0%; the cap grew +6.669%.)
+  it("2026-27 minimum scale = 2025-26 scale × cap growth", () => {
+    const r = SEASON_2026_27.salaryCap / SEASON_2025_26.salaryCap;
+    for (let yos = 0; yos <= 10; yos++) {
+      near(
+        SEASON_2026_27.minimumSalaries[yos]!,
+        SEASON_2025_26.minimumSalaries[yos]! * r,
+        2,
+      );
+    }
   });
 });

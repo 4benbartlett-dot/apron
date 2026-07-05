@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { MATCH_RULE_LABEL, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
+import { matchRuleLabel, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick } from "@/lib/trade-share";
 import { explainBlocked } from "@/lib/tradeFix";
@@ -84,7 +84,7 @@ export function ShareCardModal({
           .filter((t) => t.incomingSalary > 0)
           .map((t) => ({
             ok: true,
-            text: `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out — legal under ${MATCH_RULE_LABEL[t.matchingRule] ?? t.matchingRule}`,
+            text: `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out — legal under ${matchRuleLabel(t.matchingRule, C)}`,
           })),
         ...involved
           .filter((t) => classifyTier(t.postTradeSalary, C) === "second_apron")

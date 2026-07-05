@@ -37,10 +37,8 @@ export const SEASON_2025_26: LeagueConstants = {
   },
 
   tradeMatch: {
-    tier1Ceiling: 7_500_000,
-    tier2Ceiling: 29_000_000,
-    addOn: 250_000,
-    tier2FlatAddOn: 7_500_000,
+    addOn: 250_000, // flat — the CBA does not escalate the $250k
+    escalatedFlatAddOn: Math.round((7_500_000 * 154_647_000) / 136_021_000), // $8,527,011
   },
 
   minimumSalaries: {
