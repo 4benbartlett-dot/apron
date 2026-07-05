@@ -110,7 +110,7 @@ export async function GET(req: Request) {
               The NBA offseason,
             </div>
             <div style={{ fontSize: 62, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.1 }}>
-              under the real CBA.
+              simplified.
             </div>
             <div style={{ fontSize: 26, color: muted, marginTop: 22, lineHeight: 1.4 }}>
               Trades, signings, aprons, and hard caps — every verdict cites the rule.
