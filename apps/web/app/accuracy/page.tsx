@@ -1,3 +1,4 @@
+import { DATA_AS_OF } from "@apron/data";
 const MODELED = [
   "2026-27 official thresholds: cap, luxury tax, first apron, second apron, MLEs, BAE, minimums",
   "All exception / tier amounts cross-checked against the CBA's own %-of-cap formulas (BAE 3.32%, NT-MLE 9.12%, Room MLE 5.678%, Taxpayer MLE, min-team 90%, max 25/30/35%)",
@@ -92,11 +93,11 @@ export default function AccuracyPage() {
         <div>
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Exactly what the engine models, what's approximate, and what isn't modeled yet —
-          verified by 109 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
+          verified by 116 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 109 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 116 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
