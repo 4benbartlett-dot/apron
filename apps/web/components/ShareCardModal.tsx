@@ -9,6 +9,7 @@ import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
+import { BrandMark, BrandWordmark } from "@/components/BrandMark";
 
 interface PlayerLine {
   name: string;
@@ -182,13 +183,8 @@ export function ShareCardModal({
           {/* masthead */}
           <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-3">
             <div className="flex items-center gap-2">
-              <svg width="20" height="20" viewBox="0 0 64 64" aria-hidden>
-                <rect width="64" height="64" rx="14" fill="var(--text)" />
-                <line x1="11" y1="41" x2="53" y2="41" stroke="var(--accent)" strokeWidth="4.5" strokeDasharray="7.5 6" strokeLinecap="round" />
-                <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--bg)" strokeWidth="5" strokeLinecap="round" />
-                <circle cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
-              </svg>
-              <span className="text-[13px] font-bold tracking-tight">Over the Apron</span>
+              <BrandMark size={20} />
+              <BrandWordmark className="text-[11.5px]" />
             </div>
             <span className="label">overtheapron.com</span>
           </div>

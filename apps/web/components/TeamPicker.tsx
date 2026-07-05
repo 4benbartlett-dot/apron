@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { TEAM_IDS, teamMeta } from "@/lib/league";
 import { TeamLogo } from "@/components/TeamLogo";
+import { BrandArt } from "@/components/BrandMark";
 
 /** First-run landing: pick whose front office you're running. */
 export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
@@ -14,16 +15,8 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
   }, []);
   return (
     <div className="fade-up panel relative overflow-hidden px-5 py-8 sm:px-8">
-      {/* watermark: the vault, faint, oversized */}
-      <svg
-        viewBox="0 0 64 64"
-        aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-[340px] w-[340px] opacity-[0.05]"
-      >
-        <line x1="11" y1="41" x2="53" y2="41" stroke="var(--accent)" strokeWidth="4.5" strokeDasharray="7.5 6" strokeLinecap="round" />
-        <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--text)" strokeWidth="5" strokeLinecap="round" />
-        <circle cx="50.5" cy="21.5" r="6.5" fill="var(--text)" />
-      </svg>
+      {/* watermark: the crest, faint, oversized */}
+      <BrandArt className="pointer-events-none absolute -right-16 -top-16 h-[340px] w-[340px] opacity-[0.05]" />
 
       <div className="relative mx-auto max-w-3xl text-center">
         <div className="label !text-[11px] text-[var(--accent-ink)]">
