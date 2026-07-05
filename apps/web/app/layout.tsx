@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GmBar } from "@/components/GmBar";
 import { BrandLink } from "@/components/BrandLink";
@@ -55,6 +56,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>
+        {/* Cookieless visit + trade-run counts (Umami). Loads only when the
+            site id is configured, so forks and local dev send nothing. */}
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID ? (
+          <Script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            strategy="afterInteractive"
+          />
+        ) : null}
         <SiteEggs />
         <header className="ledger-rule sticky top-0 z-20 bg-[var(--bg)]/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">

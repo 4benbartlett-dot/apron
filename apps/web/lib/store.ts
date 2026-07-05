@@ -20,6 +20,7 @@ import {
   holdsByTeam,
   type Move,
 } from "./league";
+import { track } from "./analytics";
 
 export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
 
@@ -86,6 +87,7 @@ export function encodeMoves(): string {
 
 export function dispatchMove(m: Move) {
   moves = [...moves, m];
+  track("move", { kind: m.kind });
   emit();
 }
 export function undoMove() {
@@ -116,6 +118,7 @@ export function toggleRenounce(
   const exists = moves.some(
     (m) => m.kind === "renounce" && m.playerId === playerId,
   );
+  if (!exists) track("move", { kind: "renounce" });
   moves = exists
     ? moves.filter((m) => !(m.kind === "renounce" && m.playerId === playerId))
     : [
