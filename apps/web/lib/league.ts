@@ -396,6 +396,27 @@ function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: st
 }
 
 const RETIRED = new Set(RETIRED_2026.map(normName));
+
+// Waived / terminated contracts: the player comes off the roster but any
+// guaranteed money stays on the books as dead money. Skip anyone the feed
+// later signs or trades — those passes own their current state.
+const ACTIVE_LATER = new Set(
+  TRANSACTIONS.filter((t) => t.type === "Signing" || t.type === "Re-sign" || t.type === "Trade").map(
+    (t) => normName(t.player),
+  ),
+);
+const RELEASED = new Set(
+  TRANSACTIONS.filter(
+    (t) => (t.type === "Release" || /contract was terminated/i.test(t.detail)) && !ACTIVE_LATER.has(normName(t.player)),
+  ).map((t) => normName(t.player)),
+);
+function applyReleases(contracts: Contract[]): Contract[] {
+  return contracts.map((c) =>
+    !c.deadMoney && RELEASED.has(normName(c.playerName)) && salaryForYear(c, YEAR) > 0
+      ? { ...cloneContract(c), deadMoney: true }
+      : c,
+  );
+}
 // Announced retirements leave the league entirely — no roster spot, no hold.
 const activeRaw = base.contracts.filter((c) => !RETIRED.has(normName(c.playerName)));
 const deduped = dedupe(activeRaw);
@@ -407,7 +428,8 @@ const afterSignings = applySignings(afterTrades.contracts);
 // The structured signed-FA feed is authoritative for the newest deals — apply
 // it last so it corrects team/salary from the looser transactions-prose pass.
 const afterSignedFA = applySignedFA(afterSignings.contracts);
-const existingIds = new Set(afterSignedFA.contracts.map((c) => c.playerId));
+const afterReleases = applyReleases(afterSignedFA.contracts);
+const existingIds = new Set(afterReleases.map((c) => c.playerId));
 // Real reported rookie-scale terms (e.g. "Signed a 4 year $66.91 million Rookie
 // Scale contract") supersede our estimated scale numbers.
 const ROOKIE_DEALS = new Map(
@@ -439,7 +461,7 @@ const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId))
 
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = [
-  ...afterSignedFA.contracts,
+  ...afterReleases,
   ...rookieContracts,
 ];
 export const TRADES_APPLIED = afterTrades.moved;
