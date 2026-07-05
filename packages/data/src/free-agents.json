@@ -245,12 +245,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "josh okogie": {
-      "name": "Josh Okogie",
-      "team": "HOU",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "bruce brown": {
       "name": "Bruce Brown Jr.",
       "team": "DEN",
@@ -436,12 +430,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "tyus jones": {
-      "name": "Tyus Jones",
-      "team": "DEN",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "jeremy sochan": {
       "name": "Jeremy Sochan",
       "team": "NYK",
@@ -536,11 +524,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "alex morales": {
-      "name": "Alex Morales",
-      "team": "ORL",
-      "restriction": "RFA"
-    },
     "yuki kawamura": {
       "name": "Yuki Kawamura",
       "team": "CHI",
@@ -550,11 +533,6 @@
     "isaiah crawford": {
       "name": "Isaiah Crawford",
       "team": "HOU",
-      "restriction": "RFA"
-    },
-    "chris manon": {
-      "name": "Chris Manon",
-      "team": "LAL",
       "restriction": "RFA"
     },
     "taelon peter": {
@@ -677,26 +655,10 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "trey alexander": {
-      "name": "Trey Alexander",
-      "team": "NOP",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
-    "kj simpson": {
-      "name": "K.J. Simpson",
-      "team": "DEN",
-      "restriction": "RFA"
-    },
     "mac mcclung": {
       "name": "Mac McClung",
       "team": "CHI",
       "restriction": "UFA"
-    },
-    "rayj dennis": {
-      "name": "RayJ Dennis",
-      "team": "ATL",
-      "restriction": "RFA"
     },
     "tyty washington": {
       "name": "TyTy Washington Jr.",

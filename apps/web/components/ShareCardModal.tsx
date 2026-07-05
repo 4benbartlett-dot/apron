@@ -9,6 +9,7 @@ import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
+import { track } from "@/lib/analytics";
 
 interface PlayerLine {
   name: string;
@@ -45,6 +46,11 @@ export function ShareCardModal({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
+
+  useEffect(() => {
+    track("share_open", { result: legal ? "legal" : "blocked" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const token = useMemo(
     () => encodeTradeParam(trade.teams, trade.players, picks),
@@ -96,6 +102,7 @@ export function ShareCardModal({
       ];
 
   const copyLink = async () => {
+    track("share_copy");
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
@@ -110,6 +117,7 @@ export function ShareCardModal({
   const downloadImage = async () => {
     const node = cardRef.current;
     if (!node) return;
+    track("share_download");
     setDownloading(true);
     const name = `over-the-apron-${legal ? "legal" : "blocked"}-${involved.map((t) => t.teamId).join("-")}.png`;
     const save = (href: string) => {
@@ -292,7 +300,7 @@ export function ShareCardModal({
           <button onClick={downloadImage} disabled={downloading} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)] disabled:opacity-60">
             {downloading ? "Rendering…" : "Download image"}
           </button>
-          <a href={tweetHref} target="_blank" rel="noopener noreferrer" className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
+          <a href={tweetHref} target="_blank" rel="noopener noreferrer" onClick={() => track("share_tweet")} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Post on 𝕏
           </a>
           <button onClick={onClose} className="rounded-md px-3 py-1.5 text-xs font-semibold text-[#f4f1e9]/85 hover:text-[#f4f1e9]">

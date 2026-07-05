@@ -18,6 +18,7 @@ import {
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
+import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -429,6 +430,11 @@ function TradeVerdict({
   const legal = verdict.legal && extraViolations.length === 0;
   const firstReason = verdict.violations[0]?.reason ?? extraViolations[0];
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
+  // Count staged trades once per verdict panel, not per roster tweak.
+  useEffect(() => {
+    track("trade_staged", { result: verdict.legal ? "legal" : "blocked" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // The cap-nerd detail: on legal deals, how close did the tightest leg come?
   const margins = verdict.teams
     .filter((t) => t.incomingSalary > 0)
