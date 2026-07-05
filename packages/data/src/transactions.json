@@ -2,6 +2,104 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Jaden Bradley",
+      "pos": "SG",
+      "date": "Jul 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Toronto (TOR)"
+    },
+    {
+      "player": "Kam Jones",
+      "pos": "PG",
+      "date": "Jul 04, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with Milwaukee (MIL)"
+    },
+    {
+      "player": "Garrett Temple",
+      "pos": "SG",
+      "date": "Jul 04, 2026",
+      "type": "Other",
+      "detail": "Retired from Professional Basketball"
+    },
+    {
+      "player": "AK Okereke",
+      "pos": "F",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Brandon Clarke",
+      "pos": "PF",
+      "date": "Jul 03, 2026",
+      "type": "Other",
+      "detail": "Contract was terminated"
+    },
+    {
+      "player": "Peter Suder",
+      "pos": "G",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Scotty Pippen Jr.",
+      "pos": "PG",
+      "date": "Jul 03, 2026",
+      "type": "Other",
+      "detail": "Memphis (MEM) fully guaranteed $2.46 million salary for 2026-27"
+    },
+    {
+      "player": "Josh Okogie",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $12 million contract with Utah (UTA) - includes 2027-28 Team Option"
+    },
+    {
+      "player": "Chris Manon",
+      "pos": "G",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Jaylin Sellers",
+      "pos": "G",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Chicago (CHI)"
+    },
+    {
+      "player": "Caleb Wilson",
+      "pos": "PF",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $48.52 million Rookie Scale contract with Chicago (CHI)"
+    },
+    {
+      "player": "Dailyn Swain",
+      "pos": "SF",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $24.01 million Rookie Scale contract with Chicago (CHI)"
+    },
+    {
+      "player": "Keaton Wagler",
+      "pos": "PG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $43.95 million Rookie Scale contract with LA Clippers (LAC)"
+    },
+    {
+      "player": "Labaron Philon Jr.",
+      "pos": "PG",
+      "date": "Jul 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $17.84 million Rookie Scale contract with Philadelphia (PHI)"
+    },
+    {
       "player": "Andre Drummond",
       "pos": "C",
       "date": "Jul 03, 2026",
@@ -198,6 +296,13 @@
       "detail": "Signed a 1 year $2.85 million contract with Minnesota (MIN)"
     },
     {
+      "player": "Tyus Jones",
+      "pos": "PG",
+      "date": "Jul 02, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Denver (DEN)"
+    },
+    {
       "player": "Mikel Brown Jr.",
       "pos": "PG",
       "date": "Jul 02, 2026",
@@ -237,7 +342,7 @@
       "pos": "G",
       "date": "Jul 02, 2026",
       "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Phoenix (PHX)"
+      "detail": "Signed a Two-Way contract with Phoenix (PHX)"
     },
     {
       "player": "Daeqwon Plowden",
@@ -328,7 +433,7 @@
       "pos": "C",
       "date": "Jul 02, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Sacramento (SAC)"
+      "detail": "Signed a 2 year Two-Way contract with Sacramento (SAC)"
     },
     {
       "player": "Simone Fontecchio",
@@ -630,6 +735,13 @@
       "date": "Jul 01, 2026",
       "type": "Signing",
       "detail": "Signed a 1 year $2.45 million contract with Portland (POR)"
+    },
+    {
+      "player": "Amari Williams",
+      "pos": "C",
+      "date": "Jul 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Boston (BOS)"
     },
     {
       "player": "Bogdan Bogdanovic",
@@ -1253,13 +1365,6 @@
       "date": "Jun 29, 2026",
       "type": "Option",
       "detail": "Toronto (TOR) declined $2.30 million option for 2026-27"
-    },
-    {
-      "player": "Amari Williams",
-      "pos": "C",
-      "date": "Jun 29, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Boston (BOS)"
     },
     {
       "player": "Jusuf Nurkic",
