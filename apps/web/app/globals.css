@@ -138,12 +138,12 @@ input[type="text"] {
 }
 .stamp-in { animation: stamp-in 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
 
-/* Header mark: the hop draws itself, then the ball checks in at center court. */
+/* Header mark: the arc draws itself, then the ball drops in. */
 @keyframes draw-in { to { stroke-dashoffset: 0; } }
 .logo-arc {
-  stroke-dasharray: 16;
-  stroke-dashoffset: 16;
-  animation: draw-in 0.55s 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  stroke-dasharray: 84;
+  stroke-dashoffset: 84;
+  animation: draw-in 0.8s 0.1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes ball-in {
   from { opacity: 0; transform: translateY(-5px); }

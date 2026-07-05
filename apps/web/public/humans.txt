@@ -10,8 +10,7 @@ Validated by replaying every real July 2026 move. All legal.
 /* COLOPHON */
 Paper: warm ledger. Ink: IBM Plex.
 Stamps: hand-inked (feTurbulence, seed 7).
-The crest: a half court over a ledger, split by the apron line.
-The ball waits at center court — 32, 35 — and the arrow gets over.
+The ball clears the apron line at 50.5, 21.5.
 
 /* FINE PRINT */
 Independent project; not affiliated with the NBA or NBPA.
