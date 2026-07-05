@@ -31,7 +31,9 @@ const data: LeagueData = {
 
 describe("explainBlocked", () => {
   it("taxpayer over its band: trim + add-outgoing routes, no bogus shed route", () => {
-    // TAX sends $12.5M, takes back $27M — band is out+$7.5M = $20M, over by $7M.
+    // TAX sends $12.5M, takes back $27M. 2026-27 middle band = out + $9,095,709
+    // (the escalated $7.5M, Art. VII §6(j)(1)(iv)) → ceiling $21,595,709,
+    // over by $5,404,291 → ceil-to-$100k = $5.5M.
     const v = validateTrade(
       data,
       {
@@ -46,9 +48,9 @@ describe("explainBlocked", () => {
     expect(v.legal).toBe(false);
     const e = explainBlocked(v, [], C);
     expect(e.subject.join(" ")).toMatch(/over the cap|luxury tax/);
-    expect(e.fixes.join(" ")).toMatch(/take back \$7\.0M less/);
-    // out+7.5 band: need $19.5M out → +$7.0M more.
-    expect(e.fixes.join(" ")).toMatch(/Add roughly \$7\.0M more outgoing/);
+    expect(e.fixes.join(" ")).toMatch(/take back \$5\.5M less/);
+    // Escalated band: need $17,904,291+ out; the $100k scan lands at +$5.5M.
+    expect(e.fixes.join(" ")).toMatch(/Add roughly \$5\.5M more outgoing/);
     // Already below the first apron — a "shed to escape" route must NOT appear.
     expect(e.fixes.join(" ")).not.toMatch(/shed .* separate deal first/i);
   });
@@ -76,9 +78,11 @@ describe("explainBlocked", () => {
     // out' ≥ pre − 2A + in = 240 − 221.686 + 27 → +$25.9M, not +$7.5M.
     expect(fixes).toMatch(/Add roughly \$25\.9M more outgoing/);
     expect(fixes).toMatch(/lands them at or below the second apron/);
-    // Escape route: shed below 1A and the $7.5M band covers 27 on 19.5 out.
+    // Escape route: shed below 1A and the escalated middle band covers
+    // $27M on $19.5M out (19.5 + 9.096 = 28.6M). Label quotes the exact
+    // year figure via matchRuleLabel.
     expect(fixes).toMatch(/shed .* separate deal first/i);
-    expect(fixes).toMatch(/outgoing \+ \$7\.5M band/);
+    expect(fixes).toMatch(/outgoing \+ \$9\.1M band/);
     expect(fixes).toMatch(/only signed salary counts, not cap holds/);
   });
 

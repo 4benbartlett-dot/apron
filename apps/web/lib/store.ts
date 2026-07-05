@@ -21,8 +21,10 @@ import {
   type Move,
 } from "./league";
 import { track } from "./analytics";
+import { lockedFirstEncumbrance } from "./league";
 
 export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
+export { lockedFirstEncumbrance } from "./league";
 
 export interface OwnedPick {
   /** `ORIGIN|YEAR|ROUND` — origin team never changes; ownership does. */
@@ -162,6 +164,8 @@ export function useLeague() {
       contracts.find((c) => c.playerId === id)?.playerName ?? id;
     // Pick-ownership ledger: every team starts with its own 1sts/2nds; executed
     // trades transfer them, so Stepien and the boards see real inventory.
+    // Real-world encumbrances (draft-picks ledger) then lock own firsts that
+    // are already owed away — see lockedFirstIds/uncoveredFirstYears below.
     const pickOwner = new Map<string, string>();
     for (const t of TEAM_IDS)
       for (const y of PICK_YEARS)
@@ -197,6 +201,8 @@ export function useLeague() {
           const [origin, yearStr, roundStr] = id.split("|");
           const year = Number(yearStr);
           const round = Number(roundStr) as 1 | 2;
+          // A first already owed away in the real world isn't yours to trade.
+          if (round === 1 && origin === owner && lockedFirstEncumbrance(origin!, year)) continue;
           out.push({
             id,
             origin: origin!,
@@ -215,10 +221,20 @@ export function useLeague() {
         for (const [id, owner] of pickOwner) {
           if (owner === t && id.endsWith("|1")) owned.add(id);
         }
+        // Real-world obligations: an own first that's owed (or protected-out)
+        // cannot be counted on — conservative Stepien, per league practice.
+        for (const id of [...owned]) {
+          const [origin, yearStr] = id.split("|");
+          if (origin === t && lockedFirstEncumbrance(t, Number(yearStr))) owned.delete(id);
+        }
         for (const id of extraOut) owned.delete(id);
         for (const id of extraIn) if (id.endsWith("|1")) owned.add(id);
         const yearsWithFirst = new Set([...owned].map((id) => Number(id.split("|")[1])));
-        return PICK_YEARS.filter((y) => !yearsWithFirst.has(y));
+        const uncovered: number[] = PICK_YEARS.filter((y) => !yearsWithFirst.has(y));
+        // 2033 sits past the tradeable window but a first already owed there
+        // still pairs with 2032 for the consecutive-gap test.
+        if (lockedFirstEncumbrance(t, 2033)) uncovered.push(2033);
+        return uncovered;
       },
       // The tightest apron a team has HARD-CAPPED itself at this session (via an
       // NT-MLE/BAE or sign-and-trade → first apron, or a Taxpayer MLE → second

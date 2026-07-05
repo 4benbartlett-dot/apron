@@ -11,7 +11,7 @@
         {
           "year": 2028,
           "headline": "2028 first round draft pick from Utah or Cleveland (less favorable, swap, Atlanta outgoing to Cleveland)",
-          "detail": "Utah will receive the more favorable of its 2028 1st round pick and Cleveland's 2028 1st round pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025]"
+          "detail": "Utah will receive the most favorable of its 2028 1st round pick, Cleveland's 2028 1st round pick and the L.A. Lakers' 2028 1st round pick; the L.A. Lakers will receive the less favorable of (i) its pick and (ii) the more favorable of the Utah pick and the Cleveland pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Utah's right to swap Utah or Cleveland for L.A. Lakers; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending]"
         },
         {
           "year": 2029,
@@ -31,7 +31,7 @@
         {
           "year": 2032,
           "headline": "2032 second round draft pick from L.A. Lakers (effectively a swap, Atlanta outgoing to Oklahoma City)",
-          "detail": "Atlanta will receive the more favorable of its 2032 2nd round pick and the L.A. Lakers' 2032 2nd round pick and Oklahoma City will receive the less favorable of the two [Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending]"
+          "detail": "Atlanta will receive the more favorable of its 2032 2nd round pick and the L.A. Lakers' 2032 2nd round pick and Oklahoma City will receive the less favorable of the two (via Atlanta) [Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending]"
         },
         {
           "year": 2033,
@@ -65,9 +65,29 @@
     "BOS": {
       "incoming": [
         {
+          "year": 2028,
+          "headline": "2028 first round draft pick from Philadelphia",
+          "detail": "Boston will receive a 2028 1st round pick from Philadelphia or instead receive a swap right over a 2028 1st round pick from Philadelphia; the Philadelphia pick is available to trade from 1-8 and Philadelphia has the L.A. Clippers' 2028 1st round pick [Boston-Philadelphia, pending]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 second round draft pick from Golden State, Milwaukee or Oklahoma City (most favorable)",
+          "detail": "Boston will receive the most favorable of Golden State's 2028 2nd round pick, Milwaukee's 2028 2nd round pick and Oklahoma City's 2028 2nd round pick and Philadelphia will receive the two least favorable of the three (via Golden State to Portland to Washington to Philadelphia; via Milwaukee to Brooklyn to Houston to Oklahoma City to Philadelphia; via Oklahoma City to Philadelphia) [Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
+        },
+        {
           "year": 2030,
           "headline": "2030 second round draft pick from Charlotte",
           "detail": "Charlotte's 2030 2nd round pick to Boston protected for selections 31-55 (if this pick falls within its protected range and is therefore not conveyed, then Charlotte's obligation to Boston will be extinguished) [Boston-Charlotte, 2/5/2026]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 second round draft pick from Phoenix, Portland or Washington (most favorable)",
+          "detail": "Boston will receive the most favorable of Phoenix's 2030 2nd round pick, Portland's 2030 2nd round pick and Washington's 2030 2nd round pick; Philadelphia will receive the less favorable of (i) the more favorable of the Phoenix pick and the Portland pick and (ii) the Washington pick; Washington will receive the less favorable of the Phoenix pick and the Portland pick (via Phoenix and Portland to Washington to Philadelphia) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick from Philadelphia",
+          "detail": "Philadelphia's 2031 1st round pick to Boston [Boston-Philadelphia, pending]"
         },
         {
           "year": 2031,
@@ -78,7 +98,7 @@
       "outgoing": [
         {
           "year": 2027,
-          "headline": "2027 second round draft pick to Utah or Charlotte",
+          "headline": "2027 second round draft pick to Utah or Phoenix",
           "detail": "Utah will receive the more favorable of Boston's 2027 2nd round pick and Orlando's 2027 2nd round pick and Phoenix will receive the less favorable of the two (via Boston to Orlando to Boston to Utah; via Orlando to Charlotte to Phoenix) [Boston-Orlando, 3/25/2021; Boston-Orlando, 6/26/2025; Boston-Utah, 8/6/2025; Charlotte-Orlando, 2/4/2026; Charlotte-Phoenix, pending]"
         },
         {
@@ -243,6 +263,11 @@
         },
         {
           "year": 2027,
+          "headline": "2027 second round draft pick from Memphis",
+          "detail": "Memphis' 2027 2nd round pick to Charlotte (via L.A. Clippers to Houston) [Houston-L.A. Clippers-Memphis, 2/9/2023; Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023; Charlotte-Houston, pending]"
+        },
+        {
+          "year": 2027,
           "headline": "2027 second round draft pick from New Orleans or Portland (more favorable)",
           "detail": "Charlotte will receive the more favorable of New Orleans' 2027 2nd round pick and Portland's 2027 2nd round pick and Portland will receive the less favorable of the two; Portland may convey the pick it receives to Houston (see Portland Outgoing) (via Portland) [New Orleans-Portland, 2/8/2022; Charlotte-Philadelphia-Portland-New York, 2/9/2023]"
         },
@@ -250,6 +275,11 @@
           "year": 2028,
           "headline": "2028 first round draft pick from Minnesota (swap, Charlotte outgoing)",
           "detail": "Charlotte has the right to swap its 2028 1st round pick for Minnesota's 2028 1st round pick [Charlotte-Minnesota, pending]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 second round draft pick from Houston",
+          "detail": "Houston's 2028 2nd round pick to Charlotte [Charlotte-Houston, pending]"
         },
         {
           "year": 2028,
@@ -268,8 +298,8 @@
         },
         {
           "year": 2029,
-          "headline": "2029 first round draft pick from Minnesota (least favorable of Charlotte, Utah and Cleveland outgoing) [this overlaps with another incoming pick to Charlotte]",
-          "detail": "Charlotte has the right to swap the least favorable of its 2029 1st round pick, Utah's 2029 1st round pick and Cleveland's 2029 1st round pick for Minnesota's 2029 1st round pick protected for selections 6-30 (if the Minnesota pick falls within its protected range of 6-30 and is therefore not conveyable to Charlotte as part of this conveyance, then this obligation of Minnesota's to Charlotte and Charlotte's swap right will be extinguished) [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending]"
+          "headline": "2029 first round draft pick from Minnesota (swap, least favorable of Charlotte, Utah and Cleveland outgoing to Minnesota or Phoenix) [this overlaps with another incoming pick to Charlotte]",
+          "detail": "Charlotte has the right to swap the least favorable of its 2029 1st round pick, Utah's 2029 1st round pick and Cleveland's 2029 1st round pick for Minnesota's 2029 1st round pick protected for selections 6-30 (if the Minnesota pick falls within its protected range of 6-30 and is therefore not conveyable to Charlotte as part of this conveyance, then this obligation of Minnesota's to Charlotte and this swap right of Charlotte's will be extinguished); Charlotte may convey the pick it receives to Phoenix [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending; Charlotte-Phoenix, pending]"
         },
         {
           "year": 2029,
@@ -285,6 +315,11 @@
           "year": 2029,
           "headline": "2029 second round draft pick from Minnesota",
           "detail": "If Minnesota conveys a 1st round pick to Utah in 2029, then Minnesota's 2029 2nd round pick to Charlotte; if Minnesota does not convey a 1st round pick to Utah in 2029, then the obligation to Charlotte will be extinguished and instead Utah will receive this 2nd round pick (see Utah Incoming) [Charlotte-Minnesota, pending]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 first round draft pick incoming (swap, Charlotte outgoing to Minnesota)",
+          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte via a complex swap right [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending]"
         },
         {
           "year": 2030,
@@ -320,6 +355,11 @@
           "year": 2033,
           "headline": "2033 first round draft pick from Phoenix",
           "detail": "Phoenix's 2033 1st round pick to Charlotte [Charlotte-Phoenix, pending]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 second round draft pick from Houston",
+          "detail": "Houston's 2033 2nd round pick to Charlotte [Charlotte-Houston, pending]"
         },
         {
           "year": 2033,
@@ -412,8 +452,8 @@
         },
         {
           "year": 2028,
-          "headline": "2028 first round draft pick to Utah or Atlanta (swap, less favorable of Utah and Atlanta incoming)",
-          "detail": "Utah will receive the more favorable of its 2028 1st round pick and Cleveland's 2028 1st round pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025]"
+          "headline": "2028 first round draft pick to Utah, L.A. Lakers or Atlanta (least favorable of Utah, Atlanta and Cleveland incoming, swap)",
+          "detail": "Utah will receive the most favorable of its 2028 1st round pick, Cleveland's 2028 1st round pick and the L.A. Lakers' 2028 1st round pick; the L.A. Lakers will receive the less favorable of (i) its pick and (ii) the more favorable of the Utah pick and the Cleveland pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Utah's right to swap Utah or Cleveland for L.A. Lakers; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending]"
         },
         {
           "year": 2028,
@@ -463,11 +503,6 @@
           "year": 2029,
           "headline": "2029 second round draft pick from Houston",
           "detail": "Houston's 2029 2nd round pick to Dallas (via Oklahoma City to Washington) [Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023; Oklahoma City-Washington, 6/28/2025; Dallas-Washington, 2/5/2026]"
-        },
-        {
-          "year": 2030,
-          "headline": "2030 first round draft pick from Golden State",
-          "detail": "Golden State's 2030 1st round pick to Dallas protected for selections 1-20; if this pick falls within its protected range and is therefore not conveyed, then Golden State will instead convey its 2030 2nd round pick to Dallas (via Washington) [Golden State-Washington, 7/6/2023; Dallas-Washington, 2/5/2026]"
         }
       ],
       "outgoing": [
@@ -503,8 +538,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 first round draft pick to San Antonio or Minnesota (swap, San Antonio incoming)",
-          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte (see Minnesota Outgoing) [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024]"
+          "headline": "2030 first round draft pick to San Antonio, Minnesota or Charlotte (swap, San Antonio incoming)",
+          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte via a complex swap right [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending]"
         },
         {
           "year": 2030,
@@ -540,7 +575,7 @@
         {
           "year": 2027,
           "headline": "2027 first round draft pick to Oklahoma City",
-          "detail": "Denver's 1st round pick to Oklahoma City protected for selections 1-5 in 2027, 1-5 in 2028 and 1-5 in 2029; if Denver has not conveyed this first potential 1st round pick to Oklahoma City by 2029, then Denver will instead convey its 2029 2nd round pick to Oklahoma City; Oklahoma City may convey the 2027 pick to the L.A. Clippers (see Oklahoma City Incoming) [Denver-Oklahoma City, 6/23/2022]"
+          "detail": "Denver's 1st round pick to Oklahoma City protected for selections 1-5 in 2027, 1-5 in 2028 and 1-5 in 2029; if Denver has not conveyed this first potential 1st round pick to Oklahoma City by 2029, then Denver will instead convey its 2029 2nd round pick to Oklahoma City; Oklahoma City may convey the 2027 pick to the L.A. Clippers (see Oklahoma City Incoming) which may then convey this pick to Toronto (see L.A. Clippers Incoming) [Denver-Oklahoma City, 6/23/2022]"
         },
         {
           "year": 2027,
@@ -655,8 +690,8 @@
         },
         {
           "year": 2028,
-          "headline": "2028 second round draft pick to Philadelphia",
-          "detail": "Golden State's 2028 2nd round pick to Philadelphia (via Portland to Washington) [Atlanta-Detroit-Golden State-Portland, 2/9/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025]"
+          "headline": "2028 second round draft pick to Boston or Philadelphia",
+          "detail": "Boston will receive the most favorable of Golden State's 2028 2nd round pick, Milwaukee's 2028 2nd round pick and Oklahoma City's 2028 2nd round pick and Philadelphia will receive the two least favorable of the three (via Golden State to Portland to Washington to Philadelphia; via Milwaukee to Brooklyn to Houston to Oklahoma City to Philadelphia; via Oklahoma City to Philadelphia) [Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
         },
         {
           "year": 2029,
@@ -665,8 +700,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 first round draft pick to Dallas",
-          "detail": "Golden State's 2030 1st round pick to Dallas protected for selections 1-20; if this pick falls within its protected range and is therefore not conveyed, then Golden State will instead convey its 2030 2nd round pick to Dallas (via Washington) [Golden State-Washington, 7/6/2023; Dallas-Washington, 2/5/2026]"
+          "headline": "2030 first round draft pick to Memphis",
+          "detail": "Golden State's 2030 1st round pick to Memphis protected for selections 1-20; if this pick falls within its protected range and is therefore not conveyed, then Golden State will instead convey its 2030 2nd round pick to Memphis (via Washington to Dallas) [Golden State-Washington, 7/6/2023; Dallas-Washington, 2/5/2026; Dallas-Memphis, pending]"
         },
         {
           "year": 2031,
@@ -694,11 +729,6 @@
         },
         {
           "year": 2027,
-          "headline": "2027 second round draft pick from Memphis",
-          "detail": "Memphis' 2027 2nd round pick to Houston (via L.A. Clippers) [Houston-L.A. Clippers-Memphis, 2/9/2023; Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023]"
-        },
-        {
-          "year": 2027,
           "headline": "2027 second round draft pick from Portland or New Orleans",
           "detail": "Houston will receive the less favorable of Portland's 2027 2nd round pick and New Orleans' 2027 2nd round pick if this pick falls outside its protected range of 31-55 (if this pick falls within its protected range and is therefore not conveyed, then Portland's obligation to Houston will be extinguished) (via Portland to Boston) [New Orleans-Portland, 2/8/2022; Charlotte-Philadelphia-Portland-New York, 2/9/2023; Boston-Portland, 2/8/2024; Boston-Houston, 2/6/2025]"
         },
@@ -713,6 +743,11 @@
           "year": 2027,
           "headline": "2027 second round draft pick to Philadelphia, New Orleans, New York, San Antonio or Miami",
           "detail": "Philadelphia will receive the most favorable of Oklahoma City's 2027 2nd round pick, Houston's 2027 2nd round pick, Indiana's 2027 2nd round pick and Miami's 2027 2nd round pick and New Orleans will receive the second most favorable and New York will receive the third most favorable of the four; San Antonio will receive the more favorable of (i) its 2027 2nd round pick and (ii) the least favorable of the Oklahoma City pick, the Houston pick, the Indiana pick and the Miami pick and Miami will receive the least favorable of the five (via Houston to Detroit to Oklahoma City to New York to New Orleans; via Miami to Oklahoma City to Utah to San Antonio to Miami; via Oklahoma City to Philadelphia) [Detroit-Houston, 11/24/2020; Detroit-Oklahoma City, 3/13/2021; Indiana-Oklahoma City, 11/25/2020; Miami-Oklahoma City, 3/17/2021; Oklahoma City-Utah, 7/30/2021; Portland-San Antonio-Utah, 2/9/2022; Cleveland-Miami-San Antonio, 7/6/2023; New York-Oklahoma City, 6/27/2024; Oklahoma City-Philadelphia, 2/4/2026; New Orleans-New York, 2/5/2026]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 second round draft pick to Charlotte",
+          "detail": "Houston's 2028 2nd round pick to Charlotte [Charlotte-Houston, pending]"
         },
         {
           "year": 2029,
@@ -738,6 +773,11 @@
           "year": 2032,
           "headline": "2032 second round draft pick to Minnesota or Phoenix",
           "detail": "Chicago will receive the more favorable of Houston's 2032 2nd round pick and Phoenix's 2032 2nd round pick and Phoenix will receive the less favorable of the two (via Phoenix to Minnesota) [Atlanta-Brooklyn-Golden State-Houston-L.A. Lakers-Minnesota-Phoenix, 7/6/2025; Chicago-Minnesota, 2/5/2026]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 second round draft pick to Charlotte",
+          "detail": "Houston's 2033 2nd round pick to Charlotte [Charlotte-Houston, pending]"
         }
       ]
     },
@@ -785,6 +825,11 @@
     "LAC": {
       "incoming": [
         {
+          "year": 2027,
+          "headline": "2027 first round draft pick from Oklahoma City, Denver or Toronto (L.A. Clippers outgoing to Oklahoma City or Toronto)",
+          "detail": "Oklahoma City has the right to swap the less favorable of its 2027 1st round pick and Denver's 2027 1st round pick protected for selections 1-5 for the L.A. Clippers' 2027 1st round pick; the L.A. Clippers then have the right to swap the Oklahoma City pick or the Denver pick for Toronto's 2027 1st round pick [Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023; L.A. Clippers-Toronto, pending]"
+        },
+        {
           "year": 2028,
           "headline": "2028 second round draft pick from Dallas",
           "detail": "Dallas' 2028 2nd round pick to L.A. Clippers (via Sacramento to Indiana) [Dallas-Sacramento, 6/24/2022; Indiana-Sacramento, 7/6/2023; Indiana-L.A. Clippers, 2/5/2026]"
@@ -793,14 +838,29 @@
           "year": 2029,
           "headline": "2029 first round draft pick from Indiana",
           "detail": "Indiana's 2029 1st round pick to L.A. Clippers [Indiana-L.A. Clippers, 2/5/2026]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 second round draft pick from Toronto",
+          "detail": "Toronto's 2030 2nd round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick from Toronto",
+          "detail": "Toronto's 2031 1st round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 first round draft pick from Toronto",
+          "detail": "Toronto's 2033 1st round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 second round draft pick from Toronto",
+          "detail": "Toronto's 2033 2nd round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
         }
       ],
       "outgoing": [
-        {
-          "year": 2027,
-          "headline": "2027 first round draft pick to Oklahoma City (Oklahoma City or Denver incoming)",
-          "detail": "Oklahoma City has the right to swap its 2027 1st round pick or, if conveyed to Oklahoma City, Denver's 2027 1st round pick protected for selections 1-5 for the L.A. Clippers' 2027 1st round pick [Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023]"
-        },
         {
           "year": 2027,
           "headline": "2027 second round draft pick to Utah",
@@ -834,7 +894,18 @@
       ]
     },
     "LAL": {
-      "incoming": [],
+      "incoming": [
+        {
+          "year": 2031,
+          "headline": "2031 second round draft pick from Washington",
+          "detail": "Washington will convey one of its 2031 2nd round picks to the L.A. Lakers [L.A. Lakers-Washington, pending]"
+        },
+        {
+          "year": 2032,
+          "headline": "2032 second round draft pick from Washington",
+          "detail": "Washington will convey one of its 2032 2nd round picks to the L.A. Lakers [L.A. Lakers-Washington, pending]"
+        }
+      ],
       "outgoing": [
         {
           "year": 2027,
@@ -845,6 +916,11 @@
           "year": 2027,
           "headline": "2027 second round draft pick to Brooklyn",
           "detail": "If the L.A. Lakers convey a 1st round pick to Memphis in 2027, then the L.A. Lakers' 2027 2nd round pick to Brooklyn; if the L.A. Lakers do not convey a 1st round pick to Memphis in 2027, then the obligation to Brooklyn will be extinguished and instead Memphis will receive this 2nd round pick [Brooklyn-L.A. Lakers, 12/29/2024]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 first round draft pick to Utah (swap, more favorable of Utah and Cleveland incoming)",
+          "detail": "Utah will receive the most favorable of its 2028 1st round pick, Cleveland's 2028 1st round pick and the L.A. Lakers' 2028 1st round pick; the L.A. Lakers will receive the less favorable of (i) its pick and (ii) the more favorable of the Utah pick and the Cleveland pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Utah's right to swap Utah or Cleveland for L.A. Lakers; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending]"
         },
         {
           "year": 2028,
@@ -863,8 +939,18 @@
         },
         {
           "year": 2030,
+          "headline": "2030 first round draft pick to Utah (swap, Utah incoming)",
+          "detail": "Utah has the right to swap its 2030 1st round pick for the L.A. Lakers' 2030 1st round pick [L.A. Lakers-Utah, pending]"
+        },
+        {
+          "year": 2030,
           "headline": "2030 second round draft pick to Brooklyn",
           "detail": "L.A. Lakers' 2030 2nd round pick to Brooklyn [Brooklyn-L.A. Lakers, 12/29/2024]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick to Utah",
+          "detail": "L.A. Lakers 2031 1st round pick to Utah [L.A. Lakers-Utah, pending]"
         },
         {
           "year": 2031,
@@ -874,7 +960,12 @@
         {
           "year": 2032,
           "headline": "2032 second round draft pick to Atlanta or Oklahoma City",
-          "detail": "Atlanta will receive the more favorable of its 2032 2nd round pick and the L.A. Lakers' 2032 2nd round pick and Oklahoma City will receive the less favorable of the two [Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending]"
+          "detail": "Atlanta will receive the more favorable of its 2032 2nd round pick and the L.A. Lakers' 2032 2nd round pick and Oklahoma City will receive the less favorable of the two (via Atlanta) [Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 first round draft pick to Utah",
+          "detail": "L.A. Lakers 2033 1st round pick to Utah [L.A. Lakers-Utah, pending]"
         }
       ]
     },
@@ -899,6 +990,11 @@
           "year": 2029,
           "headline": "2029 second round draft pick from Portland",
           "detail": "Portland's 2029 2nd round pick to Memphis (via Philadelphia to Indiana) [Charlotte-Philadelphia-Portland-New York, 2/9/2023; Indiana-Philadelphia-San Antonio, 2/8/2024; Indiana-Memphis, 7/6/2025]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 first round draft pick from Golden State",
+          "detail": "Golden State's 2030 1st round pick to Memphis protected for selections 1-20; if this pick falls within its protected range and is therefore not conveyed, then Golden State will instead convey its 2030 2nd round pick to Memphis (via Washington to Dallas) [Golden State-Washington, 7/6/2023; Dallas-Washington, 2/5/2026; Dallas-Memphis, pending]"
         },
         {
           "year": 2030,
@@ -944,8 +1040,8 @@
       "outgoing": [
         {
           "year": 2027,
-          "headline": "2027 second round draft pick to Houston",
-          "detail": "Memphis' 2027 2nd round pick to Houston (via L.A. Clippers) [Houston-L.A. Clippers-Memphis, 2/9/2023; Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023]"
+          "headline": "2027 second round draft pick to Charlotte",
+          "detail": "Memphis' 2027 2nd round pick to Charlotte (via L.A. Clippers to Houston) [Houston-L.A. Clippers-Memphis, 2/9/2023; Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023; Charlotte-Houston, pending]"
         },
         {
           "year": 2028,
@@ -989,8 +1085,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 first round draft pick to Milwaukee (least favorable of Miami, Milwaukee and Portland incoming)",
-          "detail": "Portland has the right to swap its 2030 1st round pick for Milwaukee's 2030 1st round pick; Milwaukee will receive the more favorable of (i) the less favorable of its pick and the Portland pick and (ii) Miami's 2030 1st round pick and Miami will receive the least favorable of these (via Milwaukee's right to swap Milwaukee or Portland for Miami) Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending]"
+          "headline": "2030 first round draft pick to Milwaukee (least favorable of Milwaukee, Portland and Miami incoming, swap)",
+          "detail": "Portland has the right to swap its 2030 1st round pick for Milwaukee's 2030 1st round pick; Milwaukee then has the right to swap the less favorable of its pick and the Portland pick for Miami's 2030 1st round pick [Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending]"
         },
         {
           "year": 2030,
@@ -1027,6 +1123,11 @@
     "MIL": {
       "incoming": [
         {
+          "year": 2030,
+          "headline": "2030 first round draft pick from Portland or Miami (Milwaukee outgoing to Portland or Miami)",
+          "detail": "Portland has the right to swap its 2030 1st round pick for Milwaukee's 2030 1st round pick; Milwaukee then has the right to swap the less favorable of its pick and the Portland pick for Miami's 2030 1st round pick [Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending]"
+        },
+        {
           "year": 2031,
           "headline": "2031 first round draft pick from Miami",
           "detail": "Miami's 2031 1st round pick to Milwaukee [Miami-Milwaukee, pending]"
@@ -1060,8 +1161,8 @@
         },
         {
           "year": 2028,
-          "headline": "2028 second round draft pick to Philadelphia",
-          "detail": "Milwaukee's 2028 2nd round pick to Philadelphia (via Brooklyn to Houston to Oklahoma City) [Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Oklahoma City-Philadelphia, 2/4/2026]"
+          "headline": "2028 second round draft pick to Boston or Philadelphia",
+          "detail": "Boston will receive the most favorable of Golden State's 2028 2nd round pick, Milwaukee's 2028 2nd round pick and Oklahoma City's 2028 2nd round pick and Philadelphia will receive the two least favorable of the three (via Golden State to Portland to Washington to Philadelphia; via Milwaukee to Brooklyn to Houston to Oklahoma City to Philadelphia; via Oklahoma City to Philadelphia) [Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
         },
         {
           "year": 2029,
@@ -1072,11 +1173,6 @@
           "year": 2029,
           "headline": "2029 second round draft pick to Detroit or Chicago",
           "detail": "Detroit will receive the two most favorable of its 2029 2nd round pick, Milwaukee's 2029 2nd round pick and New York's 2029 2nd round pick and Chicago will receive the least favorable of the three (via Milwaukee to Brooklyn to Detroit; via New York to Detroit; via Detroit to Memphis; via Memphis to Detroit; via Sacramento to Chicago) [Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Detroit, 7/6/2023; Detroit-New York, 2/8/2024; Detroit-Sacramento, 7/7/2025; Chicago-Cleveland-Sacramento, 2/1/2026; Detroit-Memphis, 6/24/2026; Detroit-Memphis, pending]"
-        },
-        {
-          "year": 2030,
-          "headline": "2030 first round draft pick to Portland (Portland or Miami incoming)",
-          "detail": "Portland has the right to swap its 2030 1st round pick for Milwaukee's 2030 1st round pick; Milwaukee will receive the more favorable of (i) the less favorable of its pick and the Portland pick and (ii) Miami's 2030 1st round pick and Miami will receive the least favorable of these (via Milwaukee's right to swap Milwaukee or Portland for Miami) Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending]"
         },
         {
           "year": 2030,
@@ -1126,13 +1222,13 @@
         },
         {
           "year": 2029,
-          "headline": "2029 first round draft pick to Utah or Charlotte",
+          "headline": "2029 first round draft pick to Utah or Charlotte [this overlaps with another outgoing pick from Minnesota]",
           "detail": "Utah will receive the most / two most favorable of its 2029 1st round pick, Cleveland's 2029 1st round pick and Minnesota's 2029 1st round pick protected for selections 1-5 and Charlotte will receive the least / less favorable of these; if the Minnesota pick falls within its protected range and is therefore not conveyable as part of this conveyance, then Minnesota will instead convey its 2029 2nd round pick to Utah (via Utah to Phoenix); Charlotte may convey the pick it receives to Minnesota or Phoenix (see Charlotte Incoming) [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025]"
         },
         {
           "year": 2029,
-          "headline": "2029 first round draft pick to Charlotte (least favorable of Charlotte, Utah and Cleveland incoming)",
-          "detail": "Charlotte has the right to swap the least favorable of its 2029 1st round pick, Utah's 2029 1st round pick and Cleveland's 2029 1st round pick for Minnesota's 2029 1st round pick protected for selections 6-30 (if the Minnesota pick falls within its protected range of 6-30 and is therefore not conveyable to Charlotte as part of this conveyance, then this obligation of Minnesota's to Charlotte and Charlotte's swap right will be extinguished) [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending]"
+          "headline": "2029 first round draft pick to Charlotte or Phoenix (swap, least favorable of Charlotte, Utah and Cleveland incoming) [this overlaps with another outgoing pick from Minnesota]",
+          "detail": "Charlotte has the right to swap the least favorable of its 2029 1st round pick, Utah's 2029 1st round pick and Cleveland's 2029 1st round pick for Minnesota's 2029 1st round pick protected for selections 6-30 (if the Minnesota pick falls within its protected range of 6-30 and is therefore not conveyable to Charlotte as part of this conveyance, then this obligation of Minnesota's to Charlotte and this swap right of Charlotte's will be extinguished); Charlotte may convey the pick it receives to Phoenix [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending; Charlotte-Phoenix, pending]"
         },
         {
           "year": 2029,
@@ -1141,8 +1237,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 first round draft pick to San Antonio (San Antonio or Dallas incoming)",
-          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte (see Minnesota Outgoing) [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024]"
+          "headline": "2030 first round draft pick outgoing (San Antonio or Dallas incoming)",
+          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte via a complex swap right [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending]"
         },
         {
           "year": 2030,
@@ -1318,17 +1414,17 @@
         {
           "year": 2027,
           "headline": "2027 first round draft pick from Denver",
-          "detail": "Denver's 1st round pick to Oklahoma City protected for selections 1-5 in 2027, 1-5 in 2028 and 1-5 in 2029; if Denver has not conveyed this first potential 1st round pick to Oklahoma City by 2029, then Denver will instead convey its 2029 2nd round pick to Oklahoma City; Oklahoma City may convey the 2027 pick to the L.A. Clippers (see Oklahoma City Incoming) [Denver-Oklahoma City, 6/23/2022]"
-        },
-        {
-          "year": 2027,
-          "headline": "2027 first round draft pick from L.A. Clippers (Oklahoma City or Denver outgoing)",
-          "detail": "Oklahoma City has the right to swap its 2027 1st round pick or, if conveyed to Oklahoma City, Denver's 2027 1st round pick protected for selections 1-5 for the L.A. Clippers' 2027 1st round pick [Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023]"
+          "detail": "Denver's 1st round pick to Oklahoma City protected for selections 1-5 in 2027, 1-5 in 2028 and 1-5 in 2029; if Denver has not conveyed this first potential 1st round pick to Oklahoma City by 2029, then Denver will instead convey its 2029 2nd round pick to Oklahoma City; Oklahoma City may convey the 2027 pick to the L.A. Clippers (see Oklahoma City Incoming) which may then convey this pick to Toronto (see L.A. Clippers Incoming) [Denver-Oklahoma City, 6/23/2022]"
         },
         {
           "year": 2027,
           "headline": "2027 first round draft pick from San Antonio",
           "detail": "San Antonio's 2027 1st round pick to Sacramento protected for selections 17-30 or to Oklahoma City protected for selections 1-16; if this pick falls within its protected range of 1-16, then Sacramento will instead convey its 2027 2nd round pick and Charlotte's 2027 2nd round pick to Oklahoma City (San Antonio's obligation to Oklahoma City or Sacramento will thereafter be extinguished) (via Sacramento) [Chicago-Sacramento-San Antonio, 2/3/2025; Oklahoma City-Sacramento, 6/25/2025]"
+        },
+        {
+          "year": 2027,
+          "headline": "2027 first round draft pick from L.A. Clippers (Oklahoma City outgoing to L.A. Clippers or Toronto)",
+          "detail": "Oklahoma City has the right to swap the less favorable of its 2027 1st round pick and Denver's 2027 1st round pick protected for selections 1-5 for the L.A. Clippers' 2027 1st round pick; the L.A. Clippers then have the right to swap the Oklahoma City pick or the Denver pick for Toronto's 2027 1st round pick [Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023; L.A. Clippers-Toronto, pending]"
         },
         {
           "year": 2028,
@@ -1373,7 +1469,7 @@
         {
           "year": 2032,
           "headline": "2032 second round draft pick from Atlanta or L.A. Lakers (less favorable)",
-          "detail": "Atlanta will receive the more favorable of its 2032 2nd round pick and the L.A. Lakers' 2032 2nd round pick and Oklahoma City will receive the less favorable of the two [Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending]"
+          "detail": "Atlanta will receive the more favorable of its 2032 2nd round pick and the L.A. Lakers' 2032 2nd round pick and Oklahoma City will receive the less favorable of the two (via Atlanta) [Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending]"
         }
       ],
       "outgoing": [
@@ -1384,8 +1480,8 @@
         },
         {
           "year": 2028,
-          "headline": "2028 second round draft pick to Philadelphia",
-          "detail": "Oklahoma City's 2028 2nd round pick to Philadelphia [Oklahoma City-Philadelphia, 2/4/2026]"
+          "headline": "2028 second round draft pick to Boston or Philadelphia",
+          "detail": "Boston will receive the most favorable of Golden State's 2028 2nd round pick, Milwaukee's 2028 2nd round pick and Oklahoma City's 2028 2nd round pick and Philadelphia will receive the two least favorable of the three (via Golden State to Portland to Washington to Philadelphia; via Milwaukee to Brooklyn to Houston to Oklahoma City to Philadelphia; via Oklahoma City to Philadelphia) [Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
         },
         {
           "year": 2033,
@@ -1420,7 +1516,7 @@
       "outgoing": [
         {
           "year": 2027,
-          "headline": "2027 second round draft pick to Utah or Charlotte",
+          "headline": "2027 second round draft pick to Utah or Phoenix",
           "detail": "Utah will receive the more favorable of Boston's 2027 2nd round pick and Orlando's 2027 2nd round pick and Phoenix will receive the less favorable of the two (via Boston to Orlando to Boston to Utah; via Orlando to Charlotte to Phoenix) [Boston-Orlando, 3/25/2021; Boston-Orlando, 6/26/2025; Boston-Utah, 8/6/2025; Charlotte-Orlando, 2/4/2026; Charlotte-Phoenix, pending]"
         },
         {
@@ -1456,6 +1552,11 @@
           "year": 2027,
           "headline": "2027 second round draft pick from Boston or Orlando (less favorable)",
           "detail": "Utah will receive the more favorable of Boston's 2027 2nd round pick and Orlando's 2027 2nd round pick and Phoenix will receive the less favorable of the two (via Boston to Orlando to Boston to Utah; via Orlando to Charlotte to Phoenix) [Boston-Orlando, 3/25/2021; Boston-Orlando, 6/26/2025; Boston-Utah, 8/6/2025; Charlotte-Orlando, 2/4/2026; Charlotte-Phoenix, pending]"
+        },
+        {
+          "year": 2029,
+          "headline": "2029 first round draft pick from Charlotte or Minnesota",
+          "detail": "Charlotte has the right to swap the least favorable of its 2029 1st round pick, Utah's 2029 1st round pick and Cleveland's 2029 1st round pick for Minnesota's 2029 1st round pick protected for selections 6-30 (if the Minnesota pick falls within its protected range of 6-30 and is therefore not conveyable to Charlotte as part of this conveyance, then this obligation of Minnesota's to Charlotte and this swap right of Charlotte's will be extinguished); Charlotte may convey the pick it receives to Phoenix [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending; Charlotte-Phoenix, pending]"
         }
       ],
       "outgoing": [
@@ -1496,8 +1597,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 second round draft pick to Philadelphia or Washington",
-          "detail": "Philadelphia will receive the more favorable of Phoenix's 2030 2nd round pick and Portland's 2030 2nd round pick and Washington will receive the less favorable of the two (via Washington) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025]"
+          "headline": "2030 second round draft pick to Boston, Philadelphia or Washington",
+          "detail": "Boston will receive the most favorable of Phoenix's 2030 2nd round pick, Portland's 2030 2nd round pick and Washington's 2030 2nd round pick; Philadelphia will receive the less favorable of (i) the more favorable of the Phoenix pick and the Portland pick and (ii) the Washington pick; Washington will receive the less favorable of the Phoenix pick and the Portland pick (via Phoenix and Portland to Washington to Philadelphia) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
         },
         {
           "year": 2031,
@@ -1561,7 +1662,7 @@
         {
           "year": 2030,
           "headline": "2030 first round draft pick from Milwaukee (swap, Portland outgoing to Milwaukee or Miami)",
-          "detail": "Portland has the right to swap its 2030 1st round pick for Milwaukee's 2030 1st round pick; Milwaukee will receive the more favorable of (i) the less favorable of its pick and the Portland pick and (ii) Miami's 2030 1st round pick and Miami will receive the least favorable of these (via Milwaukee's right to swap Milwaukee or Portland for Miami) Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending]"
+          "detail": "Portland has the right to swap its 2030 1st round pick for Milwaukee's 2030 1st round pick; Milwaukee then has the right to swap the less favorable of its pick and the Portland pick for Miami's 2030 1st round pick [Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending]"
         }
       ],
       "outgoing": [
@@ -1582,8 +1683,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 second round draft pick to Philadelphia or Washington",
-          "detail": "Philadelphia will receive the more favorable of Phoenix's 2030 2nd round pick and Portland's 2030 2nd round pick and Washington will receive the less favorable of the two (via Washington) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025]"
+          "headline": "2030 second round draft pick to Boston, Philadelphia or Washington",
+          "detail": "Boston will receive the most favorable of Phoenix's 2030 2nd round pick, Portland's 2030 2nd round pick and Washington's 2030 2nd round pick; Philadelphia will receive the less favorable of (i) the more favorable of the Phoenix pick and the Portland pick and (ii) the Washington pick; Washington will receive the less favorable of the Phoenix pick and the Portland pick (via Phoenix and Portland to Washington to Philadelphia) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
         }
       ]
     },
@@ -1677,8 +1778,8 @@
         },
         {
           "year": 2030,
-          "headline": "2030 first round draft pick from Dallas or Minnesota (San Antonio outgoing to Dallas or Minnesota)",
-          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte (see Minnesota Outgoing) [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024]"
+          "headline": "2030 first round draft pick from Dallas or Minnesota (San Antonio outgoing to Dallas, Minnesota or Charlotte)",
+          "detail": "San Antonio will receive the most / more favorable of its 2030 1st round pick, Dallas' 2030 1st round pick and Minnesota's 2030 1st round pick protected for selection 1; Dallas will receive the less favorable of its pick and the San Antonio pick; Minnesota will receive the less favorable of (i) its pick and (ii) the more favorable of the San Antonio pick and the Dallas pick [or its pick if not conveyable]; if the Minnesota pick falls on its protected selection and is therefore not conveyable, then Minnesota's obligation to San Antonio will be extinguished and San Antonio will instead have the right to swap its pick for the Dallas pick (via San Antonio's right to swap for Dallas; via San Antonio's right to swap San Antonio or Dallas for Minnesota); Minnesota may convey the pick it receives to Charlotte via a complex swap right [Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending]"
         },
         {
           "year": 2030,
@@ -1708,6 +1809,21 @@
       "incoming": [],
       "outgoing": [
         {
+          "year": 2027,
+          "headline": "2027 first round draft pick to L.A. Clippers (L.A. Clippers, Oklahoma City or Denver incoming)",
+          "detail": "Oklahoma City has the right to swap the less favorable of its 2027 1st round pick and Denver's 2027 1st round pick protected for selections 1-5 for the L.A. Clippers' 2027 1st round pick; the L.A. Clippers then have the right to swap the Oklahoma City pick or the Denver pick for Toronto's 2027 1st round pick [Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023; L.A. Clippers-Toronto, pending]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 second round draft pick to L.A. Clippers",
+          "detail": "Toronto's 2030 2nd round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick to L.A. Clippers",
+          "detail": "Toronto's 2031 1st round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
+        },
+        {
           "year": 2031,
           "headline": "2031 second round draft pick to New Orleans",
           "detail": "Toronto's 2031 2nd round pick to New Orleans [New Orleans-Toronto, 2/6/2025]"
@@ -1716,6 +1832,16 @@
           "year": 2032,
           "headline": "2032 second round draft pick to Brooklyn",
           "detail": "Toronto's 2032 2nd round pick to Brooklyn [Brooklyn-L.A. Clippers-Toronto, 2/5/2026]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 first round draft pick to L.A. Clippers",
+          "detail": "Toronto's 2033 1st round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 second round draft pick to L.A. Clippers",
+          "detail": "Toronto's 2033 2nd round pick to L.A. Clippers [L.A. Clippers-Toronto, pending]"
         }
       ]
     },
@@ -1743,8 +1869,8 @@
         },
         {
           "year": 2028,
-          "headline": "2028 first round draft pick from Cleveland (swap, Utah outgoing to Atlanta or Cleveland)",
-          "detail": "Utah will receive the more favorable of its 2028 1st round pick and Cleveland's 2028 1st round pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025]"
+          "headline": "2028 first round draft pick from Cleveland or L.A. Lakers (most favorable of these and Utah, swap, Utah outgoing to L.A. Lakers, Atlanta or Cleveland)",
+          "detail": "Utah will receive the most favorable of its 2028 1st round pick, Cleveland's 2028 1st round pick and the L.A. Lakers' 2028 1st round pick; the L.A. Lakers will receive the less favorable of (i) its pick and (ii) the more favorable of the Utah pick and the Cleveland pick; Atlanta will receive the more favorable of (i) its 2028 1st round pick and (ii) the less favorable of the Utah pick and the Cleveland pick and Cleveland will receive the least favorable of the three (via Utah's right to swap for Cleveland; via Utah's right to swap Utah or Cleveland for L.A. Lakers; via Atlanta's right to swap for Utah or Cleveland) [Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending]"
         },
         {
           "year": 2028,
@@ -1762,6 +1888,16 @@
           "detail": "Utah will receive the most / two most favorable of its 2029 1st round pick, Cleveland's 2029 1st round pick and Minnesota's 2029 1st round pick protected for selections 1-5 and Charlotte will receive the least / less favorable of these; if the Minnesota pick falls within its protected range and is therefore not conveyable as part of this conveyance, then Minnesota will instead convey its 2029 2nd round pick to Utah (via Utah to Phoenix); Charlotte may convey the pick it receives to Minnesota or Phoenix (see Charlotte Incoming) [Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025]"
         },
         {
+          "year": 2030,
+          "headline": "2030 first round draft pick from L.A. Lakers (swap, Utah outgoing)",
+          "detail": "Utah has the right to swap its 2030 1st round pick for the L.A. Lakers' 2030 1st round pick [L.A. Lakers-Utah, pending]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick from L.A. Lakers",
+          "detail": "L.A. Lakers 2031 1st round pick to Utah [L.A. Lakers-Utah, pending]"
+        },
+        {
           "year": 2031,
           "headline": "2031 second round draft pick from Boston or Cleveland (more favorable)",
           "detail": "Utah will receive the more favorable of Boston's 2031 2nd round pick and Cleveland's 2031 2nd round pick and Boston will receive the less favorable of the two (via Cleveland to Atlanta to Boston) [Atlanta-Cleveland, 2/6/2025; Atlanta-Boston-Brooklyn, 7/7/2025; Boston-Utah, 8/6/2025]"
@@ -1770,6 +1906,11 @@
           "year": 2032,
           "headline": "2032 second round draft pick from Cleveland",
           "detail": "Cleveland's 2032 2nd round pick to Utah [Cleveland-Utah, 2/5/2026]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 first round draft pick from L.A. Lakers",
+          "detail": "L.A. Lakers 2033 1st round pick to Utah [L.A. Lakers-Utah, pending]"
         }
       ],
       "outgoing": [
@@ -1840,7 +1981,7 @@
         {
           "year": 2030,
           "headline": "2030 second round draft pick from Phoenix or Portland (less favorable)",
-          "detail": "Philadelphia will receive the more favorable of Phoenix's 2030 2nd round pick and Portland's 2030 2nd round pick and Washington will receive the less favorable of the two (via Washington) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025]"
+          "detail": "Boston will receive the most favorable of Phoenix's 2030 2nd round pick, Portland's 2030 2nd round pick and Washington's 2030 2nd round pick; Philadelphia will receive the less favorable of (i) the more favorable of the Phoenix pick and the Portland pick and (ii) the Washington pick; Washington will receive the less favorable of the Phoenix pick and the Portland pick (via Phoenix and Portland to Washington to Philadelphia) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
         },
         {
           "year": 2031,
@@ -1872,7 +2013,17 @@
         {
           "year": 2030,
           "headline": "2030 second round draft pick to Philadelphia",
-          "detail": "Washington's 2030 2nd round pick to Philadelphia [Philadelphia-Washington, 2/6/2025]"
+          "detail": "Washington's 2030 2nd round pick to Philadelphia; Philadelphia may convey this pick to Boston (see Philadelphia Incoming) [Philadelphia-Washington, 2/6/2025]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 second round draft pick to L.A. Lakers",
+          "detail": "Washington will convey one of its 2031 2nd round picks to the L.A. Lakers [L.A. Lakers-Washington, pending]"
+        },
+        {
+          "year": 2032,
+          "headline": "2032 second round draft pick to L.A. Lakers",
+          "detail": "Washington will convey one of its 2032 2nd round picks to the L.A. Lakers [L.A. Lakers-Washington, pending]"
         }
       ]
     }

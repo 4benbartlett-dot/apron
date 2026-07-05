@@ -8,7 +8,7 @@ export {
   capSheet,
   type CapSheet,
 } from "./derive";
-export { MATCH_RULE_LABEL, maxIncomingSalary, type MatchResult } from "./matching";
+export { MATCH_RULE_LABEL, matchRuleLabel, maxIncomingSalary, type MatchResult } from "./matching";
 export { validateTrade } from "./trade";
 export {
   spendingPower,

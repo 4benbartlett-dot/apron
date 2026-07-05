@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026 } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, firstEncumbranceOf } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -315,6 +315,8 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     c.teamId = team;
     const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
     const rows = dealFromAav(aav, yrs);
+    if (rows.length === 1)
+      rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...rows];
     // An extension of an expiring deal (signed pre-moratorium) is NOT a free-
     // agent signing — no Dec-15 freeze; only the §8(f) extend-and-trade test.
@@ -361,6 +363,8 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     if (!VALID_TEAMS.has(team)) return c;
     signed.push(`${c.playerName} → ${team}`);
     const rows = dealFromAav(s.aav, s.years);
+    if (rows.length === 1)
+      rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
     return {
       ...cloneContract(c),
@@ -478,6 +482,47 @@ export function currentSalary(c: Contract): number {
 /** Years of service entering 2026-27 (defaults to a mid-career 8). */
 export function experienceOf(playerId: string): number {
   return EXPERIENCE[playerId] ?? 8;
+}
+/** A REAL pre-existing obligation locking a team's own first for `year` —
+ * owed outright or protected-out (it may not convey, so it can't be counted
+ * on and it isn't the team's to trade). Swaps return undefined: the team
+ * still ends that draft holding A first, just possibly a worse one, so the
+ * year stays Stepien-covered and the pick stays formally theirs. */
+export function lockedFirstEncumbrance(team: string, year: number) {
+  const enc = firstEncumbranceOf(team, year);
+  return enc && enc.status !== "swap" ? enc : undefined;
+}
+
+/** Art. VII §3(f) + Art. IV §6(h): a veteran with 3+ years of service on a
+ * ONE-year contract at his minimum counts against the cap, tax, aprons, and
+ * trade matching at the TWO-year minimum — the league reimburses his team the
+ * difference. Multi-year minimum deals get no such treatment. Applied at
+ * booking time so every consumer (team sums, tiers, matching) sees the deemed
+ * number — the same convention as the cap-hit tables the base data uses. */
+export function deemedMinSalary(
+  playerId: string,
+  salary: number,
+  years: number,
+  /** Sim moves pass their signing mechanism; feed bookings omit it. When
+   * present, only mechanism === "minimum" deems — a $3.5M one-year BAE deal
+   * that happens to sit near a scale row is NOT a minimum contract. */
+  mechanism?: string,
+): number {
+  if (years !== 1) return salary;
+  if (experienceOf(playerId) < 3) return salary;
+  if (mechanism !== undefined) {
+    return mechanism === "minimum" ? Math.min(salary, C.minimumSalaries[2]!) : salary;
+  }
+  // Feed path — no mechanism metadata. "At his minimum": the salary sits on
+  // the 3+ YOS scale (±$30k tolerates press-release rounding). Matching ANY
+  // vet row — not just his own — keeps the rule working when the experience
+  // table lacks the player (it defaults to 8 YOS, while a 15-year vet signs
+  // at the 10+ figure).
+  const onVetScale = Object.entries(C.minimumSalaries).some(
+    ([yos, amt]) => Number(yos) >= 3 && Math.abs(salary - amt) <= 30_000,
+  );
+  if (!onVetScale) return salary;
+  return Math.min(salary, C.minimumSalaries[2]!);
 }
 /** 0-99 OVR-style rating (undefined if the player has no 2025-26 sample). */
 export function ratingOf(playerId: string): number | undefined {
@@ -741,7 +786,9 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     );
   }
   if (m.kind === "sign") {
-    const yrs = signingYears(m.salary, m.years ?? 1, m.mechanism);
+    let yrs = signingYears(m.salary, m.years ?? 1, m.mechanism);
+    if (yrs.length === 1)
+      yrs = [{ ...yrs[0]!, salary: deemedMinSalary(m.playerId, yrs[0]!.salary, 1, m.mechanism ?? "unspecified") }];
     const restriction =
       m.restricted === false ? undefined : (m.restrictionText ?? FA_RESTRICTION);
     const idx = contracts.findIndex((c) => c.playerId === m.playerId);

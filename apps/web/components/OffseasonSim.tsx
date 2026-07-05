@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
@@ -994,8 +994,13 @@ function SignEditor({
   const raise = isOwn && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") ? 0.08 : 0.05;
   const rows = Array.from({ length: years }, (_, k) => Math.round(salary * (1 + raise * k)));
   const total = rows.reduce((a, b) => a + b, 0);
+  // A 3+ YOS vet on a ONE-year minimum counts at the 2-YOS minimum (Art. VII
+  // §3(f)) — the booked charge diverges from the paycheck.
+  const bookedSalary =
+    years === 1 ? deemedMinSalary(fa.playerId, salary, 1, v.mechanism?.id ?? "unspecified") : salary;
+  const isDeemedMin = bookedSalary !== salary;
   // Post-signing cap charge = base (committed + other kept holds) + new salary.
-  const afterCharge = base + salary;
+  const afterCharge = base + bookedSalary;
   const afterTier = classifyTier(afterCharge, C);
   // A hard cap triggered earlier this session binds every later move — even a
   // Bird re-sign or a minimum. Enforce it on top of the mechanism check.
@@ -1216,6 +1221,13 @@ function SignEditor({
           Team after: <span className="tabular text-[var(--text)]">{fmtM(afterCharge)}</span> ·{" "}
           <Term k={afterTier} underline>{afterTier.replace("_", " ")}</Term>
         </div>
+        {isDeemedMin && (
+          <div className="mt-1 text-[var(--tier-below_cap)]">
+            One-year vet minimum: he&rsquo;s paid {fmtM(salary)}, but with 3+ years of
+            service he counts only <span className="tabular">{fmtM(bookedSalary)}</span> against the cap, tax,
+            and aprons — the league reimburses the difference (Art. VII §3(f)).
+          </div>
+        )}
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
             {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put them at {fmtM(afterCharge)}.

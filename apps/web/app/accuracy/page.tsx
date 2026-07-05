@@ -2,7 +2,10 @@ import { DATA_AS_OF } from "@apron/data";
 const MODELED = [
   "2026-27 official thresholds: cap, luxury tax, first apron, second apron, MLEs, BAE, minimums",
   "All exception / tier amounts cross-checked against the CBA's own %-of-cap formulas (BAE 3.32%, NT-MLE 9.12%, Room MLE 5.678%, Taxpayer MLE, min-team 90%, max 25/30/35%)",
-  "Trade salary matching — expanded bands (200%+$250k / outgoing+$7.5M / 125%+$250k)",
+  "Trade salary matching — the CBA's exact expanded formula, greater of ( lesser of (200%+$250k, outgoing+$7.5M×cap-growth), 125%+$250k ) — the \"$7.5M\" escalates to $9,095,709 in 2026-27 (Art. VII §6(j)(1)(iv)); most machines still use the stale 2023-24 figure",
+  "One-year veteran minimums (3+ YOS) count at the 2-YOS minimum on the cap, tax, aprons, and trade matching — the league reimburses the team (Art. VII §3(f), Art. IV §6(h))",
+  "Minimum-salary scale derives from the CBA's own escalator: prior year's scale × cap growth (Art. I (jj)), telescoped from the CBA's printed Exhibit C",
+  "Real-world pick obligations: a first already owed away (or protected-out) is locked from your trade board, and its year counts as uncovered for the Stepien rule",
   "Apron teams limited to 100% matching (no 110%)",
   "Below-cap absorption capped at cap+$250k (or standard matching if larger)",
   "Hard-cap triggers: NT-MLE / BAE / sign-and-trade → first apron; Taxpayer MLE → second apron",
@@ -40,10 +43,12 @@ const APPROXIMATE = [
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
   "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
   "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
+  "Pick-obligation ledger is parsed from RealGM prose and covers 29 of 30 teams (Philadelphia's page resists the scraper \u2014 their firsts are treated as unencumbered for now)",
+  "Apron classification uses team salary; the CBA's full \u201cApron Team Salary\u201d adds small adjustments we don't model (e.g. 0-1 YOS minimum signings bump UP to the 2-YOS minimum for tax/apron purposes per \u00a72(d)(1)(i)(F), performance-bonus add-backs)",
 ];
 
 const NOT_MODELED = [
-  "Pick protections & swap rights on ledger picks (protections shown in deal text; the ledger tracks unprotected ownership)",
+  "Swap mechanics & conditional incoming picks (an owed/protected-out own first is locked and Stepien-uncovered, but swaps don't resolve to outcomes, and acquired conditional firsts aren't counted as coverage)",
   "The >10%-renegotiation-blocks-a-later-extension rule",
   "Traded-player exceptions as separate expiring objects",
   "Likely vs. unlikely incentives in matching / apron math",
@@ -94,10 +99,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 116 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 140 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 116 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 140 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section

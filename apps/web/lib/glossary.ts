@@ -88,8 +88,8 @@ export const GLOSSARY = {
   },
   minimum: {
     title: "Minimum exception",
-    body: "Any team, at any payroll, can sign players to the league minimum (scaled by years of service). It's the only signing tool that never hard-caps you — which is why deep-apron contenders live on minimums.",
-    cite: "2023 CBA · Art. VII §6(i)",
+    body: "Any team, at any payroll, can sign players to the league minimum (scaled by years of service). It's the only signing tool that never hard-caps you — which is why deep-apron contenders live on minimums. Bonus fine print: a vet with 3+ years of service on a ONE-year minimum counts on the cap, tax, and aprons only at the 2-year minimum — the league reimburses his team the difference.",
+    cite: "2023 CBA · Art. VII §6(i), §3(f)",
   },
 
   // ---- cap-sheet numbers ---------------------------------------------------
@@ -129,8 +129,8 @@ export const GLOSSARY = {
   // ---- trade rules ---------------------------------------------------------
   matching: {
     title: "Salary matching",
-    body: "In a trade, each over-the-cap team's incoming salary is capped by a formula on its outgoing salary — expanded bands (200% + $250k on small salaries, +$7.5M in the middle, 125% + $250k on big ones) for teams below the first apron, and a strict 100% for teams above it. Every leg of a trade is judged under its own team's band.",
-    cite: "2023 CBA · Art. VII §6(j)",
+    body: "In a trade, each over-the-cap team's incoming salary is capped by a formula on its outgoing salary — expanded bands (200% + $250k on small salaries, outgoing + ~$9.1M in the middle, 125% + $250k on big ones) for teams below the first apron, and a strict 100% for teams above it. The middle figure is the CBA's \"$7.5M\" grown with the cap since 2023-24 — most trade machines still use the stale $7.5M. Every leg of a trade is judged under its own team's band.",
+    cite: "2023 CBA · Art. VII §6(j)(1)(iv)",
   },
   hard_cap: {
     title: "Hard cap",
@@ -154,7 +154,7 @@ export const GLOSSARY = {
   },
   picks: {
     title: "Draft-pick trading",
-    body: "Teams may trade firsts up to seven drafts out, but the Stepien rule bars leaving yourself without a first-round pick in consecutive future drafts. This sim tracks pick ownership across every move you make, so a pick you dealt two trades ago still counts against you.",
+    body: "Teams may trade firsts up to seven drafts out, but the Stepien rule bars leaving yourself without a first-round pick in consecutive future drafts. This sim tracks pick ownership across every move you make, so a pick you dealt two trades ago still counts against you. A first your team already owes away in the real world never appears here — it isn't yours to trade, and its year counts as uncovered.",
     cite: "NBA rule (Stepien); 2023 CBA · Art. VII",
   },
   trade_value: {

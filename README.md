@@ -16,7 +16,8 @@ that actually decide deals in the apron era:
   true bin-packing test, no cash out, no sign-and-trade acquisitions), and
   **hard caps that persist**: use the Non-Taxpayer MLE and every later signing
   and trade is checked against the first apron for the rest of the year.
-- **Trade matching** — the expanded bands (200% + $250k / +$7.5M / 125% + $250k),
+- **Trade matching** — the CBA's exact expanded formula (200% + $250k / outgoing +
+  an escalated $7.5M — $9,095,709 in 2026-27 / 125% + $250k),
   below-cap room absorption, trade kickers, base-year compensation, and the full
   trade-freeze calendar (rookies 30 days, offseason signings Dec 15, over-cap
   Bird raises Jan 15, out-of-bounds extensions 6 months, matched RFAs one year).
@@ -57,7 +58,7 @@ pnpm + TypeScript monorepo:
 ```
 packages/cba-engine   Pure, dependency-free rules engine (validateTrade,
                       validateSigning, sign-and-trade, extensions, provisions)
-                      — 116 tests (83 engine, 33 app), every check returns a reason + citation
+                      — 140 tests (87 engine, 53 web), every check returns a reason + citation
 packages/data         League data: contracts, transactions, free-agent rights,
                       draft picks, player ratings, plus the refresh scripts
 apps/web              Next.js app — the offseason board, drawers, trade finder,

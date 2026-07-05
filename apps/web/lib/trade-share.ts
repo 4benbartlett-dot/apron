@@ -1,5 +1,5 @@
-import { validateTrade, MATCH_RULE_LABEL, type ApronTier, type Trade } from "@apron/cba-engine";
-import { BASE_CONTRACTS, leagueData, teamMeta, C } from "./league";
+import { validateTrade, violatesStepien, matchRuleLabel, type ApronTier, type Trade } from "@apron/cba-engine";
+import { BASE_CONTRACTS, leagueData, teamMeta, C, lockedFirstEncumbrance } from "./league";
 
 interface DecodedMove {
   from: string;
@@ -48,6 +48,12 @@ export function decodeTradeParam(t: string): {
       .map(([playerId, mv]) => ({ playerId, from: mv.from, to: mv.to }));
     const picks = Object.entries(o.p ?? {})
       .filter(([, mv]) => inBoard(mv))
+      // Stale links (minted before the real-obligation ledger) may carry a
+      // first the origin team doesn't actually have — drop it, keep the rest.
+      .filter(([id, mv]) => {
+        const [origin, yearStr, round] = id.split("|");
+        return !(round === "1" && mv.from === origin && lockedFirstEncumbrance(origin!, Number(yearStr)));
+      })
       .map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
     return { teams, players, picks };
   } catch {
@@ -97,6 +103,22 @@ export function summarizeTrade(t: string): TradeSummary | null {
   const data = leagueData(BASE_CONTRACTS);
   const trade: Trade = { teams: d.teams, players: d.players };
   const v = validateTrade(data, trade, C);
+  // Stepien against the real-world base ledger (session moves aren't visible
+  // server-side, but pre-existing obligations are) — so share cards and OG
+  // images can't stamp LEGAL on a pick package the board would block.
+  const stepienTeam = d.teams.find((teamId) => {
+    const outs = new Set(d.picks.filter((p) => p.from === teamId).map((p) => p.id));
+    const ins = new Set(
+      d.picks.filter((p) => p.to === teamId && p.id.endsWith("|1")).map((p) => Number(p.id.split("|")[1])),
+    );
+    const uncovered: number[] = [];
+    for (const y of [2027, 2028, 2029, 2030, 2031, 2032]) {
+      const ownGone = outs.has(`${teamId}|${y}|1`) || lockedFirstEncumbrance(teamId, y) !== undefined;
+      if (ownGone && !ins.has(y)) uncovered.push(y);
+    }
+    if (lockedFirstEncumbrance(teamId, 2033)) uncovered.push(2033);
+    return violatesStepien(uncovered);
+  });
   const nameOf = (id: string) =>
     BASE_CONTRACTS.find((c) => c.playerId === id)?.playerName ?? id;
   const perTeam = v.teams.map((ts) => ({
@@ -112,9 +134,17 @@ export function summarizeTrade(t: string): TradeSummary | null {
       ...d.picks.filter((p) => p.from === ts.teamId).map((p) => pickShareLabel(p.id)),
     ],
     rule:
-      ts.incomingSalary > 0 ? MATCH_RULE_LABEL[ts.matchingRule] ?? undefined : undefined,
+      ts.incomingSalary > 0 ? matchRuleLabel(ts.matchingRule, C) : undefined,
   }));
-  return { legal: v.legal, reason: v.violations[0]?.reason, perTeam };
+  return {
+    legal: v.legal && !stepienTeam,
+    reason:
+      v.violations[0]?.reason ??
+      (stepienTeam
+        ? `${teamMeta(stepienTeam).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`
+        : undefined),
+    perTeam,
+  };
 }
 
 export { lastName };
