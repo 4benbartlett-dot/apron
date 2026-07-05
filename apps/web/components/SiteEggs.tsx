@@ -41,7 +41,7 @@ export function SiteEggs() {
   useEffect(() => {
     try {
       console.log(
-        "%c ┌──◠──┐\n─┤──●──├─   OVER THE APRON\n └─$─$─┘   NBA offseason, simplified\n\n" +
+        "%c   ●\n  ╱        OVER THE APRON\n ╱         the offseason, under the real CBA\n╺ ╺ ╺ ╺\n\n" +
           "Every verdict cites the rule. See exactly what's enforced —\n" +
           "and what's approximate — at overtheapron.com/accuracy.\n" +
           "Catch something wrong? Say so. It becomes a permanent test.",

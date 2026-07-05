@@ -23,44 +23,63 @@ const mono = "ui-monospace, Menlo, monospace";
 
 const sienna = "#b4501e";
 
-/** The crest: half-court over the ledger, split by the apron line, ball at
- * center court. Geometry mirrors components/BrandMark.tsx / app/icon.svg. */
-function Mark({ size = 44, lines = bg, outlined = false }: { size?: number; lines?: string; outlined?: boolean }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64">
-      <rect width="64" height="64" rx="14" fill={ink} />
-      <rect x="1.2" y="1.2" width="61.6" height="61.6" rx="12.9" fill="none" stroke={outlined ? lines : "none"} strokeWidth="1.85" />
-      <g stroke={lines} fill="none" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
-        <path d={outlined ? "M22 2.1 V22.5 H42 V2.1" : "M22 0 V22.5 H42 V0"} />
-        <path d="M25.5 22.5 A6.5 6.5 0 0 0 38.5 22.5" />
-        <path d="M25.5 22.5 A6.5 6.5 0 0 1 38.5 22.5" strokeDasharray="1.2 2.7" />
-        <path d="M16.5 29.5 A20.2 20.2 0 0 0 47.5 29.5" opacity="0.58" />
-        <path d="M22 8.2 H18.7 M42 8.2 H45.3 M22 14.8 H18.7 M42 14.8 H45.3" opacity="0.68" />
-      </g>
-      <g stroke={lines} fill="none" strokeLinecap="round" opacity="0.48">
-        <path d="M32 42 V57.2" strokeWidth="1.25" />
-        <path d="M10.5 43.4 H23.8 M37.5 43.4 H52.8" strokeWidth="1.65" />
-        <path d="M10.5 48.2 H20.7 M37.5 48.2 H49.4" strokeWidth="1.65" />
-        <path d="M10.5 53 H25.4 M37.5 53 H46.2" strokeWidth="1.65" />
-        <path d="M10.5 57.8 H18.9 M37.5 57.8 H53.6" strokeWidth="1.65" />
-        <path d="M26.7 43.4 H28.9 M26.7 48.2 H28.9 M26.7 53 H28.9 M26.7 57.8 H28.9" strokeWidth="1.35" />
-      </g>
-      <path d="M6 35 H58" stroke={sienna} strokeWidth="4" strokeLinecap="round" />
-      <path d="M36.8 31.7 C40.1 27.3 43.8 25 48.7 24.1" fill="none" stroke={lines} strokeWidth="1.85" strokeLinecap="round" />
-      <path d="M51.7 23.7 L47.6 27.1 L46.8 22.4 Z" fill={lines} />
-      <circle cx="32" cy="35" r="4.9" fill={sienna} />
-    </svg>
-  );
-}
-
 function Wordmark() {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <div style={{ display: "flex", marginRight: 14 }}>
-        <Mark />
+      <div
+        style={{
+          width: 44,
+          height: 44,
+          background: ink,
+          borderRadius: 10,
+          position: "relative",
+          display: "flex",
+          marginRight: 14,
+        }}
+      >
+        {/* the vault: dashed apron line, arc clearing it, ball at the apex */}
+        <div
+          style={{
+            position: "absolute",
+            left: 7,
+            right: 7,
+            top: 28,
+            height: 4.5,
+            background: `repeating-linear-gradient(90deg, ${sienna} 0px, ${sienna} 6px, transparent 6px, transparent 10px)`,
+            borderRadius: 2,
+            display: "flex",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 7,
+            top: 12,
+            width: 26,
+            height: 30,
+            border: "3.5px solid transparent",
+            borderTopColor: bg,
+            borderLeftColor: bg,
+            borderRadius: "100%",
+            transform: "rotate(32deg)",
+            display: "flex",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 29,
+            top: 9,
+            width: 10,
+            height: 10,
+            borderRadius: 10,
+            background: bg,
+            display: "flex",
+          }}
+        />
       </div>
-      <div style={{ display: "flex", fontSize: 27, fontWeight: 700, color: ink, letterSpacing: 1.5 }}>
-        OVER&nbsp;<span style={{ color: sienna }}>THE</span>&nbsp;APRON
+      <div style={{ fontSize: 32, fontWeight: 700, color: ink, letterSpacing: -0.5 }}>
+        Over the Apron
       </div>
     </div>
   );
@@ -71,10 +90,6 @@ export async function GET(req: Request) {
   const s = summarizeTrade(t);
 
   if (!s) {
-    // The crest, full-bleed on night-ledger ink.
-    const paper = "#f4f1e9";
-    const dim = "#a89f88";
-    const rule = "#3a3323";
     return new ImageResponse(
       (
         <div
@@ -83,56 +98,36 @@ export async function GET(req: Request) {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            background: "#17140e",
-            color: paper,
-            padding: "56px 64px 40px",
+            background: bg,
+            color: ink,
+            padding: 64,
             fontFamily: "sans-serif",
           }}
         >
-          <div style={{ display: "flex", margin: "auto 0 0" }}>
-            <Mark size={252} lines={paper} outlined />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 74,
-              fontWeight: 800,
-              letterSpacing: 6,
-              marginTop: 38,
-            }}
-          >
-            OVER&nbsp;<span style={{ color: "#e05e24" }}>THE</span>&nbsp;APRON
-          </div>
-          <div style={{ display: "flex", alignItems: "center", marginTop: 20, marginBottom: "auto" }}>
-            <div style={{ display: "flex", width: 44, height: 4, background: "#e05e24", borderRadius: 2 }} />
-            <div
-              style={{
-                display: "flex",
-                fontSize: 27,
-                fontWeight: 600,
-                letterSpacing: 7,
-                color: dim,
-                margin: "0 26px",
-              }}
-            >
-              NBA OFFSEASON, SIMPLIFIED
+          <Wordmark />
+          <div style={{ display: "flex", flexDirection: "column", margin: "auto 0" }}>
+            <div style={{ fontSize: 62, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.1 }}>
+              The NBA offseason,
             </div>
-            <div style={{ display: "flex", width: 44, height: 4, background: "#e05e24", borderRadius: 2 }} />
+            <div style={{ fontSize: 62, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.1 }}>
+              under the real CBA.
+            </div>
+            <div style={{ fontSize: 26, color: muted, marginTop: 22, lineHeight: 1.4 }}>
+              Trades, signings, aprons, and hard caps — every verdict cites the rule.
+            </div>
           </div>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignSelf: "stretch",
-              borderTop: `1px solid ${rule}`,
+              borderTop: `1px solid ${border}`,
               paddingTop: 20,
               fontSize: 20,
-              color: dim,
+              color: muted,
               fontFamily: mono,
             }}
           >
-            <div>2026–27 · FREE AGENCY · EVERY VERDICT CITES THE RULE</div>
+            <div>2026–27 · FREE AGENCY · 2023 CBA</div>
             <div>OVERTHEAPRON.COM</div>
           </div>
         </div>
@@ -159,6 +154,8 @@ export async function GET(req: Request) {
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Wordmark />
+          {/* one string child on purpose: satori 500s on a non-flex div
+              holding more than one child node (text + interpolation). */}
           <div style={{ fontSize: 20, color: muted, fontFamily: mono }}>
             {`OVERTHEAPRON.COM · ${filingNo(t)}`}
           </div>

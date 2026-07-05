@@ -5,7 +5,6 @@ import { Thermometer } from "@/components/Thermometer";
 import { Term } from "@/components/Term";
 import { TeamLogo } from "@/components/TeamLogo";
 import { Reveal } from "@/components/Reveal";
-import { BrandArt } from "@/components/BrandMark";
 
 export const metadata: Metadata = {
   title: "How to play — Over the Apron",
@@ -224,7 +223,11 @@ export default function GuidePage() {
       {/* hero */}
       <Reveal>
         <div className="relative mb-8 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--panel)] px-6 py-10 sm:px-10">
-          <BrandArt className="pointer-events-none absolute -right-10 -top-10 h-[280px] w-[280px] opacity-[0.06]" />
+          <svg viewBox="0 0 64 64" aria-hidden className="pointer-events-none absolute -right-10 -top-10 h-[280px] w-[280px] opacity-[0.06]">
+            <line x1="11" y1="41" x2="53" y2="41" stroke="var(--accent)" strokeWidth="4.5" strokeDasharray="7.5 6" strokeLinecap="round" />
+            <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--text)" strokeWidth="5" strokeLinecap="round" />
+            <circle cx="50.5" cy="21.5" r="6.5" fill="var(--text)" />
+          </svg>
           <div className="relative max-w-2xl">
             <div className="label !text-[11px] text-[var(--accent-ink)]">The playbook · six plays</div>
             <h1 className="mt-2 text-[clamp(26px,4.5vw,40px)] font-bold leading-[1.05] tracking-tight">
