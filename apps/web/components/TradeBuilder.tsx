@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { validateTrade, type Trade, type TeamTradeSummary, type Contract } from "@apron/cba-engine";
+import { validateTrade, violatesStepien, type Trade, type TeamTradeSummary, type Contract } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, currentSalary } from "@/lib/league";
+import { fmtM as fmtMoney } from "@/lib/format";
 import { decodeTradeParam, encodeTradeParam } from "@/lib/trade-share";
 import { useLeague, dispatchMove } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -15,13 +16,6 @@ interface Sel {
   to: string;
 }
 
-const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032];
-function ownPicks(id: string) {
-  return PICK_YEARS.flatMap((y) => [
-    { id: `${id}|${y}|1`, label: `${y} 1st` },
-    { id: `${id}|${y}|2`, label: `${y} 2nd` },
-  ]);
-}
 
 
 export default function TradeBuilder() {
@@ -89,6 +83,34 @@ export default function TradeBuilder() {
 
   const hasMoves = trade.players.length > 0 || Object.keys(pickSel).length > 0;
 
+  // Parity with the main board: the Stepien check runs against the session
+  // pick ledger, and a hard cap triggered by an earlier move binds here too.
+  const extraViolations = useMemo(() => {
+    const out: string[] = [];
+    const outBy: Record<string, string[]> = {};
+    const inBy: Record<string, string[]> = {};
+    const touched = new Set<string>();
+    for (const [id, mv] of Object.entries(pickSel)) {
+      (outBy[mv.from] ??= []).push(id);
+      (inBy[mv.to] ??= []).push(id);
+      touched.add(mv.from);
+      touched.add(mv.to);
+    }
+    for (const t of touched) {
+      if (violatesStepien(lg.yearsWithoutFirst(t, outBy[t] ?? [], inBy[t] ?? []))) {
+        out.push(`${teamMeta(t).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`);
+      }
+    }
+    for (const t of verdict.teams) {
+      const cap = lg.hardCapOf(t.teamId);
+      if (t.postTradeSalary > cap + 1) {
+        out.push(`${teamMeta(t.teamId).name} is hard-capped at ${fmtMoney(cap)} from an earlier move — this trade would put them at ${fmtMoney(t.postTradeSalary)}.`);
+      }
+    }
+    return out;
+  }, [pickSel, verdict, lg]);
+  const fullyLegal = verdict.legal && extraViolations.length === 0;
+
   const share = async () => {
     const picks = Object.entries(pickSel).map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
     const token = encodeTradeParam(teams, trade.players, picks);
@@ -132,7 +154,7 @@ export default function TradeBuilder() {
             <button onClick={share} className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">
               {copied ? "Link copied ✓" : "Share"}
             </button>
-            {verdict.legal && (
+            {fullyLegal && (
               <button
                 onClick={execute}
                 className="rounded-md border border-[var(--tier-below_cap)] bg-[color-mix(in_srgb,var(--tier-below_cap)_15%,transparent)] px-3 py-1.5 text-sm font-semibold text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_25%,transparent)]"
@@ -164,7 +186,7 @@ export default function TradeBuilder() {
         )}
       </div>
 
-      <VerdictBanner hasMoves={hasMoves} legal={verdict.legal} violations={verdict.violations.map((v) => v.reason)} />
+      <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
 
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {teams.map((id) => (
@@ -173,7 +195,7 @@ export default function TradeBuilder() {
             teamId={id}
             otherTeams={teams.filter((t) => t !== id)}
             players={lg.roster(id)}
-            picks={ownPicks(id)}
+            picks={lg.picksOf(id)}
             pickSel={pickSel}
             onTogglePick={togglePick}
             sel={sel}

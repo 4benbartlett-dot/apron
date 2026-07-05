@@ -86,3 +86,12 @@ console.log(`Wrote ${transactions.length} transactions -> ${OUT}`);
 for (const t of transactions.slice(0, 8)) {
   console.log(`  [${t.type}] ${t.player} — ${t.detail.slice(0, 76)}`);
 }
+
+// Stamp the snapshot date every time the feed is pulled.
+import { writeFileSync as __wf } from "node:fs";
+import { fileURLToPath as __fu } from "node:url";
+import { dirname as __dn, join as __jn } from "node:path";
+__wf(
+  __jn(__dn(__fu(import.meta.url)), "..", "src", "meta.json"),
+  JSON.stringify({ rostersAsOf: new Date().toISOString().slice(0, 10) }, null, 2) + "\n",
+);

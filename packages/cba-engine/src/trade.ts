@@ -121,11 +121,12 @@ function legsFor(
  * where every failed check carries a plain-English reason and a citation, so
  * the UI can explain exactly *why* a trade is illegal.
  *
- * Scope (MVP): salary matching by apron tier, the expanded-matching hard cap,
- * the second-apron no-aggregation and no-cash-out prohibitions. Not yet modeled:
- * cap holds, trade kickers, base-year compensation, poison-pill, sign-and-trade,
- * TPEs, draft-pick legality (Stepien/frozen picks), and the 2-month
- * post-acquisition aggregation freeze.
+ * Scope: salary matching by apron tier, the expanded-matching hard cap, the
+ * second-apron no-aggregation (post-trade basis) and no-cash-out rules, trade
+ * eligibility freezes, the 2-month post-acquisition aggregation freeze, BYC,
+ * and trade kickers. Cap holds, sign-and-trade legality, and the Stepien
+ * pick ledger are enforced by the app layer on top of this verdict; TPEs and
+ * poison-pill remain unmodeled (disclosed on /accuracy).
  */
 export function validateTrade(
   data: LeagueData,

@@ -7,6 +7,7 @@ import { BrandLink } from "@/components/BrandLink";
 import { NavLinks } from "@/components/NavLinks";
 import { SiteEggs } from "@/components/SiteEggs";
 import { SeasonTicker } from "@/components/SeasonTicker";
+import { DATA_AS_OF } from "@apron/data";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -85,7 +86,7 @@ export default function RootLayout({
             <Link href="/guide" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
               How to play
             </Link>
-            <span className="tabular ml-auto">2026–27 · independent; not affiliated with the NBA or NBPA</span>
+            <span className="tabular ml-auto">{`rosters as of ${DATA_AS_OF} · 2026–27 · independent; not affiliated with the NBA or NBPA`}</span>
           </div>
         </footer>
       </body>
