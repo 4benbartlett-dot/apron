@@ -219,6 +219,19 @@ export default function TradeBuilder() {
                 </span>
               </li>
             ))}
+            {extraViolations.map((reason, i) => (
+              <li key={`x${i}`} className="flex gap-2">
+                <span className="text-[var(--tier-second_apron)]">✕</span>
+                <span>
+                  <span>{reason}</span>
+                  <span className="block text-[11px] text-[var(--muted)]">
+                    {/Stepien/.test(reason)
+                      ? "NBA rule (Stepien) — enforced against the session pick ledger."
+                      : "2023 CBA — a triggered hard cap binds for the remainder of the league year."}
+                  </span>
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
       )}
@@ -348,7 +361,7 @@ function TeamPanel({
 
       <div className="mt-3 border-t border-[var(--border)] pt-2">
         <div className="mb-1 text-[10px] uppercase tracking-wide text-[var(--muted)]">
-          Own draft picks
+          Draft picks owned
         </div>
         <div className="flex flex-wrap gap-1">
           {picks.map((p) => {
