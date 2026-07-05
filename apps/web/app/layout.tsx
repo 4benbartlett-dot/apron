@@ -27,11 +27,11 @@ export const metadata: Metadata = {
         ? "https://overtheapron.com"
         : "http://localhost:3100"),
   ),
-  title: "Over the Apron — the NBA offseason, under the real CBA",
+  title: "Over the Apron — NBA Offseason, Simplified",
   description:
     "Build trades, sign free agents, and run a full NBA offseason with every 2023 CBA rule enforced — apron limits, Bird rights, hard caps, and the reasons why.",
   openGraph: {
-    title: "Over the Apron — the NBA offseason, under the real CBA",
+    title: "Over the Apron — NBA Offseason, Simplified",
     description:
       "Build trades, sign free agents, and run a full NBA offseason with every 2023 CBA rule enforced.",
     images: ["/api/og"],
