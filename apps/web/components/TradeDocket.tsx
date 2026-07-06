@@ -21,6 +21,7 @@ export interface DocketTeam {
   sendsTotal: number;
   gets: DocketLine[];
   sends: DocketLine[];
+  tpeUse?: { amount: number; preExisting: boolean; label?: string };
 }
 
 /** Assemble the docket from a staged trade — the ONE source for the board,
@@ -31,6 +32,7 @@ export function buildDocket(
   verdictTeams: { teamId: string; incomingSalary: number; outgoingSalary: number; postTradeTier: ApronTier }[],
   nameOf: (id: string) => string,
   salaryOf: (id: string) => number,
+  tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>,
 ): DocketTeam[] {
   const touched = (t: string) =>
     players.some((p) => p.from === t || p.to === t) ||
@@ -53,6 +55,7 @@ export function buildDocket(
         sendsTotal: t.outgoingSalary,
         gets: side("to"),
         sends: side("from"),
+        tpeUse: tpeUse?.[t.teamId],
       };
     });
 }
@@ -85,10 +88,18 @@ export function buildChecks(opts: {
       // Only claim a matching rule when salary actually needed matching —
       // a leg fully absorbed by a TPE is legal for a different reason.
       .filter((t) => t.incomingSalary - (t.tpeAbsorbed ?? 0) > 0)
-      .map((t) => ({
-        ok: true,
-        text: `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out — legal under ${matchRuleLabel(t.matchingRule, C)}`,
-      })),
+      .map((t) => {
+        const absorbed = t.tpeAbsorbed ?? 0;
+        const matchable = t.incomingSalary - absorbed;
+        const subject =
+          absorbed > 0
+            ? `${t.teamId} matches ${fmtM(matchable)} after ${fmtM(absorbed)} TPE absorption against ${fmtM(t.outgoingSalary)} out`
+            : `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out`;
+        return {
+          ok: true,
+          text: `${subject} — legal under ${matchRuleLabel(t.matchingRule, C)}`,
+        };
+      }),
     ...involved
       .filter((t) => (t.tpeAbsorbed ?? 0) > 0)
       .map((t) => {
@@ -105,7 +116,7 @@ export function buildChecks(opts: {
       .filter((t) => (t.tpeAbsorbed ?? 0) > 0 && tpeUse?.[t.teamId]?.preExisting)
       .map((t) => ({
         ok: true,
-        text: `${t.teamId} used a pre-existing TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season`,
+        text: `${t.teamId} used a pre-existing TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the league year`,
       })),
     // Real-July hard caps the deal respects — named so readers can check.
     ...involved
@@ -230,6 +241,15 @@ export function TradeDocket({
               );
             })}
           </div>
+          {t.tpeUse && (
+            <div className="border-t border-dashed border-[var(--border)] px-3 py-1.5 text-[10.5px] leading-snug text-[var(--muted)]">
+              <span className="font-semibold uppercase tracking-[0.08em] text-[var(--accent-ink)]">TPE</span>{" "}
+              <span className="tabular">
+                {t.tpeUse.label ?? "Traded-player exception"} absorbs {fmtM(t.tpeUse.amount)} ·{" "}
+                {t.tpeUse.preExisting ? "pre-existing, first-apron hard cap" : "created this offseason"}
+              </span>
+            </div>
+          )}
         </div>
       ))}
     </div>

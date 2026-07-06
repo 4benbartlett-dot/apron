@@ -154,7 +154,7 @@ export default function TradeBuilder() {
     return c ? currentSalary(c) : 0;
   };
   const docketTeams = useMemo(
-    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf),
+    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf, trade.tpeUse),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [trade, pickSel, verdict, lg],
   );
@@ -175,11 +175,15 @@ export default function TradeBuilder() {
     [fullyLegal, verdict, extraViolations, lg],
   );
   const trayHauls = useMemo<TrayHaul[]>(() => {
-    const m: Record<string, string[]> = {};
+    const m: Record<string, { labels: string[]; tools: string[] }> = {};
+    const row = (team: string) => (m[team] ??= { labels: [], tools: [] });
     for (const p of trade.players)
-      (m[p.to] ??= []).push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
-    for (const [id, mv] of Object.entries(pickSel)) (m[mv.to] ??= []).push(pickShareLabel(id));
-    return Object.entries(m).map(([team, labels]) => ({ team, labels }));
+      row(p.to).labels.push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
+    for (const [id, mv] of Object.entries(pickSel)) row(mv.to).labels.push(pickShareLabel(id));
+    for (const [team, use] of Object.entries(trade.tpeUse ?? {})) {
+      row(team).tools.push(use.label ?? "TPE");
+    }
+    return Object.entries(m).map(([team, haul]) => ({ team, ...haul }));
   }, [trade, pickSel, lg]);
 
   const execute = () => {
@@ -246,7 +250,7 @@ export default function TradeBuilder() {
       </div>
 
       <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
-        <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
+        <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} tpeUse={trade.tpeUse} />
         {hasMoves && (
           <>
             <div className="mt-2">
@@ -331,10 +335,35 @@ export default function TradeBuilder() {
   );
 }
 
-function VerdictBanner({ hasMoves, legal, violations }: { hasMoves: boolean; legal: boolean; violations: string[] }) {
+function VerdictBanner({
+  hasMoves,
+  legal,
+  violations,
+  tpeUse,
+}: {
+  hasMoves: boolean;
+  legal: boolean;
+  violations: string[];
+  tpeUse?: Trade["tpeUse"];
+}) {
   if (!hasMoves)
     return <Banner color="var(--muted)" title="Build a trade" sub="Click players to send them out; pick where they land if 3+ teams." />;
-  if (legal) return <Banner color="var(--tier-below_cap)" title="LEGAL TRADE" sub="Satisfies all salary-matching and apron rules. Execute to add it to your offseason." />;
+  if (legal) {
+    const tpeDetails = Object.entries(tpeUse ?? {}).map(
+      ([team, use]) => `${team} uses ${fmtM(use.amount)} ${use.label ?? "TPE"}`,
+    );
+    return (
+      <Banner
+        color="var(--tier-below_cap)"
+        title="LEGAL TRADE"
+        sub={
+          tpeDetails.length
+            ? `${tpeDetails.join(" · ")}; remaining salary matches under the 2023 CBA.`
+            : "Satisfies all salary-matching and apron rules. Execute to add it to your offseason."
+        }
+      />
+    );
+  }
   return <Banner color="var(--tier-second_apron)" title="ILLEGAL TRADE" sub={violations[0]} />;
 }
 

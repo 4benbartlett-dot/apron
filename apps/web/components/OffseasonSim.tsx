@@ -28,7 +28,7 @@ import { Thermometer } from "@/components/Thermometer";
 import { leagueToast } from "@/components/SiteEggs";
 import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
-import { pickShareLabel, type DecodedPick } from "@/lib/trade-share";
+import { decodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
 import { TierBadge } from "@/components/TierBadge";
@@ -113,12 +113,33 @@ export default function OffseasonSim() {
   // Persist the board across reloads and restore a shared ?board= list.
   useEffect(() => {
     try {
-      const param = new URLSearchParams(window.location.search).get("board");
+      const params = new URLSearchParams(window.location.search);
+      // A shared trade link (?t=) lands HERE, on the full offseason page:
+      // stage the deal, open the card, and closing it leaves the visitor on
+      // the real board — teams, rosters, signings and all.
+      const t = params.get("t");
+      if (t) {
+        const d = decodeTradeParam(t);
+        if (d && (d.players.length || d.picks.length)) {
+          const saved = JSON.parse(localStorage.getItem("apron_board_v1") || "[]");
+          const merged = [...d.teams, ...(Array.isArray(saved) ? saved : [])]
+            .filter((id: string, i: number, arr: string[]) => TEAM_IDS.includes(id) && arr.indexOf(id) === i)
+            .slice(0, 8);
+          setBoard(merged);
+          setSel(Object.fromEntries(d.players.map((m) => [m.playerId, { from: m.from, to: m.to }])));
+          setPickSel(Object.fromEntries(d.picks.map((m) => [m.id, { from: m.from, to: m.to }])));
+          setShareOpen(true);
+          track("trade_link_open");
+          setReady(true);
+          return;
+        }
+      }
+      const param = params.get("board");
       const raw = param
         ? param.split(",")
         : JSON.parse(localStorage.getItem("apron_board_v1") || "null");
       if (Array.isArray(raw)) {
-        const valid = raw.filter((t: string) => TEAM_IDS.includes(t)).slice(0, 8);
+        const valid = raw.filter((t2: string) => TEAM_IDS.includes(t2)).slice(0, 8);
         if (valid.length) setBoard(valid);
       }
     } catch {
@@ -240,16 +261,20 @@ export default function OffseasonSim() {
     return c ? currentSalary(c) : 0;
   };
   const docketTeams = useMemo(
-    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf),
+    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf, trade.tpeUse),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [trade, pickSel, verdict, lg],
   );
   const trayHauls = useMemo<TrayHaul[]>(() => {
-    const m: Record<string, string[]> = {};
+    const m: Record<string, { labels: string[]; tools: string[] }> = {};
+    const row = (team: string) => (m[team] ??= { labels: [], tools: [] });
     for (const p of trade.players)
-      (m[p.to] ??= []).push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
-    for (const [id, mv] of Object.entries(pickSel)) (m[mv.to] ??= []).push(pickShareLabel(id));
-    return Object.entries(m).map(([team, labels]) => ({ team, labels }));
+      row(p.to).labels.push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
+    for (const [id, mv] of Object.entries(pickSel)) row(mv.to).labels.push(pickShareLabel(id));
+    for (const [team, use] of Object.entries(trade.tpeUse ?? {})) {
+      row(team).tools.push(use.label ?? "TPE");
+    }
+    return Object.entries(m).map(([team, haul]) => ({ team, ...haul }));
   }, [trade, pickSel, lg]);
 
   // Ted Stepien rule, against the FULL pick-ownership ledger: after this trade
@@ -422,7 +447,7 @@ export default function OffseasonSim() {
           while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
         <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
-          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
+          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
           <div className="mt-2">
             <TradeDocket teams={docketTeams} />
           </div>
@@ -506,6 +531,7 @@ function TradeVerdict({
   verdict,
   extraViolations = [],
   valueByTeam = {},
+  tpeUse,
   onExecute,
   onShare,
   lg,
@@ -513,6 +539,7 @@ function TradeVerdict({
   verdict: ReturnType<typeof validateTrade>;
   extraViolations?: string[];
   valueByTeam?: Record<string, { in: number; out: number }>;
+  tpeUse?: Trade["tpeUse"];
   onExecute: () => void;
   onShare: () => void;
   lg: LG;
@@ -528,10 +555,17 @@ function TradeVerdict({
   // The cap-nerd detail: on legal deals, how close did the tightest leg come?
   const margins = verdict.teams
     .filter((t) => t.incomingSalary > 0)
-    .map((t) => t.maxIncomingAllowed - t.incomingSalary);
+    .map((t) => t.maxIncomingAllowed - (t.incomingSalary - (t.tpeAbsorbed ?? 0)));
   const minMargin = margins.length ? Math.min(...margins) : Infinity;
+  const tpeDetails = verdict.teams
+    .filter((t) => (t.tpeAbsorbed ?? 0) > 0)
+    .map((t) => {
+      const use = tpeUse?.[t.teamId];
+      return `${t.teamId} uses ${fmtM(t.tpeAbsorbed!)} ${use?.label ?? "TPE"}`;
+    });
+  const tpeSummary = legal && tpeDetails.length ? tpeDetails.join(" · ") : null;
   const clearedBy =
-    legal && minMargin < 999_500
+    legal && !tpeSummary && minMargin < 999_500
       ? minMargin < 1_000
         ? "clears matching to the dollar"
         : `clears matching by $${Math.floor(minMargin / 1_000)}k`
@@ -561,12 +595,12 @@ function TradeVerdict({
           {!legal && (
             <div className="min-w-0 text-sm leading-snug text-[var(--text)]">{firstReason}</div>
           )}
-          {clearedBy && (
+          {(tpeSummary || clearedBy) && (
             <span
-              className="tabular shrink-0 text-[11px] font-semibold text-[var(--tier-taxpayer)]"
-              title="Smallest salary-matching margin in the deal"
+              className="tabular min-w-0 truncate text-[11px] font-semibold text-[var(--tier-taxpayer)]"
+              title={tpeSummary ? "Traded-player exception applied to this legal deal" : "Smallest salary-matching margin in the deal"}
             >
-              {clearedBy}
+              {tpeSummary ?? clearedBy}
             </span>
           )}
         </div>

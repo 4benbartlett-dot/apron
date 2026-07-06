@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import TradeBuilder from "@/components/TradeBuilder";
 import { summarizeTrade, lastName } from "@/lib/trade-share";
 
@@ -30,6 +31,14 @@ export async function generateMetadata({
   };
 }
 
-export default function TradePage() {
+export default async function TradePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ t?: string }>;
+}) {
+  // Old shared links pointed here; the card-first landing now lives on the
+  // full offseason page, so send the token home.
+  const { t } = await searchParams;
+  if (t) redirect(`/?t=${encodeURIComponent(t)}`);
   return <TradeBuilder />;
 }

@@ -63,7 +63,10 @@ export function ShareCardModal({
     () => encodeTradeParam(trade.teams, trade.players, picks),
     [trade, picks],
   );
-  const shareUrl = `${typeof window === "undefined" ? "https://overtheapron.com" : window.location.origin}/trade?t=${encodeURIComponent(token)}`;
+  // Links land on the FULL offseason page (the board decodes ?t=, pops this
+  // card, and closing it leaves the visitor in the real sim, not a bare
+  // trade machine). /trade?t= still works and redirects here for old links.
+  const shareUrl = `${typeof window === "undefined" ? "https://overtheapron.com" : window.location.origin}/?t=${encodeURIComponent(token)}`;
 
   // Teams actually involved in the deal (sending or receiving something).
   const involved = verdict.teams.filter(
@@ -102,6 +105,7 @@ export function ShareCardModal({
         verdict.teams,
         nameOf,
         salaryOf,
+        trade.tpeUse,
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [trade, picks, verdict],
@@ -156,15 +160,16 @@ export function ShareCardModal({
       // Capture at the format's true size regardless of screen width, so a
       // phone still downloads a real 1080-wide square/story.
       const captureWidth = format === "square" ? "520px" : format === "story" ? "380px" : undefined;
-      // If the content beats the +N-more budgets anyway, grow the canvas —
-      // a slightly-tall square beats a cropped ruling every time.
+      // The +N-more budgets keep posters on-frame; if a big multi-team deal
+      // still beats them (3 teams overflow the square), grow the canvas —
+      // overflow:hidden here would silently crop rows off the ruling.
       const overflows = node.scrollHeight > node.clientHeight + 2;
       const url = await Promise.race([
         toPng(node, {
           pixelRatio: 2,
           style: {
+            overflow: overflows ? "visible" : "hidden",
             maxHeight: "none",
-            overflow: "visible",
             ...(captureWidth
               ? {
                   width: captureWidth,
@@ -286,7 +291,7 @@ export function ShareCardModal({
             <TradeDocket
               teams={docketTeams}
               stack
-              maxLines={format === "feed" ? 5 : format === "story" ? 4 : 3}
+              maxLines={format === "feed" ? 5 : format === "story" ? (involved.length > 2 ? 3 : 4) : (involved.length > 2 ? 2 : 3)}
             />
           </div>
 

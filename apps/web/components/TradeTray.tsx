@@ -7,6 +7,8 @@ export interface TrayHaul {
   team: string;
   /** Compact labels of the assets headed TO this team ("Morant", "2027 1st"). */
   labels: string[];
+  /** Deal tools used by this team ("LaMelo Ball TPE"). */
+  tools?: string[];
 }
 
 /** Watches the full verdict panel and reports when it's scrolled out of view —
@@ -69,6 +71,12 @@ export function TradeTray({
                 <span className="font-semibold">{h.team}</span>
                 <span className="text-[var(--muted)]"> get </span>
                 <span className="font-medium">{h.labels.join(", ") || "—"}</span>
+                {h.tools?.length ? (
+                  <>
+                    <span className="text-[var(--muted)]"> via </span>
+                    <span className="font-semibold text-[var(--accent-ink)]">{h.tools.join(", ")}</span>
+                  </>
+                ) : null}
               </span>
             ))}
           </span>
