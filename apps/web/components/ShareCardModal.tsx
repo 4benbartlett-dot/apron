@@ -160,10 +160,22 @@ export function ShareCardModal({
 
   // Renders THE CARD ITSELF (exactly what's on screen) to a PNG. Falls back
   // to the server-rendered OG card if in-browser rendering stalls.
-  // Format-true capture of the on-screen card (shared by save/copy/story).
+  // Format-true capture of the on-screen card (shared by save/copy/story
+  // AND the hold-to-save overlay). Owns readiness + the .capture class:
+  // the stamp's mask-image doesn't survive html-to-image (that's what
+  // .capture strips), and un-decoded logo imgs clone as blanks on slow
+  // connections.
   const captureCard = async (pixelRatio = 2) => {
     const node = cardRef.current;
     if (!node) throw new Error("no card");
+    node.classList.add("capture");
+    try {
+      await Promise.all([
+        document.fonts?.ready ?? Promise.resolve(),
+        ...Array.from(node.querySelectorAll("img"))
+          .filter((i) => !i.classList.contains("hold-overlay"))
+          .map((i) => i.decode().catch(() => {})),
+      ]);
     // Explicit geometry so exports are identical from any screen size: the
     // preview's responsive aspect classes don't apply inside the capture
     // clone on phones. aspect-ratio is the preferred size, minHeight pins the
@@ -191,6 +203,9 @@ export function ShareCardModal({
       }),
       new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
     ]);
+    } finally {
+      node.classList.remove("capture");
+    }
   };
 
   useEffect(() => {
@@ -219,19 +234,16 @@ export function ShareCardModal({
     const node = cardRef.current;
     if (!node) return;
     track("share_copy_image");
-    node.classList.add("capture");
     try {
       const blobPromise = captureCard()
         .then((dataUrl) => fetch(dataUrl))
-        .then((r) => r.blob())
-        .finally(() => node.classList.remove("capture"));
+        .then((r) => r.blob());
       await navigator.clipboard.write([new ClipboardItem({ "image/png": blobPromise })]);
       setCopiedImg(true);
       setTimeout(() => setCopiedImg(false), 1600);
     } catch {
       // Clipboard blocked (permissions, odd browser) — they wanted the
       // image, so give them the image: fall back to the save path.
-      node.classList.remove("capture");
       void downloadImage();
     }
   };
@@ -248,7 +260,6 @@ export function ShareCardModal({
       a.download = name;
       a.click();
     };
-    node.classList.add("capture");
     try {
       const url = await captureCard();
       // Phones: hand the PNG to the share sheet, whose "Save Image" writes
@@ -273,7 +284,6 @@ export function ShareCardModal({
       save(url);
       URL.revokeObjectURL(url);
     } finally {
-      node.classList.remove("capture");
       setDownloading(false);
     }
   };
@@ -286,7 +296,6 @@ export function ShareCardModal({
     const node = cardRef.current;
     if (!node) return;
     setDownloading(true);
-    node.classList.add("capture");
     try {
       const dataUrl = await captureCard(3);
       const blob = await (await fetch(dataUrl)).blob();
@@ -306,7 +315,6 @@ export function ShareCardModal({
     } catch {
       /* user closed the share sheet — not an error */
     } finally {
-      node.classList.remove("capture");
       setDownloading(false);
     }
   };
@@ -338,9 +346,18 @@ export function ShareCardModal({
       onClick={onClose}
     >
       <div
-        className="modal-in flex max-h-full w-full max-w-xl flex-col"
+        className="modal-in relative flex max-h-full w-full max-w-xl flex-col"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Floating close — a SIBLING of the card, so it never appears in
+            captures, and big enough for thumbs. z-20 clears the hold-overlay. */}
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute -right-2 -top-2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--text)] text-[15px] font-bold text-[var(--bg)] shadow-[0_4px_14px_rgba(0,0,0,0.4)]"
+        >
+          ✕
+        </button>
         {/* the card */}
         <div
           ref={cardRef}
