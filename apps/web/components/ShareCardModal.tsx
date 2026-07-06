@@ -183,8 +183,18 @@ export function ShareCardModal({
     };
     node.classList.add("capture");
     try {
+      // Capture at the format's true size regardless of screen width, so a
+      // phone still downloads a real 1080-wide square/story.
+      const captureWidth = format === "square" ? "520px" : format === "story" ? "380px" : undefined;
       const url = await Promise.race([
-        toPng(node, { pixelRatio: 2, style: { maxHeight: "none", overflow: "visible" } }),
+        toPng(node, {
+          pixelRatio: 2,
+          style: {
+            maxHeight: "none",
+            overflow: "visible",
+            ...(captureWidth ? { width: captureWidth, maxWidth: captureWidth, aspectRatio: format === "square" ? "1 / 1" : "9 / 16" } : {}),
+          },
+        }),
         new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
       ]);
       save(url);
@@ -235,7 +245,7 @@ export function ShareCardModal({
           ref={cardRef}
           className={`relative flex flex-col overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-[0_24px_64px_rgba(33,29,19,0.35)] ${
             format === "square"
-              ? "mx-auto aspect-square w-full max-w-[520px]"
+              ? "mx-auto w-full max-w-[520px] sm:aspect-square"
               : format === "story"
                 ? "mx-auto aspect-[9/16] w-full max-w-[380px]"
                 : ""
@@ -255,24 +265,41 @@ export function ShareCardModal({
             <span className="label">overtheapron.com</span>
           </div>
 
-          {/* verdict stamp */}
-          <div className="flex items-center justify-between gap-3 px-5 pt-4">
-            <div className="flex items-center gap-2">
-              {involved.map((t, i) => (
-                <span key={t.teamId} className="flex items-center gap-2">
-                  {i > 0 && <span className="text-[var(--muted)]">⇄</span>}
-                  <TeamLogo id={t.teamId} size={26} />
-                </span>
-              ))}
+          {/* verdict header: document row on feed, poster stamp on 1:1/9:16 */}
+          {format === "feed" ? (
+            <div className="flex items-center justify-between gap-3 px-5 pt-4">
+              <div className="flex items-center gap-2">
+                {involved.map((t, i) => (
+                  <span key={t.teamId} className="flex items-center gap-2">
+                    {i > 0 && <span className="text-[var(--muted)]">⇄</span>}
+                    <TeamLogo id={t.teamId} size={26} />
+                  </span>
+                ))}
+              </div>
+              <span className="stamp stamp-in text-[15px]" style={{ color }}>
+                {legal ? "Legal trade" : "Blocked"}
+              </span>
             </div>
-            <span
-              className="stamp stamp-in text-[15px]"
-              style={{ color }}
-            >
-              {legal ? "Legal trade" : "Blocked"}
-            </span>
-          </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2 px-5 pt-5">
+              <div className="flex items-center gap-2.5">
+                {involved.map((t, i) => (
+                  <span key={t.teamId} className="flex items-center gap-2.5">
+                    {i > 0 && <span className="text-[15px] text-[var(--muted)]">⇄</span>}
+                    <TeamLogo id={t.teamId} size={32} />
+                  </span>
+                ))}
+              </div>
+              <span
+                className={`stamp stamp-in ${format === "story" ? "text-[23px]" : "text-[20px]"}`}
+                style={{ color, transform: "rotate(-2deg)" }}
+              >
+                {legal ? "Legal trade" : "Blocked"}
+              </span>
+            </div>
+          )}
 
+          <div className={format === "feed" ? "" : "flex flex-1 flex-col justify-center"}>
           {/* the deal */}
           <div className="space-y-2.5 px-5 pb-1 pt-4">
             {involved.map((t) => {
@@ -322,24 +349,28 @@ export function ShareCardModal({
           <div className="px-5 pb-4 pt-3">
             <div className="label mb-1.5">{legal ? "Why it works" : "Why it doesn't"}</div>
             <ul className="space-y-1.5">
-              {checks.slice(0, 6).map((c, i) => (
-                <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
-                  <span className="shrink-0 font-bold" style={{ color: c.ok ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
-                    {c.ok ? "✓" : "✗"}
-                  </span>
-                  <span>{c.text}</span>
-                </li>
-              ))}
+              {/* Posters must FIT the frame: fewer lines, clamped text. */}
+              {checks
+                .slice(0, format === "feed" ? 6 : format === "story" && involved.length <= 2 ? 2 : 1)
+                .map((c, i) => (
+                  <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
+                    <span className="shrink-0 font-bold" style={{ color: c.ok ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
+                      {c.ok ? "✓" : "✗"}
+                    </span>
+                    <span className={format === "feed" ? "" : "line-clamp-2"}>{c.text}</span>
+                  </li>
+                ))}
             </ul>
-            {!legal && firstFix && (
+            {!legal && firstFix && format === "feed" && (
               <p className="mt-2.5 border-t border-dashed border-[var(--border)] pt-2 text-[11.5px] leading-snug text-[var(--muted)]">
                 <span className="font-semibold text-[var(--accent-ink)]">One route to legal:</span> {firstFix}
               </p>
             )}
           </div>
+          </div>
 
           {/* the seal: verdict + provenance on EVERY card, then the invitation */}
-          <div className="tear mt-auto flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
+          <div className={`tear mt-auto items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)] ${format === "feed" ? "flex" : "hidden"}`}>
             <span className="tabular uppercase tracking-[0.08em]">
               Filed {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {filingNo(token)}
             </span>
@@ -347,8 +378,8 @@ export function ShareCardModal({
               {legal ? "Legal under the 2023 CBA" : "Blocked under the 2023 CBA"}
             </span>
           </div>
-          <div className="flex items-center justify-between bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--bg)]">
-            <span>overtheapron.com</span>
+          <div className={`flex items-center justify-between bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--bg)] ${format === "feed" ? "" : "mt-auto"}`}>
+            <span>{format === "feed" ? "overtheapron.com" : `overtheapron.com · ${legal ? "legal" : "blocked"} under the 2023 CBA`}</span>
             <span>Try this trade →</span>
           </div>
         </div>

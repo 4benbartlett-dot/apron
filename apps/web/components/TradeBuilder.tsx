@@ -12,6 +12,7 @@ import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { ShareCardModal } from "@/components/ShareCardModal";
+import { track } from "@/lib/analytics";
 import { TradeDocket, buildDocket } from "@/components/TradeDocket";
 
 interface Sel {
@@ -46,6 +47,12 @@ export default function TradeBuilder() {
         setTeams(d.teams);
         setSel(Object.fromEntries(d.players.map((m) => [m.playerId, { from: m.from, to: m.to }])));
         setPickSel(Object.fromEntries(d.picks.map((m) => [m.id, { from: m.from, to: m.to }])));
+        // Land on the card view — the screen from the screenshot they clicked.
+        // Closing it drops into the builder with this trade already staged.
+        if (d.players.length || d.picks.length) {
+          setShareOpen(true);
+          track("trade_link_open");
+        }
         return;
       }
     }
