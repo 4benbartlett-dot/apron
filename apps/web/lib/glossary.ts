@@ -95,8 +95,8 @@ export const GLOSSARY = {
   // ---- cap-sheet numbers ---------------------------------------------------
   committed_salary: {
     title: "Committed salary",
-    body: "The sum of every guaranteed salary a team has on the books for a season — the number measured against the cap, tax, and aprons. For signing purposes the league also counts your own free agents' cap holds until they're re-signed or renounced.",
-    cite: "2023 CBA · Art. VII §1",
+    body: "The sum of every guaranteed salary a team has on the books for a season. Your own free agents' cap holds pile on top until re-signed or renounced — holds eat cap ROOM, but apron and tax status are measured on signed salary alone (the CBA excludes Free Agent Amounts from apron math). That's why a team can have no space yet still be under the aprons.",
+    cite: "2023 CBA · Art. VII §1, §2, §4(d)",
   },
   max_salary: {
     title: "Maximum salary",
@@ -134,8 +134,8 @@ export const GLOSSARY = {
   },
   hard_cap: {
     title: "Hard cap",
-    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. This sim remembers your hard cap across moves: a signing today can kill a trade next week.",
-    cite: "2023 CBA · Art. VII §2(d)",
+    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary (signed money — cap holds don't count). This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
+    cite: "2023 CBA · Art. VII §2(e)",
   },
   no_trade: {
     title: "Trade restriction",

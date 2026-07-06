@@ -3,6 +3,7 @@ import {
   SEASON_2026_27,
   salaryForYear,
   capHold,
+  validateTrade,
   type BirdStatus,
   type Contract,
   type ContractYear,
@@ -934,4 +935,56 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     bycPriorSalary: undefined,
   };
   return copy;
+}
+
+/** Hard caps triggered by this session's executed moves, per team — the
+ * tightest apron each team froze itself at (a triggered cap binds for the
+ * rest of the league year). Sources: NT-MLE/BAE signings and sign-and-trades
+ * (first apron), Taxpayer-MLE signings (second apron), and trades where a
+ * sub-apron team took back MORE salary than it sent beyond what cap-room
+ * absorption covers — the Expanded TPE, restriction-table row E (first
+ * apron). Recomputed by replaying the ledger, so saved sessions and shared
+ * ?gm= links are repaired retroactively; removing an early move un-triggers
+ * caps that no longer apply. Hard caps test APRON salary — holds excluded. */
+export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS): Record<string, number> {
+  const line: Record<string, number> = {};
+  const capAt = (t: string, v: number) => {
+    line[t] = Math.min(line[t] ?? Infinity, v);
+  };
+  let cs = base;
+  const renounced = new Set<string>();
+  for (const m of moves) {
+    if (m.kind === "renounce") {
+      renounced.add(m.playerId);
+    } else if (m.kind === "sign") {
+      if (m.mechanism === "ntmle" || m.mechanism === "bae") capAt(m.teamId, C.firstApron);
+      else if (m.mechanism === "tpmle") capAt(m.teamId, C.secondApron);
+    } else if (m.kind === "sign_trade") {
+      if (m.toTeam) capAt(m.toTeam, C.firstApron);
+    } else if (m.kind === "trade") {
+      const teamOf = new Map(cs.filter((c) => !c.deadMoney).map((c) => [c.playerId, c.teamId]));
+      const players = m.players
+        .map((p) => ({ playerId: p.playerId, from: teamOf.get(p.playerId) ?? "", to: p.to }))
+        .filter((p) => p.from && p.from !== p.to);
+      if (players.length) {
+        const teams = [...new Set(players.flatMap((p) => [p.from, p.to]))];
+        const holds = holdsByTeam(freeAgentsOf(cs).filter((f) => !renounced.has(f.playerId)));
+        const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds }, C);
+        for (const t of v.teams) {
+          const sub = t.preTradeTier !== "first_apron" && t.preTradeTier !== "second_apron";
+          if (!sub || t.incomingSalary <= t.outgoingSalary + 1) continue;
+          // Absorbing into genuine cap room (§6(j)(1)(v)) triggers no cap; the
+          // expanded formula (row E) does. Assume the team takes the cap-free
+          // route whenever room covers the whole incoming.
+          const absorption =
+            Math.max(0, C.salaryCap - t.preTradeSalary - (holds[t.teamId] ?? 0)) +
+            t.outgoingSalary +
+            250_000;
+          if (t.incomingSalary > absorption + 1) capAt(t.teamId, C.firstApron);
+        }
+      }
+    }
+    cs = applyMove(cs, m);
+  }
+  return line;
 }

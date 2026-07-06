@@ -55,6 +55,8 @@ export function findTradePackages(
   targetId: string,
   maxPlayers = 3,
   limit = 10,
+  /** Kept free-agent holds per team — consume below-cap absorption room. */
+  capHolds: Record<string, number> = {},
 ): TradePackage[] {
   const target = data.contracts.find((c) => c.playerId === targetId);
   if (!target) return [];
@@ -83,6 +85,7 @@ export function findTradePackages(
         ...sweet.map((c) => ({ playerId: c.playerId, from: seller, to: acquirer })),
         ...pkg.map((c) => ({ playerId: c.playerId, from: acquirer, to: seller })),
       ],
+      capHolds,
     };
     return validateTrade(data, trade, C).legal;
   };

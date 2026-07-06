@@ -76,7 +76,9 @@ export default function TradeBuilder() {
     const players = Object.entries(sel)
       .filter(([, mv]) => teams.includes(mv.from) && teams.includes(mv.to))
       .map(([playerId, mv]) => ({ playerId, from: mv.from, to: mv.to }));
-    const tr: Trade = { teams, players };
+    // Kept holds consume below-cap absorption room (not apron status).
+    const capHolds = Object.fromEntries(teams.map((t) => [t, lg.teamHolds(t)]));
+    const tr: Trade = { teams, players, capHolds };
     const v = validateTrade(lg.data, tr, C);
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
   }, [teams, sel, lg]);

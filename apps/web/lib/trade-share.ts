@@ -1,5 +1,13 @@
 import { validateTrade, violatesStepien, matchRuleLabel, type ApronTier, type Trade } from "@apron/cba-engine";
-import { BASE_CONTRACTS, leagueData, teamMeta, C, lockedFirstEncumbrance } from "./league";
+import {
+  BASE_CONTRACTS,
+  leagueData,
+  teamMeta,
+  C,
+  lockedFirstEncumbrance,
+  freeAgentsOf,
+  holdsByTeam,
+} from "./league";
 
 interface DecodedMove {
   from: string;
@@ -101,7 +109,12 @@ export function summarizeTrade(t: string): TradeSummary | null {
   const d = decodeTradeParam(t);
   if (!d || (!d.players.length && !d.picks.length)) return null;
   const data = leagueData(BASE_CONTRACTS);
-  const trade: Trade = { teams: d.teams, players: d.players };
+  // Base-state holds (server-side; session renounces aren't visible here).
+  const trade: Trade = {
+    teams: d.teams,
+    players: d.players,
+    capHolds: holdsByTeam(freeAgentsOf(BASE_CONTRACTS)),
+  };
   const v = validateTrade(data, trade, C);
   // Stepien against the real-world base ledger (session moves aren't visible
   // server-side, but pre-existing obligations are) — so share cards and OG

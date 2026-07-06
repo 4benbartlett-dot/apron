@@ -21,7 +21,7 @@ import {
   type Move,
 } from "./league";
 import { track } from "./analytics";
-import { lockedFirstEncumbrance } from "./league";
+import { lockedFirstEncumbrance, sessionHardCaps } from "./league";
 
 export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
 export { lockedFirstEncumbrance } from "./league";
@@ -175,6 +175,7 @@ export function useLeague() {
         for (const p of m.picks) if (pickOwner.has(p.id)) pickOwner.set(p.id, p.to);
       }
     }
+    const hardCaps = sessionHardCaps(moveList);
     return {
       data,
       contracts,
@@ -236,22 +237,12 @@ export function useLeague() {
         if (lockedFirstEncumbrance(t, 2033)) uncovered.push(2033);
         return uncovered;
       },
-      // The tightest apron a team has HARD-CAPPED itself at this session (via an
-      // NT-MLE/BAE or sign-and-trade → first apron, or a Taxpayer MLE → second
-      // apron). Persists across moves so a later Bird re-sign / min / trade can't
-      // blow past it (2023 CBA: a triggered hard cap binds for the whole year).
-      hardCapOf: (t: string) => {
-        let line = Infinity;
-        for (const m of moveList) {
-          if (m.kind === "sign" && m.teamId === t) {
-            if (m.mechanism === "ntmle" || m.mechanism === "bae") line = Math.min(line, C.firstApron);
-            else if (m.mechanism === "tpmle") line = Math.min(line, C.secondApron);
-          } else if (m.kind === "sign_trade" && m.toTeam === t) {
-            line = Math.min(line, C.firstApron);
-          }
-        }
-        return line;
-      },
+      // The tightest apron a team has HARD-CAPPED itself at this session —
+      // NT-MLE/BAE/sign-and-trade → first apron, Taxpayer MLE → second apron,
+      // and trades that took back more than they sent under expanded matching
+      // (restriction-table row E → first apron). Replayed from the ledger in
+      // sessionHardCaps, so it binds every later move AND repairs old saves.
+      hardCapOf: (t: string) => hardCaps[t] ?? Infinity,
       playerName: nameOf,
     };
   }, [contracts, moveList]);
