@@ -271,7 +271,7 @@ body::after {
   mask-image: none !important;
   -webkit-mask-image: none !important;
 }
-/* Captures are snapshots: freeze every animation at its resting state.
+/* Captures are snapshots (v2): freeze every animation at its resting state.
    WebKit evaluates cloned animations at t=0 — stamp-in starts at opacity 0,
    so iOS captured an invisible stamp. */
 .capture,
