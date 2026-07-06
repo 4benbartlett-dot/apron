@@ -111,7 +111,7 @@
       "years": 4,
       "total": 39000000,
       "aav": 9750000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "mark williams": {
       "name": "Mark Williams",
@@ -127,6 +127,22 @@
       "years": 2,
       "total": 30840200,
       "aav": 15420100,
+      "status": "Agreed"
+    },
+    "quinten post": {
+      "name": "Quinten Post",
+      "team": "MEM",
+      "years": 3,
+      "total": 30000000,
+      "aav": 10000000,
+      "status": "Agreed"
+    },
+    "rui hachimura": {
+      "name": "Rui Hachimura",
+      "team": "LAC",
+      "years": 2,
+      "total": 28000000,
+      "aav": 14000000,
       "status": "Agreed"
     },
     "kevin huerter": {
@@ -159,7 +175,7 @@
       "years": 2,
       "total": 20000000,
       "aav": 10000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "collin sexton": {
       "name": "Collin Sexton",
@@ -271,7 +287,7 @@
       "years": 2,
       "total": 12247178,
       "aav": 6123589,
-      "status": "Agreed"
+      "status": "Official"
     },
     "josh okogie": {
       "name": "Josh Okogie",
@@ -327,7 +343,7 @@
       "years": 2,
       "total": 9000000,
       "aav": 4500000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "ron harper": {
       "name": "Ron Harper Jr.",
@@ -505,6 +521,14 @@
       "aav": 679042,
       "status": "Official"
     },
+    "brooks barnhizer": {
+      "name": "Brooks Barnhizer",
+      "team": "OKC",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Official"
+    },
     "colin castleton": {
       "name": "Colin Castleton",
       "team": "ORL",
@@ -537,21 +561,13 @@
       "aav": 678882,
       "status": "Agreed"
     },
-    "brooks barnhizer": {
-      "name": "Brooks Barnhizer",
-      "team": "OKC",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
-    },
     "caleb love": {
       "name": "Caleb Love",
       "team": "PHI",
       "years": 1,
       "total": 678882,
       "aav": 678882,
-      "status": "Agreed"
+      "status": "Official"
     },
     "rayan rupert": {
       "name": "Rayan Rupert",
@@ -583,7 +599,7 @@
       "years": 1,
       "total": 0,
       "aav": 0,
-      "status": "Agreed"
+      "status": "Official"
     },
     "chucky hepburn": {
       "name": "Chucky Hepburn",

@@ -31,12 +31,6 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "rui hachimura": {
-      "name": "Rui Hachimura",
-      "team": "LAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "kelly olynyk": {
       "name": "Kelly Olynyk",
       "team": "SAS",
@@ -392,12 +386,6 @@
       "name": "Jahmir Young",
       "team": "MIA",
       "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
-    "quinten post": {
-      "name": "Quinten Post",
-      "team": "GSW",
-      "restriction": "RFA",
       "birdStatus": "early_bird"
     },
     "max shulga": {
