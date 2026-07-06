@@ -390,7 +390,9 @@ html {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
 }
-.route-in { animation: route-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both; }
+/* fill-mode backwards, NOT both: a lingering identity transform would trap
+   position:fixed descendants (the trade tray) in a stale containing block. */
+.route-in { animation: route-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
 
 /* Nav: the accent rule sits under the current page, sketches in on hover. */
 .nav-link { position: relative; }
@@ -590,3 +592,7 @@ button:active { transform: translateY(0.5px); }
 @media (prefers-reduced-motion: reduce) {
   .egg-toast { animation: veto-cycle 2.8s both; transform: translate(-50%, 0); }
 }
+
+/* Hide the scrollbar on tight horizontal strips (the trade tray). */
+.scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
