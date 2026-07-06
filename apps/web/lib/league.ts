@@ -249,7 +249,21 @@ function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: str
     if (!m) continue;
     const dest = stdTeam(m[1]);
     if (!VALID_TEAMS.has(dest)) continue;
-    const c = byName.get(k);
+    let c = byName.get(k);
+    if (!c) {
+      // Name-variant fallback (the Nicolas/Nic Claxton class of miss): the
+      // trade prose and the contract sheet disagree on the first name. Match
+      // by suffix-aware surname + the trade's FROM team, only when unique.
+      const fromM = t.detail.match(/from [^(]*\(([A-Za-z]{2,4})\)/);
+      const from = fromM ? stdTeam(fromM[1]!) : null;
+      if (from && VALID_TEAMS.has(from)) {
+        const surname = norm(shortPlayerName(t.player));
+        const candidates = cloned.filter(
+          (x) => !x.deadMoney && x.teamId === from && norm(shortPlayerName(x.playerName)) === surname,
+        );
+        if (candidates.length === 1) c = candidates[0];
+      }
+    }
     if (c && c.teamId !== dest) {
       c.teamId = dest;
       moved.push(`${c.playerName} → ${dest}`);
@@ -293,6 +307,10 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     }
     // Must be an actual term/dollar contract (skip qualifying offers, options…).
     if (!/\d+\s*year|\$[\d.]+\s*million/i.test(t.detail)) continue;
+    // A pending RFA offer sheet isn't a signing yet — the incumbent can match
+    // (Quinten Post: MEM sheet, GSW right to match). He stays an RFA with his
+    // hold until the feed reports a resolution.
+    if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail)) continue;
     const k = norm(t.player);
     if (seen.has(k)) continue;
     seen.add(k);
@@ -355,12 +373,30 @@ function dealFromAav(aav: number, term: number): ContractYear[] {
  * up-to-date source of the offseason's newest deals. Rebuilds each signed
  * player's contract as a real MULTI-YEAR deal (term + AAV → raised year rows).
  */
+// RFA offer sheets awaiting the incumbent's match decision: the structured
+// signings feed lists them as plain agreed deals, but the player isn't moved
+// until the sheet resolves. TRANSACTIONS is newest-first, so the first
+// signing row per player is the latest word — pending only if THAT row is
+// still the unmatched sheet.
+const PENDING_OFFER_SHEET = new Set<string>();
+{
+  const decided = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    const k = normName(t.player);
+    if (decided.has(k)) continue;
+    decided.add(k);
+    if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail)) PENDING_OFFER_SHEET.add(k);
+  }
+}
+
 function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: string[] } {
   const signed: string[] = [];
   const out = contracts.map((c) => {
     if (c.deadMoney) return c;
     const s = SIGNINGS[normName(c.playerName)];
     if (!s || !s.aav || s.aav <= 0) return c;
+    if (PENDING_OFFER_SHEET.has(normName(c.playerName))) return c;
     const team = stdTeam(s.team);
     if (!VALID_TEAMS.has(team)) return c;
     signed.push(`${c.playerName} → ${team}`);
@@ -465,12 +501,17 @@ const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId))
   },
 );
 
+// Draft-night trades move DRAFT RIGHTS — those players live in ROOKIES_2026,
+// not the contracts sheet, so the veteran trade pass never saw them (the
+// Cameron Carr report: drafted #24 by NYK, rights to LAL in a four-teamer).
+const rookiesAfterTrades = applyTrades(rookieContracts);
+
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = [
   ...afterReleases,
-  ...rookieContracts,
+  ...rookiesAfterTrades.contracts,
 ];
-export const TRADES_APPLIED = afterTrades.moved;
+export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];
 export const SIGNINGS_APPLIED = [...afterSignings.signed, ...afterSignedFA.signed];
 
 /* ---------------- pure, contracts-parameterized helpers ---------------- */

@@ -84,7 +84,9 @@ describe("apron split — holds gate room, never tier (reviewer coupling note)",
     const data = leagueData(BASE_CONTRACTS);
     const chi = teamSalary(data, "CHI", "2026-27");
     const roomNoHolds = C.salaryCap - chi;
-    expect(roomNoHolds).toBeGreaterThan(15_000_000); // sanity: CHI is below cap
+    // Sanity: CHI is below the cap. (Was >$15M before the Claxton
+    // reconciliation fix put his $23.1M on the right team — theirs.)
+    expect(roomNoHolds).toBeGreaterThan(5_000_000);
     const target = BASE_CONTRACTS.find(
       (c) => c.teamId === "SAS" && !c.deadMoney && (c.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0) > 15_000_000,
     )!;

@@ -97,7 +97,7 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
   });
 
   it("every in-world hard cap names its source move", () => {
-    for (const t of ["ATL", "BOS", "DET", "GSW", "HOU", "IND", "LAL", "MIA", "PHI", "PHX", "SAS", "UTA"]) {
+    for (const t of ["ATL", "BOS", "DET", "GSW", "HOU", "IND", "LAC", "LAL", "MIA", "PHI", "PHX", "SAS", "UTA"]) {
       const s = feedStateOf(t);
       expect(s.hardCap).toBe(C.firstApron);
       expect(s.hardCapSource, t).toBeTruthy();

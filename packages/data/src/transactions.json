@@ -2,6 +2,139 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Nate Ament",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Christian Anderson",
+      "pos": "PG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $20.61 million Rookie Scale contract with Charlotte (CHA)"
+    },
+    {
+      "player": "Hannes Steinbach",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $24.98 million Rookie Scale contract with Charlotte (CHA)"
+    },
+    {
+      "player": "Rui Hachimura",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $28 million contract with LA Clippers (LAC)"
+    },
+    {
+      "player": "Quinten Post",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $30 million contract with Memphis (MEM) via Offer Sheet; Golden State (GSW) has the right to match."
+    },
+    {
+      "player": "Kam Jones",
+      "pos": "PG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Milwaukee (MIL)"
+    },
+    {
+      "player": "Anfernee Simons",
+      "pos": "SG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12.25 million contract with Philadelphia (PHI) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Dean Wade",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $39 million contract with Philadelphia (PHI)"
+    },
+    {
+      "player": "Day'Ron Sharpe",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $20 million contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Josh Minott",
+      "pos": "SF",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $9 million contract with Brooklyn (BKN)"
+    },
+    {
+      "player": "Kasparas Jakucionis",
+      "pos": "PG",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Kel'el Ware",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Jaime Jaquez Jr.",
+      "pos": "SF",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Tyler Herro",
+      "pos": "SG",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+    },
+    {
+      "player": "Bobby Portis",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Giannis Antetokounmpo for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
+    },
+    {
+      "player": "Giannis Antetokounmpo",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Bobby Portis for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
+    },
+    {
+      "player": "Aaron Wiggins",
+      "pos": "SG",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Atlanta (ATL) from Oklahoma City (OKC) for a 2030 2nd round pick \\[ATL pick\\] and a 2032 2nd round pick \\[least favorable of ATL/LAL pick\\]"
+    },
+    {
+      "player": "Nick Martinelli",
+      "pos": "F",
+      "date": "Jul 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with LA (LAC)"
+    },
+    {
+      "player": "Brayden Burries",
+      "pos": "SG",
+      "date": "Jul 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $29.21 million Rookie Scale contract with Milwaukee (MIL)"
+    },
+    {
       "player": "Chris Cenac Jr.",
       "pos": "PF",
       "date": "Jul 05, 2026",
@@ -16,18 +149,18 @@
       "detail": "Agreed to a Two-Way contract with Utah (UTA)"
     },
     {
+      "player": "Caleb Love",
+      "pos": "G",
+      "date": "Jul 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Portland (POR)"
+    },
+    {
       "player": "Jaden Bradley",
       "pos": "SG",
       "date": "Jul 04, 2026",
       "type": "Signing",
       "detail": "Signed a Two-Way contract with Toronto (TOR)"
-    },
-    {
-      "player": "Kam Jones",
-      "pos": "PG",
-      "date": "Jul 04, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Milwaukee (MIL)"
     },
     {
       "player": "Garrett Temple",
@@ -240,13 +373,6 @@
       "detail": "Agreed to a 3 year $15.3 million contract with LA Clippers (LAC)"
     },
     {
-      "player": "Caleb Love",
-      "pos": "G",
-      "date": "Jul 03, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Portland (POR)"
-    },
-    {
       "player": "Jaden Hardy",
       "pos": "SG",
       "date": "Jul 03, 2026",
@@ -391,7 +517,7 @@
       "pos": "PF",
       "date": "Jul 02, 2026",
       "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Minnesota (MIN)"
+      "detail": "Signed a Two-Way contract with Minnesota (MIN)"
     },
     {
       "player": "Payton Sandfort",
@@ -406,13 +532,6 @@
       "date": "Jul 02, 2026",
       "type": "Signing",
       "detail": "Signed a 4 year $33.43 million Rookie Scale contract with Atlanta (ATL)"
-    },
-    {
-      "player": "Anfernee Simons",
-      "pos": "SG",
-      "date": "Jul 02, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 2 year $12.25 million contract with Philadelphia (PHI) - includes 2027-28 Player Option"
     },
     {
       "player": "AJ Dybantsa",
@@ -763,13 +882,6 @@
       "date": "Jun 30, 2026",
       "type": "Signing",
       "detail": "Agreed to a 1 year $3.88 million contract with Houston (HOU)"
-    },
-    {
-      "player": "Dean Wade",
-      "pos": "PF",
-      "date": "Jun 30, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $39 million contract with Philadelphia (PHI)"
     },
     {
       "player": "Zach Collins",
@@ -1692,22 +1804,8 @@
       "player": "Day'Ron Sharpe",
       "pos": "C",
       "date": "Jun 29, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 2 year $20 million contract with Brooklyn (BKN)"
-    },
-    {
-      "player": "Day'Ron Sharpe",
-      "pos": "C",
-      "date": "Jun 29, 2026",
       "type": "Option",
       "detail": "Brooklyn (BKN) declined $6.25 million option for 2026-27"
-    },
-    {
-      "player": "Josh Minott",
-      "pos": "SF",
-      "date": "Jun 29, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 2 year $9 million contract with Brooklyn (BKN)"
     },
     {
       "player": "Josh Minott",
@@ -2767,48 +2865,6 @@
       "detail": "Traded to Minnesota (MIN) from Chicago (CHI) as part of a 3-team trade: Minnesota (MIN) traded Julius Randle and a 2026 1st round pick (#28) to Brooklyn (BKN); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded a 2026 2nd round pick (#33) to Minnesota (MIN)"
     },
     {
-      "player": "Kasparas Jakucionis",
-      "pos": "PG",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
-    },
-    {
-      "player": "Kel'el Ware",
-      "pos": "C",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
-    },
-    {
-      "player": "Jaime Jaquez Jr.",
-      "pos": "SF",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
-    },
-    {
-      "player": "Tyler Herro",
-      "pos": "SG",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
-    },
-    {
-      "player": "Bobby Portis",
-      "pos": "PF",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Giannis Antetokounmpo for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
-    },
-    {
-      "player": "Giannis Antetokounmpo",
-      "pos": "PF",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Bobby Portis for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
-    },
-    {
       "player": "Ayo Dosunmu",
       "pos": "PG",
       "date": "Jun 22, 2026",
@@ -2877,13 +2933,6 @@
       "date": "Jun 22, 2026",
       "type": "Signing",
       "detail": "Signed to a 1 year $21 million contract extension with Atlanta (ATL) - includes 7.5% Trade Bonus"
-    },
-    {
-      "player": "Aaron Wiggins",
-      "pos": "SG",
-      "date": "Jun 21, 2026",
-      "type": "Trade",
-      "detail": "Traded to Atlanta (ATL) from Oklahoma City (OKC) for a 2030 2nd round pick \\[ATL pick\\] and a 2032 2nd round pick \\[least favorable of ATL/LAL pick\\]"
     },
     {
       "player": "Jordan Goodwin",
