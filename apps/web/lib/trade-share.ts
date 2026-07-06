@@ -13,6 +13,7 @@ import {
   stepienFindingFor,
   type StepienFinding,
 } from "./league";
+import { fmtM } from "./format";
 
 interface DecodedMove {
   from: string;
@@ -165,21 +166,29 @@ export function summarizeTrade(t: string): TradeSummary | null {
   );
   const nameOf = (id: string) =>
     BASE_CONTRACTS.find((c) => c.playerId === id)?.playerName ?? id;
-  const perTeam = v.teams.map((ts) => ({
-    team: ts.teamId,
-    name: teamMeta(ts.teamId).name,
-    tier: ts.postTradeTier,
-    incoming: [
-      ...d.players.filter((p) => p.to === ts.teamId).map((p) => nameOf(p.playerId)),
-      ...d.picks.filter((p) => p.to === ts.teamId).map((p) => pickShareLabel(p.id)),
-    ],
-    outgoing: [
-      ...d.players.filter((p) => p.from === ts.teamId).map((p) => nameOf(p.playerId)),
-      ...d.picks.filter((p) => p.from === ts.teamId).map((p) => pickShareLabel(p.id)),
-    ],
-    rule:
-      ts.incomingSalary > 0 ? matchRuleLabel(ts.matchingRule, C) : undefined,
-  }));
+  const perTeam = v.teams.map((ts) => {
+    const use = trade.tpeUse?.[ts.teamId];
+    const rule =
+      ts.incomingSalary > 0
+        ? ts.tpeAbsorbed
+          ? `${use?.label ?? "TPE"} absorbs ${fmtM(ts.tpeAbsorbed)}; rest ${matchRuleLabel(ts.matchingRule, C)}`
+          : matchRuleLabel(ts.matchingRule, C)
+        : undefined;
+    return {
+      team: ts.teamId,
+      name: teamMeta(ts.teamId).name,
+      tier: ts.postTradeTier,
+      incoming: [
+        ...d.players.filter((p) => p.to === ts.teamId).map((p) => nameOf(p.playerId)),
+        ...d.picks.filter((p) => p.to === ts.teamId).map((p) => pickShareLabel(p.id)),
+      ],
+      outgoing: [
+        ...d.players.filter((p) => p.from === ts.teamId).map((p) => nameOf(p.playerId)),
+        ...d.picks.filter((p) => p.from === ts.teamId).map((p) => pickShareLabel(p.id)),
+      ],
+      rule,
+    };
+  });
   return {
     legal: v.legal && !stepienFinding && !feedCapped,
     reason:

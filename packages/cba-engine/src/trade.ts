@@ -124,9 +124,9 @@ function legsFor(
  * Scope: salary matching by apron tier, the expanded-matching hard cap, the
  * second-apron no-aggregation (post-trade basis) and no-cash-out rules, trade
  * eligibility freezes, the 2-month post-acquisition aggregation freeze, BYC,
- * and trade kickers. Cap holds, sign-and-trade legality, and the Stepien
- * pick ledger are enforced by the app layer on top of this verdict; TPEs and
- * poison-pill remain unmodeled (disclosed on /accuracy).
+ * and trade kickers. Cap holds, sign-and-trade legality, TPE ledger selection,
+ * and the Stepien pick ledger are enforced by the app layer on top of this
+ * verdict; poison-pill remains unmodeled (disclosed on /accuracy).
  */
 export function validateTrade(
   data: LeagueData,
