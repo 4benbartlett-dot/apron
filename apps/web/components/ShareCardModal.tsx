@@ -349,15 +349,18 @@ export function ShareCardModal({
         className="modal-in relative flex max-h-full w-full max-w-xl flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Floating close — a SIBLING of the card, so it never appears in
-            captures, and big enough for thumbs. z-20 clears the hold-overlay. */}
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute -right-2 -top-2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--text)] text-[15px] font-bold text-[var(--bg)] shadow-[0_4px_14px_rgba(0,0,0,0.4)]"
-        >
-          ✕
-        </button>
+        {/* Floating close, touch devices only — desktop exits by clicking
+            outside or Esc. A SIBLING of the card, so it never appears in
+            captures; z-20 clears the hold-overlay. */}
+        {touchDevice && (
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute -right-2 -top-2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--text)] text-[15px] font-bold text-[var(--bg)] shadow-[0_4px_14px_rgba(0,0,0,0.4)]"
+          >
+            ✕
+          </button>
+        )}
         {/* the card */}
         <div
           ref={cardRef}
