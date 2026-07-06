@@ -155,6 +155,15 @@ export interface Trade {
    * but NOT apron status, which `teamSalary` (signed salary) already
    * reflects. Omitted = no holds (legacy behavior). */
   capHolds?: Record<string, number>;
+  /** Traded-player-exception usage per team: `amount` of incoming salary
+   * absorbed into a standing TPE (needs no matching, §6(j)(1)(i)).
+   * `preExisting` TPEs (minted before this offseason) are restriction-table
+   * row F: unusable if post-trade apron salary would exceed the first apron,
+   * and using one hard-caps the team there for the year. Same-offseason
+   * TPEs carry no such gate. The app layer owns the TPE ledger (amounts,
+   * expiry, §6(n)(2) room-team renunciation); the engine enforces the
+   * apron consequences and carves the absorbed salary out of matching. */
+  tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
 }
 
 /* ----------------------------- Verdicts ----------------------------- */
@@ -179,6 +188,8 @@ export interface TeamTradeSummary {
   incomingSalary: number;
   maxIncomingAllowed: number;
   matchingRule: string;
+  /** Incoming salary absorbed into a traded-player exception (no matching). */
+  tpeAbsorbed?: number;
 }
 
 export interface TradeVerdict {

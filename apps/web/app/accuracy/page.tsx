@@ -6,6 +6,7 @@ const MODELED = [
   "One-year veteran minimums (3+ YOS) count at the 2-YOS minimum on the cap, tax, aprons, and trade matching — the league reimburses the team (Art. VII §3(f), Art. IV §6(h))",
   "Minimum-salary scale derives from the CBA's own escalator: prior year's scale × cap growth (Art. I (jj)), telescoped from the CBA's printed Exhibit C",
   "Real-world pick obligations: a first already owed away (or protected-out) is locked from your trade board, and its year counts as uncovered for the Stepien rule",
+  "Traded-player exceptions: the real league-wide ledger (65 active TPEs, Spotrac \u00d7 SalarySwish cross-checked) plus TPEs your own uneven trades mint — the sim auto-absorbs incoming salary into your biggest usable exception; pre-existing TPEs are barred above the first apron and hard-cap you there (restriction row F), same-offseason ones aren't; room teams lost theirs with the room (\u00a76(n)(2))",
   "Feed-derived offseason state, all 30 teams audited: cap-room teams lose the MLEs/BAE for the year (\u00a76(n)(1), \u00a76(g)(3)); exceptions the real July spent stay spent (BOS/SAS/PHI's NT-MLE, GSW's BAE, LAL's Room MLE\u2026); S&T and MLE/BAE acquisitions carry their in-world hard caps; demonstrated room spending marks the holds it required as renounced",
   "Apron teams limited to 100% matching (no 110%)",
   "Below-cap absorption capped at cap+$250k (or standard matching if larger)",
@@ -46,6 +47,7 @@ const APPROXIMATE = [
   "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
   "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
+  "TPE v1 approximations: one exception per team per trade, whole players only, minted amounts capped at the largest single outgoing salary; aggregated-TPE row H and choosing WHICH traded player generates the exception aren't modeled",
   "Where a room team's renounce set is ambiguous (which specific holds it shed), the audited seed follows a prefer-largest rule \u2014 per-team confidence and the full per-signing audit trail live in the data file",
   "Apron classification uses signed team salary; the CBA's full \u201cApron Team Salary\u201d adds small adjustments we don't model (e.g. 0-1 YOS minimum signings bump UP to the 2-YOS minimum for tax/apron purposes per \u00a72(d)(1)(i)(F), performance-bonus add-backs)",
 ];
@@ -53,7 +55,7 @@ const APPROXIMATE = [
 const NOT_MODELED = [
   "Swap mechanics & conditional incoming picks (an owed/protected-out own first is locked and Stepien-uncovered, but swaps don't resolve to outcomes, and acquired conditional firsts aren't counted as coverage)",
   "The >10%-renegotiation-blocks-a-later-extension rule",
-  "Traded-player exceptions as separate expiring objects",
+
   "Likely vs. unlikely incentives in matching / apron math",
   "Second-round pick exception & two-way contracts as signing mechanisms (reconciled from real data, not user-simulable)",
   "Poison-pill provision (engine function exists; not wired to the trade UI — needs structured extension data)",
@@ -102,10 +104,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 161 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 171 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 161 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 171 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section

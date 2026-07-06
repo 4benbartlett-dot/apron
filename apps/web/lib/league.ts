@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, firstEncumbranceOf, FEED_TEAM_STATE } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -709,6 +709,8 @@ export type Move =
       players: { playerId: string; to: string }[];
       /** Draft picks changing hands (by original-owner pick id). */
       picks?: { id: string; to: string }[];
+      /** TPE absorption chosen when the trade was staged (per team). */
+      tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
     }
   | {
       kind: "sign";
@@ -978,10 +980,18 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
       if (players.length) {
         const teams = [...new Set(players.flatMap((p) => [p.from, p.to]))];
         const holds = holdsByTeam(freeAgentsOf(cs).filter((f) => !renounced.has(f.playerId)));
-        const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds }, C);
+        const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds, tpeUse: m.tpeUse }, C);
+        // Restriction-table row F: using a PRE-EXISTING TPE hard-caps the
+        // team at the first apron for the rest of the year.
+        for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
+          if (use.preExisting && use.amount > 0) capAt(team, C.firstApron);
+        }
         for (const t of v.teams) {
           const sub = t.preTradeTier !== "first_apron" && t.preTradeTier !== "second_apron";
-          if (!sub || t.incomingSalary <= t.outgoingSalary + 1) continue;
+          // TPE-absorbed salary uses no matching at all — row E only cares
+          // about what ran through the expanded formula.
+          const matchable = t.incomingSalary - (t.tpeAbsorbed ?? 0);
+          if (!sub || matchable <= t.outgoingSalary + 1) continue;
           // Absorbing into genuine cap room (§6(j)(1)(v)) triggers no cap; the
           // expanded formula (row E) does. Assume the team takes the cap-free
           // route whenever room covers the whole incoming.
@@ -989,7 +999,7 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
             Math.max(0, C.salaryCap - t.preTradeSalary - (holds[t.teamId] ?? 0)) +
             t.outgoingSalary +
             250_000;
-          if (t.incomingSalary > absorption + 1) capAt(t.teamId, C.firstApron);
+          if (matchable > absorption + 1) capAt(t.teamId, C.firstApron);
         }
       }
     }
@@ -1068,4 +1078,123 @@ export function consumedFor(
     out[id] = (out[id] ?? 0) + (v ?? 0);
   }
   return out;
+}
+
+/* ---------------------- Traded-player exceptions ------------------------- */
+
+export interface TpeSlot {
+  team: string;
+  /** Dollars still absorbable. */
+  amount: number;
+  /** "Kennard TPE" style display label (originating player). */
+  label: string;
+  /** Minted before this offseason (restriction-table row F applies). */
+  preExisting: boolean;
+  expires: string;
+}
+
+/** Each team's usable TPEs right now: the dual-source real ledger (minus
+ * expiry, minus §6(n)(2) — a team that used cap room renounced its standing
+ * TPEs) plus TPEs minted by this session's own uneven trades, minus what
+ * this session's trades have already absorbed. Sorted largest-first. */
+export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
+  const out: Record<string, TpeSlot[]> = {};
+  const add = (slot: TpeSlot) => (out[slot.team] ??= []).push(slot);
+
+  for (const r of TRADE_EXCEPTIONS) {
+    if (r.expires < "2026-07-05") continue; // expired before the sim's today
+    if (feedStateOf(r.team).roomTeam) continue; // renounced with the room
+    add({
+      team: r.team,
+      amount: r.amount,
+      label: `${r.player} TPE`,
+      preExisting: true,
+      expires: r.expires,
+    });
+  }
+
+  // Session-minted: a trade leg that sends out more than it takes back can
+  // leave a standard TPE behind. v1 approximation: the exception is capped
+  // by the largest single outgoing salary (a standard TPE replaces ONE
+  // traded player), usable for a year.
+  let cs = BASE_CONTRACTS;
+  for (const m of moves) {
+    if (m.kind === "trade") {
+      const salaryOf = new Map(
+        cs.filter((c) => !c.deadMoney).map((c) => [c.playerId, { s: salaryForYear(c, YEAR), t: c.teamId, n: c.playerName }]),
+      );
+      const perTeam: Record<string, { out: number; in: number; largest: number; largestName: string }> = {};
+      for (const p of m.players) {
+        const row = salaryOf.get(p.playerId);
+        if (!row || row.t === p.to) continue;
+        const from = (perTeam[row.t] ??= { out: 0, in: 0, largest: 0, largestName: "" });
+        from.out += row.s;
+        if (row.s > from.largest) {
+          from.largest = row.s;
+          from.largestName = row.n;
+        }
+        const to = (perTeam[p.to] ??= { out: 0, in: 0, largest: 0, largestName: "" });
+        to.in += row.s;
+      }
+      for (const [team, agg] of Object.entries(perTeam)) {
+        const minted = Math.min(agg.largest, agg.out - agg.in);
+        if (minted > 500_000) {
+          add({
+            team,
+            amount: minted,
+            label: `${agg.largestName.split(" ").slice(-1)[0]} TPE (this session)`,
+            preExisting: false,
+            expires: "2027-07-05",
+          });
+        }
+      }
+      // Consumption: what this trade absorbed comes off the ledger,
+      // largest-usable-first (same order the auto-fit chooses).
+      for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
+        let left = use.amount;
+        for (const slot of (out[team] ?? []).sort((a, b) => b.amount - a.amount)) {
+          if (left <= 0) break;
+          const bite = Math.min(slot.amount, left);
+          slot.amount -= bite;
+          left -= bite;
+        }
+      }
+      cs = applyMove(cs, m);
+    } else {
+      cs = applyMove(cs, m);
+    }
+  }
+
+  for (const team of Object.keys(out)) {
+    out[team] = out[team]!.filter((s) => s.amount > 250_000).sort((a, b) => b.amount - a.amount);
+    if (!out[team]!.length) delete out[team];
+  }
+  return out;
+}
+
+/** Pick a TPE plan that legalizes failing legs: for each team whose matching
+ * fails, absorb its LARGEST incoming players into its biggest TPE until the
+ * remainder fits the matching ceiling. Returns undefined when no TPE helps. */
+export function fitTpePlan(
+  verdictTeams: { teamId: string; incomingSalary: number; maxIncomingAllowed: number }[],
+  incomingByTeam: Record<string, { playerId: string; salary: number }[]>,
+  ledger: Record<string, TpeSlot[]>,
+): Record<string, { amount: number; preExisting: boolean; label?: string }> | undefined {
+  const plan: Record<string, { amount: number; preExisting: boolean; label?: string }> = {};
+  for (const t of verdictTeams) {
+    if (t.incomingSalary <= t.maxIncomingAllowed + 1) continue;
+    const tpe = ledger[t.teamId]?.[0];
+    if (!tpe) continue;
+    const incoming = [...(incomingByTeam[t.teamId] ?? [])].sort((a, b) => b.salary - a.salary);
+    let absorbed = 0;
+    for (const p of incoming) {
+      if (t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) break;
+      if (absorbed + p.salary > tpe.amount + 250_000) continue; // whole players only
+      absorbed += p.salary;
+    }
+    if (absorbed > 0 && t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) {
+      plan[t.teamId] = { amount: absorbed, preExisting: tpe.preExisting, label: tpe.label };
+    }
+  }
+  return Object.keys(plan).length ? plan : undefined;
 }

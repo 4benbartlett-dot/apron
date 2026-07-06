@@ -132,6 +132,11 @@ export const GLOSSARY = {
     body: "In a trade, each over-the-cap team's incoming salary is capped by a formula on its outgoing salary — expanded bands (200% + $250k on small salaries, outgoing + ~$9.1M in the middle, 125% + $250k on big ones) for teams below the first apron, and a strict 100% for teams above it. The middle figure is the CBA's \"$7.5M\" grown with the cap since 2023-24 — most trade machines still use the stale $7.5M. Every leg of a trade is judged under its own team's band.",
     cite: "2023 CBA · Art. VII §6(j)(1)(iv)",
   },
+  tpe: {
+    title: "Traded-player exception",
+    body: "When a team trades a player away without taking equal salary back, it can keep a credit — a TPE — good for one year, to absorb an incoming player without salary matching. The catch: a TPE from a past season can't be used if it would leave the team above the first apron, and using one hard-caps the team there (a TPE minted this offseason dodges that until next year). The sim applies your biggest usable TPE automatically when a trade needs it.",
+    cite: "2023 CBA · Art. VII §6(j)(1)(i); §2(e) row F",
+  },
   hard_cap: {
     title: "Hard cap",
     body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary (signed money — cap holds don't count). This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
