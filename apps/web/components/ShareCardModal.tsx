@@ -164,27 +164,28 @@ export function ShareCardModal({
   const captureCard = async (pixelRatio = 2) => {
     const node = cardRef.current;
     if (!node) throw new Error("no card");
-    // Capture at the format's true size regardless of screen width, so a
-    // phone still downloads a real 1080-wide square/story.
-    const captureWidth = format === "square" ? "520px" : format === "story" ? "380px" : undefined;
-    // The +N-more budgets keep posters on-frame; if a big multi-team deal
-    // still beats them (3 teams overflow the square), grow the canvas —
-    // overflow:hidden here would silently crop rows off the ruling.
-    const overflows = node.scrollHeight > node.clientHeight + 2;
+    // Explicit geometry so exports are identical from any screen size: the
+    // preview's responsive aspect classes don't apply inside the capture
+    // clone on phones. aspect-ratio is the preferred size, minHeight pins the
+    // frame, and height:auto lets a monster deal GROW past it — the +N-more
+    // budgets should prevent that, but growing beats cropping the ruling.
+    const frame =
+      format === "square"
+        ? { width: "520px", minHeight: "520px", aspectRatio: "1 / 1" }
+        : format === "story"
+          ? { width: "380px", minHeight: "676px", aspectRatio: "9 / 16" }
+          : null;
     return Promise.race([
       toPng(node, {
         pixelRatio,
+        // The hold-to-save overlay is a picture OF the card — capturing it
+        // back into the card doubles the pixels and smears the export.
+        filter: (n) => !(n instanceof HTMLElement && n.classList?.contains("hold-overlay")),
         style: {
-          overflow: overflows ? "visible" : "hidden",
+          overflow: "visible",
           maxHeight: "none",
-          ...(captureWidth
-            ? {
-                width: captureWidth,
-                maxWidth: captureWidth,
-                ...(overflows
-                  ? { height: "auto", aspectRatio: "auto" }
-                  : { aspectRatio: format === "square" ? "1 / 1" : "9 / 16" }),
-              }
+          ...(frame
+            ? { width: frame.width, maxWidth: frame.width, height: "auto", minHeight: frame.minHeight, aspectRatio: frame.aspectRatio }
             : {}),
         },
       }),
@@ -460,7 +461,7 @@ export function ShareCardModal({
               src={holdImg}
               alt="Trade card — press and hold to save as an image"
               draggable={false}
-              className="absolute left-0 top-0 z-10 w-full"
+              className="hold-overlay absolute left-0 top-0 z-10 w-full"
             />
           )}
         </div>
