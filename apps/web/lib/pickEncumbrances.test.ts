@@ -46,8 +46,9 @@ describe("real-world pick encumbrances (RealGM ledger)", () => {
     expect(lockedFirstEncumbrance("PHX", 2029)).toBeDefined();
   });
 
-  it("PHI 2028 is covered by the curated patch despite the scrape gap", () => {
-    expect(firstEncumbranceOf("PHI", 2028)?.status).toBe("protected");
+  it("PHI 2028 is encumbered (scraper fixed; curated patch is the fallback)", () => {
+    expect(lockedFirstEncumbrance("PHI", 2028)).toBeDefined();
+    expect(PICK_LEDGER_TEAMS.length).toBe(30);
   });
 });
 

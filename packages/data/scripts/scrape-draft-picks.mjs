@@ -23,6 +23,8 @@ function getKey() {
 // name -> standard tricode (from the contracts dataset's team list)
 const teams = JSON.parse(readFileSync(join(SRC, "contracts-2025-26.json"), "utf8")).teams;
 const nameToCode = new Map(teams.map((t) => [t.name, t.id]));
+// RealGM uses a few names that differ from the contracts dataset.
+nameToCode.set("Philadelphia Sixers", "PHI");
 
 async function scrape(url, key) {
   const res = await fetch("https://api.firecrawl.dev/v2/scrape", {

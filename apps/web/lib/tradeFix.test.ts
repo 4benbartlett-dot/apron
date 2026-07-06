@@ -83,7 +83,7 @@ describe("explainBlocked", () => {
     // year figure via matchRuleLabel.
     expect(fixes).toMatch(/shed .* separate deal first/i);
     expect(fixes).toMatch(/outgoing \+ \$9\.1M band/);
-    expect(fixes).toMatch(/only signed salary counts, not cap holds/);
+    expect(fixes).toMatch(/apron salary counts signed contracts only/);
   });
 
   it("trim route respects the expanded-matching hard cap near the first apron", () => {

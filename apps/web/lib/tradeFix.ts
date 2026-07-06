@@ -60,9 +60,11 @@ function legalIncomingCeiling(t: TeamTradeSummary, c: LeagueConstants): number {
 function extraOutgoingNeeded(
   t: TeamTradeSummary,
   c: LeagueConstants,
+  holds = 0,
 ): { extra: number; shedsThroughLine: boolean } | null {
   const tier = classifyTier(t.preTradeSalary, c);
-  const room = c.salaryCap - t.preTradeSalary;
+  // Kept holds consume below-cap absorption room (not apron status).
+  const room = c.salaryCap - t.preTradeSalary - holds;
   for (let extra = 100_000; extra <= 80_000_000; extra += 100_000) {
     const out = t.outgoingSalary + extra;
     const post = t.preTradeSalary - out + t.incomingSalary;
@@ -82,7 +84,7 @@ function extraOutgoingNeeded(
 /** Would this leg pass if the team had first shed enough salary (in a
  * separate, earlier move) to get below the first apron? Returns the total
  * shed required, or null if even that wouldn't make the package legal. */
-function shedToEscape(t: TeamTradeSummary, c: LeagueConstants): { shed: number; label: string } | null {
+function shedToEscape(t: TeamTradeSummary, c: LeagueConstants, holds = 0): { shed: number; label: string } | null {
   const takeBackExtra = Math.max(0, t.incomingSalary - t.outgoingSalary);
   // Below the first apron the expanded bands apply — but taking back more
   // than you send hard-caps you at 1A, so the shed must also leave room for
@@ -93,7 +95,7 @@ function shedToEscape(t: TeamTradeSummary, c: LeagueConstants): { shed: number; 
   const m = maxIncomingSalary(
     t.outgoingSalary,
     classifyTier(preAfterShed, c),
-    c.salaryCap - preAfterShed,
+    c.salaryCap - preAfterShed - holds,
     c,
   );
   if (t.incomingSalary > m.maxIncoming + 1) return null;
@@ -108,6 +110,9 @@ export function explainBlocked(
   verdict: TradeVerdict,
   extraViolations: string[],
   c: LeagueConstants,
+  /** Kept free-agent holds per team — they consume below-cap absorption
+   * room, so "add more outgoing" scans must not assume phantom space. */
+  holdsOf: (team: string) => number = () => 0,
 ): BlockedExplainer {
   const subject: string[] = [];
   const fixes: string[] = [];
@@ -156,7 +161,7 @@ export function explainBlocked(
       if (over > 0) {
         push(tid, `Trim the incoming side: ${name} take back ${fmtCeilM(over)} less and this leg clears.`);
       }
-      const need = extraOutgoingNeeded(t, c);
+      const need = extraOutgoingNeeded(t, c, holdsOf(tid));
       if (need) {
         push(
           tid,
@@ -165,11 +170,11 @@ export function explainBlocked(
             : `Add roughly ${fmtM(need.extra)} more outgoing salary from ${name} (${fmtM(t.outgoingSalary)} → ${fmtM(t.outgoingSalary + need.extra)}) — enough to cover ${fmtM(t.incomingSalary)} under their band.`,
         );
       }
-      const escape = shedToEscape(t, c);
+      const escape = shedToEscape(t, c, holdsOf(tid));
       if (escape) {
         push(
           tid,
-          `Change what they are: shed ${fmtCeilM(escape.shed)} in a separate deal first. Below the first apron the expanded bands come back, and this exact package clears under ${escape.label}. (Renouncing free agents won't do it — in trade math only signed salary counts, not cap holds.)`,
+          `Change what they are: shed ${fmtCeilM(escape.shed)} in a separate deal first. Below the first apron the expanded bands come back, and this exact package clears under ${escape.label}. (Renouncing free agents won't lower this number — apron salary counts signed contracts only. Holds only matter for under-cap absorption room.)`,
         );
       }
     }

@@ -111,6 +111,30 @@ export interface TeamPicks {
   outgoing: DraftPick[];
 }
 
+import feedTeamStateRaw from "./feed-team-state.json";
+
+export interface FeedTeamState {
+  /** Used cap room this July — NT/TP-MLE + BAE are dead for the year. */
+  operatedUnderCap?: boolean;
+  /** Dollars of each exception the feed already spent. */
+  roomMleUsed?: number;
+  consumedNtmle?: number;
+  consumedTpmle?: number;
+  consumedBae?: number;
+  /** Hard cap already triggered in-world (NT-MLE/BAE/S&T → 1A, TP-MLE → 2A). */
+  inWorldHardCap?: "first_apron" | "second_apron" | "none";
+  /** FA names (lowercase) whose holds the team demonstrably renounced. */
+  forcedRenounced?: string[];
+  confidence?: string;
+  rationale?: string;
+}
+
+/** Audited per-team offseason state from the feed (room usage, consumed
+ * exceptions, in-world hard caps, forced renounces). */
+export const FEED_TEAM_STATE = (
+  feedTeamStateRaw as { asOf: string; teams: Record<string, FeedTeamState> }
+).teams;
+
 export {
   FIRST_ENCUMBRANCES,
   PICK_LEDGER_TEAMS,

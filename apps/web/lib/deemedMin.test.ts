@@ -40,18 +40,41 @@ describe("real July 2026 one-year vet minimums book at the deemed number", () =>
 });
 
 describe("sim minimum signings book deemed too", () => {
-  it("a GM-signed one-year vet minimum lands at the 2-YOS charge", () => {
+  const signWith = (mechanism: string, salary: number) => {
     const after = applyMove(BASE_CONTRACTS, {
       kind: "sign",
       label: "Sign Test Vet",
-      playerId: "synthetic-vet",
+      playerId: "synthetic-vet", // absent from experience.json → 8 YOS
       playerName: "Test Vet",
       teamId: "GSW",
-      salary: TEN_PLUS,
+      salary,
       years: 1,
-      mechanism: "minimum",
-    });
+      mechanism,
+    } as never);
     const c = after.find((x) => x.playerId === "synthetic-vet")!;
-    expect(c.years.find((y) => y.leagueYear === "2026-27")!.salary).toBe(TWO_YOS);
+    return c.years.find((y) => y.leagueYear === "2026-27")!.salary;
+  };
+  const EIGHT_YOS_MIN = C.minimumSalaries[8]!;
+
+  it("a GM-signed one-year vet minimum lands at the 2-YOS charge", () => {
+    expect(signWith("minimum", EIGHT_YOS_MIN)).toBe(TWO_YOS);
+  });
+
+  it("a BIRD one-year re-sign AT the player's minimum deems too — §3(f) keys on the contract, not the tool", () => {
+    expect(signWith("bird", EIGHT_YOS_MIN)).toBe(TWO_YOS);
+  });
+
+  it("cap-room one-year at the minimum deems as well", () => {
+    expect(signWith("cap_room", EIGHT_YOS_MIN)).toBe(TWO_YOS);
+  });
+
+  it("a near-scale NON-minimum deal does not misbook (adversarial regression)", () => {
+    // 8-YOS player at the 10+ row figure via the BAE: above HIS minimum →
+    // not a minimum contract → full charge.
+    expect(signWith("bae", TEN_PLUS)).toBe(TEN_PLUS);
+  });
+
+  it("a Bird one-year ABOVE the minimum books in full", () => {
+    expect(signWith("bird", 5_000_000)).toBe(5_000_000);
   });
 });

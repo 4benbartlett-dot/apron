@@ -21,7 +21,7 @@ import {
   type Move,
 } from "./league";
 import { track } from "./analytics";
-import { lockedFirstEncumbrance, sessionHardCaps } from "./league";
+import { lockedFirstEncumbrance, sessionHardCaps, feedStateOf } from "./league";
 
 export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
 export { lockedFirstEncumbrance } from "./league";
@@ -155,9 +155,15 @@ export function useLeague() {
     const renouncedIds = new Set(
       moveList.filter((m) => m.kind === "renounce").map((m) => m.playerId),
     );
-    const fas = freeAgentsOf(contracts).map((f) =>
-      renouncedIds.has(f.playerId) ? { ...f, renounced: true } : f,
-    );
+    // Feed-forced renounces: room a team demonstrably spent in the real July
+    // required these holds gone — they arrive pre-renounced (Bird rights too)
+    // and, unlike session renounces, can't be restored.
+    const fas = freeAgentsOf(contracts).map((f) => {
+      const inWorld = feedStateOf(f.priorTeam).forcedRenounced.has(f.playerName.toLowerCase());
+      return renouncedIds.has(f.playerId) || inWorld
+        ? { ...f, renounced: true, renouncedInWorld: inWorld }
+        : f;
+    });
     // Renounced free agents no longer occupy cap room.
     const holds = holdsByTeam(fas.filter((f) => !f.renounced));
     const nameOf = (id: string) =>
@@ -237,12 +243,14 @@ export function useLeague() {
         if (lockedFirstEncumbrance(t, 2033)) uncovered.push(2033);
         return uncovered;
       },
-      // The tightest apron a team has HARD-CAPPED itself at this session —
-      // NT-MLE/BAE/sign-and-trade → first apron, Taxpayer MLE → second apron,
-      // and trades that took back more than they sent under expanded matching
-      // (restriction-table row E → first apron). Replayed from the ledger in
-      // sessionHardCaps, so it binds every later move AND repairs old saves.
-      hardCapOf: (t: string) => hardCaps[t] ?? Infinity,
+      // The tightest apron a team is HARD-CAPPED at — real July moves from
+      // the feed (S&T/MLE acquisitions) plus this session's: NT-MLE/BAE/
+      // sign-and-trade → first apron, Taxpayer MLE → second apron, and trades
+      // that took back more than they sent under expanded matching
+      // (restriction-table row E → first apron). Session part is replayed
+      // from the ledger, so it binds every later move AND repairs old saves.
+      hardCapOf: (t: string) =>
+        Math.min(hardCaps[t] ?? Infinity, feedStateOf(t).hardCap),
       playerName: nameOf,
     };
   }, [contracts, moveList]);

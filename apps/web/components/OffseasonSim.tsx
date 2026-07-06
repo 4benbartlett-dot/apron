@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
@@ -399,6 +399,7 @@ export default function OffseasonSim() {
           picks={sharePicks}
           verdict={verdict}
           extraViolations={[...stepienViolations, ...hardCapTradeViolations]}
+          holdsOf={lg.teamHolds}
           nameOf={lg.playerName}
           salaryOf={(id) => {
             const c = lg.contracts.find((x) => x.playerId === id);
@@ -450,8 +451,8 @@ function TradeVerdict({
       : null;
   const [showFix, setShowFix] = useState(false);
   const explainer = useMemo(
-    () => (legal ? null : explainBlocked(verdict, extraViolations, C)),
-    [legal, verdict, extraViolations],
+    () => (legal ? null : explainBlocked(verdict, extraViolations, C, lg.teamHolds)),
+    [legal, verdict, extraViolations, lg],
   );
   const hasFix = !!explainer && (explainer.subject.length > 0 || explainer.fixes.length > 0);
   const valTeams = Object.entries(valueByTeam).filter(([, v]) => v.in > 0 || v.out > 0);
@@ -583,8 +584,13 @@ function TeamColumn({
   const committed = lg.teamSalary(teamId);
   const holds = lg.teamHolds(teamId);
   // Exceptions gate on APRON salary (signed money only); cap room still
-  // burns through kept holds — spendingPower gets both numbers.
-  const power = spendingPower(committed + holds, C, { apronSalary: committed });
+  // burns through kept holds. Feed state carries how July actually went:
+  // room teams lost their MLEs/BAE, and spent exceptions stay spent.
+  const power = spendingPower(committed + holds, C, {
+    apronSalary: committed,
+    roomTeam: feedStateOf(teamId).roomTeam,
+    consumed: consumedFor(lg.moves, teamId),
+  });
   const roster = lg.roster(teamId);
   const others = board.filter((t) => t !== teamId);
   const pre = summary?.preTradeSalary ?? committed;
@@ -782,12 +788,21 @@ function TeamColumn({
                 >
                   Sign
                 </button>
-                <button
-                  onClick={() => toggleRenounce(fa.playerId, fa.playerName, teamId)}
-                  className={`w-[68px] shrink-0 rounded-[4px] border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.05em] ${fa.renounced ? "border-[var(--tier-below_cap)] text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]" : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]"}`}
-                >
-                  {fa.renounced ? "Restore" : "Renounce"}
-                </button>
+                {fa.renouncedInWorld ? (
+                  // The real July spent this hold — nothing to restore.
+                  <Term k="committed_salary">
+                    <span className="w-[68px] shrink-0 text-center text-[9px] font-semibold uppercase tracking-[0.05em] text-[var(--muted)]" title="Renounced in the real offseason — the team spent this room">
+                      renounced
+                    </span>
+                  </Term>
+                ) : (
+                  <button
+                    onClick={() => toggleRenounce(fa.playerId, fa.playerName, teamId)}
+                    className={`w-[68px] shrink-0 rounded-[4px] border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.05em] ${fa.renounced ? "border-[var(--tier-below_cap)] text-[var(--tier-below_cap)] hover:bg-[color-mix(in_srgb,var(--tier-below_cap)_10%,transparent)]" : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]"}`}
+                  >
+                    {fa.renounced ? "Restore" : "Renounce"}
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -890,7 +905,7 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
             )}
             {list.map((fa) => {
               const isOwn = isOwnKept(fa, team);
-              const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed });
+              const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
               const color = mechColor(v.mechanism ? v.mechanism.id : null);
               const label = v.legal ? v.mechanism!.label : `max ${fmtM(v.maxOffer)}`;
               return (
@@ -952,6 +967,8 @@ function SignEditor({
     priorSalary: fa.lastSalary,
     birdStatus: isOwn ? fa.birdStatus : undefined,
     apronSalary: apronBase,
+    roomTeam: feedStateOf(team).roomTeam,
+    consumed: consumedFor(lg.moves, team),
   };
   const ceilingRaw = validateSigning(base, fa.lastSalary, C, opts).maxOffer;
   const minYos = Math.min(Math.max(Math.floor(fa.yearsOfService), 0), 10);
@@ -1032,11 +1049,14 @@ function SignEditor({
     .filter((c) => returnIds.has(c.playerId))
     .reduce((s, c) => s + currentSalary(c), 0);
   // The FA's old team must salary-match the return package it takes back.
+  // Room args are holds-aware: kept holds consume below-cap absorption (the
+  // departing FA's own hold vanishes with the sign-and-trade itself).
   const sendCommitted = lg.teamSalary(fa.priorTeam);
+  const sendHolds = Math.max(0, lg.teamHolds(fa.priorTeam) - (isOwnKept(fa, fa.priorTeam) ? fa.hold : 0));
   const sendMatch = maxIncomingSalary(
     salary,
     classifyTier(sendCommitted, C),
-    C.salaryCap - sendCommitted,
+    C.salaryCap - sendCommitted - sendHolds,
     C,
   );
   const senderOk = returnSalary <= sendMatch.maxIncoming + 1;
@@ -1047,7 +1067,7 @@ function SignEditor({
   const acquirerMatch = maxIncomingSalary(
     returnSalary,
     classifyTier(committed, C),
-    C.salaryCap - committed,
+    C.salaryCap - committed - holds,
     C,
   );
   const acquirerOk = salary <= acquirerMatch.maxIncoming + 1;
