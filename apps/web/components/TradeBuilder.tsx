@@ -171,7 +171,7 @@ export default function TradeBuilder() {
           <h1 className="text-2xl font-bold tracking-tight">Trade Machine</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Up to 5 teams. Legality enforced under the 2023 CBA — apron rules
-            included. Execute a legal trade to add it to your offseason.
+            included. Executed trades join the same offseason session as the main board.
           </p>
         </div>
         {hasMoves && (

@@ -1,5 +1,9 @@
 import { ImageResponse } from "next/og";
 import { summarizeTrade, filingNo } from "@/lib/trade-share";
+
+const truncate = (t: string, n: number) => (t.length > n ? `${t.slice(0, n - 1).trimEnd()}…` : t);
+/** Verdict color that reads on the dark seal strip. */
+const accent2 = (legal: boolean) => (legal ? "#7fb069" : "#e07a5f");
 import type { ApronTier } from "@apron/cba-engine";
 
 export const runtime = "nodejs";
@@ -137,6 +141,8 @@ export async function GET(req: Request) {
   }
 
   const accent = s.legal ? TIER.below_cap.color : TIER.second_apron.color;
+  // 3-4 team deals need a denser card to keep the seal strip on canvas.
+  const compact = s.perTeam.length > 2;
 
   return new ImageResponse(
     (
@@ -161,14 +167,14 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", marginTop: 26 }}>
+        <div style={{ display: "flex", alignItems: "center", marginTop: 16 }}>
           <div
             style={{
               display: "flex",
               border: `4px solid ${accent}`,
               borderRadius: 10,
-              padding: "4px 20px",
-              fontSize: 34,
+              padding: "2px 18px",
+              fontSize: 30,
               fontWeight: 800,
               color: accent,
               letterSpacing: 3,
@@ -179,7 +185,7 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", marginTop: 22 }}>
+        <div style={{ display: "flex", flexDirection: "column", marginTop: 14 }}>
           {s.perTeam.slice(0, 4).map((pt, i) => (
             <div
               key={i}
@@ -189,24 +195,24 @@ export async function GET(req: Request) {
                 background: panel,
                 border: `1px solid ${border}`,
                 borderRadius: 10,
-                padding: "14px 22px",
-                marginBottom: 12,
+                padding: compact ? "8px 20px" : "12px 22px",
+                marginBottom: compact ? 8 : 10,
               }}
             >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ fontSize: 27, fontWeight: 700 }}>{pt.name}</div>
+                <div style={{ fontSize: compact ? 22 : 27, fontWeight: 700 }}>{pt.name}</div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: TIER[pt.tier].color, letterSpacing: 1.2 }}>
                   {TIER[pt.tier].label}
                 </div>
               </div>
-              <div style={{ display: "flex", fontSize: 20, color: TIER.below_cap.color, marginTop: 6, fontFamily: mono }}>
+              <div style={{ display: "flex", fontSize: compact ? 18 : 20, color: TIER.below_cap.color, marginTop: 4, fontFamily: mono }}>
                 IN&nbsp;&nbsp;{pt.incoming.join(", ") || "—"}
               </div>
-              <div style={{ display: "flex", fontSize: 19, color: muted, marginTop: 2, fontFamily: mono }}>
+              <div style={{ display: "flex", fontSize: compact ? 17 : 19, color: muted, marginTop: 2, fontFamily: mono }}>
                 OUT&nbsp;{pt.outgoing.join(", ") || "—"}
               </div>
-              {pt.rule ? (
-                <div style={{ display: "flex", alignItems: "center", fontSize: 15, color: muted, marginTop: 7 }}>
+              {pt.rule && !compact ? (
+                <div style={{ display: "flex", alignItems: "center", fontSize: 15, color: muted, marginTop: 6 }}>
                   <div style={{ display: "flex", width: 7, height: 7, borderRadius: 7, background: TIER.below_cap.color, marginRight: 8 }} />
                   legal under {pt.rule}
                 </div>
@@ -215,19 +221,41 @@ export async function GET(req: Request) {
           ))}
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            marginTop: "auto",
-            borderTop: `1px solid ${border}`,
-            paddingTop: 18,
-            fontSize: 19,
-            color: muted,
-          }}
-        >
-          {s.legal
-            ? "Satisfies salary matching and every apron rule."
-            : s.reason || "Violates the 2023 CBA."}
+        <div style={{ display: "flex", flexDirection: "column", marginTop: "auto" }}>
+          <div
+            style={{
+              display: "flex",
+              borderTop: `1px solid ${border}`,
+              paddingTop: 12,
+              fontSize: 18,
+              color: muted,
+            }}
+          >
+            {s.legal
+              ? "Satisfies salary matching and every apron rule."
+              : truncate(s.reason || "Violates the 2023 CBA.", 210)}
+          </div>
+          {/* The growth loop lives HERE — this image is what X actually shows. */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: 12,
+              background: ink,
+              color: bg,
+              borderRadius: 10,
+              padding: "12px 24px",
+              fontSize: 21,
+              fontWeight: 700,
+              letterSpacing: 1.5,
+            }}
+          >
+            <div style={{ display: "flex", color: accent2(s.legal) }}>
+              {s.legal ? "LEGAL UNDER THE 2023 CBA" : "BLOCKED UNDER THE 2023 CBA"}
+            </div>
+            <div style={{ display: "flex" }}>{"TRY THIS TRADE → OVERTHEAPRON.COM"}</div>
+          </div>
         </div>
       </div>
     ),
