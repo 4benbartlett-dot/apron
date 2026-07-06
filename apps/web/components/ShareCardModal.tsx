@@ -404,6 +404,9 @@ export function ShareCardModal({
             Close
           </button>
         </div>
+        <p className="mt-2 text-center text-[11px] leading-snug text-[#f4f1e9]/60">
+          The link rebuilds this exact trade on live rosters — it doesn&rsquo;t carry the rest of your session.
+        </p>
       </div>
     </div>
   );

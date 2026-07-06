@@ -85,7 +85,7 @@ export default function FreeAgencyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Free Agency</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Pick a team to see its spending power and sign from the {fas.length}{" "}
-          available free agents (asking = last salary). Signings update the league.
+          available free agents (asking = last salary). Signings join the same offseason session as the main board.
         </p>
       </div>
 

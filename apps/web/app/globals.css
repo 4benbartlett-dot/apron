@@ -212,6 +212,11 @@ body::after {
 .ledger-rule {
   position: relative;
 }
+/* The rule above beats Tailwind's .sticky in the cascade (same specificity,
+   later in the sheet) — reassert it or the site header never actually pins. */
+.ledger-rule.sticky {
+  position: sticky;
+}
 .ledger-rule::after {
   content: "";
   position: absolute;
