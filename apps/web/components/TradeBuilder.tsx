@@ -12,6 +12,7 @@ import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { ShareCardModal } from "@/components/ShareCardModal";
+import { TradeDocket, buildDocket } from "@/components/TradeDocket";
 
 interface Sel {
   from: string;
@@ -140,6 +141,15 @@ export default function TradeBuilder() {
   // Sticky tray mirrors the verdict banner once it scrolls out of view.
   const verdictRef = useRef<HTMLDivElement>(null);
   const trayVisible = useTrayVisible(verdictRef, hasMoves);
+  const salaryOf = (id: string) => {
+    const c = lg.contracts.find((x) => x.playerId === id);
+    return c ? currentSalary(c) : 0;
+  };
+  const docketTeams = useMemo(
+    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [trade, pickSel, verdict, lg],
+  );
   const trayHauls = useMemo<TrayHaul[]>(() => {
     const m: Record<string, string[]> = {};
     for (const p of trade.players)
@@ -211,8 +221,13 @@ export default function TradeBuilder() {
         )}
       </div>
 
-      <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)]" style={{ scrollMarginTop: 60 }}>
+      <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
         <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
+        {hasMoves && (
+          <div className="mt-2">
+            <TradeDocket teams={docketTeams} />
+          </div>
+        )}
       </div>
       {hasMoves && (
         <TradeTray
@@ -231,10 +246,7 @@ export default function TradeBuilder() {
           extraViolations={extraViolations}
           holdsOf={lg.teamHolds}
           nameOf={lg.playerName}
-          salaryOf={(id) => {
-            const c = lg.contracts.find((x) => x.playerId === id);
-            return c ? currentSalary(c) : 0;
-          }}
+          salaryOf={salaryOf}
           onClose={() => setShareOpen(false)}
         />
       )}

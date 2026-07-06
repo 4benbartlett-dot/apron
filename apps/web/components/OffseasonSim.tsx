@@ -30,6 +30,7 @@ import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
 import { pickShareLabel, type DecodedPick } from "@/lib/trade-share";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
+import { TradeDocket, buildDocket } from "@/components/TradeDocket";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
@@ -234,6 +235,15 @@ export default function OffseasonSim() {
   // Sticky tray: the deal summary follows you while you scroll rosters.
   const verdictRef = useRef<HTMLDivElement>(null);
   const trayVisible = useTrayVisible(verdictRef, hasTrade);
+  const salaryOf = (id: string) => {
+    const c = lg.contracts.find((x) => x.playerId === id);
+    return c ? currentSalary(c) : 0;
+  };
+  const docketTeams = useMemo(
+    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [trade, pickSel, verdict, lg],
+  );
   const trayHauls = useMemo<TrayHaul[]>(() => {
     const m: Record<string, string[]> = {};
     for (const p of trade.players)
@@ -390,8 +400,11 @@ export default function OffseasonSim() {
       {/* trade verdict — on desktop the panel itself pins under the header
           while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
-        <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)]" style={{ scrollMarginTop: 60 }}>
+        <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
           <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
+          <div className="mt-2">
+            <TradeDocket teams={docketTeams} />
+          </div>
         </div>
       )}
       {hasTrade && (
@@ -454,10 +467,7 @@ export default function OffseasonSim() {
           extraViolations={[...stepienViolations, ...hardCapTradeViolations]}
           holdsOf={lg.teamHolds}
           nameOf={lg.playerName}
-          salaryOf={(id) => {
-            const c = lg.contracts.find((x) => x.playerId === id);
-            return c ? currentSalary(c) : 0;
-          }}
+          salaryOf={salaryOf}
           onClose={() => setShareOpen(false)}
         />
       )}
