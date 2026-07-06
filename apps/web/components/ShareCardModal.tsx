@@ -5,6 +5,8 @@ import { toPng } from "html-to-image";
 import type { Trade, TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick } from "@/lib/trade-share";
+import { shortPlayerName } from "@/lib/names";
+import qrcode from "qrcode-generator";
 import { TradeDocket, buildDocket, buildChecks } from "@/components/TradeDocket";
 import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
@@ -44,6 +46,8 @@ export function ShareCardModal({
   const [copiedVerdict, setCopiedVerdict] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [urlFallback, setUrlFallback] = useState(false);
+  const [canNativeShare, setCanNativeShare] = useState(false);
+  useEffect(() => setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
   // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots.
   const [format, setFormat] = useState<"feed" | "square" | "story">("feed");
   const cardRef = useRef<HTMLDivElement>(null);
@@ -67,6 +71,19 @@ export function ShareCardModal({
   // card, and closing it leaves the visitor in the real sim, not a bare
   // trade machine). /trade?t= still works and redirects here for old links.
   const shareUrl = `${typeof window === "undefined" ? "https://overtheapron.com" : window.location.origin}/?t=${encodeURIComponent(token)}`;
+
+  // Stories can't carry links — the QR is the link. Low ECC keeps the module
+  // count down so long trade tokens stay scannable at story size.
+  const qrDataUrl = useMemo(() => {
+    try {
+      const qr = qrcode(0, "L");
+      qr.addData(shareUrl);
+      qr.make();
+      return qr.createDataURL(4, 2);
+    } catch {
+      return null;
+    }
+  }, [shareUrl]);
 
   // Teams actually involved in the deal (sending or receiving something).
   const involved = verdict.teams.filter(
@@ -196,6 +213,45 @@ export function ShareCardModal({
     }
   };
 
+  const shareStory = async () => {
+    track("share_story");
+    setFormat("story");
+    // Let the story frame (and its QR) render before capturing.
+    await new Promise((r) => setTimeout(r, 450));
+    const node = cardRef.current;
+    if (!node) return;
+    setDownloading(true);
+    node.classList.add("capture");
+    try {
+      const overflows = node.scrollHeight > node.clientHeight + 2;
+      const dataUrl = await toPng(node, {
+        pixelRatio: 3,
+        style: {
+          overflow: overflows ? "visible" : "hidden",
+          maxHeight: "none",
+          width: "380px",
+          maxWidth: "380px",
+          ...(overflows ? { height: "auto", aspectRatio: "auto" } : { aspectRatio: "9 / 16" }),
+        },
+      });
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], "over-the-apron-story.png", { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file] });
+      } else {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = "over-the-apron-story.png";
+        a.click();
+      }
+    } catch {
+      /* user closed the share sheet — not an error */
+    } finally {
+      node.classList.remove("capture");
+      setDownloading(false);
+    }
+  };
+
   // The prefilled tweet reads like a transaction note, not ad copy: full
   // names, plain verdict. People add their own take on top.
   const receiving = involved.filter(
@@ -203,7 +259,7 @@ export function ShareCardModal({
   );
   const haulFor = (teamId: string, lastNames = false) => {
     const { players, pickLabels } = linesFor(teamId, "in");
-    const names = players.map((p) => (lastNames ? p.name.split(" ").slice(-1)[0]! : p.name));
+    const names = players.map((p) => (lastNames ? shortPlayerName(p.name) : p.name));
     return [...names, ...pickLabels].join(", ") || "—";
   };
   const buildTweet = (lastNames: boolean) =>
@@ -328,8 +384,14 @@ export function ShareCardModal({
               {legal ? "Legal under the 2023 CBA" : "Blocked under the 2023 CBA"}
             </span>
           </div>
-          <div className={`flex items-center justify-center bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--bg)] ${format === "feed" ? "" : "mt-auto"}`}>
+          <div className={`flex items-center bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--bg)] ${format === "feed" ? "justify-center" : "mt-auto"} ${format === "story" && qrDataUrl ? "justify-between gap-3" : "justify-center"}`}>
             <span>{format === "feed" ? "Full trade + ruling at overtheapron.com" : `${legal ? "Legal" : "Blocked"} — full ruling at overtheapron.com`}</span>
+            {format === "story" && qrDataUrl && (
+              <span className="my-0.5 shrink-0 overflow-hidden rounded-[4px] bg-white p-0.5" title="Scan to open this exact trade">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={qrDataUrl} alt="QR code — opens this trade" className="block h-14 w-14" />
+              </span>
+            )}
           </div>
         </div>
 
@@ -380,6 +442,11 @@ export function ShareCardModal({
           <a href={tweetHref} target="_blank" rel="noopener noreferrer" onClick={() => track("share_tweet")} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Post on 𝕏
           </a>
+          {canNativeShare && (
+            <button onClick={shareStory} disabled={downloading} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90 disabled:opacity-60">
+              Add to story
+            </button>
+          )}
           <button onClick={onClose} className="rounded-md px-3 py-1.5 text-xs font-semibold text-[#f4f1e9]/85 hover:text-[#f4f1e9]">
             Close
           </button>

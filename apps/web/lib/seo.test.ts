@@ -3,12 +3,19 @@ import { SEO_TERMS, termBySlug, teamSlug, teamIdFromSlug, teamSeo } from "@/lib/
 import { TERM_SLUGS } from "@/lib/term-slugs";
 import { TEAM_IDS } from "@/lib/league";
 import { GLOSSARY } from "@/lib/glossary";
+import { shortPlayerName } from "@/lib/names";
 
 // The programmatic SEO surface: /terms/* and /teams/*/trade-machine pages are
 // generated from these modules — a broken slug or empty section 404s a page
 // Google already indexed.
 
 describe("SEO term pages", () => {
+  it("compact player labels keep name suffixes attached", () => {
+    expect(shortPlayerName("Trey Murphy III")).toBe("Murphy III");
+    expect(shortPlayerName("Kelly Oubre Jr.")).toBe("Oubre Jr.");
+    expect(shortPlayerName("Moses Moody")).toBe("Moody");
+  });
+
   it("every term has a glossary source, sections, FAQ, and resolvable related links", () => {
     for (const t of SEO_TERMS) {
       expect(GLOSSARY[t.key], t.slug).toBeDefined();

@@ -12,6 +12,7 @@ import {
   type MechanismId,
   type Team,
 } from "@apron/cba-engine";
+import { shortPlayerName } from "./names";
 
 /** Normalize a player name for joining across data sources. */
 function normName(name: string): string {
@@ -1169,7 +1170,7 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
           add({
             team,
             amount: minted,
-            label: `${agg.largestName.split(" ").slice(-1)[0]} TPE (this session)`,
+            label: `${shortPlayerName(agg.largestName)} TPE (this session)`,
             preExisting: false,
             expires: "2027-07-05",
           });
