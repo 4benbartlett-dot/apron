@@ -29,6 +29,7 @@ import { leagueToast } from "@/components/SiteEggs";
 import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
 import { decodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
+import { shortPlayerName } from "@/lib/names";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
 import { TierBadge } from "@/components/TierBadge";
@@ -268,8 +269,7 @@ export default function OffseasonSim() {
   const trayHauls = useMemo<TrayHaul[]>(() => {
     const m: Record<string, { labels: string[]; tools: string[] }> = {};
     const row = (team: string) => (m[team] ??= { labels: [], tools: [] });
-    for (const p of trade.players)
-      row(p.to).labels.push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
+    for (const p of trade.players) row(p.to).labels.push(shortPlayerName(lg.playerName(p.playerId)));
     for (const [id, mv] of Object.entries(pickSel)) row(mv.to).labels.push(pickShareLabel(id));
     for (const [team, use] of Object.entries(trade.tpeUse ?? {})) {
       row(team).tools.push(use.label ?? "TPE");
@@ -359,7 +359,7 @@ export default function OffseasonSim() {
   );
 
   const executeTrade = () => {
-    const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
+    const names = trade.players.map((p) => shortPlayerName(lg.playerName(p.playerId)));
     const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
     dispatchMove({
       kind: "trade",

@@ -5,6 +5,7 @@ import { validateTrade, violatesStepien, type Trade, type TeamTradeSummary, type
 import { C, TEAM_IDS, teamMeta, currentSalary, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor } from "@/lib/league";
 import { fmtM as fmtMoney } from "@/lib/format";
 import { decodeTradeParam, pickShareLabel } from "@/lib/trade-share";
+import { shortPlayerName } from "@/lib/names";
 import { useLeague, dispatchMove } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
@@ -177,8 +178,7 @@ export default function TradeBuilder() {
   const trayHauls = useMemo<TrayHaul[]>(() => {
     const m: Record<string, { labels: string[]; tools: string[] }> = {};
     const row = (team: string) => (m[team] ??= { labels: [], tools: [] });
-    for (const p of trade.players)
-      row(p.to).labels.push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
+    for (const p of trade.players) row(p.to).labels.push(shortPlayerName(lg.playerName(p.playerId)));
     for (const [id, mv] of Object.entries(pickSel)) row(mv.to).labels.push(pickShareLabel(id));
     for (const [team, use] of Object.entries(trade.tpeUse ?? {})) {
       row(team).tools.push(use.label ?? "TPE");
@@ -187,7 +187,7 @@ export default function TradeBuilder() {
   }, [trade, pickSel, lg]);
 
   const execute = () => {
-    const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
+    const names = trade.players.map((p) => shortPlayerName(lg.playerName(p.playerId)));
     const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
     dispatchMove({
       kind: "trade",

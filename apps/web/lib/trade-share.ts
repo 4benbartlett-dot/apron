@@ -14,6 +14,7 @@ import {
   type StepienFinding,
 } from "./league";
 import { fmtM } from "./format";
+import { shortPlayerName } from "./names";
 
 interface DecodedMove {
   from: string;
@@ -108,7 +109,7 @@ export interface TradeSummary {
   }[];
 }
 
-const lastName = (n: string) => n.split(" ").slice(-1)[0] ?? n;
+const lastName = shortPlayerName;
 
 /** Compute a sharable summary of a trade param (server-safe). */
 export function summarizeTrade(t: string): TradeSummary | null {
