@@ -43,9 +43,8 @@ export function ShareCardModal({
   const [copiedVerdict, setCopiedVerdict] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [urlFallback, setUrlFallback] = useState(false);
-  // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots,
-  // reporter = one-line ruling for article embeds.
-  const [format, setFormat] = useState<"feed" | "square" | "story" | "reporter">("feed");
+  // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots.
+  const [format, setFormat] = useState<"feed" | "square" | "story">("feed");
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -151,13 +150,14 @@ export function ShareCardModal({
     }
   };
 
-  // The quotable one-liner — verdict, controlling rule, link.
+  // The quotable one-liner — verdict, controlling rule, link. Written the way
+  // a reporter would paste it: no emoji, no slogans.
   const verdictLine = legal
-    ? `LEGAL under the 2023 CBA — ${checks.find((c) => c.ok)?.text ?? "passes every rule"}.`
-    : `BLOCKED by the 2023 CBA — ${checks.find((c) => !c.ok)?.text ?? "fails a rule"}`;
+    ? `Legal under the 2023 CBA — ${checks.find((c) => c.ok)?.text ?? "passes every rule"}.`
+    : `Blocked under the 2023 CBA — ${checks.find((c) => !c.ok)?.text ?? "fails a rule"}`;
   const copyVerdict = async () => {
     track("share_copy_verdict");
-    const text = `${legal ? "\u2705" : "\u26d4"} ${verdictLine}\n\nTry this trade \u2192 ${shareUrl}`;
+    const text = `${verdictLine}\n${shareUrl}`;
     try {
       await navigator.clipboard.writeText(text);
       setCopiedVerdict(true);
@@ -200,35 +200,25 @@ export function ShareCardModal({
     }
   };
 
-  // A conversation starter: the deal laid out, then the ruling as the hook.
-  const last = (n: string) => n.split(" ").slice(-1)[0] ?? n;
-  const haulFor = (teamId: string) => {
-    const { players, pickLabels } = linesFor(teamId, "in");
-    const names = players.map((p) => last(p.name));
-    const shownNames = names.slice(0, 3);
-    const extraNames = names.length - shownNames.length;
-    const shownPicks = pickLabels.slice(0, 2);
-    const extraPicks = pickLabels.length - shownPicks.length;
-    const parts = [
-      shownNames.join(", "),
-      extraNames > 0 ? `+${extraNames} more` : "",
-      shownPicks.length ? `+ ${shownPicks.join(", ")}` : "",
-      extraPicks > 0 ? `+${extraPicks} more picks` : "",
-    ].filter(Boolean);
-    return parts.join(" ") || "—";
-  };
+  // The prefilled tweet reads like a transaction note, not ad copy: full
+  // names, plain verdict. People add their own take on top.
   const receiving = involved.filter(
     (t) => linesFor(t.teamId, "in").players.length > 0 || linesFor(t.teamId, "in").pickLabels.length > 0,
   );
-  const tweetText = [
-    "Who says no?",
-    "",
-    ...receiving.map((t) => `▸ ${t.teamId} get: ${haulFor(t.teamId)}`),
-    "",
-    legal
-      ? "✅ Not the CBA — legal under the NBA CBA:"
-      : "⛔ The CBA says no — here's the rule:",
-  ].join("\n");
+  const haulFor = (teamId: string, lastNames = false) => {
+    const { players, pickLabels } = linesFor(teamId, "in");
+    const names = players.map((p) => (lastNames ? p.name.split(" ").slice(-1)[0]! : p.name));
+    return [...names, ...pickLabels].join(", ") || "—";
+  };
+  const buildTweet = (lastNames: boolean) =>
+    [
+      ...receiving.map((t) => `${t.teamId} get ${haulFor(t.teamId, lastNames)}`),
+      "",
+      legal ? "Legal under the 2023 CBA." : "Blocked under the 2023 CBA.",
+    ].join("\n");
+  // X counts the appended link as ~24 chars; keep full names unless they blow
+  // the 280 budget, then fall back to last names.
+  const tweetText = buildTweet(false).length <= 250 ? buildTweet(false) : buildTweet(true);
   const tweetHref = `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
 
   return (
@@ -283,28 +273,6 @@ export function ShareCardModal({
             </span>
           </div>
 
-          {format === "reporter" ? (
-            /* reporter mode: the one-line ruling, built to be quoted */
-            <div className="flex flex-1 flex-col justify-center gap-3 px-5 py-6">
-              <div className="space-y-1.5">
-                {receiving.map((t) => (
-                  <div key={t.teamId} className="flex items-baseline gap-2 text-[14px]">
-                    <span className="flex shrink-0 items-center gap-1.5 font-bold">
-                      <TeamLogo id={t.teamId} size={17} /> {t.teamId}
-                    </span>
-                    <span className="text-[var(--muted)]">get</span>
-                    <span className="min-w-0 font-medium">{haulFor(t.teamId)}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="border-l-2 pl-3 text-[13.5px] leading-snug" style={{ borderColor: color }}>
-                <span className="font-bold" style={{ color }}>{legal ? "LEGAL" : "BLOCKED"}</span>
-                {" — "}
-                {legal ? checks.find((c) => c.ok)?.text : checks.find((c) => !c.ok)?.text}
-              </p>
-            </div>
-          ) : (
-            <>
           {/* the deal */}
           <div className="space-y-2.5 px-5 pb-1 pt-4">
             {involved.map((t) => {
@@ -369,8 +337,6 @@ export function ShareCardModal({
               </p>
             )}
           </div>
-            </>
-          )}
 
           {/* the seal: verdict + provenance on EVERY card, then the invitation */}
           <div className="tear mt-auto flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
@@ -394,7 +360,6 @@ export function ShareCardModal({
               ["feed", "Feed"],
               ["square", "Square"],
               ["story", "9:16"],
-              ["reporter", "Reporter"],
             ] as const
           ).map(([f, label]) => (
             <button
