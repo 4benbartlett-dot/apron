@@ -45,6 +45,10 @@ export function ShareCardModal({
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [urlFallback, setUrlFallback] = useState(false);
+  // Stories are a phone thing — only offer the button where a native share
+  // sheet exists (falls back to a PNG download if files aren't shareable).
+  const [canNativeShare, setCanNativeShare] = useState(false);
+  useEffect(() => setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
   // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots.
   const [format, setFormat] = useState<"feed" | "square" | "story">("feed");
   const cardRef = useRef<HTMLDivElement>(null);
@@ -419,14 +423,16 @@ export function ShareCardModal({
           <a href={tweetHref} target="_blank" rel="noopener noreferrer" onClick={() => track("share_tweet")} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Post on 𝕏
           </a>
-          <button
-            onClick={shareStory}
-            disabled={downloading}
-            className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90 disabled:opacity-60"
-            title="9:16 card with a scannable QR — opens the share sheet on phones, downloads on desktop"
-          >
-            Add to story
-          </button>
+          {canNativeShare && (
+            <button
+              onClick={shareStory}
+              disabled={downloading}
+              className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90 disabled:opacity-60"
+              title="9:16 card with a scannable QR, straight to the share sheet"
+            >
+              Add to story
+            </button>
+          )}
           <button onClick={onClose} className="rounded-md px-3 py-1.5 text-xs font-semibold text-[#f4f1e9]/85 hover:text-[#f4f1e9]">
             Close
           </button>
