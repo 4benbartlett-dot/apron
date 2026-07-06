@@ -43,11 +43,8 @@ export function ShareCardModal({
   const legal = verdict.legal && extraViolations.length === 0;
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
   const [copied, setCopied] = useState(false);
-  const [copiedVerdict, setCopiedVerdict] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [urlFallback, setUrlFallback] = useState(false);
-  const [canNativeShare, setCanNativeShare] = useState(false);
-  useEffect(() => setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
   // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots.
   const [format, setFormat] = useState<"feed" | "square" | "story">("feed");
   const cardRef = useRef<HTMLDivElement>(null);
@@ -137,23 +134,6 @@ export function ShareCardModal({
     } catch {
       // Twitter/IG in-app browsers block the clipboard API — show the URL
       // in a select-all input instead of failing silently.
-      setUrlFallback(true);
-    }
-  };
-
-  // The quotable one-liner — verdict, controlling rule, link. Written the way
-  // a reporter would paste it: no emoji, no slogans.
-  const verdictLine = legal
-    ? `Legal under the 2023 CBA — ${checks.find((c) => c.ok)?.text ?? "passes every rule"}.`
-    : `Blocked under the 2023 CBA — ${checks.find((c) => !c.ok)?.text ?? "fails a rule"}`;
-  const copyVerdict = async () => {
-    track("share_copy_verdict");
-    const text = `${verdictLine}\n${shareUrl}`;
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedVerdict(true);
-      setTimeout(() => setCopiedVerdict(false), 1600);
-    } catch {
       setUrlFallback(true);
     }
   };
@@ -433,20 +413,20 @@ export function ShareCardModal({
           <button onClick={copyLink} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]">
             {copied ? "Copied ✓" : "Copy link"}
           </button>
-          <button onClick={copyVerdict} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]" title="Copy the one-line ruling + link">
-            {copiedVerdict ? "Copied ✓" : "Copy verdict"}
-          </button>
           <button onClick={downloadImage} disabled={downloading} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)] disabled:opacity-60">
             {downloading ? "Rendering…" : "Download image"}
           </button>
           <a href={tweetHref} target="_blank" rel="noopener noreferrer" onClick={() => track("share_tweet")} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Post on 𝕏
           </a>
-          {canNativeShare && (
-            <button onClick={shareStory} disabled={downloading} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90 disabled:opacity-60">
-              Add to story
-            </button>
-          )}
+          <button
+            onClick={shareStory}
+            disabled={downloading}
+            className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90 disabled:opacity-60"
+            title="9:16 card with a scannable QR — opens the share sheet on phones, downloads on desktop"
+          >
+            Add to story
+          </button>
           <button onClick={onClose} className="rounded-md px-3 py-1.5 text-xs font-semibold text-[#f4f1e9]/85 hover:text-[#f4f1e9]">
             Close
           </button>
