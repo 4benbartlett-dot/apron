@@ -30,7 +30,7 @@ import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
 import { pickShareLabel, type DecodedPick } from "@/lib/trade-share";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
-import { TradeDocket, buildDocket } from "@/components/TradeDocket";
+import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
@@ -312,6 +312,27 @@ export default function OffseasonSim() {
     return out;
   }, [verdict, lg]);
 
+  const docketLegal = verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0;
+  const docketChecks = useMemo(
+    () =>
+      buildChecks({
+        legal: docketLegal,
+        involved: verdict.teams.filter((t) => docketTeams.some((d) => d.teamId === t.teamId)),
+        tpeUse: trade.tpeUse,
+        violationReasons: verdict.violations.map((v) => v.reason),
+        extraViolations: [...stepienViolations, ...hardCapTradeViolations],
+        hasPicks: Object.keys(pickSel).length > 0,
+      }),
+    [docketLegal, verdict, docketTeams, trade, pickSel, stepienViolations, hardCapTradeViolations],
+  );
+  const docketFix = useMemo(
+    () =>
+      docketLegal
+        ? null
+        : explainBlocked(verdict, [...stepienViolations, ...hardCapTradeViolations], C, lg.teamHolds).fixes[0] ?? null,
+    [docketLegal, verdict, stepienViolations, hardCapTradeViolations, lg],
+  );
+
   const executeTrade = () => {
     const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
     const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
@@ -404,6 +425,9 @@ export default function OffseasonSim() {
           <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
           <div className="mt-2">
             <TradeDocket teams={docketTeams} />
+          </div>
+          <div className="mt-2">
+            <DocketWhy legal={docketLegal} checks={docketChecks} fix={docketFix} />
           </div>
         </div>
       )}

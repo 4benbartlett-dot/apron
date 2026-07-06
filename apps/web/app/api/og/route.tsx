@@ -254,7 +254,7 @@ export async function GET(req: Request) {
             <div style={{ display: "flex", color: accent2(s.legal) }}>
               {s.legal ? "LEGAL UNDER THE 2023 CBA" : "BLOCKED UNDER THE 2023 CBA"}
             </div>
-            <div style={{ display: "flex" }}>{"TRY THIS TRADE → OVERTHEAPRON.COM"}</div>
+            <div style={{ display: "flex" }}>{"FULL RULING AT OVERTHEAPRON.COM"}</div>
           </div>
         </div>
       </div>
