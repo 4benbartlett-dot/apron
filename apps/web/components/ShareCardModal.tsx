@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { matchRuleLabel, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
-import { C, teamMeta, feedStateOf } from "@/lib/league";
+import type { Trade, TradeVerdict } from "@apron/cba-engine";
+import { C, teamMeta } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick } from "@/lib/trade-share";
+import { TradeDocket, buildDocket, buildChecks } from "@/components/TradeDocket";
 import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -83,59 +84,28 @@ export function ShareCardModal({
 
   const firstFix = legal ? null : explainBlocked(verdict, extraViolations, C, holdsOf).fixes[0] ?? null;
 
-  // The receipt: every rule the deal passes, or every reason it fails.
-  const checks: { ok: boolean; text: string }[] = legal
-    ? [
-        ...involved
-          // Only claim a matching rule when salary actually needed matching —
-          // a leg fully absorbed by a TPE is legal for a different reason.
-          .filter((t) => t.incomingSalary - (t.tpeAbsorbed ?? 0) > 0)
-          .map((t) => ({
-            ok: true,
-            text: `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out — legal under ${matchRuleLabel(t.matchingRule, C)}`,
-          })),
-        ...involved
-          .filter((t) => (t.tpeAbsorbed ?? 0) > 0)
-          .map((t) => {
-            const use = trade.tpeUse?.[t.teamId];
-            const label = use?.label ? `the ${use.label}` : "a traded-player exception";
-            const kind = use ? (use.preExisting ? "pre-existing" : "created this offseason") : undefined;
-            return {
-              ok: true,
-              text: `${t.teamId} absorbs ${fmtM(t.tpeAbsorbed!)} into ${label}${kind ? ` (${kind})` : ""} — no matching needed for that salary`,
-            };
-          }),
-        // Row F consequence: spending a PRE-EXISTING TPE freezes the 1st apron.
-        ...involved
-          .filter((t) => (t.tpeAbsorbed ?? 0) > 0 && trade.tpeUse?.[t.teamId]?.preExisting)
-          .map((t) => ({
-            ok: true,
-            text: `${t.teamId} used a pre-existing TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season`,
-          })),
-        // Real-July hard caps the deal respects — named so readers can check.
-        ...involved
-          .filter((t) => t.incomingSalary > 0 && Number.isFinite(feedStateOf(t.teamId).hardCap))
-          .map((t) => {
-            const fs = feedStateOf(t.teamId);
-            return {
-              ok: true,
-              text: `${t.teamId} stays ${fmtM(fs.hardCap - t.postTradeSalary)} under the hard cap from its real July moves${fs.hardCapSource ? ` (${fs.hardCapSource})` : ""}`,
-            };
-          }),
-        ...involved
-          .filter((t) => classifyTier(t.postTradeSalary, C) === "second_apron")
-          .map((t) => ({
-            ok: true,
-            text: `${t.teamId} finishes over the second apron — no aggregation or cash used, as required`,
-          })),
-        ...(picks.length
-          ? [{ ok: true, text: "Stepien rule satisfied — no team left without firsts in consecutive future drafts" }]
-          : []),
-      ]
-    : [
-        ...verdict.violations.map((v) => ({ ok: false, text: v.reason })),
-        ...extraViolations.map((text) => ({ ok: false, text })),
-      ];
+  // The receipt — same builder as the pinned docket, so no drift.
+  const checks = buildChecks({
+    legal,
+    involved,
+    tpeUse: trade.tpeUse,
+    violationReasons: verdict.violations.map((v) => v.reason),
+    extraViolations,
+    hasPicks: picks.length > 0,
+  });
+
+  const docketTeams = useMemo(
+    () =>
+      buildDocket(
+        trade.players,
+        Object.fromEntries(picks.map((p) => [p.id, { from: p.from, to: p.to }])),
+        verdict.teams,
+        nameOf,
+        salaryOf,
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [trade, picks, verdict],
+  );
 
   const copyLink = async () => {
     track("share_copy");
@@ -186,13 +156,24 @@ export function ShareCardModal({
       // Capture at the format's true size regardless of screen width, so a
       // phone still downloads a real 1080-wide square/story.
       const captureWidth = format === "square" ? "520px" : format === "story" ? "380px" : undefined;
+      // If the content beats the +N-more budgets anyway, grow the canvas —
+      // a slightly-tall square beats a cropped ruling every time.
+      const overflows = node.scrollHeight > node.clientHeight + 2;
       const url = await Promise.race([
         toPng(node, {
           pixelRatio: 2,
           style: {
             maxHeight: "none",
             overflow: "visible",
-            ...(captureWidth ? { width: captureWidth, maxWidth: captureWidth, aspectRatio: format === "square" ? "1 / 1" : "9 / 16" } : {}),
+            ...(captureWidth
+              ? {
+                  width: captureWidth,
+                  maxWidth: captureWidth,
+                  ...(overflows
+                    ? { height: "auto", aspectRatio: "auto" }
+                    : { aspectRatio: format === "square" ? "1 / 1" : "9 / 16" }),
+                }
+              : {}),
           },
         }),
         new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
@@ -300,49 +281,13 @@ export function ShareCardModal({
           )}
 
           <div className={format === "feed" ? "" : "flex flex-1 flex-col justify-center"}>
-          {/* the deal */}
-          <div className="space-y-2.5 px-5 pb-1 pt-4">
-            {involved.map((t) => {
-              const inn = linesFor(t.teamId, "in");
-              const out = linesFor(t.teamId, "out");
-              return (
-                <div key={t.teamId} className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel)]">
-                  <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--panel-2)]/50 px-3.5 py-2">
-                    <span className="flex items-center gap-2 text-[13px] font-semibold">
-                      <TeamLogo id={t.teamId} size={18} />
-                      {teamMeta(t.teamId).name}
-                    </span>
-                    <TierBadge tier={t.postTradeTier} />
-                  </div>
-                  <div className="grid grid-cols-2 divide-x divide-[var(--border)] text-xs">
-                    {(["in", "out"] as const).map((dir) => {
-                      const { players, pickLabels } = dir === "in" ? inn : out;
-                      return (
-                        <div key={dir} className="px-3.5 py-2.5">
-                          <div className="label !text-[9px]">
-                            {dir === "in" ? `Gets · ${fmtM(t.incomingSalary)}` : `Sends · ${fmtM(t.outgoingSalary)}`}
-                          </div>
-                          <div className="mt-1 space-y-0.5">
-                            {players.map((p) => (
-                              <div key={p.name} className="flex items-baseline justify-between gap-2">
-                                <span className="truncate">{p.name}</span>
-                                <span className="tabular shrink-0 text-[var(--muted)]">{fmtM(p.salary)}</span>
-                              </div>
-                            ))}
-                            {pickLabels.map((l) => (
-                              <div key={l} className="tabular font-medium text-[var(--accent-ink)]">{l}</div>
-                            ))}
-                            {players.length === 0 && pickLabels.length === 0 && (
-                              <span className="text-[var(--muted)]">—</span>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+          {/* the deal — the same docket the boards pin, stacked card-style */}
+          <div className="px-5 pb-1 pt-4">
+            <TradeDocket
+              teams={docketTeams}
+              stack
+              maxLines={format === "feed" ? 5 : format === "story" ? 4 : 3}
+            />
           </div>
 
           {/* the receipt */}
@@ -378,9 +323,8 @@ export function ShareCardModal({
               {legal ? "Legal under the 2023 CBA" : "Blocked under the 2023 CBA"}
             </span>
           </div>
-          <div className={`flex items-center justify-between bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--bg)] ${format === "feed" ? "" : "mt-auto"}`}>
-            <span>{format === "feed" ? "overtheapron.com" : `overtheapron.com · ${legal ? "legal" : "blocked"} under the 2023 CBA`}</span>
-            <span>Try this trade →</span>
+          <div className={`flex items-center justify-center bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--bg)] ${format === "feed" ? "" : "mt-auto"}`}>
+            <span>{format === "feed" ? "Full trade + ruling at overtheapron.com" : `${legal ? "Legal" : "Blocked"} — full ruling at overtheapron.com`}</span>
           </div>
         </div>
 

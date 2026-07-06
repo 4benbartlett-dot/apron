@@ -13,7 +13,8 @@ import { TeamLogo } from "@/components/TeamLogo";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { ShareCardModal } from "@/components/ShareCardModal";
 import { track } from "@/lib/analytics";
-import { TradeDocket, buildDocket } from "@/components/TradeDocket";
+import { explainBlocked } from "@/lib/tradeFix";
+import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
 
 interface Sel {
   from: string;
@@ -157,6 +158,22 @@ export default function TradeBuilder() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [trade, pickSel, verdict, lg],
   );
+  const docketChecks = useMemo(
+    () =>
+      buildChecks({
+        legal: fullyLegal,
+        involved: verdict.teams.filter((t) => docketTeams.some((d) => d.teamId === t.teamId)),
+        tpeUse: trade.tpeUse,
+        violationReasons: verdict.violations.map((v) => v.reason),
+        extraViolations,
+        hasPicks: Object.keys(pickSel).length > 0,
+      }),
+    [fullyLegal, verdict, docketTeams, trade, pickSel, extraViolations],
+  );
+  const docketFix = useMemo(
+    () => (fullyLegal ? null : explainBlocked(verdict, extraViolations, C, lg.teamHolds).fixes[0] ?? null),
+    [fullyLegal, verdict, extraViolations, lg],
+  );
   const trayHauls = useMemo<TrayHaul[]>(() => {
     const m: Record<string, string[]> = {};
     for (const p of trade.players)
@@ -231,9 +248,14 @@ export default function TradeBuilder() {
       <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
         <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
         {hasMoves && (
-          <div className="mt-2">
-            <TradeDocket teams={docketTeams} />
-          </div>
+          <>
+            <div className="mt-2">
+              <TradeDocket teams={docketTeams} />
+            </div>
+            <div className="mt-2">
+              <DocketWhy legal={fullyLegal} checks={docketChecks} fix={docketFix} />
+            </div>
+          </>
         )}
       </div>
       {hasMoves && (
