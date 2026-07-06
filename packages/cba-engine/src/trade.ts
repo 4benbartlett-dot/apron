@@ -152,7 +152,9 @@ export function validateTrade(
     const post = pre - outgoingSalary + incomingSalary;
     const preTier = classifyTier(pre, c);
     const postTier = classifyTier(post, c);
-    const capRoom = c.salaryCap - pre;
+    // Kept free-agent holds consume below-cap absorption room (they're Team
+    // Salary for room purposes) — but never change apron tier.
+    const capRoom = c.salaryCap - pre - (trade.capHolds?.[teamId] ?? 0);
 
     const match = maxIncomingSalary(outgoingSalary, preTier, capRoom, c);
 

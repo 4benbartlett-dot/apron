@@ -10,6 +10,12 @@ export interface SigningOpts {
   priorSalary?: number;
   /** Own-FA re-signing rights sub-type. */
   birdStatus?: BirdStatus;
+  /** Apron Team Salary basis — signed salary EXCLUDING free-agent cap holds
+   * (Art. VII §2: Free Agent Amounts don't count toward apron status). Gates
+   * mechanism tiers and hard-cap ceilings. Cap-room math keeps using
+   * `teamSalary`, where holds DO consume room. Defaults to `teamSalary`
+   * (holds-included), which is the CONSERVATIVE legacy behavior. */
+  apronSalary?: number;
 }
 
 export type MechanismId =
@@ -57,9 +63,11 @@ const CITES: Record<MechanismId, string> = {
 export function spendingPower(
   teamSalary: number,
   c: LeagueConstants,
-  opts: { isOwnFreeAgent?: boolean } = {},
+  opts: { isOwnFreeAgent?: boolean; apronSalary?: number } = {},
 ): SpendingPower {
-  const tier = classifyTier(teamSalary, c);
+  // Tier (exception gating) tests Apron Team Salary — holds excluded.
+  // Cap room tests full team salary — holds included.
+  const tier = classifyTier(opts.apronSalary ?? teamSalary, c);
   const capRoom = c.salaryCap - teamSalary;
   const mechanisms: SignMechanism[] = [];
 
@@ -171,6 +179,8 @@ export function validateSigning(
   opts: SigningOpts = {},
 ): SigningVerdict {
   const power = spendingPower(teamSalary, c, opts);
+  // Hard-cap ceilings test Apron Team Salary (holds excluded, Art. VII §2).
+  const apron = opts.apronSalary ?? teamSalary;
 
   // The player's individual salary ceiling (max-tier by years of service, and
   // for own free agents the Bird / Early-Bird / Non-Bird re-signing limit).
@@ -187,7 +197,7 @@ export function validateSigning(
     : power.mechanisms.filter(
         (m) =>
           askingSalary <= m.maxSalary + EPS &&
-          teamSalary + askingSalary <= apronLine(m.hardCap, c) + EPS,
+          apron + askingSalary <= apronLine(m.hardCap, c) + EPS,
       );
   const mechanism =
     [...usable].sort(
@@ -199,7 +209,7 @@ export function validateSigning(
   let maxOffer = 0;
   let maxOfferMechanism: SignMechanism | null = null;
   for (const m of power.mechanisms) {
-    const room = apronLine(m.hardCap, c) - teamSalary;
+    const room = apronLine(m.hardCap, c) - apron;
     const offer = Math.max(0, Math.min(m.maxSalary, room, playerMax));
     if (offer > maxOffer) {
       maxOffer = offer;

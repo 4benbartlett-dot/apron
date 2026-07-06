@@ -8,7 +8,8 @@ const MODELED = [
   "Real-world pick obligations: a first already owed away (or protected-out) is locked from your trade board, and its year counts as uncovered for the Stepien rule",
   "Apron teams limited to 100% matching (no 110%)",
   "Below-cap absorption capped at cap+$250k (or standard matching if larger)",
-  "Hard-cap triggers: NT-MLE / BAE / sign-and-trade → first apron; Taxpayer MLE → second apron",
+  "Hard-cap triggers: NT-MLE / BAE / sign-and-trade / taking back >100% in a trade (Expanded TPE) → first apron; Taxpayer MLE → second apron — persisted across the whole session and tested against APRON salary (holds excluded)",
+  "Cap holds count against room (signing space and below-cap trade absorption) but never toward apron/tax status — the Art. VII §2 Apron Team Salary split",
   "Second apron: no aggregation or cash-out, tested on POST-trade apron salary per Art. VII \u00a72(e)(2)(i)(A) \u2014 a team may aggregate down through the line (bin-packing combination test); exact-boundary tiers use strict 'exceeds'",
   "Exception gating by apron tier: cap room, NT-MLE, Taxpayer MLE, Room MLE, BAE, minimum, Bird",
   "Maximum-salary tiers by years of service (25% / 30% / 35%)",
@@ -99,10 +100,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 140 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 147 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 140 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 147 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section

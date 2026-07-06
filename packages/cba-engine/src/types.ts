@@ -150,6 +150,11 @@ export interface Trade {
   teams: string[];
   players: PlayerMovement[];
   cash?: CashMovement[];
+  /** Un-renounced free-agent cap holds per team. Holds count toward Team
+   * Salary (Art. VII §4(d)), so they consume below-cap absorption room —
+   * but NOT apron status, which `teamSalary` (signed salary) already
+   * reflects. Omitted = no holds (legacy behavior). */
+  capHolds?: Record<string, number>;
 }
 
 /* ----------------------------- Verdicts ----------------------------- */

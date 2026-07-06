@@ -207,7 +207,9 @@ export default function OffseasonSim() {
     const players = Object.entries(sel)
       .filter(([, mv]) => board.includes(mv.from) && board.includes(mv.to))
       .map(([pid, mv]) => ({ playerId: pid, from: mv.from, to: mv.to }));
-    const tr: Trade = { teams: board, players };
+    // Kept holds consume below-cap absorption room (not apron status).
+    const capHolds = Object.fromEntries(board.map((t) => [t, lg.teamHolds(t)]));
+    const tr: Trade = { teams: board, players, capHolds };
     const v = validateTrade(lg.data, tr, C);
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
   }, [board, sel, lg]);
@@ -580,7 +582,9 @@ function TeamColumn({
   const meta = teamMeta(teamId);
   const committed = lg.teamSalary(teamId);
   const holds = lg.teamHolds(teamId);
-  const power = spendingPower(committed + holds, C);
+  // Exceptions gate on APRON salary (signed money only); cap room still
+  // burns through kept holds — spendingPower gets both numbers.
+  const power = spendingPower(committed + holds, C, { apronSalary: committed });
   const roster = lg.roster(teamId);
   const others = board.filter((t) => t !== teamId);
   const pre = summary?.preTradeSalary ?? committed;
@@ -638,8 +642,9 @@ function TeamColumn({
             </div>
           </div>
         </div>
-        <Term k={classifyTier(postCharge, C)}>
-          <TierBadge tier={classifyTier(postCharge, C)} />
+        {/* Tier badge = APRON status: signed salary only, holds excluded. */}
+        <Term k={classifyTier(post, C)}>
+          <TierBadge tier={classifyTier(post, C)} />
         </Term>
       </div>
 
@@ -885,7 +890,7 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
             )}
             {list.map((fa) => {
               const isOwn = isOwnKept(fa, team);
-              const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined });
+              const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed });
               const color = mechColor(v.mechanism ? v.mechanism.id : null);
               const label = v.legal ? v.mechanism!.label : `max ${fmtM(v.maxOffer)}`;
               return (
@@ -938,11 +943,15 @@ function SignEditor({
   // converts HIS hold to salary, so it drops out of the signing base.
   const isOwn = isOwnKept(fa, team);
   const base = committed + holds - (isOwn ? fa.hold : 0);
+  // Apron status is signed salary ONLY — kept holds consume cap room but never
+  // make a team a tax/apron team (Art. VII §2 excludes Free Agent Amounts).
+  const apronBase = committed;
   const opts = {
     isOwnFreeAgent: isOwn,
     yearsOfService: fa.yearsOfService,
     priorSalary: fa.lastSalary,
     birdStatus: isOwn ? fa.birdStatus : undefined,
+    apronSalary: apronBase,
   };
   const ceilingRaw = validateSigning(base, fa.lastSalary, C, opts).maxOffer;
   const minYos = Math.min(Math.max(Math.floor(fa.yearsOfService), 0), 10);
@@ -967,7 +976,7 @@ function SignEditor({
     const out: { label: string; amt: number }[] = [{ label: "Min", amt: floor }];
     for (const m of spendingPower(base, C, opts).mechanisms) {
       if (m.id === "minimum") continue;
-      const amt = Math.max(floor, Math.min(m.maxSalary, ceiling, apronOf(m.hardCap) - base));
+      const amt = Math.max(floor, Math.min(m.maxSalary, ceiling, apronOf(m.hardCap) - apronBase));
       out.push({ label: MECH_SHORT[m.id] ?? m.label, amt });
     }
     out.push({ label: "Max", amt: ceiling });
@@ -1001,11 +1010,13 @@ function SignEditor({
   const isDeemedMin = bookedSalary !== salary;
   // Post-signing cap charge = base (committed + other kept holds) + new salary.
   const afterCharge = base + bookedSalary;
-  const afterTier = classifyTier(afterCharge, C);
+  // Post-signing APRON salary — the number tiers and hard caps actually test.
+  const apronAfter = apronBase + bookedSalary;
+  const afterTier = classifyTier(apronAfter, C);
   // A hard cap triggered earlier this session binds every later move — even a
-  // Bird re-sign or a minimum. Enforce it on top of the mechanism check.
+  // Bird re-sign or a minimum. Hard caps test apron salary, holds excluded.
   const hardCap = lg.hardCapOf(team);
-  const exceedsHardCap = afterCharge > hardCap + 1;
+  const exceedsHardCap = apronAfter > hardCap + 1;
   // Roster limit: 21 in the offseason (hard), 15 by opening night (warn).
   const rosterCount = lg.roster(team).length;
   const rosterFull = rosterCount >= 21;
@@ -1230,7 +1241,7 @@ function SignEditor({
         )}
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put them at {fmtM(afterCharge)}.
+            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put their apron salary at {fmtM(apronAfter)}.
           </div>
         )}
         {fa.faType === "RFA" && !isOwn && (
@@ -1511,10 +1522,11 @@ function TradeFinderDrawer({
     : candidates.slice(0, 40);
 
   const target = targetId ? lg.contracts.find((c) => c.playerId === targetId) : null;
-  const packages = useMemo(
-    () => (targetId ? findTradePackages(lg.data, acquirer, targetId) : []),
-    [lg.data, acquirer, targetId],
-  );
+  const packages = useMemo(() => {
+    if (!targetId) return [];
+    const capHolds = Object.fromEntries(TEAM_IDS.map((t) => [t, lg.teamHolds(t)]));
+    return findTradePackages(lg.data, acquirer, targetId, 3, 10, capHolds);
+  }, [lg, acquirer, targetId]);
 
   return (
     <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
