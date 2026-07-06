@@ -8,6 +8,8 @@ import {
   freeAgentsOf,
   holdsByTeam,
   feedStateOf,
+  tpeLedger,
+  fitTpePlan,
 } from "./league";
 
 interface DecodedMove {
@@ -111,12 +113,27 @@ export function summarizeTrade(t: string): TradeSummary | null {
   if (!d || (!d.players.length && !d.picks.length)) return null;
   const data = leagueData(BASE_CONTRACTS);
   // Base-state holds (server-side; session renounces aren't visible here).
-  const trade: Trade = {
+  let trade: Trade = {
     teams: d.teams,
     players: d.players,
     capHolds: holdsByTeam(freeAgentsOf(BASE_CONTRACTS)),
   };
-  const v = validateTrade(data, trade, C);
+  let v = validateTrade(data, trade, C);
+  // Same TPE auto-fit as the live boards (base ledger — session-minted TPEs
+  // aren't visible server-side), so share cards agree with what users see.
+  if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {
+    const incomingByTeam: Record<string, { playerId: string; salary: number }[]> = {};
+    for (const p of d.players) {
+      const c = BASE_CONTRACTS.find((x) => x.playerId === p.playerId);
+      const salary = c?.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0;
+      (incomingByTeam[p.to] ??= []).push({ playerId: p.playerId, salary });
+    }
+    const plan = fitTpePlan(v.teams, incomingByTeam, tpeLedger([]));
+    if (plan) {
+      trade = { ...trade, tpeUse: plan };
+      v = validateTrade(data, trade, C);
+    }
+  }
   // Stepien against the real-world base ledger (session moves aren't visible
   // server-side, but pre-existing obligations are) — so share cards and OG
   // images can't stamp LEGAL on a pick package the board would block.

@@ -111,6 +111,22 @@ export interface TeamPicks {
   outgoing: DraftPick[];
 }
 
+import tradeExceptionsRaw from "./trade-exceptions.json";
+
+export interface TradeException {
+  team: string;
+  player: string;
+  amount: number;
+  expires: string;
+  original?: number;
+  singleSource?: boolean;
+}
+
+/** Active traded-player exceptions (Spotrac × SalarySwish, cross-checked). */
+export const TRADE_EXCEPTIONS = (
+  tradeExceptionsRaw as { asOf: string; rows: TradeException[] }
+).rows;
+
 import feedTeamStateRaw from "./feed-team-state.json";
 
 export interface FeedTeamState {

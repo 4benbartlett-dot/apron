@@ -200,3 +200,86 @@ d2("second-apron aggregation: post-trade basis", () => {
     e2(v.violations.map((x) => x.ruleId)).toContain("second_apron_no_aggregation");
   });
 });
+
+describe("traded-player exceptions (v1: absorption + row F)", () => {
+  // AAA over the cap (~$180M): takes back $18M for only $2M out. Matching
+  // alone can't cover that; a $17M TPE absorbing the incoming player makes
+  // the leg legal (the incoming still counts fully toward post salary).
+  const data = () =>
+    league([
+      filler("AAA", 176_000_000),
+      contract("small", "AAA", 2_000_000),
+      filler("BBB", 160_000_000),
+      contract("big", "BBB", 18_000_000),
+    ]);
+  const players = [
+    { playerId: "small", from: "AAA", to: "BBB" },
+    { playerId: "big", from: "BBB", to: "AAA" },
+  ];
+
+  it("absorbing into a TPE lifts the matching requirement for that salary", () => {
+    const no = validateTrade(data(), { teams: ["AAA", "BBB"], players }, C);
+    expect(no.legal).toBe(false);
+    const yes = validateTrade(
+      data(),
+      {
+        teams: ["AAA", "BBB"],
+        players,
+        tpeUse: { AAA: { amount: 18_000_000, preExisting: true, label: "test TPE" } },
+      },
+      C,
+    );
+    expect(yes.legal).toBe(true);
+    expect(yes.teams.find((t) => t.teamId === "AAA")?.tpeAbsorbed).toBe(18_000_000);
+    expect(yes.checks.some((ch) => ch.ruleId === "tpe_absorption" && ch.ok)).toBe(true);
+    // Row F: pre-existing use is legal here (post ≈ $194M ≤ 1A) and noted.
+    expect(yes.checks.some((ch) => ch.ruleId === "tpe_first_apron" && ch.ok)).toBe(true);
+  });
+
+  it("row F: a pre-existing TPE cannot lift a team past the first apron", () => {
+    const hot = league([
+      filler("AAA", 193_000_000),
+      contract("small2", "AAA", 2_000_000),
+      filler("BBB", 160_000_000),
+      contract("big2", "BBB", 18_000_000),
+    ]);
+    const v = validateTrade(
+      hot,
+      {
+        teams: ["AAA", "BBB"],
+        players: [
+          { playerId: "small2", from: "AAA", to: "BBB" },
+          { playerId: "big2", from: "BBB", to: "AAA" },
+        ],
+        // post = 195 - 2 + 18 = 211M > 1A (195,945,000... using 2025-26 C: 1A = 195,945,000)
+        tpeUse: { AAA: { amount: 18_000_000, preExisting: true } },
+      },
+      C,
+    );
+    expect(v.legal).toBe(false);
+    expect(v.violations.some((x) => x.ruleId === "tpe_first_apron")).toBe(true);
+  });
+
+  it("a SAME-offseason TPE has no first-apron gate (row F clause ii defers it)", () => {
+    const hot = league([
+      filler("AAA", 193_000_000),
+      contract("small3", "AAA", 2_000_000),
+      filler("BBB", 160_000_000),
+      contract("big3", "BBB", 18_000_000),
+    ]);
+    const v = validateTrade(
+      hot,
+      {
+        teams: ["AAA", "BBB"],
+        players: [
+          { playerId: "small3", from: "AAA", to: "BBB" },
+          { playerId: "big3", from: "BBB", to: "AAA" },
+        ],
+        tpeUse: { AAA: { amount: 18_000_000, preExisting: false } },
+      },
+      C,
+    );
+    expect(v.legal).toBe(true);
+    expect(v.checks.some((ch) => ch.ruleId === "tpe_first_apron")).toBe(false);
+  });
+});

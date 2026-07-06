@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
@@ -209,8 +209,22 @@ export default function OffseasonSim() {
       .map(([pid, mv]) => ({ playerId: pid, from: mv.from, to: mv.to }));
     // Kept holds consume below-cap absorption room (not apron status).
     const capHolds = Object.fromEntries(board.map((t) => [t, lg.teamHolds(t)]));
-    const tr: Trade = { teams: board, players, capHolds };
-    const v = validateTrade(lg.data, tr, C);
+    let tr: Trade = { teams: board, players, capHolds };
+    let v = validateTrade(lg.data, tr, C);
+    // If matching fails, try absorbing incoming players into standing TPEs
+    // (largest exception, whole players) and re-judge.
+    if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {
+      const incomingByTeam: Record<string, { playerId: string; salary: number }[]> = {};
+      for (const p of players) {
+        const c = lg.contracts.find((x) => x.playerId === p.playerId);
+        (incomingByTeam[p.to] ??= []).push({ playerId: p.playerId, salary: c ? currentSalary(c) : 0 });
+      }
+      const plan = fitTpePlan(v.teams, incomingByTeam, tpeLedger(lg.moves));
+      if (plan) {
+        tr = { ...tr, tpeUse: plan };
+        v = validateTrade(lg.data, tr, C);
+      }
+    }
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
   }, [board, sel, lg]);
 
@@ -272,6 +286,9 @@ export default function OffseasonSim() {
       label: `Trade: ${names.join(", ")}${pickMoves.length ? ` +${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : ""}`,
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
       picks: pickMoves,
+      // TPE plan chosen at staging rides along — the ledger and hard-cap
+      // replay both read it back.
+      tpeUse: trade.tpeUse,
     });
     const teamsInvolved = new Set(trade.players.flatMap((p) => [p.from, p.to])).size;
     leagueToast(
@@ -701,6 +718,20 @@ function TeamColumn({
             </Term>
           );
         })}
+        {(tpeLedger(lg.moves)[teamId] ?? []).slice(0, 2).map((tpe) => (
+          <Term
+            key={tpe.label + tpe.expires}
+            k="tpe"
+            extra={`${fmtM(tpe.amount)} absorbable · expires ${tpe.expires}${tpe.preExisting ? " · using it hard-caps at the first apron (row F)" : " · minted this offseason"}`}
+          >
+            <span
+              className="tabular inline-block rounded-[4px] border border-dashed bg-[var(--panel)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--muted)]"
+              style={{ borderColor: "var(--border-strong)" }}
+            >
+              {tpe.label} <span className="font-semibold text-[var(--text)]">{fmtM(tpe.amount)}</span>
+            </span>
+          </Term>
+        ))}
       </div>
 
       <div className="px-4 pt-3">

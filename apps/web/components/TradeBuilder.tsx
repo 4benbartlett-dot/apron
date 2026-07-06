@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { validateTrade, violatesStepien, type Trade, type TeamTradeSummary, type Contract } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, currentSalary } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, currentSalary, tpeLedger, fitTpePlan } from "@/lib/league";
 import { fmtM as fmtMoney } from "@/lib/format";
 import { decodeTradeParam, encodeTradeParam } from "@/lib/trade-share";
 import { useLeague, dispatchMove } from "@/lib/store";
@@ -78,8 +78,21 @@ export default function TradeBuilder() {
       .map(([playerId, mv]) => ({ playerId, from: mv.from, to: mv.to }));
     // Kept holds consume below-cap absorption room (not apron status).
     const capHolds = Object.fromEntries(teams.map((t) => [t, lg.teamHolds(t)]));
-    const tr: Trade = { teams, players, capHolds };
-    const v = validateTrade(lg.data, tr, C);
+    let tr: Trade = { teams, players, capHolds };
+    let v = validateTrade(lg.data, tr, C);
+    // Failing matching? Try absorbing incoming players into standing TPEs.
+    if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {
+      const incomingByTeam: Record<string, { playerId: string; salary: number }[]> = {};
+      for (const p of players) {
+        const c = lg.contracts.find((x) => x.playerId === p.playerId);
+        (incomingByTeam[p.to] ??= []).push({ playerId: p.playerId, salary: c ? currentSalary(c) : 0 });
+      }
+      const plan = fitTpePlan(v.teams, incomingByTeam, tpeLedger(lg.moves));
+      if (plan) {
+        tr = { ...tr, tpeUse: plan };
+        v = validateTrade(lg.data, tr, C);
+      }
+    }
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
   }, [teams, sel, lg]);
 
@@ -134,6 +147,7 @@ export default function TradeBuilder() {
       label: `Trade: ${names.join(", ")}${pickMoves.length ? ` +${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : ""}`,
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
       picks: pickMoves,
+      tpeUse: trade.tpeUse,
     });
     setSel({});
     setPickSel({});

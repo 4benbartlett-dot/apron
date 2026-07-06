@@ -89,6 +89,12 @@ export function ShareCardModal({
             text: `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out — legal under ${matchRuleLabel(t.matchingRule, C)}`,
           })),
         ...involved
+          .filter((t) => (t.tpeAbsorbed ?? 0) > 0)
+          .map((t) => ({
+            ok: true,
+            text: `${t.teamId} absorbs ${fmtM(t.tpeAbsorbed!)} into a traded-player exception — no matching needed for that salary`,
+          })),
+        ...involved
           .filter((t) => classifyTier(t.postTradeSalary, C) === "second_apron")
           .map((t) => ({
             ok: true,

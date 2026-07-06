@@ -158,6 +158,12 @@ export function validateTrade(
 
     const match = maxIncomingSalary(outgoingSalary, preTier, capRoom, c);
 
+    // Salary absorbed into a traded-player exception needs no matching —
+    // it still counts fully toward post-trade (apron) salary.
+    const tpe = trade.tpeUse?.[teamId];
+    const tpeAbsorbed = Math.min(tpe?.amount ?? 0, incomingSalary);
+    const matchable = incomingSalary - tpeAbsorbed;
+
     teams.push({
       teamId,
       preTradeSalary: pre,
@@ -168,10 +174,38 @@ export function validateTrade(
       incomingSalary,
       maxIncomingAllowed: match.maxIncoming,
       matchingRule: match.rule,
+      ...(tpeAbsorbed > 0 ? { tpeAbsorbed } : {}),
     });
 
-    // --- Rule 1: salary matching ---
-    const matchOk = incomingSalary <= match.maxIncoming + EPSILON;
+    if (tpeAbsorbed > 0) {
+      checks.push({
+        ruleId: "tpe_absorption",
+        ok: true,
+        teamId,
+        reason: `${teamId} absorbs ${fmt(tpeAbsorbed)} of incoming salary into a traded-player exception${
+          tpe?.label ? ` (${tpe.label})` : ""
+        } — that salary needs no matching.`,
+        citation: "2023 CBA · Art. VII §6(j)(1)(i) — Standard Traded Player Exception.",
+      });
+      // Restriction-table row F: a PRE-EXISTING TPE (minted before this
+      // offseason) cannot be used if post-trade apron salary would exceed
+      // the first apron — and using one hard-caps the team there.
+      if (tpe?.preExisting) {
+        const rowFOk = post <= c.firstApron + EPSILON;
+        checks.push({
+          ruleId: "tpe_first_apron",
+          ok: rowFOk,
+          teamId,
+          reason: rowFOk
+            ? `${teamId} uses a pre-existing traded-player exception and stays under the first apron (${fmt(post)} ≤ ${fmt(c.firstApron)}) — hard-capped there for the year.`
+            : `${teamId} cannot use a pre-existing traded-player exception: it would finish at ${fmt(post)}, over the first apron (${fmt(c.firstApron)}) — restriction-table row F.`,
+          citation: "2023 CBA · Art. VII §2(e) transaction restrictions, row F.",
+        });
+      }
+    }
+
+    // --- Rule 1: salary matching (on the non-TPE portion) ---
+    const matchOk = matchable <= match.maxIncoming + EPSILON;
     const isApronTeam = preTier === "first_apron" || preTier === "second_apron";
     checks.push({
       ruleId: "salary_matching",
@@ -179,20 +213,22 @@ export function validateTrade(
       teamId,
       reason: matchOk
         ? `${teamId} sends ${fmt(outgoingSalary)} and takes back ${fmt(
-            incomingSalary,
-          )} — within its ${fmt(match.maxIncoming)} limit (${match.ruleLabel}).`
+            matchable,
+          )}${tpeAbsorbed > 0 ? " (after TPE absorption)" : ""} — within its ${fmt(match.maxIncoming)} limit (${match.ruleLabel}).`
         : `${teamId} can take back at most ${fmt(match.maxIncoming)} for ${fmt(
             outgoingSalary,
           )} sent out (${match.ruleLabel}), but is acquiring ${fmt(
-            incomingSalary,
-          )} — over by ${fmt(incomingSalary - match.maxIncoming)}.`,
+            matchable,
+          )}${tpeAbsorbed > 0 ? " outside its TPE" : ""} — over by ${fmt(matchable - match.maxIncoming)}.`,
       citation: isApronTeam ? CITE.apronMatching : CITE.matching,
     });
 
     // --- Rule 2: expanded matching hard-caps at the first apron ---
     // Taking back more than you send hard-caps you at the first apron, so the
     // resulting salary may not exceed it. Only relevant for sub-apron teams.
-    const tookBackMore = incomingSalary > outgoingSalary + EPSILON;
+    // TPE-absorbed salary doesn't use expanded matching (row F above owns the
+    // pre-existing-TPE apron consequences), so the test runs on `matchable`.
+    const tookBackMore = matchable > outgoingSalary + EPSILON;
     const subApron =
       preTier === "below_cap" || preTier === "over_cap" || preTier === "taxpayer";
     if (subApron && tookBackMore) {
