@@ -187,20 +187,29 @@ export function ShareCardModal({
         : format === "story"
           ? { width: "380px", minHeight: "676px", aspectRatio: "9 / 16" }
           : null;
+    const opts = {
+      pixelRatio,
+      // The hold-to-save overlay is a picture OF the card — capturing it
+      // back into the card doubles the pixels and smears the export.
+      filter: (n: HTMLElement) => !(n instanceof HTMLElement && n.classList?.contains("hold-overlay")),
+      style: {
+        overflow: "visible",
+        maxHeight: "none",
+        ...(frame
+          ? { width: frame.width, maxWidth: frame.width, height: "auto", minHeight: frame.minHeight, aspectRatio: frame.aspectRatio }
+          : {}),
+      },
+    };
+    // iOS WebKit drops fonts/images on the first foreignObject rasterization
+    // (the classic html-to-image Safari bug) — warm the pipeline, keep the
+    // final pass.
+    const isWebKit = /AppleWebKit/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    if (isWebKit) {
+      await toPng(node, opts).catch(() => {});
+      await toPng(node, opts).catch(() => {});
+    }
     return Promise.race([
-      toPng(node, {
-        pixelRatio,
-        // The hold-to-save overlay is a picture OF the card — capturing it
-        // back into the card doubles the pixels and smears the export.
-        filter: (n) => !(n instanceof HTMLElement && n.classList?.contains("hold-overlay")),
-        style: {
-          overflow: "visible",
-          maxHeight: "none",
-          ...(frame
-            ? { width: frame.width, maxWidth: frame.width, height: "auto", minHeight: frame.minHeight, aspectRatio: frame.aspectRatio }
-            : {}),
-        },
-      }),
+      toPng(node, opts),
       new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
     ]);
     } finally {
