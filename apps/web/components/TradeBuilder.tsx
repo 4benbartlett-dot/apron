@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { validateTrade, violatesStepien, type Trade, type TeamTradeSummary, type Contract } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, currentSalary, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor } from "@/lib/league";
 import { fmtM as fmtMoney } from "@/lib/format";
-import { decodeTradeParam, encodeTradeParam } from "@/lib/trade-share";
+import { decodeTradeParam, pickShareLabel } from "@/lib/trade-share";
 import { useLeague, dispatchMove } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
+import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
+import { ShareCardModal } from "@/components/ShareCardModal";
 
 interface Sel {
   from: string;
@@ -23,7 +25,7 @@ export default function TradeBuilder() {
   const [teams, setTeams] = useState<string[]>(["BOS", "LAL"]);
   const [sel, setSel] = useState<Record<string, Sel>>({});
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
-  const [copied, setCopied] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
 
   const togglePick = (pickId: string, from: string) =>
     setPickSel((s) => {
@@ -135,18 +137,16 @@ export default function TradeBuilder() {
   }, [pickSel, verdict, lg]);
   const fullyLegal = verdict.legal && extraViolations.length === 0;
 
-  const share = async () => {
-    const picks = Object.entries(pickSel).map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
-    const token = encodeTradeParam(teams, trade.players, picks);
-    const url = `${window.location.origin}/trade?t=${encodeURIComponent(token)}`;
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      /* ignore */
-    }
-  };
+  // Sticky tray mirrors the verdict banner once it scrolls out of view.
+  const verdictRef = useRef<HTMLDivElement>(null);
+  const trayVisible = useTrayVisible(verdictRef, hasMoves);
+  const trayHauls = useMemo<TrayHaul[]>(() => {
+    const m: Record<string, string[]> = {};
+    for (const p of trade.players)
+      (m[p.to] ??= []).push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
+    for (const [id, mv] of Object.entries(pickSel)) (m[mv.to] ??= []).push(pickShareLabel(id));
+    return Object.entries(m).map(([team, labels]) => ({ team, labels }));
+  }, [trade, pickSel, lg]);
 
   const execute = () => {
     const names = trade.players.map((p) => lg.playerName(p.playerId).split(" ").slice(-1)[0]);
@@ -176,8 +176,8 @@ export default function TradeBuilder() {
         </div>
         {hasMoves && (
           <div className="flex gap-2">
-            <button onClick={share} className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">
-              {copied ? "Link copied ✓" : "Share"}
+            <button onClick={() => setShareOpen(true)} className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">
+              Share card
             </button>
             {fullyLegal && (
               <button
@@ -211,7 +211,33 @@ export default function TradeBuilder() {
         )}
       </div>
 
-      <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
+      <div ref={verdictRef} style={{ scrollMarginTop: 60 }}>
+        <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
+      </div>
+      {hasMoves && (
+        <TradeTray
+          hauls={trayHauls}
+          legal={fullyLegal}
+          visible={trayVisible}
+          onReview={() => verdictRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          onShare={() => setShareOpen(true)}
+        />
+      )}
+      {shareOpen && hasMoves && (
+        <ShareCardModal
+          trade={trade}
+          picks={Object.entries(pickSel).map(([id, mv]) => ({ id, from: mv.from, to: mv.to }))}
+          verdict={verdict}
+          extraViolations={extraViolations}
+          holdsOf={lg.teamHolds}
+          nameOf={lg.playerName}
+          salaryOf={(id) => {
+            const c = lg.contracts.find((x) => x.playerId === id);
+            return c ? currentSalary(c) : 0;
+          }}
+          onClose={() => setShareOpen(false)}
+        />
+      )}
 
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {teams.map((id) => (

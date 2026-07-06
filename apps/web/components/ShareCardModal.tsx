@@ -40,7 +40,12 @@ export function ShareCardModal({
   const legal = verdict.legal && extraViolations.length === 0;
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
   const [copied, setCopied] = useState(false);
+  const [copiedVerdict, setCopiedVerdict] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [urlFallback, setUrlFallback] = useState(false);
+  // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots,
+  // reporter = one-line ruling for article embeds.
+  const [format, setFormat] = useState<"feed" | "square" | "story" | "reporter">("feed");
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,7 +88,9 @@ export function ShareCardModal({
   const checks: { ok: boolean; text: string }[] = legal
     ? [
         ...involved
-          .filter((t) => t.incomingSalary > 0)
+          // Only claim a matching rule when salary actually needed matching —
+          // a leg fully absorbed by a TPE is legal for a different reason.
+          .filter((t) => t.incomingSalary - (t.tpeAbsorbed ?? 0) > 0)
           .map((t) => ({
             ok: true,
             text: `${t.teamId} takes back ${fmtM(t.incomingSalary)} against ${fmtM(t.outgoingSalary)} out — legal under ${matchRuleLabel(t.matchingRule, C)}`,
@@ -138,7 +145,25 @@ export function ShareCardModal({
       setCopied(true);
       setTimeout(() => setCopied(false), 1600);
     } catch {
-      /* ignore */
+      // Twitter/IG in-app browsers block the clipboard API — show the URL
+      // in a select-all input instead of failing silently.
+      setUrlFallback(true);
+    }
+  };
+
+  // The quotable one-liner — verdict, controlling rule, link.
+  const verdictLine = legal
+    ? `LEGAL under the 2023 CBA — ${checks.find((c) => c.ok)?.text ?? "passes every rule"}.`
+    : `BLOCKED by the 2023 CBA — ${checks.find((c) => !c.ok)?.text ?? "fails a rule"}`;
+  const copyVerdict = async () => {
+    track("share_copy_verdict");
+    const text = `${legal ? "\u2705" : "\u26d4"} ${verdictLine}\n\nTry this trade \u2192 ${shareUrl}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedVerdict(true);
+      setTimeout(() => setCopiedVerdict(false), 1600);
+    } catch {
+      setUrlFallback(true);
     }
   };
 
@@ -149,7 +174,7 @@ export function ShareCardModal({
     if (!node) return;
     track("share_download");
     setDownloading(true);
-    const name = `over-the-apron-${legal ? "legal" : "blocked"}-${involved.map((t) => t.teamId).join("-")}.png`;
+    const name = `over-the-apron-${format}-${legal ? "legal" : "blocked"}-${involved.map((t) => t.teamId).join("-")}.png`;
     const save = (href: string) => {
       const a = document.createElement("a");
       a.href = href;
@@ -216,7 +241,16 @@ export function ShareCardModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* the card */}
-        <div ref={cardRef} className="relative overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-[0_24px_64px_rgba(33,29,19,0.35)]">
+        <div
+          ref={cardRef}
+          className={`relative flex flex-col overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-[0_24px_64px_rgba(33,29,19,0.35)] ${
+            format === "square"
+              ? "mx-auto aspect-square w-full max-w-[520px]"
+              : format === "story"
+                ? "mx-auto aspect-[9/16] w-full max-w-[380px]"
+                : ""
+          }`}
+        >
           {/* masthead */}
           <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-3">
             <div className="flex items-center gap-2">
@@ -249,6 +283,28 @@ export function ShareCardModal({
             </span>
           </div>
 
+          {format === "reporter" ? (
+            /* reporter mode: the one-line ruling, built to be quoted */
+            <div className="flex flex-1 flex-col justify-center gap-3 px-5 py-6">
+              <div className="space-y-1.5">
+                {receiving.map((t) => (
+                  <div key={t.teamId} className="flex items-baseline gap-2 text-[14px]">
+                    <span className="flex shrink-0 items-center gap-1.5 font-bold">
+                      <TeamLogo id={t.teamId} size={17} /> {t.teamId}
+                    </span>
+                    <span className="text-[var(--muted)]">get</span>
+                    <span className="min-w-0 font-medium">{haulFor(t.teamId)}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="border-l-2 pl-3 text-[13.5px] leading-snug" style={{ borderColor: color }}>
+                <span className="font-bold" style={{ color }}>{legal ? "LEGAL" : "BLOCKED"}</span>
+                {" — "}
+                {legal ? checks.find((c) => c.ok)?.text : checks.find((c) => !c.ok)?.text}
+              </p>
+            </div>
+          ) : (
+            <>
           {/* the deal */}
           <div className="space-y-2.5 px-5 pb-1 pt-4">
             {involved.map((t) => {
@@ -313,19 +369,65 @@ export function ShareCardModal({
               </p>
             )}
           </div>
+            </>
+          )}
 
-          <div className="tear flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
+          {/* the seal: verdict + provenance on EVERY card, then the invitation */}
+          <div className="tear mt-auto flex items-center justify-between px-5 py-2.5 text-[10.5px] text-[var(--muted)]">
             <span className="tabular uppercase tracking-[0.08em]">
               Filed {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {filingNo(token)}
             </span>
-            <span className="tabular">overtheapron.com</span>
+            <span className="tabular font-semibold uppercase tracking-[0.08em]" style={{ color }}>
+              {legal ? "Legal under the 2023 CBA" : "Blocked under the 2023 CBA"}
+            </span>
+          </div>
+          <div className="flex items-center justify-between bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--bg)]">
+            <span>overtheapron.com</span>
+            <span>Try this trade →</span>
           </div>
         </div>
 
+        {/* format picker: same ruling, four frames */}
+        <div className="mt-3 flex items-center justify-center gap-1">
+          {(
+            [
+              ["feed", "Feed"],
+              ["square", "Square"],
+              ["story", "9:16"],
+              ["reporter", "Reporter"],
+            ] as const
+          ).map(([f, label]) => (
+            <button
+              key={f}
+              onClick={() => { setFormat(f); track("share_format", { format: f }); }}
+              className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition-colors ${
+                format === f
+                  ? "bg-[var(--panel)] text-[var(--text)] shadow-[inset_0_0_0_1px_var(--border-strong)]"
+                  : "text-[#f4f1e9]/70 hover:text-[#f4f1e9]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {urlFallback && (
+          <input
+            readOnly
+            value={shareUrl}
+            onFocus={(e) => e.target.select()}
+            className="mt-2 w-full rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-2.5 py-1.5 text-[11px]"
+            aria-label="Share link — copy manually"
+          />
+        )}
+
         {/* actions */}
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
           <button onClick={copyLink} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]">
             {copied ? "Copied ✓" : "Copy link"}
+          </button>
+          <button onClick={copyVerdict} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]" title="Copy the one-line ruling + link">
+            {copiedVerdict ? "Copied ✓" : "Copy verdict"}
           </button>
           <button onClick={downloadImage} disabled={downloading} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)] disabled:opacity-60">
             {downloading ? "Rendering…" : "Download image"}

@@ -66,6 +66,23 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         ) : null}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Over the Apron",
+              alternateName: "NBA Offseason, Simplified",
+              url: "https://overtheapron.com",
+              applicationCategory: "SportsApplication",
+              operatingSystem: "Web",
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+              description:
+                "NBA trade machine and offseason simulator with every 2023 CBA rule enforced — apron limits, hard caps, salary matching, traded-player exceptions, and the reasons why.",
+            }),
+          }}
+        />
         <SiteEggs />
         <header className="ledger-rule sticky top-0 z-20 bg-[var(--bg)]/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-3 sm:gap-5 sm:px-6">
@@ -96,6 +113,12 @@ export default function RootLayout({
             </Link>
             <Link href="/guide" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
               How to play
+            </Link>
+            <Link href="/teams" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+              Team trade machines
+            </Link>
+            <Link href="/terms" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+              CBA terms
             </Link>
             <span className="tabular ml-auto">{`rosters as of ${DATA_AS_OF} · 2026–27 · independent; not affiliated with the NBA or NBPA`}</span>
           </div>

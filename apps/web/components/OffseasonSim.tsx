@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   validateTrade,
   validateSigning,
@@ -28,7 +28,8 @@ import { Thermometer } from "@/components/Thermometer";
 import { leagueToast } from "@/components/SiteEggs";
 import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
-import type { DecodedPick } from "@/lib/trade-share";
+import { pickShareLabel, type DecodedPick } from "@/lib/trade-share";
+import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
@@ -230,6 +231,17 @@ export default function OffseasonSim() {
 
   const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0;
 
+  // Sticky tray: the deal summary follows you while you scroll rosters.
+  const verdictRef = useRef<HTMLDivElement>(null);
+  const trayVisible = useTrayVisible(verdictRef, hasTrade);
+  const trayHauls = useMemo<TrayHaul[]>(() => {
+    const m: Record<string, string[]> = {};
+    for (const p of trade.players)
+      (m[p.to] ??= []).push(lg.playerName(p.playerId).split(" ").slice(-1)[0]!);
+    for (const [id, mv] of Object.entries(pickSel)) (m[mv.to] ??= []).push(pickShareLabel(id));
+    return Object.entries(m).map(([team, labels]) => ({ team, labels }));
+  }, [trade, pickSel, lg]);
+
   // Ted Stepien rule, against the FULL pick-ownership ledger: after this trade
   // (and every prior executed one), no team may lack a first-round pick in
   // consecutive future years.
@@ -377,7 +389,18 @@ export default function OffseasonSim() {
 
       {/* trade verdict */}
       {hasTrade && (
-        <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
+        <div ref={verdictRef} style={{ scrollMarginTop: 60 }}>
+          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
+        </div>
+      )}
+      {hasTrade && (
+        <TradeTray
+          hauls={trayHauls}
+          legal={verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0}
+          visible={trayVisible}
+          onReview={() => verdictRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          onShare={() => setShareOpen(true)}
+        />
       )}
 
       {/* board */}

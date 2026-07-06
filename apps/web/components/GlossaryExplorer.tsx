@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { GLOSSARY, type TermKey } from "@/lib/glossary";
+import { TERM_SLUGS } from "@/lib/term-slugs";
 import { Reveal } from "@/components/Reveal";
 
 /** The filing cabinet: four drawers, color-coded, numbered slips inside. */
@@ -150,6 +151,14 @@ export function GlossaryExplorer() {
                               {g.cite}
                             </span>
                           </div>
+                        )}
+                        {TERM_SLUGS[k] && (
+                          <Link
+                            href={`/terms/${TERM_SLUGS[k]}`}
+                            className="mt-2 text-[11.5px] font-semibold text-[var(--accent-ink)] hover:underline"
+                          >
+                            Full explainer with 2026-27 figures →
+                          </Link>
                         )}
                       </article>
                     );
