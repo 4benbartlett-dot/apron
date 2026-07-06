@@ -211,7 +211,7 @@ export default function TradeBuilder() {
         )}
       </div>
 
-      <div ref={verdictRef} style={{ scrollMarginTop: 60 }}>
+      <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)]" style={{ scrollMarginTop: 60 }}>
         <VerdictBanner hasMoves={hasMoves} legal={fullyLegal} violations={[...verdict.violations.map((v) => v.reason), ...extraViolations]} />
       </div>
       {hasMoves && (

@@ -45,7 +45,7 @@ export function TradeTray({
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 top-[52px] z-30 flex justify-center px-2 sm:px-4"
+      className="pointer-events-none fixed inset-x-0 top-[52px] z-30 flex justify-center px-2 sm:px-4 md:hidden"
       aria-hidden={!visible}
     >
       <div

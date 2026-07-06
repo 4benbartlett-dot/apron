@@ -387,9 +387,10 @@ export default function OffseasonSim() {
         </button>
       </div>
 
-      {/* trade verdict */}
+      {/* trade verdict — on desktop the panel itself pins under the header
+          while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
-        <div ref={verdictRef} style={{ scrollMarginTop: 60 }}>
+        <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)]" style={{ scrollMarginTop: 60 }}>
           <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
         </div>
       )}
