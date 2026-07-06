@@ -50,6 +50,15 @@ export function ShareCardModal({
   const [canNativeShare, setCanNativeShare] = useState(false);
   const [storyHint, setStoryHint] = useState(false);
   const [copiedImg, setCopiedImg] = useState(false);
+  // On touch devices, a pixel-true PNG of the card is laid over it so the OS
+  // long-press gesture works — press and hold → Save to Photos, like any
+  // image on the web.
+  const [touchDevice, setTouchDevice] = useState(false);
+  useEffect(
+    () => setTouchDevice(typeof window !== "undefined" && (navigator.maxTouchPoints > 0 || "ontouchstart" in window)),
+    [],
+  );
+  const [holdImg, setHoldImg] = useState<string | null>(null);
   const [canCopyImage, setCanCopyImage] = useState(false);
   useEffect(
     () => setCanCopyImage(typeof ClipboardItem !== "undefined" && !!navigator.clipboard?.write),
@@ -182,6 +191,25 @@ export function ShareCardModal({
       new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
     ]);
   };
+
+  useEffect(() => {
+    if (!touchDevice) return;
+    let live = true;
+    setHoldImg(null);
+    // Let the stamp-in animation settle before snapshotting.
+    const timer = setTimeout(() => {
+      captureCard()
+        .then((u) => {
+          if (live) setHoldImg(u);
+        })
+        .catch(() => {});
+    }, 700);
+    return () => {
+      live = false;
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [format, touchDevice]);
 
   // Copy the rendered card itself to the clipboard — paste anywhere.
   // ClipboardItem takes the pending promise so Safari's user-gesture rule
@@ -423,6 +451,18 @@ export function ShareCardModal({
               </span>
             )}
           </div>
+
+          {holdImg && (
+            /* Pixel-true copy over the card: the OS long-press gesture now
+               treats the whole card as an image — hold to Save to Photos. */
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={holdImg}
+              alt="Trade card — press and hold to save as an image"
+              draggable={false}
+              className="absolute left-0 top-0 z-10 w-full"
+            />
+          )}
         </div>
 
         {/* format picker: same ruling, four frames */}
@@ -488,6 +528,11 @@ export function ShareCardModal({
             Close
           </button>
         </div>
+        {holdImg && (
+          <p className="mt-2 text-center text-[11px] leading-snug text-[#f4f1e9]/60">
+            Press and hold the card to save it as an image.
+          </p>
+        )}
         {storyHint && (
           <p className="mt-2 text-center text-[11px] font-semibold leading-snug text-[#f4f1e9]/90">
             In the share sheet: tap <span className="text-[#f4f1e9]">Instagram → Add to your story</span> — the QR on the card carries the link.
