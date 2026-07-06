@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, firstEncumbranceOf } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, firstEncumbranceOf, FEED_TEAM_STATE } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -504,15 +504,21 @@ export function deemedMinSalary(
   playerId: string,
   salary: number,
   years: number,
-  /** Sim moves pass their signing mechanism; feed bookings omit it. When
-   * present, only mechanism === "minimum" deems — a $3.5M one-year BAE deal
-   * that happens to sit near a scale row is NOT a minimum contract. */
+  /** Sim moves pass their signing mechanism; feed bookings omit it. */
   mechanism?: string,
 ): number {
   if (years !== 1) return salary;
   if (experienceOf(playerId) < 3) return salary;
   if (mechanism !== undefined) {
-    return mechanism === "minimum" ? Math.min(salary, C.minimumSalaries[2]!) : salary;
+    if (mechanism === "minimum") return Math.min(salary, C.minimumSalaries[2]!);
+    // §3(f) keys on the CONTRACT, not the signing tool: a one-year deal AT
+    // the player's applicable minimum is a minimum contract even via Bird
+    // rights or cap room (the own-FA minimum re-sign is the common case).
+    // Testing his OWN row keeps near-scale non-minimum deals (e.g. a $3.3M
+    // BAE offer sitting near another YOS row) from misbooking.
+    const ownMin =
+      C.minimumSalaries[Math.min(experienceOf(playerId), 10)] ?? C.minimumSalaries[10]!;
+    return salary <= ownMin + 1_000 ? Math.min(salary, C.minimumSalaries[2]!) : salary;
   }
   // Feed path — no mechanism metadata. "At his minimum": the salary sits on
   // the 3+ YOS scale (±$30k tolerates press-release rounding). Matching ANY
@@ -656,6 +662,9 @@ export interface FreeAgent {
   faType?: string;
   /** True if the team has renounced this FA's cap hold (and Bird rights). */
   renounced?: boolean;
+  /** Renounced by the REAL July (feed-derived room spending) — permanent;
+   * the sim can't restore a hold the team already spent. */
+  renouncedInWorld?: boolean;
 }
 export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
   return contracts
@@ -987,4 +996,76 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
     cs = applyMove(cs, m);
   }
   return line;
+}
+
+/* ------------------- Feed-derived offseason team state ------------------- */
+
+export interface TeamFeedState {
+  roomTeam: boolean;
+  /** Dollars already spent from each exception by REAL July moves. */
+  consumed: Partial<Record<MechanismId, number>>;
+  /** Hard cap already triggered in-world, as a dollar line (or Infinity). */
+  hardCap: number;
+  /** Lowercased FA names whose holds the real offseason forced off the books. */
+  forcedRenounced: Set<string>;
+}
+
+const NO_FEED_STATE: TeamFeedState = {
+  roomTeam: false,
+  consumed: {},
+  hardCap: Infinity,
+  forcedRenounced: new Set(),
+};
+
+/** How this team's July ACTUALLY happened, per the audited feed state —
+ * room usage kills the MLEs/BAE for the year (§6(n)(1), §6(g)(3)), feed
+ * signings consume exceptions, S&T/MLE acquisitions freeze hard caps, and
+ * demonstrated room spending implies the holds it required were renounced. */
+export function feedStateOf(team: string): TeamFeedState {
+  const raw = FEED_TEAM_STATE[team];
+  if (!raw) return NO_FEED_STATE;
+  const consumed: Partial<Record<MechanismId, number>> = {};
+  if (raw.roomMleUsed) consumed.room_mle = raw.roomMleUsed;
+  if (raw.consumedNtmle) consumed.ntmle = raw.consumedNtmle;
+  if (raw.consumedTpmle) consumed.tpmle = raw.consumedTpmle;
+  if (raw.consumedBae) consumed.bae = raw.consumedBae;
+  return {
+    roomTeam: raw.operatedUnderCap ?? false,
+    consumed,
+    hardCap:
+      raw.inWorldHardCap === "first_apron"
+        ? C.firstApron
+        : raw.inWorldHardCap === "second_apron"
+          ? C.secondApron
+          : Infinity,
+    forcedRenounced: new Set((raw.forcedRenounced ?? []).map((n) => n.toLowerCase())),
+  };
+}
+
+/** Exception dollars spent by THIS SESSION's sign moves for a team. */
+export function sessionExceptionUse(
+  moves: Move[],
+  team: string,
+): Partial<Record<MechanismId, number>> {
+  const used: Partial<Record<MechanismId, number>> = {};
+  for (const m of moves) {
+    if (m.kind === "sign" && m.teamId === team && m.mechanism) {
+      used[m.mechanism] = (used[m.mechanism] ?? 0) + m.salary;
+    }
+  }
+  return used;
+}
+
+/** Feed + session exception consumption, merged for spendingPower. */
+export function consumedFor(
+  moves: Move[],
+  team: string,
+): Partial<Record<MechanismId, number>> {
+  const out: Partial<Record<MechanismId, number>> = { ...feedStateOf(team).consumed };
+  const session = sessionExceptionUse(moves, team);
+  for (const [k, v] of Object.entries(session)) {
+    const id = k as MechanismId;
+    out[id] = (out[id] ?? 0) + (v ?? 0);
+  }
+  return out;
 }

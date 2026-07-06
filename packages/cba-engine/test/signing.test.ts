@@ -74,3 +74,35 @@ describe("validateSigning picks the right exception", () => {
     expect(v.mechanism?.id).toBe("bird");
   });
 });
+
+describe("minimum exception is player-specific (not everyone gets the 10+ figure)", () => {
+  // Second-apron team: the minimum is the only outside tool, so the minimum
+  // ceiling is what decides legality here.
+  const OVER_2A = 240_000_000;
+
+  it("an 8-YOS outside FA cannot sign for the 10+ minimum", () => {
+    const v = validateSigning(OVER_2A, C.minimumSalaries[10]!, C, {
+      yearsOfService: 8,
+      apronSalary: OVER_2A,
+    });
+    expect(v.legal).toBe(false);
+  });
+
+  it("the same 8-YOS FA signs at HIS minimum", () => {
+    const v = validateSigning(OVER_2A, C.minimumSalaries[8]!, C, {
+      yearsOfService: 8,
+      apronSalary: OVER_2A,
+    });
+    expect(v.legal).toBe(true);
+    expect(v.mechanism?.id).toBe("minimum");
+  });
+
+  it("a 10+ YOS FA still gets the top figure", () => {
+    const v = validateSigning(OVER_2A, C.minimumSalaries[10]!, C, {
+      yearsOfService: 14,
+      apronSalary: OVER_2A,
+    });
+    expect(v.legal).toBe(true);
+    expect(v.mechanism?.id).toBe("minimum");
+  });
+});

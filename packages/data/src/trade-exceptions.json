@@ -1,0 +1,681 @@
+{
+  "asOf": "2026-07-05",
+  "source": "Spotrac (spotrac.com/nba/transactions/trade-exceptions) + SalarySwish (salaryswish.com/trade-exception)",
+  "availabilityNote": "Per CBA §6(n)(2), a team that used cap room this offseason has renounced its outstanding TPEs. Rows are NOT filtered for that here — the app decides with FEED_TEAM_STATE.",
+  "rows": [
+    {
+      "team": "ATL",
+      "player": "Luke Kennard",
+      "amount": 11000000,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "ATL",
+      "player": "Kobe Bufkin",
+      "amount": 4503720,
+      "expires": "2026-09-16",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "ATL",
+      "player": "Vit Krejci",
+      "amount": 2349578,
+      "expires": "2027-02-01",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "ATL",
+      "player": "Clint Capela",
+      "amount": 1541920,
+      "expires": "2026-07-06",
+      "original": 6700000,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "ATL",
+      "player": "Trae Young",
+      "amount": 1357993,
+      "expires": "2027-01-08",
+      "original": 1357994,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ],
+      "amountMismatch": {
+        "spotrac": 1357993,
+        "salaryswish": 1357994
+      },
+      "expiresMismatch": {
+        "spotrac": "2027-01-08",
+        "salaryswish": "2027-01-09"
+      }
+    },
+    {
+      "team": "BOS",
+      "player": "Anfernee Simons",
+      "amount": 27678571,
+      "expires": "2027-02-05",
+      "singleSource": true,
+      "sources": [
+        "spotrac"
+      ]
+    },
+    {
+      "team": "BOS",
+      "player": "Georges Niang",
+      "amount": 8200000,
+      "expires": "2026-08-06",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "BOS",
+      "player": "Jrue Holiday",
+      "amount": 4721429,
+      "expires": "2026-07-07",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "BOS",
+      "player": "Xavier Tillman Sr.",
+      "amount": 2546675,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "BOS",
+      "player": "Josh Minott",
+      "amount": 2378870,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "BOS",
+      "player": "Chris Boucher",
+      "amount": 2296274,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "BOS",
+      "player": "Kristaps Porzingis",
+      "amount": 1050226,
+      "expires": "2026-07-07",
+      "original": 22531707,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHA",
+      "player": "LaMelo Ball",
+      "amount": 40770520,
+      "expires": "2027-06-25",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHA",
+      "player": "Collin Sexton",
+      "amount": 8200962,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHA",
+      "player": "Tyus Jones",
+      "amount": 7000000,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHA",
+      "player": "Mason Plumlee",
+      "amount": 2296274,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHI",
+      "player": "Kevin Huerter",
+      "amount": 17991071,
+      "expires": "2027-02-03",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHI",
+      "player": "Mike Conley",
+      "amount": 10774038,
+      "expires": "2027-02-04",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHI",
+      "player": "Ousmane Dieng",
+      "amount": 6670882,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHI",
+      "player": "Julian Phillips",
+      "amount": 2221677,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHI",
+      "player": "Coby White",
+      "amount": 1218007,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ],
+      "amountMismatch": {
+        "spotrac": 1218007,
+        "salaryswish": 0
+      }
+    },
+    {
+      "team": "CLE",
+      "player": "Lonzo Ball",
+      "amount": 10000000,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CLE",
+      "player": "De'Andre Hunter",
+      "amount": 6897984,
+      "expires": "2027-02-01",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CLE",
+      "player": "Isaac Okoro",
+      "amount": 1000000,
+      "expires": "2026-07-06",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CLE",
+      "player": "Darius Garland",
+      "amount": 263397,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DAL",
+      "player": "Anthony Davis",
+      "amount": 20830154,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DAL",
+      "player": "Jaden Hardy",
+      "amount": 2909520,
+      "expires": "2027-02-05",
+      "original": 6000000,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DAL",
+      "player": "Dante Exum",
+      "amount": 2296274,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DEN",
+      "player": "Michael Porter Jr.",
+      "amount": 6880985,
+      "expires": "2026-07-08",
+      "original": 17275985,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DEN",
+      "player": "Dario Saric",
+      "amount": 5426400,
+      "expires": "2026-07-13",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DEN",
+      "player": "Hunter Tyson",
+      "amount": 2221677,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DET",
+      "player": "Dennis Schroder",
+      "amount": 8677600,
+      "expires": "2026-07-07",
+      "original": 14104000,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "GSW",
+      "player": "Trayce Jackson-Davis",
+      "amount": 2221677,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "HOU",
+      "player": "Cam Whitmore",
+      "amount": 3539760,
+      "expires": "2026-07-06",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "IND",
+      "player": "Kam Jones",
+      "amount": 1075459,
+      "expires": "2027-06-24",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "LAC",
+      "player": "Kobe Brown",
+      "amount": 2654880,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "LAC",
+      "player": "Chris Paul",
+      "amount": 2296274,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "LAC",
+      "player": "Ivica Zubac",
+      "amount": 1314427,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "LAL",
+      "player": "Gabe Vincent",
+      "amount": 500000,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MEM",
+      "player": "Jaren Jackson Jr.",
+      "amount": 28872920,
+      "expires": "2027-02-03",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MEM",
+      "player": "Ja Morant",
+      "amount": 2644608,
+      "expires": "2027-06-29",
+      "singleSource": true,
+      "sources": [
+        "spotrac"
+      ]
+    },
+    {
+      "team": "MIA",
+      "player": "Duncan Robinson",
+      "amount": 16834692,
+      "expires": "2026-07-07",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MIA",
+      "player": "Haywood Highsmith",
+      "amount": 5616000,
+      "expires": "2026-08-15",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MIN",
+      "player": "Mike Conley",
+      "amount": 10774038,
+      "expires": "2027-02-03",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MIN",
+      "player": "Rob Dillingham",
+      "amount": 6576120,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MIN",
+      "player": "Nickeil Alexander-Walker",
+      "amount": 62382,
+      "expires": "2026-07-06",
+      "original": 7580900,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "NOP",
+      "player": "Kelly Olynyk",
+      "amount": 13445122,
+      "expires": "2026-07-06",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "NOP",
+      "player": "Jose Alvarado",
+      "amount": 4500000,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "NYK",
+      "player": "Dalen Terry",
+      "amount": 899118,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "NYK",
+      "player": "Guerschon Yabusele",
+      "amount": 100882,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "OKC",
+      "player": "Ousmane Dieng",
+      "amount": 2449522,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "ORL",
+      "player": "Tyus Jones",
+      "amount": 7000000,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "PHI",
+      "player": "Jared McCain",
+      "amount": 4221360,
+      "expires": "2027-02-04",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "PHI",
+      "player": "Eric Gordon",
+      "amount": 2296274,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "PHX",
+      "player": "Nick Richards",
+      "amount": 5000000,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "PHX",
+      "player": "Nigel Hayes-Davis",
+      "amount": 2048494,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "PHX",
+      "player": "Kevin Durant",
+      "amount": 251166,
+      "expires": "2026-07-06",
+      "singleSource": true,
+      "sources": [
+        "spotrac"
+      ]
+    },
+    {
+      "team": "POR",
+      "player": "Kris Murray",
+      "amount": 3132000,
+      "expires": "2027-06-29",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "SAC",
+      "player": "Dario Saric",
+      "amount": 5426400,
+      "expires": "2027-02-01",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "SAC",
+      "player": "Jonas Valanciunas",
+      "amount": 4968600,
+      "expires": "2026-07-13",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "SAC",
+      "player": "Devin Carter",
+      "amount": 4923720,
+      "expires": "2027-06-30",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "TOR",
+      "player": "Ochai Agbaji",
+      "amount": 6383525,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "UTA",
+      "player": "Jock Landale",
+      "amount": 2296274,
+      "expires": "2027-02-05",
+      "singleSource": true,
+      "sources": [
+        "spotrac"
+      ]
+    },
+    {
+      "team": "UTA",
+      "player": "John Collins",
+      "amount": 2215000,
+      "expires": "2026-07-07",
+      "original": 26580000,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "WAS",
+      "player": "Kelly Olynyk",
+      "amount": 13445122,
+      "expires": "2026-07-09",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ],
+      "expiresMismatch": {
+        "spotrac": "2026-07-09",
+        "salaryswish": "2026-07-08"
+      }
+    }
+  ]
+}

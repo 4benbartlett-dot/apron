@@ -16,6 +16,15 @@ export interface SigningOpts {
    * `teamSalary`, where holds DO consume room. Defaults to `teamSalary`
    * (holds-included), which is the CONSERVATIVE legacy behavior. */
   apronSalary?: number;
+  /** The team operated under the cap this league year (used room). Per
+   * §6(n)(1) the NT-MLE/TP-MLE/BAE are gone for the year; the Room MLE is
+   * the team's mid-level and persists even after it climbs back over the
+   * cap (§6(g)). */
+  roomTeam?: boolean;
+  /** Dollars of each exception already spent this league year (real-world
+   * feed + earlier session moves). Reduces what's left; §6(g)(3): any Room
+   * MLE use also kills the other MLEs/BAE for the year. */
+  consumed?: Partial<Record<MechanismId, number>>;
 }
 
 export type MechanismId =
@@ -63,13 +72,21 @@ const CITES: Record<MechanismId, string> = {
 export function spendingPower(
   teamSalary: number,
   c: LeagueConstants,
-  opts: { isOwnFreeAgent?: boolean; apronSalary?: number } = {},
+  opts: SigningOpts = {},
 ): SpendingPower {
   // Tier (exception gating) tests Apron Team Salary — holds excluded.
   // Cap room tests full team salary — holds included.
   const tier = classifyTier(opts.apronSalary ?? teamSalary, c);
   const capRoom = c.salaryCap - teamSalary;
+  const spent = (id: MechanismId) => opts.consumed?.[id] ?? 0;
+  // §6(g)(3): any Room MLE use kills the other MLEs/BAE for the year, even
+  // if the roomTeam flag wasn't passed explicitly.
+  const roomTeam = (opts.roomTeam ?? false) || spent("room_mle") > 0;
   const mechanisms: SignMechanism[] = [];
+  const push = (m: SignMechanism) => {
+    const remaining = m.maxSalary - spent(m.id);
+    if (remaining >= 1_000) mechanisms.push({ ...m, maxSalary: remaining });
+  };
 
   if (opts.isOwnFreeAgent) {
     mechanisms.push({
@@ -89,44 +106,55 @@ export function spendingPower(
       hardCap: null,
       citation: CITES.cap_room,
     });
-    mechanisms.push({
+  }
+  if (roomTeam || capRoom > 0) {
+    // The room team's mid-level. Once earned it persists for the year even
+    // after the team climbs back over the cap (§6(g)).
+    push({
       id: "room_mle",
       label: "Room MLE",
       maxSalary: c.roomMLE,
       hardCap: null,
       citation: CITES.room_mle,
     });
-  } else if (tier === "over_cap" || tier === "taxpayer") {
-    // Over the cap but under the first apron.
-    mechanisms.push({
-      id: "ntmle",
-      label: "Non-Tax MLE",
-      maxSalary: c.nonTaxpayerMLE,
-      hardCap: "first_apron",
-      citation: CITES.ntmle,
-    });
-    mechanisms.push({
-      id: "bae",
-      label: "Bi-Annual",
-      maxSalary: c.biAnnualException,
-      hardCap: "first_apron",
-      citation: CITES.bae,
-    });
-  } else if (tier === "first_apron") {
-    mechanisms.push({
-      id: "tpmle",
-      label: "Taxpayer MLE",
-      maxSalary: c.taxpayerMLE,
-      hardCap: "second_apron",
-      citation: CITES.tpmle,
-    });
+  }
+  if (!roomTeam && capRoom <= 0) {
+    if (tier === "over_cap" || tier === "taxpayer") {
+      // Over the cap but under the first apron.
+      push({
+        id: "ntmle",
+        label: "Non-Tax MLE",
+        maxSalary: c.nonTaxpayerMLE,
+        hardCap: "first_apron",
+        citation: CITES.ntmle,
+      });
+      push({
+        id: "bae",
+        label: "Bi-Annual",
+        maxSalary: c.biAnnualException,
+        hardCap: "first_apron",
+        citation: CITES.bae,
+      });
+    } else if (tier === "first_apron") {
+      push({
+        id: "tpmle",
+        label: "Taxpayer MLE",
+        maxSalary: c.taxpayerMLE,
+        hardCap: "second_apron",
+        citation: CITES.tpmle,
+      });
+    }
   }
   // tier === "second_apron": no MLE/BAE — minimum only (plus Bird for own FAs).
 
+  // The minimum is PLAYER-specific: an 8-YOS free agent's minimum contract
+  // pays the 8-YOS figure, not the 10+ one. Without a player in context
+  // (team-board view) the 10+ ceiling is the tool's generic maximum.
+  const minYos = Math.min(Math.max(Math.floor(opts.yearsOfService ?? 10), 0), 10);
   mechanisms.push({
     id: "minimum",
     label: "Minimum",
-    maxSalary: c.minimumSalaries[10] ?? 0,
+    maxSalary: c.minimumSalaries[minYos] ?? c.minimumSalaries[10] ?? 0,
     hardCap: null,
     citation: CITES.minimum,
   });

@@ -23,6 +23,7 @@ export function ShareCardModal({
   picks,
   verdict,
   extraViolations,
+  holdsOf,
   nameOf,
   salaryOf,
   onClose,
@@ -31,6 +32,7 @@ export function ShareCardModal({
   picks: DecodedPick[];
   verdict: TradeVerdict;
   extraViolations: string[];
+  holdsOf?: (team: string) => number;
   nameOf: (id: string) => string;
   salaryOf: (id: string) => number;
   onClose: () => void;
@@ -75,7 +77,7 @@ export function ShareCardModal({
     return { players, pickLabels };
   };
 
-  const firstFix = legal ? null : explainBlocked(verdict, extraViolations, C).fixes[0] ?? null;
+  const firstFix = legal ? null : explainBlocked(verdict, extraViolations, C, holdsOf).fixes[0] ?? null;
 
   // The receipt: every rule the deal passes, or every reason it fails.
   const checks: { ok: boolean; text: string }[] = legal

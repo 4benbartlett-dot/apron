@@ -6,7 +6,7 @@ import {
   validateSigning,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, feedStateOf, consumedFor } from "@/lib/league";
 import { useLeague, dispatchMove } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { TierBadge } from "@/components/TierBadge";
@@ -44,7 +44,17 @@ export default function FreeAgencyPage() {
   const power = useMemo(() => {
     const committed = lg.teamSalary(team);
     const holds = lg.teamHolds(team);
-    return { committed, holds, ...spendingPower(committed + holds, C) };
+    // Room math on committed + holds; exception tiers on APRON salary; feed
+    // state (room team, spent exceptions) plus session moves both consume.
+    return {
+      committed,
+      holds,
+      ...spendingPower(committed + holds, C, {
+        apronSalary: committed,
+        roomTeam: feedStateOf(team).roomTeam,
+        consumed: consumedFor(lg.moves, team),
+      }),
+    };
   }, [team, lg]);
 
   const meta = teamMeta(team);
@@ -53,8 +63,11 @@ export default function FreeAgencyPage() {
     playerId: string,
     playerName: string,
     salary: number,
+    mechanism?: MechanismId,
     restricted = true,
   ) =>
+    // Mechanism rides along so the session remembers hard caps and
+    // exception consumption no matter which page the signing came from.
     dispatchMove({
       kind: "sign",
       label: `${restricted ? "Sign" : "Extend"}: ${playerName} → ${team}`,
@@ -62,6 +75,7 @@ export default function FreeAgencyPage() {
       playerName,
       teamId: team,
       salary,
+      mechanism,
       restricted,
     });
 
@@ -122,7 +136,7 @@ export default function FreeAgencyPage() {
         <div className="max-h-[60vh] overflow-y-auto">
           {fas.map((fa, i) => {
             const isOwn = fa.priorTeam === team;
-            const v = validateSigning(power.teamSalary, fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? "bird" : undefined });
+            const v = validateSigning(power.teamSalary, fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? "bird" : undefined, apronSalary: power.committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
             const mech = v.mechanism;
             const color = mechColor(mech ? mech.id : null);
             const salary = v.legal ? fa.lastSalary : v.maxOffer;
@@ -138,7 +152,7 @@ export default function FreeAgencyPage() {
                 <div className="tabular text-right">{fmtM(fa.lastSalary)}</div>
                 <div className="flex justify-end">
                   <button
-                    onClick={() => sign(fa.playerId, fa.playerName, salary)}
+                    onClick={() => sign(fa.playerId, fa.playerName, salary, (v.legal ? v.mechanism : v.maxOfferMechanism)?.id)}
                     className="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold hover:brightness-125"
                     style={chipStyle(color)}
                     title={`${v.reason} New contract — trade-restricted until Dec 15.`}

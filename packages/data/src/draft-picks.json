@@ -1541,6 +1541,77 @@
         }
       ]
     },
+    "PHI": {
+      "incoming": [
+        {
+          "year": 2027,
+          "headline": "2027 second round draft pick from Golden State or Phoenix (more favorable)",
+          "detail": "Philadelphia will receive the more favorable of Golden State's 2027 2nd round pick and Phoenix's 2027 2nd round pick and Washington will receive the less favorable of the two (via Washington) [Indiana-Phoenix-Washington, 6/23/2023; Golden State-Washington, 7/6/2023; Philadelphia-Washington, 2/6/2025]"
+        },
+        {
+          "year": 2027,
+          "headline": "2027 second round draft pick from Oklahoma City, Houston, Indiana or Miami (most favorable)",
+          "detail": "Philadelphia will receive the most favorable of Oklahoma City's 2027 2nd round pick, Houston's 2027 2nd round pick, Indiana's 2027 2nd round pick and Miami's 2027 2nd round pick and New Orleans will receive the second most favorable and New York will receive the third most favorable of the four; San Antonio will receive the more favorable of (i) its 2027 2nd round pick and (ii) the least favorable of the Oklahoma City pick, the Houston pick, the Indiana pick and the Miami pick and Miami will receive the least favorable of the five (via Houston to Detroit to Oklahoma City to New York to New Orleans; via Miami to Oklahoma City to Utah to San Antonio to Miami; via Oklahoma City to Philadelphia) [Detroit-Houston, 11/24/2020; Detroit-Oklahoma City, 3/13/2021; Indiana-Oklahoma City, 11/25/2020; Miami-Oklahoma City, 3/17/2021; Oklahoma City-Utah, 7/30/2021; Portland-San Antonio-Utah, 2/9/2022; Cleveland-Miami-San Antonio, 7/6/2023; New York-Oklahoma City, 6/27/2024; Oklahoma City-Philadelphia, 2/4/2026; New Orleans-New York, 2/5/2026]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 first round draft pick from L.A. Clippers",
+          "detail": "L.A. Clippers' 2028 1st round pick to Philadelphia [L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 second round draft pick from Detroit",
+          "detail": "Detroit's 2028 2nd round pick to Philadelphia protected for selections 31-55 (if this pick falls within its protected range and is therefore not conveyed, then Detroit's obligation to Philadelphia will be extinguished) [Detroit-Philadelphia, 2/8/2024]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 second round draft picks from Golden State, Milwaukee or Oklahoma City (two least favorable)",
+          "detail": "Boston will receive the most favorable of Golden State's 2028 2nd round pick, Milwaukee's 2028 2nd round pick and Oklahoma City's 2028 2nd round pick and Philadelphia will receive the two least favorable of the three (via Golden State to Portland to Washington to Philadelphia; via Milwaukee to Brooklyn to Houston to Oklahoma City to Philadelphia; via Oklahoma City to Philadelphia) [Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
+        },
+        {
+          "year": 2029,
+          "headline": "2029 first round draft pick from L.A. Clippers (Philadelphia outgoing)",
+          "detail": "Philadelphia has the right to swap its 2029 1st round pick for the L.A. Clippers' 2029 1st round pick protected for selections 1-3 (if this pick falls within its protected range and is therefore not conveyable, then the L.A. Clippers' obligation to Philadelphia will be extinguished) [L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 second round draft pick from Phoenix, Portland or Washington",
+          "detail": "Boston will receive the most favorable of Phoenix's 2030 2nd round pick, Portland's 2030 2nd round pick and Washington's 2030 2nd round pick; Philadelphia will receive the less favorable of (i) the more favorable of the Phoenix pick and the Portland pick and (ii) the Washington pick; Washington will receive the less favorable of the Phoenix pick and the Portland pick (via Phoenix and Portland to Washington to Philadelphia) [Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 second round draft pick from Washington",
+          "detail": "Washington's 2030 2nd round pick to Philadelphia; Philadelphia may convey this pick to Boston (see Philadelphia Incoming) [Philadelphia-Washington, 2/6/2025]"
+        }
+      ],
+      "outgoing": [
+        {
+          "year": 2028,
+          "headline": "2028 first round draft pick to Boston",
+          "detail": "Boston will receive a 2028 1st round pick from Philadelphia or instead receive a swap right over a 2028 1st round pick from Philadelphia; the Philadelphia pick is available to trade from 1-8 and Philadelphia has the L.A. Clippers' 2028 1st round pick [Boston-Philadelphia, pending]"
+        },
+        {
+          "year": 2028,
+          "headline": "2028 first round draft pick to Brooklyn",
+          "detail": "Philadelphia's 2028 1st round pick to Brooklyn protected for selections 1-8; if this pick falls within its protected range and is therefore not conveyed, then Philadelphia will instead convey its 2028 2nd round pick to Brooklyn; Brooklyn may convey the 2028 1st round pick to Phoenix (see Brooklyn Incoming) which may then convey this pick to Washington (see Phoenix Outgoing) [Brooklyn-Philadelphia, 2/10/2022]"
+        },
+        {
+          "year": 2030,
+          "headline": "2030 second round draft pick to New York",
+          "detail": "Philadelphia's 2030 2nd round pick to New York (via Dallas) [Dallas-Philadelphia, 2/6/2025; Dallas-L.A. Lakers-New York-Phoenix, 6/24/2026]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick to Boston",
+          "detail": "Philadelphia's 2031 1st round pick to Boston [Boston-Philadelphia, pending]"
+        },
+        {
+          "year": 2032,
+          "headline": "2032 second round draft pick to Memphis (swap, Memphis incoming)",
+          "detail": "Memphis has the right to swap its 2032 2nd round pick for Philadelphia's 2032 2nd round pick [Memphis-Philadelphia, 2/5/2026]"
+        }
+      ]
+    },
     "PHX": {
       "incoming": [
         {

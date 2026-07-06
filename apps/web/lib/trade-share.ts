@@ -7,6 +7,7 @@ import {
   lockedFirstEncumbrance,
   freeAgentsOf,
   holdsByTeam,
+  feedStateOf,
 } from "./league";
 
 interface DecodedMove {
@@ -132,6 +133,11 @@ export function summarizeTrade(t: string): TradeSummary | null {
     if (lockedFirstEncumbrance(teamId, 2033)) uncovered.push(2033);
     return violatesStepien(uncovered);
   });
+  // A hard cap the team already triggered with its REAL July moves binds
+  // here too — share cards must agree with the live board.
+  const feedCapped = v.teams.find(
+    (ts) => ts.postTradeSalary > feedStateOf(ts.teamId).hardCap + 1,
+  );
   const nameOf = (id: string) =>
     BASE_CONTRACTS.find((c) => c.playerId === id)?.playerName ?? id;
   const perTeam = v.teams.map((ts) => ({
@@ -150,12 +156,16 @@ export function summarizeTrade(t: string): TradeSummary | null {
       ts.incomingSalary > 0 ? matchRuleLabel(ts.matchingRule, C) : undefined,
   }));
   return {
-    legal: v.legal && !stepienTeam,
+    legal: v.legal && !stepienTeam && !feedCapped,
     reason:
       v.violations[0]?.reason ??
       (stepienTeam
         ? `${teamMeta(stepienTeam).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`
-        : undefined),
+        : feedCapped
+          ? `${teamMeta(feedCapped.teamId).name} is hard-capped at ${
+              feedStateOf(feedCapped.teamId).hardCap === C.firstApron ? "the first apron" : "the second apron"
+            } by its real July moves — this trade would exceed it.`
+          : undefined),
     perTeam,
   };
 }
