@@ -49,6 +49,12 @@ export function ShareCardModal({
   // sheet exists (falls back to a PNG download if files aren't shareable).
   const [canNativeShare, setCanNativeShare] = useState(false);
   const [storyHint, setStoryHint] = useState(false);
+  const [copiedImg, setCopiedImg] = useState(false);
+  const [canCopyImage, setCanCopyImage] = useState(false);
+  useEffect(
+    () => setCanCopyImage(typeof ClipboardItem !== "undefined" && !!navigator.clipboard?.write),
+    [],
+  );
   useEffect(() => setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
   // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots.
   const [format, setFormat] = useState<"feed" | "square" | "story">("feed");
@@ -145,6 +151,62 @@ export function ShareCardModal({
 
   // Renders THE CARD ITSELF (exactly what's on screen) to a PNG. Falls back
   // to the server-rendered OG card if in-browser rendering stalls.
+  // Format-true capture of the on-screen card (shared by save/copy/story).
+  const captureCard = async (pixelRatio = 2) => {
+    const node = cardRef.current;
+    if (!node) throw new Error("no card");
+    // Capture at the format's true size regardless of screen width, so a
+    // phone still downloads a real 1080-wide square/story.
+    const captureWidth = format === "square" ? "520px" : format === "story" ? "380px" : undefined;
+    // The +N-more budgets keep posters on-frame; if a big multi-team deal
+    // still beats them (3 teams overflow the square), grow the canvas —
+    // overflow:hidden here would silently crop rows off the ruling.
+    const overflows = node.scrollHeight > node.clientHeight + 2;
+    return Promise.race([
+      toPng(node, {
+        pixelRatio,
+        style: {
+          overflow: overflows ? "visible" : "hidden",
+          maxHeight: "none",
+          ...(captureWidth
+            ? {
+                width: captureWidth,
+                maxWidth: captureWidth,
+                ...(overflows
+                  ? { height: "auto", aspectRatio: "auto" }
+                  : { aspectRatio: format === "square" ? "1 / 1" : "9 / 16" }),
+              }
+            : {}),
+        },
+      }),
+      new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
+    ]);
+  };
+
+  // Copy the rendered card itself to the clipboard — paste anywhere.
+  // ClipboardItem takes the pending promise so Safari's user-gesture rule
+  // is satisfied even though the capture is async.
+  const copyImage = async () => {
+    const node = cardRef.current;
+    if (!node) return;
+    track("share_copy_image");
+    node.classList.add("capture");
+    try {
+      const blobPromise = captureCard()
+        .then((dataUrl) => fetch(dataUrl))
+        .then((r) => r.blob())
+        .finally(() => node.classList.remove("capture"));
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": blobPromise })]);
+      setCopiedImg(true);
+      setTimeout(() => setCopiedImg(false), 1600);
+    } catch {
+      // Clipboard blocked (permissions, odd browser) — they wanted the
+      // image, so give them the image: fall back to the save path.
+      node.classList.remove("capture");
+      void downloadImage();
+    }
+  };
+
   const downloadImage = async () => {
     const node = cardRef.current;
     if (!node) return;
@@ -159,32 +221,21 @@ export function ShareCardModal({
     };
     node.classList.add("capture");
     try {
-      // Capture at the format's true size regardless of screen width, so a
-      // phone still downloads a real 1080-wide square/story.
-      const captureWidth = format === "square" ? "520px" : format === "story" ? "380px" : undefined;
-      // The +N-more budgets keep posters on-frame; if a big multi-team deal
-      // still beats them (3 teams overflow the square), grow the canvas —
-      // overflow:hidden here would silently crop rows off the ruling.
-      const overflows = node.scrollHeight > node.clientHeight + 2;
-      const url = await Promise.race([
-        toPng(node, {
-          pixelRatio: 2,
-          style: {
-            overflow: overflows ? "visible" : "hidden",
-            maxHeight: "none",
-            ...(captureWidth
-              ? {
-                  width: captureWidth,
-                  maxWidth: captureWidth,
-                  ...(overflows
-                    ? { height: "auto", aspectRatio: "auto" }
-                    : { aspectRatio: format === "square" ? "1 / 1" : "9 / 16" }),
-                }
-              : {}),
-          },
-        }),
-        new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
-      ]);
+      const url = await captureCard();
+      // Phones: hand the PNG to the share sheet, whose "Save Image" writes
+      // straight to Photos — a raw download strands the file in Files.
+      if (canNativeShare) {
+        const blob = await (await fetch(url)).blob();
+        const file = new File([blob], name, { type: "image/png" });
+        if (navigator.canShare?.({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file] });
+          } catch {
+            /* sheet dismissed — not an error */
+          }
+          return;
+        }
+      }
       save(url);
     } catch {
       const res = await fetch(`/api/og?t=${encodeURIComponent(token)}`);
@@ -208,17 +259,7 @@ export function ShareCardModal({
     setDownloading(true);
     node.classList.add("capture");
     try {
-      const overflows = node.scrollHeight > node.clientHeight + 2;
-      const dataUrl = await toPng(node, {
-        pixelRatio: 3,
-        style: {
-          overflow: overflows ? "visible" : "hidden",
-          maxHeight: "none",
-          width: "380px",
-          maxWidth: "380px",
-          ...(overflows ? { height: "auto", aspectRatio: "auto" } : { aspectRatio: "9 / 16" }),
-        },
-      });
+      const dataUrl = await captureCard(3);
       const blob = await (await fetch(dataUrl)).blob();
       const file = new File([blob], "over-the-apron-story.png", { type: "image/png" });
       if (navigator.canShare?.({ files: [file] })) {
@@ -423,8 +464,13 @@ export function ShareCardModal({
             {copied ? "Copied ✓" : "Copy link"}
           </button>
           <button onClick={downloadImage} disabled={downloading} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)] disabled:opacity-60">
-            {downloading ? "Rendering…" : "Download image"}
+            {downloading ? "Rendering…" : canNativeShare ? "Save image" : "Download image"}
           </button>
+          {canCopyImage && (
+            <button onClick={copyImage} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]" title="Copy the card itself — paste into any app">
+              {copiedImg ? "Copied ✓" : "Copy image"}
+            </button>
+          )}
           <a href={tweetHref} target="_blank" rel="noopener noreferrer" onClick={() => track("share_tweet")} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Post on 𝕏
           </a>
