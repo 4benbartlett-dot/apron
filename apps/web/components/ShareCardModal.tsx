@@ -48,6 +48,7 @@ export function ShareCardModal({
   // Stories are a phone thing — only offer the button where a native share
   // sheet exists (falls back to a PNG download if files aren't shareable).
   const [canNativeShare, setCanNativeShare] = useState(false);
+  const [storyHint, setStoryHint] = useState(false);
   useEffect(() => setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
   // Card formats: feed = X timeline, square = 1:1, story = 9:16 screenshots.
   const [format, setFormat] = useState<"feed" | "square" | "story">("feed");
@@ -221,6 +222,10 @@ export function ShareCardModal({
       const blob = await (await fetch(dataUrl)).blob();
       const file = new File([blob], "over-the-apron-story.png", { type: "image/png" });
       if (navigator.canShare?.({ files: [file] })) {
+        // The web can't jump straight into Instagram's story composer (that
+        // API is native-app-only) — the share sheet is the ceiling, so tell
+        // people which tile to tap.
+        setStoryHint(true);
         await navigator.share({ files: [file] });
       } else {
         const a = document.createElement("a");
@@ -437,6 +442,11 @@ export function ShareCardModal({
             Close
           </button>
         </div>
+        {storyHint && (
+          <p className="mt-2 text-center text-[11px] font-semibold leading-snug text-[#f4f1e9]/90">
+            In the share sheet: tap <span className="text-[#f4f1e9]">Instagram → Add to your story</span> — the QR on the card carries the link.
+          </p>
+        )}
         <p className="mt-2 text-center text-[11px] leading-snug text-[#f4f1e9]/60">
           The link rebuilds this exact trade on live rosters — it doesn&rsquo;t carry the rest of your session.
         </p>
