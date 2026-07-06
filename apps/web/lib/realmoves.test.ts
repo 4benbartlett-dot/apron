@@ -202,6 +202,25 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
   ["Branden Carlson", "POR", 1, 2.45],
 ];
 
+// Documented sheet-reconstruction bounds — NOT rule failures. The harness
+// rebuilds each team's pre-move sheet by un-signing new deals, which can't
+// recover everything reality had at signing time:
+//  - Grimes / Mamukelashvili (LAL): their real money was cap room created by
+//    renounces the harness can't restore — once Kessler's ~$28M is booked,
+//    lenient mode sees only Room-MLE-sized space.
+//  - Oubre (IND): the reported 2yr/$17M back-solves ~$65k over our sheet's
+//    first-apron ceiling — sub-$100k rounding on a reported total.
+//  - Kennard (PHX): our reconstructed PHX sheet leaves less first-apron
+//    headroom than reality did when he signed.
+// The gate below is EXACT: a new failure fails the suite, and so does one of
+// these silently healing (update the list and /accuracy when data improves).
+const DOCUMENTED_BOUNDS = [
+  "Kelly Oubre Jr.",
+  "Luke Kennard",
+  "Quentin Grimes",
+  "Sandro Mamukelashvili",
+];
+
 describe("July 1 real veteran signings validate as legal", () => {
   it("replays each signing (strict = team's LAST move; lenient = team's FIRST move)", () => {
     const failures: string[] = [];
@@ -249,8 +268,7 @@ describe("July 1 real veteran signings validate as legal", () => {
       if (!lenientV.legal) failures.push(`${name} → ${team}: ${lenientV.reason}`);
     }
     if (failures.length) console.log("\n  LENIENT FAILURES:\n" + failures.map((f) => `   - ${f}`).join("\n"));
-    // Hard gate: minimum-salary signings and MLE-shaped deals must always pass leniently.
-    expect(failures.filter((f) => /Vucevic|Conley|Bogdan|Isaac|Carter|Hukporti|Hyland|Carlson/.test(f))).toEqual([]);
+    expect(failures.map((f) => f.split(" \u2192 ")[0]).sort()).toEqual(DOCUMENTED_BOUNDS);
   });
 });
 

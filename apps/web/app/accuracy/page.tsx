@@ -36,7 +36,7 @@ const MODELED = [
   "Trade freezes per Art. VII §8(d)/(f): rookie signings 30 days; FA signings Dec 15; over-cap Bird re-signs at >120% until Jan 15; extensions beyond extend-and-trade limits 6 months; matched RFA offer sheets one year (§5(j))",
   "Renegotiation Mar–Jun blackout window",
   "Dead money (waived/stretched salary, e.g. Lillard's charge on Milwaukee's books) rides the cap sheet and counts against every line, but is off the roster — never tradeable, extendable, or a phantom free agent",
-    "Validated against reality: every real July 1, 2026 trade, sign-and-trade, and signing replays as legal through the engine (see lib/realmoves.test.ts)",
+    "Validated against reality: the real July 1, 2026 trades and sign-and-trades replay as legal through the engine, and 20 of 24 in-data signings do too — the four that miss (Grimes and Mamukelashvili's renounce-created cap room, Oubre's ~$65k reported-total rounding, Kennard's PHX headroom) are sheet-reconstruction bounds, not rule failures, each pinned by name in lib/realmoves.test.ts",
 ];
 
 const APPROXIMATE = [
@@ -48,7 +48,7 @@ const APPROXIMATE = [
   "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
   "TPE v1 approximations: one exception per team per trade, whole players only, minted amounts capped at the largest single outgoing salary; aggregated-TPE row H and choosing WHICH traded player generates the exception aren't modeled",
-  "Where a room team's renounce set is ambiguous (which specific holds it shed), the audited seed follows a prefer-largest rule \u2014 per-team confidence and the full per-signing audit trail live in the data file",
+  "Where a room team's renounce set is ambiguous (which specific holds it shed), the audited seed follows a prefer-largest rule \u2014 per-team confidence and the full per-signing audit trail live in the data file (BKN is the one currently flagged low-confidence: reporting implied ~$25M of room where our sheet computes ~$3M)",
   "Apron classification uses signed team salary; the CBA's full \u201cApron Team Salary\u201d adds small adjustments we don't model (e.g. 0-1 YOS minimum signings bump UP to the 2-YOS minimum for tax/apron purposes per \u00a72(d)(1)(i)(F), performance-bonus add-backs)",
 ];
 

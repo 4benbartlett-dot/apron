@@ -12,3 +12,4 @@ coverage/
 CBA.pdf
 HANDOFF.md
 marketing/
+*.tsbuildinfo
