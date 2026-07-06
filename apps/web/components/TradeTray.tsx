@@ -56,18 +56,18 @@ export function TradeTray({
       >
         <button
           onClick={onReview}
-          className="flex min-w-0 flex-1 items-center gap-2.5 text-left"
+          className="flex min-w-0 flex-1 items-start gap-2.5 text-left"
           title="Jump back to the full verdict"
         >
-          <span className="shrink-0 text-[10.5px] font-bold uppercase tracking-[0.08em]" style={{ color }}>
+          <span className="mt-0.5 shrink-0 text-[10.5px] font-bold uppercase tracking-[0.08em]" style={{ color }}>
             {legal ? "Legal" : "Blocked"}
           </span>
-          <span className="scrollbar-none flex min-w-0 flex-1 items-center gap-3 overflow-x-auto whitespace-nowrap text-[12px]">
+          <span className="min-w-0 flex-1 space-y-0.5 text-[12px] leading-snug">
             {hauls.map((h) => (
-              <span key={h.team} className="flex shrink-0 items-center gap-1.5">
-                <TeamLogo id={h.team} size={15} />
+              <span key={h.team} className="block">
+                <span className="mr-1 inline-block align-[-2px]"><TeamLogo id={h.team} size={14} /></span>
                 <span className="font-semibold">{h.team}</span>
-                <span className="text-[var(--muted)]">get</span>
+                <span className="text-[var(--muted)]"> get </span>
                 <span className="font-medium">{h.labels.join(", ") || "—"}</span>
               </span>
             ))}
@@ -75,7 +75,7 @@ export function TradeTray({
         </button>
         <button
           onClick={onShare}
-          className="shrink-0 rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-2.5 py-1 text-[11.5px] font-semibold hover:border-[var(--text)]"
+          className="mt-0.5 shrink-0 self-start rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-2.5 py-1 text-[11.5px] font-semibold hover:border-[var(--text)]"
           title="Open the share card"
         >
           Card
