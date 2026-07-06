@@ -1119,7 +1119,31 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
   // traded player), usable for a year.
   let cs = BASE_CONTRACTS;
   for (const m of moves) {
-    if (m.kind === "trade") {
+    if (m.kind === "sign" && (m.mechanism === "cap_room" || m.mechanism === "room_mle")) {
+      // §6(n)(2): using cap room in the SESSION renounces the team's standing
+      // exceptions — pre-existing TPEs die from this point on.
+      if (out[m.teamId]) {
+        out[m.teamId] = out[m.teamId]!.filter((s) => !s.preExisting);
+      }
+      cs = applyMove(cs, m);
+    } else if (m.kind === "trade") {
+      // Consumption FIRST, against the pre-trade ledger — a trade can't spend
+      // the TPE it is itself minting. Slots matching the plan's preExisting
+      // kind go first (that's what the auto-fit actually chose).
+      for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
+        let left = use.amount;
+        const slots = [...(out[team] ?? [])].sort(
+          (a, b) =>
+            Number(b.preExisting === use.preExisting) - Number(a.preExisting === use.preExisting) ||
+            b.amount - a.amount,
+        );
+        for (const slot of slots) {
+          if (left <= 0) break;
+          const bite = Math.min(slot.amount, left);
+          slot.amount -= bite;
+          left -= bite;
+        }
+      }
       const salaryOf = new Map(
         cs.filter((c) => !c.deadMoney).map((c) => [c.playerId, { s: salaryForYear(c, YEAR), t: c.teamId, n: c.playerName }]),
       );
@@ -1148,17 +1172,6 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
           });
         }
       }
-      // Consumption: what this trade absorbed comes off the ledger,
-      // largest-usable-first (same order the auto-fit chooses).
-      for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
-        let left = use.amount;
-        for (const slot of (out[team] ?? []).sort((a, b) => b.amount - a.amount)) {
-          if (left <= 0) break;
-          const bite = Math.min(slot.amount, left);
-          slot.amount -= bite;
-          left -= bite;
-        }
-      }
       cs = applyMove(cs, m);
     } else {
       cs = applyMove(cs, m);
@@ -1173,27 +1186,39 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
 }
 
 /** Pick a TPE plan that legalizes failing legs: for each team whose matching
- * fails, absorb its LARGEST incoming players into its biggest TPE until the
- * remainder fits the matching ceiling. Returns undefined when no TPE helps. */
+ * fails, absorb its LARGEST incoming players into a usable TPE until the
+ * remainder fits the matching ceiling. Row-F aware: when the team would
+ * finish above the first apron, PRE-EXISTING exceptions are off the table
+ * (§2(e) row F) and only same-offseason TPEs are tried. Candidates are
+ * attempted largest-first until one covers enough. Returns undefined when
+ * no TPE helps. */
 export function fitTpePlan(
-  verdictTeams: { teamId: string; incomingSalary: number; maxIncomingAllowed: number }[],
+  verdictTeams: {
+    teamId: string;
+    incomingSalary: number;
+    maxIncomingAllowed: number;
+    postTradeSalary: number;
+  }[],
   incomingByTeam: Record<string, { playerId: string; salary: number }[]>,
   ledger: Record<string, TpeSlot[]>,
 ): Record<string, { amount: number; preExisting: boolean; label?: string }> | undefined {
   const plan: Record<string, { amount: number; preExisting: boolean; label?: string }> = {};
   for (const t of verdictTeams) {
     if (t.incomingSalary <= t.maxIncomingAllowed + 1) continue;
-    const tpe = ledger[t.teamId]?.[0];
-    if (!tpe) continue;
+    const overFirstApron = t.postTradeSalary > C.firstApron + 1;
+    const candidates = (ledger[t.teamId] ?? []).filter((s) => !overFirstApron || !s.preExisting);
     const incoming = [...(incomingByTeam[t.teamId] ?? [])].sort((a, b) => b.salary - a.salary);
-    let absorbed = 0;
-    for (const p of incoming) {
-      if (t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) break;
-      if (absorbed + p.salary > tpe.amount + 250_000) continue; // whole players only
-      absorbed += p.salary;
-    }
-    if (absorbed > 0 && t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) {
-      plan[t.teamId] = { amount: absorbed, preExisting: tpe.preExisting, label: tpe.label };
+    for (const tpe of candidates) {
+      let absorbed = 0;
+      for (const p of incoming) {
+        if (t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) break;
+        if (absorbed + p.salary > tpe.amount + 250_000) continue; // whole players only
+        absorbed += p.salary;
+      }
+      if (absorbed > 0 && t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) {
+        plan[t.teamId] = { amount: absorbed, preExisting: tpe.preExisting, label: tpe.label };
+        break;
+      }
     }
   }
   return Object.keys(plan).length ? plan : undefined;

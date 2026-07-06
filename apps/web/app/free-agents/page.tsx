@@ -135,7 +135,9 @@ export default function FreeAgencyPage() {
         </div>
         <div className="max-h-[60vh] overflow-y-auto">
           {fas.map((fa, i) => {
-            const isOwn = fa.priorTeam === team;
+            // Bird rights require the hold to be KEPT — a renounced FA
+            // (session or real-July forced) is an outside signing here too.
+            const isOwn = fa.priorTeam === team && !fa.renounced;
             const v = validateSigning(power.teamSalary, fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? "bird" : undefined, apronSalary: power.committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
             const mech = v.mechanism;
             const color = mechColor(mech ? mech.id : null);
