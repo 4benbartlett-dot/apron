@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GmBar } from "@/components/GmBar";
 import { BrandLink } from "@/components/BrandLink";
@@ -66,6 +67,7 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         ) : null}
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
