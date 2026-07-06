@@ -1016,6 +1016,8 @@ export interface TeamFeedState {
   consumed: Partial<Record<MechanismId, number>>;
   /** Hard cap already triggered in-world, as a dollar line (or Infinity). */
   hardCap: number;
+  /** What triggered the in-world cap ("Walker Kessler sign-and-trade"). */
+  hardCapSource?: string;
   /** Lowercased FA names whose holds the real offseason forced off the books. */
   forcedRenounced: Set<string>;
 }
@@ -1048,6 +1050,7 @@ export function feedStateOf(team: string): TeamFeedState {
         : raw.inWorldHardCap === "second_apron"
           ? C.secondApron
           : Infinity,
+    hardCapSource: raw.hardCapSource,
     forcedRenounced: new Set((raw.forcedRenounced ?? []).map((n) => n.toLowerCase())),
   };
 }
@@ -1222,4 +1225,78 @@ export function fitTpePlan(
     }
   }
   return Object.keys(plan).length ? plan : undefined;
+}
+
+/* ------------------------ Structured rule findings ----------------------- */
+
+export interface StepienFinding {
+  team: string;
+  /** The consecutive uncovered years that trip the rule. */
+  pair: [number, number];
+  /** The year in the pair this trade's own outgoing pick created (if any). */
+  offendingYear?: number;
+  selectedOutgoingYears: number[];
+  /** Real-world encumbrances inside the pair — the "already gone" side. */
+  encumbered: { year: number; counterparty: string; status: string }[];
+  /** Rendered sentence naming the actual picks, not just the rule. */
+  message: string;
+}
+
+/** Explain a Stepien violation with the ACTUAL picks involved: which year is
+ * already encumbered in the real world, and which outgoing pick in THIS deal
+ * creates the consecutive gap. */
+export function stepienFindingFor(
+  team: string,
+  uncoveredYears: number[],
+  selectedOutgoingYears: number[] = [],
+): StepienFinding | null {
+  const sorted = [...uncoveredYears].sort((a, b) => a - b);
+  let pair: [number, number] | null = null;
+  for (let i = 0; i + 1 < sorted.length; i++) {
+    if (sorted[i + 1] === sorted[i]! + 1) {
+      pair = [sorted[i]!, sorted[i + 1]!];
+      break;
+    }
+  }
+  if (!pair) return null;
+  const encumbered = pair
+    .map((y) => ({ y, e: lockedFirstEncumbrance(team, y) }))
+    .filter((x) => x.e)
+    .map((x) => ({ year: x.y, counterparty: x.e!.counterparty, status: x.e!.status }));
+  const offendingYear = pair.find((y) => selectedOutgoingYears.includes(y));
+  const name = teamMeta(team).name;
+  const poss = name.endsWith("s") ? `${name}'` : `${name}'s`;
+  let message: string;
+  if (encumbered.length && offendingYear !== undefined) {
+    const e = encumbered[0]!;
+    message = `${poss} ${e.year} first is already owed to ${e.counterparty}${
+      e.status === "protected" ? " (protected — it may not convey, so it can't be counted)" : ""
+    }; trading the ${offendingYear} first leaves ${pair[0]} and ${pair[1]} both uncovered (Stepien rule).`;
+  } else if (offendingYear !== undefined) {
+    message = `Trading the ${offendingYear} first leaves ${name} without a first in ${pair[0]} and ${pair[1]} — consecutive future drafts (Stepien rule).`;
+  } else {
+    message = `${name} would be without a first-round pick in consecutive future drafts (${pair[0]} and ${pair[1]} — Stepien rule).`;
+  }
+  return { team, pair, offendingYear, selectedOutgoingYears, encumbered, message };
+}
+
+export interface HardCapDetail {
+  line: number;
+  /** "session" = a move made in this sim (undoable); "real" = the team's
+   * actual July moves (baked in — undoing sim moves won't help). */
+  source: "session" | "real";
+  label?: string;
+}
+
+/** The binding hard cap for a team with its provenance — session moves vs
+ * the real July. When both bind at the same line, the REAL one wins the
+ * label: you can't undo reality. */
+export function hardCapDetailFor(team: string, sessionLine: number): HardCapDetail | null {
+  const feed = feedStateOf(team);
+  const line = Math.min(sessionLine, feed.hardCap);
+  if (!Number.isFinite(line)) return null;
+  if (feed.hardCap <= sessionLine) {
+    return { line, source: "real", label: feed.hardCapSource };
+  }
+  return { line, source: "session" };
 }

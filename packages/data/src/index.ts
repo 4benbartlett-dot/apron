@@ -139,6 +139,8 @@ export interface FeedTeamState {
   consumedBae?: number;
   /** Hard cap already triggered in-world (NT-MLE/BAE/S&T → 1A, TP-MLE → 2A). */
   inWorldHardCap?: "first_apron" | "second_apron" | "none";
+  /** Short human label for what triggered it, e.g. "Walker Kessler sign-and-trade". */
+  hardCapSource?: string;
   /** FA names (lowercase) whose holds the team demonstrably renounced. */
   forcedRenounced?: string[];
   confidence?: string;

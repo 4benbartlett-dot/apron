@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { matchRuleLabel, classifyTier, type Trade, type TradeVerdict } from "@apron/cba-engine";
-import { C, teamMeta } from "@/lib/league";
+import { C, teamMeta, feedStateOf } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick } from "@/lib/trade-share";
 import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
@@ -90,10 +90,32 @@ export function ShareCardModal({
           })),
         ...involved
           .filter((t) => (t.tpeAbsorbed ?? 0) > 0)
+          .map((t) => {
+            const use = trade.tpeUse?.[t.teamId];
+            const label = use?.label ? `the ${use.label}` : "a traded-player exception";
+            const kind = use ? (use.preExisting ? "pre-existing" : "created this offseason") : undefined;
+            return {
+              ok: true,
+              text: `${t.teamId} absorbs ${fmtM(t.tpeAbsorbed!)} into ${label}${kind ? ` (${kind})` : ""} — no matching needed for that salary`,
+            };
+          }),
+        // Row F consequence: spending a PRE-EXISTING TPE freezes the 1st apron.
+        ...involved
+          .filter((t) => (t.tpeAbsorbed ?? 0) > 0 && trade.tpeUse?.[t.teamId]?.preExisting)
           .map((t) => ({
             ok: true,
-            text: `${t.teamId} absorbs ${fmtM(t.tpeAbsorbed!)} into a traded-player exception — no matching needed for that salary`,
+            text: `${t.teamId} used a pre-existing TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season`,
           })),
+        // Real-July hard caps the deal respects — named so readers can check.
+        ...involved
+          .filter((t) => t.incomingSalary > 0 && Number.isFinite(feedStateOf(t.teamId).hardCap))
+          .map((t) => {
+            const fs = feedStateOf(t.teamId);
+            return {
+              ok: true,
+              text: `${t.teamId} stays ${fmtM(fs.hardCap - t.postTradeSalary)} under the hard cap from its real July moves${fs.hardCapSource ? ` (${fs.hardCapSource})` : ""}`,
+            };
+          }),
         ...involved
           .filter((t) => classifyTier(t.postTradeSalary, C) === "second_apron")
           .map((t) => ({
@@ -276,7 +298,7 @@ export function ShareCardModal({
           <div className="px-5 pb-4 pt-3">
             <div className="label mb-1.5">{legal ? "Why it works" : "Why it doesn't"}</div>
             <ul className="space-y-1.5">
-              {checks.slice(0, 5).map((c, i) => (
+              {checks.slice(0, 6).map((c, i) => (
                 <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
                   <span className="shrink-0 font-bold" style={{ color: c.ok ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
                     {c.ok ? "✓" : "✗"}

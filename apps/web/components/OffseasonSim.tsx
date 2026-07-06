@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, type FreeAgent } from "@/lib/league";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
@@ -244,8 +244,15 @@ export default function OffseasonSim() {
       touched.add(mv.to);
     }
     return [...touched]
-      .filter((t) => violatesStepien(lg.yearsWithoutFirst(t, outBy[t] ?? [], inBy[t] ?? [])))
-      .map((t) => `${teamMeta(t).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`);
+      .map((t) => {
+        const uncovered = lg.yearsWithoutFirst(t, outBy[t] ?? [], inBy[t] ?? []);
+        if (!violatesStepien(uncovered)) return null;
+        const outYears = (outBy[t] ?? [])
+          .filter((id) => id.endsWith("|1"))
+          .map((id) => Number(id.split("|")[1]));
+        return stepienFindingFor(t, uncovered, outYears)?.message ?? null;
+      })
+      .filter((x): x is string => !!x);
   }, [pickSel, lg]);
 
   // Player + pick value flowing in/out per team (for the fair-trade meter).
@@ -266,13 +273,18 @@ export default function OffseasonSim() {
     return m;
   }, [trade, pickSel, lg]);
 
-  // A hard cap triggered earlier (MLE/BAE/S&T) binds later trades too.
+  // A hard cap triggered earlier (MLE/BAE/S&T, sim or real July) binds later
+  // trades too — the message says WHICH, because only one is undoable.
   const hardCapTradeViolations = useMemo(() => {
     const out: string[] = [];
     for (const t of verdict.teams) {
-      const cap = lg.hardCapOf(t.teamId);
-      if (t.postTradeSalary > cap + 1) {
-        out.push(`${teamMeta(t.teamId).name} is hard-capped at ${fmtM(cap)} from an earlier move — this trade would put them at ${fmtM(t.postTradeSalary)}.`);
+      const detail = hardCapDetailFor(t.teamId, lg.hardCapOf(t.teamId));
+      if (detail && t.postTradeSalary > detail.line + 1) {
+        out.push(
+          detail.source === "real"
+            ? `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} all season by its real July moves${detail.label ? ` (${detail.label})` : ""} — this trade would put them at ${fmtM(t.postTradeSalary)}.`
+            : `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} from a move you made this offseason — this trade would put them at ${fmtM(t.postTradeSalary)}.`,
+        );
       }
     }
     return out;
@@ -1292,7 +1304,7 @@ function SignEditor({
         )}
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) from an earlier move — this would put their apron salary at {fmtM(apronAfter)}.
+            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) {hardCapDetailFor(team, lg.hardCapOf(team))?.source === "real" ? `all season by its real July moves${hardCapDetailFor(team, lg.hardCapOf(team))?.label ? ` (${hardCapDetailFor(team, lg.hardCapOf(team))!.label})` : ""}` : "from a move you made this offseason"} — this would put their apron salary at {fmtM(apronAfter)}.
           </div>
         )}
         {fa.faType === "RFA" && !isOwn && (

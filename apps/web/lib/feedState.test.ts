@@ -80,6 +80,30 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     }
   });
 
+  it("ATL: Landale took the NT-MLE (not Bird) — $14M consumed, first-apron cap", () => {
+    // Community-audit correction: an earlier pass misread this as an own-FA
+    // re-sign. Gozlan: ATL's Non-Bird rights were too low, so Landale's deal
+    // used "nearly their entire $15 million mid-level exception."
+    const s = feedStateOf("ATL");
+    expect(s.consumed.ntmle).toBe(14_000_000);
+    expect(s.hardCap).toBe(C.firstApron); // NT-MLE use hard-caps in-world
+    expect(s.hardCapSource).toContain("Landale");
+    const power = spendingPower(178_000_000, C, {
+      apronSalary: 178_000_000,
+      consumed: consumedFor([], "ATL"),
+    });
+    const nt = power.mechanisms.find((m) => m.id === "ntmle");
+    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE - 14_000_000); // ~$1.04M left
+  });
+
+  it("every in-world hard cap names its source move", () => {
+    for (const t of ["ATL", "BOS", "DET", "GSW", "HOU", "IND", "LAL", "MIA", "PHI", "PHX", "SAS", "UTA"]) {
+      const s = feedStateOf(t);
+      expect(s.hardCap).toBe(C.firstApron);
+      expect(s.hardCapSource, t).toBeTruthy();
+    }
+  });
+
   it("session moves stack on top of feed consumption", () => {
     const merged = consumedFor(
       [

@@ -225,16 +225,26 @@ export function explainBlocked(
   }
 
   for (const ev of extraViolations) {
-    if (/hard-capped .* from an earlier move/i.test(ev)) {
+    if (/hard-capped .* by its real July moves/i.test(ev)) {
+      // Real-world cap — nothing in the sim to undo.
+      push(
+        null,
+        "That hard cap comes from the team's real July moves, so there's nothing to undo — send out more salary in this deal, or route the incoming player to a team with room under its line.",
+      );
+    } else if (/hard-capped .* from a move you made|hard-capped .* from an earlier move/i.test(ev)) {
       push(
         null,
         "That hard cap came from a move you already made this offseason (check the moves bar) — undo it, or shrink this deal to fit under the line it froze.",
       );
     }
     if (/Stepien/i.test(ev)) {
+      const owed = ev.match(/(\d{4}) first is already owed/)?.[1];
+      const offending = ev.match(/trading the (\d{4}) first/i)?.[1];
       push(
         null,
-        "Keep a first in every other draft: swap one of the outgoing firsts to a non-consecutive year (or a second) and the Stepien rule is satisfied.",
+        owed && offending
+          ? `The ${owed} first is already gone in the real world — that's fixed. Swap the outgoing ${offending} first to a non-consecutive year (or a second) and the Stepien rule is satisfied.`
+          : "Keep a first in every other draft: swap one of the outgoing firsts to a non-consecutive year (or a second) and the Stepien rule is satisfied.",
       );
     }
   }

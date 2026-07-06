@@ -10,6 +10,8 @@ import {
   feedStateOf,
   tpeLedger,
   fitTpePlan,
+  stepienFindingFor,
+  type StepienFinding,
 } from "./league";
 
 interface DecodedMove {
@@ -137,7 +139,8 @@ export function summarizeTrade(t: string): TradeSummary | null {
   // Stepien against the real-world base ledger (session moves aren't visible
   // server-side, but pre-existing obligations are) — so share cards and OG
   // images can't stamp LEGAL on a pick package the board would block.
-  const stepienTeam = d.teams.find((teamId) => {
+  let stepienFinding: StepienFinding | null = null;
+  for (const teamId of d.teams) {
     const outs = new Set(d.picks.filter((p) => p.from === teamId).map((p) => p.id));
     const ins = new Set(
       d.picks.filter((p) => p.to === teamId && p.id.endsWith("|1")).map((p) => Number(p.id.split("|")[1])),
@@ -148,8 +151,13 @@ export function summarizeTrade(t: string): TradeSummary | null {
       if (ownGone && !ins.has(y)) uncovered.push(y);
     }
     if (lockedFirstEncumbrance(teamId, 2033)) uncovered.push(2033);
-    return violatesStepien(uncovered);
-  });
+    if (!violatesStepien(uncovered)) continue;
+    const outYears = d.picks
+      .filter((p) => p.from === teamId && p.id.startsWith(`${teamId}|`) && p.id.endsWith("|1"))
+      .map((p) => Number(p.id.split("|")[1]));
+    stepienFinding = stepienFindingFor(teamId, uncovered, outYears);
+    if (stepienFinding) break;
+  }
   // A hard cap the team already triggered with its REAL July moves binds
   // here too — share cards must agree with the live board.
   const feedCapped = v.teams.find(
@@ -173,15 +181,15 @@ export function summarizeTrade(t: string): TradeSummary | null {
       ts.incomingSalary > 0 ? matchRuleLabel(ts.matchingRule, C) : undefined,
   }));
   return {
-    legal: v.legal && !stepienTeam && !feedCapped,
+    legal: v.legal && !stepienFinding && !feedCapped,
     reason:
       v.violations[0]?.reason ??
-      (stepienTeam
-        ? `${teamMeta(stepienTeam).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`
+      (stepienFinding
+        ? stepienFinding.message
         : feedCapped
           ? `${teamMeta(feedCapped.teamId).name} is hard-capped at ${
               feedStateOf(feedCapped.teamId).hardCap === C.firstApron ? "the first apron" : "the second apron"
-            } by its real July moves — this trade would exceed it.`
+            } by its real July moves${feedStateOf(feedCapped.teamId).hardCapSource ? ` (${feedStateOf(feedCapped.teamId).hardCapSource})` : ""} — this trade would exceed it.`
           : undefined),
     perTeam,
   };

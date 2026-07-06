@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { validateTrade, violatesStepien, type Trade, type TeamTradeSummary, type Contract } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, currentSalary, tpeLedger, fitTpePlan } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, currentSalary, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor } from "@/lib/league";
 import { fmtM as fmtMoney } from "@/lib/format";
 import { decodeTradeParam, encodeTradeParam } from "@/lib/trade-share";
 import { useLeague, dispatchMove } from "@/lib/store";
@@ -112,14 +112,23 @@ export default function TradeBuilder() {
       touched.add(mv.to);
     }
     for (const t of touched) {
-      if (violatesStepien(lg.yearsWithoutFirst(t, outBy[t] ?? [], inBy[t] ?? []))) {
-        out.push(`${teamMeta(t).name} would be without a first-round pick in consecutive future drafts (Stepien rule).`);
+      const uncovered = lg.yearsWithoutFirst(t, outBy[t] ?? [], inBy[t] ?? []);
+      if (violatesStepien(uncovered)) {
+        const outYears = (outBy[t] ?? [])
+          .filter((id) => id.endsWith("|1"))
+          .map((id) => Number(id.split("|")[1]));
+        const finding = stepienFindingFor(t, uncovered, outYears);
+        if (finding) out.push(finding.message);
       }
     }
     for (const t of verdict.teams) {
-      const cap = lg.hardCapOf(t.teamId);
-      if (t.postTradeSalary > cap + 1) {
-        out.push(`${teamMeta(t.teamId).name} is hard-capped at ${fmtMoney(cap)} from an earlier move — this trade would put them at ${fmtMoney(t.postTradeSalary)}.`);
+      const detail = hardCapDetailFor(t.teamId, lg.hardCapOf(t.teamId));
+      if (detail && t.postTradeSalary > detail.line + 1) {
+        out.push(
+          detail.source === "real"
+            ? `${teamMeta(t.teamId).name} is hard-capped at ${fmtMoney(detail.line)} all season by its real July moves${detail.label ? ` (${detail.label})` : ""} — this trade would put them at ${fmtMoney(t.postTradeSalary)}.`
+            : `${teamMeta(t.teamId).name} is hard-capped at ${fmtMoney(detail.line)} from a move you made this offseason — this trade would put them at ${fmtMoney(t.postTradeSalary)}.`,
+        );
       }
     }
     return out;
