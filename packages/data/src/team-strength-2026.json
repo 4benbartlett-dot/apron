@@ -1,191 +1,191 @@
 {
- "source": "apron-impact-model-hardened team_strength_2026",
- "asOf": "2026-07-07",
- "calibration": {
-  "nrtgPerScore": 0.7704,
-  "winsPerNrtg": 1.972,
-  "note": "\u0394nrtg = 0.7704\u00b7\u0394(minutes-weighted roster impact-pts); wins = 40.2 + 1.972\u00b7projNrtg"
- },
- "byTeam": {
-  "OKC": {
-   "av": 62.7,
-   "projNrtg": 13.7,
-   "nrtg": 11.1,
-   "w": 64
+  "source": "apron-impact-model-hardened team_strength_2026",
+  "asOf": "2026-07-07",
+  "calibration": {
+    "nrtgPerScore": 5.8125,
+    "winsPerNrtg": 1.972,
+    "note": "Δnrtg = 5.8125·Δ(rosterScore); rosterScore = minutes-weighted avg impact/100 under a fixed 19,680-min rotation budget (best players first) + aging prior. wins = 40.2 + 1.972·projNrtg. Fit R²=0.85 vs shipped projNrtg, 0.88 vs actual net rating (n=30)."
   },
-  "SAS": {
-   "av": 59.9,
-   "projNrtg": 9.2,
-   "nrtg": 8.3,
-   "w": 62
-  },
-  "BOS": {
-   "av": 59.4,
-   "projNrtg": 8.5,
-   "nrtg": 8.2,
-   "w": 56
-  },
-  "DET": {
-   "av": 58.6,
-   "projNrtg": 7.1,
-   "nrtg": 8.2,
-   "w": 60
-  },
-  "NYK": {
-   "av": 58.4,
-   "projNrtg": 6.9,
-   "nrtg": 6.5,
-   "w": 53
-  },
-  "HOU": {
-   "av": 58.3,
-   "projNrtg": 6.6,
-   "nrtg": 5.4,
-   "w": 52
-  },
-  "MIN": {
-   "av": 57.7,
-   "projNrtg": 5.8,
-   "nrtg": 3.1,
-   "w": 49
-  },
-  "CLE": {
-   "av": 56.7,
-   "projNrtg": 4.2,
-   "nrtg": 4.0,
-   "w": 52
-  },
-  "CHA": {
-   "av": 56.6,
-   "projNrtg": 4.1,
-   "nrtg": 5.0,
-   "w": 44
-  },
-  "DEN": {
-   "av": 56.6,
-   "projNrtg": 4.0,
-   "nrtg": 5.2,
-   "w": 54
-  },
-  "LAC": {
-   "av": 56.3,
-   "projNrtg": 3.5,
-   "nrtg": 1.1,
-   "w": 42
-  },
-  "ATL": {
-   "av": 55.9,
-   "projNrtg": 2.9,
-   "nrtg": 2.4,
-   "w": 46
-  },
-  "TOR": {
-   "av": 55.8,
-   "projNrtg": 2.7,
-   "nrtg": 2.6,
-   "w": 46
-  },
-  "MIA": {
-   "av": 55.8,
-   "projNrtg": 2.7,
-   "nrtg": 2.2,
-   "w": 43
-  },
-  "PHX": {
-   "av": 55.5,
-   "projNrtg": 2.2,
-   "nrtg": 1.4,
-   "w": 45
-  },
-  "LAL": {
-   "av": 55.3,
-   "projNrtg": 1.9,
-   "nrtg": 1.7,
-   "w": 53
-  },
-  "GSW": {
-   "av": 55.2,
-   "projNrtg": 1.7,
-   "nrtg": -0.6,
-   "w": 37
-  },
-  "ORL": {
-   "av": 54.8,
-   "projNrtg": 1.2,
-   "nrtg": 0.6,
-   "w": 45
-  },
-  "PHI": {
-   "av": 54.0,
-   "projNrtg": -0.1,
-   "nrtg": -0.2,
-   "w": 45
-  },
-  "POR": {
-   "av": 53.9,
-   "projNrtg": -0.2,
-   "nrtg": -0.2,
-   "w": 42
-  },
-  "DAL": {
-   "av": 51.3,
-   "projNrtg": -4.3,
-   "nrtg": -5.4,
-   "w": 26
-  },
-  "NOP": {
-   "av": 51.3,
-   "projNrtg": -4.4,
-   "nrtg": -4.7,
-   "w": 26
-  },
-  "MEM": {
-   "av": 51.2,
-   "projNrtg": -4.5,
-   "nrtg": -5.9,
-   "w": 25
-  },
-  "CHI": {
-   "av": 50.6,
-   "projNrtg": -5.5,
-   "nrtg": -5.1,
-   "w": 31
-  },
-  "MIL": {
-   "av": 50.5,
-   "projNrtg": -5.7,
-   "nrtg": -6.5,
-   "w": 32
-  },
-  "IND": {
-   "av": 49.4,
-   "projNrtg": -7.4,
-   "nrtg": -8.0,
-   "w": 19
-  },
-  "SAC": {
-   "av": 48.3,
-   "projNrtg": -9.1,
-   "nrtg": -10.1,
-   "w": 22
-  },
-  "UTA": {
-   "av": 47.8,
-   "projNrtg": -10.0,
-   "nrtg": -8.2,
-   "w": 22
-  },
-  "BKN": {
-   "av": 46.6,
-   "projNrtg": -11.8,
-   "nrtg": -10.3,
-   "w": 20
-  },
-  "WAS": {
-   "av": 45.4,
-   "projNrtg": -13.8,
-   "nrtg": -11.8,
-   "w": 17
+  "byTeam": {
+    "OKC": {
+      "av": 62.7,
+      "projNrtg": 13.7,
+      "nrtg": 11.1,
+      "w": 64
+    },
+    "SAS": {
+      "av": 59.9,
+      "projNrtg": 9.2,
+      "nrtg": 8.3,
+      "w": 62
+    },
+    "BOS": {
+      "av": 59.4,
+      "projNrtg": 8.5,
+      "nrtg": 8.2,
+      "w": 56
+    },
+    "DET": {
+      "av": 58.6,
+      "projNrtg": 7.1,
+      "nrtg": 8.2,
+      "w": 60
+    },
+    "NYK": {
+      "av": 58.4,
+      "projNrtg": 6.9,
+      "nrtg": 6.5,
+      "w": 53
+    },
+    "HOU": {
+      "av": 58.3,
+      "projNrtg": 6.6,
+      "nrtg": 5.4,
+      "w": 52
+    },
+    "MIN": {
+      "av": 57.7,
+      "projNrtg": 5.8,
+      "nrtg": 3.1,
+      "w": 49
+    },
+    "CLE": {
+      "av": 56.7,
+      "projNrtg": 4.2,
+      "nrtg": 4,
+      "w": 52
+    },
+    "CHA": {
+      "av": 56.6,
+      "projNrtg": 4.1,
+      "nrtg": 5,
+      "w": 44
+    },
+    "DEN": {
+      "av": 56.6,
+      "projNrtg": 4,
+      "nrtg": 5.2,
+      "w": 54
+    },
+    "LAC": {
+      "av": 56.3,
+      "projNrtg": 3.5,
+      "nrtg": 1.1,
+      "w": 42
+    },
+    "ATL": {
+      "av": 55.9,
+      "projNrtg": 2.9,
+      "nrtg": 2.4,
+      "w": 46
+    },
+    "TOR": {
+      "av": 55.8,
+      "projNrtg": 2.7,
+      "nrtg": 2.6,
+      "w": 46
+    },
+    "MIA": {
+      "av": 55.8,
+      "projNrtg": 2.7,
+      "nrtg": 2.2,
+      "w": 43
+    },
+    "PHX": {
+      "av": 55.5,
+      "projNrtg": 2.2,
+      "nrtg": 1.4,
+      "w": 45
+    },
+    "LAL": {
+      "av": 55.3,
+      "projNrtg": 1.9,
+      "nrtg": 1.7,
+      "w": 53
+    },
+    "GSW": {
+      "av": 55.2,
+      "projNrtg": 1.7,
+      "nrtg": -0.6,
+      "w": 37
+    },
+    "ORL": {
+      "av": 54.8,
+      "projNrtg": 1.2,
+      "nrtg": 0.6,
+      "w": 45
+    },
+    "PHI": {
+      "av": 54,
+      "projNrtg": -0.1,
+      "nrtg": -0.2,
+      "w": 45
+    },
+    "POR": {
+      "av": 53.9,
+      "projNrtg": -0.2,
+      "nrtg": -0.2,
+      "w": 42
+    },
+    "DAL": {
+      "av": 51.3,
+      "projNrtg": -4.3,
+      "nrtg": -5.4,
+      "w": 26
+    },
+    "NOP": {
+      "av": 51.3,
+      "projNrtg": -4.4,
+      "nrtg": -4.7,
+      "w": 26
+    },
+    "MEM": {
+      "av": 51.2,
+      "projNrtg": -4.5,
+      "nrtg": -5.9,
+      "w": 25
+    },
+    "CHI": {
+      "av": 50.6,
+      "projNrtg": -5.5,
+      "nrtg": -5.1,
+      "w": 31
+    },
+    "MIL": {
+      "av": 50.5,
+      "projNrtg": -5.7,
+      "nrtg": -6.5,
+      "w": 32
+    },
+    "IND": {
+      "av": 49.4,
+      "projNrtg": -7.4,
+      "nrtg": -8,
+      "w": 19
+    },
+    "SAC": {
+      "av": 48.3,
+      "projNrtg": -9.1,
+      "nrtg": -10.1,
+      "w": 22
+    },
+    "UTA": {
+      "av": 47.8,
+      "projNrtg": -10,
+      "nrtg": -8.2,
+      "w": 22
+    },
+    "BKN": {
+      "av": 46.6,
+      "projNrtg": -11.8,
+      "nrtg": -10.3,
+      "w": 20
+    },
+    "WAS": {
+      "av": 45.4,
+      "projNrtg": -13.8,
+      "nrtg": -11.8,
+      "w": 17
+    }
   }
- }
 }

@@ -126,7 +126,7 @@ export default function TeamWarRoom() {
             <div className="tabular mt-1 text-sm text-[var(--muted)]">{proj.baseWins} wins · {proj.baseNrtg >= 0 ? "+" : ""}{proj.baseNrtg.toFixed(1)} net</div>
           </div>
           <div className="w-full text-[11px] text-[var(--muted)] sm:w-auto sm:flex-1 sm:text-right">
-            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · current-roster snapshot, not a season forecast (no minutes model or injuries yet).
+            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · models rotation-minute displacement + a light aging prior; a talent-on-hand projection, not a full-season forecast (no injuries or coaching).
           </div>
         </div>
       )}

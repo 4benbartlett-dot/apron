@@ -68,9 +68,9 @@ export default function StandingsPage() {
       <p className="mb-5 text-sm leading-relaxed text-[var(--muted)]">
         Each team&rsquo;s projected record from its roster&rsquo;s minutes-weighted impact, ranked within its conference.
         {moved
-          ? " The Δ column shows how your offseason moves changed each team from its current-roster baseline."
-          : " With no moves staged, this is the current-roster baseline. Make trades and signings on the board and the projection updates live."}
-        {" "}A current-roster snapshot, not a season forecast — no minutes-allocation or injury model yet.
+          ? " The Δ column shows how your offseason moves changed each team from its current-roster baseline — modeling rotation-minute displacement, so a star that benches a good player is worth less than one that displaces a scrub."
+          : " With no moves staged, this is the current-roster baseline. Make trades and signings on the board and the projection updates live, modeling minutes displacement as rosters change."}
+        {" "}A talent-on-hand projection, not a full-season forecast (no injuries, coaching, or playoff translation).
       </p>
 
       <div className="grid gap-5 md:grid-cols-2">

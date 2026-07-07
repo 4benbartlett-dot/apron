@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 223 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 227 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 223 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 227 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -57,7 +57,8 @@ const APPROXIMATE = [
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
   "Player value is \u201cApron Value\u201d \u2014 a 0-100 scale (50 = replacement, ~97 = league best) from box score blended 50/50 with real stint-level RAPM (5-man lineups reconstructed from play-by-play, possession-weighted ridge). Validated: it predicts a player\u2019s impact after he changes teams better than BPM (mover corr 0.426 vs 0.344, delta +0.082 [95% CI +0.024, +0.144], reliability 0.852) \u2014 a real but modest edge on a small mover sample. Each number carries a \u00b1 band and a tier; ~85% of rostered players have the full metric or its validated box half, the rest are box-/draft-projected and flagged approximate on hover",
-  "Team strength projects a net rating and a win total from each roster\u2019s minutes-weighted impact (the /standings page ranks all 30 by conference; team pages show the record and the change your moves make). The roster-value \u2192 net-rating fit is R\u00b2=0.97 on 2025-26 teams; wins map from projected net rating (\u2248 40 + 2 wins per point). No-move rosters return the model baseline exactly, so any delta is purely your moves. It\u2019s a current-roster snapshot, not a season forecast \u2014 no minutes-allocation model or injury adjustment yet (the honest next build)",
+  "Team strength projects a net rating and a win total for every team \u2014 ranked by conference on /standings, with team pages showing the record and the exact win swing your moves cause. It models ROTATION: each roster fills a fixed 19,680-minute budget (5 \u00d7 48 \u00d7 82) best-players-first, up to each player\u2019s established minutes, so a trade is judged on minutes DISPLACEMENT \u2014 acquiring a star who pushes a good rotation player to the bench is worth less than one who displaces a replacement scrub. Because a player brings his own prior minutes, injury-prone/low-availability players carry less weight automatically. A light years-of-service aging prior nudges each projection (young up, deep vets down), applied only to deltas so it never disturbs the baseline. Fit R\u00b2=0.85 vs the shipped baseline and 0.88 vs actual 2025-26 net rating; wins map from net rating (\u2248 40 + 2 wins per point). No-move rosters return the baseline exactly, so any delta is purely your moves \u2014 still a current-roster projection, not a full-season forecast",
+  "Honest bounds on the impact metric itself: it\u2019s benchmarked against BPM and internal baselines, NOT against EPM, DARKO, LEBRON, RAPTOR, betting markets, or playoff outcomes \u2014 so \u201cbetter than BPM\u201d is the proven claim, not \u201cbest all-in-one model.\u201d The RAPM history behind it spans 2021\u20132026 only (more seasons would sharpen the priors and mover validation); stint reconstruction still has a low-retention tail (median 48 lineup-minutes); and there is no role-change, coaching, or playoff-translation layer, with aging only a coarse service-time prior. Fit/synergy is a real but small signal we let explain and adjust, never dominate. Where this can become genuinely special is the combination \u2014 impact, minutes, cap cost, and team outcomes modeled together \u2014 not any single scalar",
   "Positions (PG/SG/SF/PF/C) are a single primary label from Basketball-Reference; a handful of players who didn\u2019t play in 2025-26 are hand-tagged",
   "Draft-pick values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto the same impact scale, risk- and time-discounted \u2014 the fairness meter sums impact per side",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
@@ -119,10 +120,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 223 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 227 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 223 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 227 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
