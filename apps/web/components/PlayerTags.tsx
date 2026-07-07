@@ -27,16 +27,18 @@ export function PosBadge({ playerId, className = "" }: { playerId: string; class
   );
 }
 
-/** Impact colour ladder on the 100-scale: elite → replacement → net-negative. */
+/** Apron Value colour ladder (50-centered: 50 = replacement, ~97 = best). */
 function impactColor(v: number): string {
-  if (v >= 60) return "var(--tier-below_cap)";
-  if (v >= 35) return "var(--tier-over_cap)";
-  if (v >= 15) return "var(--tier-taxpayer)";
-  if (v >= 0) return "var(--muted)";
+  if (v >= 75) return "var(--tier-below_cap)";
+  if (v >= 60) return "var(--tier-over_cap)";
+  if (v >= 50) return "var(--tier-taxpayer)";
+  if (v >= 42) return "var(--muted)";
   return "var(--tier-second_apron)";
 }
 
-/** Player IMPACT pill (100 = league best, negative = net-negative). */
+const sign = (n: number, d = 1) => `${n >= 0 ? "+" : ""}${n.toFixed(d)}`;
+
+/** Player APRON VALUE pill (0-100, 50 = replacement, ~97 = league best). */
 export function ImpactPill({ c }: { c?: Contract }) {
   if (!c) return null;
   const v = impactScoreOf(c);
@@ -44,14 +46,14 @@ export function ImpactPill({ c }: { c?: Contract }) {
   const comp = impactComponents(c);
   const prov =
     comp.source === "hybrid"
-      ? ` Built from box score + real on-court impact (3-yr RAPM${comp.rapmp != null ? ` ${comp.rapmp >= 0 ? "+" : ""}${comp.rapmp.toFixed(1)}/100` : ""}${comp.bpm != null ? `, box BPM ${comp.bpm >= 0 ? "+" : ""}${comp.bpm}` : ""}).`
+      ? ` Built from box score + real on-court impact (3-yr RAPM${comp.rapmp != null ? ` ${sign(comp.rapmp)}/100` : ""}${comp.bpm != null ? `, box BPM ${sign(comp.bpm, 0)}` : ""}).`
       : comp.source === "box"
-        ? ` Box-based estimate${comp.bpm != null ? ` (BPM ${comp.bpm >= 0 ? "+" : ""}${comp.bpm})` : ""} — below the minutes cutoff for the on-court-impact half, so read it as approximate.`
+        ? ` Box-based estimate${comp.bpm != null ? ` (BPM ${sign(comp.bpm, 0)})` : ""} — below the minutes cutoff for the on-court-impact half, so read it as approximate.`
         : " Projected from limited data — approximate.";
   return (
     <Term
       k="trade_value"
-      extra={`impact ${v} — 100 is the league's best, 0 is replacement level, negative is a net-negative on-court player.${prov}`}
+      extra={`Apron Value ${v} ± ${Math.round(comp.uncertainty * 3.73)} · ${comp.tier} · impact ${sign(comp.impactPts)} pts/100 (50 = replacement).${prov}`}
       className="tabular shrink-0"
     >
       <span

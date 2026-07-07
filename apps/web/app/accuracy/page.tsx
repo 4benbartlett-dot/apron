@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 216 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 217 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 216 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 217 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -56,7 +56,8 @@ const APPROXIMATE = [
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
-  "Player impact = box score blended 50/50 with real stint-level RAPM (5-man lineups reconstructed from play-by-play, possession-weighted ridge), scaled so the league’s best reads 100, replacement ≈ 0, and net-negative players below zero — a talent gauge, not a contract measure. It beats BPM at predicting a player’s impact after he changes teams (the edge is real but modest; the RAPM-overlap sample is small). ~85% of rostered players carry the full metric or its validated box half; the rest are box- or draft-slot-projected and flagged approximate on hover. Minutes-regularized so a small-sample bench spark doesn’t read as a star",
+  "Player value is \u201cApron Value\u201d \u2014 a 0-100 scale (50 = replacement, ~97 = league best) from box score blended 50/50 with real stint-level RAPM (5-man lineups reconstructed from play-by-play, possession-weighted ridge). Validated: it predicts a player\u2019s impact after he changes teams better than BPM (mover corr 0.426 vs 0.344, delta +0.082 [95% CI +0.024, +0.144], reliability 0.852) \u2014 a real but modest edge on a small mover sample. Each number carries a \u00b1 band and a tier; ~85% of rostered players have the full metric or its validated box half, the rest are box-/draft-projected and flagged approximate on hover",
+  "Team strength (\u201cProjected strength\u201d on team pages) is the minutes-weighted roster Apron Value \u2014 a current-roster snapshot, not a season forecast; no minutes-allocation model or injury adjustment yet (the honest next build)",
   "Positions (PG/SG/SF/PF/C) are a single primary label from Basketball-Reference; a handful of players who didn\u2019t play in 2025-26 are hand-tagged",
   "Draft-pick values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto the same impact scale, risk- and time-discounted \u2014 the fairness meter sums impact per side",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
@@ -118,10 +119,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 216 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 217 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 216 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 217 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section

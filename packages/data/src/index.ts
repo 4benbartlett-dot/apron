@@ -6,6 +6,7 @@ import manualMovesRaw from "./manual-moves.json";
 import retiredRaw from "./retired-2026.json";
 import waivedRaw from "./waived-2025-26.json";
 import impactRaw from "./impact-2026.json";
+import teamStrengthRaw from "./team-strength-2026.json";
 import positionsRaw from "./positions-2026.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
@@ -80,21 +81,38 @@ export const DATA_AS_OF: string = (metaRaw as { rostersAsOf: string }).rostersAs
 export const RETIRED_2026: string[] = (retiredRaw as { players: string[] }).players;
 /** Player impact (HYBRID metric) by playerId, plus the BPM→HYBRID fallback fit. */
 export interface ImpactEntry {
-  /** Exact HYBRID z (box + RAPM) — present for players above the RAPM minutes cutoff. */
-  h?: number;
-  /** TWV box-half z — for players below the cutoff (minutes-shrunk downstream). */
-  twv?: number;
-  mp?: number;
-  /** RAPMp (real on-court impact, pts/100) — provenance for the hover. */
+  /** Apron Value (0-100, 50 = replacement, ~97 = league best). The display number. */
+  av: number;
+  /** Impact in points per 100 possessions (RAPMp-anchored, 0-centered). */
+  pts: number;
+  /** ± uncertainty band, in impact points. */
+  unc: number;
+  /** RAPMp component (real on-court impact), when available. */
   rapmp?: number;
-  /** Box BPM — provenance for the hover. */
+  /** Box BPM component, when available. */
   bpm?: number;
+  /** MVP / All-NBA / High starter / Starter / Rotation / Depth. */
+  tier: string;
+  conf: string;
+  /** "hybrid" = full box+RAPM; "box" = box-half fallback (approximate). */
+  src: string;
 }
 export const IMPACT_2026: {
-  maxHybrid: number;
   bpmFallback: { slope: number; intercept: number };
   byId: Record<string, ImpactEntry>;
 } = impactRaw as never;
+export interface TeamStrength {
+  /** Team Apron Value (minutes-weighted current roster). */
+  av: number;
+  /** Projected net rating from roster HYBRID. */
+  projNrtg: number;
+  /** 2025-26 actual net rating (context). */
+  nrtg: number;
+  /** 2025-26 actual wins (context). */
+  w: number;
+}
+export const TEAM_STRENGTH_2026: Record<string, TeamStrength> =
+  (teamStrengthRaw as { byTeam: Record<string, TeamStrength> }).byTeam;
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage. */
 export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
