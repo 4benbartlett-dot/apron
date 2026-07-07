@@ -79,10 +79,21 @@ export const DATA_AS_OF: string = (metaRaw as { rostersAsOf: string }).rostersAs
 /** Announced retirements effective end of 2025-26 (curated). */
 export const RETIRED_2026: string[] = (retiredRaw as { players: string[] }).players;
 /** Player impact (HYBRID metric) by playerId, plus the BPM→HYBRID fallback fit. */
+export interface ImpactEntry {
+  /** Exact HYBRID z (box + RAPM) — present for players above the RAPM minutes cutoff. */
+  h?: number;
+  /** TWV box-half z — for players below the cutoff (minutes-shrunk downstream). */
+  twv?: number;
+  mp?: number;
+  /** RAPMp (real on-court impact, pts/100) — provenance for the hover. */
+  rapmp?: number;
+  /** Box BPM — provenance for the hover. */
+  bpm?: number;
+}
 export const IMPACT_2026: {
   maxHybrid: number;
   bpmFallback: { slope: number; intercept: number };
-  byId: Record<string, number>;
+  byId: Record<string, ImpactEntry>;
 } = impactRaw as never;
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage. */
 export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;

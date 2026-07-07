@@ -2,6 +2,111 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Kevon Looney",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Tarik Biberovic",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $6 million contract with Dallas (DAL) - includes 2027-28 Team Option"
+    },
+    {
+      "player": "Felix Okpara",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Washington (WAS)"
+    },
+    {
+      "player": "Bruce Thornton",
+      "pos": "PG",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $9.26 million contract with Houston (HOU) via 2nd-round exception - includes 2029-30 Team Option"
+    },
+    {
+      "player": "Adem Bona",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Other",
+      "detail": "Philadelphia (PHI) fully guaranteed $2.30 million salary for 2026-27"
+    },
+    {
+      "player": "Kristaps Porzingis",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Other",
+      "detail": "Golden State (GSW) fully guaranteed $20 million salary for 2026-27"
+    },
+    {
+      "player": "Donovan Mitchell",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $272.7 million maximum contract extension with Cleveland (CLE) - includes 2030-31 Player Option"
+    },
+    {
+      "player": "Trey Alexander",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with New Orleans (NOP)"
+    },
+    {
+      "player": "Precious Achiuwa",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $11.5 million a contract with Sacramento (SAC)"
+    },
+    {
+      "player": "Thomas Bryant",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.52 million contract with Cleveland (CLE)"
+    },
+    {
+      "player": "Mark Williams",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $38 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Jordan Goodwin",
+      "pos": "PG",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $19 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Collin Gillespie",
+      "pos": "PG",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $48 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Josh Minott",
+      "pos": "SF",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $9 million contract with Brooklyn (BKN) - includes 2027-28 Team Option"
+    },
+    {
+      "player": "Day'Ron Sharpe",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $20 million contract with Brooklyn (BKN) - includes 2027-28 Team Option"
+    },
+    {
       "player": "Kylan Boswell",
       "pos": "G",
       "date": "Jul 06, 2026",
@@ -69,7 +174,7 @@
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Agreed to a 2 year $28 million contract with LA Clippers (LAC) - includes 2027-28 Team Option"
+      "detail": "Signed a 2 year $28 million contract with LA Clippers (LAC) - includes 2027-28 Team Option"
     },
     {
       "player": "Quinten Post",
@@ -93,11 +198,25 @@
       "detail": "Signed a 1 year $3.88 million contract with New York (NYK)"
     },
     {
+      "player": "Dorian Finney-Smith",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick \\[MEM pick\\] , a 2028 2nd round pick \\[HOU pick\\] and a 2033 2nd round pick \\[HOU pick\\]"
+    },
+    {
       "player": "Neemias Queta",
       "pos": "C",
       "date": "Jul 06, 2026",
       "type": "Signing",
       "detail": "Signed a 4 year $56 million a contract extension with Boston (BOS)"
+    },
+    {
+      "player": "Kenrich Williams",
+      "pos": "PF",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $5 million contract with Oklahoma City (OKC)"
     },
     {
       "player": "Kyle Anderson",
@@ -128,6 +247,27 @@
       "detail": "Traded to Philadelphia (PHI) from Boston (BOS) for Paul George, a 2028 1st round pick \\[BOS right to swap\\] , a 2031 1st round pick \\[unprotected PHI pick\\] , a 2028 2nd round pick \\[most favorable of GSW/OKC/MIL\\] and a 2030 2nd round pick \\[most favorable of WAS/PORT/PHX\\]"
     },
     {
+      "player": "Mitchell Robinson",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $47.4 million contract with Boston (BOS)"
+    },
+    {
+      "player": "Ariel Hukporti",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.4 million contract with Philadelphia (PHI)"
+    },
+    {
+      "player": "Mike Conley",
+      "pos": "PG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Boston (BOS)"
+    },
+    {
       "player": "Dean Wade",
       "pos": "PF",
       "date": "Jul 06, 2026",
@@ -142,32 +282,39 @@
       "detail": "Signed a 2 year $18 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
     },
     {
+      "player": "Tim Hardaway Jr.",
+      "pos": "SG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $6.5 million contract with Miami (MIA)"
+    },
+    {
+      "player": "Landry Shamet",
+      "pos": "SG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $24 million contract with New York (NYK)"
+    },
+    {
       "player": "Andrew Wiggins",
       "pos": "SF",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $64 million contract extension with Miami (MIA) - includes 2028-29 Player Option"
-    },
-    {
-      "player": "Day'Ron Sharpe",
-      "pos": "C",
-      "date": "Jul 06, 2026",
-      "type": "Signing",
-      "detail": "Signed a 2 year $20 million contract with Brooklyn (BKN) - includes 2027-28 Team Option"
-    },
-    {
-      "player": "Josh Minott",
-      "pos": "SF",
-      "date": "Jul 06, 2026",
-      "type": "Signing",
-      "detail": "Signed a 2 year $9 million contract with Brooklyn (BKN) - includes 2027-28 Team Option"
+      "detail": "Signed a 2 year $33.83 million contract extension with Miami (MIA) - includes 2028-29 Player Option"
     },
     {
       "player": "Ron Harper Jr.",
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 4 year $13.5 million contract with Boston (BOS)"
+      "detail": "Signed a 4 year $13.7 million contract with Boston (BOS) - includes 2029-30 Team Option"
+    },
+    {
+      "player": "Isaiah Hartenstein",
+      "pos": "C",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $75 million contract with Oklahoma City (OKC) - includes 2028-29 Mutual Option"
     },
     {
       "player": "Jose Alvarado",
@@ -195,7 +342,7 @@
       "pos": "C",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $13.99 million contract with Golden State (GSW)"
+      "detail": "Signed a 2 year $13.99 million contract with Golden State (GSW) - includes 2027-28 Player Option"
     },
     {
       "player": "Kasparas Jakucionis",
@@ -247,6 +394,13 @@
       "detail": "Signed a 4 year $10 million contract with New York (NYK)"
     },
     {
+      "player": "Trae Young",
+      "pos": "PG",
+      "date": "Jul 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $212.80 million contract with Washington (WAS) - includes 2029-30 Player Option"
+    },
+    {
       "player": "Aaron Wiggins",
       "pos": "SG",
       "date": "Jul 06, 2026",
@@ -273,13 +427,6 @@
       "date": "Jul 05, 2026",
       "type": "Signing",
       "detail": "Signed a 4 year $15.34 million Rookie Scale contract with Boston (BOS)"
-    },
-    {
-      "player": "Trey Alexander",
-      "pos": "SG",
-      "date": "Jul 05, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Utah (UTA)"
     },
     {
       "player": "Caleb Love",
@@ -513,13 +660,6 @@
       "detail": "Traded to Washington (WAS) from Los Angeles (LAL) for Jaden Hardy, a 2031 2nd round pick and a 2032 2nd round pick"
     },
     {
-      "player": "Dorian Finney-Smith",
-      "pos": "PF",
-      "date": "Jul 03, 2026",
-      "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick \\[MEM pick\\] , a 2028 2nd round pick \\[HOU pick\\] and a 2033 2nd round pick \\[HOU pick\\]"
-    },
-    {
       "player": "Tyler Bilodeau",
       "pos": "F",
       "date": "Jul 03, 2026",
@@ -616,13 +756,6 @@
       "date": "Jul 02, 2026",
       "type": "Signing",
       "detail": "Agreed to a 5 year $81.5 million contract with Houston (HOU) - includes 2030-31 Player Option"
-    },
-    {
-      "player": "Kenrich Williams",
-      "pos": "PF",
-      "date": "Jul 02, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $5 million contract with Oklahoma City (OKC)"
     },
     {
       "player": "Enrique Freeman",
@@ -898,13 +1031,6 @@
       "detail": "Agreed to 4 year $130 million contract with Utah (UTA) as part of a sign-and-trade with Los Angeles (LAL)"
     },
     {
-      "player": "Mitchell Robinson",
-      "pos": "C",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 3 year $47.4 million contract with Boston (BOS)"
-    },
-    {
       "player": "Jevon Carter",
       "pos": "PG",
       "date": "Jul 01, 2026",
@@ -919,25 +1045,11 @@
       "detail": "Agreed to a 2 year $19 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
     },
     {
-      "player": "Ariel Hukporti",
-      "pos": "C",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $3.4 million contract with Philadelphia (PHI)"
-    },
-    {
       "player": "Nikola Vucevic",
       "pos": "C",
       "date": "Jul 01, 2026",
       "type": "Signing",
       "detail": "Signed a 1 year $3.88 million contract with Orlando (ORL)"
-    },
-    {
-      "player": "Mike Conley",
-      "pos": "PG",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $3.88 million contract with Boston (BOS)"
     },
     {
       "player": "Norman Powell",
@@ -1017,13 +1129,6 @@
       "detail": "Chicago (CHI) fully guaranteed $2.4 million salary for 2026-27"
     },
     {
-      "player": "Tim Hardaway Jr.",
-      "pos": "SG",
-      "date": "Jun 30, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $6.5 million contract with Miami (MIA)"
-    },
-    {
       "player": "DeAndre Jordan",
       "pos": "C",
       "date": "Jun 30, 2026",
@@ -1036,13 +1141,6 @@
       "date": "Jun 30, 2026",
       "type": "Signing",
       "detail": "Agreed to a 3 year $17.5 million contract with Milwaukee (MIL)"
-    },
-    {
-      "player": "Precious Achiuwa",
-      "pos": "PF",
-      "date": "Jun 30, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 2 year $11.5 million a contract with Sacramento (SAC)"
     },
     {
       "player": "Gradey Dick",
@@ -1668,13 +1766,6 @@
       "detail": "Boston (BOS) exercised $2.67 million option for 2026-27"
     },
     {
-      "player": "Landry Shamet",
-      "pos": "SG",
-      "date": "Jun 29, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $24 million contract with New York (NYK)"
-    },
-    {
       "player": "Andre Jackson Jr.",
       "pos": "SG",
       "date": "Jun 29, 2026",
@@ -1743,13 +1834,6 @@
       "date": "Jun 29, 2026",
       "type": "Signing",
       "detail": "Agreed to a Two-Way Qualifying Offer contract with Brooklyn (BKN)"
-    },
-    {
-      "player": "Thomas Bryant",
-      "pos": "C",
-      "date": "Jun 29, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $3.52 million contract with Cleveland (CLE)"
     },
     {
       "player": "J.D. Davison",
@@ -2126,13 +2210,6 @@
       "player": "Isaiah Hartenstein",
       "pos": "C",
       "date": "Jun 26, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 3 year $75 million contract with Oklahoma City (OKC) - includes 2028-29 Mutual Option"
-    },
-    {
-      "player": "Isaiah Hartenstein",
-      "pos": "C",
-      "date": "Jun 26, 2026",
       "type": "Option",
       "detail": "Oklahoma City (OKC) declined $28.5 million option for 2026-27"
     },
@@ -2184,13 +2261,6 @@
       "date": "Jun 25, 2026",
       "type": "Option",
       "detail": "Atlanta (ATL) exercised $2.41 million option for 2026-27"
-    },
-    {
-      "player": "Mark Williams",
-      "pos": "C",
-      "date": "Jun 25, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 3 year $38 million contract with Phoenix (PHX)"
     },
     {
       "player": "Chucky Hepburn",
@@ -2935,13 +3005,6 @@
       "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 3-team trade: Chicago (CHI) traded Mouhamadou Gueye to Minnesota (MIN); Minnesota (MIN) traded a 2026 1st round pick (#28) to Brooklyn (BKN); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded a 2026 2nd round pick (#33) to Minnesota (MIN)"
     },
     {
-      "player": "Trae Young",
-      "pos": "PG",
-      "date": "Jun 22, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $212.80 million contract with Washington (WAS) - includes 2029-30 Player Option"
-    },
-    {
       "player": "Craig Porter Jr.",
       "pos": "G",
       "date": "Jun 22, 2026",
@@ -2975,20 +3038,6 @@
       "date": "Jun 22, 2026",
       "type": "Signing",
       "detail": "Signed to a 1 year $21 million contract extension with Atlanta (ATL) - includes 7.5% Trade Bonus"
-    },
-    {
-      "player": "Jordan Goodwin",
-      "pos": "PG",
-      "date": "Jun 21, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 3 year $19 million contract with Phoenix (PHX)"
-    },
-    {
-      "player": "Collin Gillespie",
-      "pos": "PG",
-      "date": "Jun 20, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $48 million contract with Phoenix (PHX)"
     },
     {
       "player": "Kentavious Caldwell-Pope",

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 211 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 213 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 211 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 213 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -55,7 +55,7 @@ const APPROXIMATE = [
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
-  "Player impact numbers come from a value-impact metric (a RAPM \u00d7 true-wins blend), scaled so the league\u2019s best reads 100, replacement level \u2248 0, and net-negative players go below zero \u2014 a talent gauge, not a contract measure; players outside the metric\u2019s sample are projected from BPM (minutes-regularized so small-sample outliers don\u2019t read as stars), rookies from draft slot",
+  "Player impact = box score blended 50/50 with real stint-level RAPM (5-man lineups reconstructed from play-by-play, possession-weighted ridge), scaled so the league’s best reads 100, replacement ≈ 0, and net-negative players below zero — a talent gauge, not a contract measure. It beats BPM at predicting a player’s impact after he changes teams (the edge is real but modest; the RAPM-overlap sample is small). ~85% of rostered players carry the full metric or its validated box half; the rest are box- or draft-slot-projected and flagged approximate on hover. Minutes-regularized so a small-sample bench spark doesn’t read as a star",
   "Positions (PG/SG/SF/PF/C) are a single primary label from Basketball-Reference; a handful of players who didn\u2019t play in 2025-26 are hand-tagged",
   "Draft-pick values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto the same impact scale, risk- and time-discounted \u2014 the fairness meter sums impact per side",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
@@ -117,10 +117,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 211 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 213 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 211 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 213 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section

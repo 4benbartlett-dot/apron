@@ -1,7 +1,7 @@
 "use client";
 
 import type { Contract } from "@apron/cba-engine";
-import { impactScoreOf, positionOf } from "@/lib/league";
+import { impactScoreOf, positionOf, impactComponents } from "@/lib/league";
 import { Term } from "@/components/Term";
 
 /** Position colours — cool→warm across the backcourt-to-frontcourt spectrum. */
@@ -41,10 +41,17 @@ export function ImpactPill({ c }: { c?: Contract }) {
   if (!c) return null;
   const v = impactScoreOf(c);
   const col = impactColor(v);
+  const comp = impactComponents(c);
+  const prov =
+    comp.source === "hybrid"
+      ? ` Built from box score + real on-court impact (3-yr RAPM${comp.rapmp != null ? ` ${comp.rapmp >= 0 ? "+" : ""}${comp.rapmp.toFixed(1)}/100` : ""}${comp.bpm != null ? `, box BPM ${comp.bpm >= 0 ? "+" : ""}${comp.bpm}` : ""}).`
+      : comp.source === "box"
+        ? ` Box-based estimate${comp.bpm != null ? ` (BPM ${comp.bpm >= 0 ? "+" : ""}${comp.bpm})` : ""} — below the minutes cutoff for the on-court-impact half, so read it as approximate.`
+        : " Projected from limited data — approximate.";
   return (
     <Term
       k="trade_value"
-      extra={`impact ${v} — 100 is the league's best, 0 is replacement level, negative is a net-negative on-court player.`}
+      extra={`impact ${v} — 100 is the league's best, 0 is replacement level, negative is a net-negative on-court player.${prov}`}
       className="tabular shrink-0"
     >
       <span
