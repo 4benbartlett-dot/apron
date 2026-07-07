@@ -142,6 +142,97 @@ export function buildChecks(opts: {
   ];
 }
 
+export interface MoveConsequence {
+  team: string;
+  severity: "cap" | "restrict" | "note";
+  text: string;
+}
+
+/** Durable cap/rule implications of a STAGED trade — surfaced even when the
+ * deal is legal, so you can see what it commits each team to: hard caps it
+ * triggers, second-apron restrictions it turns on, and the two-month
+ * aggregation freeze on everyone acquired. */
+export function tradeConsequences(
+  teams: TeamTradeSummary[],
+  tpeUse: Record<string, { amount: number; preExisting: boolean; label?: string }> | undefined,
+  holdsOf: (t: string) => number,
+): MoveConsequence[] {
+  const out: MoveConsequence[] = [];
+  const cappedNew = new Set<string>();
+  const name = (t: string) => teamMeta(t).name;
+  const poss = (t: string) => { const n = teamMeta(t).name; return n.endsWith("s") ? `${n}'` : `${n}'s`; };
+  for (const t of teams) {
+    const belowAprons = t.preTradeTier !== "first_apron" && t.preTradeTier !== "second_apron";
+    const matchable = t.incomingSalary - (t.tpeAbsorbed ?? 0);
+    // Cap-room absorption (§6(j)(1)(v)) triggers no cap; the expanded formula
+    // (row E) does — same test the session ledger uses.
+    const absorption = Math.max(0, C.salaryCap - t.preTradeSalary - holdsOf(t.teamId)) + t.outgoingSalary + 250_000;
+    if (belowAprons && matchable > t.outgoingSalary + 1 && matchable > absorption + 1) {
+      cappedNew.add(t.teamId);
+      out.push({
+        team: t.teamId,
+        severity: "cap",
+        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season — it used expanded matching (took back more than 125% + $250k).`,
+      });
+    }
+    if (!cappedNew.has(t.teamId) && (t.tpeAbsorbed ?? 0) > 0 && tpeUse?.[t.teamId]?.preExisting) {
+      cappedNew.add(t.teamId);
+      out.push({
+        team: t.teamId,
+        severity: "cap",
+        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) — it spent a pre-existing traded-player exception (restriction row F).`,
+      });
+    }
+    if (t.postTradeTier === "second_apron") {
+      out.push({
+        team: t.teamId,
+        severity: "restrict",
+        text: `${name(t.teamId)} finishes over the second apron — it can no longer aggregate salaries, send cash in a trade, or use any mid-level, and its future first can be frozen.`,
+      });
+    } else if (t.postTradeTier === "first_apron" && !cappedNew.has(t.teamId)) {
+      out.push({
+        team: t.teamId,
+        severity: "restrict",
+        text: `${name(t.teamId)} finishes over the first apron — limited to 100% + $250k matching and the taxpayer mid-level.`,
+      });
+    }
+    if (t.incomingSalary > 0) {
+      out.push({
+        team: t.teamId,
+        severity: "note",
+        text: `${poss(t.teamId)} incoming players can't be aggregated in another trade for ~2 months.`,
+      });
+    }
+  }
+  return out;
+}
+
+const SEV_COLOR: Record<MoveConsequence["severity"], string> = {
+  cap: "var(--tier-second_apron)",
+  restrict: "var(--tier-first_apron)",
+  note: "var(--muted)",
+};
+
+/** "Heads up — what this triggers": the always-visible consequence strip. */
+export function MoveTriggers({ items }: { items: MoveConsequence[] }) {
+  if (!items.length) return null;
+  return (
+    <div className="rounded-lg border border-[var(--tier-first_apron)]/40 bg-[color-mix(in_srgb,var(--tier-first_apron)_7%,transparent)] px-3 py-2">
+      <div className="label mb-1 !text-[10px] !text-[var(--accent-ink)]">Heads up — what this triggers</div>
+      <ul className="space-y-1">
+        {items.map((c, i) => (
+          <li key={i} className="flex gap-1.5 text-[12px] leading-snug">
+            <span className="shrink-0 font-bold" style={{ color: SEV_COLOR[c.severity] }}>
+              {c.severity === "cap" ? "⚠" : c.severity === "restrict" ? "▸" : "·"}
+            </span>
+            <span>{c.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** "Why this verdict", expandable — lives directly under the pinned docket so
  * the reasoning is always one tap away without eating the screen. */
 export function DocketWhy({
