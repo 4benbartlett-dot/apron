@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { spendingPower } from "@apron/cba-engine";
 import { DRAFT_PICKS } from "@apron/data";
-import { C, TEAM_IDS, teamMeta, teamStrengthOf } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, teamProjection } from "@/lib/league";
 import { useLeague } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -30,7 +30,7 @@ export default function TeamWarRoom() {
   const roster = lg.roster(id);
   const picks = DRAFT_PICKS[id] ?? { incoming: [], outgoing: [] };
   const spaceAfterHolds = C.salaryCap - committed - holds;
-  const strength = teamStrengthOf(id);
+  const proj = teamProjection(id, lg.contracts);
 
   const line = (n: number, hc: "first_apron" | "second_apron" | null) =>
     hc === "first_apron"
@@ -97,25 +97,36 @@ export default function TeamWarRoom() {
         </div>
       </div>
 
-      {strength && (
+      {proj && (
         <div className="panel mb-4 flex flex-wrap items-center gap-x-8 gap-y-3 p-4">
           <div>
-            <div className="label !text-[10px]">Projected strength <span className="text-[var(--muted)]">· current roster</span></div>
+            <div className="label !text-[10px]">Projected record</div>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="tabular text-2xl font-bold" style={{ color: strength.av >= 60 ? "var(--tier-below_cap)" : strength.av >= 50 ? "var(--tier-taxpayer)" : "var(--tier-second_apron)" }}>{Math.round(strength.av)}</span>
-              <span className="text-xs text-[var(--muted)]">team Apron Value</span>
+              <span className="tabular text-2xl font-bold">{proj.projWins}-{82 - proj.projWins}</span>
+              {proj.deltaWins !== 0 && (
+                <span className="tabular text-sm font-semibold" style={{ color: proj.deltaWins > 0 ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
+                  {proj.deltaWins > 0 ? "+" : ""}{proj.deltaWins} vs current
+                </span>
+              )}
             </div>
           </div>
           <div>
             <div className="label !text-[10px]">Projected net rating</div>
-            <div className="tabular mt-1 text-lg font-semibold">{strength.projNrtg >= 0 ? "+" : ""}{strength.projNrtg.toFixed(1)}</div>
+            <div className="tabular mt-1 flex items-baseline gap-2 text-lg font-semibold">
+              {proj.projNrtg >= 0 ? "+" : ""}{proj.projNrtg.toFixed(1)}
+              {proj.deltaNrtg !== 0 && (
+                <span className="text-xs" style={{ color: proj.deltaNrtg > 0 ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
+                  ({proj.deltaNrtg > 0 ? "+" : ""}{proj.deltaNrtg.toFixed(1)})
+                </span>
+              )}
+            </div>
           </div>
           <div>
-            <div className="label !text-[10px]">2025-26 actual</div>
-            <div className="tabular mt-1 text-sm text-[var(--muted)]">{strength.nrtg >= 0 ? "+" : ""}{strength.nrtg.toFixed(1)} net · {strength.w} wins</div>
+            <div className="label !text-[10px]">Current baseline</div>
+            <div className="tabular mt-1 text-sm text-[var(--muted)]">{proj.baseWins} wins · {proj.baseNrtg >= 0 ? "+" : ""}{proj.baseNrtg.toFixed(1)} net</div>
           </div>
           <div className="w-full text-[11px] text-[var(--muted)] sm:w-auto sm:flex-1 sm:text-right">
-            Minutes-weighted roster impact. Current-roster snapshot, not a season forecast — no minutes model or injuries yet.
+            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · current-roster snapshot, not a season forecast (no minutes model or injuries yet).
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf } from "@/lib/league";
+import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS } from "@/lib/league";
 
 // Player value = "Apron Value" from the hardened impact model: box score
 // blended 50/50 with real stint-level RAPM, on a 0-100 scale (50 = replacement,
@@ -85,5 +85,36 @@ describe("positions", () => {
     const withPos = active.filter((c) => positionOf(c.playerId));
     expect(withPos.length / active.length).toBeGreaterThan(0.95);
     for (const c of withPos) expect(["PG", "SG", "SF", "PF", "C"]).toContain(positionOf(c.playerId));
+  });
+});
+
+describe("team projections (net rating + wins, delta from moves)", () => {
+  it("no moves → exactly the model baseline, zero delta (no drift)", () => {
+    const okc = teamProjection("OKC", BASE_CONTRACTS)!;
+    expect(okc.deltaWins).toBe(0);
+    expect(okc.deltaNrtg).toBe(0);
+    expect(okc.projWins).toBe(okc.baseWins);
+    expect(okc.projNrtg).toBe(okc.baseNrtg);
+    expect(okc.baseWins).toBeGreaterThan(55); // OKC is a contender in the model
+  });
+
+  it("acquiring a superstar lifts a team and sinks the seller symmetrically", () => {
+    const jokic = BASE_CONTRACTS.find((c) => c.playerName === "Nikola Jokić")!;
+    const moved = BASE_CONTRACTS.map((c) => (c.playerId === jokic.playerId ? { ...c, teamId: "OKC" } : c));
+    const okc = teamProjection("OKC", moved)!;
+    const den = teamProjection("DEN", moved)!;
+    expect(okc.deltaWins).toBeGreaterThan(8);
+    expect(den.deltaWins).toBeLessThan(-8);
+    // symmetric swing (Jokić is worth the same wherever he plays)
+    expect(okc.deltaNrtg + den.deltaNrtg).toBeCloseTo(0, 1);
+  });
+
+  it("projected wins stay in a plausible NBA range", () => {
+    for (const t of TEAM_IDS) {
+      const p = teamProjection(t, BASE_CONTRACTS);
+      if (!p) continue;
+      expect(p.projWins).toBeGreaterThanOrEqual(12);
+      expect(p.projWins).toBeLessThanOrEqual(73);
+    }
   });
 });

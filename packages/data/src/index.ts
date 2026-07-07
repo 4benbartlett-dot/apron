@@ -87,6 +87,8 @@ export interface ImpactEntry {
   pts: number;
   /** ± uncertainty band, in impact points. */
   unc: number;
+  /** Prior-season minutes played (for minutes-weighted team projections). */
+  mp?: number;
   /** RAPMp component (real on-court impact), when available. */
   rapmp?: number;
   /** Box BPM component, when available. */
@@ -113,6 +115,9 @@ export interface TeamStrength {
 }
 export const TEAM_STRENGTH_2026: Record<string, TeamStrength> =
   (teamStrengthRaw as { byTeam: Record<string, TeamStrength> }).byTeam;
+/** Net-rating/wins calibration behind the projections (fit R²=0.97). */
+export const TEAM_CALIBRATION: { nrtgPerScore: number; winsPerNrtg: number } =
+  (teamStrengthRaw as { calibration: { nrtgPerScore: number; winsPerNrtg: number } }).calibration;
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage. */
 export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
