@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf } from "@/lib/league";
-import { IMPACT_2026, PLAYER_BIO_2026 } from "@apron/data";
+import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf, allocateRotation, eligiblePositions, secondaryPositionsOf } from "@/lib/league";
+import { IMPACT_2026, PLAYER_BIO_2026, SECONDARY_POSITIONS_2026 } from "@apron/data";
 
 // Player value = "Apron Value" from the hardened impact model: box score
 // blended 50/50 with real stint-level RAPM, on a 0-100 scale (50 = replacement,
@@ -112,14 +112,14 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     expect(den.deltaWins).toBeLessThan(-8);
   });
 
-  it("minutes displacement: the same star helps a needy team more than a deep one", () => {
-    // A weak team (mostly sub-replacement minutes to displace) gains more from
-    // an MVP than a title contender, whose bench minutes are already good.
-    const toWeak = teamProjection("UTA", moveTo("Nikola Jokić", "UTA"))!;
-    const toDeep = teamProjection("BOS", moveTo("Nikola Jokić", "BOS"))!;
-    expect(toWeak.deltaWins).toBeGreaterThan(0);
-    expect(toDeep.deltaWins).toBeGreaterThan(0);
-    expect(toWeak.deltaWins).toBeGreaterThan(toDeep.deltaWins);
+  it("positional displacement: stacking a spot benches the surplus", () => {
+    // Drop a second quality center onto a team already anchored at center; the
+    // position-aware rotation must push someone out of the 19,680-minute budget
+    // rather than magically playing everyone.
+    const moved = moveTo("Jarrett Allen", "SAS"); // SAS already has Wembanyama
+    const before = allocateRotation(BASE_CONTRACTS.filter((c) => c.teamId === "SAS")).benched.length;
+    const after = allocateRotation(moved.filter((c) => c.teamId === "SAS")).benched.length;
+    expect(after).toBeGreaterThan(before);
   });
 
   it("the seller's loss doesn't depend on where the star is dealt", () => {
@@ -129,9 +129,11 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     expect(a).toBe(b);
   });
 
-  it("a role player barely moves a team; a star moves it a lot", () => {
-    const roleSwing = Math.abs(teamProjection("WAS", moveTo("Grayson Allen", "WAS"))!.deltaWins);
-    const starSwing = Math.abs(teamProjection("WAS", moveTo("Nikola Jokić", "WAS"))!.deltaWins);
+  it("a role player is marginal on a deep team; a star is not", () => {
+    // On a contender (every rotation minute already ~replacement or better) a
+    // role player barely moves the needle, while an MVP still does.
+    const roleSwing = Math.abs(teamProjection("OKC", moveTo("Grayson Allen", "OKC"))!.deltaWins);
+    const starSwing = Math.abs(teamProjection("OKC", moveTo("Nikola Jokić", "OKC"))!.deltaWins);
     expect(roleSwing).toBeLessThanOrEqual(3);
     expect(starSwing).toBeGreaterThan(roleSwing + 8);
   });
@@ -179,6 +181,20 @@ describe("player bio (real ages + availability, Basketball-Reference)", () => {
       if (b.g != null) expect(b.g).toBeLessThanOrEqual(82);
       if (b.g != null && b.gs != null) expect(b.gs).toBeLessThanOrEqual(b.g);
       if (b.mpg != null) expect(b.mpg).toBeLessThanOrEqual(48);
+    }
+  });
+
+  it("measured secondary positions are real and distinct from the primary", () => {
+    const withSec = Object.keys(SECONDARY_POSITIONS_2026);
+    expect(withSec.length).toBeGreaterThan(50); // a meaningful share are versatile
+    for (const id of withSec) {
+      const primary = positionOf(id);
+      for (const sec of SECONDARY_POSITIONS_2026[id]!) {
+        expect(["PG", "SG", "SF", "PF", "C"]).toContain(sec);
+        expect(sec).not.toBe(primary); // secondary ≠ primary
+      }
+      // eligiblePositions leads with the primary, then the secondaries
+      expect(eligiblePositions(id)[0]).toBe(primary);
     }
   });
 });

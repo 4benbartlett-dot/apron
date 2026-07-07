@@ -132,7 +132,7 @@ export default function TeamWarRoom() {
       )}
 
       <div className="panel mb-4 p-4">
-        <div className="mb-2 text-sm font-semibold">Depth chart <span className="text-[var(--muted)]">· by position, deepest talent first</span></div>
+        <div className="mb-2 text-sm font-semibold">Projected rotation <span className="text-[var(--muted)]">· minutes by position, best players first</span></div>
         <DepthChart roster={roster} />
       </div>
 

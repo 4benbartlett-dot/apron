@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, PLAYER_BIO_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -731,6 +731,18 @@ export interface TeamProjection {
  * trade actually competes for. */
 export const TEAM_MINUTES = 240 * 82;
 const MAX_PLAYER_MINUTES = 2950; // ~36 MPG — the ceiling even iron-men live under
+const ROTATION_POSITIONS = ["PG", "SG", "SF", "PF", "C"] as const;
+const POS_MINUTES = TEAM_MINUTES / 5; // 3,936 minutes at each of the five on-court spots
+// Where a player can slide when he has no MEASURED secondary — the spots next to
+// his primary. Keeps the position budget from being so rigid that ordinary
+// small-/big-lineup flexibility reads as a hole.
+const POS_ADJACENT: Record<string, string[]> = {
+  PG: ["SG"],
+  SG: ["PG", "SF"],
+  SF: ["SG", "PF"],
+  PF: ["SF", "C"],
+  C: ["PF"],
+};
 
 /** Real age entering 2026-27 (Basketball-Reference bio; falls back to
  * rookie-age-plus-service when a player has no NBA bio row yet). */
@@ -771,38 +783,104 @@ function projectedMinutes(playerId: string, priorMp: number): number {
   return Math.min(MAX_PLAYER_MINUTES, Math.max(0, priorMp));
 }
 
+/** Measured secondary positions (spots a player logged ≥20% of his minutes at). */
+export function secondaryPositionsOf(playerId: string): string[] {
+  return SECONDARY_POSITIONS_2026[playerId] ?? [];
+}
+
+/** Share of minutes a player spent at each position last season, where measured. */
+export function positionSharesOf(playerId: string): Record<string, number> | undefined {
+  return POSITION_SHARES_2026[playerId];
+}
+
+/** Every spot a player can fill, best-fit first: primary, then measured
+ * secondaries, else the positions adjacent to his primary. Unknown-position
+ * players stay fully flexible so they never distort a team's balance. */
+export function eligiblePositions(playerId: string): string[] {
+  const primary = POSITIONS_2026[playerId];
+  if (!primary) return [...ROTATION_POSITIONS];
+  const measured = SECONDARY_POSITIONS_2026[playerId];
+  const secondary = measured && measured.length ? measured : POS_ADJACENT[primary] ?? [];
+  return [primary, ...secondary.filter((p) => p !== primary)];
+}
+
+export interface RotationSlot {
+  playerId: string;
+  playerName: string;
+  minutes: number;
+  pts: number;
+  av: number;
+  age: number;
+  pos: string;
+  secondary: boolean;
+}
+export interface Rotation {
+  byPos: Record<string, RotationSlot[]>;
+  benched: { playerId: string; playerName: string; av: number }[];
+  score: number;
+}
+
 /**
- * Minutes-weighted roster impact under a FIXED rotation budget — the team's
- * "score" in impact points/100. Real teams have only {@link TEAM_MINUTES} to
- * give: the best players earn them first (each up to his availability-aware
- * projected role), and once the budget is spent the rest of the roster rides
- * the bench at zero weight. That makes a trade model DISPLACEMENT — acquiring a
- * star pushes the weakest rotation minutes out, so a team's gain is the star's
- * production minus what he displaces, not a free add-on. Sub-replacement bench
- * and unfilled minutes both pull the score toward replacement (0). Each
- * player's projection carries the real-age aging nudge above.
+ * Position-aware rotation allocation — the team's minutes budget, but split
+ * five ways. Each on-court spot has {@link POS_MINUTES} to give; the best
+ * players earn them first (each up to his availability-aware projected role) at
+ * his primary spot, spilling to a secondary spot only once his primary is full.
+ * When a spot is stacked, the surplus benches; when a spot is thin, its minutes
+ * go unfilled at replacement level (0). That's why a trade now respects
+ * POSITION: acquiring a center for a team that already has an All-NBA center
+ * mostly benches one of them, while the same center fills an empty middle for a
+ * team that needs one. Each player's projection carries the real-age aging
+ * nudge. Returns the full per-spot allocation (for the depth chart) plus the
+ * summed score.
  */
-export function rosterScore(roster: Contract[]): number {
-  const rotation = roster
+export function allocateRotation(roster: Contract[]): Rotation {
+  const players = roster
     .filter((c) => currentSalary(c) > 0 && !c.deadMoney)
     .map((c) => {
       const e = impactEntry(c);
-      return { pts: e.pts + agingShift(ageOf(c.playerId)), mp: projectedMinutes(c.playerId, e.mp ?? 0) };
+      return {
+        id: c.playerId,
+        name: c.playerName,
+        pts: e.pts + agingShift(ageOf(c.playerId)),
+        av: e.av,
+        age: ageOf(c.playerId),
+        mp: projectedMinutes(c.playerId, e.mp ?? 0),
+        elig: eligiblePositions(c.playerId),
+      };
     })
     .filter((p) => p.mp > 0)
     .sort((a, b) => b.pts - a.pts); // best players earn scarce minutes first
-  let budget = TEAM_MINUTES;
+
+  const cap: Record<string, number> = {};
+  const byPos: Record<string, RotationSlot[]> = {};
+  for (const pos of ROTATION_POSITIONS) { cap[pos] = POS_MINUTES; byPos[pos] = []; }
+  const benched: { playerId: string; playerName: string; av: number }[] = [];
   let weighted = 0;
-  for (const p of rotation) {
-    if (budget <= 0) break;
-    const m = Math.min(p.mp, budget);
-    weighted += p.pts * m;
-    budget -= m;
+
+  for (const p of players) {
+    let remain = p.mp;
+    let placed = false;
+    p.elig.forEach((pos, i) => {
+      if (remain <= 0 || cap[pos] == null) return;
+      const take = Math.min(remain, cap[pos]!);
+      if (take <= 0) return;
+      cap[pos] -= take;
+      remain -= take;
+      weighted += p.pts * take;
+      byPos[pos]!.push({ playerId: p.id, playerName: p.name, minutes: take, pts: p.pts, av: p.av, age: p.age, pos, secondary: i > 0 });
+      placed = true;
+    });
+    if (!placed) benched.push({ playerId: p.id, playerName: p.name, av: p.av });
   }
-  // Minutes-weighted average impact/100 over a full team-minutes budget: any
-  // budget left unfilled counts as replacement-level (0), correctly dragging a
-  // thin roster down.
-  return weighted / TEAM_MINUTES;
+  for (const pos of ROTATION_POSITIONS) byPos[pos]!.sort((a, b) => b.minutes - a.minutes);
+  // Minutes-weighted average impact/100 over the full team budget; any spot left
+  // unfilled counts as replacement-level (0), so positional holes drag the team.
+  return { byPos, benched, score: weighted / TEAM_MINUTES };
+}
+
+/** The team's rotation "score" in impact points/100 — see {@link allocateRotation}. */
+export function rosterScore(roster: Contract[]): number {
+  return allocateRotation(roster).score;
 }
 
 /**

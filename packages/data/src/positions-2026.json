@@ -1,146 +1,292 @@
 {
-  "source": "Basketball-Reference advanced 2025-26 + transactions feed",
+  "source": "Basketball-Reference play-by-play (position shares) + advanced + transactions, 2025-26",
   "byId": {
-    "thompam01": "PG",
-    "duranke01": "SF",
-    "banede01": "SG",
-    "camarto01": "PF",
-    "smithja05": "PF",
-    "bridgmi01": "SF",
-    "barnesc01": "PF",
-    "maxeyty01": "PG",
-    "murraja01": "PG",
-    "whitede01": "SG",
-    "edgecvj01": "SG",
-    "randlju01": "PF",
-    "ingrabr01": "SF",
-    "alexani01": "SG",
+    "vassede01": "SG",
+    "castlst01": "SG",
+    "wembavi01": "C",
+    "champju02": "PF",
+    "foxde01": "PG",
     "brunsja01": "PG",
-    "pritcpa01": "PG",
-    "knuepko01": "SF",
-    "johnsja05": "SF",
-    "daniedy01": "SG",
-    "banchpa01": "PF",
-    "divindo01": "SG",
-    "brownja02": "SF",
     "hardeja01": "PG",
-    "derozde01": "PF",
-    "sengual01": "C",
-    "bridgmi02": "PF",
+    "mitchdo01": "SG",
+    "mobleev01": "PF",
+    "harpedy01": "SF",
+    "hartjo01": "SG",
+    "bridgmi01": "SF",
+    "anunoog01": "PF",
+    "townska01": "C",
+    "cunnica01": "PG",
+    "gilgesh01": "PG",
+    "allenja01": "C",
+    "harrito02": "PF",
+    "strusma01": "SF",
+    "holmgch01": "C",
+    "maxeyty01": "PG",
+    "thompau01": "SF",
+    "durenja01": "C",
+    "johnske04": "PF",
+    "wadede01": "PF",
+    "edgecvj01": "SG",
+    "mcdanja02": "SF",
+    "randlju01": "PF",
+    "georgpa01": "PF",
+    "hachiru01": "PF",
+    "jamesle01": "SF",
+    "robindu01": "SG",
+    "wallaca01": "SG",
     "goberru01": "C",
+    "oubreke01": "SF",
+    "carusal01": "SF",
+    "harteis01": "C",
+    "smartma01": "PG",
+    "merrisa01": "SF",
+    "dortlu01": "SF",
+    "mcbrimi01": "SG",
+    "kennalu01": "SG",
+    "edwaran01": "SG",
+    "reidna01": "PF",
+    "jenkida01": "PG",
+    "mitchaj01": "SG",
+    "shamela01": "SG",
+    "kornelu01": "C",
+    "dosunay01": "PG",
+    "aytonde01": "C",
+    "banchpa01": "PF",
+    "barnesc01": "PF",
+    "schrode01": "PG",
+    "barrerj01": "SG",
+    "thompam01": "PG",
+    "mccaija01": "SG",
+    "banede01": "SG",
+    "smithja05": "PF",
+    "robinmi01": "C",
+    "whitede01": "SG",
+    "brownja02": "SF",
+    "suggsja01": "PG",
+    "grimequ01": "SG",
+    "willija07": "C",
+    "murraja01": "PG",
+    "cartewe01": "C",
+    "jokicni01": "C",
+    "embiijo01": "C",
+    "sengual01": "C",
+    "pritcpa01": "PG",
+    "sheadja01": "PG",
+    "walteja01": "SG",
+    "reaveau01": "SG",
+    "tatumja01": "PF",
+    "tysonja01": "SF",
+    "leverca01": "SF",
+    "johnsja05": "PF",
+    "alexani01": "SG",
+    "shannte01": "SG",
+    "okongon01": "C",
+    "blackan01": "SG",
+    "clarkjo01": "SF",
+    "easonta01": "SF",
+    "mccolcj01": "PG",
+    "sheppre01": "SG",
+    "holidjr01": "SG",
+    "murraco01": "PF",
+    "bryanca01": "PF",
+    "braunch01": "SG",
+    "johnsca02": "PF",
+    "barneha02": "PF",
+    "avdijde01": "SF",
+    "alvarjo01": "PG",
+    "conlemi01": "PG",
+    "daniedy01": "SF",
+    "stewais01": "C",
+    "camarto01": "PF",
+    "hausesa01": "SF",
+    "hayesja02": "C",
+    "kuminjo01": "PF",
+    "bookede01": "SF",
+    "quetane01": "C",
+    "greenja05": "SG",
+    "brookdi01": "PF",
+    "ingrabr01": "SF",
+    "jonessp01": "SF",
+    "hendesc01": "PG",
+    "joeis01": "SG",
+    "drumman01": "C",
+    "hardati02": "SG",
+    "poeltja01": "C",
+    "greenja02": "SG",
+    "ighodos01": "C",
+    "cainja01": "SF",
+    "wagnefr01": "SF",
+    "hylanbo01": "PG",
+    "brownbr01": "SG",
+    "laravja01": "SF",
+    "vucevni01": "C",
+    "gilleco01": "PG",
+    "grantje01": "SF",
+    "edwarju01": "SF",
+    "williro04": "C",
+    "dasiltr01": "SF",
+    "clingdo01": "C",
+    "willija06": "PF",
+    "mamuksa01": "C",
+    "okogijo01": "SF",
+    "scheiba01": "SG",
+    "onealro01": "SF",
+    "bonaad01": "C",
+    "barlodo01": "PF",
+    "divindo01": "PG",
+    "vincega01": "PG",
+    "elliske01": "SG",
+    "walshjo01": "SF",
+    "gordoaa01": "PF",
+    "reedpa01": "C",
+    "bitadgo01": "C",
+    "hukpoar01": "C",
+    "wiggiaa01": "PF",
+    "vandeja01": "PF",
+    "willike04": "PF",
+    "battlja01": "SF",
+    "holidaa01": "PG",
+    "sharpsh01": "SG",
+    "anderky01": "PF",
+    "sassema01": "PG",
+    "garzalu01": "C",
+    "hollaro01": "PF",
+    "clarkja02": "SG",
+    "kispeco01": "SF",
+    "kolekty01": "PG",
+    "thybuma01": "SG",
+    "lawsoaj01": "SG",
+    "gueyemo02": "C",
+    "finnedo01": "SF",
+    "mclaujo01": "PG",
+    "huertke01": "SF",
+    "maluakh01": "C",
+    "diawamo01": "PF",
+    "jamesbr02": "PG",
+    "bryanth01": "C",
+    "bradlto01": "C",
+    "duranke01": "SF",
+    "dadiepa01": "SF",
+    "watfotr01": "PF",
+    "terryda01": "PG",
+    "allengr01": "PG",
+    "olynyke01": "PF",
+    "waterli01": "SG",
+    "thierad01": "PF",
+    "dunnry01": "SF",
+    "tateja01": "SF",
+    "jonesty01": "PG",
+    "walkeja01": "SF",
+    "sochaje01": "PF",
+    "cissosi01": "SF",
+    "biyombi01": "SF",
+    "harpero02": "SF",
+    "murrakr01": "SF",
+    "phillju01": "SF",
+    "valanjo01": "C",
+    "berinjo01": "C",
+    "risacza01": "SF",
+    "topicni01": "PG",
+    "capelca01": "C",
+    "portecr01": "PG",
+    "tomlina01": "PF",
+    "gonzahu01": "SF",
+    "nnajize01": "C",
+    "plumlma01": "C",
+    "smithni01": "PG",
+    "knechda01": "SF",
+    "flemira01": "PF",
+    "strawju01": "SF",
+    "carteje01": "PG",
+    "krejcvi01": "PG",
+    "wallake01": "PG",
+    "inglejo01": "SF",
+    "klebima01": "C",
+    "proctty01": "SG",
+    "hieldbu01": "SG",
+    "wagnemo01": "C",
+    "greenje02": "PF",
+    "highsha01": "SF",
+    "newelas01": "PF",
+    "bouyeja01": "PG",
+    "laniech01": "SF",
+    "broomjo01": "C",
+    "smithto05": "C",
+    "coffeam01": "SG",
+    "yangha01": "C",
+    "weslebl01": "SG",
+    "davisjd01": "SG",
+    "nancela02": "SF",
+    "shulgma01": "SG",
+    "goodwjo01": "PG",
+    "dickgr01": "SG",
+    "jackstr02": "C",
+    "mogbojo01": "PF",
+    "bantoda01": "PG",
+    "holmeda01": "PF",
+    "pickeja02": "SG",
+    "lowryky01": "PG",
+    "howarje01": "PF",
+    "pendano01": "SF",
+    "richaja02": "SG",
+    "templga01": "PG",
+    "william01": "C",
+    "knuepko01": "SF",
+    "derozde01": "PF",
+    "bridgmi02": "PF",
     "rolliry01": "PG",
     "adebaba01": "C",
     "flaggco01": "SF",
-    "mitchdo01": "SG",
     "murphtr02": "SF",
     "podzibr01": "SG",
-    "townska01": "C",
-    "mcdanja02": "PF",
-    "okongon01": "C",
     "doncilu01": "PG",
-    "cartewe01": "C",
-    "gilleco01": "PG",
     "carrica01": "PG",
     "greenaj01": "SG",
-    "champju02": "SF",
-    "jokicni01": "C",
-    "mccolcj01": "PG",
-    "gilgesh01": "PG",
     "buzelma01": "PF",
     "beysa01": "SF",
     "chrisma02": "SG",
-    "foxde01": "PG",
     "quickim01": "PG",
     "dunnkr01": "PG",
-    "anunoog01": "PF",
-    "onealro01": "SF",
-    "grimequ01": "SG",
-    "avdijde01": "SF",
     "marshna01": "SF",
-    "cunnica01": "PG",
-    "sheppre01": "SG",
-    "bookede01": "SG",
-    "edwaran01": "SG",
-    "hardati02": "SG",
     "jaqueja01": "SF",
-    "robindu01": "SG",
     "fearsje01": "PG",
-    "clingdo01": "C",
     "leonaka01": "SF",
-    "mobleev01": "PF",
     "wiggian01": "SF",
-    "laravja01": "PF",
     "siakapa01": "PF",
-    "wallaca01": "SG",
-    "vassede01": "SG",
-    "castlst01": "PG",
     "queende01": "C",
     "ballla01": "PG",
-    "reidna01": "C",
     "mitchda01": "PG",
-    "brownbr01": "SG",
-    "holmgch01": "PF",
-    "hartjo01": "SF",
-    "jamesle01": "SF",
     "baileac01": "SF",
-    "barneha02": "PF",
-    "durenja01": "C",
     "millebr02": "SF",
     "raynama01": "C",
-    "aytonde01": "C",
     "walkeja02": "PF",
-    "hausesa01": "PF",
-    "hachiru01": "PF",
-    "quetane01": "C",
     "claxtni01": "C",
     "turnemy01": "C",
-    "johnske04": "SF",
-    "blackan01": "PG",
-    "dasiltr01": "SF",
     "diabamo01": "C",
-    "thompau01": "SF",
     "cliffni01": "SG",
-    "dosunay01": "SG",
     "collijo01": "PF",
     "greendr01": "PF",
-    "wembavi01": "C",
     "westbru01": "SF",
-    "sheadja01": "PG",
     "larsspe01": "SG",
-    "dortlu01": "SF",
     "jamessi01": "SG",
     "willizi01": "PF",
     "wellsja01": "SG",
-    "vucevni01": "C",
-    "ighodos01": "PF",
     "kuzmaky01": "PF",
     "filipky01": "C",
     "nembhan01": "PG",
     "georgke01": "PG",
     "clownno01": "PF",
-    "tysonja01": "SG",
-    "smartma01": "SG",
     "sensabr01": "SF",
-    "reaveau01": "SG",
     "jonestr01": "PG",
-    "mamuksa01": "C",
-    "harrito02": "PF",
     "achiupr01": "C",
     "washipj01": "PF",
     "giddejo01": "PG",
-    "barrerj01": "SF",
     "huffja01": "C",
     "powelno01": "SG",
     "spencca01": "SG",
     "wareke01": "C",
-    "brookdi01": "SF",
-    "schrode01": "PG",
     "okorois01": "SG",
-    "grantje01": "PF",
-    "barlodo01": "PF",
     "portemi01": "SF",
-    "kennalu01": "SG",
-    "johnsca02": "SF",
     "lopezbr01": "C",
     "rileywi01": "SF",
     "willico04": "SG",
@@ -150,151 +296,84 @@
     "cowarce01": "SG",
     "watsope01": "SF",
     "joneshe01": "SF",
-    "suggsja01": "PG",
-    "oubreke01": "SF",
-    "goodwjo01": "PG",
-    "holidjr01": "PG",
-    "harpedy01": "SG",
-    "hollaro01": "SF",
-    "easonta01": "PF",
-    "huertke01": "SF",
     "moodymo01": "SG",
     "mannte01": "SG",
-    "allenja01": "C",
     "colliis01": "PG",
-    "joeis01": "SG",
     "landajo01": "C",
-    "risacza01": "SF",
     "thompkl01": "SF",
     "kalkbry01": "C",
-    "elliske01": "SG",
-    "walteja01": "SG",
     "willipa01": "PF",
-    "mitchaj01": "SG",
-    "sharpsh01": "SG",
     "coulibi01": "SG",
-    "allengr01": "SG",
     "willibr03": "PG",
-    "jenkida01": "PG",
     "jacksja02": "C",
-    "greenja02": "SG",
     "zubaciv01": "C",
     "johnstr03": "SG",
     "markkla01": "PF",
     "middlkh01": "SF",
-    "cissosi01": "SF",
-    "kornelu01": "C",
-    "scheiba01": "SG",
-    "jonessp01": "SF",
     "willima07": "C",
-    "wiggiaa01": "SG",
     "claytwa01": "PG",
-    "braunch01": "SG",
     "santogu01": "PF",
-    "krejcvi01": "PG",
     "georgky01": "SF",
     "sheppbe01": "SG",
     "champju01": "SF",
     "richawi02": "SG",
     "trentga02": "SG",
-    "merrisa01": "SG",
     "simonan01": "SG",
-    "alvarjo01": "PG",
     "monkma01": "SG",
-    "dunnry01": "SF",
-    "okogijo01": "SG",
     "sandeko01": "SG",
     "jonesde02": "SF",
     "garlada01": "PG",
     "nesmiaa01": "SF",
-    "murrakr01": "SF",
     "curryst01": "PG",
     "millejo02": "SF",
     "poweldr01": "SG",
     "simsje01": "C",
-    "wadede01": "PF",
-    "stewais01": "C",
     "demineg01": "PG",
     "sarral01": "C",
     "missiyv01": "C",
     "batumni01": "PF",
     "willizi02": "SF",
-    "clarkjo01": "SG",
-    "willija07": "PF",
     "porteke02": "PG",
     "whiteco01": "SG",
-    "murraco01": "PF",
     "traorno01": "PG",
-    "bonaad01": "C",
-    "drumman01": "C",
     "spencpa01": "PG",
     "lavinza01": "SG",
-    "walshjo01": "PF",
-    "hayesja02": "C",
-    "embiijo01": "C",
     "baglema01": "PF",
     "aldamsa01": "PF",
     "gaffoda01": "C",
     "wolfda01": "PF",
     "butleji01": "SF",
-    "gueyemo02": "PF",
     "jacksgg01": "PF",
-    "hylanbo01": "PG",
     "huntede01": "SF",
-    "robinmi01": "C",
     "fontesi01": "SF",
     "nembhry01": "PG",
-    "shamela01": "SG",
     "sharpda01": "C",
-    "mccaija01": "SG",
     "postqu01": "PF",
     "mykhasv01": "SF",
-    "leverca01": "SG",
-    "poeltja01": "C",
-    "portecr01": "PG",
     "paytoga02": "SG",
     "smithdr01": "SG",
-    "harteis01": "C",
-    "georgpa01": "PF",
-    "vandeja01": "PF",
     "meltode01": "PG",
-    "garzalu01": "C",
     "hendrta01": "PF",
     "konchjo01": "SG",
     "diengou01": "C",
     "smithja04": "C",
     "caldwke01": "SG",
-    "gonzahu01": "SF",
     "nurkiju01": "C",
-    "mcbrimi01": "SG",
-    "kispeco01": "SF",
     "ruperra01": "SG",
-    "dickgr01": "SG",
     "antetgi01": "PF",
     "herroty01": "SG",
     "watkija01": "SG",
-    "carusal01": "SG",
-    "wagnefr01": "SF",
     "loveca01": "SG",
-    "williro04": "C",
     "yabusgu01": "C",
-    "gordoaa01": "PF",
-    "tomlina01": "PF",
-    "conlemi01": "PG",
     "prospol01": "PF",
-    "jonesty01": "PG",
-    "edwarju01": "SF",
     "agbajoc01": "SG",
-    "bitadgo01": "C",
     "dilliro01": "PG",
     "horfoal01": "C",
     "mccontj01": "PG",
     "brownko01": "PF",
     "gillan01": "PF",
     "jakucka01": "PG",
-    "willija06": "SG",
     "poolejo01": "PG",
-    "capelca01": "C",
     "sarafbe01": "SG",
     "peavymi01": "SG",
     "matkoka01": "PF",
@@ -303,123 +382,70 @@
     "jacksis01": "C",
     "cardwdy01": "C",
     "poweldw01": "C",
-    "reedpa01": "C",
     "hardyja02": "SG",
     "jacksqu01": "PG",
-    "clarkja02": "SG",
     "thomaca02": "SG",
     "mcgowbr01": "SG",
-    "vincega01": "PG",
-    "valanjo01": "C",
-    "carteje01": "PG",
-    "watfotr01": "PF",
-    "strawju01": "SG",
     "wilsoja03": "PF",
     "martica02": "SF",
-    "willike04": "PF",
-    "anderky01": "SF",
     "plowdda01": "SG",
     "minotjo01": "PF",
     "smallja01": "PG",
-    "kuminjo01": "PF",
-    "greenja05": "SG",
     "willivi01": "SG",
-    "hieldbu01": "SG",
-    "bryanca01": "PF",
     "jovicni01": "PF",
-    "pickeja02": "SG",
     "murrake02": "PF",
-    "holidaa01": "PG",
     "martity01": "SG",
     "porzikr01": "C",
-    "walkeja01": "PF",
-    "pendano01": "SF",
-    "hendesc01": "PG",
     "nancepe01": "PF",
-    "bryanth01": "C",
     "adamsst01": "C",
     "balllo01": "PG",
-    "kolekty01": "PG",
     "millele01": "SF",
     "willigr01": "PF",
     "richani01": "C",
     "coopesh01": "PG",
     "cartede02": "PG",
-    "howarje01": "SF",
     "hawkijo01": "SG",
-    "flemira01": "PF",
     "mashaja01": "SG",
     "vukcetr01": "C",
     "iveyja01": "SG",
     "manntr01": "PG",
     "harriga01": "SG",
     "thompet01": "SG",
-    "bouyeja01": "PG",
     "furphjo01": "SG",
-    "diawamo01": "SF",
-    "nnajize01": "PF",
     "davisan02": "PF",
-    "finnedo01": "PF",
     "joneska03": "SG",
     "loveke01": "PF",
     "princta02": "SF",
-    "richaja02": "SG",
     "salauti01": "PF",
     "moranja01": "PG",
     "sabondo01": "C",
-    "knechda01": "SF",
     "eubandr01": "C",
-    "terryda01": "SG",
-    "proctty01": "PG",
     "harklej01": "SG",
-    "shannte01": "SG",
-    "wallake01": "PG",
     "cissemo01": "C",
     "anthoco01": "PG",
-    "tatumja01": "PF",
     "isaacjo01": "PF",
-    "battlja01": "SF",
-    "newelas01": "PF",
-    "hukpoar01": "C",
-    "jackstr02": "C",
     "russeda01": "PG",
     "peterta01": "SG",
     "mbengbe01": "SG",
-    "coffeam01": "SG",
     "carlsbr01": "C",
-    "cainja01": "SF",
     "chrisca02": "SG",
-    "thybuma01": "SG",
-    "sochaje01": "PF",
-    "klebima01": "PF",
-    "sassema01": "PG",
     "johnsaj01": "SG",
     "bogdabo01": "SG",
-    "bradlto01": "C",
-    "nancela02": "PF",
     "tshieos01": "C",
     "mcderdo01": "SF",
     "blackle01": "SF",
-    "phillju01": "SF",
-    "wagnemo01": "C",
     "konanya01": "C",
     "toppiob01": "PF",
-    "maluakh01": "C",
     "gardnmy01": "SF",
     "jacksan01": "SG",
     "hayeski01": "PG",
-    "tateja01": "SF",
     "reeseju01": "PF",
     "murrade01": "PG",
     "youngtr01": "PG",
     "etienty01": "PG",
-    "jamesbr02": "SG",
-    "smithni01": "SG",
     "payneca01": "PG",
     "mcneeli01": "SF",
-    "weslebl01": "SG",
     "robinje02": "PF",
-    "olynyke01": "C",
     "smithma02": "SG",
     "kolokch01": "C",
     "chandke01": "PG",
@@ -430,40 +456,29 @@
     "liveris01": "PF",
     "olbrila01": "C",
     "jeromty01": "SG",
-    "harpero02": "SF",
-    "berinjo01": "PF",
     "slawsja01": "SF",
     "looneke01": "C",
     "burtoty01": "SF",
-    "yangha01": "C",
     "connapa01": "SG",
     "cryerlj01": "PG",
-    "strusma01": "SF",
-    "waterli01": "SG",
     "hinsobl01": "SF",
     "edeyza01": "C",
-    "mclaujo01": "PG",
     "johnske10": "SF",
     "leonsma01": "SF",
     "branhma01": "SG",
     "ryanco01": "SG",
-    "laniech01": "SG",
     "reathdu01": "C",
     "simpskj01": "PG",
     "poulajo01": "SG",
-    "mogbojo01": "PF",
     "balad01": "SG",
     "willije02": "SG",
     "timmedr01": "PF",
     "jarrede01": "SG",
     "paulch01": "PG",
-    "lawsoaj01": "SG",
     "willilu01": "SG",
-    "davisjd01": "PG",
     "okanito01": "SG",
     "hallpj01": "C",
     "pippesc02": "PG",
-    "holmeda01": "PF",
     "kawamyu01": "PG",
     "dennira01": "PG",
     "jordade01": "C",
@@ -475,29 +490,19 @@
     "whiteda01": "SF",
     "tillmxa01": "C",
     "scotttr01": "PF",
-    "greenje02": "PF",
-    "plumlma01": "C",
     "garcian01": "SF",
     "smithty02": "PF",
     "tysonhu01": "PF",
-    "topicni01": "PG",
     "mcculke01": "SF",
     "kesslwa01": "C",
-    "inglejo01": "SF",
     "bassech01": "C",
-    "thierad01": "SF",
     "antetth01": "SF",
     "martial01": "SG",
-    "william01": "PF",
-    "biyombi01": "C",
-    "smithto05": "PF",
-    "dadiepa01": "SG",
     "mccluma01": "SG",
     "kellymi02": "PG",
     "curryse01": "SG",
     "bealbr01": "SG",
     "bufkiko01": "SG",
-    "lowryky01": "PG",
     "livelde01": "C",
     "alexatr01": "SG",
     "yurtsom01": "C",
@@ -508,7 +513,6 @@
     "cookeja01": "SG",
     "bouchch01": "PF",
     "crawfis01": "SF",
-    "highsha01": "SF",
     "juzanjo01": "SG",
     "washity02": "PG",
     "jonescu01": "SG",
@@ -519,7 +523,6 @@
     "houstca01": "SF",
     "gordoer01": "SG",
     "gilbeke01": "SG",
-    "templga01": "SG",
     "roddyda01": "PF",
     "klintbo01": "SF",
     "jonesda06": "SF",
@@ -528,13 +531,11 @@
     "morrimo01": "PG",
     "peterdr01": "PF",
     "sandfpa01": "SF",
-    "bantoda01": "PG",
     "moorewe01": "SG",
     "jeffrda01": "SG",
     "youngja05": "PG",
     "wisemja01": "C",
     "minixri01": "SF",
-    "broomjo01": "C",
     "martico01": "SF",
     "loverla01": "C",
     "manonch01": "SG",
@@ -550,7 +551,6 @@
     "sarrol01": "C",
     "labissk01": "PF",
     "freemen01": "PF",
-    "shulgma01": "SG",
     "fultzma01": "PG",
     "zikarro01": "C",
     "jonesis01": "PF",
@@ -642,5 +642,1936 @@
     "lopezka01": "PF",
     "jeffejo01": "PF",
     "boozeca02": "PF"
+  },
+  "secondaryById": {
+    "vassede01": [
+      "SF"
+    ],
+    "castlst01": [
+      "PG"
+    ],
+    "mobleev01": [
+      "C"
+    ],
+    "harpedy01": [
+      "SG"
+    ],
+    "hartjo01": [
+      "SF"
+    ],
+    "bridgmi01": [
+      "PF"
+    ],
+    "cunnica01": [
+      "SG"
+    ],
+    "strusma01": [
+      "PF"
+    ],
+    "holmgch01": [
+      "PF"
+    ],
+    "thompau01": [
+      "PF"
+    ],
+    "johnske04": [
+      "SF"
+    ],
+    "wadede01": [
+      "SF"
+    ],
+    "robindu01": [
+      "SF"
+    ],
+    "wallaca01": [
+      "SF"
+    ],
+    "carusal01": [
+      "PF"
+    ],
+    "merrisa01": [
+      "SG"
+    ],
+    "dortlu01": [
+      "PF"
+    ],
+    "reidna01": [
+      "C"
+    ],
+    "mitchaj01": [
+      "SF"
+    ],
+    "shamela01": [
+      "SF"
+    ],
+    "dosunay01": [
+      "SG"
+    ],
+    "barnesc01": [
+      "C"
+    ],
+    "barrerj01": [
+      "SF"
+    ],
+    "thompam01": [
+      "SG"
+    ],
+    "mccaija01": [
+      "PG"
+    ],
+    "banede01": [
+      "SF"
+    ],
+    "whitede01": [
+      "PG"
+    ],
+    "brownja02": [
+      "SG"
+    ],
+    "grimequ01": [
+      "SF"
+    ],
+    "willija07": [
+      "PF"
+    ],
+    "walteja01": [
+      "PG"
+    ],
+    "reaveau01": [
+      "PG"
+    ],
+    "tysonja01": [
+      "PF"
+    ],
+    "leverca01": [
+      "SG"
+    ],
+    "johnsja05": [
+      "SF"
+    ],
+    "shannte01": [
+      "SF"
+    ],
+    "blackan01": [
+      "PG"
+    ],
+    "clarkjo01": [
+      "SG"
+    ],
+    "easonta01": [
+      "PF"
+    ],
+    "holidjr01": [
+      "PG"
+    ],
+    "murraco01": [
+      "SF"
+    ],
+    "bryanca01": [
+      "SF"
+    ],
+    "braunch01": [
+      "SF"
+    ],
+    "johnsca02": [
+      "SF"
+    ],
+    "avdijde01": [
+      "SG"
+    ],
+    "daniedy01": [
+      "SG"
+    ],
+    "hausesa01": [
+      "PF"
+    ],
+    "bookede01": [
+      "SG"
+    ],
+    "greenja05": [
+      "PG"
+    ],
+    "jonessp01": [
+      "PF"
+    ],
+    "joeis01": [
+      "PG"
+    ],
+    "hardati02": [
+      "SF"
+    ],
+    "greenja02": [
+      "SF"
+    ],
+    "wagnefr01": [
+      "PF"
+    ],
+    "brownbr01": [
+      "PG"
+    ],
+    "laravja01": [
+      "PF"
+    ],
+    "grantje01": [
+      "PF"
+    ],
+    "edwarju01": [
+      "SG"
+    ],
+    "willija06": [
+      "SG",
+      "SF"
+    ],
+    "okogijo01": [
+      "SG"
+    ],
+    "scheiba01": [
+      "SF"
+    ],
+    "onealro01": [
+      "PF"
+    ],
+    "barlodo01": [
+      "C"
+    ],
+    "divindo01": [
+      "SG"
+    ],
+    "elliske01": [
+      "SF"
+    ],
+    "walshjo01": [
+      "PF"
+    ],
+    "wiggiaa01": [
+      "SF"
+    ],
+    "vandeja01": [
+      "SF"
+    ],
+    "willike04": [
+      "C"
+    ],
+    "battlja01": [
+      "SG",
+      "PF"
+    ],
+    "sharpsh01": [
+      "SF"
+    ],
+    "anderky01": [
+      "SF"
+    ],
+    "hollaro01": [
+      "SF"
+    ],
+    "clarkja02": [
+      "PG"
+    ],
+    "kispeco01": [
+      "SG"
+    ],
+    "kolekty01": [
+      "SG"
+    ],
+    "thybuma01": [
+      "SF"
+    ],
+    "lawsoaj01": [
+      "PG"
+    ],
+    "finnedo01": [
+      "PF"
+    ],
+    "huertke01": [
+      "SG"
+    ],
+    "diawamo01": [
+      "SF"
+    ],
+    "jamesbr02": [
+      "SG"
+    ],
+    "duranke01": [
+      "SG"
+    ],
+    "dadiepa01": [
+      "SG"
+    ],
+    "terryda01": [
+      "SG"
+    ],
+    "allengr01": [
+      "SG"
+    ],
+    "olynyke01": [
+      "C"
+    ],
+    "thierad01": [
+      "SF"
+    ],
+    "dunnry01": [
+      "PF"
+    ],
+    "tateja01": [
+      "SG"
+    ],
+    "sochaje01": [
+      "C"
+    ],
+    "biyombi01": [
+      "PF"
+    ],
+    "murrakr01": [
+      "SG"
+    ],
+    "phillju01": [
+      "SG"
+    ],
+    "nnajize01": [
+      "PF"
+    ],
+    "flemira01": [
+      "C"
+    ],
+    "krejcvi01": [
+      "SG"
+    ],
+    "inglejo01": [
+      "PF"
+    ],
+    "greenje02": [
+      "C"
+    ],
+    "highsha01": [
+      "PF"
+    ],
+    "laniech01": [
+      "SG"
+    ],
+    "davisjd01": [
+      "PG"
+    ],
+    "nancela02": [
+      "PF"
+    ],
+    "shulgma01": [
+      "PG"
+    ],
+    "dickgr01": [
+      "SF"
+    ]
+  },
+  "sharesById": {
+    "vassede01": {
+      "PG": 2,
+      "SG": 54,
+      "SF": 44,
+      "PF": 0,
+      "C": 0
+    },
+    "castlst01": {
+      "PG": 45,
+      "SG": 55,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "wembavi01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "champju02": {
+      "PG": 0,
+      "SG": 1,
+      "SF": 19,
+      "PF": 79,
+      "C": 1
+    },
+    "foxde01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "brunsja01": {
+      "PG": 98,
+      "SG": 2,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "hardeja01": {
+      "PG": 81,
+      "SG": 19,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "mitchdo01": {
+      "PG": 6,
+      "SG": 84,
+      "SF": 11,
+      "PF": 0,
+      "C": 0
+    },
+    "mobleev01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 52,
+      "C": 48
+    },
+    "harpedy01": {
+      "PG": 1,
+      "SG": 32,
+      "SF": 62,
+      "PF": 5,
+      "C": 0
+    },
+    "hartjo01": {
+      "PG": 0,
+      "SG": 52,
+      "SF": 36,
+      "PF": 13,
+      "C": 0
+    },
+    "bridgmi01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 68,
+      "PF": 32,
+      "C": 0
+    },
+    "anunoog01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 95,
+      "C": 5
+    },
+    "townska01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "cunnica01": {
+      "PG": 57,
+      "SG": 42,
+      "SF": 2,
+      "PF": 0,
+      "C": 0
+    },
+    "gilgesh01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "allenja01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "harrito02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 99,
+      "C": 1
+    },
+    "strusma01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 55,
+      "PF": 45,
+      "C": 0
+    },
+    "holmgch01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 49,
+      "C": 51
+    },
+    "maxeyty01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "thompau01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 79,
+      "PF": 21,
+      "C": 0
+    },
+    "durenja01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "johnske04": {
+      "PG": 0,
+      "SG": 5,
+      "SF": 46,
+      "PF": 49,
+      "C": 0
+    },
+    "wadede01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 41,
+      "PF": 59,
+      "C": 1
+    },
+    "edgecvj01": {
+      "PG": 13,
+      "SG": 88,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "mcdanja02": {
+      "PG": 0,
+      "SG": 5,
+      "SF": 88,
+      "PF": 7,
+      "C": 0
+    },
+    "randlju01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 8,
+      "PF": 88,
+      "C": 4
+    },
+    "georgpa01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 2,
+      "PF": 98,
+      "C": 1
+    },
+    "hachiru01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 96,
+      "C": 4
+    },
+    "jamesle01": {
+      "PG": 0,
+      "SG": 18,
+      "SF": 74,
+      "PF": 9,
+      "C": 0
+    },
+    "robindu01": {
+      "PG": 0,
+      "SG": 56,
+      "SF": 33,
+      "PF": 11,
+      "C": 0
+    },
+    "wallaca01": {
+      "PG": 5,
+      "SG": 66,
+      "SF": 29,
+      "PF": 0,
+      "C": 0
+    },
+    "goberru01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "oubreke01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 84,
+      "PF": 16,
+      "C": 0
+    },
+    "carusal01": {
+      "PG": 0,
+      "SG": 7,
+      "SF": 56,
+      "PF": 38,
+      "C": 0
+    },
+    "harteis01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "smartma01": {
+      "PG": 99,
+      "SG": 1,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "merrisa01": {
+      "PG": 0,
+      "SG": 33,
+      "SF": 63,
+      "PF": 4,
+      "C": 0
+    },
+    "dortlu01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 65,
+      "PF": 35,
+      "C": 0
+    },
+    "mcbrimi01": {
+      "PG": 6,
+      "SG": 93,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "kennalu01": {
+      "PG": 10,
+      "SG": 72,
+      "SF": 17,
+      "PF": 0,
+      "C": 0
+    },
+    "edwaran01": {
+      "PG": 13,
+      "SG": 74,
+      "SF": 13,
+      "PF": 0,
+      "C": 0
+    },
+    "reidna01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 50,
+      "C": 50
+    },
+    "jenkida01": {
+      "PG": 92,
+      "SG": 8,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "mitchaj01": {
+      "PG": 1,
+      "SG": 55,
+      "SF": 43,
+      "PF": 1,
+      "C": 0
+    },
+    "shamela01": {
+      "PG": 0,
+      "SG": 59,
+      "SF": 40,
+      "PF": 0,
+      "C": 0
+    },
+    "kornelu01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 2,
+      "C": 98
+    },
+    "dosunay01": {
+      "PG": 61,
+      "SG": 37,
+      "SF": 2,
+      "PF": 0,
+      "C": 0
+    },
+    "aytonde01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "banchpa01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 99,
+      "C": 1
+    },
+    "barnesc01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 5,
+      "PF": 60,
+      "C": 35
+    },
+    "schrode01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "barrerj01": {
+      "PG": 1,
+      "SG": 56,
+      "SF": 41,
+      "PF": 2,
+      "C": 0
+    },
+    "thompam01": {
+      "PG": 77,
+      "SG": 23,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "mccaija01": {
+      "PG": 34,
+      "SG": 60,
+      "SF": 7,
+      "PF": 0,
+      "C": 0
+    },
+    "banede01": {
+      "PG": 1,
+      "SG": 72,
+      "SF": 27,
+      "PF": 0,
+      "C": 0
+    },
+    "smithja05": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 86,
+      "C": 14
+    },
+    "robinmi01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 11,
+      "C": 89
+    },
+    "whitede01": {
+      "PG": 38,
+      "SG": 62,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "brownja02": {
+      "PG": 0,
+      "SG": 43,
+      "SF": 46,
+      "PF": 10,
+      "C": 1
+    },
+    "suggsja01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "grimequ01": {
+      "PG": 5,
+      "SG": 51,
+      "SF": 44,
+      "PF": 0,
+      "C": 0
+    },
+    "willija07": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 49,
+      "C": 51
+    },
+    "murraja01": {
+      "PG": 92,
+      "SG": 8,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "cartewe01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "jokicni01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "embiijo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "sengual01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "pritcpa01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "sheadja01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "walteja01": {
+      "PG": 45,
+      "SG": 55,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "reaveau01": {
+      "PG": 30,
+      "SG": 70,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "tatumja01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 99,
+      "C": 1
+    },
+    "tysonja01": {
+      "PG": 0,
+      "SG": 7,
+      "SF": 68,
+      "PF": 25,
+      "C": 0
+    },
+    "leverca01": {
+      "PG": 0,
+      "SG": 37,
+      "SF": 55,
+      "PF": 8,
+      "C": 0
+    },
+    "johnsja05": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 45,
+      "PF": 56,
+      "C": 0
+    },
+    "alexani01": {
+      "PG": 4,
+      "SG": 92,
+      "SF": 4,
+      "PF": 0,
+      "C": 0
+    },
+    "shannte01": {
+      "PG": 6,
+      "SG": 56,
+      "SF": 37,
+      "PF": 1,
+      "C": 0
+    },
+    "okongon01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "blackan01": {
+      "PG": 36,
+      "SG": 64,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "clarkjo01": {
+      "PG": 0,
+      "SG": 31,
+      "SF": 62,
+      "PF": 7,
+      "C": 0
+    },
+    "easonta01": {
+      "PG": 0,
+      "SG": 1,
+      "SF": 71,
+      "PF": 29,
+      "C": 0
+    },
+    "mccolcj01": {
+      "PG": 89,
+      "SG": 12,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "sheppre01": {
+      "PG": 11,
+      "SG": 89,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "holidjr01": {
+      "PG": 40,
+      "SG": 60,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "murraco01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 26,
+      "PF": 64,
+      "C": 11
+    },
+    "bryanca01": {
+      "PG": 0,
+      "SG": 1,
+      "SF": 21,
+      "PF": 61,
+      "C": 17
+    },
+    "braunch01": {
+      "PG": 0,
+      "SG": 56,
+      "SF": 44,
+      "PF": 0,
+      "C": 0
+    },
+    "johnsca02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 26,
+      "PF": 74,
+      "C": 0
+    },
+    "barneha02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 2,
+      "PF": 97,
+      "C": 2
+    },
+    "avdijde01": {
+      "PG": 0,
+      "SG": 22,
+      "SF": 63,
+      "PF": 15,
+      "C": 0
+    },
+    "alvarjo01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "conlemi01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "daniedy01": {
+      "PG": 0,
+      "SG": 27,
+      "SF": 73,
+      "PF": 0,
+      "C": 0
+    },
+    "stewais01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 2,
+      "C": 98
+    },
+    "camarto01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 90,
+      "C": 10
+    },
+    "hausesa01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 67,
+      "PF": 31,
+      "C": 2
+    },
+    "hayesja02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "kuminjo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 99,
+      "C": 1
+    },
+    "bookede01": {
+      "PG": 1,
+      "SG": 43,
+      "SF": 54,
+      "PF": 2,
+      "C": 0
+    },
+    "quetane01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "greenja05": {
+      "PG": 25,
+      "SG": 69,
+      "SF": 6,
+      "PF": 0,
+      "C": 0
+    },
+    "brookdi01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 97,
+      "C": 3
+    },
+    "ingrabr01": {
+      "PG": 0,
+      "SG": 10,
+      "SF": 79,
+      "PF": 11,
+      "C": 0
+    },
+    "jonessp01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 56,
+      "PF": 44,
+      "C": 0
+    },
+    "hendesc01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "joeis01": {
+      "PG": 40,
+      "SG": 60,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "drumman01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "hardati02": {
+      "PG": 0,
+      "SG": 70,
+      "SF": 31,
+      "PF": 0,
+      "C": 0
+    },
+    "poeltja01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "greenja02": {
+      "PG": 1,
+      "SG": 75,
+      "SF": 24,
+      "PF": 0,
+      "C": 0
+    },
+    "ighodos01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "cainja01": {
+      "PG": 0,
+      "SG": 13,
+      "SF": 81,
+      "PF": 7,
+      "C": 0
+    },
+    "wagnefr01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 69,
+      "PF": 31,
+      "C": 0
+    },
+    "hylanbo01": {
+      "PG": 88,
+      "SG": 12,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "brownbr01": {
+      "PG": 32,
+      "SG": 54,
+      "SF": 14,
+      "PF": 0,
+      "C": 0
+    },
+    "laravja01": {
+      "PG": 0,
+      "SG": 1,
+      "SF": 72,
+      "PF": 21,
+      "C": 6
+    },
+    "vucevni01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "gilleco01": {
+      "PG": 97,
+      "SG": 3,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "grantje01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 49,
+      "PF": 49,
+      "C": 3
+    },
+    "edwarju01": {
+      "PG": 0,
+      "SG": 31,
+      "SF": 66,
+      "PF": 3,
+      "C": 0
+    },
+    "williro04": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "dasiltr01": {
+      "PG": 0,
+      "SG": 8,
+      "SF": 76,
+      "PF": 16,
+      "C": 0
+    },
+    "clingdo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "willija06": {
+      "PG": 0,
+      "SG": 32,
+      "SF": 22,
+      "PF": 46,
+      "C": 0
+    },
+    "mamuksa01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 16,
+      "C": 84
+    },
+    "okogijo01": {
+      "PG": 0,
+      "SG": 36,
+      "SF": 64,
+      "PF": 0,
+      "C": 0
+    },
+    "scheiba01": {
+      "PG": 3,
+      "SG": 61,
+      "SF": 36,
+      "PF": 0,
+      "C": 0
+    },
+    "onealro01": {
+      "PG": 0,
+      "SG": 2,
+      "SF": 76,
+      "PF": 21,
+      "C": 1
+    },
+    "bonaad01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "barlodo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 50,
+      "C": 50
+    },
+    "divindo01": {
+      "PG": 59,
+      "SG": 32,
+      "SF": 9,
+      "PF": 0,
+      "C": 0
+    },
+    "vincega01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "elliske01": {
+      "PG": 6,
+      "SG": 74,
+      "SF": 21,
+      "PF": 0,
+      "C": 0
+    },
+    "walshjo01": {
+      "PG": 0,
+      "SG": 9,
+      "SF": 47,
+      "PF": 42,
+      "C": 3
+    },
+    "gordoaa01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 86,
+      "C": 14
+    },
+    "reedpa01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 4,
+      "C": 96
+    },
+    "bitadgo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "hukpoar01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "wiggiaa01": {
+      "PG": 0,
+      "SG": 14,
+      "SF": 28,
+      "PF": 56,
+      "C": 1
+    },
+    "vandeja01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 47,
+      "PF": 52,
+      "C": 1
+    },
+    "willike04": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 13,
+      "PF": 57,
+      "C": 30
+    },
+    "battlja01": {
+      "PG": 0,
+      "SG": 25,
+      "SF": 55,
+      "PF": 20,
+      "C": 0
+    },
+    "holidaa01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "sharpsh01": {
+      "PG": 4,
+      "SG": 52,
+      "SF": 40,
+      "PF": 4,
+      "C": 0
+    },
+    "anderky01": {
+      "PG": 1,
+      "SG": 9,
+      "SF": 40,
+      "PF": 48,
+      "C": 3
+    },
+    "sassema01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "garzalu01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "hollaro01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 32,
+      "PF": 68,
+      "C": 0
+    },
+    "clarkja02": {
+      "PG": 29,
+      "SG": 64,
+      "SF": 7,
+      "PF": 0,
+      "C": 0
+    },
+    "kispeco01": {
+      "PG": 0,
+      "SG": 26,
+      "SF": 74,
+      "PF": 0,
+      "C": 0
+    },
+    "kolekty01": {
+      "PG": 76,
+      "SG": 25,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "thybuma01": {
+      "PG": 13,
+      "SG": 61,
+      "SF": 26,
+      "PF": 0,
+      "C": 0
+    },
+    "lawsoaj01": {
+      "PG": 23,
+      "SG": 60,
+      "SF": 17,
+      "PF": 0,
+      "C": 0
+    },
+    "gueyemo02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 8,
+      "C": 92
+    },
+    "finnedo01": {
+      "PG": 0,
+      "SG": 3,
+      "SF": 71,
+      "PF": 26,
+      "C": 0
+    },
+    "mclaujo01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "huertke01": {
+      "PG": 0,
+      "SG": 35,
+      "SF": 65,
+      "PF": 0,
+      "C": 0
+    },
+    "maluakh01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "diawamo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 37,
+      "PF": 63,
+      "C": 0
+    },
+    "jamesbr02": {
+      "PG": 57,
+      "SG": 43,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "bryanth01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "bradlto01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "duranke01": {
+      "PG": 0,
+      "SG": 20,
+      "SF": 81,
+      "PF": 0,
+      "C": 0
+    },
+    "dadiepa01": {
+      "PG": 0,
+      "SG": 29,
+      "SF": 60,
+      "PF": 9,
+      "C": 3
+    },
+    "watfotr01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 16,
+      "PF": 84,
+      "C": 0
+    },
+    "terryda01": {
+      "PG": 62,
+      "SG": 38,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "allengr01": {
+      "PG": 72,
+      "SG": 28,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "olynyke01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 53,
+      "C": 48
+    },
+    "waterli01": {
+      "PG": 0,
+      "SG": 100,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "thierad01": {
+      "PG": 0,
+      "SG": 15,
+      "SF": 32,
+      "PF": 54,
+      "C": 0
+    },
+    "dunnry01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 56,
+      "PF": 33,
+      "C": 11
+    },
+    "tateja01": {
+      "PG": 0,
+      "SG": 28,
+      "SF": 63,
+      "PF": 9,
+      "C": 0
+    },
+    "jonesty01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "walkeja01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 100,
+      "PF": 0,
+      "C": 0
+    },
+    "sochaje01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 75,
+      "C": 25
+    },
+    "cissosi01": {
+      "PG": 1,
+      "SG": 10,
+      "SF": 73,
+      "PF": 17,
+      "C": 0
+    },
+    "biyombi01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 68,
+      "PF": 32,
+      "C": 0
+    },
+    "harpero02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 89,
+      "PF": 11,
+      "C": 0
+    },
+    "murrakr01": {
+      "PG": 0,
+      "SG": 20,
+      "SF": 62,
+      "PF": 18,
+      "C": 0
+    },
+    "phillju01": {
+      "PG": 0,
+      "SG": 36,
+      "SF": 64,
+      "PF": 0,
+      "C": 0
+    },
+    "valanjo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "berinjo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "risacza01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 100,
+      "PF": 0,
+      "C": 0
+    },
+    "topicni01": {
+      "PG": 96,
+      "SG": 4,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "capelca01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "portecr01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "tomlina01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 90,
+      "C": 10
+    },
+    "gonzahu01": {
+      "PG": 0,
+      "SG": 16,
+      "SF": 66,
+      "PF": 18,
+      "C": 0
+    },
+    "nnajize01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 30,
+      "C": 70
+    },
+    "plumlma01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "smithni01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "knechda01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 100,
+      "PF": 0,
+      "C": 0
+    },
+    "flemira01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 52,
+      "C": 48
+    },
+    "strawju01": {
+      "PG": 2,
+      "SG": 0,
+      "SF": 98,
+      "PF": 0,
+      "C": 0
+    },
+    "carteje01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "krejcvi01": {
+      "PG": 51,
+      "SG": 49,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "wallake01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "inglejo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 67,
+      "PF": 33,
+      "C": 0
+    },
+    "klebima01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "proctty01": {
+      "PG": 0,
+      "SG": 100,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "hieldbu01": {
+      "PG": 14,
+      "SG": 86,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "wagnemo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "greenje02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 14,
+      "PF": 58,
+      "C": 28
+    },
+    "highsha01": {
+      "PG": 0,
+      "SG": 2,
+      "SF": 68,
+      "PF": 30,
+      "C": 0
+    },
+    "newelas01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 100,
+      "C": 0
+    },
+    "bouyeja01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "laniech01": {
+      "PG": 0,
+      "SG": 28,
+      "SF": 72,
+      "PF": 0,
+      "C": 0
+    },
+    "broomjo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "smithto05": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 6,
+      "C": 94
+    },
+    "coffeam01": {
+      "PG": 0,
+      "SG": 100,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "yangha01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "weslebl01": {
+      "PG": 0,
+      "SG": 100,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "davisjd01": {
+      "PG": 22,
+      "SG": 78,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "nancela02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 57,
+      "PF": 43,
+      "C": 0
+    },
+    "shulgma01": {
+      "PG": 40,
+      "SG": 60,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "goodwjo01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "dickgr01": {
+      "PG": 0,
+      "SG": 50,
+      "SF": 50,
+      "PF": 0,
+      "C": 0
+    },
+    "jackstr02": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    },
+    "mogbojo01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 100,
+      "C": 0
+    },
+    "bantoda01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "holmeda01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 100,
+      "C": 0
+    },
+    "pickeja02": {
+      "PG": 0,
+      "SG": 100,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "lowryky01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "howarje01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 100,
+      "C": 0
+    },
+    "pendano01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 100,
+      "PF": 0,
+      "C": 0
+    },
+    "richaja02": {
+      "PG": 0,
+      "SG": 100,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "templga01": {
+      "PG": 100,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 0
+    },
+    "william01": {
+      "PG": 0,
+      "SG": 0,
+      "SF": 0,
+      "PF": 0,
+      "C": 100
+    }
   }
 }
