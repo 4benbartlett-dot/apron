@@ -2,9 +2,9 @@
   "source": "apron-impact-model-hardened team_strength_2026",
   "asOf": "2026-07-07",
   "calibration": {
-    "nrtgPerScore": 5.8125,
+    "nrtgPerScore": 5.7443,
     "winsPerNrtg": 1.972,
-    "note": "Δnrtg = 5.8125·Δ(rosterScore); rosterScore = minutes-weighted avg impact/100 under a fixed 19,680-min rotation budget (best players first) + aging prior. wins = 40.2 + 1.972·projNrtg. Fit R²=0.85 vs shipped projNrtg, 0.88 vs actual net rating (n=30)."
+    "note": "Δnrtg = 5.7443·Δ(rosterScore); rosterScore = minutes-weighted avg impact/100 under a fixed 19,680-min rotation budget (best players first, availability-aware projected minutes) + real-age aging prior. wins = 40.2 + 1.972·projNrtg. Fit R²=0.82 vs shipped projNrtg, 0.85 vs actual net rating (n=30)."
   },
   "byTeam": {
     "OKC": {

@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, PLAYER_BIO_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -732,43 +732,62 @@ export interface TeamProjection {
 export const TEAM_MINUTES = 240 * 82;
 const MAX_PLAYER_MINUTES = 2950; // ~36 MPG — the ceiling even iron-men live under
 
+/** Real age entering 2026-27 (Basketball-Reference bio; falls back to
+ * rookie-age-plus-service when a player has no NBA bio row yet). */
+export function ageOf(playerId: string): number {
+  const b = PLAYER_BIO_2026[playerId];
+  if (b && b.age != null) return b.age + 1; // the 2025-26 table age, one year on
+  return 20 + (EXPERIENCE[playerId] ?? 7);
+}
+
 /**
- * A coarse aging prior for the NEXT season, keyed on years of service (we have
- * no birthdates, so service is the age proxy). An ADDITIVE nudge in impact
- * points/100 — young players tick up toward their prime, deep vets tick down —
- * kept deliberately gentle (≈ +0.4 … −0.8) so it refines a projection without
- * dominating it. Applied only inside team projections, never to a displayed
- * player value.
+ * An aging prior for the NEXT season, keyed on REAL age (a smooth NBA aging
+ * curve: improvement up to a ~26.5 peak, decline after, steepening past the
+ * mid-30s). An ADDITIVE nudge in impact points/100, bounded ≈ +0.7 … −1.2, so
+ * it refines a projection without dominating it. Applied only inside team
+ * projections, never to a displayed player value.
  */
-function agingShift(playerId: string): number {
-  const yos = EXPERIENCE[playerId] ?? 8;
-  if (yos <= 1) return 0.4;
-  if (yos <= 2) return 0.3;
-  if (yos <= 3) return 0.15;
-  if (yos <= 7) return 0; // prime
-  if (yos <= 9) return -0.15;
-  if (yos <= 11) return -0.35;
-  if (yos <= 13) return -0.55;
-  return -0.8;
+function agingShift(age: number): number {
+  const PEAK = 26.5;
+  if (age <= PEAK) return Math.min(0.7, (PEAK - age) * 0.09);
+  const past = age - PEAK;
+  const shift = past <= 5.5 ? -0.075 * past : -0.075 * 5.5 - 0.11 * (past - 5.5);
+  return Math.max(-1.2, shift);
+}
+
+/**
+ * Availability-aware minutes projection: a player's realistic 2026-27 minutes.
+ * We start from his role (minutes/game) and a durability-regressed games count —
+ * recovering minutes a star lost to injury (high MPG, few games) while trimming
+ * an iron-man toward a sustainable load. Falls back to raw prior minutes when a
+ * player has no bio row. Capped at {@link MAX_PLAYER_MINUTES}.
+ */
+function projectedMinutes(playerId: string, priorMp: number): number {
+  const b = PLAYER_BIO_2026[playerId];
+  if (b && b.mpg != null && b.g != null) {
+    const expGames = Math.min(78, b.g + 0.4 * (74 - b.g)); // mean-revert availability toward ~74
+    return Math.min(MAX_PLAYER_MINUTES, Math.max(0, b.mpg * expGames));
+  }
+  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, priorMp));
 }
 
 /**
  * Minutes-weighted roster impact under a FIXED rotation budget — the team's
  * "score" in impact points/100. Real teams have only {@link TEAM_MINUTES} to
- * give: the best players earn them first (each up to his established role, i.e.
- * prior minutes), and once the budget is spent the rest of the roster rides the
- * bench at zero weight. That makes a trade model DISPLACEMENT — acquiring a
+ * give: the best players earn them first (each up to his availability-aware
+ * projected role), and once the budget is spent the rest of the roster rides
+ * the bench at zero weight. That makes a trade model DISPLACEMENT — acquiring a
  * star pushes the weakest rotation minutes out, so a team's gain is the star's
  * production minus what he displaces, not a free add-on. Sub-replacement bench
  * and unfilled minutes both pull the score toward replacement (0). Each
- * player's projection carries the aging nudge above.
+ * player's projection carries the real-age aging nudge above.
  */
 export function rosterScore(roster: Contract[]): number {
   const rotation = roster
     .filter((c) => currentSalary(c) > 0 && !c.deadMoney)
     .map((c) => {
       const e = impactEntry(c);
-      return { pts: e.pts + agingShift(c.playerId), mp: Math.min(e.mp ?? 0, MAX_PLAYER_MINUTES) };
+      return { pts: e.pts + agingShift(ageOf(c.playerId)), mp: projectedMinutes(c.playerId, e.mp ?? 0) };
     })
     .filter((p) => p.mp > 0)
     .sort((a, b) => b.pts - a.pts); // best players earn scarce minutes first
