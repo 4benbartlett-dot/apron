@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 213 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 216 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 213 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 216 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -46,6 +46,7 @@ const MODELED = [
   "Dead money (waived/stretched salary, e.g. Lillard's charge on Milwaukee's books) rides the cap sheet and counts against every line, but is off the roster — never tradeable, extendable, or a phantom free agent",
   "Waive charges follow real guarantees, not listed salary (DeRozan's SAC charge is his $10M guarantee, not $25.7M) — and a stated dead-cap figure survives the player re-signing elsewhere (Isaac's $8M on ORL next to his new minimum)",
   "Mid-season 2025-26 waivers (invisible to the offseason transactions window) are curated so they can't synthesize phantom cap holds — the Saric class, from a community report",
+  "Real July signings are audited for the exception they actually used, not just the dollar figure — Sacramento's Achiuwa deal ($5.6M, above the BAE ceiling) is the Non-Tax MLE, so it hard-caps them at the first apron the same July they waived DeRozan to open it (the 14th capped team)",
   "Every move surfaces its durable consequences even when it's legal — a heads-up when a trade or signing hard-caps a team (expanded matching, a pre-existing TPE, the NT-MLE/BAE, a sign-and-trade), turns on the second-apron restrictions, or locks acquired players from aggregation for ~2 months",
     "Validated against reality: the real July 1, 2026 trades and sign-and-trades replay as legal through the engine, and 20 of 24 in-data signings do too — the four that miss (Grimes and Mamukelashvili's renounce-created cap room, Oubre's ~$65k reported-total rounding, Kennard's PHX headroom) are sheet-reconstruction bounds, not rule failures, each pinned by name in lib/realmoves.test.ts",
 ];
@@ -117,10 +118,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 213 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 216 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 213 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 216 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
