@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, impactScoreOf, positionOf } from "@/lib/league";
+import { BASE_CONTRACTS, impactScoreOf, positionOf, impactComponents } from "@/lib/league";
 
 // Player value = the HYBRID impact metric (best_metric_2026_leaderboard.csv),
 // scaled so the league's best reads 100 and net-negative players go below 0.
@@ -40,6 +40,24 @@ describe("impact scale (from the HYBRID leaderboard)", () => {
       if (c.deadMoney) continue;
       expect(Number.isFinite(impactScoreOf(c))).toBe(true);
     }
+  });
+});
+
+describe("provenance & coverage (audit-bundle model)", () => {
+  it("stars carry the exact box+RAPM hybrid with RAPMp provenance", () => {
+    const jokic = named("Nikola Jokić");
+    const comp = impactComponents(jokic);
+    expect(comp.source).toBe("hybrid");
+    expect(comp.rapmp).toBeGreaterThan(5);
+    expect(comp.bpm).toBeGreaterThan(10);
+  });
+
+  it("most rostered players use a real model value, not a raw projection", () => {
+    const active = BASE_CONTRACTS.filter(
+      (c) => !c.deadMoney && c.years.some((y) => y.leagueYear === "2026-27" && y.salary > 0),
+    );
+    const real = active.filter((c) => impactComponents(c).source !== "projected");
+    expect(real.length / active.length).toBeGreaterThan(0.8);
   });
 });
 

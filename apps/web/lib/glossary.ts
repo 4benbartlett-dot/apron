@@ -164,7 +164,7 @@ export const GLOSSARY = {
   },
   trade_value: {
     title: "Impact (100 scale)",
-    body: "Each player's on-court value impact from a RAPM × true-wins blend, scaled so the league's best player reads 100, replacement level ≈ 0, and net-negative players go below zero. It's a talent gauge, not a contract measure — salary matching and the aprons handle whether a deal is legal. The fairness meter sums impact per side; picks are priced off the origin team's projected slot on the same scale.",
+    body: "Each player's on-court value impact — box score blended 50/50 with real stint-level RAPM (the exact 5-man lineups reconstructed from play-by-play), scaled so the league's best reads 100, replacement ≈ 0, and net-negative players go below zero. In validation it predicts a player's impact after he changes teams better than BPM. Players below the minutes cutoff for the RAPM half fall back to the box estimate (shown as approximate on hover). It's a talent gauge, not a contract measure — matching and the aprons handle legality. The fairness meter sums impact per side.",
     cite: "overtheapron.com/accuracy",
   },
 } as const;

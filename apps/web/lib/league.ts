@@ -660,21 +660,38 @@ const IMPACT_K = 100 / IMPACT_2026.maxHybrid; // Jokić (max HYBRID) → 100.
 
 /** Raw HYBRID impact: the CSV value, else the BPM→HYBRID fit for players with
  * a 2025-26 sample but no CSV row, else a small draft-slot default for rookies. */
+const mpConf = (mp: number) => Math.min(1, mp / 1600);
+
 function impactHybrid(c: Contract): number {
-  const direct = IMPACT_2026.byId[c.playerId];
-  if (direct != null) return direct;
+  const e = IMPACT_2026.byId[c.playerId];
+  // Exact box + RAPM hybrid — validated, above the RAPM minutes cutoff.
+  if (e?.h != null) return e.h;
+  // TWV box-half for players below the cutoff: real metric, but minutes-shrink
+  // it toward replacement since its RAPM reliability half is missing (this is
+  // why a 339-minute +7-BPM bench spark doesn't read as a star).
+  if (e?.twv != null) return e.twv * mpConf(e.mp ?? 0);
+  // Last resort — the BPM->HYBRID fit, likewise minutes-shrunk.
   const r = RATINGS[c.playerId];
-  if (r) {
-    // Minutes-regularize the fallback: BPM is wildly unstable in small samples
-    // (a 300-minute +7 BPM isn't a star), so shrink toward replacement by a
-    // minutes-confidence weight — the CSV's HYBRID does this natively, the raw
-    // BPM fit does not.
-    const raw = IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept;
-    const conf = Math.min(1, r.mp / 1600);
-    return raw * conf;
-  }
+  if (r) return (IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept) * mpConf(r.mp);
   const salary = salaryForYear(c, YEAR);
   return 0.12 + Math.min(0.55, (salary / 12_000_000) * 0.55);
+}
+
+export interface ImpactComponents {
+  source: "hybrid" | "box" | "projected";
+  rapmp?: number;
+  bpm?: number;
+}
+
+/** Provenance for the value tooltip — the impact and box components behind the
+ * headline number (per the model card). */
+export function impactComponents(c: Contract): ImpactComponents {
+  const e = IMPACT_2026.byId[c.playerId];
+  return {
+    source: e?.h != null ? "hybrid" : e?.twv != null ? "box" : "projected",
+    rapmp: e?.rapmp,
+    bpm: e?.bpm ?? RATINGS[c.playerId]?.bpm,
+  };
 }
 
 /**
