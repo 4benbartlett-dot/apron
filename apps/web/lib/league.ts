@@ -664,7 +664,15 @@ function impactHybrid(c: Contract): number {
   const direct = IMPACT_2026.byId[c.playerId];
   if (direct != null) return direct;
   const r = RATINGS[c.playerId];
-  if (r) return IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept;
+  if (r) {
+    // Minutes-regularize the fallback: BPM is wildly unstable in small samples
+    // (a 300-minute +7 BPM isn't a star), so shrink toward replacement by a
+    // minutes-confidence weight — the CSV's HYBRID does this natively, the raw
+    // BPM fit does not.
+    const raw = IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept;
+    const conf = Math.min(1, r.mp / 1600);
+    return raw * conf;
+  }
   const salary = salaryForYear(c, YEAR);
   return 0.12 + Math.min(0.55, (salary / 12_000_000) * 0.55);
 }
