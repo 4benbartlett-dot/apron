@@ -98,15 +98,52 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     expect(okc.baseWins).toBeGreaterThan(55); // OKC is a contender in the model
   });
 
-  it("acquiring a superstar lifts a team and sinks the seller symmetrically", () => {
-    const jokic = BASE_CONTRACTS.find((c) => c.playerName === "Nikola Jokić")!;
-    const moved = BASE_CONTRACTS.map((c) => (c.playerId === jokic.playerId ? { ...c, teamId: "OKC" } : c));
+  const moveTo = (playerName: string, to: string) => {
+    const p = BASE_CONTRACTS.find((c) => c.playerName === playerName)!;
+    return BASE_CONTRACTS.map((c) => (c.playerId === p.playerId ? { ...c, teamId: to } : c));
+  };
+
+  it("acquiring a superstar lifts the buyer and sinks the seller", () => {
+    const moved = moveTo("Nikola Jokić", "OKC");
     const okc = teamProjection("OKC", moved)!;
     const den = teamProjection("DEN", moved)!;
     expect(okc.deltaWins).toBeGreaterThan(8);
     expect(den.deltaWins).toBeLessThan(-8);
-    // symmetric swing (Jokić is worth the same wherever he plays)
-    expect(okc.deltaNrtg + den.deltaNrtg).toBeCloseTo(0, 1);
+  });
+
+  it("minutes displacement: the same star helps a needy team more than a deep one", () => {
+    // A weak team (mostly sub-replacement minutes to displace) gains more from
+    // an MVP than a title contender, whose bench minutes are already good.
+    const toWeak = teamProjection("UTA", moveTo("Nikola Jokić", "UTA"))!;
+    const toDeep = teamProjection("BOS", moveTo("Nikola Jokić", "BOS"))!;
+    expect(toWeak.deltaWins).toBeGreaterThan(0);
+    expect(toDeep.deltaWins).toBeGreaterThan(0);
+    expect(toWeak.deltaWins).toBeGreaterThan(toDeep.deltaWins);
+  });
+
+  it("the seller's loss doesn't depend on where the star is dealt", () => {
+    // Removing a player is a property of the roster he leaves, not the buyer.
+    const a = teamProjection("DEN", moveTo("Nikola Jokić", "UTA"))!.deltaWins;
+    const b = teamProjection("DEN", moveTo("Nikola Jokić", "BOS"))!.deltaWins;
+    expect(a).toBe(b);
+  });
+
+  it("a role player barely moves a team; a star moves it a lot", () => {
+    const roleSwing = Math.abs(teamProjection("WAS", moveTo("Grayson Allen", "WAS"))!.deltaWins);
+    const starSwing = Math.abs(teamProjection("WAS", moveTo("Nikola Jokić", "WAS"))!.deltaWins);
+    expect(roleSwing).toBeLessThanOrEqual(3);
+    expect(starSwing).toBeGreaterThan(roleSwing + 8);
+  });
+
+  it("the aging prior never leaks into a no-move baseline", () => {
+    // Aging is applied to both the live and base roster, so an untouched roster
+    // returns exactly the author's shipped baseline — the coarse aging layer can
+    // only ever refine the DELTA from a move, never distort the standings floor.
+    for (const t of ["OKC", "BOS", "DEN", "WAS"]) {
+      const p = teamProjection(t, BASE_CONTRACTS)!;
+      expect(p.deltaNrtg).toBe(0);
+      expect(p.projWins).toBe(p.baseWins);
+    }
   });
 
   it("projected wins stay in a plausible NBA range", () => {

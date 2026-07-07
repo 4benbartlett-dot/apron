@@ -726,28 +726,81 @@ export interface TeamProjection {
   deltaNrtg: number; deltaWins: number;
 }
 
-/** Minutes-weighted roster impact-points ("teamScore"): Σ pts × min(MP,2400)/2400. */
-function teamScore(roster: Contract[]): number {
-  let s = 0;
-  for (const c of roster) {
-    if (currentSalary(c) <= 0 || c.deadMoney) continue;
-    const e = impactEntry(c);
-    s += e.pts * Math.min(e.mp ?? 0, 2400) / 2400;
+/** A full team's minutes budget for a season: 5 on the floor × 48 min × 82
+ * games = 19,680 player-minutes to hand out. This is the scarce resource a
+ * trade actually competes for. */
+export const TEAM_MINUTES = 240 * 82;
+const MAX_PLAYER_MINUTES = 2950; // ~36 MPG — the ceiling even iron-men live under
+
+/**
+ * A coarse aging prior for the NEXT season, keyed on years of service (we have
+ * no birthdates, so service is the age proxy). An ADDITIVE nudge in impact
+ * points/100 — young players tick up toward their prime, deep vets tick down —
+ * kept deliberately gentle (≈ +0.4 … −0.8) so it refines a projection without
+ * dominating it. Applied only inside team projections, never to a displayed
+ * player value.
+ */
+function agingShift(playerId: string): number {
+  const yos = EXPERIENCE[playerId] ?? 8;
+  if (yos <= 1) return 0.4;
+  if (yos <= 2) return 0.3;
+  if (yos <= 3) return 0.15;
+  if (yos <= 7) return 0; // prime
+  if (yos <= 9) return -0.15;
+  if (yos <= 11) return -0.35;
+  if (yos <= 13) return -0.55;
+  return -0.8;
+}
+
+/**
+ * Minutes-weighted roster impact under a FIXED rotation budget — the team's
+ * "score" in impact points/100. Real teams have only {@link TEAM_MINUTES} to
+ * give: the best players earn them first (each up to his established role, i.e.
+ * prior minutes), and once the budget is spent the rest of the roster rides the
+ * bench at zero weight. That makes a trade model DISPLACEMENT — acquiring a
+ * star pushes the weakest rotation minutes out, so a team's gain is the star's
+ * production minus what he displaces, not a free add-on. Sub-replacement bench
+ * and unfilled minutes both pull the score toward replacement (0). Each
+ * player's projection carries the aging nudge above.
+ */
+export function rosterScore(roster: Contract[]): number {
+  const rotation = roster
+    .filter((c) => currentSalary(c) > 0 && !c.deadMoney)
+    .map((c) => {
+      const e = impactEntry(c);
+      return { pts: e.pts + agingShift(c.playerId), mp: Math.min(e.mp ?? 0, MAX_PLAYER_MINUTES) };
+    })
+    .filter((p) => p.mp > 0)
+    .sort((a, b) => b.pts - a.pts); // best players earn scarce minutes first
+  let budget = TEAM_MINUTES;
+  let weighted = 0;
+  for (const p of rotation) {
+    if (budget <= 0) break;
+    const m = Math.min(p.mp, budget);
+    weighted += p.pts * m;
+    budget -= m;
   }
-  return s;
+  // Minutes-weighted average impact/100 over a full team-minutes budget: any
+  // budget left unfilled counts as replacement-level (0), correctly dragging a
+  // thin roster down.
+  return weighted / TEAM_MINUTES;
 }
 
 /**
  * Projected net rating + record for a team, anchored to the model's own
  * current-roster baseline and moved only by the roster changes in this session
- * (Δnrtg = 0.7704 · ΔteamScore; wins = 40.2 + 1.972 · projNrtg). With no moves
- * it returns exactly the model's baseline — no drift. A current-roster
- * projection, NOT a season forecast (no minutes/injury model yet).
+ * (Δnrtg = nrtgPerScore · ΔrosterScore; wins = base + winsPerNrtg · Δnrtg).
+ * With no moves it returns exactly the model's baseline — no drift. The delta
+ * now models rotation-minutes displacement and a light aging prior; it is still
+ * a current-roster projection, NOT a full season forecast (no injury,
+ * role-change, coaching, or playoff-translation layer).
  */
 export function teamProjection(team: string, liveContracts: Contract[]): TeamProjection | undefined {
   const base = TEAM_STRENGTH_2026[team];
   if (!base) return undefined;
-  const dScore = teamScore(liveContracts.filter((c) => c.teamId === team)) - teamScore(BASE_CONTRACTS.filter((c) => c.teamId === team));
+  const dScore =
+    rosterScore(liveContracts.filter((c) => c.teamId === team)) -
+    rosterScore(BASE_CONTRACTS.filter((c) => c.teamId === team));
   const dNrtg = TEAM_CALIBRATION.nrtgPerScore * dScore;
   const dWins = TEAM_CALIBRATION.winsPerNrtg * dNrtg;
   return {

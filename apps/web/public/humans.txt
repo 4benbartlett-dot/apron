@@ -5,7 +5,7 @@ Site: https://overtheapron.com
 /* SCOUTING REPORT */
 Engine: a pure-TypeScript 2023 CBA rules engine.
 Validated by replaying every real July 2026 move. All legal.
-223 tests and counting — every confirmed miss becomes one more.
+227 tests and counting — every confirmed miss becomes one more.
 
 /* COLOPHON */
 Paper: warm ledger. Ink: IBM Plex.

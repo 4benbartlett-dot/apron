@@ -169,7 +169,7 @@ export const GLOSSARY = {
   },
   projected_standings: {
     title: "Projected standings",
-    body: "Each team's projected net rating and win total from its roster's minutes-weighted Apron Value, ranked within its conference. The roster-value → net-rating fit is R²=0.97 on last season's teams; wins map off net rating (≈ 40 + 2 wins per point). With no moves staged it returns the current-roster baseline exactly, so the Δ you see is purely the effect of your trades and signings — did you make a team better or worse for next year. It's a snapshot of talent on hand, not a season forecast: no minutes-allocation model or injuries yet.",
+    body: "Each team's projected net rating and win total from its roster's impact, ranked within its conference. It models rotation: a fixed 19,680-minute budget goes to the best players first (up to each one's established minutes), so a trade is judged on minutes DISPLACEMENT — a star who benches a good player is worth less than one who displaces a scrub, and injury-prone players carry less weight because they bring fewer minutes. A light aging prior nudges each projection. With no moves staged it returns the current-roster baseline exactly, so the Δ you see is purely the effect of your trades and signings — did you make a team better or worse for next year. Fit R²=0.88 vs actual net rating; still a talent-on-hand projection, not a full-season forecast (no injuries, coaching, or playoff translation).",
     cite: "overtheapron.com/standings",
   },
 } as const;

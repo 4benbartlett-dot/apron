@@ -123,16 +123,20 @@ export default function OffseasonSim() {
       }
       // Deep links from team pages / SEO landing pages: ?team=<ID> opens the
       // board focused on that team, ?sign=<ID> also pops its signing drawer.
-      // The team is prepended to (not swapped out for) any restored board.
+      // A deep link REPLACES whatever was autoselected/restored — you asked to
+      // start a move about THIS team, so the board becomes just this team.
       const focus = (params.get("sign") || params.get("team") || "").toUpperCase();
       const wantSign = !!params.get("sign");
       const param = params.get("board");
       const raw = param
         ? param.split(",")
         : JSON.parse(localStorage.getItem("apron_board_v1") || "null");
-      let start = Array.isArray(raw) ? raw.filter((t2: string) => TEAM_IDS.includes(t2)) : [];
-      if (focus && TEAM_IDS.includes(focus)) start = [focus, ...start.filter((t: string) => t !== focus)];
-      start = start.slice(0, 8);
+      const start =
+        focus && TEAM_IDS.includes(focus)
+          ? [focus]
+          : Array.isArray(raw)
+            ? raw.filter((t2: string) => TEAM_IDS.includes(t2)).slice(0, 8)
+            : [];
       if (start.length) setBoard(start);
       if (wantSign && TEAM_IDS.includes(focus)) setSignFor({ team: focus });
       if (focus && TEAM_IDS.includes(focus)) {
