@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projected NBA Standings 2026-27 — Impact-Based Wins | Over the Apron",
+  title: "Projected NBA Standings 2026-27 — East & West, Impact-Based Wins | Over the Apron",
   description:
-    "Every team's projected 2026-27 record from its roster's minutes-weighted impact — and how your trades and signings on the board change it, live.",
+    "Projected 2026-27 records for all 30 teams, ranked by conference from each roster's minutes-weighted impact — and how your trades and signings on the board change them, live.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -15,7 +15,7 @@ export default function TermsIndex() {
       <h1 className="text-[26px] font-bold leading-tight tracking-tight">CBA terms, explained with live data</h1>
       <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
         Not just definitions — each page carries the current 2026-27 dollar figures and the real teams
-        affected right now, pulled from the same audited data the <Link href="/trade" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">trade machine</Link> enforces.
+        affected right now, pulled from the same audited data the <Link href="/" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">trade machine</Link> enforces.
       </p>
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {SEO_TERMS.map((t) => (

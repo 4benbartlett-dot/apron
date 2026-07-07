@@ -110,11 +110,8 @@ export default async function TermPage({ params }: { params: Promise<{ slug: str
           Build any trade or signing and the sim rules on it — citing this exact rule when it applies.
         </p>
         <div className="mt-2.5 flex flex-wrap gap-2">
-          <Link href="/trade" className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
+          <Link href="/" className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
             Open the trade machine →
-          </Link>
-          <Link href="/" className="rounded-md border border-[var(--border-strong)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]">
-            Run a full offseason
           </Link>
         </div>
       </div>

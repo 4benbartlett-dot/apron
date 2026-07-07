@@ -100,7 +100,7 @@ export default async function TeamTradeMachine({ params }: { params: Promise<{ t
 
       <div className="mt-4 flex flex-wrap gap-2">
         <Link
-          href={`/trade?a=${id}`}
+          href={`/?team=${id}`}
           className="rounded-md bg-[var(--text)] px-3.5 py-2 text-[13px] font-semibold text-[var(--bg)] hover:opacity-90"
         >
           Build a {t.nickname} trade →

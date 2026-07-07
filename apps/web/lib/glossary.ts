@@ -169,7 +169,7 @@ export const GLOSSARY = {
   },
   projected_standings: {
     title: "Projected standings",
-    body: "Each team's projected net rating and win total from its roster's minutes-weighted Apron Value. The roster-value → net-rating fit is R²=0.97 on last season's teams; wins map off net rating (≈ 40 + 2 wins per point). With no moves staged it returns the current-roster baseline exactly, so the Δ you see is purely the effect of your trades and signings — did you make a team better or worse for next year. It's a snapshot of talent on hand, not a season forecast: no minutes-allocation model or injuries yet.",
+    body: "Each team's projected net rating and win total from its roster's minutes-weighted Apron Value, ranked within its conference. The roster-value → net-rating fit is R²=0.97 on last season's teams; wins map off net rating (≈ 40 + 2 wins per point). With no moves staged it returns the current-roster baseline exactly, so the Δ you see is purely the effect of your trades and signings — did you make a team better or worse for next year. It's a snapshot of talent on hand, not a season forecast: no minutes-allocation model or injuries yet.",
     cite: "overtheapron.com/standings",
   },
 } as const;
