@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, TEAM_STRENGTH_2026, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -656,42 +656,67 @@ export function ratingOf(playerId: string): number | undefined {
 
 /* --------------------------- Player impact & position -------------------- */
 
-const IMPACT_K = 100 / IMPACT_2026.maxHybrid; // Jokić (max HYBRID) → 100.
-
-/** Raw HYBRID impact: the CSV value, else the BPM→HYBRID fit for players with
- * a 2025-26 sample but no CSV row, else a small draft-slot default for rookies. */
 const mpConf = (mp: number) => Math.min(1, mp / 1600);
 
-function impactHybrid(c: Contract): number {
+/** The hardened impact record for a player: exact Apron Value where the model
+ * has it, else a minutes-shrunk box-half estimate, else a BPM/draft projection
+ * — all mapped onto the model's own scale (av = 0-100, 50 = replacement;
+ * pts = impact per 100 possessions, 0-centered). */
+function impactEntry(c: Contract): {
+  av: number; pts: number; unc: number; rapmp?: number; bpm?: number; tier: string; conf: string; src: string;
+} {
   const e = IMPACT_2026.byId[c.playerId];
-  // Exact box + RAPM hybrid — validated, above the RAPM minutes cutoff.
-  if (e?.h != null) return e.h;
-  // TWV box-half for players below the cutoff: real metric, but minutes-shrink
-  // it toward replacement since its RAPM reliability half is missing (this is
-  // why a 339-minute +7-BPM bench spark doesn't read as a star).
-  if (e?.twv != null) return e.twv * mpConf(e.mp ?? 0);
-  // Last resort — the BPM->HYBRID fit, likewise minutes-shrunk.
+  if (e) return e;
   const r = RATINGS[c.playerId];
-  if (r) return (IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept) * mpConf(r.mp);
-  const salary = salaryForYear(c, YEAR);
-  return 0.12 + Math.min(0.55, (salary / 12_000_000) * 0.55);
+  let hyb: number;
+  if (r) hyb = (IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept) * mpConf(r.mp);
+  else {
+    const salary = salaryForYear(c, YEAR);
+    hyb = 0.12 + Math.min(0.55, (salary / 12_000_000) * 0.55);
+  }
+  const tier =
+    hyb >= 2.5 ? "MVP" : hyb >= 1.5 ? "All-NBA" : hyb >= 0.75 ? "High starter" : hyb >= 0.25 ? "Starter" : hyb >= -0.35 ? "Rotation" : "Depth";
+  return {
+    av: Math.max(0, Math.min(100, 50 + 12.5 * hyb)),
+    pts: 3.35 * hyb,
+    unc: 0.9 + 700 / ((r?.mp ?? 0) + 700),
+    bpm: r?.bpm,
+    tier,
+    conf: "low",
+    src: "projected",
+  };
 }
 
 export interface ImpactComponents {
-  source: "hybrid" | "box" | "projected";
+  source: string;
+  apronValue: number;
+  impactPts: number;
+  uncertainty: number;
+  tier: string;
+  confidence: string;
   rapmp?: number;
   bpm?: number;
 }
 
-/** Provenance for the value tooltip — the impact and box components behind the
- * headline number (per the model card). */
+/** Provenance for the Apron Value tooltip — tier, ± band, and the impact/box
+ * components behind the number. */
 export function impactComponents(c: Contract): ImpactComponents {
-  const e = IMPACT_2026.byId[c.playerId];
+  const e = impactEntry(c);
   return {
-    source: e?.h != null ? "hybrid" : e?.twv != null ? "box" : "projected",
-    rapmp: e?.rapmp,
-    bpm: e?.bpm ?? RATINGS[c.playerId]?.bpm,
+    source: e.src,
+    apronValue: e.av,
+    impactPts: e.pts,
+    uncertainty: e.unc,
+    tier: e.tier,
+    confidence: e.conf,
+    rapmp: e.rapmp,
+    bpm: e.bpm,
   };
+}
+
+/** Team strength (current roster, minutes-weighted), or undefined if unknown. */
+export function teamStrengthOf(team: string): TeamStrength | undefined {
+  return TEAM_STRENGTH_2026[team];
 }
 
 /**
@@ -701,9 +726,12 @@ export function impactComponents(c: Contract): ImpactComponents {
  * This is the number shown on every player chip, card, and finder result.
  */
 export function impactScoreOf(c: Contract): number {
-  // Floor at -40 (the CSV's real worst): low-minute BPM fallbacks can produce
-  // absurd tails from tiny samples.
-  return Math.max(-40, Math.round(impactHybrid(c) * IMPACT_K));
+  return Math.round(impactEntry(c).av);
+}
+/** Talent above replacement, in impact points/100 (0-centered) — the unit the
+ * fairness meter and trade finder sum. A below-replacement throw-in is ~0. */
+export function impactMeterOf(c: Contract): number {
+  return Math.max(0, impactEntry(c).pts);
 }
 
 /** Primary position (PG/SG/SF/PF/C), or undefined if we have no sample. */
@@ -765,11 +793,10 @@ export function assetScoreOf(c: Contract): number | undefined {
   return Math.round(Math.max(5, Math.min(99, score)));
 }
 
-/** Talent units for the fairness meter and trade finder — a player's impact,
- * floored at 0 so a net-negative player or throw-in contributes ~nothing to
- * the "value given" tally (his salary is what the deal is really moving). */
+/** Talent units for the fairness meter and trade finder — impact points above
+ * replacement, so a net-negative player or throw-in contributes ~nothing. */
 export function assetMeterValue(c: Contract): number {
-  return Math.max(0, impactScoreOf(c));
+  return impactMeterOf(c);
 }
 
 /** @deprecated superseded by assetScoreOf/assetMeterValue (kept for compat). */
@@ -807,12 +834,13 @@ export function pickValue(year: number, round: 1 | 2, origin?: string): number {
   // Lottery flattening: the worst team's EXPECTED slot is ~2.5, not 1.
   const now = 2.5 + (rank - 1) * (27.5 / 29);
   const slot = now * revert + 15.5 * (1 - revert);
-  // Impact-scale units: a top first ≈ a rotation starter's impact, risk- and
-  // time-discounted; late firsts and seconds taper to low single digits.
+  // Impact-points units (pts/100 above replacement): a top first ≈ a solid
+  // rotation player's impact, risk- and time-discounted; late firsts and
+  // seconds taper to fractions of a point.
   const meter =
     round === 1
-      ? 30 * Math.exp(-0.08 * (slot - 1))
-      : 4 * Math.exp(-0.05 * (slot - 1));
+      ? 2.8 * Math.exp(-0.08 * (slot - 1))
+      : 0.4 * Math.exp(-0.05 * (slot - 1));
   return Math.round(meter * Math.pow(0.97, dist));
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {
