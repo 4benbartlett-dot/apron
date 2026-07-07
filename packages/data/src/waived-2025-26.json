@@ -1,0 +1,42 @@
+{
+  "asOf": "2026-07-07",
+  "note": "Players waived DURING the 2025-26 season. The transactions feed only opens Jun 8, 2026, so these waives are invisible to the pipeline — without this list their expiring rows synthesize phantom free-agent cap holds for the last team on their sheet (~$43.3M across 5 teams). Class reported by @Ianberlin23 (the Saric case); each entry web-verified individually (hoopsrumors/espn/nba.com). All were expiring 2025-26 deals — no 2026-27 dead money.",
+  "players": [
+    {
+      "name": "Dario Saric",
+      "lastSheetTeam": "DET",
+      "waived": "2026-02-09",
+      "why": "DET absorbed him into the Dennis Schroder S&T TPE on Feb 3 (trade-exceptions.json shows the $5,426,400 bite), waived him Feb 9; signed with Anadolu Efes in June. No NBA hold."
+    },
+    {
+      "name": "Cam Thomas",
+      "lastSheetTeam": "BKN",
+      "waived": "2026-03-24",
+      "why": "Waived by Milwaukee on Mar 24, weeks after his February trade; sheet still shows his pre-trade BKN row."
+    },
+    {
+      "name": "Kobe Bufkin",
+      "lastSheetTeam": "BKN",
+      "waived": "2025-26 mid-season",
+      "why": "Waived mid-season (hoopsrumors); expiring deal, no hold."
+    },
+    {
+      "name": "Chris Boucher",
+      "lastSheetTeam": "UTA",
+      "waived": "2025-26 mid-season",
+      "why": "Waived mid-season (hoopsrumors); expiring deal, no hold."
+    },
+    {
+      "name": "Eric Gordon",
+      "lastSheetTeam": "MEM",
+      "waived": "2025-26 mid-season",
+      "why": "Waived mid-season (nba.com); expiring deal, no hold."
+    },
+    {
+      "name": "Cole Anthony",
+      "lastSheetTeam": "PHX",
+      "waived": "2025-26 mid-season",
+      "why": "Waived mid-season (hoopsrumors); expiring deal, no hold."
+    }
+  ]
+}

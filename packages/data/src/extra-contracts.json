@@ -1,0 +1,13 @@
+{
+ "asOf": "2026-07-07",
+ "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player.",
+ "players": [
+  {
+   "playerId": "curated-ron-harper-jr",
+   "playerName": "Ron Harper Jr.",
+   "teamId": "BOS",
+   "years": [],
+   "why": "Official Jul 6: 4y/$13,548,235 with BOS (y1 3,150,752, Non-Bird-of-minimum, consumes nothing). No bref contracts row \u2014 he spent 2025-26 off an NBA standard deal."
+  }
+ ]
+}

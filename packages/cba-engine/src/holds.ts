@@ -18,6 +18,10 @@ export function capHold(
   lastSalary: number,
   c: LeagueConstants,
   birdStatus: BirdStatus = "bird",
+  /** QVFA coming off the second option year of a ROOKIE-SCALE contract —
+   * Art. VII §4(d)(1)(ii) gives these the 250%/300% tiers (this is why RFA
+   * holds like Jalen Duren's dwarf the ordinary Bird multiples). */
+  offRookieScale = false,
 ): number {
   if (lastSalary <= 0) return 0;
   let hold: number;
@@ -25,6 +29,8 @@ export function capHold(
     hold = lastSalary * 1.2;
   } else if (birdStatus === "early_bird") {
     hold = lastSalary * 1.3;
+  } else if (offRookieScale) {
+    hold = lastSalary * (lastSalary >= c.estimatedAverageSalary ? 2.5 : 3.0);
   } else {
     hold = lastSalary * (lastSalary >= c.estimatedAverageSalary ? 1.5 : 1.9);
   }

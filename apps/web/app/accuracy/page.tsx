@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 193 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 200 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 193 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 200 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -29,7 +29,7 @@ const MODELED = [
   "Renegotiation ceiling (under-cap teams only, raise limited to cap room) and the stretch provision (2N+1 years, 15%-of-cap guardrail)",
   "Renounce free-agent cap holds to drop below an apron / open cap space; a kept own-FA hold converts to salary on re-sign (no double-count), and renouncing forfeits Bird rights",
   "Contract extensions add future years at the veteran-extension ceiling (140% rule, 8% raises)",
-  "Free-agent cap holds by Bird status (Non-Bird 120% / Early-Bird 130% / Bird 150–190%)",
+  "Free-agent cap holds by Bird status (Non-Bird 120% / Early-Bird 130% / Bird 150–190%, rookie-scale QVFAs 250/300% per Art. VII §4(d)(1)(ii))",
   "Trade eligibility: a free agent signed this offseason is trade-restricted; a just-acquired player can't be aggregated for ~2 months",
   "MLE / exception consumption tracking within an offseason session",
   "Sign-and-trade acquisition: second-apron block + first-apron hard cap on the acquiring team",
@@ -44,6 +44,8 @@ const MODELED = [
   "Trade freezes per Art. VII §8(d)/(f): rookie signings 30 days; FA signings Dec 15; over-cap Bird re-signs at >120% until Jan 15; extensions beyond extend-and-trade limits 6 months; matched RFA offer sheets one year (§5(j))",
   "Renegotiation Mar–Jun blackout window",
   "Dead money (waived/stretched salary, e.g. Lillard's charge on Milwaukee's books) rides the cap sheet and counts against every line, but is off the roster — never tradeable, extendable, or a phantom free agent",
+  "Waive charges follow real guarantees, not listed salary (DeRozan's SAC charge is his $10M guarantee, not $25.7M) — and a stated dead-cap figure survives the player re-signing elsewhere (Isaac's $8M on ORL next to his new minimum)",
+  "Mid-season 2025-26 waivers (invisible to the offseason transactions window) are curated so they can't synthesize phantom cap holds — the Saric class, from a community report",
     "Validated against reality: the real July 1, 2026 trades and sign-and-trades replay as legal through the engine, and 20 of 24 in-data signings do too — the four that miss (Grimes and Mamukelashvili's renounce-created cap room, Oubre's ~$65k reported-total rounding, Kennard's PHX headroom) are sheet-reconstruction bounds, not rule failures, each pinned by name in lib/realmoves.test.ts",
 ];
 
@@ -56,6 +58,7 @@ const APPROXIMATE = [
   "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
   "TPE v1 approximations: one exception per team per trade, whole players only, minted amounts capped at the largest single outgoing salary; aggregated-TPE row H and choosing WHICH traded player generates the exception aren't modeled",
+  "Rookie-scale hold detection uses an RFA-with-≤4-YOS heuristic for the 250/300% tier — the CBA keys it on the contract type, which the feed doesn't carry directly",
   "Where a room team's renounce set is ambiguous (which specific holds it shed), the audited seed follows a prefer-largest rule \u2014 per-team confidence and the full per-signing audit trail live in the data file (the one prior low-confidence flag — BKN's room math — resolved on Jul 6: a missed Claxton trade leg was inflating their sheet by $23.1M)",
   "Apron classification uses signed team salary; the CBA's full \u201cApron Team Salary\u201d adds small adjustments we don't model (e.g. 0-1 YOS minimum signings bump UP to the 2-YOS minimum for tax/apron purposes per \u00a72(d)(1)(i)(F), performance-bonus add-backs)",
 ];
@@ -112,10 +115,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 193 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 200 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 193 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 200 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section

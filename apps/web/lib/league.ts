@@ -1,8 +1,9 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
   capHold,
+  stretchProvision,
   validateTrade,
   type BirdStatus,
   type Contract,
@@ -15,7 +16,7 @@ import {
 import { shortPlayerName } from "./names";
 
 /** Normalize a player name for joining across data sources. */
-function normName(name: string): string {
+export function normName(name: string): string {
   return name
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
@@ -243,8 +244,6 @@ function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: str
   for (const t of TRANSACTIONS) {
     if (t.type !== "Trade") continue;
     const k = norm(t.player);
-    if (seen.has(k)) continue;
-    seen.add(k);
     const m = t.detail.match(/Traded to [^(]*\(([A-Za-z]{2,4})\)/);
     if (!m) continue;
     const dest = stdTeam(m[1]);
@@ -264,6 +263,12 @@ function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: str
         if (candidates.length === 1) c = candidates[0];
       }
     }
+    // Newest-first feed: the first row that RESOLVES to a player wins — key
+    // the seen-set on his contract id so a re-listed older trade under a
+    // variant spelling can't move him again (or back).
+    const seenKey = c ? c.playerId : k;
+    if (seen.has(seenKey)) continue;
+    seen.add(seenKey);
     if (c && c.teamId !== dest) {
       c.teamId = dest;
       moved.push(`${c.playerName} → ${dest}`);
@@ -397,6 +402,10 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     const s = SIGNINGS[normName(c.playerName)];
     if (!s || !s.aav || s.aav <= 0) return c;
     if (PENDING_OFFER_SHEET.has(normName(c.playerName))) return c;
+    // A vet EXTENSION of a player still under contract adds FUTURE years —
+    // replacing YEAR-forward would overwrite his real current salary.
+    const hasCurrent = c.years.some((y) => y.leagueYear === YEAR && y.salary > 0);
+    if (hasCurrent && EXTENSION_DEALS.has(normName(c.playerName))) return c;
     const team = stdTeam(s.team);
     if (!VALID_TEAMS.has(team)) return c;
     signed.push(`${c.playerName} → ${team}`);
@@ -438,6 +447,7 @@ function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: st
 }
 
 const RETIRED = new Set(RETIRED_2026.map(normName));
+const MIDSEASON_WAIVED = new Set(WAIVED_2025_26.map(normName));
 
 // Waived / terminated contracts: the player comes off the roster but any
 // guaranteed money stays on the books as dead money. Skip anyone the feed
@@ -452,15 +462,74 @@ const RELEASED = new Set(
     (t) => (t.type === "Release" || /contract was terminated/i.test(t.detail)) && !ACTIVE_LATER.has(normName(t.player)),
   ).map((t) => normName(t.player)),
 );
+// Real guarantee terms for waives the feed prose doesn't carry (web-verified;
+// salaryForYear is guarantee-blind, so without these a plain waive charges the
+// full listed salary — DeRozan's $25.74M when only $10M is guaranteed).
+const RELEASE_TERMS: Record<string, { guaranteed: number; stretched?: boolean }> = {
+  // ESPN/Bobby Marks: $10M of $25.74M guaranteed; SAC may stretch by late Aug —
+  // if they do, flip to { guaranteed: 10_000_000, stretched: true }.
+  "demar derozan": { guaranteed: 10_000_000 },
+  // Star Tribune: non-guaranteed $2.41M — pre-staged for the expected MIN waive.
+  "mouhamadou gueye": { guaranteed: 0 },
+};
+
 function applyReleases(contracts: Contract[]): Contract[] {
-  return contracts.map((c) =>
-    !c.deadMoney && RELEASED.has(normName(c.playerName)) && salaryForYear(c, YEAR) > 0
-      ? { ...cloneContract(c), deadMoney: true }
-      : c,
-  );
+  return contracts.map((c) => {
+    if (c.deadMoney || !RELEASED.has(normName(c.playerName)) || salaryForYear(c, YEAR) === 0) return c;
+    const dead = cloneContract(c);
+    dead.deadMoney = true;
+    const terms = RELEASE_TERMS[normName(c.playerName)];
+    if (terms) {
+      if (terms.stretched && terms.guaranteed > 0) {
+        const r = stretchProvision(terms.guaranteed, dead.years.filter((y) => y.leagueYear >= YEAR).length || 1, C);
+        dead.years = Array.from({ length: r.years }, (_, k) => ({
+          leagueYear: `${2026 + k}-${String(27 + k).padStart(2, "0")}`,
+          salary: Math.round(r.perYear),
+          guarantee: "full" as const,
+        }));
+      } else {
+        dead.years = terms.guaranteed > 0
+          ? [{ leagueYear: YEAR, salary: terms.guaranteed, guarantee: "full" as const }]
+          : [];
+      }
+    }
+    return dead;
+  });
 }
+
+// A waive whose prose states the dead cap ("leaves behind $8 million in dead
+// cap") for a player who LATER re-signed: ACTIVE_LATER keeps his row alive for
+// the new deal, so the old contract's charge needs its own row — the Jonathan
+// Isaac case ($8M on ORL next to his new minimum).
+const STATED_DEAD_CAP: Contract[] = (() => {
+  const out: Contract[] = [];
+  const seen = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Release" && !/contract was terminated/i.test(t.detail)) continue;
+    const k = normName(t.player);
+    if (seen.has(k) || !ACTIVE_LATER.has(k)) continue;
+    const amtM = t.detail.match(/leaves behind \$([\d.]+)\s*million in dead cap/i);
+    const teamM = t.detail.match(/(?:Waived|Released) by [^(]*\(([A-Za-z]{2,4})\)/i);
+    if (!amtM || !teamM) continue;
+    const team = stdTeam(teamM[1]!);
+    if (!VALID_TEAMS.has(team)) continue;
+    seen.add(k);
+    out.push({
+      playerId: `${k.replace(/\s+/g, "-")}-deadcap`,
+      playerName: t.player,
+      teamId: team,
+      deadMoney: true,
+      years: [{ leagueYear: YEAR, salary: Math.round(Number(amtM[1]) * 1_000_000), guarantee: "full" }],
+    } as Contract);
+  }
+  return out;
+})();
 // Announced retirements leave the league entirely — no roster spot, no hold.
-const activeRaw = base.contracts.filter((c) => !RETIRED.has(normName(c.playerName)));
+// Curated stubs join the sheet ONLY while the scrape lacks the player — a
+// future sheet row under any id supersedes its stub by name.
+const sheetNames = new Set(base.contracts.map((c) => normName(c.playerName)));
+const extraStubs = EXTRA_CONTRACTS.filter((x) => !sheetNames.has(normName(x.playerName))) as unknown as Contract[];
+const activeRaw = [...base.contracts, ...extraStubs].filter((c) => !RETIRED.has(normName(c.playerName)));
 const deduped = dedupe(activeRaw);
 // Options first (a declined option makes a player a FA), then trades, then the
 // offseason's signings restore/re-sign anyone who agreed to a new deal.
@@ -487,7 +556,13 @@ const ROOKIE_DEALS = new Map(
 );
 // CBA Art. VII §8(d)(i): a drafted rookie who signs can't be traded for 30
 // days — every 2026 draftee just signed, so the freeze is live in-sim.
-const rookieContracts = ROOKIES_2026.filter((r) => !existingIds.has(r.playerId)).map(
+const existingNames = new Set(afterReleases.filter((c) => !c.deadMoney).map((c) => normName(c.playerName)));
+// Guard on BOTH id and name: the two scrapers use divergent fallback-id
+// schemes, and an officially-filed rookie deal appearing on the contracts
+// sheet under a different id must not create a second active row.
+const rookieContracts = ROOKIES_2026.filter(
+  (r) => !existingIds.has(r.playerId) && !existingNames.has(normName(r.playerName)),
+).map(
   (r) => {
     const deal = ROOKIE_DEALS.get(normName(r.playerName));
     return {
@@ -510,6 +585,7 @@ const rookiesAfterTrades = applyTrades(rookieContracts);
 export const BASE_CONTRACTS: Contract[] = [
   ...afterReleases,
   ...rookiesAfterTrades.contracts,
+  ...STATED_DEAD_CAP,
 ];
 export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];
 export const SIGNINGS_APPLIED = [...afterSignings.signed, ...afterSignedFA.signed];
@@ -717,17 +793,26 @@ export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
         c.signedUsing !== "Two-Way" &&
         !c.deadMoney,
     )
+    // Waived DURING 2025-26 (before the transactions window opens Jun 8):
+    // their expiring rows would otherwise synthesize phantom holds — the
+    // Saric class, reported by @Ianberlin23.
+    .filter((c) => !MIDSEASON_WAIVED.has(normName(c.playerName)))
     .map((c) => {
       const lastSalary = salaryForYear(c, "2025-26");
       const info = FREE_AGENT_INFO[normName(c.playerName)];
-      const birdStatus: BirdStatus = info?.birdStatus ?? "bird";
+      const override = FA_OVERRIDES[normName(c.playerName)];
+      const birdStatus: BirdStatus = (override?.birdStatus as BirdStatus) ?? info?.birdStatus ?? "bird";
+      const yos = EXPERIENCE[c.playerId] ?? 8;
+      // Approximation (documented on /accuracy): an RFA with ≤4 YOS is coming
+      // off a rookie-scale deal — Art. VII §4(d)(1)(ii) 250%/300% holds.
+      const offRookieScale = faTypeOf(c.playerName) === "RFA" && yos <= 4;
       return {
         playerId: c.playerId,
         playerName: c.playerName,
         priorTeam: c.teamId,
         lastSalary,
-        hold: capHold(lastSalary, C, birdStatus),
-        yearsOfService: EXPERIENCE[c.playerId] ?? 8,
+        hold: capHold(lastSalary, C, birdStatus, offRookieScale),
+        yearsOfService: yos,
         birdStatus,
         faType: faTypeOf(c.playerName),
       };

@@ -89,9 +89,11 @@ function parseTeam(html, standardCode) {
 
     const href = $player.find("a").attr("href") || "";
     const idMatch = href.match(/\/players\/\w\/([^.]+)\.html/);
+    // Same fallback scheme as scrape-draft.mjs — divergent fallbacks would
+    // give one player two ids and a duplicate roster row.
     const playerId = idMatch
       ? idMatch[1]
-      : name.toLowerCase().replace(/[^a-z]+/g, "-");
+      : `rookie-${name.toLowerCase().replace(/[^a-z]+/g, "-")}`;
 
     const years = [];
     for (const [col, leagueYear] of Object.entries(YEAR_COLS)) {

@@ -1,0 +1,10 @@
+{
+  "asOf": "2026-07-07",
+  "note": "Curated corrections to the scraped free-agent feed (survives re-scrapes — the scraper never writes this file). Keyed by normalized name.",
+  "byName": {
+    "jonathan kuminga": {
+      "birdStatus": "non_bird",
+      "why": "2023 CBA Art. VII §8(b): traded mid-season while on an expiring deal without the Bird clock carrying — ATL holds only Non-Bird rights (120% hold, not the feed's full-Bird 150-190%). Web-verified vs hoopsrumors/espn."
+    }
+  }
+}
