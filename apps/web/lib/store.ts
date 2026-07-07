@@ -6,6 +6,7 @@ import {
   capSheet as engCapSheet,
   type Contract,
 } from "@apron/cba-engine";
+import { ACQUIRED_PICKS } from "@apron/data";
 import {
   BASE_CONTRACTS,
   YEAR,
@@ -176,6 +177,10 @@ export function useLeague() {
     for (const t of TEAM_IDS)
       for (const y of PICK_YEARS)
         for (const r of [1, 2] as const) pickOwner.set(`${t}|${y}|${r}`, t);
+    // Real trades already moved picks before the sim: a pick another team owes
+    // to this one outright conveys here, so it joins the holder's tradeable
+    // inventory (and leaves the origin's). Swaps/conditionals are excluded.
+    for (const ap of ACQUIRED_PICKS) if (pickOwner.has(ap.id)) pickOwner.set(ap.id, ap.team);
     for (const m of moveList) {
       if (m.kind === "trade" && m.picks) {
         for (const p of m.picks) if (pickOwner.has(p.id)) pickOwner.set(p.id, p.to);
