@@ -119,8 +119,17 @@ export const TEAM_STRENGTH_2026: Record<string, TeamStrength> =
 /** Net-rating/wins calibration behind the projections (fit R²=0.97). */
 export const TEAM_CALIBRATION: { nrtgPerScore: number; winsPerNrtg: number } =
   (teamStrengthRaw as { calibration: { nrtgPerScore: number; winsPerNrtg: number } }).calibration;
-/** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage. */
+/** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage —
+ * data-driven (most-played spot from play-by-play minute shares) where
+ * available, else Basketball-Reference's assigned position. */
 export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
+/** Measured SECONDARY positions (spots a player logged ≥20% of his minutes at,
+ * from play-by-play shares), for the ~1-in-5 genuinely versatile players. */
+export const SECONDARY_POSITIONS_2026: Record<string, string[]> =
+  (positionsRaw as { secondaryById?: Record<string, string[]> }).secondaryById ?? {};
+/** Raw share of minutes at each position (PG/SG/SF/PF/C), where measured. */
+export const POSITION_SHARES_2026: Record<string, Record<string, number>> =
+  (positionsRaw as { sharesById?: Record<string, Record<string, number>> }).sharesById ?? {};
 /** Per-player bio + availability (Basketball-Reference 2025-26): real age (for
  * the aging curve), games played + started, minutes, minutes/game. 100% of the
  * impact-model players are covered. */
