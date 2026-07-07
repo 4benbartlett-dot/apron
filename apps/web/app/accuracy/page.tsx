@@ -55,7 +55,7 @@ const APPROXIMATE = [
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
-  "Player impact numbers come from a value-impact metric (a RAPM \u00d7 true-wins blend), scaled so the league\u2019s best reads 100, replacement level \u2248 0, and net-negative players go below zero \u2014 a talent gauge, not a contract measure; players outside the metric\u2019s sample are projected from BPM, rookies from draft slot",
+  "Player impact numbers come from a value-impact metric (a RAPM \u00d7 true-wins blend), scaled so the league\u2019s best reads 100, replacement level \u2248 0, and net-negative players go below zero \u2014 a talent gauge, not a contract measure; players outside the metric\u2019s sample are projected from BPM (minutes-regularized so small-sample outliers don\u2019t read as stars), rookies from draft slot",
   "Positions (PG/SG/SF/PF/C) are a single primary label from Basketball-Reference; a handful of players who didn\u2019t play in 2025-26 are hand-tagged",
   "Draft-pick values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto the same impact scale, risk- and time-discounted \u2014 the fairness meter sums impact per side",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
