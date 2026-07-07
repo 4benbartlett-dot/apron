@@ -26,6 +26,15 @@ describe("impact scale (from the HYBRID leaderboard)", () => {
     expect(Math.min(...all)).toBeGreaterThanOrEqual(-40);
   });
 
+  it("small-sample fallbacks are minutes-regularized (Ty Jerome < Curry)", () => {
+    // Ty Jerome: +7.7 BPM in 339 minutes — not a star. The BPM fallback must
+    // shrink toward replacement so he doesn't outrank actual stars.
+    const tj = named("Ty Jerome");
+    expect(impactScoreOf(tj)).toBeLessThan(impactScoreOf(named("Stephen Curry")));
+    expect(impactScoreOf(tj)).toBeLessThan(impactScoreOf(named("Jimmy Butler")));
+    expect(impactScoreOf(tj)).toBeLessThan(25);
+  });
+
   it("every rostered player gets a number, even without a CSV row", () => {
     for (const c of BASE_CONTRACTS) {
       if (c.deadMoney) continue;
