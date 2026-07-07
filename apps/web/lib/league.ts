@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, TEAM_STRENGTH_2026, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -663,7 +663,7 @@ const mpConf = (mp: number) => Math.min(1, mp / 1600);
  * — all mapped onto the model's own scale (av = 0-100, 50 = replacement;
  * pts = impact per 100 possessions, 0-centered). */
 function impactEntry(c: Contract): {
-  av: number; pts: number; unc: number; rapmp?: number; bpm?: number; tier: string; conf: string; src: string;
+  av: number; pts: number; unc: number; mp?: number; rapmp?: number; bpm?: number; tier: string; conf: string; src: string;
 } {
   const e = IMPACT_2026.byId[c.playerId];
   if (e) return e;
@@ -680,6 +680,7 @@ function impactEntry(c: Contract): {
     av: Math.max(0, Math.min(100, 50 + 12.5 * hyb)),
     pts: 3.35 * hyb,
     unc: 0.9 + 700 / ((r?.mp ?? 0) + 700),
+    mp: r?.mp,
     bpm: r?.bpm,
     tier,
     conf: "low",
@@ -717,6 +718,46 @@ export function impactComponents(c: Contract): ImpactComponents {
 /** Team strength (current roster, minutes-weighted), or undefined if unknown. */
 export function teamStrengthOf(team: string): TeamStrength | undefined {
   return TEAM_STRENGTH_2026[team];
+}
+
+export interface TeamProjection {
+  baseNrtg: number; baseWins: number;
+  projNrtg: number; projWins: number;
+  deltaNrtg: number; deltaWins: number;
+}
+
+/** Minutes-weighted roster impact-points ("teamScore"): Σ pts × min(MP,2400)/2400. */
+function teamScore(roster: Contract[]): number {
+  let s = 0;
+  for (const c of roster) {
+    if (currentSalary(c) <= 0 || c.deadMoney) continue;
+    const e = impactEntry(c);
+    s += e.pts * Math.min(e.mp ?? 0, 2400) / 2400;
+  }
+  return s;
+}
+
+/**
+ * Projected net rating + record for a team, anchored to the model's own
+ * current-roster baseline and moved only by the roster changes in this session
+ * (Δnrtg = 0.7704 · ΔteamScore; wins = 40.2 + 1.972 · projNrtg). With no moves
+ * it returns exactly the model's baseline — no drift. A current-roster
+ * projection, NOT a season forecast (no minutes/injury model yet).
+ */
+export function teamProjection(team: string, liveContracts: Contract[]): TeamProjection | undefined {
+  const base = TEAM_STRENGTH_2026[team];
+  if (!base) return undefined;
+  const dScore = teamScore(liveContracts.filter((c) => c.teamId === team)) - teamScore(BASE_CONTRACTS.filter((c) => c.teamId === team));
+  const dNrtg = TEAM_CALIBRATION.nrtgPerScore * dScore;
+  const dWins = TEAM_CALIBRATION.winsPerNrtg * dNrtg;
+  return {
+    baseNrtg: base.projNrtg,
+    baseWins: base.w,
+    projNrtg: Math.round((base.projNrtg + dNrtg) * 10) / 10,
+    projWins: Math.max(12, Math.min(73, Math.round(base.w + dWins))),
+    deltaNrtg: Math.round(dNrtg * 10) / 10,
+    deltaWins: Math.round(dWins),
+  };
 }
 
 /**

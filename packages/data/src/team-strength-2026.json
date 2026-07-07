@@ -1,6 +1,11 @@
 {
- "source": "apron-impact-model-hardened team_strength_2026 (current-roster, minutes-weighted HYBRID)",
+ "source": "apron-impact-model-hardened team_strength_2026",
  "asOf": "2026-07-07",
+ "calibration": {
+  "nrtgPerScore": 0.7704,
+  "winsPerNrtg": 1.972,
+  "note": "\u0394nrtg = 0.7704\u00b7\u0394(minutes-weighted roster impact-pts); wins = 40.2 + 1.972\u00b7projNrtg"
+ },
  "byTeam": {
   "OKC": {
    "av": 62.7,

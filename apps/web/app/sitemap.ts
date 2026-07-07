@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/accuracy", 0.7),
     page("/guide", 0.6),
     page("/league", 0.6, "daily"),
+    page("/standings", 0.6, "daily"),
     page("/transactions", 0.6, "daily"),
     page("/draft", 0.5),
     page("/deadlines", 0.5),
