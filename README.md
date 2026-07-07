@@ -58,7 +58,7 @@ pnpm + TypeScript monorepo:
 ```
 packages/cba-engine   Pure, dependency-free rules engine (validateTrade,
                       validateSigning, sign-and-trade, extensions, provisions)
-                      — 213 tests (94 engine, 119 web), every check returns a reason + citation
+                      — 216 tests (94 engine, 122 web), every check returns a reason + citation
 packages/data         League data: contracts, transactions, free-agent rights,
                       draft picks, player ratings, plus the refresh scripts
 apps/web              Next.js app — the offseason board, drawers, trade finder,

@@ -161,8 +161,11 @@
    "rationale": "One feed signing: Branden Carlson 1yr/$2,449,421 (y1 = 2,449,421 <= min top 3,876,529) -> minimum exception, consumes nothing; prior team OKC (OKC declined his QO). Caleb Love is a two-way (skipped). POR committed 2026-27 = $172.8M (over cap, so no room usage possible anyway). Ja Morant arrived by trade, not signing. No MLE/BAE use, no hard cap."
   },
   "SAC": {
-   "confidence": "medium",
-   "rationale": "Precious Achiuwa 2yr/$11.5M (y1 = 5,609,756): prior team SAC per contracts-2025-26 ($2,111,516) -> own re-sign, Bird family, consumes nothing per classification rule. Daeqwon Plowden 2yr/$5,113,822 (y1 = 2,494,547 <= min top) -> minimum exception (also own two-way RFA). Mogbo, Flagler two-ways skipped; Emanuel Sharp via 2nd-round exception. SAC committed = $211.6M, far over cap. Confidence medium only because Achiuwa spent a single year in SAC at $2.1M, so strict-CBA full Bird rights are questionable (a strict reading would put his y1 in TP-MLE range, 5,609,756 <= 6,064,000, implying a second-apron hard cap); the spec's own-re-sign rule controls here."
+   "confidence": "high",
+   "rationale": "CORRECTED (Jul 7): Precious Achiuwa 2yr/$11.5M (y1 5,609,756) is NOT a Bird re-sign \u2014 a $2,111,516 prior salary can't reach $5.6M via Non-Bird (120%), beat writers say it 'comes out of the mid-level exception' (nba.com/hoopsrumors), and the y1 exceeds the BAE cap ($5,477,000), so it's the NT-MLE. SAC waived DeRozan to open this room; using the NT-MLE hard-caps them at the first apron for the season.",
+   "consumedNtmle": 5609756,
+   "inWorldHardCap": "first_apron",
+   "hardCapSource": "Precious Achiuwa NT-MLE"
   },
   "SAS": {
    "consumedNtmle": 15044000,
