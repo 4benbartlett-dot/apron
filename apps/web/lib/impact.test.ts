@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS } from "@/lib/league";
+import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf } from "@/lib/league";
+import { IMPACT_2026, PLAYER_BIO_2026 } from "@apron/data";
 
 // Player value = "Apron Value" from the hardened impact model: box score
 // blended 50/50 with real stint-level RAPM, on a 0-100 scale (50 = replacement,
@@ -152,6 +153,32 @@ describe("team projections (net rating + wins, delta from moves)", () => {
       if (!p) continue;
       expect(p.projWins).toBeGreaterThanOrEqual(12);
       expect(p.projWins).toBeLessThanOrEqual(73);
+    }
+  });
+});
+
+describe("player bio (real ages + availability, Basketball-Reference)", () => {
+  it("every rated player has a real age", () => {
+    const ids = Object.keys(IMPACT_2026.byId);
+    const withAge = ids.filter((id) => PLAYER_BIO_2026[id]?.age != null);
+    expect(withAge.length).toBe(ids.length); // 100% coverage
+    expect(ids.length).toBeGreaterThan(400);
+  });
+
+  it("ages are within a real NBA range and advance one year for 2026-27", () => {
+    for (const [id, b] of Object.entries(PLAYER_BIO_2026)) {
+      if (b.age == null) continue;
+      expect(b.age).toBeGreaterThanOrEqual(18);
+      expect(b.age).toBeLessThanOrEqual(45);
+      expect(ageOf(id)).toBe(b.age + 1); // projection ages the player into next season
+    }
+  });
+
+  it("availability data is present and sane (games ≤ 82, started ≤ played)", () => {
+    for (const b of Object.values(PLAYER_BIO_2026)) {
+      if (b.g != null) expect(b.g).toBeLessThanOrEqual(82);
+      if (b.g != null && b.gs != null) expect(b.gs).toBeLessThanOrEqual(b.g);
+      if (b.mpg != null) expect(b.mpg).toBeLessThanOrEqual(48);
     }
   });
 });

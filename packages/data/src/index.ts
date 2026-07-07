@@ -8,6 +8,7 @@ import waivedRaw from "./waived-2025-26.json";
 import impactRaw from "./impact-2026.json";
 import teamStrengthRaw from "./team-strength-2026.json";
 import positionsRaw from "./positions-2026.json";
+import playerBioRaw from "./player-bio-2026.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
@@ -120,6 +121,12 @@ export const TEAM_CALIBRATION: { nrtgPerScore: number; winsPerNrtg: number } =
   (teamStrengthRaw as { calibration: { nrtgPerScore: number; winsPerNrtg: number } }).calibration;
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage. */
 export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
+/** Per-player bio + availability (Basketball-Reference 2025-26): real age (for
+ * the aging curve), games played + started, minutes, minutes/game. 100% of the
+ * impact-model players are covered. */
+export interface PlayerBio { age?: number; g?: number; gs?: number; mp?: number; mpg?: number; }
+export const PLAYER_BIO_2026: Record<string, PlayerBio> =
+  (playerBioRaw as { byId: Record<string, PlayerBio> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
 export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
   (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;
