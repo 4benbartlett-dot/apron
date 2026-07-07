@@ -16,6 +16,7 @@ import { ShareCardModal } from "@/components/ShareCardModal";
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
+import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 
 interface Sel {
   from: string;
@@ -451,6 +452,8 @@ function TeamPanel({
               style={{ background: isOut ? "color-mix(in srgb, var(--tier-second_apron) 18%, transparent)" : "var(--panel-2)" }}
             >
               <button onClick={() => onToggle(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-1.5 text-left">
+                <ImpactPill c={c} />
+                <PosBadge playerId={c.playerId} />
                 <span className="truncate">{c.playerName}</span>
                 {c.restriction && (
                   <span title={c.restriction} className="shrink-0 rounded px-1 text-[9px] font-bold" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 16%, transparent)" }}>
