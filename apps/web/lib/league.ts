@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -654,6 +654,38 @@ export function ratingOf(playerId: string): number | undefined {
   return RATINGS[playerId]?.rating;
 }
 
+/* --------------------------- Player impact & position -------------------- */
+
+const IMPACT_K = 100 / IMPACT_2026.maxHybrid; // Jokić (max HYBRID) → 100.
+
+/** Raw HYBRID impact: the CSV value, else the BPM→HYBRID fit for players with
+ * a 2025-26 sample but no CSV row, else a small draft-slot default for rookies. */
+function impactHybrid(c: Contract): number {
+  const direct = IMPACT_2026.byId[c.playerId];
+  if (direct != null) return direct;
+  const r = RATINGS[c.playerId];
+  if (r) return IMPACT_2026.bpmFallback.slope * r.bpm + IMPACT_2026.bpmFallback.intercept;
+  const salary = salaryForYear(c, YEAR);
+  return 0.12 + Math.min(0.55, (salary / 12_000_000) * 0.55);
+}
+
+/**
+ * PLAYER IMPACT (≈100 = the league's best, ~0 = replacement level, negative =
+ * a net-negative on-court player). Sourced from the HYBRID value-impact metric
+ * (a RAPM × true-wins blend), linearly scaled so the league's best reads 100.
+ * This is the number shown on every player chip, card, and finder result.
+ */
+export function impactScoreOf(c: Contract): number {
+  // Floor at -40 (the CSV's real worst): low-minute BPM fallbacks can produce
+  // absurd tails from tiny samples.
+  return Math.max(-40, Math.round(impactHybrid(c) * IMPACT_K));
+}
+
+/** Primary position (PG/SG/SF/PF/C), or undefined if we have no sample. */
+export function positionOf(playerId: string): string | undefined {
+  return POSITIONS_2026[playerId];
+}
+
 /**
  * TRADE VALUE (5–99): what a player is worth as an asset — his production
  * (wins from VORP/BPM, dollar-valued) against what his contract pays, with
@@ -708,9 +740,11 @@ export function assetScoreOf(c: Contract): number | undefined {
   return Math.round(Math.max(5, Math.min(99, score)));
 }
 
-/** Value units for the fairness meter: throw-ins (score ≤ 35) count ~nothing. */
+/** Talent units for the fairness meter and trade finder — a player's impact,
+ * floored at 0 so a net-negative player or throw-in contributes ~nothing to
+ * the "value given" tally (his salary is what the deal is really moving). */
 export function assetMeterValue(c: Contract): number {
-  return Math.max(0, (assetScoreOf(c) ?? 0) - 35);
+  return Math.max(0, impactScoreOf(c));
 }
 
 /** @deprecated superseded by assetScoreOf/assetMeterValue (kept for compat). */
@@ -748,10 +782,12 @@ export function pickValue(year: number, round: 1 | 2, origin?: string): number {
   // Lottery flattening: the worst team's EXPECTED slot is ~2.5, not 1.
   const now = 2.5 + (rank - 1) * (27.5 / 29);
   const slot = now * revert + 15.5 * (1 - revert);
+  // Impact-scale units: a top first ≈ a rotation starter's impact, risk- and
+  // time-discounted; late firsts and seconds taper to low single digits.
   const meter =
     round === 1
-      ? 50 * Math.exp(-0.075 * (slot - 1))
-      : 6.5 * Math.exp(-0.045 * (slot - 1));
+      ? 30 * Math.exp(-0.08 * (slot - 1))
+      : 4 * Math.exp(-0.05 * (slot - 1));
   return Math.round(meter * Math.pow(0.97, dist));
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {

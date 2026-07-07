@@ -7,11 +7,13 @@ import { pickShareLabel } from "@/lib/trade-share";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
+import { PosBadge } from "@/components/PlayerTags";
 
 export interface DocketLine {
   label: string;
   amount?: number;
   pick?: boolean;
+  playerId?: string;
 }
 
 export interface DocketTeam {
@@ -43,7 +45,7 @@ export function buildDocket(
       const side = (dir: "to" | "from"): DocketLine[] => [
         ...players
           .filter((p) => p[dir] === t.teamId)
-          .map((p) => ({ label: nameOf(p.playerId), amount: salaryOf(p.playerId) })),
+          .map((p) => ({ label: nameOf(p.playerId), amount: salaryOf(p.playerId), playerId: p.playerId })),
         ...Object.entries(picks)
           .filter(([, m]) => m[dir] === t.teamId)
           .map(([id]) => ({ label: pickShareLabel(id), pick: true })),
@@ -229,7 +231,10 @@ export function TradeDocket({
                         </div>
                       ) : (
                         <div key={l.label} className="flex items-baseline justify-between gap-2">
-                          <span className="truncate">{l.label}</span>
+                          <span className="flex min-w-0 items-baseline gap-1">
+                            {l.playerId && <PosBadge playerId={l.playerId} className="self-center" />}
+                            <span className="truncate">{l.label}</span>
+                          </span>
                           <span className="tabular shrink-0 text-[var(--muted)]">{fmtM(l.amount ?? 0)}</span>
                         </div>
                       ),

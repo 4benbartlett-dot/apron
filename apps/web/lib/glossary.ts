@@ -163,8 +163,8 @@ export const GLOSSARY = {
     cite: "NBA rule (Stepien); 2023 CBA · Art. VII",
   },
   trade_value: {
-    title: "Trade value (5–99)",
-    body: "Our estimate of what an asset is worth in a trade — not a player rating. It dollar-values production (wins produced vs. salary, adjusted for age, term, and role) and prices draft picks off the origin team's projected slot. Directional, calibrated to real 2026 deals; the fairness meter sums it per side.",
+    title: "Impact (100 scale)",
+    body: "Each player's on-court value impact from a RAPM × true-wins blend, scaled so the league's best player reads 100, replacement level ≈ 0, and net-negative players go below zero. It's a talent gauge, not a contract measure — salary matching and the aprons handle whether a deal is legal. The fairness meter sums impact per side; picks are priced off the origin team's projected slot on the same scale.",
     cite: "overtheapron.com/accuracy",
   },
 } as const;

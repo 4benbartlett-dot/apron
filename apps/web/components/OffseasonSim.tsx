@@ -15,7 +15,8 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetScoreOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, type FreeAgent } from "@/lib/league";
+import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
@@ -49,21 +50,6 @@ function mechColor(id: MechanismId | null): string {
   if (id === "minimum") return "var(--tier-over_cap)";
   if (id === null) return "var(--muted)";
   return "var(--tier-taxpayer)";
-}
-
-function valueColor(v: number): string {
-  return v >= 85 ? "var(--tier-below_cap)" : v >= 70 ? "var(--tier-over_cap)" : v >= 55 ? "var(--tier-taxpayer)" : "var(--muted)";
-}
-/** Trade-value pill (5-99): production vs. contract, not a player rating. */
-function ValuePill({ c }: { c?: Contract }) {
-  const v = c ? assetScoreOf(c) : undefined;
-  if (v == null) return null;
-  const col = valueColor(v);
-  return (
-    <Term k="trade_value" extra={`this player rates ${v}/99.`} className="tabular shrink-0 rounded px-1 text-[9px] font-bold" >
-      <span style={{ color: col, background: `color-mix(in srgb, ${col} 16%, transparent)` }} className="rounded px-1">{v}</span>
-    </Term>
-  );
 }
 
 const BIRD_LABEL: Record<string, string> = {
@@ -869,7 +855,8 @@ function TeamColumn({
               style={{ background: out ? "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" : undefined }}
             >
               <button onClick={() => onTogglePlayer(c.playerId, teamId)} className="flex min-w-0 flex-1 items-center gap-2 text-left hover:text-[var(--accent-ink)]" disabled={others.length === 0}>
-                <ValuePill c={c} />
+                <ImpactPill c={c} />
+                <PosBadge playerId={c.playerId} />
                 <span className="truncate">{c.playerName}</span>
                 {c.restriction && (
                   <Term k="no_trade" extra={`${c.playerName} ${c.restriction}.`} className="shrink-0">
@@ -912,6 +899,7 @@ function TeamColumn({
           <div className="max-h-[168px] space-y-px overflow-y-auto">
             {ownFAs.map((fa) => (
               <div key={fa.playerId} className="flex items-center justify-between gap-2 py-[3px] text-xs">
+                <PosBadge playerId={fa.playerId} />
                 <span className={`min-w-0 flex-1 truncate ${fa.renounced ? "text-[var(--muted)] line-through" : ""}`} title={`${fmtM(fa.lastSalary)} last salary`}>
                   {fa.playerName}
                 </span>
@@ -1707,7 +1695,8 @@ function TradeFinderDrawer({
         <div className="flex flex-1 flex-col overflow-y-auto">
           <div className="flex items-center justify-between border-b border-[var(--border)] p-3">
             <div className="flex items-center gap-2 text-sm">
-              <ValuePill c={target} />
+              <ImpactPill c={target} />
+              <PosBadge playerId={target.playerId} />
               <span className="font-semibold">{target.playerName}</span>
               <span className="tabular text-xs text-[var(--muted)]">{fmtM(currentSalary(target))} · {teamMeta(target.teamId).name}</span>
             </div>
@@ -1725,7 +1714,8 @@ function TradeFinderDrawer({
                   {pkg.players.map((p) => (
                     <div key={p.playerId} className="flex items-center justify-between gap-2 text-sm">
                       <span className="flex min-w-0 items-center gap-1.5">
-                        <ValuePill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
+                        <ImpactPill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
+                        <PosBadge playerId={p.playerId} />
                         <span className="truncate">{p.playerName}</span>
                       </span>
                       <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
@@ -1742,7 +1732,8 @@ function TradeFinderDrawer({
                       {pkg.sweeteners.map((p) => (
                         <div key={p.playerId} className="flex items-center justify-between gap-2 text-sm">
                           <span className="flex min-w-0 items-center gap-1.5">
-                            <ValuePill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
+                            <ImpactPill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
+                            <PosBadge playerId={p.playerId} />
                             <span className="truncate">{p.playerName}</span>
                           </span>
                           <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
@@ -1771,7 +1762,8 @@ function TradeFinderDrawer({
             {list.map((c) => (
               <button key={c.playerId} onClick={() => setTargetId(c.playerId)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-2 text-left text-sm hover:brightness-125">
                 <span className="flex min-w-0 items-center gap-2">
-                  <ValuePill c={c} />
+                  <ImpactPill c={c} />
+                  <PosBadge playerId={c.playerId} />
                   <span className="truncate">{c.playerName}</span>
                   <span className="text-[10px] text-[var(--muted)]">{c.teamId}</span>
                 </span>

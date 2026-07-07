@@ -5,6 +5,8 @@ import transactionsRaw from "./transactions.json";
 import manualMovesRaw from "./manual-moves.json";
 import retiredRaw from "./retired-2026.json";
 import waivedRaw from "./waived-2025-26.json";
+import impactRaw from "./impact-2026.json";
+import positionsRaw from "./positions-2026.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
@@ -76,6 +78,14 @@ export const DATA_AS_OF: string = (metaRaw as { rostersAsOf: string }).rostersAs
 
 /** Announced retirements effective end of 2025-26 (curated). */
 export const RETIRED_2026: string[] = (retiredRaw as { players: string[] }).players;
+/** Player impact (HYBRID metric) by playerId, plus the BPM→HYBRID fallback fit. */
+export const IMPACT_2026: {
+  maxHybrid: number;
+  bpmFallback: { slope: number; intercept: number };
+  byId: Record<string, number>;
+} = impactRaw as never;
+/** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage. */
+export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
 export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
   (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;

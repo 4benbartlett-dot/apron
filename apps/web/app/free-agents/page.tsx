@@ -10,6 +10,7 @@ import { C, TEAM_IDS, teamMeta, feedStateOf, consumedFor } from "@/lib/league";
 import { useLeague, dispatchMove } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { TierBadge } from "@/components/TierBadge";
+import { PosBadge } from "@/components/PlayerTags";
 import { Thermometer } from "@/components/Thermometer";
 import { TeamLogo } from "@/components/TeamLogo";
 
@@ -147,6 +148,7 @@ export default function FreeAgencyPage() {
               <div key={fa.playerId} className="grid grid-cols-[2rem_1fr_3.5rem_5.5rem_13rem] items-center gap-2 border-b border-[var(--border)]/40 px-4 py-2 text-sm hover:bg-[var(--panel-2)]">
                 <div className="tabular text-[var(--muted)]">{i + 1}</div>
                 <div className="flex items-center gap-2 truncate font-medium">
+                  <PosBadge playerId={fa.playerId} />
                   <span className="truncate">{fa.playerName}</span>
                   {isOwn && <span className="shrink-0 text-[10px] font-bold text-[var(--tier-below_cap)]">OWN</span>}
                 </div>

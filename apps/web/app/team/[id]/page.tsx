@@ -10,6 +10,8 @@ import { fmtM, fmtFull } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
 import { Thermometer } from "@/components/Thermometer";
+import { DepthChart } from "@/components/DepthChart";
+import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 
 export default function TeamWarRoom() {
   const params = useParams();
@@ -94,6 +96,11 @@ export default function TeamWarRoom() {
         </div>
       </div>
 
+      <div className="panel mb-4 p-4">
+        <div className="mb-2 text-sm font-semibold">Depth chart <span className="text-[var(--muted)]">· by position, deepest talent first</span></div>
+        <DepthChart roster={roster} />
+      </div>
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="panel p-4">
           <div className="mb-2 text-sm font-semibold">Roster <span className="text-[var(--muted)]">({roster.length})</span></div>
@@ -101,6 +108,8 @@ export default function TeamWarRoom() {
             {roster.map((c) => (
               <div key={c.playerId} className="flex items-center justify-between rounded-md bg-[var(--panel-2)] px-2.5 py-1.5 text-sm">
                 <span className="flex items-center gap-1.5 truncate">
+                  <ImpactPill c={c} />
+                  <PosBadge playerId={c.playerId} />
                   <span className="truncate">{c.playerName}</span>
                   {c.restriction && <span className="shrink-0 text-[9px] font-bold text-[var(--tier-second_apron)]">NO-TRADE</span>}
                 </span>

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 200 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 205 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 200 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 205 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -54,8 +54,9 @@ const APPROXIMATE = [
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
-  "Trade-value numbers (5\u201399) estimate production vs. contract \u2014 wins produced, dollar-valued, against salary, term, and age \u2014 calibrated to real 2026 deals; directional, not gospel",
-  "Draft-pick trade values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto a rookie-contract surplus curve \u2014 same units as player values",
+  "Player impact numbers come from a value-impact metric (a RAPM \u00d7 true-wins blend), scaled so the league\u2019s best reads 100, replacement level \u2248 0, and net-negative players go below zero \u2014 a talent gauge, not a contract measure; players outside the metric\u2019s sample are projected from BPM, rookies from draft slot",
+  "Positions (PG/SG/SF/PF/C) are a single primary label from Basketball-Reference; a handful of players who didn\u2019t play in 2025-26 are hand-tagged",
+  "Draft-pick values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto the same impact scale, risk- and time-discounted \u2014 the fairness meter sums impact per side",
   "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
   "TPE v1 approximations: one exception per team per trade, whole players only, minted amounts capped at the largest single outgoing salary; aggregated-TPE row H and choosing WHICH traded player generates the exception aren't modeled",
   "Rookie-scale hold detection uses an RFA-with-≤4-YOS heuristic for the 250/300% tier — the CBA keys it on the contract type, which the feed doesn't carry directly",
@@ -115,10 +116,10 @@ export default function AccuracyPage() {
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Exactly what the engine models, what's approximate, and what isn't modeled yet — rosters as of {DATA_AS_OF} —
-          verified by 200 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
+          verified by 205 unit tests against the CBA's own text, and by replaying real 2026 free-agency moves through the engine. No hand-waving.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 200 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 205 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
