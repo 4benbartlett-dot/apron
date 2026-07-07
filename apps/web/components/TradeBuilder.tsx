@@ -32,6 +32,8 @@ export default function TradeBuilder() {
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
   const [shareOpen, setShareOpen] = useState(false);
 
+  const setPickDest = (pickId: string, to: string) =>
+    setPickSel((s) => ({ ...s, [pickId]: { ...s[pickId]!, to } }));
   const togglePick = (pickId: string, from: string) =>
     setPickSel((s) => {
       const next = { ...s };
@@ -304,6 +306,7 @@ export default function TradeBuilder() {
             picks={lg.picksOf(id)}
             pickSel={pickSel}
             onTogglePick={togglePick}
+            onPickDest={setPickDest}
             sel={sel}
             onToggle={toggle}
             onDest={setDest}
@@ -393,6 +396,7 @@ function TeamPanel({
   picks,
   pickSel,
   onTogglePick,
+  onPickDest,
   sel,
   onToggle,
   onDest,
@@ -404,6 +408,7 @@ function TeamPanel({
   picks: { id: string; label: string }[];
   pickSel: Record<string, Sel>;
   onTogglePick: (id: string, from: string) => void;
+  onPickDest: (id: string, to: string) => void;
   sel: Record<string, Sel>;
   onToggle: (id: string, from: string) => void;
   onDest: (id: string, to: string) => void;
@@ -501,20 +506,31 @@ function TeamPanel({
             const mv = pickSel[p.id];
             const out = !!mv;
             return (
-              <button
-                key={p.id}
-                onClick={() => onTogglePick(p.id, teamId)}
-                className="rounded px-1.5 py-0.5 text-[10px] font-semibold"
-                style={{
-                  background: out
-                    ? "color-mix(in srgb, var(--tier-second_apron) 20%, transparent)"
-                    : "var(--panel-2)",
-                  color: out ? "var(--tier-second_apron)" : "var(--muted)",
-                }}
-              >
-                {p.label}
-                {out ? ` → ${mv.to}` : ""}
-              </button>
+              <span key={p.id} className="inline-flex items-center">
+                <button
+                  onClick={() => onTogglePick(p.id, teamId)}
+                  className="rounded px-1.5 py-0.5 text-[10px] font-semibold"
+                  style={{
+                    background: out
+                      ? "color-mix(in srgb, var(--tier-second_apron) 20%, transparent)"
+                      : "var(--panel-2)",
+                    color: out ? "var(--tier-second_apron)" : "var(--muted)",
+                  }}
+                >
+                  {p.label}
+                  {out && otherTeams.length <= 1 ? ` → ${mv.to}` : ""}
+                </button>
+                {out && otherTeams.length > 1 && (
+                  <select
+                    value={mv.to}
+                    onChange={(e) => onPickDest(p.id, e.target.value)}
+                    className="ml-0.5 rounded border border-[var(--tier-second_apron)] bg-[var(--panel)] py-0.5 text-[10px] font-semibold text-[var(--tier-second_apron)]"
+                    title="Send this pick to…"
+                  >
+                    {otherTeams.map((t) => <option key={t} value={t}>→ {t}</option>)}
+                  </select>
+                )}
+              </span>
             );
           })}
         </div>

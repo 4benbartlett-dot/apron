@@ -205,6 +205,8 @@ export default function OffseasonSim() {
     });
   const setDest = (pid: string, to: string) =>
     setSel((s) => ({ ...s, [pid]: { ...s[pid]!, to } }));
+  const setPickDest = (pid: string, to: string) =>
+    setPickSel((s) => ({ ...s, [pid]: { ...s[pid]!, to } }));
   const togglePick = (pid: string, from: string) =>
     setPickSel((s) => {
       const n = { ...s };
@@ -467,6 +469,7 @@ export default function OffseasonSim() {
             picks={lg.picksOf(id)}
             pickSel={pickSel}
             onTogglePick={togglePick}
+            onPickDest={setPickDest}
             onSign={(faId) => setSignFor({ team: id, faId })}
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
           />
@@ -680,6 +683,7 @@ function TeamColumn({
   picks,
   pickSel,
   onTogglePick,
+  onPickDest,
   onSign,
   onExtend,
 }: {
@@ -693,6 +697,7 @@ function TeamColumn({
   picks: { id: string; label: string; origin: string; year: number; round: 1 | 2 }[];
   pickSel: Record<string, Sel>;
   onTogglePick: (id: string, from: string) => void;
+  onPickDest: (id: string, to: string) => void;
   onSign: (faId?: string) => void;
   onExtend: (playerId: string, playerName: string) => void;
 }) {
@@ -966,17 +971,28 @@ function TeamColumn({
               const mv = pickSel[p.id];
               const out = !!mv;
               return (
-                <button
-                  key={p.id}
-                  onClick={() => onTogglePick(p.id, teamId)}
-                  title={`est. trade value ${pickValue(p.year, p.round, p.origin)} — origin ${teamMeta(p.origin).name}`}
-                  className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
-                  style={out
-                    ? { borderColor: "var(--tier-second_apron)", color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" }
-                    : { borderColor: "var(--border)", color: p.origin === teamId ? "var(--muted)" : "var(--accent-ink)", background: "var(--panel)" }}
-                >
-                  {p.label}{out ? ` → ${mv.to}` : ""}
-                </button>
+                <span key={p.id} className="inline-flex items-center">
+                  <button
+                    onClick={() => onTogglePick(p.id, teamId)}
+                    title={`est. trade value ${pickValue(p.year, p.round, p.origin)} — origin ${teamMeta(p.origin).name}`}
+                    className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
+                    style={out
+                      ? { borderColor: "var(--tier-second_apron)", color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 9%, transparent)" }
+                      : { borderColor: "var(--border)", color: p.origin === teamId ? "var(--muted)" : "var(--accent-ink)", background: "var(--panel)" }}
+                  >
+                    {p.label}{out && others.length <= 1 ? ` → ${mv.to}` : ""}
+                  </button>
+                  {out && others.length > 1 && (
+                    <select
+                      value={mv.to}
+                      onChange={(e) => onPickDest(p.id, e.target.value)}
+                      className="ml-0.5 rounded-[4px] border border-[var(--tier-second_apron)] bg-[var(--panel)] py-0.5 text-[10px] font-semibold text-[var(--tier-second_apron)]"
+                      title="Send this pick to…"
+                    >
+                      {[...others].sort(byNickname).map((t) => <option key={t} value={t}>→ {t}</option>)}
+                    </select>
+                  )}
+                </span>
               );
             })}
           </div>

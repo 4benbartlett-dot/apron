@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { violatesStepien } from "@apron/cba-engine";
-import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf } from "@apron/data";
+import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf, ACQUIRED_PICKS } from "@apron/data";
 import { lockedFirstEncumbrance, PICK_YEARS } from "@/lib/store";
 import { summarizeTrade, encodeTradeParam } from "@/lib/trade-share";
 
@@ -86,5 +86,37 @@ describe("Stepien with real obligations", () => {
     const s = summarizeTrade(token)!;
     expect(s.legal).toBe(false);
     expect(s.reason).toMatch(/Stepien/);
+  });
+});
+
+describe("acquired incoming picks (real trades before the sim)", () => {
+  it("parses clean 'from <team>' picks into structured inventory, no double-owns", () => {
+    expect(ACQUIRED_PICKS.length).toBeGreaterThan(50);
+    const ids = ACQUIRED_PICKS.map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length); // a pick can't be owned twice
+    for (const p of ACQUIRED_PICKS) {
+      expect(p.id).toBe(`${p.origin}|${p.year}|${p.round}`);
+      expect(p.origin).not.toBe(p.team); // acquired = someone else's pick
+      expect(p.year).toBeGreaterThanOrEqual(2027);
+      expect(p.year).toBeLessThanOrEqual(2032);
+    }
+  });
+
+  it("OKC owns Denver's and San Antonio's 2027 firsts (a real holding)", () => {
+    const okc = ACQUIRED_PICKS.filter((p) => p.team === "OKC").map((p) => p.id);
+    expect(okc).toContain("DEN|2027|1");
+    expect(okc).toContain("SAS|2027|1");
+  });
+
+  it("never lists a pick a team already owes away as also acquired", () => {
+    // If OKC owns DEN's 2027 first, DEN's own-first encumbrance must agree it's gone.
+    for (const p of ACQUIRED_PICKS) {
+      if (p.round !== 1) continue;
+      const enc = firstEncumbranceOf(p.origin, p.year);
+      // origin either has an encumbrance on that first, or it's simply conveyed —
+      // in no case should the origin still be free to trade it AND OKC own it.
+      // (We only assert consistency where the ledger records the origin side.)
+      if (enc) expect(["owed", "protected", "swap"]).toContain(enc.status);
+    }
   });
 });

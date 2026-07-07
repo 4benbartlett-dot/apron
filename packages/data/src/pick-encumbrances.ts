@@ -108,3 +108,56 @@ export const FIRST_ENCUMBRANCES: Record<string, Record<number, FirstEncumbrance>
 export function firstEncumbranceOf(team: string, year: number): FirstEncumbrance | undefined {
   return FIRST_ENCUMBRANCES[team]?.[year];
 }
+
+/* --------------------------- Acquired incoming picks --------------------- */
+
+const CITY_TO_ID: Record<string, string> = {
+  Atlanta: "ATL", Boston: "BOS", Brooklyn: "BKN", Charlotte: "CHA", Chicago: "CHI",
+  Cleveland: "CLE", Dallas: "DAL", Denver: "DEN", Detroit: "DET", "Golden State": "GSW",
+  Houston: "HOU", Indiana: "IND", "L.A. Clippers": "LAC", "L.A. Lakers": "LAL",
+  Memphis: "MEM", Miami: "MIA", Milwaukee: "MIL", Minnesota: "MIN", "New Orleans": "NOP",
+  "New York": "NYK", "Oklahoma City": "OKC", Orlando: "ORL", Philadelphia: "PHI",
+  Phoenix: "PHX", Portland: "POR", Sacramento: "SAC", "San Antonio": "SAS",
+  Toronto: "TOR", Utah: "UTA", Washington: "WAS",
+};
+
+export interface AcquiredPick {
+  /** The team that currently owns this pick (holder). */
+  team: string;
+  /** Ledger id `ORIGIN|YEAR|ROUND`. */
+  id: string;
+  origin: string;
+  year: number;
+  round: 1 | 2;
+}
+
+/**
+ * Picks a team already owns from REAL trades — another team's future pick that
+ * conveys to them outright. Only clean, unconditional acquisitions ("YEAR
+ * (first|second) round draft pick from <one team>") within the tradeable
+ * window are included; swaps, conditional/either-or picks, and protected picks
+ * are left out because there is no single pick to cleanly send on.
+ */
+export const ACQUIRED_PICKS: AcquiredPick[] = (() => {
+  const out: AcquiredPick[] = [];
+  const seen = new Set<string>();
+  const re = /^(\d{4})\s+(first|second)\s+round draft pick from ([A-Z][A-Za-z.\s'-]+?)(\s*\(|$)/;
+  for (const [team, td] of Object.entries(TEAMS_RAW)) {
+    for (const p of td.incoming) {
+      const h = p.headline;
+      if (/\bswap\b/i.test(h) || / or /.test(h) || /outgoing/i.test(h) || /protect/i.test(h)) continue;
+      const m = re.exec(h);
+      if (!m) continue;
+      const year = Number(m[1]);
+      if (year < 2027 || year > 2032) continue;
+      const round = m[2] === "first" ? 1 : 2;
+      const origin = CITY_TO_ID[m[3]!.trim()];
+      if (!origin || origin === team) continue;
+      const id = `${origin}|${year}|${round}`;
+      if (seen.has(id)) continue; // a pick can't be owned twice
+      seen.add(id);
+      out.push({ team, id, origin, year, round });
+    }
+  }
+  return out;
+})();
