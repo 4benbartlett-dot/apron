@@ -32,7 +32,7 @@ import { ShareCardModal } from "@/components/ShareCardModal";
 import { decodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
-import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
+import { TradeDocket, buildDocket, buildChecks, DocketWhy, MoveTriggers, tradeConsequences } from "@/components/TradeDocket";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
@@ -561,6 +561,10 @@ function TradeVerdict({
     () => (legal ? null : explainBlocked(verdict, extraViolations, C, lg.teamHolds)),
     [legal, verdict, extraViolations, lg],
   );
+  const triggers = useMemo(
+    () => (legal ? tradeConsequences(verdict.teams, tpeUse, lg.teamHolds) : []),
+    [legal, verdict, tpeUse, lg],
+  );
   const hasFix = !!explainer && (explainer.subject.length > 0 || explainer.fixes.length > 0);
   const valTeams = Object.entries(valueByTeam).filter(([, v]) => v.in > 0 || v.out > 0);
   const maxNet = Math.max(1, ...valTeams.map(([, v]) => Math.abs(v.in - v.out)));
@@ -618,6 +622,11 @@ function TradeVerdict({
           )}
         </div>
       </div>
+      {triggers.length > 0 && (
+        <div className="rule bg-[var(--panel-2)]/30 px-4 py-2.5">
+          <MoveTriggers items={triggers} />
+        </div>
+      )}
       {showFix && explainer && (
         <div className="fade-up rule bg-[var(--panel-2)]/40 px-4 py-3">
           {explainer.subject.map((line, i) => (
@@ -1375,6 +1384,28 @@ function SignEditor({
           Team after: <span className="tabular text-[var(--text)]">{fmtM(afterCharge)}</span> ·{" "}
           <Term k={afterTier} underline>{afterTier.replace("_", " ")}</Term>
         </div>
+        {v.legal && (() => {
+          const id = v.mechanism!.id;
+          const text =
+            v.hardCap === "first_apron"
+              ? `Heads up: signing with the ${v.mechanism!.label} hard-caps ${teamMeta(team).name} at the first apron (${fmtM(C.firstApron)}) for the rest of the season — you won't be able to cross it in any move.`
+              : v.hardCap === "second_apron"
+                ? `Heads up: using the Taxpayer MLE hard-caps ${teamMeta(team).name} at the second apron (${fmtM(C.secondApron)}) for the rest of the season.`
+                : id === "cap_room"
+                  ? `Heads up: spending cap room makes ${teamMeta(team).name} a room team — it forfeits the Non-Tax MLE and Bi-Annual Exception for the year (only the Room MLE remains).`
+                  : id === "room_mle" || id === "minimum"
+                    ? `No apron consequence — the ${v.mechanism!.label} is one of the few tools that triggers no hard cap.`
+                    : null;
+          return text ? (
+            <div
+              className="mt-2 rounded-md border px-2.5 py-1.5 text-[11.5px] leading-snug"
+              style={{ borderColor: `${v.hardCap ? "var(--tier-second_apron)" : "var(--border-strong)"}`, background: v.hardCap ? "color-mix(in srgb, var(--tier-second_apron) 8%, transparent)" : "var(--panel-2)" }}
+            >
+              {v.hardCap && <span className="mr-1 font-bold text-[var(--tier-second_apron)]">⚠</span>}
+              {text}
+            </div>
+          ) : null;
+        })()}
         {isDeemedMin && (
           <div className="mt-1 text-[var(--tier-below_cap)]">
             One-year vet minimum: he&rsquo;s paid {fmtM(salary)}, but with 3+ years of

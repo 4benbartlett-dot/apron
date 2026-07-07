@@ -15,7 +15,7 @@ import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray
 import { ShareCardModal } from "@/components/ShareCardModal";
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
-import { TradeDocket, buildDocket, buildChecks, DocketWhy } from "@/components/TradeDocket";
+import { TradeDocket, buildDocket, buildChecks, DocketWhy, MoveTriggers, tradeConsequences } from "@/components/TradeDocket";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 
 interface Sel {
@@ -172,6 +172,10 @@ export default function TradeBuilder() {
       }),
     [fullyLegal, verdict, docketTeams, trade, pickSel, extraViolations],
   );
+  const triggers = useMemo(
+    () => (fullyLegal ? tradeConsequences(verdict.teams, trade.tpeUse, lg.teamHolds) : []),
+    [fullyLegal, verdict, trade, lg],
+  );
   const docketFix = useMemo(
     () => (fullyLegal ? null : explainBlocked(verdict, extraViolations, C, lg.teamHolds).fixes[0] ?? null),
     [fullyLegal, verdict, extraViolations, lg],
@@ -257,6 +261,11 @@ export default function TradeBuilder() {
             <div className="mt-2">
               <TradeDocket teams={docketTeams} />
             </div>
+            {triggers.length > 0 && (
+              <div className="mt-2">
+                <MoveTriggers items={triggers} />
+              </div>
+            )}
             <div className="mt-2">
               <DocketWhy legal={fullyLegal} checks={docketChecks} fix={docketFix} />
             </div>
