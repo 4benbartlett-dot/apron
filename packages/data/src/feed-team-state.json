@@ -1,5 +1,5 @@
 {
- "asOf": "2026-07-05",
+ "asOf": "2026-07-07",
  "note": "Audited per-team offseason state derived from the reconciled feed \u2014 how each team's July actually happened, which the raw cap sheet can't show. Five audit agents replayed every feed signing against the exception system; rationale fields are the per-signing audit trail. Ambiguous forced-renounce sets follow a prefer-largest-holds rule and carry confidence: medium.",
  "teams": {
   "ATL": {
@@ -33,7 +33,7 @@
    "consumedNtmle": 15044000,
    "inWorldHardCap": "first_apron",
    "confidence": "high",
-   "rationale": "Mitchell Robinson (prior NYK) 3y/$47.3886M: y1 = 15,796,200\u00d73/3.15 = 15,044,000 \u2014 the FULL 2026-27 Non-Taxpayer MLE to the exact dollar; decisive NT-MLE usage \u2192 first-apron hard cap. Mike Conley (prior MIN) 1y/3,876,529 = vet-min scale top exactly \u2192 minimum exception, consumes nothing. Ron Harper Jr.: BOS declined his $2.58M option then re-signed 3y/$8.99M (y1 2,853,551) \u2014 own re-sign AND min-sized, consumes nothing. Amari Williams two-way (skip); Chris Cenac Jr. rookie scale; Neemias Queta extension. BOS committed ~$198.2M \u2014 over the cap but under the first apron, consistent with full NT-MLE use.",
+   "rationale": "Mitchell Robinson (prior NYK) 3y/$47.3886M: y1 = 15,796,200\u00d73/3.15 = 15,044,000 \u2014 the FULL 2026-27 Non-Taxpayer MLE to the exact dollar; decisive NT-MLE usage \u2192 first-apron hard cap. Mike Conley (prior MIN) 1y/3,876,529 = vet-min scale top exactly \u2192 minimum exception, consumes nothing. Ron Harper Jr.: BOS declined his $2.58M option then re-signed 3y/$8.99M (y1 2,853,551) \u2014 own re-sign AND min-sized, consumes nothing. Amari Williams two-way (skip); Chris Cenac Jr. rookie scale; Neemias Queta extension. BOS committed ~$198.2M \u2014 over the cap but under the first apron, consistent with full NT-MLE use. OFFICIAL (Jul 6): Ron Harper Jr. upgraded to 4y/$13,548,235 (y1 3,150,752) \u2014 fits Non-Bird 120%-of-minimum (4-YOS min 2,667,947 x 1.2 = 3,201,536), consumes no exception; booked via a curated sheet stub since he had no 2025-26 NBA contract row.",
    "hardCapSource": "Mitchell Robinson NT-MLE"
   },
   "CHA": {
@@ -143,10 +143,10 @@
    "rationale": "Nikola Vucevic 1yr y1 3,876,529 (outside signing, exactly min scale top \u2014 minimum exception, consumes nothing); Jevon Carter 1yr y1 3,506,659 (prior ORL \u2014 own re-sign, and sub-minimum-threshold anyway); Colin Castleton is a Two-Way (skipped). No exceptions used, no hard cap. Bird holds for Jett Howard and Jase Richardson unaffected."
   },
   "PHI": {
-   "consumedNtmle": 15044000,
+   "consumedNtmle": 15000000,
    "inWorldHardCap": "first_apron",
    "confidence": "high",
-   "rationale": "Dean Wade 4/39M y1 9,069,767 (prior CLE, outside deal; not Room-MLE-shaped \u2014 296k off) + Anfernee Simons 2/12.247M y1 5,974,233 (prior CHI, outside deal; exceeds BAE 5.477M) sum to exactly 15,044,000 = the full 2026-27 NT-MLE split across two signings, hard-capping PHI at the first apron. Ariel Hukporti 1yr y1 3,400,000 (prior NYK) fits the minimum exception (\u2264 3,916,529), consumes nothing. Rayan Rupert is a Two-Way per transactions; Caleb Love appears in signings.json as PHI but transactions show him agreeing to a Two-Way with POR \u2014 either way two-way/min-marker, skipped. Not a room team (NT-MLE use precludes it), so no forced renouncements of Lowry/Beauchamp/Watford/Martin holds.",
+   "rationale": "Dean Wade 4/39M y1 9,069,767 (prior CLE, outside deal; not Room-MLE-shaped \u2014 296k off) + Anfernee Simons 2/12.247M y1 5,974,233 (prior CHI, outside deal; exceeds BAE 5.477M) sum to exactly 15,044,000 = the full 2026-27 NT-MLE split across two signings, hard-capping PHI at the first apron. Ariel Hukporti 1yr y1 3,400,000 (prior NYK) fits the minimum exception (\u2264 3,916,529), consumes nothing. Rayan Rupert is a Two-Way per transactions; Caleb Love appears in signings.json as PHI but transactions show him agreeing to a Two-Way with POR \u2014 either way two-way/min-marker, skipped. Not a room team (NT-MLE use precludes it), so no forced renouncements of Lowry/Beauchamp/Watford/Martin holds. OFFICIAL (Jul 6 filings): Dean Wade 4y/$38.7M y1 9,000,000 + Anfernee Simons 2y/$12.3M y1 6,000,000 = exactly 15,000,000 of the 15,044,000 NT-MLE \u2014 $44,000 technically unused (below any signable salary). First-apron hard cap unchanged.",
    "hardCapSource": "Wade + Simons NT-MLE (split)"
   },
   "PHX": {

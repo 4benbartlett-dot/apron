@@ -55,7 +55,7 @@
       "years": 3,
       "total": 74000000,
       "aav": 24666667,
-      "status": "Agreed"
+      "status": "Official"
     },
     "quentin grimes": {
       "name": "Quentin Grimes",
@@ -109,8 +109,8 @@
       "name": "Dean Wade",
       "team": "PHI",
       "years": 4,
-      "total": 39000000,
-      "aav": 9750000,
+      "total": 38700000,
+      "aav": 9675000,
       "status": "Official"
     },
     "mark williams": {
@@ -127,7 +127,7 @@
       "years": 2,
       "total": 30840200,
       "aav": 15420100,
-      "status": "Agreed"
+      "status": "Official"
     },
     "quinten post": {
       "name": "Quinten Post",
@@ -207,7 +207,7 @@
       "years": 2,
       "total": 18000000,
       "aav": 9000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "ousmane dieng": {
       "name": "Ousmane Dieng",
@@ -239,7 +239,7 @@
       "years": 3,
       "total": 14580000,
       "aav": 4860000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "jock landale": {
       "name": "Jock Landale",
@@ -255,7 +255,15 @@
       "years": 2,
       "total": 13985100,
       "aav": 6992550,
-      "status": "Agreed"
+      "status": "Official"
+    },
+    "ron harper": {
+      "name": "Ron Harper Jr.",
+      "team": "BOS",
+      "years": 4,
+      "total": 13548235,
+      "aav": 3387059,
+      "status": "Official"
     },
     "marcus smart": {
       "name": "Marcus Smart",
@@ -285,8 +293,8 @@
       "name": "Anfernee Simons",
       "team": "PHI",
       "years": 2,
-      "total": 12247178,
-      "aav": 6123589,
+      "total": 12300000,
+      "aav": 6150000,
       "status": "Official"
     },
     "josh okogie": {
@@ -327,7 +335,7 @@
       "years": 4,
       "total": 10000000,
       "aav": 2500000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "jaylen clark": {
       "name": "Jaylen Clark",
@@ -344,14 +352,6 @@
       "total": 9000000,
       "aav": 4500000,
       "status": "Official"
-    },
-    "ron harper": {
-      "name": "Ron Harper Jr.",
-      "team": "BOS",
-      "years": 3,
-      "total": 8988684,
-      "aav": 2996228,
-      "status": "Agreed"
     },
     "harrison barnes": {
       "name": "Harrison Barnes",
@@ -431,7 +431,7 @@
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
-      "status": "Agreed"
+      "status": "Official"
     },
     "andre drummond": {
       "name": "Andre Drummond",
@@ -439,7 +439,7 @@
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
-      "status": "Agreed"
+      "status": "Official"
     },
     "nikola vucevic": {
       "name": "Nikola Vucevic",
@@ -544,6 +544,14 @@
       "total": 678882,
       "aav": 678882,
       "status": "Official"
+    },
+    "koby brea": {
+      "name": "Koby Brea",
+      "team": "PHX",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Agreed"
     },
     "jamir watkins": {
       "name": "Jamir Watkins",

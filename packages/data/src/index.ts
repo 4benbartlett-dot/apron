@@ -4,6 +4,9 @@ import rookiesRaw from "./rookies-2026.json";
 import transactionsRaw from "./transactions.json";
 import manualMovesRaw from "./manual-moves.json";
 import retiredRaw from "./retired-2026.json";
+import waivedRaw from "./waived-2025-26.json";
+import extraContractsRaw from "./extra-contracts.json";
+import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
 import upcomingRaw from "./upcoming-deadlines.json";
 import extEligibleRaw from "./extension-eligible.json";
@@ -73,6 +76,13 @@ export const DATA_AS_OF: string = (metaRaw as { rostersAsOf: string }).rostersAs
 
 /** Announced retirements effective end of 2025-26 (curated). */
 export const RETIRED_2026: string[] = (retiredRaw as { players: string[] }).players;
+/** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
+export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
+  (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;
+/** Waived DURING 2025-26 (before the transactions window) — no FA hold. */
+export const WAIVED_2025_26: string[] = (waivedRaw as { players: { name: string }[] }).players.map((p) => p.name);
+/** Curated free-agent feed corrections, keyed by normalized name. */
+export const FA_OVERRIDES: Record<string, { birdStatus?: string }> = (faOverridesRaw as { byName: Record<string, { birdStatus?: string }> }).byName;
 
 // Feed rows first (newest-first); manually curated breaking moves appended so a
 // later feed row for the same player supersedes the manual entry.

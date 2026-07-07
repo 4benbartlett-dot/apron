@@ -78,3 +78,18 @@ describe("trade kicker in salary matching", () => {
     expect(bbb.incomingSalary).toBe(23_000_000); // $20M × 1.15
   });
 });
+
+describe("cap holds: rookie-scale QVFA tier (Art. VII §4(d)(1)(ii))", () => {
+  it("off-rookie-scale holds jump to 250%/300%; ordinary Bird stays 150%/190%", async () => {
+    const { capHold } = await import("../src/holds");
+    const { SEASON_2026_27: K } = await import("../src/constants/2026-27");
+    // Below the estimated average salary: 300% vs the ordinary 190%.
+    expect(capHold(6_000_000, K, "bird", true)).toBe(18_000_000);
+    expect(capHold(6_000_000, K, "bird")).toBe(11_400_000);
+    // At/above the estimated average: 250% vs 150% (capped at the 10+ max).
+    expect(capHold(14_000_000, K, "bird", true)).toBe(Math.min(K.maxSalary["10+"], 35_000_000));
+    expect(capHold(14_000_000, K, "bird")).toBe(21_000_000);
+    // Non-Bird/Early-Bird multiples are unaffected by the rookie-scale flag.
+    expect(capHold(6_000_000, K, "non_bird", true)).toBe(7_200_000);
+  });
+});

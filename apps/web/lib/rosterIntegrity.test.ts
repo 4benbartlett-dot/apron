@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, currentSalary } from "@/lib/league";
+import { BASE_CONTRACTS, currentSalary, deadMoneyOf, freeAgentsOf, normName, C } from "@/lib/league";
 
 // Launch-week community reports, permanent. @tomer_langer: Claxton still on
 // the Nets page after the Randle three-teamer (the trade prose says "Nicolas",
@@ -48,14 +48,76 @@ describe("Jul 6 moves (same-day ingest)", () => {
   });
 });
 
+describe("phantom holds (@Ianberlin23's Saric report — the mid-season-waive class)", () => {
+  it("players waived during 2025-26 generate no free-agent hold", () => {
+    const pool = new Set(freeAgentsOf(BASE_CONTRACTS).map((f) => f.playerName));
+    // DET absorbed Saric into the Schroder TPE Feb 3, waived him Feb 9 —
+    // he signed in Turkey. The feed window opens Jun 8, so without the
+    // curated waived list he'd sit on DET's books as a $10.3M hold.
+    for (const name of ["Dario Saric", "Cam Thomas", "Kobe Bufkin", "Chris Boucher", "Eric Gordon", "Cole Anthony"]) {
+      expect(pool.has(name), `${name} should NOT be in the FA pool`).toBe(false);
+    }
+  });
+
+  it("Kuminga's ATL hold is Non-Bird (feed override), not full Bird", () => {
+    const fa = freeAgentsOf(BASE_CONTRACTS).find((f) => f.playerName === "Jonathan Kuminga");
+    expect(fa?.birdStatus).toBe("non_bird");
+    expect(fa!.hold).toBe(Math.round(fa!.lastSalary * 1.2));
+  });
+
+  it("rookie-scale RFAs get the Art. VII §4(d)(1)(ii) 300% hold (Duren class)", () => {
+    const duren = freeAgentsOf(BASE_CONTRACTS).find((f) => f.playerName === "Jalen Duren");
+    if (duren) {
+      // below the estimated average salary → 300%
+      expect(duren.hold).toBe(Math.round(Math.min(C.maxSalary["10+"], duren.lastSalary * 3)));
+    }
+  });
+});
+
+describe("waive charges match real guarantees", () => {
+  it("DeRozan's SAC dead money is the $10M guarantee, not the $25.74M listed salary", () => {
+    const rows = BASE_CONTRACTS.filter((c) => c.playerName === "DeMar DeRozan" && c.deadMoney);
+    expect(rows).toHaveLength(1);
+    const y = rows[0]!.years.find((yy) => yy.leagueYear === "2026-27");
+    expect(y?.salary).toBe(10_000_000);
+  });
+
+  it("Isaac's stated $8M ORL dead cap survives his re-signing (ACTIVE_LATER class)", () => {
+    const dead = BASE_CONTRACTS.filter((c) => c.playerName === "Jonathan Isaac" && c.deadMoney);
+    expect(dead).toHaveLength(1);
+    expect(dead[0]!.teamId).toBe("ORL");
+    expect(dead[0]!.years[0]?.salary).toBe(8_000_000);
+    // ...while his NEW minimum deal books on the active row.
+    const active = BASE_CONTRACTS.filter((c) => c.playerName === "Jonathan Isaac" && !c.deadMoney);
+    expect(active).toHaveLength(1);
+    expect(currentSalary(active[0]!)).toBeGreaterThan(0);
+  });
+});
+
+describe("officially-filed deals (Jul 6) book once, with filed terms", () => {
+  it("Ron Harper Jr.'s 4y/$13.5M books on BOS via the curated stub", () => {
+    const rows = BASE_CONTRACTS.filter((c) => c.playerName === "Ron Harper Jr." && !c.deadMoney);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]!.teamId).toBe("BOS");
+    const y1 = currentSalary(rows[0]!);
+    expect(y1).toBeGreaterThan(3_000_000);
+    expect(y1).toBeLessThan(3_300_000);
+  });
+});
+
 describe("roster invariants (league-wide)", () => {
-  it("no active player appears on two teams or twice anywhere", () => {
-    const seen = new Map<string, string>();
+  it("no active player appears on two teams or twice anywhere — by id AND name", () => {
+    const seenId = new Map<string, string>();
+    const seenName = new Map<string, string>();
     for (const c of BASE_CONTRACTS) {
       if (c.deadMoney || currentSalary(c) === 0) continue;
-      const prev = seen.get(c.playerId);
-      expect(prev, `${c.playerName} on ${prev} AND ${c.teamId}`).toBeUndefined();
-      seen.set(c.playerId, c.teamId);
+      expect(seenId.get(c.playerId), `${c.playerName} on ${seenId.get(c.playerId)} AND ${c.teamId}`).toBeUndefined();
+      seenId.set(c.playerId, c.teamId);
+      // Name-level too: the rookie dual-row failure mode is same player,
+      // two ids — the id check alone would sail past it.
+      const k = normName(c.playerName);
+      expect(seenName.get(k), `${c.playerName} duplicated: ${seenName.get(k)} AND ${c.teamId} (${c.playerId})`).toBeUndefined();
+      seenName.set(k, c.teamId);
     }
   });
 });
