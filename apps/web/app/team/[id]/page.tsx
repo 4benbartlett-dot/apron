@@ -69,8 +69,8 @@ export default function TeamWarRoom() {
           </div>
         </div>
         <div className="ml-auto flex gap-2">
-          <Link href={`/trade?a=${id}`} className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">Trade →</Link>
-          <Link href="/free-agents" className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">Sign FAs →</Link>
+          <Link href={`/?team=${id}`} className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">Trade →</Link>
+          <Link href={`/?sign=${id}`} className="rounded-md border border-[var(--border)] px-3 py-1.5 text-sm font-semibold hover:bg-[var(--panel-2)]">Sign FAs →</Link>
         </div>
       </div>
 

@@ -121,13 +121,24 @@ export default function OffseasonSim() {
           return;
         }
       }
+      // Deep links from team pages / SEO landing pages: ?team=<ID> opens the
+      // board focused on that team, ?sign=<ID> also pops its signing drawer.
+      // The team is prepended to (not swapped out for) any restored board.
+      const focus = (params.get("sign") || params.get("team") || "").toUpperCase();
+      const wantSign = !!params.get("sign");
       const param = params.get("board");
       const raw = param
         ? param.split(",")
         : JSON.parse(localStorage.getItem("apron_board_v1") || "null");
-      if (Array.isArray(raw)) {
-        const valid = raw.filter((t2: string) => TEAM_IDS.includes(t2)).slice(0, 8);
-        if (valid.length) setBoard(valid);
+      let start = Array.isArray(raw) ? raw.filter((t2: string) => TEAM_IDS.includes(t2)) : [];
+      if (focus && TEAM_IDS.includes(focus)) start = [focus, ...start.filter((t: string) => t !== focus)];
+      start = start.slice(0, 8);
+      if (start.length) setBoard(start);
+      if (wantSign && TEAM_IDS.includes(focus)) setSignFor({ team: focus });
+      if (focus && TEAM_IDS.includes(focus)) {
+        track(wantSign ? "deeplink_sign" : "deeplink_trade");
+        // Tidy the address bar so a refresh doesn't re-trigger the deep link.
+        window.history.replaceState(null, "", window.location.pathname);
       }
     } catch {
       /* ignore */
@@ -769,10 +780,19 @@ function TeamColumn({
             </div>
           </div>
         </div>
-        {/* Tier badge = APRON status: signed salary only, holds excluded. */}
-        <Term k={classifyTier(post, C)}>
-          <TierBadge tier={classifyTier(post, C)} />
-        </Term>
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          {/* Tier badge = APRON status: signed salary only, holds excluded. */}
+          <Term k={classifyTier(post, C)}>
+            <TierBadge tier={classifyTier(post, C)} />
+          </Term>
+          <Link
+            href={`/team/${teamId}`}
+            className="whitespace-nowrap rounded border border-[var(--border)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--muted)] hover:bg-[var(--panel-2)] hover:text-[var(--text)]"
+            title={`Open the ${meta.name} team page`}
+          >
+            Team view →
+          </Link>
+        </div>
       </div>
 
       <div className="px-4 pt-3">

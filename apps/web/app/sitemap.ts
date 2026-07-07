@@ -12,8 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     page("/", 1, "daily"),
-    page("/trade", 0.9, "daily"),
-    page("/free-agents", 0.8, "daily"),
     page("/glossary", 0.8),
     page("/terms", 0.8),
     page("/teams", 0.8, "daily"),
