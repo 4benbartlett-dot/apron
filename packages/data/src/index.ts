@@ -370,6 +370,16 @@ export const DRAFT_PICKS = (
   draftPicksRaw as { teams: Record<string, TeamPicks> }
 ).teams;
 
+export {
+  PICK_RIGHTS,
+  swapRightsOf,
+  ownFirstSwapsOf,
+  type TeamPickRights,
+  type OwnFirstObligation,
+  type PickHolding,
+  type Favorable,
+} from "./pick-rights";
+
 /**
  * Real NBA contract data, scraped from Basketball-Reference per-team contract
  * pages. Each contract carries multi-year base salaries (2025-26 … 2030-31), so

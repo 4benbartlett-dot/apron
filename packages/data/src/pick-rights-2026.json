@@ -1,0 +1,2785 @@
+{
+  "source": "Structured draft-pick rights parsed from the RealGM future-pick ledger (per-team agent pass, cross-verified) \u2014 accurate real-world owes, protections, and conditional swaps beyond the clean-outright set in pick-encumbrances. ownFirstObligations = encumbrances on a team's own future firsts (owed/protected/swap); holdings = extra assets it receives or can swap for.",
+  "byTeam": {
+    "ATL": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "owed",
+          "to": "SAS",
+          "note": "Own 2027 first-round pick traded outright to San Antonio",
+          "source": "Atlanta-San Antonio, 6/30/2022"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "NOP",
+          "counterparties": [
+            "NOP",
+            "MIL"
+          ],
+          "favorable": "less",
+          "protection": "1-4",
+          "note": "Less favorable of New Orleans' and Milwaukee's 2027 firsts, protected 1-4; if it lands 1-4 it does not convey and New Orleans keeps both picks",
+          "source": "Denver-Milwaukee-New Orleans-Oklahoma City, 11/23/2020; Atlanta-New Orleans, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "UTA",
+            "CLE"
+          ],
+          "favorable": "more",
+          "note": "Right to swap own 2028 first for a Utah/Cleveland first; Atlanta gets the more favorable of its own pick and the less favorable of the Utah and Cleveland picks",
+          "source": "Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CLE",
+          "counterparties": [
+            "CLE"
+          ],
+          "note": "Cleveland's 2029 second-round pick to Atlanta",
+          "source": "Atlanta-Cleveland, 2/6/2025"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "NYK",
+          "counterparties": [
+            "NYK"
+          ],
+          "note": "New York's 2030 second-round pick to Atlanta (via Portland)",
+          "source": "New York-Portland, 6/27/2024; Atlanta-Portland, 2/1/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "HOU",
+          "counterparties": [
+            "HOU"
+          ],
+          "favorable": "more",
+          "protection": "56-60",
+          "note": "Right to swap own 2031 second for Houston's 2031 second, protected 56-60; extinguished if Houston's pick lands 56-60",
+          "source": "Atlanta-Brooklyn-Golden State-Houston-L.A. Lakers-Minnesota-Phoenix, 7/6/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "favorable": "more",
+          "note": "Right to swap own 2032 second for the Lakers' 2032 second; Atlanta gets the more favorable, Oklahoma City gets the less favorable",
+          "source": "Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "SAC",
+          "counterparties": [
+            "SAC"
+          ],
+          "note": "Sacramento's 2033 second-round pick to Atlanta",
+          "source": "Atlanta-Sacramento, 6/30/2026"
+        }
+      ]
+    },
+    "BKN": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "swap",
+          "to": "HOU",
+          "favorable": "less",
+          "note": "Houston holds the right to swap its 2027 first for Brooklyn's 2027 first; BKN keeps a first but could be reduced to the less favorable of the two",
+          "source": "Brooklyn-Cleveland-Houston-Indiana, 1/16/2021"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "outright",
+          "origin": "NYK",
+          "counterparties": [
+            "NYK"
+          ],
+          "note": "New York's 2027 first round pick, outright",
+          "source": "Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL",
+            "MEM"
+          ],
+          "note": "Lakers' 2027 2nd to BKN only if the Lakers convey a 2027 first to Memphis; otherwise the obligation is extinguished and Memphis keeps this 2nd",
+          "source": "Brooklyn-L.A. Lakers, 12/29/2024"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "PHI",
+          "counterparties": [
+            "PHI"
+          ],
+          "protection": "1-8",
+          "note": "Philadelphia's 2028 first protected 1-8; if it lands 1-8 (not conveyed) BKN instead gets PHI's 2028 2nd; BKN may pass this first onward to Phoenix (then possibly Washington)",
+          "source": "Brooklyn-Philadelphia, 2/10/2022"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "PHI",
+          "counterparties": [
+            "PHI",
+            "PHX",
+            "NYK"
+          ],
+          "favorable": "most",
+          "protection": "1-8",
+          "note": "Four-team 2028 pool (PHI if conveyed, BKN own, PHX, NYK firsts): BKN receives the most favorable, and in most scenarios the two most favorable, of the pool. Refines the same PHI 2028 first as the protected-1-8 entry above; do not double-count BKN's 2028 firsts",
+          "source": "Brooklyn-Philadelphia, 2/10/2022; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Indiana-Phoenix-Washington, 6/23/2023; Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "ATL",
+          "counterparties": [
+            "ATL"
+          ],
+          "note": "Atlanta's 2028 2nd round pick (via Golden State), outright",
+          "source": "Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Golden State, 12/15/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MEM",
+          "counterparties": [
+            "MEM"
+          ],
+          "note": "Memphis' 2028 2nd round pick (via Phoenix), outright",
+          "source": "Memphis-Phoenix, 7/11/2023; Brooklyn-Memphis-Phoenix, 2/8/2024"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "outright",
+          "origin": "HOU",
+          "counterparties": [
+            "HOU",
+            "DAL",
+            "PHX"
+          ],
+          "favorable": "least",
+          "note": "BKN receives the least favorable of the HOU/DAL/PHX 2029 firsts (Houston takes the two most favorable); actual origin team varies by standings",
+          "source": "Brooklyn-Dallas, 2/6/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "outright",
+          "origin": "NYK",
+          "counterparties": [
+            "NYK"
+          ],
+          "note": "New York's 2029 first round pick, outright",
+          "source": "Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DAL",
+          "counterparties": [
+            "DAL"
+          ],
+          "note": "Dallas' 2029 2nd round pick, outright",
+          "source": "Brooklyn-Dallas, 2/6/2023"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "GSW",
+          "counterparties": [
+            "GSW"
+          ],
+          "note": "Golden State's 2029 2nd round pick, outright",
+          "source": "Brooklyn-Golden State, 12/15/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MEM",
+          "counterparties": [
+            "MEM"
+          ],
+          "note": "Memphis' 2029 2nd round pick (via Phoenix), outright",
+          "source": "Memphis-Phoenix, 7/11/2023; Brooklyn-Memphis-Phoenix, 2/8/2024"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "BOS",
+          "counterparties": [
+            "BOS"
+          ],
+          "note": "Boston's 2030 2nd round pick (via Houston), outright",
+          "source": "Boston-Houston, 2/6/2025; Atlanta-Brooklyn-Golden State-Houston-L.A. Lakers-Minnesota-Phoenix, 7/6/2025"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DAL",
+          "counterparties": [
+            "DAL"
+          ],
+          "note": "Dallas' 2030 2nd round pick (via Boston to Memphis), outright",
+          "source": "Boston-Dallas-San Antonio, 7/12/2023; Boston-Memphis, 2/7/2024; Brooklyn-Memphis, 7/19/2024"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "note": "Lakers' 2030 2nd round pick, outright",
+          "source": "Brooklyn-L.A. Lakers, 12/29/2024"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "NYK",
+          "counterparties": [
+            "NYK"
+          ],
+          "note": "New York's 2031 first round pick, outright",
+          "source": "Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "note": "Lakers' 2031 2nd round pick, outright",
+          "source": "Brooklyn-L.A. Lakers, 12/29/2024"
+        },
+        {
+          "year": 2032,
+          "round": 1,
+          "kind": "outright",
+          "origin": "DEN",
+          "counterparties": [
+            "DEN"
+          ],
+          "note": "Denver's 2032 first round pick, outright",
+          "source": "Brooklyn-Denver, 7/8/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DEN",
+          "counterparties": [
+            "DEN"
+          ],
+          "note": "Denver's 2032 2nd round pick, outright",
+          "source": "Brooklyn-Denver, 2/5/2026"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIA",
+          "counterparties": [
+            "MIA"
+          ],
+          "note": "Miami's 2032 2nd round pick, outright",
+          "source": "Brooklyn-Miami, 8/15/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "TOR",
+          "counterparties": [
+            "TOR"
+          ],
+          "note": "Toronto's 2032 2nd round pick, outright",
+          "source": "Brooklyn-L.A. Clippers-Toronto, 2/5/2026"
+        }
+      ]
+    },
+    "BOS": {
+      "ownFirstObligations": [
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "SAS",
+          "favorable": "less",
+          "protection": "1",
+          "note": "San Antonio holds the right to swap its 2028 first for Boston's 2028 first (protected #1 overall); if Boston's pick is #1 it is not conveyable and Boston instead sends its 2028 2nd (protected 46-60) to SAS. Boston keeps a first, possibly the worse one.",
+          "source": "Boston-San Antonio, 2/10/2022"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "POR",
+          "note": "Boston's 2029 first goes into a 3-team pool (POR own, BOS, MIL): Portland takes the most and least favorable, Washington the second most favorable. Boston's own first ends up with POR or WAS; Boston keeps no first that year.",
+          "source": "Boston-Portland, 10/1/2023"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "PHI",
+          "protection": "1-8",
+          "note": "Boston receives PHI's 2028 first OR instead a swap right over PHI's 2028 first; the PHI pick conveys within selections 1-8, and PHI holds the L.A. Clippers' 2028 first.",
+          "source": "Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "GSW",
+            "MIL",
+            "OKC"
+          ],
+          "favorable": "most",
+          "note": "Most favorable of GSW/MIL/OKC 2028 2nd round picks (PHI receives the two least favorable); Boston has no pick in this pool.",
+          "source": "Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "CHA",
+          "protection": "31-55",
+          "note": "Charlotte's 2030 2nd, protected 31-55 (conveys only if it lands 56-60; otherwise Charlotte's obligation is extinguished).",
+          "source": "Boston-Charlotte, 2/5/2026"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHX",
+            "POR",
+            "WAS"
+          ],
+          "favorable": "most",
+          "note": "Most favorable of PHX/POR/WAS 2030 2nd round picks (WAS/PHI take the lesser ones); Boston has no pick in this pool.",
+          "source": "Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "PHI",
+          "note": "Philadelphia's 2031 first, outright.",
+          "source": "Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "HOU",
+          "protection": "31-55",
+          "note": "Houston's 2031 2nd, protected 31-55 (conveys only if it lands 56-60; otherwise Houston's obligation is extinguished).",
+          "source": "Boston-Houston, 2/6/2025"
+        }
+      ]
+    },
+    "CHA": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "outright",
+          "origin": "DAL",
+          "protection": "1-2",
+          "note": "DAL 2027 first, protected 1-2; if it lands top-2 and is not conveyed, CHA instead receives MIA's 2028 second",
+          "source": "Charlotte-Dallas, 2/8/2024"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "outright",
+          "origin": "MIA",
+          "protection": "1-14",
+          "note": "MIA first, protected 1-14 in 2027 and unprotected in 2028 (rolls to 2028 if not conveyed in 2027)",
+          "source": "Charlotte-Miami, 1/23/2024"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MEM",
+          "note": "MEM 2027 second (via LAC to HOU)",
+          "source": "Charlotte-Houston, pending"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "NOP",
+            "POR"
+          ],
+          "favorable": "more",
+          "note": "more favorable of NOP and POR 2027 seconds (CHA's own pick not in pool; POR keeps the less favorable)",
+          "source": "Charlotte-Philadelphia-Portland-New York, 2/9/2023"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "MIN"
+          ],
+          "favorable": "more",
+          "note": "CHA holds the right to swap its own 2028 first for MIN's 2028 first (ends with the more favorable)",
+          "source": "Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "HOU",
+          "note": "HOU 2028 second",
+          "source": "Charlotte-Houston, pending"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "LAC"
+          ],
+          "favorable": "more",
+          "note": "more favorable of CHA's own and LAC 2028 seconds (CHA's pick is in this pool; less favorable goes to DET, who may pass it to UTA)",
+          "source": "Dallas-Detroit, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "ORL",
+          "note": "ORL 2028 second",
+          "source": "Charlotte-Orlando, 2/4/2026"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "conditional",
+          "counterparties": [
+            "UTA",
+            "CLE",
+            "MIN"
+          ],
+          "favorable": "least",
+          "note": "CHA receives the least/less favorable of the UTA/CLE/MIN 2029 firsts (UTA takes the two most; MIN's pick protected 1-5 - if MIN lands 1-5 it drops from this pool and MIN sends a 2nd to UTA instead). Overlaps with the 2029 MIN swap-right entry below",
+          "source": "Charlotte-Phoenix, 6/30/2025"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "MIN"
+          ],
+          "favorable": "more",
+          "protection": "6-30",
+          "note": "CHA may swap the least favorable of its own/UTA/CLE 2029 firsts for MIN's 2029 first (MIN protected 6-30; if MIN lands 6-30 the swap right and MIN's obligation are extinguished). Overlaps with the 2029 least-favorable entry above",
+          "source": "Charlotte-Phoenix, pending"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "DEN",
+          "note": "DEN 2029 second only if DEN has conveyed its first potential first to OKC by 2029; otherwise the obligation is extinguished and OKC receives it",
+          "source": "Charlotte-Dallas-Denver-Golden State-Minnesota-Philadelphia, 7/6/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "ATL",
+            "MIA"
+          ],
+          "favorable": "more",
+          "note": "more favorable of ATL and MIA 2029 seconds (CHA's own pick not in pool; less favorable goes to OKC)",
+          "source": "Charlotte-Oklahoma City, 2/4/2026"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "MIN",
+          "note": "MIN 2029 second only if MIN conveys a 2029 first to UTA; otherwise the obligation is extinguished and UTA receives it",
+          "source": "Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "MIN",
+          "note": "CHA may receive, via a complex swap right, whatever 2030 first MIN ends up with out of the SAS/DAL/MIN pool (MIN protected selection 1). Conservative read of a tangled multi-team chain; CHA still ends 2030 with a first, so no own-first obligation",
+          "source": "Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "LAC",
+            "UTA"
+          ],
+          "favorable": "more",
+          "note": "more favorable of LAC and UTA 2030 seconds (CHA's own pick not in pool; UTA keeps the less favorable)",
+          "source": "Charlotte-Utah, 6/29/2025"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIL",
+          "note": "MIL 2031 second",
+          "source": "Charlotte-Milwaukee, 7/6/2025"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "PHX",
+          "note": "PHX 2031 second",
+          "source": "Charlotte-Phoenix, 1/15/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIL",
+          "note": "MIL 2032 second",
+          "source": "Charlotte-Milwaukee, 7/6/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIN",
+          "note": "MIN 2032 second",
+          "source": "Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2033,
+          "round": 1,
+          "kind": "outright",
+          "origin": "MIN",
+          "note": "MIN 2033 first",
+          "source": "Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2033,
+          "round": 1,
+          "kind": "outright",
+          "origin": "PHX",
+          "note": "PHX 2033 first",
+          "source": "Charlotte-Phoenix, pending"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "HOU",
+          "note": "HOU 2033 second",
+          "source": "Charlotte-Houston, pending"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIN",
+          "note": "MIN 2033 second",
+          "source": "Charlotte-Minnesota, pending"
+        }
+      ]
+    },
+    "CHI": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CLE",
+          "counterparties": [],
+          "note": "Cleveland's 2027 2nd round pick, outright (via ATL/MIN)",
+          "source": "Chicago-Minnesota, 2/5/2026"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "IND",
+            "PHX"
+          ],
+          "favorable": "most",
+          "note": "CHI receives the most favorable of its own, Indiana's and Phoenix's 2028 2nds (CHI's own pick is in the pool)",
+          "source": "Chicago-Indiana, 6/24/2026"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "DET",
+            "MIL",
+            "NYK"
+          ],
+          "favorable": "least",
+          "note": "CHI guaranteed the least favorable of DET/MIL/NYK 2029 2nds (Detroit keeps the two most favorable); CHI's own pick not in pool",
+          "source": "Chicago-Cleveland-Sacramento, 2/1/2026"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "IND"
+          ],
+          "favorable": "more",
+          "note": "CHI holds right to swap its own 2030 2nd for Indiana's 2030 2nd (ends with more favorable)",
+          "source": "Chicago-Indiana, 6/24/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DEN",
+          "counterparties": [],
+          "note": "Denver's 2031 2nd round pick, outright (via PHX/CHA)",
+          "source": "Charlotte-Chicago, 2/5/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "MIN",
+            "GSW"
+          ],
+          "favorable": "more",
+          "note": "CHI receives the more favorable of Minnesota's and Golden State's 2031 2nds (Detroit gets the less favorable); CHI's own pick not in pool",
+          "source": "Chicago-Minnesota, 2/5/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "NYK",
+          "counterparties": [],
+          "note": "New York's 2031 2nd round pick, outright (via CHA)",
+          "source": "Charlotte-Chicago, 2/5/2026"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "HOU",
+            "PHX"
+          ],
+          "favorable": "more",
+          "note": "CHI receives the more favorable of Houston's and Phoenix's 2032 2nds (Phoenix gets the less favorable); CHI's own pick not in pool",
+          "source": "Chicago-Minnesota, 2/5/2026"
+        }
+      ]
+    },
+    "CLE": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "owed",
+          "to": "UTA",
+          "note": "Owed: Cleveland's own 2027 first conveys as part of Utah's three-way pool (Utah's pick barred 1-5, Cleveland's, Minnesota's); MEM takes the most favorable, UTA the second, PHX the least. Cleveland keeps nothing; its pick lands with one of MEM/UTA/PHX by rank.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "UTA",
+          "favorable": "least",
+          "note": "Swap: Cleveland still ends with a 2028 first but reduced to the least favorable of the UTA/CLE/LAL pool; Utah holds the swap right on Cleveland's pick (Atlanta and the Lakers also swap within the same chain).",
+          "source": "Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "UTA",
+          "note": "Owed: Cleveland's own 2029 first conveys as part of Utah's three-way pool (Utah's, Cleveland's, Minnesota's protected 1-5); UTA takes the most/two-most favorable, CHA the least/less. Cleveland keeps nothing; its pick lands with UTA or CHA.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "SAC",
+          "counterparties": [
+            "SAC"
+          ],
+          "note": "Sacramento's 2032 second-round pick, outright.",
+          "source": "Cleveland-Sacramento, 6/24/2026"
+        }
+      ]
+    },
+    "DAL": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "protected",
+          "to": "CHA",
+          "protection": "1-2",
+          "note": "DAL's 2027 1st to CHA, protected 1-2; if it lands in the protected range and doesn't convey, DAL instead sends Miami's 2028 2nd to CHA.",
+          "source": "Charlotte-Dallas, 2/8/2024"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "OKC",
+          "favorable": "less",
+          "note": "OKC holds the right to swap its 2028 1st for DAL's 2028 1st; DAL could be reduced to the less favorable of the two.",
+          "source": "Dallas-Oklahoma City, 2/8/2024"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "HOU",
+          "note": "DAL's 2029 1st is conveyed outright within a HOU/DAL/PHX pool: HOU gets the two most favorable, BKN gets the least favorable, so DAL's own first lands with HOU or BKN (unprotected).",
+          "source": "Brooklyn-Dallas, 2/6/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        },
+        {
+          "year": 2030,
+          "status": "swap",
+          "to": "SAS",
+          "favorable": "less",
+          "note": "SAS gets the most favorable of SAS/DAL/MIN (MIN prot 1) 2030 firsts; DAL keeps the less favorable of its own pick and the SAS pick, so DAL could be swapped down.",
+          "source": "Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CHI",
+          "counterparties": [
+            "CHI"
+          ],
+          "note": "Chicago's 2027 2nd to DAL, outright (acquired via Washington/New Orleans).",
+          "source": "Chicago-Washington, 6/28/2023, New Orleans-Washington, 7/6/2024; Houston-New Orleans-Washington, 7/6/2025; Dallas-Washington, 2/5/2026"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "outright",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "note": "L.A. Lakers' 2029 1st to DAL, outright.",
+          "source": "Dallas-L.A. Lakers-Utah, 2/2/2025"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "HOU",
+          "counterparties": [
+            "HOU"
+          ],
+          "note": "Houston's 2029 2nd to DAL, outright (acquired via Oklahoma City/Washington).",
+          "source": "Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023; Oklahoma City-Washington, 6/28/2025; Dallas-Washington, 2/5/2026"
+        }
+      ]
+    },
+    "DEN": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "protected",
+          "to": "OKC",
+          "protection": "1-5",
+          "note": "Own 2027 first to OKC, protected 1-5 in 2027, 2028 and 2029; if not conveyed by 2029, OKC instead receives Denver's 2029 second. OKC may forward the pick to LAC and then TOR.",
+          "source": "Denver-Oklahoma City, 6/23/2022"
+        },
+        {
+          "year": 2029,
+          "status": "protected",
+          "to": "OKC",
+          "protection": "1-5",
+          "note": "Own next first to OKC, owed only at least two years after the 2027-series first conveys; protected 1-5 in 2029 and 1-5 in 2030; if not conveyed by 2030, OKC instead receives Denver's 2030 second.",
+          "source": "Denver-Indiana-L.A. Lakers-Oklahoma City, 6/23/2023"
+        },
+        {
+          "year": 2032,
+          "status": "owed",
+          "to": "BKN",
+          "note": "Own 2032 first traded outright to Brooklyn.",
+          "source": "Brooklyn-Denver, 7/8/2025"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIN",
+          "counterparties": [],
+          "note": "Minnesota's 2028 second round pick, acquired via San Antonio.",
+          "source": "Minnesota-San Antonio, 6/23/2023; Denver-San Antonio, 6/23/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "SAC",
+          "counterparties": [],
+          "note": "Sacramento's 2031 second round pick, acquired via San Antonio.",
+          "source": "Sacramento-San Antonio, 10/15/2024; Denver-San Antonio, 6/23/2026"
+        }
+      ]
+    },
+    "DET": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "BKN",
+            "DAL"
+          ],
+          "favorable": "less",
+          "note": "Less favorable of BKN and DAL 2027 2nds (WAS gets the more favorable of the two)",
+          "source": "Brooklyn-Detroit, 9/4/2021; Brooklyn-Dallas, 2/6/2023; Brooklyn-Detroit, 7/6/2023; Detroit-Washington, 7/6/2023"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIL",
+          "note": "MIL 2027 2nd (via PHI)",
+          "source": "Milwaukee-Philadelphia, 2/8/2024; Detroit-Philadelphia, 2/6/2025"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "CHA",
+            "LAC"
+          ],
+          "favorable": "less",
+          "note": "Less favorable of CHA and LAC 2028 2nds (CHA gets more favorable); DET may convey this pick to UTA",
+          "source": "Charlotte-L.A. Clippers, 2/9/2023; Charlotte-Dallas, 2/8/2024; Dallas-Detroit, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "MIA",
+          "note": "MIA 2028 2nd conveys to DET only if DAL conveys a 1st to CHA in 2027; otherwise the obligation is extinguished and CHA keeps it. DET may convey this pick to UTA",
+          "source": "Miami-San Antonio, 2/7/2023; Boston-Dallas-San Antonio, 7/12/2023; Dallas-Detroit, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "NYK",
+          "note": "NYK 2028 2nd; DET may convey this pick to UTA",
+          "source": "Detroit-New York, 2/8/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "DET/MIL/NYK",
+          "counterparties": [
+            "MIL",
+            "NYK"
+          ],
+          "favorable": "most",
+          "note": "DET receives the two most favorable of its own, MIL's and NYK's 2029 2nds; CHI gets the least favorable. Pending DET-MEM conveyance",
+          "source": "Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Detroit, 7/6/2023; Detroit-New York, 2/8/2024; Detroit-Sacramento, 7/7/2025; Chicago-Cleveland-Sacramento, 2/1/2026; Detroit-Memphis, 6/24/2026; Detroit-Memphis, pending"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIN",
+          "note": "MIN 2030 2nd",
+          "source": "Detroit-Minnesota, 2/8/2024"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DAL",
+          "note": "DAL 2031 2nd (via PHI); pending conveyance to MEM (via chain ends at Memphis)",
+          "source": "Charlotte-Dallas-Denver-Golden State-Minnesota-Philadelphia, 7/6/2024; Detroit-Philadelphia, 2/6/2025; Detroit-Memphis, 6/24/2026; Detroit-Memphis, pending"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "MIN",
+            "GSW"
+          ],
+          "favorable": "less",
+          "note": "Less favorable of MIN and GSW 2031 2nds (CHI gets more favorable), via MIN's right to swap for GSW",
+          "source": "Charlotte-Dallas-Denver-Golden State-Minnesota-Philadelphia, 7/6/2024; Detroit-Golden State-Miami-Utah, 2/6/2025; Chicago-Minnesota, 2/5/2026"
+        }
+      ]
+    },
+    "GSW": {
+      "ownFirstObligations": [
+        {
+          "year": 2030,
+          "status": "protected",
+          "to": "MEM",
+          "protection": "1-20",
+          "note": "Own 2030 first to Memphis, protected 1-20 (conveys only if it lands 21-30); if it falls in the protected range and does not convey, Golden State instead sends its 2030 second to Memphis",
+          "source": "Golden State-Washington, 7/6/2023; Dallas-Washington, 2/5/2026; Dallas-Memphis, pending"
+        }
+      ],
+      "holdings": []
+    },
+    "HOU": {
+      "ownFirstObligations": [
+        {
+          "year": 2029,
+          "status": "swap",
+          "to": "BKN",
+          "favorable": "least",
+          "note": "Houston's own 2029 first is pooled with Dallas' and Phoenix's 2029 firsts; Brooklyn receives the LEAST favorable of the three, so Houston's own first conveys to Brooklyn only if it is the worst of the three. Houston is still guaranteed to keep two 2029 firsts (mirror of the 2029 holding). Conservative read: own 2029 first is not cleanly kept.",
+          "source": "Brooklyn-Dallas, 2/6/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "BKN"
+          ],
+          "favorable": "more",
+          "note": "Houston holds the right to swap its own 2027 first for Brooklyn's 2027 first (keeps the more favorable of the two).",
+          "source": "Brooklyn-Cleveland-Houston-Indiana, 1/16/2021"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "outright",
+          "origin": "PHX",
+          "note": "Phoenix's 2027 first outright (via Brooklyn).",
+          "source": "Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "conditional",
+          "counterparties": [
+            "POR",
+            "NOP"
+          ],
+          "favorable": "less",
+          "protection": "31-55",
+          "note": "Less favorable of Portland's and New Orleans' 2027 2nd, received only if it falls OUTSIDE the protected range 31-55 (i.e. lands 56-60); if within 31-55 and not conveyed, Portland's obligation is extinguished (via Portland to Boston to Houston).",
+          "source": "New Orleans-Portland, 2/8/2022; Charlotte-Philadelphia-Portland-New York, 2/9/2023; Boston-Portland, 2/8/2024; Boston-Houston, 2/6/2025"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "DAL",
+            "PHX"
+          ],
+          "favorable": "most",
+          "note": "Houston receives the two most favorable of its own, Dallas' and Phoenix's 2029 firsts; Brooklyn gets the least favorable of the three (Houston's own first could be the one conveyed to Brooklyn, but Houston is guaranteed two firsts).",
+          "source": "Brooklyn-Dallas, 2/6/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        }
+      ]
+    },
+    "IND": {
+      "ownFirstObligations": [
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "LAC",
+          "note": "Own 2029 first-round pick traded outright to LAC (unprotected)",
+          "source": "Indiana-L.A. Clippers, 2/5/2026"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "UTA",
+          "counterparties": [],
+          "note": "Utah's 2027 2nd-round pick outright (via Cleveland)",
+          "source": "Cleveland-Utah, 11/27/2020; Cleveland-Indiana, 2/7/2022"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHX",
+            "CHI"
+          ],
+          "favorable": "less",
+          "note": "IND receives the LESS favorable of (i) the more favorable of IND/PHX 2028 2nds and (ii) the CHI 2028 2nd; CHI takes the most favorable of CHI/IND/PHX and NYK the less favorable of IND/PHX, so IND nets a middle-or-worst pick",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Indiana-New York, 7/7/2023; Chicago-Indiana, 6/24/2026"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "WAS"
+          ],
+          "favorable": "more",
+          "note": "IND receives the more favorable of IND/WAS 2029 2nds; POR gets the less favorable",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Indiana-New York, 7/7/2023; New York-Portland, 6/27/2024"
+        }
+      ]
+    },
+    "LAC": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "swap",
+          "to": "OKC",
+          "favorable": "less",
+          "note": "Oklahoma City holds the right to swap the less favorable of its own and Denver's 2027 firsts (Denver protected 1-5) for LAC's OWN 2027 first, so LAC's own pick can be swapped away to OKC. LAC still ends with a first that year (the worse of OKC/DEN, upgradeable to Toronto) - see the 2027 holding for the receiving side of this chain.",
+          "source": "L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023"
+        },
+        {
+          "year": 2028,
+          "status": "owed",
+          "to": "PHI",
+          "note": "Own 2028 first traded outright to Philadelphia (no protection).",
+          "source": "L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023"
+        },
+        {
+          "year": 2029,
+          "status": "swap",
+          "to": "PHI",
+          "favorable": "less",
+          "protection": "1-3",
+          "note": "Philadelphia may swap its 2029 first for LAC's 2029 first (LAC protected 1-3); if LAC's pick lands 1-3 it is not conveyable and LAC's obligation to Philadelphia is extinguished.",
+          "source": "L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "OKC",
+            "DEN",
+            "TOR"
+          ],
+          "favorable": "more",
+          "protection": "1-5",
+          "note": "OKC may swap the less favorable of OKC's and Denver's 2027 firsts (Denver protected 1-5) for LAC's own 2027 first; LAC then holds the right to swap that received OKC/Denver pick for Toronto's 2027 first. Net: LAC ends with the less favorable of OKC/DEN, upgradeable to Toronto's (the more favorable). See the 2027 ownFirstObligation for the swap-out of LAC's own pick.",
+          "source": "Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023; L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DAL",
+          "note": "Dallas' 2028 second to LAC outright (via Sacramento to Indiana).",
+          "source": "Dallas-Sacramento, 6/24/2022; Indiana-Sacramento, 7/6/2023; Indiana-L.A. Clippers, 2/5/2026"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "outright",
+          "origin": "IND",
+          "note": "Indiana's 2029 first to LAC outright.",
+          "source": "Indiana-L.A. Clippers, 2/5/2026"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "TOR",
+          "note": "Toronto's 2030 second to LAC outright.",
+          "source": "L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "TOR",
+          "note": "Toronto's 2031 first to LAC outright.",
+          "source": "L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2033,
+          "round": 1,
+          "kind": "outright",
+          "origin": "TOR",
+          "note": "Toronto's 2033 first to LAC outright.",
+          "source": "L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "TOR",
+          "note": "Toronto's 2033 second to LAC outright.",
+          "source": "L.A. Clippers-Toronto, pending"
+        }
+      ]
+    },
+    "LAL": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "protected",
+          "to": "MEM",
+          "protection": "1-4",
+          "note": "Own 2027 first to Memphis, protected 1-4; if it lands 1-4 and is therefore not conveyed, LAL instead sends its 2027 2nd to Memphis (via Utah)",
+          "source": "L.A. Lakers-Minnesota-Utah, 2/9/2023; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "UTA",
+          "favorable": "less",
+          "note": "Utah swap: Utah receives the most favorable of UTA/CLE/LAL 2028 firsts; LAL ends with the less favorable of its own pick and the more favorable of the Utah and Cleveland picks (reduced to the middle of the three)",
+          "source": "Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "DAL",
+          "note": "Own 2029 first to Dallas outright",
+          "source": "Dallas-L.A. Lakers-Utah, 2/2/2025"
+        },
+        {
+          "year": 2030,
+          "status": "swap",
+          "to": "UTA",
+          "favorable": "less",
+          "note": "Utah holds the right to swap its 2030 first for LAL's 2030 first; LAL keeps a first but may be reduced to the worse one",
+          "source": "L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "UTA",
+          "note": "Own 2031 first to Utah outright",
+          "source": "L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2033,
+          "status": "owed",
+          "to": "UTA",
+          "note": "Own 2033 first to Utah outright",
+          "source": "L.A. Lakers-Utah, pending"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "WAS",
+          "counterparties": [
+            "WAS"
+          ],
+          "note": "Receives one of Washington's 2031 2nd round picks",
+          "source": "L.A. Lakers-Washington, pending"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "WAS",
+          "counterparties": [
+            "WAS"
+          ],
+          "note": "Receives one of Washington's 2032 2nd round picks",
+          "source": "L.A. Lakers-Washington, pending"
+        }
+      ]
+    },
+    "MEM": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "UTA",
+            "CLE",
+            "MIN"
+          ],
+          "favorable": "most",
+          "note": "Most favorable of UTA's (top-5 protected), CLE's, and MIN's 2027 firsts; UTA gets 2nd-most, PHX least. MEM's own pick not in this pool (best-of-others receipt).",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "LAL",
+          "protection": "1-4",
+          "note": "LAL 2027 first protected 1-4; if it lands 1-4 and is not conveyed, MEM instead receives LAL's 2027 second.",
+          "source": "L.A. Lakers-Minnesota-Utah, 2/9/2023; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "ORL"
+          ],
+          "favorable": "more",
+          "protection": "1-2",
+          "note": "MEM may swap its own 2029 first for ORL's 2029 first (ORL protected 1-2); if ORL's pick lands 1-2 and is not conveyable, MEM instead receives ORL's 2029 second.",
+          "source": "Memphis-Orlando, 6/15/2025"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "POR",
+          "note": "POR 2029 second, unprotected (via Philadelphia to Indiana).",
+          "source": "Charlotte-Philadelphia-Portland-New York, 2/9/2023; Indiana-Philadelphia-San Antonio, 2/8/2024; Indiana-Memphis, 7/6/2025"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "GSW",
+          "protection": "1-20",
+          "note": "GSW 2030 first protected 1-20; if it lands 1-20 and is not conveyed, MEM instead receives GSW's 2030 second.",
+          "source": "Golden State-Washington, 7/6/2023; Dallas-Washington, 2/5/2026; Dallas-Memphis, pending"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "outright",
+          "origin": "ORL",
+          "note": "ORL 2030 first, unprotected.",
+          "source": "Memphis-Orlando, 6/15/2025"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "WAS",
+            "PHX"
+          ],
+          "favorable": "more",
+          "note": "MEM swap right: receives the more favorable of (i) its own 2030 first and (ii) the less favorable of the WAS/PHX 2030 firsts. WAS takes the more favorable of WAS/PHX; PHX gets least of the three. MEM always ends with at least its own pick.",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Memphis-Phoenix, 7/11/2023"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "DEN",
+            "HOU",
+            "MIA"
+          ],
+          "favorable": "most",
+          "note": "Most favorable of DEN, HOU, MIA 2030 seconds; OKC gets the other two. MEM's own pick not in this pool (best-of-others receipt).",
+          "source": "Miami-Oklahoma City, 7/6/2023; Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023; Charlotte-Dallas-Denver-Golden State-Minnesota-Philadelphia, 7/6/2024; Charlotte-Oklahoma City, 2/3/2025; Memphis-Oklahoma City, 6/23/2026"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "PHX",
+          "note": "PHX 2031 first, unprotected (via Utah).",
+          "source": "Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "IND",
+            "MIA"
+          ],
+          "favorable": "more",
+          "note": "MEM swap right: receives the more favorable of (i) its own 2031 second and (ii) the less favorable of the IND/MIA 2031 seconds. WAS takes the more favorable of IND/MIA; IND gets least of the three.",
+          "source": "Indiana-Miami, 12/15/2024; Detroit-Golden State-Miami-Utah, 2/6/2025; Utah-Washington, 6/25/2025; Indiana-Memphis, 7/6/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "GSW",
+          "protection": "31-50",
+          "note": "GSW 2032 second protected 31-50; if it lands 31-50 and is not conveyed, GSW's obligation is extinguished (MEM gets nothing).",
+          "source": "Golden State-Memphis, 7/6/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHI"
+          ],
+          "favorable": "more",
+          "note": "MEM may swap its own 2032 second for PHI's 2032 second.",
+          "source": "Memphis-Philadelphia, 2/5/2026"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "OKC",
+          "note": "OKC 2033 second, unprotected.",
+          "source": "Memphis-Oklahoma City, 6/23/2026"
+        }
+      ]
+    },
+    "MIA": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "protected",
+          "to": "CHA",
+          "protection": "1-14",
+          "note": "Own 2027 first to Charlotte, protected 1-14; if it lands top-14 and does not convey in 2027, it rolls to 2028 fully unprotected",
+          "source": "Charlotte-Miami, 1/23/2024"
+        },
+        {
+          "year": 2030,
+          "status": "swap",
+          "to": "MIL",
+          "favorable": "least",
+          "note": "Portland can swap its 2030 first for Milwaukee's, then Milwaukee can swap the less favorable of {Milwaukee, Portland} for Miami's 2030 first; Miami keeps a first but can be reduced to the least favorable of the Milwaukee/Portland/Miami trio",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "MIL",
+          "note": "Own 2031 first to Milwaukee, unprotected outright",
+          "source": "Miami-Milwaukee, pending"
+        },
+        {
+          "year": 2033,
+          "status": "owed",
+          "to": "MIL",
+          "note": "Own 2033 first to Milwaukee, unprotected outright",
+          "source": "Miami-Milwaukee, pending"
+        }
+      ],
+      "holdings": []
+    },
+    "MIL": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "owed",
+          "to": "NOP",
+          "note": "MIL's own 2027 first goes into a NOP/MIL swap pool: NOP takes the more favorable of NOP/MIL, ATL takes the less favorable (protected 1-4). If the less-favorable pick lands 1-4 (not conveyable), ATL's obligation is extinguished and NOP receives both. MIL loses its 2027 first in every scenario (to NOP if more favorable, to ATL if less favorable and 5-30, to NOP if less favorable and 1-4). The 1-4 protection sits on ATL's leg, not MIL retention.",
+          "source": "Denver-Milwaukee-New Orleans-Oklahoma City, 11/23/2020; Atlanta-New Orleans, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "POR",
+          "favorable": "least",
+          "note": "MIL's own 2028 first is subject to POR's swap right (POR takes more favorable of POR/MIL) and WAS's swap right. MIL keeps a first but ends with the less favorable of (i) the WAS/BKN/PHI(prot 1-8)/PHX complex pick and (ii) the less favorable of MIL/POR \u2014 effectively the worst pick in the pool. Swap rights held by POR and WAS.",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Milwaukee-New York-Washington, 2/6/2025"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "POR",
+          "note": "MIL's own 2029 first swapped into a 3-pick pool {POR own, BOS, MIL}: POR receives the most AND least favorable of the three, WAS receives the second-most favorable. All three picks are consumed by POR/WAS; MIL keeps none of its 2029 first (conveys to POR or WAS depending on ranking).",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Boston-Portland, 10/1/2023; Portland-Washington, 7/6/2024"
+        },
+        {
+          "year": 2030,
+          "status": "swap",
+          "to": "POR",
+          "favorable": "less",
+          "note": "POR holds the right to swap its 2030 first for MIL's (POR takes the more favorable of POR/MIL), downgrading MIL to the less favorable of MIL/POR. MIL then holds the right to swap that pick for MIA's 2030 first (see holdings), so MIL still ends with a first that year (at least as good as MIA's). MIL's own pick may ultimately convey to POR or MIA. Derived from the incoming ledger entry.",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "MIA"
+          ],
+          "favorable": "more",
+          "note": "After POR exercises its swap right (MIL left with the less favorable of MIL/POR), MIL holds the right to swap that pick for MIA's 2030 first, ending with the more favorable of the two. Net: MIL keeps a 2030 first at least as good as MIA's.",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "MIA",
+          "note": "Miami's 2031 first-round pick to MIL, outright.",
+          "source": "Miami-Milwaukee, pending"
+        },
+        {
+          "year": 2033,
+          "round": 1,
+          "kind": "outright",
+          "origin": "MIA",
+          "note": "Miami's 2033 first-round pick to MIL, outright.",
+          "source": "Miami-Milwaukee, pending"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIA",
+          "note": "Miami's 2033 second-round pick to MIL, outright.",
+          "source": "Miami-Milwaukee, pending"
+        }
+      ]
+    },
+    "MIN": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "owed",
+          "to": "UTA",
+          "note": "Own 2027 first surrendered outright (no protection on MIN's pick) into the UTA/CLE/MIN pool; the three ranked picks go most-favorable to Memphis, second to Utah, least to Phoenix (via Utah). MIN keeps no 2027 first regardless of ranking; original trade counterparty was Utah. The '1-5 bar' in the prose is on Utah's pick, not MIN's.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "CHA",
+          "favorable": "less",
+          "note": "Charlotte holds the right to swap its 2028 first for MIN's 2028 first; MIN keeps a first but could be reduced to the less favorable of the two.",
+          "source": "Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2029,
+          "status": "protected",
+          "to": "UTA",
+          "protection": "1-5",
+          "note": "Own 2029 first (protected 1-5) conveys into the UTA/CLE/MIN pool: Utah gets the most/two-most favorable, Charlotte the least/less favorable. If MIN's pick lands 1-5 it is not conveyed and MIN instead sends its 2029 2nd to Utah (via Utah to Phoenix). Mutually exclusive with the CHA swap entry below (same 2029 first, complementary 6-30 range).",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025"
+        },
+        {
+          "year": 2029,
+          "status": "swap",
+          "to": "CHA",
+          "favorable": "least",
+          "protection": "6-30",
+          "note": "Charlotte may swap the least favorable of CHA/UTA/CLE 2029 firsts for MIN's 2029 first (protected 6-30, so this swap only fires if MIN's pick lands 1-5); if MIN's pick lands 6-30 this obligation and swap right are extinguished. Charlotte may pass the received pick to Phoenix. Mutually exclusive with the UTA conveyance entry above; conservative read: MIN's 2029 first is heavily encumbered under either outcome.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending; Charlotte-Phoenix, pending"
+        },
+        {
+          "year": 2030,
+          "status": "swap",
+          "to": "SAS",
+          "favorable": "least",
+          "protection": "1",
+          "note": "Three-way waterfall: San Antonio gets the most favorable of SAS/DAL/MIN 2030 firsts, Dallas the less favorable of its pick and the SAS pick, and MIN receives the less favorable of (i) its own pick and (ii) the more favorable of the SAS/DAL picks. MIN keeps a first but can be reduced to the least favorable outcome (worst case = rank-3). Protected #1 only: if MIN's pick is #1 overall the obligation to SAS is extinguished and SAS instead swaps its pick for Dallas'. MIN may owe the pick it receives onward to Charlotte via a further swap right.",
+          "source": "Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "SAC",
+          "note": "Own 2031 first traded outright to Sacramento (via San Antonio); no protection.",
+          "source": "Minnesota-San Antonio, 6/26/2024; Chicago-Sacramento-San Antonio, 2/3/2025"
+        },
+        {
+          "year": 2033,
+          "status": "owed",
+          "to": "CHA",
+          "note": "Own 2033 first traded outright to Charlotte; no protection.",
+          "source": "Charlotte-Minnesota, pending"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "MEM",
+          "counterparties": [],
+          "protection": "31-50",
+          "note": "Memphis' 2030 2nd-round pick, protected for selections 31-50; conveys to MIN only if it falls 51-60. If it lands in the protected 31-50 range it is not conveyed and Memphis' obligation to MIN is extinguished.",
+          "source": "Detroit-Memphis-Minnesota-Toronto, 7/6/2024"
+        }
+      ]
+    },
+    "NOP": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "protected",
+          "to": "ATL",
+          "favorable": "less",
+          "protection": "1-4",
+          "note": "ATL receives the less favorable of NOP's own and MIL's 2027 firsts, protected 1-4; NOP keeps the more favorable. If the less-favorable pick lands 1-4 and cannot convey, NOP's obligation to ATL is extinguished and NOP keeps both firsts. NOP always retains at least one 2027 first (this is the outgoing leg of the same transaction recorded as the 2027 first-round holding).",
+          "source": "Denver-Milwaukee-New Orleans-Oklahoma City, 11/23/2020; Atlanta-New Orleans, 7/6/2024"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "MIL",
+          "counterparties": [
+            "MIL"
+          ],
+          "favorable": "more",
+          "protection": "1-4",
+          "note": "NOP receives the more favorable of its own and MIL's 2027 firsts (ATL gets the less favorable, protected 1-4); if the less-favorable pick lands 1-4 and cannot convey, NOP keeps both 2027 firsts.",
+          "source": "Denver-Milwaukee-New Orleans-Oklahoma City, 11/23/2020; Atlanta-New Orleans, 7/6/2024"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "OKC/HOU/IND/MIA",
+          "counterparties": [
+            "OKC",
+            "HOU",
+            "IND",
+            "MIA"
+          ],
+          "note": "NOP receives the second most favorable of OKC's, HOU's, IND's and MIA's 2027 2nd-round picks (PHI takes the most favorable, NYK the third; SAS and MIA split the remainder). Guaranteed receipt; specific origin depends on final favorability ordering.",
+          "source": "Detroit-Houston, 11/24/2020; Detroit-Oklahoma City, 3/13/2021; Indiana-Oklahoma City, 11/25/2020; Miami-Oklahoma City, 3/17/2021; Oklahoma City-Utah, 7/30/2021; Portland-San Antonio-Utah, 2/9/2022; Cleveland-Miami-San Antonio, 7/6/2023; New York-Oklahoma City, 6/27/2024; Oklahoma City-Philadelphia, 2/4/2026; New Orleans-New York, 2/5/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "origin": "TOR",
+          "counterparties": [
+            "TOR"
+          ],
+          "note": "TOR's 2031 2nd-round pick, outright.",
+          "source": "New Orleans-Toronto, 2/6/2025"
+        }
+      ]
+    },
+    "NYK": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "owed",
+          "to": "BKN",
+          "note": "Own 2027 first traded outright to Brooklyn",
+          "source": "Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "BKN",
+          "favorable": "least",
+          "note": "Brooklyn holds swap rights on NYK's 2028 first; NYK still ends with a first that year but is reduced to the second-most or, worst case, the least favorable of NYK/BKN/PHX 2028 firsts (Philadelphia's 1-8 protected pick also in the pool if conveyed)",
+          "source": "Brooklyn-Philadelphia, 2/10/2022; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Indiana-Phoenix-Washington, 6/23/2023; Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "BKN",
+          "note": "Own 2029 first traded outright to Brooklyn",
+          "source": "Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "BKN",
+          "note": "Own 2031 first traded outright to Brooklyn",
+          "source": "Brooklyn-New York, 7/6/2024"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "OKC",
+            "HOU",
+            "IND",
+            "MIA"
+          ],
+          "note": "Third most favorable of OKC/HOU/IND/MIA 2027 2nd round picks (PHI gets most, NOP second-most, NYK third-most); guaranteed to convey",
+          "source": "Detroit-Houston, 11/24/2020; Detroit-Oklahoma City, 3/13/2021; Indiana-Oklahoma City, 11/25/2020; Miami-Oklahoma City, 3/17/2021; Oklahoma City-Utah, 7/30/2021; Portland-San Antonio-Utah, 2/9/2022; Cleveland-Miami-San Antonio, 7/6/2023; New York-Oklahoma City, 6/27/2024; Oklahoma City-Philadelphia, 2/4/2026; New Orleans-New York, 2/5/2026"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "WAS",
+          "note": "Washington's 2027 2nd round pick outright",
+          "source": "Houston-Washington, 12/2/2020; Houston-Oklahoma City, 7/30/2021; New York-Oklahoma City, 6/23/2022"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "BOS",
+          "protection": "31-45",
+          "note": "Boston's 2028 2nd round pick, protected 31-45; if it lands in that protected range it does not convey and Boston's obligation is extinguished",
+          "source": "Boston-Orlando, 2/10/2022; Orlando-Phoenix, 7/17/2023; New York-Phoenix, 6/27/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "IND",
+            "PHX"
+          ],
+          "favorable": "less",
+          "note": "Less favorable of Indiana's and Phoenix's 2028 2nd round picks (Chicago swap chain resolves the pool); guaranteed to convey",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Indiana-New York, 7/7/2023; Chicago-Indiana, 6/24/2026"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "PHX",
+          "note": "Phoenix's 2029 2nd round pick outright",
+          "source": "Dallas-L.A. Lakers-New York-Phoenix, 6/24/2026"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "SAC",
+          "note": "Sacramento's 2029 2nd round pick outright",
+          "source": "Sacramento-Washington, 2/5/2025; Houston-New Orleans-Washington, 7/6/2025; Houston-New York, 6/24/2026"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "PHI",
+          "note": "Philadelphia's 2030 2nd round pick outright",
+          "source": "Dallas-Philadelphia, 2/6/2025; Dallas-L.A. Lakers-New York-Phoenix, 6/24/2026"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DAL",
+          "note": "Dallas' 2032 2nd round pick outright",
+          "source": "Dallas-L.A. Lakers-New York-Phoenix, 6/24/2026"
+        },
+        {
+          "year": 2033,
+          "round": 2,
+          "kind": "outright",
+          "origin": "PHX",
+          "note": "Phoenix's 2033 2nd round pick outright",
+          "source": "Dallas-L.A. Lakers-New York-Phoenix, 6/24/2026"
+        }
+      ]
+    },
+    "OKC": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "DEN",
+          "counterparties": [
+            "DEN"
+          ],
+          "protection": "1-5",
+          "note": "Denver's 2027 first protected 1-5 (rolls 1-5 in 2028, 1-5 in 2029); if not conveyed by 2029, OKC instead gets Denver's 2029 2nd. OKC may pass this pick to LAC/TOR.",
+          "source": "Denver-Oklahoma City, 6/23/2022"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "SAS",
+          "counterparties": [
+            "SAS",
+            "SAC",
+            "CHA"
+          ],
+          "protection": "1-16",
+          "note": "San Antonio's 2027 first conveys to OKC only if it lands 17-30; if it lands 1-16, SAS's obligation is extinguished and OKC instead receives Sacramento's 2027 2nd and Charlotte's 2027 2nd (per 6/25/2025 modification). Received via Sacramento.",
+          "source": "Chicago-Sacramento-San Antonio, 2/3/2025; Oklahoma City-Sacramento, 6/25/2025"
+        },
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "LAC",
+            "DEN"
+          ],
+          "favorable": "more",
+          "note": "OKC may swap the less favorable of its own and Denver's (prot 1-5) 2027 firsts for the Clippers' 2027 first (OKC keeps the more favorable outcome); LAC may then swap the surrendered OKC/DEN pick for Toronto's 2027 first.",
+          "source": "Denver-Oklahoma City, 6/23/2022; L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023; L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "DAL"
+          ],
+          "favorable": "more",
+          "note": "OKC holds the right to swap its 2028 first for Dallas' 2028 first (gets the more favorable). OKC's own option only; its first is not at risk to any other team.",
+          "source": "Dallas-Oklahoma City, 2/8/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "UTA",
+          "counterparties": [
+            "UTA"
+          ],
+          "note": "Utah's 2028 2nd to OKC.",
+          "source": "Oklahoma City-Utah, 7/30/2021; Oklahoma City-Utah, 1/4/2022"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "DEN",
+          "counterparties": [
+            "DEN"
+          ],
+          "protection": "1-5",
+          "note": "Denver's next first (deliverable only if/at least 2 years after the first Denver pick conveys), protected 1-5 in 2029 and 1-5 in 2030; OKC also receives Denver's 2030 2nd via Charlotte, which serves as the fallback if the first isn't conveyed by 2030; OKC may pass that 2nd to Memphis.",
+          "source": "Denver-Indiana-L.A. Lakers-Oklahoma City, 6/23/2023"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "BOS",
+          "counterparties": [
+            "BOS"
+          ],
+          "note": "Boston's 2029 2nd to OKC.",
+          "source": "Boston-Oklahoma City, 2/9/2023"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "ATL",
+            "MIA"
+          ],
+          "favorable": "less",
+          "note": "OKC receives the less favorable of Atlanta's and Miami's 2029 2nds (Charlotte gets the more favorable).",
+          "source": "Atlanta-Oklahoma City, 9/27/2022; Miami-Oklahoma City, 7/6/2023; Charlotte-Oklahoma City, 2/4/2026"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "ATL",
+          "counterparties": [
+            "ATL"
+          ],
+          "note": "Atlanta's 2030 2nd to OKC (pending).",
+          "source": "Atlanta-Oklahoma City, pending"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "DEN",
+            "HOU",
+            "MIA"
+          ],
+          "note": "OKC receives the second-most AND the least favorable (two picks) of Denver's, Houston's and Miami's 2030 2nds; Memphis gets the most favorable. Denver's arrives via Charlotte.",
+          "source": "Miami-Oklahoma City, 7/6/2023; Atlanta-Houston-L.A. Clippers-Memphis-Oklahoma City, 7/8/2023; Charlotte-Dallas-Denver-Golden State-Minnesota-Philadelphia, 7/6/2024; Charlotte-Oklahoma City, 2/3/2025; Memphis-Oklahoma City, 6/23/2026"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "ORL",
+            "NOP"
+          ],
+          "favorable": "less",
+          "note": "OKC receives the less favorable of Orlando's and New Orleans' 2031 2nds (Orlando gets the more favorable via its swap right over NOP).",
+          "source": "New Orleans-Orlando, 6/27/2024; New Orleans-Oklahoma City, 2/5/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "ATL",
+            "LAL"
+          ],
+          "favorable": "less",
+          "note": "OKC receives the less favorable of Atlanta's and the Lakers' 2032 2nds (Atlanta gets the more favorable).",
+          "source": "Atlanta-L.A. Lakers, 2/5/2026; Atlanta-Oklahoma City, pending"
+        }
+      ]
+    },
+    "ORL": {
+      "ownFirstObligations": [
+        {
+          "year": 2028,
+          "status": "owed",
+          "to": "POR",
+          "note": "Own 2028 first traded outright to Portland (routed via Memphis).",
+          "source": "Memphis-Orlando, 6/15/2025; Memphis-Portland, 6/25/2025"
+        },
+        {
+          "year": 2029,
+          "status": "swap",
+          "to": "MEM",
+          "favorable": "less",
+          "protection": "1-2",
+          "note": "Memphis can swap its 2029 first for Orlando's 2029 first, which is protected 1-2; if Orlando's pick lands 1-2 (not conveyable), Orlando instead sends its 2029 second to Memphis.",
+          "source": "Memphis-Orlando, 6/15/2025"
+        },
+        {
+          "year": 2030,
+          "status": "owed",
+          "to": "MEM",
+          "note": "Own 2030 first traded outright to Memphis.",
+          "source": "Memphis-Orlando, 6/15/2025"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "LAL/WAS",
+          "counterparties": [
+            "LAL",
+            "WAS"
+          ],
+          "favorable": "more",
+          "note": "Receives the more favorable of the Lakers' and Wizards' 2028 second-round picks (Washington keeps the less favorable); Orlando's own pick not in the pool.",
+          "source": "Brooklyn-Indiana-L.A. Lakers-San Antonio-Washington, 8/6/2021; L.A. Lakers-Orlando, 6/23/2022; L.A. Lakers-Washington, 1/23/2023"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIL",
+          "counterparties": [
+            "MIL"
+          ],
+          "note": "Milwaukee's 2030 second-round pick conveyed to Orlando outright.",
+          "source": "Milwaukee-Orlando, 6/22/2023"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "NOP"
+          ],
+          "favorable": "more",
+          "note": "Orlando holds the right to swap its 2030 second for New Orleans' 2030 second (keeps the more favorable).",
+          "source": "New Orleans-Orlando, 6/27/2024"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "NOP"
+          ],
+          "favorable": "more",
+          "note": "Orlando receives the more favorable of its own and New Orleans' 2031 seconds; Oklahoma City gets the less favorable of the two.",
+          "source": "New Orleans-Orlando, 6/27/2024; New Orleans-Oklahoma City, 2/5/2025"
+        }
+      ]
+    },
+    "PHI": {
+      "ownFirstObligations": [
+        {
+          "year": 2028,
+          "status": "owed",
+          "to": "BOS",
+          "favorable": "less",
+          "protection": "1-8",
+          "note": "Pending Boston-Philadelphia deal: Boston receives EITHER a 2028 first from Philadelphia OR instead a swap right over a 2028 first from Philadelphia (swap branch leaves PHI the less favorable); the PHI pick is available in the 1-8 range, terms not final. Ambiguity: PHI's own 2028 first is already pledged to Brooklyn (protected 1-8) and PHI holds the Clippers' 2028 first, so this Boston obligation may be satisfied via the held Clippers pick rather than PHI's own first. Listed conservatively as an obligation.",
+          "source": "Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2028,
+          "status": "protected",
+          "to": "BKN",
+          "protection": "1-8",
+          "note": "Philadelphia's own 2028 first to Brooklyn protected 1-8; if it lands 1-8 (not conveyed), PHI instead sends its 2028 2nd. Brooklyn may convey the first onward to Phoenix, which may then convey it to Washington.",
+          "source": "Brooklyn-Philadelphia, 2/10/2022"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "BOS",
+          "note": "Philadelphia's 2031 first to Boston, unprotected (pending Boston-Philadelphia deal).",
+          "source": "Boston-Philadelphia, pending"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "GSW",
+            "PHX"
+          ],
+          "favorable": "more",
+          "note": "Receives the more favorable of Golden State's and Phoenix's 2027 2nds (Washington gets the less favorable). No Philadelphia pick in the pool - PHI simply gets the better of the two.",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Golden State-Washington, 7/6/2023; Philadelphia-Washington, 2/6/2025"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "OKC",
+            "HOU",
+            "IND",
+            "MIA"
+          ],
+          "favorable": "most",
+          "note": "Receives the most favorable of Oklahoma City's, Houston's, Indiana's and Miami's 2027 2nds (New Orleans gets 2nd-most, New York 3rd-most). No Philadelphia pick in the pool.",
+          "source": "Detroit-Houston, 11/24/2020; Detroit-Oklahoma City, 3/13/2021; Indiana-Oklahoma City, 11/25/2020; Miami-Oklahoma City, 3/17/2021; Oklahoma City-Utah, 7/30/2021; Portland-San Antonio-Utah, 2/9/2022; Cleveland-Miami-San Antonio, 7/6/2023; New York-Oklahoma City, 6/27/2024; Oklahoma City-Philadelphia, 2/4/2026; New Orleans-New York, 2/5/2026"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "outright",
+          "origin": "LAC",
+          "counterparties": [],
+          "note": "L.A. Clippers' 2028 first to Philadelphia outright; PHI may use this pick to satisfy its pending 2028 first obligation to Boston.",
+          "source": "L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "DET",
+          "counterparties": [],
+          "protection": "31-55",
+          "note": "Detroit's 2028 2nd, protected 31-55 (conveys only if it lands 56-60; if it falls within 31-55 the obligation is extinguished).",
+          "source": "Detroit-Philadelphia, 2/8/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "GSW",
+            "MIL",
+            "OKC"
+          ],
+          "favorable": "least",
+          "note": "Receives the two least favorable of Golden State's, Milwaukee's and Oklahoma City's 2028 2nds; Boston independently receives the most favorable. Prose does not have PHI convey these onward to Boston.",
+          "source": "Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "LAC"
+          ],
+          "favorable": "more",
+          "protection": "1-3",
+          "note": "PHI holds the right to swap its own 2029 first for the L.A. Clippers' 2029 first, LAC protected 1-3 (if LAC lands 1-3 the swap right is extinguished and PHI keeps its own). Pure upside for PHI.",
+          "source": "L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHX",
+            "POR",
+            "WAS"
+          ],
+          "favorable": "less",
+          "note": "Receives the less favorable of (i) the more favorable of Phoenix's and Portland's 2030 2nds and (ii) Washington's 2030 2nd; Boston gets the most favorable and Washington the less favorable of Phoenix/Portland. PHI lands the middle of the three in most orderings, but the worst when Washington's pick is the least favorable. Prose does not have PHI convey this onward to Boston.",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "WAS",
+          "counterparties": [],
+          "note": "Washington's 2030 2nd to Philadelphia outright; PHI may convey this pick onward to Boston (explicit in prose).",
+          "source": "Philadelphia-Washington, 2/6/2025"
+        }
+      ]
+    },
+    "PHX": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "owed",
+          "to": "HOU",
+          "note": "Phoenix's own 2027 first conveyed outright to Houston (via Brooklyn); unprotected.",
+          "source": "Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        },
+        {
+          "year": 2028,
+          "status": "swap",
+          "to": "BKN",
+          "favorable": "least",
+          "note": "Phoenix's own 2028 first sits in a multi-team pool with PHI (if its 1-8-protected pick conveys to BKN), BKN, NYK and WAS. Phoenix ends up with the less favorable of (i) Washington's 2028 first and (ii) the least/less favorable of {PHI-if-conveyed, BKN, PHX} - i.e. reduced to essentially the least-favorable first. Both Brooklyn (KD-trade swap right) and Washington hold swap rights over Phoenix's pick; to=BKN is the primary holder.",
+          "source": "Brooklyn-Philadelphia, 2/10/2022; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Indiana-Phoenix-Washington, 6/23/2023; Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2029,
+          "status": "owed",
+          "to": "HOU",
+          "note": "Phoenix's own 2029 first is fully conveyed: Houston takes the two most favorable of {HOU, DAL, PHX} and Brooklyn takes the least favorable, so Phoenix keeps none (its pick goes to HOU or BKN depending on ranking).",
+          "source": "Brooklyn-Dallas, 2/6/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 6/26/2024"
+        },
+        {
+          "year": 2030,
+          "status": "swap",
+          "to": "WAS",
+          "favorable": "least",
+          "note": "Phoenix's own 2030 first in a WAS/MEM/PHX pool: Washington takes the more favorable of {WAS, PHX}, Memphis takes the more favorable of its pick and the leftover, and Phoenix receives the least favorable of the three. Phoenix keeps a first but reduced to least; both Washington and Memphis hold swap rights (to=WAS primary).",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Memphis-Phoenix, 7/11/2023"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "MEM",
+          "note": "Phoenix's own 2031 first conveyed outright to Memphis (traded to Utah, then Utah to Memphis); unprotected.",
+          "source": "Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2033,
+          "status": "owed",
+          "to": "CHA",
+          "note": "Phoenix's own 2033 first conveyed outright to Charlotte (pending); unprotected.",
+          "source": "Charlotte-Phoenix, pending"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "outright",
+          "counterparties": [
+            "UTA",
+            "CLE",
+            "MIN"
+          ],
+          "favorable": "least",
+          "note": "Phoenix receives the least favorable of Utah's, Cleveland's and Minnesota's 2027 firsts (via Utah); Memphis gets the most favorable and Utah the second most. Utah's pick in the pool is barred from selections 1-5.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "BOS",
+            "ORL"
+          ],
+          "favorable": "less",
+          "note": "Phoenix receives the less favorable of Boston's and Orlando's 2027 second-round picks (Utah gets the more favorable); routed via Orlando to Charlotte to Phoenix.",
+          "source": "Boston-Orlando, 3/25/2021; Boston-Orlando, 6/26/2025; Boston-Utah, 8/6/2025; Charlotte-Orlando, 2/4/2026; Charlotte-Phoenix, pending"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "MIN",
+          "counterparties": [
+            "CHA",
+            "UTA",
+            "CLE",
+            "MIN"
+          ],
+          "protection": "6-30",
+          "note": "Conditional: Charlotte holds the right to swap the least favorable of its own, Utah's and Cleveland's 2029 firsts for Minnesota's 2029 first (protected 6-30), and MAY then convey the pick it receives (Minnesota's) to Phoenix. Only materializes if Minnesota's pick lands 1-5; if it lands within the protected 6-30 range it is not conveyable and both Minnesota's obligation to Charlotte and Charlotte's swap right (hence Phoenix's receipt) are extinguished.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025; Charlotte-Minnesota, pending; Charlotte-Phoenix, pending"
+        }
+      ]
+    },
+    "POR": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "MIN",
+          "counterparties": [
+            "MIN"
+          ],
+          "note": "Minnesota's 2027 2nd round pick, received outright (via HOU/OKC/NYK).",
+          "source": "Houston-Minnesota, 6/24/2022; Houston-Oklahoma City, 10/17/2023; New York-Oklahoma City, 6/27/2024; New York-Portland, 6/27/2024"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "MIL"
+          ],
+          "favorable": "more",
+          "note": "Swap right: POR receives the more favorable of its own and Milwaukee's 2028 1st; the less favorable of the two may pass to Washington or Milwaukee. POR still ends with a first (>= its own).",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Milwaukee-New York-Washington, 2/6/2025"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "outright",
+          "origin": "ORL",
+          "counterparties": [
+            "ORL"
+          ],
+          "note": "Orlando's 2028 1st round pick, received outright (via Memphis).",
+          "source": "Memphis-Orlando, 6/15/2025; Memphis-Portland, 6/25/2025"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "SAC",
+          "counterparties": [
+            "SAC"
+          ],
+          "note": "Sacramento's 2028 2nd round pick, received outright (via CHI/SAC/MEM).",
+          "source": "Chicago-Sacramento-San Antonio, 7/8/2024; Chicago-Sacramento-San Antonio, 2/3/2025; Memphis-Sacramento-Washington, 2/6/2025; Memphis-Portland, 6/25/2025"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "BOS",
+            "MIL"
+          ],
+          "favorable": "most",
+          "note": "POR receives the MOST and LEAST favorable of its own, Boston's and Milwaukee's 2029 1st picks (nets TWO firsts); Washington gets the second-most favorable (middle).",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Boston-Portland, 10/1/2023; Portland-Washington, 7/6/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "counterparties": [
+            "IND",
+            "WAS"
+          ],
+          "favorable": "less",
+          "note": "POR receives the LESS favorable of Indiana's and Washington's 2029 2nd round picks (Indiana keeps the more favorable).",
+          "source": "Indiana-Phoenix-Washington, 6/23/2023; Indiana-New York, 7/7/2023; New York-Portland, 6/27/2024"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "MIL"
+          ],
+          "favorable": "more",
+          "note": "Swap right: POR receives the more favorable of its own and Milwaukee's 2030 1st; Milwaukee may then swap the lesser for Miami's 2030 1st (does not affect POR).",
+          "source": "Milwaukee-Phoenix-Portland, 9/27/2023; Miami-Milwaukee, pending"
+        }
+      ]
+    },
+    "SAC": {
+      "ownFirstObligations": [
+        {
+          "year": 2031,
+          "status": "swap",
+          "to": "SAS",
+          "favorable": "less",
+          "note": "San Antonio holds the right to swap its 2031 first for Sacramento's 2031 first; Sacramento keeps a first but could be reduced to the less favorable of the two.",
+          "source": "Chicago-Sacramento-San Antonio, 7/8/2024"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "conditional",
+          "origin": "SAS",
+          "counterparties": [
+            "OKC"
+          ],
+          "protection": "17-30",
+          "note": "San Antonio's 2027 first conveys to Sacramento only if it lands 17-30; if it lands 1-16 it goes to Oklahoma City instead and Sacramento must convey its own and Charlotte's 2027 seconds to OKC.",
+          "source": "Chicago-Sacramento-San Antonio, 2/3/2025; Oklahoma City-Sacramento, 6/25/2025"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CHA",
+          "counterparties": [],
+          "note": "Charlotte's 2027 second to Sacramento outright, but may be conveyed onward to Oklahoma City if San Antonio's 2027 first lands 1-16.",
+          "source": "Charlotte-New York, 7/30/2021; Atlanta-New York, 1/13/2022; Atlanta-San Antonio, 6/30/2022; Chicago-Sacramento-San Antonio, 2/3/2025"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "MIN",
+          "counterparties": [],
+          "note": "Minnesota's 2031 first to Sacramento outright (via San Antonio).",
+          "source": "Minnesota-San Antonio, 6/26/2024; Chicago-Sacramento-San Antonio, 2/3/2025"
+        }
+      ]
+    },
+    "SAS": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "protected",
+          "to": "OKC",
+          "protection": "1-16",
+          "note": "Own 2027 first is top-16 protected: if it lands 1-16 SAS keeps it (obligation extinguished; Sacramento instead sends its own and Charlotte's 2027 2nds to OKC); if 17-30 it conveys to OKC. Prose names both a Sacramento (protected 17-30) and an OKC (protected 1-16) branch and is internally inconsistent on recipient; conservatively treated as owed to OKC whenever outside the top-16.",
+          "source": "Chicago-Sacramento-San Antonio, 2/3/2025; Oklahoma City-Sacramento, 6/25/2025"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "outright",
+          "origin": "ATL",
+          "counterparties": [
+            "ATL"
+          ],
+          "note": "Atlanta's 2027 first, outright/unprotected, to San Antonio.",
+          "source": "Atlanta-San Antonio, 6/30/2022"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "SAS",
+          "counterparties": [
+            "OKC",
+            "HOU",
+            "IND",
+            "MIA"
+          ],
+          "favorable": "more",
+          "note": "SAS receives the more favorable of (i) its own 2027 2nd and (ii) the least favorable of the OKC/HOU/IND/MIA 2027 2nds; Miami gets the least favorable of the five, so SAS's own 2nd goes to Miami if it is the worst.",
+          "source": "Detroit-Houston, 11/24/2020; Detroit-Oklahoma City, 3/13/2021; Indiana-Oklahoma City, 11/25/2020; Miami-Oklahoma City, 3/17/2021; Oklahoma City-Utah, 7/30/2021; Portland-San Antonio-Utah, 2/9/2022; Cleveland-Miami-San Antonio, 7/6/2023; New York-Oklahoma City, 6/27/2024; Oklahoma City-Philadelphia, 2/4/2026; New Orleans-New York, 2/5/2026"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "SAS",
+          "counterparties": [
+            "BOS"
+          ],
+          "favorable": "more",
+          "protection": "1",
+          "note": "SAS may swap its 2028 first for Boston's 2028 first (protected for selection 1). If Boston's pick lands #1 and is not conveyable, Boston instead sends its 2028 2nd (protected 46-60); if that also falls in range, Boston's obligation is extinguished.",
+          "source": "Boston-San Antonio, 2/10/2022"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "NOP",
+          "counterparties": [
+            "NOP"
+          ],
+          "note": "New Orleans' 2028 2nd, outright, to San Antonio.",
+          "source": "New Orleans-San Antonio, 2/9/2023"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "LAC",
+          "counterparties": [
+            "LAC"
+          ],
+          "note": "L.A. Clippers' 2029 2nd to San Antonio (via Philadelphia).",
+          "source": "L.A. Clippers-Oklahoma City-Philadelphia, 11/1/2023; Indiana-Philadelphia-San Antonio, 2/8/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "NOP",
+          "counterparties": [
+            "NOP"
+          ],
+          "note": "New Orleans' 2029 2nd, outright, to San Antonio.",
+          "source": "New Orleans-San Antonio, 2/9/2023"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "SAS",
+          "counterparties": [
+            "DAL",
+            "MIN"
+          ],
+          "favorable": "most",
+          "protection": "1",
+          "note": "SAS receives the most favorable of its own, Dallas' and Minnesota's 2030 firsts (Minnesota's protected for selection 1). If Minnesota's lands #1 and is not conveyable, MIN's obligation is extinguished and SAS instead has the right to swap its own for Dallas'. SAS always ends with a first (never worse than its own). Minnesota's received pick may onward-convey to Charlotte (pending).",
+          "source": "Boston-Dallas-San Antonio, 7/12/2023; Minnesota-San Antonio, 6/26/2024; Charlotte-Minnesota, pending"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CLE",
+          "counterparties": [
+            "CLE"
+          ],
+          "note": "Cleveland's 2030 2nd, outright, to San Antonio.",
+          "source": "Cleveland-Miami-San Antonio, 7/6/2023"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "outright",
+          "origin": "SAC",
+          "counterparties": [
+            "SAC"
+          ],
+          "note": "Sacramento's 2030 2nd to San Antonio (via Indiana).",
+          "source": "Indiana-Sacramento, 7/6/2023; Indiana-San Antonio, 7/6/2025"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "SAS",
+          "counterparties": [
+            "SAC"
+          ],
+          "favorable": "more",
+          "note": "SAS holds the right to swap its 2031 first for Sacramento's 2031 first; SAS keeps whichever is more favorable and always ends with a first.",
+          "source": "Chicago-Sacramento-San Antonio, 7/8/2024"
+        }
+      ]
+    },
+    "TOR": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "swap",
+          "to": "LAC",
+          "favorable": "less",
+          "note": "LAC holds right to swap the OKC or Denver 2027 first it controls for Toronto's 2027 first; Toronto left with the less favorable pick",
+          "source": "L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2031,
+          "status": "owed",
+          "to": "LAC",
+          "note": "Toronto's own 2031 first traded outright to LAC",
+          "source": "L.A. Clippers-Toronto, pending"
+        },
+        {
+          "year": 2033,
+          "status": "owed",
+          "to": "LAC",
+          "note": "Toronto's own 2033 first traded outright to LAC",
+          "source": "L.A. Clippers-Toronto, pending"
+        }
+      ],
+      "holdings": []
+    },
+    "UTA": {
+      "ownFirstObligations": [
+        {
+          "year": 2027,
+          "status": "swap",
+          "to": "MEM",
+          "favorable": "less",
+          "protection": "1-5",
+          "note": "Utah's own 2027 first is pooled with Cleveland's and Minnesota's 2027 firsts: Memphis takes the most favorable, Utah keeps the 2nd most favorable (median), Phoenix takes the least. Utah's own pick is barred from selections 1-5. Utah nets one 2027 first (the middle of three) but can lose its own pick to Memphis (if it is the best) or Phoenix (if it is the worst).",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        }
+      ],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "UTA/CLE/MIN",
+          "counterparties": [
+            "CLE",
+            "MIN"
+          ],
+          "favorable": "less",
+          "protection": "1-5",
+          "note": "Utah receives the 2nd most favorable (median) of the Utah/Cleveland/Minnesota 2027 firsts; Memphis takes the most favorable, Phoenix the least. Utah's own pick barred from selections 1-5. Same pool as the 2027 ownFirstObligations entry \u2014 Utah nets a single 2027 first (the middle of three).",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "DEN",
+          "counterparties": [
+            "DEN"
+          ],
+          "note": "Denver's 2027 2nd to Utah (via Cleveland to Chicago to Boston).",
+          "source": "Cleveland-Denver, 3/25/2021; Chicago-Cleveland-Sacramento, 2/1/2026; Boston-Chicago, 2/5/2026; Boston-Utah, 2/5/2026"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "outright",
+          "origin": "LAC",
+          "counterparties": [
+            "LAC"
+          ],
+          "note": "L.A. Clippers' 2027 2nd to Utah (via Atlanta to L.A. Clippers).",
+          "source": "Atlanta-L.A. Clippers, 3/25/2021; Atlanta-L.A. Clippers, 2/6/2025; L.A. Clippers-Miami-Utah, 7/7/2025"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "BOS/ORL",
+          "counterparties": [
+            "BOS",
+            "ORL"
+          ],
+          "favorable": "more",
+          "note": "Utah receives the more favorable of Boston's and Orlando's 2027 2nds (Phoenix gets the less favorable).",
+          "source": "Boston-Orlando, 3/25/2021; Boston-Orlando, 6/26/2025; Boston-Utah, 8/6/2025; Charlotte-Orlando, 2/4/2026; Charlotte-Phoenix, pending"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "UTA/CLE/LAL",
+          "counterparties": [
+            "CLE",
+            "LAL"
+          ],
+          "favorable": "most",
+          "note": "Utah receives the most favorable of its own, Cleveland's and the L.A. Lakers' 2028 firsts. L.A. Lakers get the less favorable of (its pick, the better of UTA/CLE); Atlanta gets the more favorable of (its pick, the worse of UTA/CLE); Cleveland gets the least of the three. Pure upside for Utah, so not listed as an own-first obligation.",
+          "source": "Cleveland-Utah, 9/3/2022; Atlanta-Cleveland, 2/6/2025; L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CLE",
+          "counterparties": [
+            "CLE"
+          ],
+          "note": "Cleveland's 2028 2nd to Utah.",
+          "source": "Cleveland-Utah, 2/5/2026"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "DET/CHA/LAC/MIA/NYK",
+          "counterparties": [
+            "DET",
+            "CHA",
+            "LAC",
+            "MIA",
+            "NYK"
+          ],
+          "favorable": "least",
+          "note": "Utah receives the least favorable of: (i) Detroit's 2028 2nd (protected 56-60), (ii) the less favorable of Charlotte's and the L.A. Clippers' 2028 2nds, (iii) Miami's 2028 2nd (conveys only if Dallas sends a 2027 first to Charlotte), and (iv) New York's 2028 2nd.",
+          "source": "Miami-San Antonio, 2/7/2023; Charlotte-L.A. Clippers, 2/9/2023; Boston-Dallas-San Antonio, 7/12/2023; Charlotte-Dallas, 2/8/2024; Detroit-New York, 2/8/2024; Dallas-Detroit, 7/6/2024; Detroit-Golden State-Miami-Toronto-Utah, 2/6/2025"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "UTA/CLE/MIN",
+          "counterparties": [
+            "CLE",
+            "MIN"
+          ],
+          "favorable": "most",
+          "protection": "1-5",
+          "note": "Utah receives the most, or two most, favorable of its own, Cleveland's and Minnesota's (protected 1-5) 2029 firsts; Charlotte gets the least/less favorable. If Minnesota's pick lands 1-5 and does not convey, Minnesota instead sends its 2029 2nd to Utah. Pure upside for Utah, so not listed as an own-first obligation.",
+          "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Charlotte-Phoenix, 6/30/2025"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "swap_right",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "favorable": "more",
+          "note": "Utah holds the right to swap its own 2030 first for the L.A. Lakers' 2030 first (Utah's option, pure upside).",
+          "source": "L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2031,
+          "round": 1,
+          "kind": "outright",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "note": "L.A. Lakers' 2031 first to Utah.",
+          "source": "L.A. Lakers-Utah, pending"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "swap_right",
+          "origin": "BOS/CLE",
+          "counterparties": [
+            "BOS",
+            "CLE"
+          ],
+          "favorable": "more",
+          "note": "Utah receives the more favorable of Boston's and Cleveland's 2031 2nds (Boston gets the less favorable).",
+          "source": "Atlanta-Cleveland, 2/6/2025; Atlanta-Boston-Brooklyn, 7/7/2025; Boston-Utah, 8/6/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "CLE",
+          "counterparties": [
+            "CLE"
+          ],
+          "note": "Cleveland's 2032 2nd to Utah.",
+          "source": "Cleveland-Utah, 2/5/2026"
+        },
+        {
+          "year": 2033,
+          "round": 1,
+          "kind": "outright",
+          "origin": "LAL",
+          "counterparties": [
+            "LAL"
+          ],
+          "note": "L.A. Lakers' 2033 first to Utah.",
+          "source": "L.A. Lakers-Utah, pending"
+        }
+      ]
+    },
+    "WAS": {
+      "ownFirstObligations": [],
+      "holdings": [
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "BKN",
+            "DAL"
+          ],
+          "favorable": "more",
+          "note": "More favorable of BKN and DAL 2027 2nds (WAS gets better; DET gets the less favorable)",
+          "source": "Detroit-Washington, 7/6/2023"
+        },
+        {
+          "year": 2027,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "GSW",
+            "PHX"
+          ],
+          "favorable": "less",
+          "note": "Less favorable of GSW and PHX 2027 2nds (PHI receives the more favorable)",
+          "source": "Philadelphia-Washington, 2/6/2025"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "BKN",
+            "PHI",
+            "PHX",
+            "MIL",
+            "POR"
+          ],
+          "favorable": "more",
+          "protection": "PHI leg protected 1-8",
+          "note": "WAS gets more favorable of (its own / least of BKN, PHI[prot 1-8], PHX) and (less favorable of MIL, POR) 2028 1sts; overlaps with the other WAS 2028 first entry",
+          "source": "Milwaukee-New York-Washington, 2/6/2025"
+        },
+        {
+          "year": 2028,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHI",
+            "BKN",
+            "PHX",
+            "MIL",
+            "POR"
+          ],
+          "favorable": "more",
+          "protection": "PHI leg protected 1-8",
+          "note": "WAS gets more favorable of its own 2028 1st and least/less favorable of PHI(if conveyed, prot 1-8), BKN, PHX; may then swap that pick for MIL/POR; overlaps with the other WAS 2028 first entry",
+          "source": "Brooklyn-New York, 7/6/2024"
+        },
+        {
+          "year": 2028,
+          "round": 2,
+          "kind": "conditional",
+          "origin": "DEN",
+          "protection": "31-33",
+          "note": "DEN 2028 2nd protected 31-33; if it falls in the protected range and is not conveyed, DEN's obligation to WAS is extinguished",
+          "source": "Sacramento-Washington, 2/5/2025"
+        },
+        {
+          "year": 2029,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "BOS",
+            "MIL",
+            "POR"
+          ],
+          "note": "Second most favorable of BOS, MIL and POR 2029 1sts (POR keeps the most and least favorable of the three)",
+          "source": "Portland-Washington, 7/6/2024"
+        },
+        {
+          "year": 2029,
+          "round": 2,
+          "kind": "outright",
+          "origin": "LAL",
+          "note": "LAL 2029 2nd outright",
+          "source": "L.A. Lakers-Washington, 1/23/2023"
+        },
+        {
+          "year": 2030,
+          "round": 1,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHX"
+          ],
+          "favorable": "more",
+          "note": "WAS right to swap for PHX: receives more favorable of its own and PHX 2030 1sts (MEM/PHX split the remainder)",
+          "source": "Memphis-Phoenix, 7/11/2023"
+        },
+        {
+          "year": 2030,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "PHX",
+            "POR"
+          ],
+          "favorable": "less",
+          "note": "Less favorable of PHX and POR 2030 2nds (BOS takes the most favorable, incl. WAS's own; PHI takes the middle)",
+          "source": "Boston-Philadelphia, pending"
+        },
+        {
+          "year": 2031,
+          "round": 2,
+          "kind": "swap_right",
+          "counterparties": [
+            "IND",
+            "MIA"
+          ],
+          "favorable": "more",
+          "note": "More favorable of IND and MIA 2031 2nds (MEM/IND split the remainder)",
+          "source": "Indiana-Memphis, 7/6/2025"
+        },
+        {
+          "year": 2032,
+          "round": 2,
+          "kind": "outright",
+          "origin": "UTA",
+          "note": "UTA 2032 2nd outright",
+          "source": "Utah-Washington, 6/25/2025"
+        }
+      ]
+    }
+  }
+}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { spendingPower } from "@apron/cba-engine";
-import { DRAFT_PICKS } from "@apron/data";
+import { DRAFT_PICKS, PICK_RIGHTS } from "@apron/data";
 import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor } from "@/lib/league";
 import { useLeague } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -189,20 +189,44 @@ export default function TeamWarRoom() {
 
         <div className="panel p-4">
           <div className="mb-2 text-sm font-semibold">Draft capital</div>
-          <div className="mb-1 text-xs font-semibold text-[var(--tier-below_cap)]">Incoming ({picks.incoming.length})</div>
-          <div className="mb-3 max-h-[22vh] space-y-1 overflow-y-auto text-xs">
-            {picks.incoming.map((p, i) => (
-              <div key={i} className="text-[var(--muted)]"><span className="text-[var(--text)]">{p.year}</span> — {p.headline.replace(/^\d{4}\s+/i, "")}</div>
-            ))}
-            {!picks.incoming.length && <div className="text-[var(--muted)]">None</div>}
-          </div>
-          <div className="mb-1 text-xs font-semibold text-[var(--tier-second_apron)]">Outgoing ({picks.outgoing.length})</div>
-          <div className="max-h-[22vh] space-y-1 overflow-y-auto text-xs">
-            {picks.outgoing.map((p, i) => (
-              <div key={i} className="text-[var(--muted)]"><span className="text-[var(--text)]">{p.year}</span> — {p.headline.replace(/^\d{4}\s+/i, "")}</div>
-            ))}
-            {!picks.outgoing.length && <div className="text-[var(--muted)]">None</div>}
-          </div>
+          {(() => {
+            const rights = PICK_RIGHTS[id];
+            const obl = new Map((rights?.ownFirstObligations ?? []).map((o) => [o.year, o]));
+            const ownYears = [2027, 2028, 2029, 2030, 2031, 2032];
+            const chip = (color: string, text: string, title: string, key: string) => (
+              <span key={key} title={title} className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
+                style={{ borderColor: color, color, background: `color-mix(in srgb, ${color} 8%, transparent)` }}>{text}</span>
+            );
+            return (
+              <>
+                <div className="label mb-1 !text-[10px]">Own first-rounders</div>
+                <div className="mb-3 flex flex-wrap gap-1">
+                  {ownYears.map((y) => {
+                    const o = obl.get(y);
+                    const color = !o ? "var(--tier-below_cap)" : o.status === "owed" ? "var(--tier-second_apron)" : "var(--tier-taxpayer)";
+                    const label = !o ? "kept" : o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
+                    return chip(color, `’${y - 2000} ${label}`, o?.note ?? `${y} first-rounder — kept, clean`, `own${y}`);
+                  })}
+                </div>
+                <div className="label mb-1 !text-[10px]">Incoming picks &amp; swap rights</div>
+                <div className="mb-3 flex flex-wrap gap-1">
+                  {(rights?.holdings ?? []).map((h, i) => {
+                    const kindTxt = h.kind === "outright" ? `from ${h.origin ?? h.counterparties?.[0] ?? "?"}` : h.kind === "swap_right" ? `swap ${h.favorable ?? ""}`.trim() : "conditional";
+                    const color = h.kind === "swap_right" ? "var(--tier-taxpayer)" : h.kind === "conditional" ? "var(--muted)" : "var(--tier-below_cap)";
+                    return chip(color, `’${h.year - 2000} ${h.round === 1 ? "1st" : "2nd"} · ${kindTxt}`, h.note, `h${i}`);
+                  })}
+                  {!rights?.holdings.length && <span className="text-[10px] text-[var(--muted)]">None</span>}
+                </div>
+                <details className="text-[11px]">
+                  <summary className="cursor-pointer text-[var(--muted)]">Full ledger (RealGM) — {picks.incoming.length} in, {picks.outgoing.length} out</summary>
+                  <div className="mt-1.5 max-h-[22vh] space-y-1 overflow-y-auto">
+                    {picks.incoming.map((p, i) => (<div key={`in${i}`} className="text-[var(--muted)]"><span className="text-[var(--tier-below_cap)]">in</span> <span className="text-[var(--text)]">{p.year}</span> — {p.headline.replace(/^\d{4}\s+/i, "")}</div>))}
+                    {picks.outgoing.map((p, i) => (<div key={`out${i}`} className="text-[var(--muted)]"><span className="text-[var(--tier-second_apron)]">out</span> <span className="text-[var(--text)]">{p.year}</span> — {p.headline.replace(/^\d{4}\s+/i, "")}</div>))}
+                  </div>
+                </details>
+              </>
+            );
+          })()}
         </div>
       </div>
     </div>
