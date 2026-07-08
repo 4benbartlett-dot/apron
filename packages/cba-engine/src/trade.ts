@@ -265,10 +265,14 @@ export function validateTrade(
         } — that salary needs no matching.`,
         citation: "2023 CBA · Art. VII §6(j)(1)(i) — Standard Traded Player Exception.",
       });
-      // Restriction-table row F: a PRE-EXISTING TPE (minted before this
-      // offseason) cannot be used if post-trade apron salary would exceed
-      // the first apron — and using one hard-caps the team there.
-      if (tpe?.preExisting) {
+      // Restriction-table row F: a TPE that arose in a prior Regular Season
+      // (or a prior offseason whose following Regular Season has ended) cannot
+      // be used if post-trade apron salary would exceed the first apron — and
+      // using one hard-caps the team there. A TPE that arose in the CURRENT
+      // offseason is exempt until after the following Regular Season, so key
+      // off `firstApronCap` (falling back to `preExisting` for legacy callers)
+      // rather than `preExisting`, which merely means "standing before now".
+      if (tpe && (tpe.firstApronCap ?? tpe.preExisting)) {
         const rowFOk = post <= c.firstApron + EPSILON;
         checks.push({
           ruleId: "tpe_first_apron",

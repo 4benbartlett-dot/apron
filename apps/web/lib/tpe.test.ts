@@ -17,6 +17,22 @@ describe("TPE ledger", () => {
     expect(ledger.CHA?.[0]?.preExisting).toBe(true);
   });
 
+  it("flags row-F cap by ARISE date, not just standing status (§6(j)(1)(i))", () => {
+    const cha = tpeLedger([]).CHA ?? [];
+    // LaMelo's $40.8M TPE arose in the 2026 offseason (expires ~late June
+    // 2027) — standing, but its first-apron hard cap doesn't attach until
+    // after the 2026-27 Regular Season, so it is NOT row-F capped now.
+    const lamelo = cha.find((s) => s.label.includes("LaMelo"))!;
+    expect(lamelo.amount).toBeGreaterThan(40_000_000);
+    expect(lamelo.preExisting).toBe(true);
+    expect(lamelo.firstApronCap).toBe(false);
+    // Collin Sexton's TPE arose in the 2025-26 Regular Season (expires
+    // Feb 2027) — row-F capped now.
+    const sexton = cha.find((s) => s.label.includes("Sexton"))!;
+    expect(sexton.preExisting).toBe(true);
+    expect(sexton.firstApronCap).toBe(true);
+  });
+
   it("room teams lost their TPEs with the room (§6(n)(2))", () => {
     // LAL/CHI/BKN operated under the cap — their scraped TPEs are dead.
     const ledger = tpeLedger([]);
@@ -73,14 +89,60 @@ describe("TPE auto-fit", () => {
 });
 
 describe("row F hard cap persists from TPE trades", () => {
-  it("using a pre-existing TPE freezes the first apron for the session", () => {
-    const mv: Move = {
+  // A one-sided absorb: CHA takes a player fully into the TPE (no matching, no
+  // expanded formula), so the ONLY possible hard cap is row F itself.
+  const absorbInto = (use: {
+    amount: number;
+    preExisting: boolean;
+    firstApronCap?: boolean;
+  }): Move =>
+    ({
       kind: "trade",
       label: "t",
       players: [{ playerId: salary("gui santos").playerId, to: "CHA" }],
-      tpeUse: { CHA: { amount: 4_000_000, preExisting: true } },
-    } as Move;
-    expect(sessionHardCaps([mv]).CHA).toBe(C.firstApron);
+      tpeUse: { CHA: use },
+    }) as Move;
+
+  it("using a pre-existing TPE freezes the first apron for the session", () => {
+    // Legacy plan (no firstApronCap) falls back to preExisting → capped.
+    expect(sessionHardCaps([absorbInto({ amount: 4_000_000, preExisting: true })]).CHA).toBe(
+      C.firstApron,
+    );
+  });
+
+  it("a Regular-Season-arisen TPE (firstApronCap) hard-caps at the first apron", () => {
+    const caps = sessionHardCaps([
+      absorbInto({ amount: 4_000_000, preExisting: true, firstApronCap: true }),
+    ]);
+    expect(caps.CHA).toBe(C.firstApron);
+  });
+
+  it("an offseason-arisen TPE (LaMelo-style) does NOT hard-cap now (row F(ii))", () => {
+    // firstApronCap:false — arose this offseason, so no first-apron cap until
+    // after the 2026-27 Regular Season, even though it's a standing TPE.
+    const caps = sessionHardCaps([
+      absorbInto({ amount: 40_000_000, preExisting: true, firstApronCap: false }),
+    ]);
+    expect(caps.CHA).toBeUndefined();
+  });
+
+  it("offseason TPEs are usable above the first apron (row F(ii) — no gate)", () => {
+    // Real CHA ledger: LaMelo's $40.8M is offseason-arisen. A team finishing
+    // over the first apron may still use it (a Regular-Season TPE could not).
+    const plan = fitTpePlan(
+      [
+        {
+          teamId: "CHA",
+          incomingSalary: 30_000_000,
+          maxIncomingAllowed: 250_000,
+          postTradeSalary: C.firstApron + 5_000_000,
+        },
+      ],
+      { CHA: [{ playerId: "a", salary: 30_000_000 }] },
+      tpeLedger([]),
+    );
+    expect(plan?.CHA?.label).toContain("LaMelo");
+    expect(plan?.CHA?.firstApronCap).toBe(false);
   });
 });
 
@@ -110,8 +172,8 @@ describe("Codex review holes (regression tests)", () => {
   it("row F steers the fit to a same-offseason TPE when post > first apron", () => {
     const ledger = {
       HOT: [
-        { team: "HOT", amount: 30_000_000, label: "Big old TPE", preExisting: true, expires: "2027-01-01" },
-        { team: "HOT", amount: 12_000_000, label: "Fresh TPE", preExisting: false, expires: "2027-07-05" },
+        { team: "HOT", amount: 30_000_000, label: "Big old TPE", preExisting: true, firstApronCap: true, expires: "2027-01-01" },
+        { team: "HOT", amount: 12_000_000, label: "Fresh TPE", preExisting: false, firstApronCap: false, expires: "2027-07-05" },
       ],
     };
     const plan = fitTpePlan(
