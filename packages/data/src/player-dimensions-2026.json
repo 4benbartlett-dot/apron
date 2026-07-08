@@ -1,0 +1,5825 @@
+{
+  "source": "Derived from Basketball-Reference 2025-26 statistical profile",
+  "byId": {
+    "thompam01": {
+      "off": 58.3,
+      "def": 64.6,
+      "play": 34.9,
+      "reb": 52.3,
+      "space": 23.2,
+      "rim": 23,
+      "perd": 67,
+      "usg": 20
+    },
+    "duranke01": {
+      "off": 74.7,
+      "def": 55.6,
+      "play": 35.3,
+      "reb": 38.9,
+      "space": 90.4,
+      "rim": 32,
+      "perd": 55.5,
+      "usg": 27.1
+    },
+    "banede01": {
+      "off": 59.1,
+      "def": 52.2,
+      "play": 34.2,
+      "reb": 32.6,
+      "space": 83.2,
+      "rim": 16.8,
+      "perd": 59.5,
+      "usg": 23.3
+    },
+    "camarto01": {
+      "off": 43.9,
+      "def": 54,
+      "play": 20,
+      "reb": 39.3,
+      "space": 82.6,
+      "rim": 17.6,
+      "perd": 54.8,
+      "usg": 16.3
+    },
+    "smithja05": {
+      "off": 46.9,
+      "def": 53.4,
+      "play": 16.8,
+      "reb": 49.4,
+      "space": 74.9,
+      "rim": 35,
+      "perd": 50.7,
+      "usg": 18.2
+    },
+    "bridgmi01": {
+      "off": 56.1,
+      "def": 67.9,
+      "play": 30.2,
+      "reb": 31.3,
+      "space": 74.9,
+      "rim": 33.2,
+      "perd": 65.6,
+      "usg": 17.3
+    },
+    "barnesc01": {
+      "off": 60.7,
+      "def": 79.1,
+      "play": 43.4,
+      "reb": 57.3,
+      "space": 40.8,
+      "rim": 62.8,
+      "perd": 66.8,
+      "usg": 23.4
+    },
+    "maxeyty01": {
+      "off": 78.4,
+      "def": 61.2,
+      "play": 49.1,
+      "reb": 28.8,
+      "space": 80.6,
+      "rim": 28.4,
+      "perd": 67.2,
+      "usg": 29.4
+    },
+    "murraja01": {
+      "off": 80.6,
+      "def": 41,
+      "play": 52.2,
+      "reb": 33.4,
+      "space": 98.2,
+      "rim": 11.2,
+      "perd": 53,
+      "usg": 27.9
+    },
+    "whitede01": {
+      "off": 61.9,
+      "def": 66.4,
+      "play": 38.8,
+      "reb": 33.8,
+      "space": 53.5,
+      "rim": 50.8,
+      "perd": 65.4,
+      "usg": 22
+    },
+    "edgecvj01": {
+      "off": 47.9,
+      "def": 54.6,
+      "play": 31.2,
+      "reb": 41,
+      "space": 67.2,
+      "rim": 18.2,
+      "perd": 62.6,
+      "usg": 20.1
+    },
+    "randlju01": {
+      "off": 59.4,
+      "def": 53.9,
+      "play": 39,
+      "reb": 51,
+      "space": 44.5,
+      "rim": 10.6,
+      "perd": 54.8,
+      "usg": 26.5
+    },
+    "ingrabr01": {
+      "off": 56.9,
+      "def": 50.7,
+      "play": 30.2,
+      "reb": 43.5,
+      "space": 78.5,
+      "rim": 25,
+      "perd": 53.1,
+      "usg": 26.9
+    },
+    "alexani01": {
+      "off": 59.3,
+      "def": 52.5,
+      "play": 28.9,
+      "reb": 27.5,
+      "space": 91,
+      "rim": 18.2,
+      "perd": 60.9,
+      "usg": 23.9
+    },
+    "brunsja01": {
+      "off": 73.4,
+      "def": 44.1,
+      "play": 52.6,
+      "reb": 26.3,
+      "space": 81.7,
+      "rim": 2,
+      "perd": 54.5,
+      "usg": 30.4
+    },
+    "pritcpa01": {
+      "off": 63.9,
+      "def": 48.9,
+      "play": 41.2,
+      "reb": 32.1,
+      "space": 86.6,
+      "rim": 3.8,
+      "perd": 56.9,
+      "usg": 21.4
+    },
+    "knuepko01": {
+      "off": 66.7,
+      "def": 48.7,
+      "play": 29.7,
+      "reb": 44.3,
+      "space": 96.2,
+      "rim": 7.4,
+      "perd": 53.5,
+      "usg": 22.3
+    },
+    "johnsja05": {
+      "off": 66.3,
+      "def": 66.1,
+      "play": 54,
+      "reb": 70.8,
+      "space": 63.6,
+      "rim": 20.4,
+      "perd": 61,
+      "usg": 27
+    },
+    "daniedy01": {
+      "off": 45.9,
+      "def": 71.9,
+      "play": 39.9,
+      "reb": 51,
+      "space": 17.6,
+      "rim": 18.2,
+      "perd": 71.6,
+      "usg": 16
+    },
+    "banchpa01": {
+      "off": 59.2,
+      "def": 53,
+      "play": 39.3,
+      "reb": 60.7,
+      "space": 41,
+      "rim": 23.4,
+      "perd": 51.5,
+      "usg": 27.6
+    },
+    "divindo01": {
+      "off": 49.2,
+      "def": 60.6,
+      "play": 30.1,
+      "reb": 35.1,
+      "space": 87,
+      "rim": 16.6,
+      "perd": 65.8,
+      "usg": 16.9
+    },
+    "brownja02": {
+      "off": 72.3,
+      "def": 54,
+      "play": 43.4,
+      "reb": 50.6,
+      "space": 63.5,
+      "rim": 14.4,
+      "perd": 56.9,
+      "usg": 36.2
+    },
+    "hardeja01": {
+      "off": 76.1,
+      "def": 47.3,
+      "play": 55.7,
+      "reb": 37.2,
+      "space": 86,
+      "rim": 13,
+      "perd": 57.6,
+      "usg": 28.6
+    },
+    "derozde01": {
+      "off": 55.4,
+      "def": 43,
+      "play": 36.4,
+      "reb": 26.3,
+      "space": 45.3,
+      "rim": 12.4,
+      "perd": 50.8,
+      "usg": 22.8
+    },
+    "sengual01": {
+      "off": 65.7,
+      "def": 69.4,
+      "play": 47.1,
+      "reb": 66.2,
+      "space": 41,
+      "rim": 49,
+      "perd": 61.9,
+      "usg": 26.6
+    },
+    "bridgmi02": {
+      "off": 56.8,
+      "def": 51.4,
+      "play": 29.9,
+      "reb": 48.5,
+      "space": 55.5,
+      "rim": 18.6,
+      "perd": 51.1,
+      "usg": 22.3
+    },
+    "goberru01": {
+      "off": 48.2,
+      "def": 65.9,
+      "play": 14.7,
+      "reb": 88.4,
+      "space": 6,
+      "rim": 66.8,
+      "perd": 56.2,
+      "usg": 12.9
+    },
+    "rolliry01": {
+      "off": 54.7,
+      "def": 51.4,
+      "play": 44.2,
+      "reb": 37.6,
+      "space": 90.5,
+      "rim": 14.8,
+      "perd": 62.7,
+      "usg": 24.2
+    },
+    "adebaba01": {
+      "off": 59.1,
+      "def": 59.5,
+      "play": 27.2,
+      "reb": 71.6,
+      "space": 46.5,
+      "rim": 31.6,
+      "perd": 57,
+      "usg": 25
+    },
+    "flaggco01": {
+      "off": 56.9,
+      "def": 58.5,
+      "play": 37.5,
+      "reb": 48.1,
+      "space": 39,
+      "rim": 32.6,
+      "perd": 60,
+      "usg": 26.9
+    },
+    "mitchdo01": {
+      "off": 80.1,
+      "def": 53.1,
+      "play": 47,
+      "reb": 35.1,
+      "space": 78.5,
+      "rim": 10.4,
+      "perd": 62.8,
+      "usg": 32.2
+    },
+    "murphtr02": {
+      "off": 66.3,
+      "def": 49,
+      "play": 30,
+      "reb": 40.5,
+      "space": 87,
+      "rim": 12.8,
+      "perd": 57.6,
+      "usg": 22.7
+    },
+    "podzibr01": {
+      "off": 51.6,
+      "def": 52.5,
+      "play": 33.6,
+      "reb": 46,
+      "space": 74.5,
+      "rim": 7.4,
+      "perd": 61.5,
+      "usg": 20.1
+    },
+    "townska01": {
+      "off": 65.5,
+      "def": 60.6,
+      "play": 26.4,
+      "reb": 93.9,
+      "space": 69.5,
+      "rim": 28,
+      "perd": 56.1,
+      "usg": 25.9
+    },
+    "mcdanja02": {
+      "off": 44.9,
+      "def": 60.8,
+      "play": 22.8,
+      "reb": 35.1,
+      "space": 78.7,
+      "rim": 37.4,
+      "perd": 60.8,
+      "usg": 18.5
+    },
+    "okongon01": {
+      "off": 49.4,
+      "def": 63.7,
+      "play": 25.7,
+      "reb": 59.9,
+      "space": 78.1,
+      "rim": 48.2,
+      "perd": 58.6,
+      "usg": 19.5
+    },
+    "doncilu01": {
+      "off": 96.1,
+      "def": 65.8,
+      "play": 65.3,
+      "reb": 57.3,
+      "space": 79.9,
+      "rim": 21,
+      "perd": 69.3,
+      "usg": 38.1
+    },
+    "cartewe01": {
+      "off": 43.7,
+      "def": 57.9,
+      "play": 19.1,
+      "reb": 63.2,
+      "space": 45.5,
+      "rim": 30.4,
+      "perd": 55.2,
+      "usg": 15.6
+    },
+    "gilleco01": {
+      "off": 59.6,
+      "def": 58.9,
+      "play": 39.6,
+      "reb": 37.6,
+      "space": 91.4,
+      "rim": 9.4,
+      "perd": 65.9,
+      "usg": 18.7
+    },
+    "carrica01": {
+      "off": 38.1,
+      "def": 29.7,
+      "play": 36.7,
+      "reb": 31.3,
+      "space": 85.6,
+      "rim": 3.2,
+      "perd": 48.1,
+      "usg": 18
+    },
+    "greenaj01": {
+      "off": 40.7,
+      "def": 34.2,
+      "play": 19.2,
+      "reb": 26.3,
+      "space": 95,
+      "rim": 2,
+      "perd": 49.2,
+      "usg": 14
+    },
+    "champju02": {
+      "off": 51.4,
+      "def": 60.4,
+      "play": 17,
+      "reb": 51,
+      "space": 85.5,
+      "rim": 23.6,
+      "perd": 56.4,
+      "usg": 15.2
+    },
+    "jokicni01": {
+      "off": 100,
+      "def": 87.3,
+      "play": 79.1,
+      "reb": 90.9,
+      "space": 77,
+      "rim": 43.4,
+      "perd": 73.4,
+      "usg": 30.4
+    },
+    "mccolcj01": {
+      "off": 58.7,
+      "def": 38.7,
+      "play": 35.2,
+      "reb": 29.2,
+      "space": 84,
+      "rim": 15,
+      "perd": 52.4,
+      "usg": 25.7
+    },
+    "gilgesh01": {
+      "off": 98.6,
+      "def": 80.5,
+      "play": 58.5,
+      "reb": 33.4,
+      "space": 78.3,
+      "rim": 35.8,
+      "perd": 75,
+      "usg": 33.4
+    },
+    "buzelma01": {
+      "off": 47.6,
+      "def": 53.4,
+      "play": 19.9,
+      "reb": 48.5,
+      "space": 66.4,
+      "rim": 59.2,
+      "perd": 50.4,
+      "usg": 22.8
+    },
+    "beysa01": {
+      "off": 62.4,
+      "def": 36.7,
+      "play": 24.8,
+      "reb": 44.3,
+      "space": 75.1,
+      "rim": 2,
+      "perd": 49.5,
+      "usg": 21.6
+    },
+    "chrisma02": {
+      "off": 43.9,
+      "def": 45.7,
+      "play": 19.1,
+      "reb": 28.8,
+      "space": 88.6,
+      "rim": 12.8,
+      "perd": 55.1,
+      "usg": 16.5
+    },
+    "foxde01": {
+      "off": 59,
+      "def": 59.2,
+      "play": 49.1,
+      "reb": 31.3,
+      "space": 54.5,
+      "rim": 12,
+      "perd": 64.9,
+      "usg": 24.9
+    },
+    "quickim01": {
+      "off": 60.2,
+      "def": 58.1,
+      "play": 45.3,
+      "reb": 34.2,
+      "space": 83.8,
+      "rim": 4.4,
+      "perd": 65.4,
+      "usg": 21.1
+    },
+    "dunnkr01": {
+      "off": 36.1,
+      "def": 67.4,
+      "play": 29.6,
+      "reb": 33.8,
+      "space": 65.9,
+      "rim": 10.6,
+      "perd": 74,
+      "usg": 12.4
+    },
+    "anunoog01": {
+      "off": 54.6,
+      "def": 66.3,
+      "play": 18.6,
+      "reb": 41,
+      "space": 86.5,
+      "rim": 32.4,
+      "perd": 63.1,
+      "usg": 19.7
+    },
+    "onealro01": {
+      "off": 47,
+      "def": 62.5,
+      "play": 23.4,
+      "reb": 43.1,
+      "space": 92.8,
+      "rim": 18.4,
+      "perd": 63.5,
+      "usg": 14.3
+    },
+    "grimequ01": {
+      "off": 45.1,
+      "def": 47.7,
+      "play": 27.9,
+      "reb": 32.1,
+      "space": 55,
+      "rim": 14,
+      "perd": 57.3,
+      "usg": 19
+    },
+    "avdijde01": {
+      "off": 71.6,
+      "def": 57.2,
+      "play": 51.7,
+      "reb": 51,
+      "space": 46.8,
+      "rim": 23.4,
+      "perd": 57.5,
+      "usg": 29.3
+    },
+    "marshna01": {
+      "off": 46.5,
+      "def": 52.7,
+      "play": 29.7,
+      "reb": 39.3,
+      "space": 38.2,
+      "rim": 3.4,
+      "perd": 59.3,
+      "usg": 20.5
+    },
+    "cunnica01": {
+      "off": 77.6,
+      "def": 69.3,
+      "play": 71.6,
+      "reb": 42.6,
+      "space": 60.6,
+      "rim": 34,
+      "perd": 69,
+      "usg": 30.5
+    },
+    "sheppre01": {
+      "off": 56.7,
+      "def": 70.6,
+      "play": 33,
+      "reb": 29.6,
+      "space": 90,
+      "rim": 30.8,
+      "perd": 73.4,
+      "usg": 21.7
+    },
+    "bookede01": {
+      "off": 69.7,
+      "def": 43.8,
+      "play": 50,
+      "reb": 30.9,
+      "space": 53.7,
+      "rim": 8.8,
+      "perd": 51.6,
+      "usg": 32.2
+    },
+    "edwaran01": {
+      "off": 77.3,
+      "def": 55.4,
+      "play": 31.6,
+      "reb": 36.8,
+      "space": 91,
+      "rim": 27.8,
+      "perd": 62.1,
+      "usg": 31.5
+    },
+    "hardati02": {
+      "off": 56.4,
+      "def": 34.9,
+      "play": 17.7,
+      "reb": 26.7,
+      "space": 92.6,
+      "rim": 2,
+      "perd": 49.9,
+      "usg": 18.5
+    },
+    "jaqueja01": {
+      "off": 52.1,
+      "def": 50.4,
+      "play": 40.4,
+      "reb": 42.6,
+      "space": 44.5,
+      "rim": 11.2,
+      "perd": 54.7,
+      "usg": 22.3
+    },
+    "robindu01": {
+      "off": 53.1,
+      "def": 50.7,
+      "play": 21.8,
+      "reb": 26.7,
+      "space": 93.2,
+      "rim": 11.8,
+      "perd": 57.1,
+      "usg": 15.8
+    },
+    "fearsje01": {
+      "off": 44.1,
+      "def": 44.7,
+      "play": 34,
+      "reb": 36.3,
+      "space": 50.9,
+      "rim": 13.2,
+      "perd": 58.9,
+      "usg": 25.5
+    },
+    "clingdo01": {
+      "off": 61.7,
+      "def": 63.8,
+      "play": 22.3,
+      "reb": 100,
+      "space": 54.8,
+      "rim": 74.2,
+      "perd": 53.9,
+      "usg": 16.9
+    },
+    "leonaka01": {
+      "off": 91.9,
+      "def": 62.3,
+      "play": 37.6,
+      "reb": 52.3,
+      "space": 88.6,
+      "rim": 16.4,
+      "perd": 67.4,
+      "usg": 33.5
+    },
+    "mobleev01": {
+      "off": 60,
+      "def": 67.1,
+      "play": 30.4,
+      "reb": 69.1,
+      "space": 39.4,
+      "rim": 70.6,
+      "perd": 56.9,
+      "usg": 22.6
+    },
+    "wiggian01": {
+      "off": 53.6,
+      "def": 59.9,
+      "play": 23.8,
+      "reb": 38.9,
+      "space": 86.3,
+      "rim": 39,
+      "perd": 60.4,
+      "usg": 19.7
+    },
+    "laravja01": {
+      "off": 40.3,
+      "def": 60.2,
+      "play": 18.4,
+      "reb": 43.1,
+      "space": 46.4,
+      "rim": 21.2,
+      "perd": 64.8,
+      "usg": 14.4
+    },
+    "siakapa01": {
+      "off": 61.9,
+      "def": 44.8,
+      "play": 35.5,
+      "reb": 49.8,
+      "space": 66.6,
+      "rim": 15,
+      "perd": 50.8,
+      "usg": 30.1
+    },
+    "wallaca01": {
+      "off": 37.7,
+      "def": 85.9,
+      "play": 24.3,
+      "reb": 30.5,
+      "space": 60.3,
+      "rim": 22.4,
+      "perd": 84.5,
+      "usg": 14.5
+    },
+    "vassede01": {
+      "off": 50,
+      "def": 55.1,
+      "play": 23.1,
+      "reb": 33.8,
+      "space": 87.5,
+      "rim": 15.2,
+      "perd": 60.4,
+      "usg": 18
+    },
+    "castlst01": {
+      "off": 56.4,
+      "def": 60.9,
+      "play": 54.5,
+      "reb": 43.9,
+      "space": 51.7,
+      "rim": 12.6,
+      "perd": 65.5,
+      "usg": 24.9
+    },
+    "queende01": {
+      "off": 42.7,
+      "def": 63,
+      "play": 34.4,
+      "reb": 67.8,
+      "space": 32.2,
+      "rim": 46.4,
+      "perd": 59.8,
+      "usg": 21.8
+    },
+    "ballla01": {
+      "off": 78,
+      "def": 54.2,
+      "play": 68.3,
+      "reb": 44.7,
+      "space": 81.2,
+      "rim": 8.6,
+      "perd": 63.2,
+      "usg": 32
+    },
+    "reidna01": {
+      "off": 50,
+      "def": 65.7,
+      "play": 23.4,
+      "reb": 59,
+      "space": 72.5,
+      "rim": 45.4,
+      "perd": 59.9,
+      "usg": 22.1
+    },
+    "mitchda01": {
+      "off": 41.6,
+      "def": 54.5,
+      "play": 47,
+      "reb": 24.2,
+      "space": 74.8,
+      "rim": 7.8,
+      "perd": 62.4,
+      "usg": 13.6
+    },
+    "brownbr01": {
+      "off": 35.6,
+      "def": 54.5,
+      "play": 21.2,
+      "reb": 41.4,
+      "space": 65.6,
+      "rim": 9.6,
+      "perd": 64,
+      "usg": 14.5
+    },
+    "holmgch01": {
+      "off": 63,
+      "def": 76.3,
+      "play": 18.2,
+      "reb": 74.1,
+      "space": 64.5,
+      "rim": 86.2,
+      "perd": 59.1,
+      "usg": 21.9
+    },
+    "hartjo01": {
+      "off": 54.4,
+      "def": 69.4,
+      "play": 35.6,
+      "reb": 61.1,
+      "space": 80.4,
+      "rim": 15.4,
+      "perd": 70.5,
+      "usg": 16.7
+    },
+    "jamesle01": {
+      "off": 69,
+      "def": 55.8,
+      "play": 55.1,
+      "reb": 48.9,
+      "space": 45.3,
+      "rim": 22,
+      "perd": 59.7,
+      "usg": 27.2
+    },
+    "baileac01": {
+      "off": 40.5,
+      "def": 33.6,
+      "play": 19.9,
+      "reb": 38.4,
+      "space": 61.3,
+      "rim": 23.4,
+      "perd": 46.7,
+      "usg": 21.4
+    },
+    "barneha02": {
+      "off": 47.6,
+      "def": 51.7,
+      "play": 20.5,
+      "reb": 28.4,
+      "space": 79.7,
+      "rim": 10.2,
+      "perd": 53,
+      "usg": 14.6
+    },
+    "durenja01": {
+      "off": 73.8,
+      "def": 61.3,
+      "play": 21.4,
+      "reb": 91.8,
+      "space": 6,
+      "rim": 41,
+      "perd": 55.7,
+      "usg": 23.6
+    },
+    "millebr02": {
+      "off": 60.9,
+      "def": 54.5,
+      "play": 31.3,
+      "reb": 42.6,
+      "space": 87.8,
+      "rim": 26.4,
+      "perd": 58,
+      "usg": 28.1
+    },
+    "raynama01": {
+      "off": 44.9,
+      "def": 38.8,
+      "play": 16.5,
+      "reb": 70.4,
+      "space": 45.7,
+      "rim": 23.6,
+      "perd": 44.6,
+      "usg": 18.2
+    },
+    "aytonde01": {
+      "off": 49.2,
+      "def": 48,
+      "play": 11.9,
+      "reb": 76.2,
+      "space": 6,
+      "rim": 44,
+      "perd": 47.9,
+      "usg": 16.7
+    },
+    "walkeja02": {
+      "off": 40.8,
+      "def": 46.8,
+      "play": 25.3,
+      "reb": 49.8,
+      "space": 74.9,
+      "rim": 14.2,
+      "perd": 51.5,
+      "usg": 20.7
+    },
+    "hausesa01": {
+      "off": 51.7,
+      "def": 51.4,
+      "play": 19,
+      "reb": 39.7,
+      "space": 89.8,
+      "rim": 13.2,
+      "perd": 54.5,
+      "usg": 14.5
+    },
+    "hachiru01": {
+      "off": 44.6,
+      "def": 38.8,
+      "play": 12.9,
+      "reb": 33,
+      "space": 87.3,
+      "rim": 12,
+      "perd": 45.5,
+      "usg": 15.2
+    },
+    "quetane01": {
+      "off": 53.4,
+      "def": 75.4,
+      "play": 18.9,
+      "reb": 80,
+      "space": 6,
+      "rim": 67.2,
+      "perd": 62.8,
+      "usg": 14.7
+    },
+    "claxtni01": {
+      "off": 51,
+      "def": 58.9,
+      "play": 37.4,
+      "reb": 64.9,
+      "space": 6,
+      "rim": 51.4,
+      "perd": 55,
+      "usg": 17.7
+    },
+    "turnemy01": {
+      "off": 45,
+      "def": 58.6,
+      "play": 16.9,
+      "reb": 51,
+      "space": 82.5,
+      "rim": 74,
+      "perd": 53.2,
+      "usg": 18.6
+    },
+    "johnske04": {
+      "off": 56.5,
+      "def": 49.6,
+      "play": 19.2,
+      "reb": 56.1,
+      "space": 64.3,
+      "rim": 7.4,
+      "perd": 51.4,
+      "usg": 21
+    },
+    "blackan01": {
+      "off": 44.3,
+      "def": 62,
+      "play": 32.2,
+      "reb": 33.8,
+      "space": 53.8,
+      "rim": 28,
+      "perd": 67.4,
+      "usg": 22.2
+    },
+    "dasiltr01": {
+      "off": 45.4,
+      "def": 54.2,
+      "play": 19.7,
+      "reb": 38.9,
+      "space": 72.7,
+      "rim": 13.4,
+      "perd": 58.8,
+      "usg": 16.2
+    },
+    "diabamo01": {
+      "off": 49.9,
+      "def": 65.8,
+      "play": 19.3,
+      "reb": 83.4,
+      "space": 70,
+      "rim": 49.4,
+      "perd": 59.1,
+      "usg": 11.4
+    },
+    "thompau01": {
+      "off": 46.1,
+      "def": 91.8,
+      "play": 28.4,
+      "reb": 56.1,
+      "space": 22,
+      "rim": 46.8,
+      "perd": 83.8,
+      "usg": 16.9
+    },
+    "cliffni01": {
+      "off": 30,
+      "def": 42.6,
+      "play": 23.1,
+      "reb": 39.3,
+      "space": 51.4,
+      "rim": 10.8,
+      "perd": 56.6,
+      "usg": 17
+    },
+    "dosunay01": {
+      "off": 56.8,
+      "def": 49,
+      "play": 34.7,
+      "reb": 32.6,
+      "space": 87.5,
+      "rim": 10.2,
+      "perd": 59.1,
+      "usg": 20.2
+    },
+    "collijo01": {
+      "off": 49.9,
+      "def": 51.1,
+      "play": 13.6,
+      "reb": 51.9,
+      "space": 76.6,
+      "rim": 31.6,
+      "perd": 52.8,
+      "usg": 19.5
+    },
+    "greendr01": {
+      "off": 36.5,
+      "def": 61.7,
+      "play": 41,
+      "reb": 51,
+      "space": 50.1,
+      "rim": 29.6,
+      "perd": 58.8,
+      "usg": 16.1
+    },
+    "wembavi01": {
+      "off": 86.9,
+      "def": 99.6,
+      "play": 31.6,
+      "reb": 93,
+      "space": 64.1,
+      "rim": 100,
+      "perd": 72.2,
+      "usg": 32.4
+    },
+    "westbru01": {
+      "off": 54.6,
+      "def": 45.2,
+      "play": 54,
+      "reb": 48.1,
+      "space": 58.6,
+      "rim": 5.6,
+      "perd": 57.1,
+      "usg": 25.9
+    },
+    "sheadja01": {
+      "off": 36.9,
+      "def": 53.7,
+      "play": 49,
+      "reb": 22.5,
+      "space": 46.5,
+      "rim": 8.8,
+      "perd": 63,
+      "usg": 15.5
+    },
+    "larsspe01": {
+      "off": 43,
+      "def": 50.5,
+      "play": 29.5,
+      "reb": 32.6,
+      "space": 46.9,
+      "rim": 8.8,
+      "perd": 58.6,
+      "usg": 16.8
+    },
+    "dortlu01": {
+      "off": 34,
+      "def": 60.6,
+      "play": 14.7,
+      "reb": 34.2,
+      "space": 61,
+      "rim": 18,
+      "perd": 61,
+      "usg": 14.1
+    },
+    "jamessi01": {
+      "off": 32.2,
+      "def": 59.9,
+      "play": 21.4,
+      "reb": 41,
+      "space": 58.5,
+      "rim": 12.2,
+      "perd": 64.1,
+      "usg": 11
+    },
+    "willizi01": {
+      "off": 69.6,
+      "def": 47.9,
+      "play": 31.7,
+      "reb": 47.3,
+      "space": 22,
+      "rim": 22,
+      "perd": 52.4,
+      "usg": 25.7
+    },
+    "wellsja01": {
+      "off": 40.5,
+      "def": 40,
+      "play": 19.2,
+      "reb": 31.3,
+      "space": 65.8,
+      "rim": 2.2,
+      "perd": 55.2,
+      "usg": 19.3
+    },
+    "vucevni01": {
+      "off": 57.6,
+      "def": 52.9,
+      "play": 32.3,
+      "reb": 70.4,
+      "space": 70.3,
+      "rim": 30.2,
+      "perd": 51.9,
+      "usg": 21.4
+    },
+    "ighodos01": {
+      "off": 36.6,
+      "def": 74.2,
+      "play": 23.5,
+      "reb": 57.8,
+      "space": 6,
+      "rim": 42.6,
+      "perd": 66.2,
+      "usg": 12.2
+    },
+    "kuzmaky01": {
+      "off": 45.3,
+      "def": 41.7,
+      "play": 27.6,
+      "reb": 45.2,
+      "space": 58,
+      "rim": 17.4,
+      "perd": 47.9,
+      "usg": 21.8
+    },
+    "filipky01": {
+      "off": 46.9,
+      "def": 50.6,
+      "play": 27.5,
+      "reb": 73.7,
+      "space": 48,
+      "rim": 27.6,
+      "perd": 54.5,
+      "usg": 20
+    },
+    "nembhan01": {
+      "off": 56.6,
+      "def": 35.7,
+      "play": 59.7,
+      "reb": 24.6,
+      "space": 69.9,
+      "rim": 2,
+      "perd": 52.1,
+      "usg": 23.6
+    },
+    "georgke01": {
+      "off": 67.6,
+      "def": 34.2,
+      "play": 46.8,
+      "reb": 29.2,
+      "space": 81.4,
+      "rim": 6.6,
+      "perd": 51.9,
+      "usg": 27.9
+    },
+    "clownno01": {
+      "off": 38.1,
+      "def": 44.9,
+      "play": 18.9,
+      "reb": 41.4,
+      "space": 53.3,
+      "rim": 28.6,
+      "perd": 49.3,
+      "usg": 20.4
+    },
+    "tysonja01": {
+      "off": 52.9,
+      "def": 49.1,
+      "play": 22.2,
+      "reb": 48.1,
+      "space": 90.8,
+      "rim": 16,
+      "perd": 55.3,
+      "usg": 19.3
+    },
+    "smartma01": {
+      "off": 33.8,
+      "def": 59.2,
+      "play": 24.3,
+      "reb": 27.9,
+      "space": 52.8,
+      "rim": 16.4,
+      "perd": 67.6,
+      "usg": 15.4
+    },
+    "sensabr01": {
+      "off": 53.3,
+      "def": 27.3,
+      "play": 23.5,
+      "reb": 33.8,
+      "space": 75.8,
+      "rim": 2.2,
+      "perd": 44.7,
+      "usg": 24.9
+    },
+    "reaveau01": {
+      "off": 69.4,
+      "def": 47.7,
+      "play": 40.1,
+      "reb": 37.6,
+      "space": 73.3,
+      "rim": 13.4,
+      "perd": 58.4,
+      "usg": 26.7
+    },
+    "jonestr01": {
+      "off": 56,
+      "def": 52.6,
+      "play": 48.8,
+      "reb": 30,
+      "space": 43.7,
+      "rim": 7.2,
+      "perd": 63.4,
+      "usg": 19.2
+    },
+    "mamuksa01": {
+      "off": 60.6,
+      "def": 61,
+      "play": 24.6,
+      "reb": 57.8,
+      "space": 75.6,
+      "rim": 31.2,
+      "perd": 58.7,
+      "usg": 18.8
+    },
+    "harrito02": {
+      "off": 52.8,
+      "def": 60.3,
+      "play": 25,
+      "reb": 47.7,
+      "space": 67.1,
+      "rim": 21.6,
+      "perd": 58,
+      "usg": 18.8
+    },
+    "achiupr01": {
+      "off": 46.8,
+      "def": 46.5,
+      "play": 18.6,
+      "reb": 70.4,
+      "space": 35.6,
+      "rim": 33.4,
+      "perd": 51.5,
+      "usg": 17.6
+    },
+    "washipj01": {
+      "off": 41.2,
+      "def": 55.8,
+      "play": 17.2,
+      "reb": 54.4,
+      "space": 49.2,
+      "rim": 42.6,
+      "perd": 54.7,
+      "usg": 20.1
+    },
+    "giddejo01": {
+      "off": 63.1,
+      "def": 55.5,
+      "play": 63.9,
+      "reb": 61.5,
+      "space": 71.5,
+      "rim": 19.2,
+      "perd": 61.9,
+      "usg": 24.4
+    },
+    "barrerj01": {
+      "off": 56.7,
+      "def": 46.7,
+      "play": 30.9,
+      "reb": 45.6,
+      "space": 57.5,
+      "rim": 11.2,
+      "perd": 55.8,
+      "usg": 25.8
+    },
+    "huffja01": {
+      "off": 44.8,
+      "def": 69.7,
+      "play": 21,
+      "reb": 47.3,
+      "space": 46.5,
+      "rim": 92.2,
+      "perd": 57.3,
+      "usg": 18
+    },
+    "powelno01": {
+      "off": 61.2,
+      "def": 50,
+      "play": 24.4,
+      "reb": 29.6,
+      "space": 87.2,
+      "rim": 7.6,
+      "perd": 60.2,
+      "usg": 27.2
+    },
+    "spencca01": {
+      "off": 64.9,
+      "def": 43.7,
+      "play": 54.1,
+      "reb": 28.4,
+      "space": 91.4,
+      "rim": 6,
+      "perd": 56.5,
+      "usg": 17.2
+    },
+    "wareke01": {
+      "off": 60.4,
+      "def": 59.7,
+      "play": 13,
+      "reb": 92.6,
+      "space": 73.4,
+      "rim": 54.6,
+      "perd": 55.2,
+      "usg": 18
+    },
+    "brookdi01": {
+      "off": 46.9,
+      "def": 42.4,
+      "play": 20.4,
+      "reb": 31.7,
+      "space": 63.8,
+      "rim": 7.4,
+      "perd": 50.2,
+      "usg": 28.6
+    },
+    "schrode01": {
+      "off": 45.6,
+      "def": 40.9,
+      "play": 45.4,
+      "reb": 30,
+      "space": 50,
+      "rim": 5,
+      "perd": 55.6,
+      "usg": 21
+    },
+    "okorois01": {
+      "off": 32.8,
+      "def": 44.9,
+      "play": 17.8,
+      "reb": 26.7,
+      "space": 50.7,
+      "rim": 17.4,
+      "perd": 56,
+      "usg": 13.6
+    },
+    "grantje01": {
+      "off": 55.6,
+      "def": 45.4,
+      "play": 21.3,
+      "reb": 30.5,
+      "space": 87.1,
+      "rim": 21.6,
+      "perd": 52,
+      "usg": 23.8
+    },
+    "barlodo01": {
+      "off": 40.4,
+      "def": 58.6,
+      "play": 15.7,
+      "reb": 50.2,
+      "space": 31.2,
+      "rim": 35.2,
+      "perd": 57.5,
+      "usg": 12.8
+    },
+    "portemi01": {
+      "off": 74.5,
+      "def": 42.7,
+      "play": 32.7,
+      "reb": 56.9,
+      "space": 77.9,
+      "rim": 7.8,
+      "perd": 53,
+      "usg": 30.5
+    },
+    "kennalu01": {
+      "off": 48.9,
+      "def": 51.7,
+      "play": 25.8,
+      "reb": 29.6,
+      "space": 90.5,
+      "rim": 4.6,
+      "perd": 61.2,
+      "usg": 13.5
+    },
+    "johnsca02": {
+      "off": 50.3,
+      "def": 43.9,
+      "play": 22,
+      "reb": 33.4,
+      "space": 88.6,
+      "rim": 16.4,
+      "perd": 49,
+      "usg": 15.1
+    },
+    "lopezbr01": {
+      "off": 42.5,
+      "def": 60.3,
+      "play": 18.4,
+      "reb": 44.7,
+      "space": 66,
+      "rim": 60.8,
+      "perd": 55.3,
+      "usg": 17.2
+    },
+    "rileywi01": {
+      "off": 40.2,
+      "def": 30.3,
+      "play": 23.9,
+      "reb": 33.4,
+      "space": 44.5,
+      "rim": 2,
+      "perd": 47.4,
+      "usg": 20.2
+    },
+    "willico04": {
+      "off": 30.3,
+      "def": 36.6,
+      "play": 22.1,
+      "reb": 31.7,
+      "space": 22.8,
+      "rim": 13.2,
+      "perd": 52.7,
+      "usg": 16
+    },
+    "mathube01": {
+      "off": 45.6,
+      "def": 40,
+      "play": 22.6,
+      "reb": 46.8,
+      "space": 44.5,
+      "rim": 5.4,
+      "perd": 50.6,
+      "usg": 25.2
+    },
+    "portibo01": {
+      "off": 58.6,
+      "def": 38.4,
+      "play": 22,
+      "reb": 66.6,
+      "space": 92.3,
+      "rim": 8,
+      "perd": 46.2,
+      "usg": 23.1
+    },
+    "sextoco01": {
+      "off": 57.2,
+      "def": 49.8,
+      "play": 36.6,
+      "reb": 26.3,
+      "space": 79.9,
+      "rim": 4.6,
+      "perd": 62.7,
+      "usg": 25.9
+    },
+    "cowarce01": {
+      "off": 52.5,
+      "def": 46.7,
+      "play": 28.6,
+      "reb": 55.7,
+      "space": 55.8,
+      "rim": 16.4,
+      "perd": 56.2,
+      "usg": 21.5
+    },
+    "watsope01": {
+      "off": 46,
+      "def": 51.9,
+      "play": 19.2,
+      "reb": 43.1,
+      "space": 79.5,
+      "rim": 42.6,
+      "perd": 55.3,
+      "usg": 20.6
+    },
+    "joneshe01": {
+      "off": 29.6,
+      "def": 59.9,
+      "play": 23.9,
+      "reb": 30.9,
+      "space": 41.8,
+      "rim": 20.8,
+      "perd": 66.3,
+      "usg": 15.2
+    },
+    "suggsja01": {
+      "off": 54.4,
+      "def": 72.9,
+      "play": 47.2,
+      "reb": 36.8,
+      "space": 60,
+      "rim": 31.4,
+      "perd": 76.8,
+      "usg": 22.9
+    },
+    "oubreke01": {
+      "off": 42.8,
+      "def": 53.5,
+      "play": 16.4,
+      "reb": 40.5,
+      "space": 68,
+      "rim": 18.2,
+      "perd": 60.2,
+      "usg": 18.2
+    },
+    "goodwjo01": {
+      "off": 50.9,
+      "def": 69.1,
+      "play": 25.7,
+      "reb": 54.4,
+      "space": 71.7,
+      "rim": 12.4,
+      "perd": 76.2,
+      "usg": 17.5
+    },
+    "holidjr01": {
+      "off": 63.4,
+      "def": 47.7,
+      "play": 51.5,
+      "reb": 39.7,
+      "space": 86.4,
+      "rim": 2.8,
+      "perd": 59.4,
+      "usg": 23.5
+    },
+    "harpedy01": {
+      "off": 52,
+      "def": 61.8,
+      "play": 41.7,
+      "reb": 38,
+      "space": 54.3,
+      "rim": 16.6,
+      "perd": 62.8,
+      "usg": 21.8
+    },
+    "hollaro01": {
+      "off": 32.6,
+      "def": 69.1,
+      "play": 16.5,
+      "reb": 51.9,
+      "space": 30.6,
+      "rim": 22,
+      "perd": 67.6,
+      "usg": 18.9
+    },
+    "easonta01": {
+      "off": 40.3,
+      "def": 57.7,
+      "play": 16.9,
+      "reb": 60.7,
+      "space": 65.4,
+      "rim": 20.6,
+      "perd": 62.5,
+      "usg": 18.7
+    },
+    "huertke01": {
+      "off": 44,
+      "def": 58.1,
+      "play": 29.5,
+      "reb": 39.3,
+      "space": 41.6,
+      "rim": 22.4,
+      "perd": 61.5,
+      "usg": 18.8
+    },
+    "moodymo01": {
+      "off": 50.6,
+      "def": 51.7,
+      "play": 19.8,
+      "reb": 34.2,
+      "space": 90.4,
+      "rim": 23.4,
+      "perd": 60.7,
+      "usg": 18.3
+    },
+    "mannte01": {
+      "off": 34.3,
+      "def": 44.6,
+      "play": 31.7,
+      "reb": 35.9,
+      "space": 61.4,
+      "rim": 8,
+      "perd": 56.4,
+      "usg": 13.5
+    },
+    "allenja01": {
+      "off": 61.4,
+      "def": 58.9,
+      "play": 19.9,
+      "reb": 76.2,
+      "space": 6,
+      "rim": 40.2,
+      "perd": 57,
+      "usg": 19.9
+    },
+    "colliis01": {
+      "off": 46.5,
+      "def": 38.9,
+      "play": 60.9,
+      "reb": 26.3,
+      "space": 34,
+      "rim": 10.2,
+      "perd": 55.8,
+      "usg": 20.4
+    },
+    "joeis01": {
+      "off": 60,
+      "def": 56.5,
+      "play": 19.5,
+      "reb": 31.3,
+      "space": 93.4,
+      "rim": 9.2,
+      "perd": 62.8,
+      "usg": 18.4
+    },
+    "landajo01": {
+      "off": 54.3,
+      "def": 44.4,
+      "play": 22.5,
+      "reb": 62.4,
+      "space": 70,
+      "rim": 27.2,
+      "perd": 48.1,
+      "usg": 18.3
+    },
+    "risacza01": {
+      "off": 37.4,
+      "def": 53.8,
+      "play": 16,
+      "reb": 43.1,
+      "space": 68.7,
+      "rim": 22.8,
+      "perd": 58.7,
+      "usg": 17.6
+    },
+    "thompkl01": {
+      "off": 51.7,
+      "def": 38.8,
+      "play": 20.5,
+      "reb": 25.4,
+      "space": 87.8,
+      "rim": 10.2,
+      "perd": 48.5,
+      "usg": 22.7
+    },
+    "kalkbry01": {
+      "off": 50.5,
+      "def": 68.2,
+      "play": 11.4,
+      "reb": 64.5,
+      "space": 6,
+      "rim": 76.4,
+      "perd": 57.3,
+      "usg": 11.6
+    },
+    "elliske01": {
+      "off": 38.9,
+      "def": 66.9,
+      "play": 15.3,
+      "reb": 25.4,
+      "space": 65,
+      "rim": 32,
+      "perd": 72.1,
+      "usg": 13
+    },
+    "walteja01": {
+      "off": 41.7,
+      "def": 62.1,
+      "play": 17.9,
+      "reb": 33.8,
+      "space": 79.6,
+      "rim": 11.4,
+      "perd": 69.2,
+      "usg": 14
+    },
+    "willipa01": {
+      "off": 31.5,
+      "def": 44,
+      "play": 18.6,
+      "reb": 36.3,
+      "space": 58.8,
+      "rim": 17.8,
+      "perd": 50.4,
+      "usg": 16.6
+    },
+    "mitchaj01": {
+      "off": 52,
+      "def": 67.6,
+      "play": 35.3,
+      "reb": 33.4,
+      "space": 57,
+      "rim": 16.4,
+      "perd": 71.1,
+      "usg": 21.8
+    },
+    "sharpsh01": {
+      "off": 50.5,
+      "def": 46.9,
+      "play": 27.4,
+      "reb": 37.6,
+      "space": 58.4,
+      "rim": 2.6,
+      "perd": 61.1,
+      "usg": 30.5
+    },
+    "coulibi01": {
+      "off": 41.1,
+      "def": 53.6,
+      "play": 25.8,
+      "reb": 41.4,
+      "space": 46,
+      "rim": 38.4,
+      "perd": 63.6,
+      "usg": 19.9
+    },
+    "allengr01": {
+      "off": 60.8,
+      "def": 55.4,
+      "play": 35.3,
+      "reb": 28.8,
+      "space": 68.4,
+      "rim": 11.2,
+      "perd": 65.4,
+      "usg": 23.8
+    },
+    "willibr03": {
+      "off": 51.8,
+      "def": 55.4,
+      "play": 43.4,
+      "reb": 33,
+      "space": 26.4,
+      "rim": 13.8,
+      "perd": 64.2,
+      "usg": 25.1
+    },
+    "jenkida01": {
+      "off": 46.2,
+      "def": 55,
+      "play": 42.3,
+      "reb": 30.9,
+      "space": 66.3,
+      "rim": 10.2,
+      "perd": 64,
+      "usg": 21.5
+    },
+    "jacksja02": {
+      "off": 45.8,
+      "def": 60.4,
+      "play": 20.5,
+      "reb": 46.4,
+      "space": 66.8,
+      "rim": 61.4,
+      "perd": 57.4,
+      "usg": 26.2
+    },
+    "greenja02": {
+      "off": 47.1,
+      "def": 77.5,
+      "play": 13.4,
+      "reb": 41.4,
+      "space": 70.4,
+      "rim": 21,
+      "perd": 80.3,
+      "usg": 14.8
+    },
+    "zubaciv01": {
+      "off": 53.4,
+      "def": 44.9,
+      "play": 21.2,
+      "reb": 89.7,
+      "space": 6,
+      "rim": 35.8,
+      "perd": 45.7,
+      "usg": 19.2
+    },
+    "johnstr03": {
+      "off": 39.7,
+      "def": 27.4,
+      "play": 23.4,
+      "reb": 30.5,
+      "space": 68.9,
+      "rim": 6.8,
+      "perd": 46.4,
+      "usg": 22.5
+    },
+    "markkla01": {
+      "off": 75.9,
+      "def": 35.8,
+      "play": 21.9,
+      "reb": 49.4,
+      "space": 72.4,
+      "rim": 17.4,
+      "perd": 45.7,
+      "usg": 28.1
+    },
+    "middlkh01": {
+      "off": 35.6,
+      "def": 38.1,
+      "play": 29.6,
+      "reb": 40.1,
+      "space": 62,
+      "rim": 2,
+      "perd": 50.2,
+      "usg": 20.6
+    },
+    "cissosi01": {
+      "off": 24.2,
+      "def": 56.3,
+      "play": 18.8,
+      "reb": 30.5,
+      "space": 39.6,
+      "rim": 16,
+      "perd": 60.4,
+      "usg": 12.5
+    },
+    "kornelu01": {
+      "off": 55.9,
+      "def": 71,
+      "play": 23.2,
+      "reb": 69.1,
+      "space": 6,
+      "rim": 54.2,
+      "perd": 60.5,
+      "usg": 10.3
+    },
+    "scheiba01": {
+      "off": 44.3,
+      "def": 60.7,
+      "play": 20.7,
+      "reb": 47.3,
+      "space": 75.2,
+      "rim": 7,
+      "perd": 65.5,
+      "usg": 11.9
+    },
+    "jonessp01": {
+      "off": 34.9,
+      "def": 53.4,
+      "play": 12.3,
+      "reb": 38.9,
+      "space": 70.2,
+      "rim": 21.4,
+      "perd": 58.9,
+      "usg": 9.7
+    },
+    "willima07": {
+      "off": 57.2,
+      "def": 61.5,
+      "play": 14.5,
+      "reb": 82.5,
+      "space": 70,
+      "rim": 47.2,
+      "perd": 58.5,
+      "usg": 17.4
+    },
+    "wiggiaa01": {
+      "off": 41.1,
+      "def": 61.3,
+      "play": 20.5,
+      "reb": 35.9,
+      "space": 64.1,
+      "rim": 23.8,
+      "perd": 60.4,
+      "usg": 19.9
+    },
+    "claytwa01": {
+      "off": 38.2,
+      "def": 35.2,
+      "play": 42.5,
+      "reb": 26.3,
+      "space": 41.4,
+      "rim": 9.6,
+      "perd": 51.9,
+      "usg": 18.5
+    },
+    "braunch01": {
+      "off": 46.6,
+      "def": 42.4,
+      "play": 23,
+      "reb": 39.3,
+      "space": 40.2,
+      "rim": 9,
+      "perd": 53.9,
+      "usg": 14.8
+    },
+    "santogu01": {
+      "off": 45,
+      "def": 56.4,
+      "play": 28.2,
+      "reb": 48.5,
+      "space": 59.2,
+      "rim": 18.6,
+      "perd": 58.8,
+      "usg": 18.7
+    },
+    "krejcvi01": {
+      "off": 40.9,
+      "def": 52,
+      "play": 20.5,
+      "reb": 28.4,
+      "space": 82,
+      "rim": 13.2,
+      "perd": 60.8,
+      "usg": 14.6
+    },
+    "georgky01": {
+      "off": 48.1,
+      "def": 48.6,
+      "play": 36.8,
+      "reb": 43.9,
+      "space": 81.8,
+      "rim": 33,
+      "perd": 55.4,
+      "usg": 22.8
+    },
+    "sheppbe01": {
+      "off": 36,
+      "def": 44.8,
+      "play": 22.8,
+      "reb": 35.9,
+      "space": 64.9,
+      "rim": 3.2,
+      "perd": 56.8,
+      "usg": 13.8
+    },
+    "champju01": {
+      "off": 52.3,
+      "def": 47.3,
+      "play": 19.2,
+      "reb": 67,
+      "space": 45.2,
+      "rim": 26.2,
+      "perd": 56,
+      "usg": 16.7
+    },
+    "richawi02": {
+      "off": 35.3,
+      "def": 61.4,
+      "play": 18.6,
+      "reb": 33.4,
+      "space": 52.2,
+      "rim": 7.4,
+      "perd": 71,
+      "usg": 13
+    },
+    "trentga02": {
+      "off": 32.7,
+      "def": 31.9,
+      "play": 18.3,
+      "reb": 15.8,
+      "space": 69.7,
+      "rim": 2,
+      "perd": 49.8,
+      "usg": 17.2
+    },
+    "merrisa01": {
+      "off": 54.5,
+      "def": 42,
+      "play": 24.8,
+      "reb": 26.3,
+      "space": 95.4,
+      "rim": 3,
+      "perd": 51.6,
+      "usg": 17
+    },
+    "simonan01": {
+      "off": 57.1,
+      "def": 39.7,
+      "play": 27.7,
+      "reb": 26.7,
+      "space": 88.2,
+      "rim": 3,
+      "perd": 52.3,
+      "usg": 23.6
+    },
+    "alvarjo01": {
+      "off": 42.4,
+      "def": 55.3,
+      "play": 38.7,
+      "reb": 32.6,
+      "space": 62.2,
+      "rim": 6.2,
+      "perd": 65.9,
+      "usg": 16.8
+    },
+    "monkma01": {
+      "off": 55.2,
+      "def": 34.9,
+      "play": 35.8,
+      "reb": 24.2,
+      "space": 83.5,
+      "rim": 13.4,
+      "perd": 50.8,
+      "usg": 24
+    },
+    "dunnry01": {
+      "off": 37.5,
+      "def": 64.5,
+      "play": 20,
+      "reb": 55.2,
+      "space": 49.6,
+      "rim": 22.4,
+      "perd": 65.9,
+      "usg": 13.7
+    },
+    "okogijo01": {
+      "off": 35.9,
+      "def": 62.3,
+      "play": 14.7,
+      "reb": 38.4,
+      "space": 67.1,
+      "rim": 12.8,
+      "perd": 66.1,
+      "usg": 11.3
+    },
+    "sandeko01": {
+      "off": 35,
+      "def": 50,
+      "play": 20.4,
+      "reb": 31.7,
+      "space": 75.5,
+      "rim": 5.8,
+      "perd": 61.1,
+      "usg": 16.3
+    },
+    "jonesde02": {
+      "off": 45.7,
+      "def": 54.5,
+      "play": 16.9,
+      "reb": 35.5,
+      "space": 61.9,
+      "rim": 40.8,
+      "perd": 58,
+      "usg": 15.1
+    },
+    "garlada01": {
+      "off": 63.3,
+      "def": 33.3,
+      "play": 56,
+      "reb": 22.9,
+      "space": 90.4,
+      "rim": 2.8,
+      "perd": 51.2,
+      "usg": 27.4
+    },
+    "nesmiaa01": {
+      "off": 41.1,
+      "def": 37.7,
+      "play": 19.6,
+      "reb": 35.9,
+      "space": 84.3,
+      "rim": 15.8,
+      "perd": 47.6,
+      "usg": 19.8
+    },
+    "murrakr01": {
+      "off": 35.7,
+      "def": 58.8,
+      "play": 16.4,
+      "reb": 39.3,
+      "space": 35.8,
+      "rim": 18.6,
+      "perd": 62.1,
+      "usg": 10.6
+    },
+    "curryst01": {
+      "off": 85.9,
+      "def": 45.2,
+      "play": 45.3,
+      "reb": 31.3,
+      "space": 89.8,
+      "rim": 13.2,
+      "perd": 57.9,
+      "usg": 32.5
+    },
+    "millejo02": {
+      "off": 52.6,
+      "def": 48.4,
+      "play": 27.6,
+      "reb": 37.6,
+      "space": 53.2,
+      "rim": 8,
+      "perd": 56.8,
+      "usg": 18
+    },
+    "poweldr01": {
+      "off": 24.8,
+      "def": 40.3,
+      "play": 19.8,
+      "reb": 24.6,
+      "space": 36,
+      "rim": 7.4,
+      "perd": 54,
+      "usg": 14.9
+    },
+    "simsje01": {
+      "off": 36.5,
+      "def": 42,
+      "play": 16,
+      "reb": 70.8,
+      "space": 6,
+      "rim": 18,
+      "perd": 46.3,
+      "usg": 9.8
+    },
+    "wadede01": {
+      "off": 43.3,
+      "def": 60,
+      "play": 19.7,
+      "reb": 47.3,
+      "space": 63.8,
+      "rim": 23.2,
+      "perd": 58.8,
+      "usg": 9.9
+    },
+    "stewais01": {
+      "off": 43.4,
+      "def": 66.2,
+      "play": 14.9,
+      "reb": 56.1,
+      "space": 49.8,
+      "rim": 82.2,
+      "perd": 53.7,
+      "usg": 16.6
+    },
+    "demineg01": {
+      "off": 45,
+      "def": 46.1,
+      "play": 34.7,
+      "reb": 34.7,
+      "space": 86.8,
+      "rim": 11.8,
+      "perd": 58,
+      "usg": 18.8
+    },
+    "sarral01": {
+      "off": 55.6,
+      "def": 57.4,
+      "play": 29.3,
+      "reb": 65.3,
+      "space": 51.4,
+      "rim": 84.2,
+      "perd": 53.3,
+      "usg": 25.7
+    },
+    "missiyv01": {
+      "off": 40.9,
+      "def": 55.5,
+      "play": 17.1,
+      "reb": 71.2,
+      "space": 6,
+      "rim": 79.8,
+      "perd": 48.7,
+      "usg": 12.6
+    },
+    "batumni01": {
+      "off": 38.6,
+      "def": 58.2,
+      "play": 14.1,
+      "reb": 38.9,
+      "space": 75.7,
+      "rim": 20.6,
+      "perd": 58.7,
+      "usg": 9.6
+    },
+    "willizi02": {
+      "off": 39.3,
+      "def": 58.9,
+      "play": 16.4,
+      "reb": 29.6,
+      "space": 58.5,
+      "rim": 17.8,
+      "perd": 66.6,
+      "usg": 18.9
+    },
+    "clarkjo01": {
+      "off": 40.4,
+      "def": 39.6,
+      "play": 21.5,
+      "reb": 27.5,
+      "space": 48.8,
+      "rim": 3.4,
+      "perd": 50,
+      "usg": 21.1
+    },
+    "willija07": {
+      "off": 48.9,
+      "def": 76,
+      "play": 27.9,
+      "reb": 67.8,
+      "space": 75.3,
+      "rim": 42.8,
+      "perd": 63.8,
+      "usg": 15.6
+    },
+    "porteke02": {
+      "off": 55.2,
+      "def": 65.9,
+      "play": 54.1,
+      "reb": 41.4,
+      "space": 47.4,
+      "rim": 21.4,
+      "perd": 74.4,
+      "usg": 24.3
+    },
+    "whiteco01": {
+      "off": 55.3,
+      "def": 34.2,
+      "play": 41,
+      "reb": 35.1,
+      "space": 74.6,
+      "rim": 2,
+      "perd": 49.4,
+      "usg": 28.8
+    },
+    "murraco01": {
+      "off": 46.3,
+      "def": 68.9,
+      "play": 21.9,
+      "reb": 58.6,
+      "space": 41.8,
+      "rim": 48.6,
+      "perd": 63,
+      "usg": 15.5
+    },
+    "traorno01": {
+      "off": 25.7,
+      "def": 37.8,
+      "play": 42.8,
+      "reb": 23.3,
+      "space": 45.4,
+      "rim": 14.2,
+      "perd": 53.9,
+      "usg": 22.8
+    },
+    "bonaad01": {
+      "off": 31.1,
+      "def": 60.2,
+      "play": 8.1,
+      "reb": 61.1,
+      "space": 38.8,
+      "rim": 67.8,
+      "perd": 53.8,
+      "usg": 11.1
+    },
+    "drumman01": {
+      "off": 46.6,
+      "def": 54.7,
+      "play": 17.5,
+      "reb": 100,
+      "space": 55.5,
+      "rim": 43.8,
+      "perd": 53.5,
+      "usg": 14.9
+    },
+    "spencpa01": {
+      "off": 40.9,
+      "def": 47,
+      "play": 44.2,
+      "reb": 34.2,
+      "space": 59.2,
+      "rim": 3.2,
+      "perd": 60.1,
+      "usg": 18.9
+    },
+    "lavinza01": {
+      "off": 54,
+      "def": 32.1,
+      "play": 22,
+      "reb": 24.6,
+      "space": 89.2,
+      "rim": 6.4,
+      "perd": 49.3,
+      "usg": 23.7
+    },
+    "walshjo01": {
+      "off": 40.6,
+      "def": 67.6,
+      "play": 14,
+      "reb": 55.7,
+      "space": 65.4,
+      "rim": 28.8,
+      "perd": 66.4,
+      "usg": 11.7
+    },
+    "hayesja02": {
+      "off": 52.4,
+      "def": 57.4,
+      "play": 16.3,
+      "reb": 59.4,
+      "space": 70,
+      "rim": 46.8,
+      "perd": 54.2,
+      "usg": 13
+    },
+    "embiijo01": {
+      "off": 79.9,
+      "def": 51.5,
+      "play": 37.6,
+      "reb": 59.9,
+      "space": 53,
+      "rim": 51.2,
+      "perd": 49.6,
+      "usg": 33.5
+    },
+    "baglema01": {
+      "off": 59,
+      "def": 45.2,
+      "play": 21.2,
+      "reb": 72.5,
+      "space": 68.7,
+      "rim": 33.6,
+      "perd": 48.1,
+      "usg": 18.6
+    },
+    "aldamsa01": {
+      "off": 56.8,
+      "def": 55.8,
+      "play": 29.2,
+      "reb": 58.6,
+      "space": 62.5,
+      "rim": 32.2,
+      "perd": 55.9,
+      "usg": 20.2
+    },
+    "gaffoda01": {
+      "off": 46.4,
+      "def": 66.7,
+      "play": 14.6,
+      "reb": 74.1,
+      "space": 6,
+      "rim": 63.8,
+      "perd": 60.2,
+      "usg": 15.8
+    },
+    "wolfda01": {
+      "off": 38.7,
+      "def": 50,
+      "play": 30.1,
+      "reb": 62,
+      "space": 47.4,
+      "rim": 29.4,
+      "perd": 51.4,
+      "usg": 20.6
+    },
+    "butleji01": {
+      "off": 76.8,
+      "def": 56.6,
+      "play": 42.2,
+      "reb": 46,
+      "space": 64.9,
+      "rim": 8.6,
+      "perd": 63.7,
+      "usg": 23.3
+    },
+    "gueyemo02": {
+      "off": 34.6,
+      "def": 67,
+      "play": 16.8,
+      "reb": 57.3,
+      "space": 41.6,
+      "rim": 36.6,
+      "perd": 64.4,
+      "usg": 12.4
+    },
+    "jacksgg01": {
+      "off": 50.9,
+      "def": 44.6,
+      "play": 20.6,
+      "reb": 49.4,
+      "space": 51.5,
+      "rim": 37,
+      "perd": 47.8,
+      "usg": 23.5
+    },
+    "hylanbo01": {
+      "off": 56.4,
+      "def": 56.3,
+      "play": 38.8,
+      "reb": 28.8,
+      "space": 77.8,
+      "rim": 12.8,
+      "perd": 63.9,
+      "usg": 20.6
+    },
+    "huntede01": {
+      "off": 37.7,
+      "def": 38.6,
+      "play": 20.8,
+      "reb": 40.5,
+      "space": 41,
+      "rim": 2,
+      "perd": 49.6,
+      "usg": 22.9
+    },
+    "robinmi01": {
+      "off": 57.6,
+      "def": 73.9,
+      "play": 12.8,
+      "reb": 100,
+      "space": 6,
+      "rim": 69.6,
+      "perd": 65.2,
+      "usg": 10.7
+    },
+    "fontesi01": {
+      "off": 53.5,
+      "def": 49.4,
+      "play": 23.4,
+      "reb": 43.1,
+      "space": 75.4,
+      "rim": 5.8,
+      "perd": 56.5,
+      "usg": 19.6
+    },
+    "nembhry01": {
+      "off": 36.9,
+      "def": 35.5,
+      "play": 58.7,
+      "reb": 29.2,
+      "space": 58.3,
+      "rim": 2,
+      "perd": 50.7,
+      "usg": 17.5
+    },
+    "shamela01": {
+      "off": 46.8,
+      "def": 50.8,
+      "play": 18.8,
+      "reb": 22.5,
+      "space": 83.4,
+      "rim": 9,
+      "perd": 59.6,
+      "usg": 15.7
+    },
+    "sharpda01": {
+      "off": 52.1,
+      "def": 64.7,
+      "play": 33.7,
+      "reb": 90.9,
+      "space": 18.2,
+      "rim": 28.6,
+      "perd": 66,
+      "usg": 19.9
+    },
+    "mccaija01": {
+      "off": 41.9,
+      "def": 44.7,
+      "play": 22,
+      "reb": 30.9,
+      "space": 75.2,
+      "rim": 2.8,
+      "perd": 57.1,
+      "usg": 20.7
+    },
+    "postqu01": {
+      "off": 44.5,
+      "def": 51.9,
+      "play": 23,
+      "reb": 58.2,
+      "space": 54.3,
+      "rim": 29.6,
+      "perd": 51.7,
+      "usg": 18.8
+    },
+    "mykhasv01": {
+      "off": 50.3,
+      "def": 32.6,
+      "play": 22,
+      "reb": 28.4,
+      "space": 84.6,
+      "rim": 2,
+      "perd": 47.1,
+      "usg": 14.8
+    },
+    "leverca01": {
+      "off": 40.2,
+      "def": 68.3,
+      "play": 30.7,
+      "reb": 27.9,
+      "space": 51.2,
+      "rim": 38,
+      "perd": 66.6,
+      "usg": 18.4
+    },
+    "poeltja01": {
+      "off": 49.9,
+      "def": 65.2,
+      "play": 21.7,
+      "reb": 71.2,
+      "space": 6,
+      "rim": 39,
+      "perd": 61,
+      "usg": 15.3
+    },
+    "portecr01": {
+      "off": 48.1,
+      "def": 71,
+      "play": 36.4,
+      "reb": 48.1,
+      "space": 55.5,
+      "rim": 34.4,
+      "perd": 72.8,
+      "usg": 12.3
+    },
+    "paytoga02": {
+      "off": 53.2,
+      "def": 66,
+      "play": 30,
+      "reb": 58.2,
+      "space": 38.2,
+      "rim": 18.8,
+      "perd": 72.6,
+      "usg": 18.4
+    },
+    "smithdr01": {
+      "off": 41,
+      "def": 86.9,
+      "play": 34.5,
+      "reb": 37.2,
+      "space": 39,
+      "rim": 22.8,
+      "perd": 89,
+      "usg": 15.2
+    },
+    "harteis01": {
+      "off": 54.2,
+      "def": 81.1,
+      "play": 32.4,
+      "reb": 92.6,
+      "space": 6,
+      "rim": 47,
+      "perd": 69.8,
+      "usg": 16.1
+    },
+    "georgpa01": {
+      "off": 56,
+      "def": 60.3,
+      "play": 32,
+      "reb": 43.5,
+      "space": 89.6,
+      "rim": 20.2,
+      "perd": 63.1,
+      "usg": 23.3
+    },
+    "vandeja01": {
+      "off": 35.6,
+      "def": 61.7,
+      "play": 17.3,
+      "reb": 67.8,
+      "space": 38.6,
+      "rim": 20.4,
+      "perd": 62.8,
+      "usg": 12.4
+    },
+    "meltode01": {
+      "off": 37.8,
+      "def": 58.7,
+      "play": 29.6,
+      "reb": 36.8,
+      "space": 38.8,
+      "rim": 17.8,
+      "perd": 70.6,
+      "usg": 25.4
+    },
+    "garzalu01": {
+      "off": 60.9,
+      "def": 54.2,
+      "play": 18.2,
+      "reb": 62,
+      "space": 75.2,
+      "rim": 29.4,
+      "perd": 53.4,
+      "usg": 17.7
+    },
+    "hendrta01": {
+      "off": 41.3,
+      "def": 48.1,
+      "play": 15.2,
+      "reb": 48.9,
+      "space": 55,
+      "rim": 26.2,
+      "perd": 54,
+      "usg": 16.2
+    },
+    "konchjo01": {
+      "off": 40.6,
+      "def": 76.2,
+      "play": 24.3,
+      "reb": 52.7,
+      "space": 36.6,
+      "rim": 37.6,
+      "perd": 80.1,
+      "usg": 9.4
+    },
+    "diengou01": {
+      "off": 36.4,
+      "def": 41.7,
+      "play": 30.2,
+      "reb": 42.6,
+      "space": 54.8,
+      "rim": 18.6,
+      "perd": 47.3,
+      "usg": 19.7
+    },
+    "smithja04": {
+      "off": 50.8,
+      "def": 46.3,
+      "play": 18,
+      "reb": 76.2,
+      "space": 72.2,
+      "rim": 40,
+      "perd": 47.9,
+      "usg": 19
+    },
+    "caldwke01": {
+      "off": 37.5,
+      "def": 49.6,
+      "play": 30.9,
+      "reb": 30,
+      "space": 44.6,
+      "rim": 7.8,
+      "perd": 61.7,
+      "usg": 17.7
+    },
+    "gonzahu01": {
+      "off": 31.8,
+      "def": 66.4,
+      "play": 11.7,
+      "reb": 56.5,
+      "space": 57.9,
+      "rim": 21.2,
+      "perd": 66.4,
+      "usg": 11.8
+    },
+    "nurkiju01": {
+      "off": 47.2,
+      "def": 66.4,
+      "play": 40.1,
+      "reb": 93,
+      "space": 55.2,
+      "rim": 31.2,
+      "perd": 65.1,
+      "usg": 19.3
+    },
+    "mcbrimi01": {
+      "off": 54.8,
+      "def": 52.7,
+      "play": 26.7,
+      "reb": 25.8,
+      "space": 93.8,
+      "rim": 9.8,
+      "perd": 61.6,
+      "usg": 18.2
+    },
+    "kispeco01": {
+      "off": 50.2,
+      "def": 33,
+      "play": 23.4,
+      "reb": 31.7,
+      "space": 69,
+      "rim": 4.2,
+      "perd": 44.9,
+      "usg": 18.6
+    },
+    "ruperra01": {
+      "off": 22.8,
+      "def": 52.8,
+      "play": 17,
+      "reb": 43.9,
+      "space": 46.8,
+      "rim": 6.6,
+      "perd": 64.8,
+      "usg": 15
+    },
+    "dickgr01": {
+      "off": 33,
+      "def": 49.8,
+      "play": 15.5,
+      "reb": 36.8,
+      "space": 40.2,
+      "rim": 4.8,
+      "perd": 62,
+      "usg": 18.7
+    },
+    "antetgi01": {
+      "off": 94.3,
+      "def": 66.2,
+      "play": 62.4,
+      "reb": 84.6,
+      "space": 48.6,
+      "rim": 34.4,
+      "perd": 62,
+      "usg": 37
+    },
+    "herroty01": {
+      "off": 63.7,
+      "def": 46.6,
+      "play": 35,
+      "reb": 37.2,
+      "space": 86,
+      "rim": 13.2,
+      "perd": 55.9,
+      "usg": 24.7
+    },
+    "watkija01": {
+      "off": 33.7,
+      "def": 51.2,
+      "play": 18.4,
+      "reb": 46.4,
+      "space": 39.4,
+      "rim": 21.6,
+      "perd": 63.8,
+      "usg": 15.1
+    },
+    "carusal01": {
+      "off": 41.6,
+      "def": 83.1,
+      "play": 25.6,
+      "reb": 38.4,
+      "space": 38.6,
+      "rim": 22.2,
+      "perd": 80.9,
+      "usg": 15.7
+    },
+    "wagnefr01": {
+      "off": 65.3,
+      "def": 49.7,
+      "play": 33.2,
+      "reb": 44.7,
+      "space": 58.6,
+      "rim": 11.6,
+      "perd": 56.5,
+      "usg": 27
+    },
+    "loveca01": {
+      "off": 43,
+      "def": 37.7,
+      "play": 32.8,
+      "reb": 29.6,
+      "space": 46.8,
+      "rim": 2,
+      "perd": 52.8,
+      "usg": 23
+    },
+    "williro04": {
+      "off": 58.7,
+      "def": 79.7,
+      "play": 17.1,
+      "reb": 97.7,
+      "space": 52.1,
+      "rim": 87,
+      "perd": 65,
+      "usg": 13.1
+    },
+    "yabusgu01": {
+      "off": 40.2,
+      "def": 47.2,
+      "play": 17.7,
+      "reb": 56.9,
+      "space": 58.5,
+      "rim": 18,
+      "perd": 50.6,
+      "usg": 16.1
+    },
+    "gordoaa01": {
+      "off": 65.6,
+      "def": 40.2,
+      "play": 26.9,
+      "reb": 52.7,
+      "space": 78.9,
+      "rim": 12,
+      "perd": 46.7,
+      "usg": 21.9
+    },
+    "tomlina01": {
+      "off": 37.4,
+      "def": 56.4,
+      "play": 16.8,
+      "reb": 46.8,
+      "space": 27,
+      "rim": 32.4,
+      "perd": 57.4,
+      "usg": 15.5
+    },
+    "conlemi01": {
+      "off": 35.9,
+      "def": 59,
+      "play": 33.9,
+      "reb": 25.8,
+      "space": 53,
+      "rim": 15.2,
+      "perd": 65.4,
+      "usg": 11.5
+    },
+    "prospol01": {
+      "off": 55.4,
+      "def": 43.3,
+      "play": 17,
+      "reb": 47.3,
+      "space": 74.4,
+      "rim": 11.8,
+      "perd": 51.7,
+      "usg": 18.9
+    },
+    "jonesty01": {
+      "off": 32.6,
+      "def": 54.2,
+      "play": 36.8,
+      "reb": 22.1,
+      "space": 38.4,
+      "rim": 2.8,
+      "perd": 63.9,
+      "usg": 10.7
+    },
+    "edwarju01": {
+      "off": 39.7,
+      "def": 58.9,
+      "play": 22.9,
+      "reb": 25.8,
+      "space": 66,
+      "rim": 11.8,
+      "perd": 66.3,
+      "usg": 16.1
+    },
+    "agbajoc01": {
+      "off": 30.5,
+      "def": 47.1,
+      "play": 15.9,
+      "reb": 38.9,
+      "space": 33.2,
+      "rim": 15.2,
+      "perd": 56.6,
+      "usg": 14.6
+    },
+    "bitadgo01": {
+      "off": 52.5,
+      "def": 73.7,
+      "play": 22.9,
+      "reb": 81.3,
+      "space": 8.4,
+      "rim": 64.2,
+      "perd": 63.9,
+      "usg": 13.5
+    },
+    "dilliro01": {
+      "off": 18,
+      "def": 46,
+      "play": 33.4,
+      "reb": 34.2,
+      "space": 44,
+      "rim": 3.2,
+      "perd": 61.1,
+      "usg": 23.1
+    },
+    "horfoal01": {
+      "off": 50.7,
+      "def": 66.2,
+      "play": 30.6,
+      "reb": 56.9,
+      "space": 67.8,
+      "rim": 60,
+      "perd": 59.5,
+      "usg": 16.5
+    },
+    "mccontj01": {
+      "off": 61.7,
+      "def": 57.3,
+      "play": 79.8,
+      "reb": 33.4,
+      "space": 36.6,
+      "rim": 10.2,
+      "perd": 69,
+      "usg": 23.2
+    },
+    "brownko01": {
+      "off": 42.7,
+      "def": 39.5,
+      "play": 21.1,
+      "reb": 48.9,
+      "space": 64.6,
+      "rim": 10.8,
+      "perd": 47,
+      "usg": 15.6
+    },
+    "gillan01": {
+      "off": 41.2,
+      "def": 41.5,
+      "play": 19.3,
+      "reb": 41.4,
+      "space": 45.4,
+      "rim": 19.8,
+      "perd": 49.1,
+      "usg": 11.9
+    },
+    "jakucka01": {
+      "off": 43.2,
+      "def": 55,
+      "play": 30.6,
+      "reb": 35.9,
+      "space": 78.5,
+      "rim": 7.4,
+      "perd": 63.2,
+      "usg": 13.7
+    },
+    "willija06": {
+      "off": 57.3,
+      "def": 60.6,
+      "play": 49.1,
+      "reb": 41,
+      "space": 39.8,
+      "rim": 16.4,
+      "perd": 61,
+      "usg": 26.2
+    },
+    "poolejo01": {
+      "off": 46.6,
+      "def": 30.5,
+      "play": 32.1,
+      "reb": 22.5,
+      "space": 57.6,
+      "rim": 11.8,
+      "perd": 47.7,
+      "usg": 25.1
+    },
+    "capelca01": {
+      "off": 45.8,
+      "def": 67.1,
+      "play": 14.9,
+      "reb": 90.5,
+      "space": 70,
+      "rim": 61.6,
+      "perd": 60.1,
+      "usg": 13.7
+    },
+    "sarafbe01": {
+      "off": 21.1,
+      "def": 39.5,
+      "play": 37.9,
+      "reb": 28.4,
+      "space": 22.2,
+      "rim": 5.4,
+      "perd": 56.8,
+      "usg": 21
+    },
+    "peavymi01": {
+      "off": 25.6,
+      "def": 46.7,
+      "play": 19.9,
+      "reb": 33,
+      "space": 31.8,
+      "rim": 5.8,
+      "perd": 61.5,
+      "usg": 14
+    },
+    "matkoka01": {
+      "off": 49.3,
+      "def": 59.5,
+      "play": 16.4,
+      "reb": 60.7,
+      "space": 71.6,
+      "rim": 55.4,
+      "perd": 54.8,
+      "usg": 13.1
+    },
+    "greenjo02": {
+      "off": 38.8,
+      "def": 58.7,
+      "play": 13.8,
+      "reb": 30.5,
+      "space": 75.5,
+      "rim": 7.6,
+      "perd": 66.5,
+      "usg": 10.6
+    },
+    "pottemi01": {
+      "off": 57.3,
+      "def": 44.4,
+      "play": 21.5,
+      "reb": 62.8,
+      "space": 81.9,
+      "rim": 18.8,
+      "perd": 49.4,
+      "usg": 18
+    },
+    "jacksis01": {
+      "off": 39.2,
+      "def": 63.5,
+      "play": 15.8,
+      "reb": 78.3,
+      "space": 6,
+      "rim": 54.4,
+      "perd": 59.7,
+      "usg": 16.2
+    },
+    "cardwdy01": {
+      "off": 34.8,
+      "def": 63.6,
+      "play": 17.1,
+      "reb": 90.1,
+      "space": 70.5,
+      "rim": 78,
+      "perd": 57.2,
+      "usg": 11.3
+    },
+    "poweldw01": {
+      "off": 32.1,
+      "def": 64.1,
+      "play": 15.8,
+      "reb": 67.4,
+      "space": 29.2,
+      "rim": 27,
+      "perd": 61.9,
+      "usg": 8.9
+    },
+    "reedpa01": {
+      "off": 62.6,
+      "def": 86.1,
+      "play": 24.4,
+      "reb": 80.9,
+      "space": 37.6,
+      "rim": 69.4,
+      "perd": 74.6,
+      "usg": 20.6
+    },
+    "hardyja02": {
+      "off": 43.3,
+      "def": 23.2,
+      "play": 19.4,
+      "reb": 25.4,
+      "space": 81.5,
+      "rim": 2,
+      "perd": 43.2,
+      "usg": 24.4
+    },
+    "jacksqu01": {
+      "off": 44.5,
+      "def": 44.2,
+      "play": 38.8,
+      "reb": 33,
+      "space": 58.6,
+      "rim": 4,
+      "perd": 57.6,
+      "usg": 20.9
+    },
+    "clarkja02": {
+      "off": 31.7,
+      "def": 58.9,
+      "play": 15.6,
+      "reb": 35.1,
+      "space": 47.1,
+      "rim": 8.8,
+      "perd": 68.6,
+      "usg": 13.3
+    },
+    "thomaca02": {
+      "off": 46.3,
+      "def": 17.7,
+      "play": 36.3,
+      "reb": 23.3,
+      "space": 42,
+      "rim": 2,
+      "perd": 39.2,
+      "usg": 30.3
+    },
+    "mcgowbr01": {
+      "off": 38.1,
+      "def": 43.3,
+      "play": 21.3,
+      "reb": 26.7,
+      "space": 72.4,
+      "rim": 7.6,
+      "perd": 56.7,
+      "usg": 14
+    },
+    "vincega01": {
+      "off": 28.3,
+      "def": 45.6,
+      "play": 21.5,
+      "reb": 18.7,
+      "space": 55,
+      "rim": 2.8,
+      "perd": 58.3,
+      "usg": 12.3
+    },
+    "valanjo01": {
+      "off": 54.1,
+      "def": 49.6,
+      "play": 25.3,
+      "reb": 93,
+      "space": 33.6,
+      "rim": 41,
+      "perd": 48.4,
+      "usg": 26.1
+    },
+    "carteje01": {
+      "off": 42,
+      "def": 55.6,
+      "play": 26.4,
+      "reb": 27.5,
+      "space": 67.1,
+      "rim": 10.8,
+      "perd": 65.7,
+      "usg": 17
+    },
+    "watfotr01": {
+      "off": 38,
+      "def": 52.3,
+      "play": 35.6,
+      "reb": 50.2,
+      "space": 12,
+      "rim": 25.8,
+      "perd": 51.8,
+      "usg": 17.9
+    },
+    "strawju01": {
+      "off": 43.6,
+      "def": 41.7,
+      "play": 20.4,
+      "reb": 35.1,
+      "space": 69.9,
+      "rim": 4,
+      "perd": 52.3,
+      "usg": 19.4
+    },
+    "wilsoja03": {
+      "off": 30.8,
+      "def": 33.2,
+      "play": 18.8,
+      "reb": 36.3,
+      "space": 59.4,
+      "rim": 2,
+      "perd": 44.8,
+      "usg": 18.2
+    },
+    "martica02": {
+      "off": 27.3,
+      "def": 65.9,
+      "play": 22.1,
+      "reb": 41,
+      "space": 52.9,
+      "rim": 18.4,
+      "perd": 67.9,
+      "usg": 12.5
+    },
+    "willike04": {
+      "off": 49.1,
+      "def": 54.2,
+      "play": 23.9,
+      "reb": 54,
+      "space": 68.6,
+      "rim": 9.2,
+      "perd": 57.1,
+      "usg": 18.3
+    },
+    "anderky01": {
+      "off": 41.5,
+      "def": 68.4,
+      "play": 33.1,
+      "reb": 44.3,
+      "space": 45.9,
+      "rim": 35.2,
+      "perd": 66.6,
+      "usg": 13.2
+    },
+    "plowdda01": {
+      "off": 38.2,
+      "def": 32.2,
+      "play": 16.3,
+      "reb": 30.9,
+      "space": 55.5,
+      "rim": 4.2,
+      "perd": 50,
+      "usg": 16.4
+    },
+    "minotjo01": {
+      "off": 56.5,
+      "def": 65,
+      "play": 16.2,
+      "reb": 48.5,
+      "space": 78.5,
+      "rim": 32,
+      "perd": 64.7,
+      "usg": 16.8
+    },
+    "smallja01": {
+      "off": 58.6,
+      "def": 47.1,
+      "play": 43,
+      "reb": 38.9,
+      "space": 81.4,
+      "rim": 8.8,
+      "perd": 60.1,
+      "usg": 19
+    },
+    "kuminjo01": {
+      "off": 43.1,
+      "def": 46.9,
+      "play": 25.9,
+      "reb": 60.3,
+      "space": 51,
+      "rim": 15.2,
+      "perd": 51.2,
+      "usg": 23.4
+    },
+    "greenja05": {
+      "off": 51.9,
+      "def": 45.8,
+      "play": 32.8,
+      "reb": 36.8,
+      "space": 44,
+      "rim": 9.6,
+      "perd": 59.4,
+      "usg": 31.9
+    },
+    "willivi01": {
+      "off": 42.1,
+      "def": 55.5,
+      "play": 43.9,
+      "reb": 46.8,
+      "space": 42.5,
+      "rim": 19.8,
+      "perd": 63.4,
+      "usg": 19.5
+    },
+    "hieldbu01": {
+      "off": 45.4,
+      "def": 52.3,
+      "play": 23.9,
+      "reb": 37.2,
+      "space": 60.7,
+      "rim": 9.8,
+      "perd": 64.3,
+      "usg": 20.3
+    },
+    "bryanca01": {
+      "off": 33,
+      "def": 53,
+      "play": 16.6,
+      "reb": 53.1,
+      "space": 50.7,
+      "rim": 24.4,
+      "perd": 51.8,
+      "usg": 16.3
+    },
+    "jovicni01": {
+      "off": 32.2,
+      "def": 51.5,
+      "play": 28.4,
+      "reb": 45.2,
+      "space": 33.8,
+      "rim": 22.2,
+      "perd": 53.9,
+      "usg": 21.4
+    },
+    "pickeja02": {
+      "off": 43,
+      "def": 39.5,
+      "play": 32.3,
+      "reb": 37.2,
+      "space": 69.2,
+      "rim": 3.4,
+      "perd": 52,
+      "usg": 14.8
+    },
+    "murrake02": {
+      "off": 39.3,
+      "def": 47.3,
+      "play": 16.5,
+      "reb": 43.1,
+      "space": 35.4,
+      "rim": 58.2,
+      "perd": 50.3,
+      "usg": 18.7
+    },
+    "holidaa01": {
+      "off": 37.7,
+      "def": 49.1,
+      "play": 20,
+      "reb": 21.2,
+      "space": 73.2,
+      "rim": 5.2,
+      "perd": 60.6,
+      "usg": 16.6
+    },
+    "martity01": {
+      "off": 39.2,
+      "def": 39.9,
+      "play": 28.2,
+      "reb": 40.1,
+      "space": 46.8,
+      "rim": 3.4,
+      "perd": 55.2,
+      "usg": 18.4
+    },
+    "porzikr01": {
+      "off": 60.1,
+      "def": 56.8,
+      "play": 30.3,
+      "reb": 54,
+      "space": 56.9,
+      "rim": 57.6,
+      "perd": 53.3,
+      "usg": 27.3
+    },
+    "walkeja01": {
+      "off": 37.8,
+      "def": 47.2,
+      "play": 14.7,
+      "reb": 61.5,
+      "space": 50.1,
+      "rim": 12.4,
+      "perd": 54.9,
+      "usg": 15
+    },
+    "pendano01": {
+      "off": 38.3,
+      "def": 58.2,
+      "play": 22.2,
+      "reb": 62,
+      "space": 46,
+      "rim": 20.4,
+      "perd": 61.9,
+      "usg": 14.8
+    },
+    "hendesc01": {
+      "off": 42.4,
+      "def": 47.6,
+      "play": 37.6,
+      "reb": 28.4,
+      "space": 65.5,
+      "rim": 11.6,
+      "perd": 59.4,
+      "usg": 25
+    },
+    "nancepe01": {
+      "off": 43.2,
+      "def": 40.9,
+      "play": 18.7,
+      "reb": 44.3,
+      "space": 76,
+      "rim": 18,
+      "perd": 46.2,
+      "usg": 13.5
+    },
+    "bryanth01": {
+      "off": 53.8,
+      "def": 48.2,
+      "play": 15.4,
+      "reb": 68.7,
+      "space": 59,
+      "rim": 33,
+      "perd": 49.8,
+      "usg": 18.6
+    },
+    "adamsst01": {
+      "off": 47.5,
+      "def": 50.9,
+      "play": 15.6,
+      "reb": 92.2,
+      "space": 6,
+      "rim": 32.4,
+      "perd": 53.1,
+      "usg": 12.1
+    },
+    "balllo01": {
+      "off": 33.3,
+      "def": 68.7,
+      "play": 35.2,
+      "reb": 48.5,
+      "space": 34.4,
+      "rim": 16.8,
+      "perd": 75.7,
+      "usg": 13.7
+    },
+    "kolekty01": {
+      "off": 45.4,
+      "def": 51.5,
+      "play": 50.4,
+      "reb": 35.5,
+      "space": 65.8,
+      "rim": 6,
+      "perd": 61.1,
+      "usg": 18.4
+    },
+    "millele01": {
+      "off": 48.6,
+      "def": 42.4,
+      "play": 17.4,
+      "reb": 60.3,
+      "space": 46.5,
+      "rim": 14.6,
+      "perd": 50.7,
+      "usg": 18.7
+    },
+    "willigr01": {
+      "off": 51.6,
+      "def": 58.8,
+      "play": 20.3,
+      "reb": 51.5,
+      "space": 75.4,
+      "rim": 28.8,
+      "perd": 56.6,
+      "usg": 14.1
+    },
+    "richani01": {
+      "off": 24.1,
+      "def": 44,
+      "play": 7,
+      "reb": 82.5,
+      "space": 27.6,
+      "rim": 42.2,
+      "perd": 45.1,
+      "usg": 18.2
+    },
+    "coopesh01": {
+      "off": 44.8,
+      "def": 26.7,
+      "play": 41.3,
+      "reb": 31.7,
+      "space": 65.5,
+      "rim": 2,
+      "perd": 46.4,
+      "usg": 20
+    },
+    "cartede02": {
+      "off": 43.1,
+      "def": 44.1,
+      "play": 35.5,
+      "reb": 46,
+      "space": 32.6,
+      "rim": 8.8,
+      "perd": 59.9,
+      "usg": 23.5
+    },
+    "howarje01": {
+      "off": 45.1,
+      "def": 40.4,
+      "play": 21.1,
+      "reb": 33.4,
+      "space": 65.1,
+      "rim": 13.2,
+      "perd": 45.5,
+      "usg": 17.2
+    },
+    "hawkijo01": {
+      "off": 32.9,
+      "def": 26.9,
+      "play": 17.4,
+      "reb": 33,
+      "space": 56.2,
+      "rim": 6.4,
+      "perd": 45,
+      "usg": 18.2
+    },
+    "flemira01": {
+      "off": 33.5,
+      "def": 48.7,
+      "play": 10,
+      "reb": 46.8,
+      "space": 55,
+      "rim": 27.6,
+      "perd": 52,
+      "usg": 16.3
+    },
+    "mashaja01": {
+      "off": 17.3,
+      "def": 48.3,
+      "play": 23.1,
+      "reb": 31.3,
+      "space": 30.6,
+      "rim": 19.6,
+      "perd": 62.7,
+      "usg": 16
+    },
+    "vukcetr01": {
+      "off": 55.8,
+      "def": 49.2,
+      "play": 23.1,
+      "reb": 53.6,
+      "space": 56.6,
+      "rim": 44.2,
+      "perd": 51.6,
+      "usg": 26.6
+    },
+    "iveyja01": {
+      "off": 48.9,
+      "def": 54,
+      "play": 25.5,
+      "reb": 35.5,
+      "space": 69.7,
+      "rim": 20.4,
+      "perd": 61.6,
+      "usg": 19.7
+    },
+    "manntr01": {
+      "off": 27.4,
+      "def": 45.5,
+      "play": 31.9,
+      "reb": 36.8,
+      "space": 47.1,
+      "rim": 4.6,
+      "perd": 59.3,
+      "usg": 23.3
+    },
+    "harriga01": {
+      "off": 30.5,
+      "def": 57,
+      "play": 18.6,
+      "reb": 25.8,
+      "space": 69.1,
+      "rim": 13.8,
+      "perd": 65.8,
+      "usg": 8.5
+    },
+    "thompet01": {
+      "off": 27.6,
+      "def": 44.4,
+      "play": 23.2,
+      "reb": 27.9,
+      "space": 49.9,
+      "rim": 11.6,
+      "perd": 57.1,
+      "usg": 15.7
+    },
+    "bouyeja01": {
+      "off": 42.3,
+      "def": 62.6,
+      "play": 33.2,
+      "reb": 33.8,
+      "space": 39,
+      "rim": 22.6,
+      "perd": 68.5,
+      "usg": 18.5
+    },
+    "furphjo01": {
+      "off": 27.9,
+      "def": 51.5,
+      "play": 16.7,
+      "reb": 58.2,
+      "space": 46.7,
+      "rim": 9.8,
+      "perd": 61.1,
+      "usg": 12.8
+    },
+    "diawamo01": {
+      "off": 39.9,
+      "def": 50.6,
+      "play": 21.7,
+      "reb": 38.9,
+      "space": 61.3,
+      "rim": 11.2,
+      "perd": 53.6,
+      "usg": 17.1
+    },
+    "nnajize01": {
+      "off": 29.7,
+      "def": 53.6,
+      "play": 13.1,
+      "reb": 55.2,
+      "space": 31.8,
+      "rim": 37.6,
+      "perd": 53.2,
+      "usg": 13.7
+    },
+    "davisan02": {
+      "off": 59.7,
+      "def": 62.9,
+      "play": 28.2,
+      "reb": 82.5,
+      "space": 34,
+      "rim": 65.8,
+      "perd": 59,
+      "usg": 27.5
+    },
+    "finnedo01": {
+      "off": 25.3,
+      "def": 48.9,
+      "play": 14.8,
+      "reb": 38.9,
+      "space": 34,
+      "rim": 9.2,
+      "perd": 55.8,
+      "usg": 10.7
+    },
+    "joneska03": {
+      "off": 26.8,
+      "def": 34.4,
+      "play": 42.2,
+      "reb": 26.3,
+      "space": 38.6,
+      "rim": 2,
+      "perd": 52.1,
+      "usg": 14.4
+    },
+    "loveke01": {
+      "off": 54.9,
+      "def": 42.8,
+      "play": 26.7,
+      "reb": 83.4,
+      "space": 70.6,
+      "rim": 13.6,
+      "perd": 48.4,
+      "usg": 16.6
+    },
+    "princta02": {
+      "off": 42.3,
+      "def": 36.4,
+      "play": 20.2,
+      "reb": 35.5,
+      "space": 93.1,
+      "rim": 6.4,
+      "perd": 48.9,
+      "usg": 16.2
+    },
+    "richaja02": {
+      "off": 39.3,
+      "def": 44.5,
+      "play": 26.6,
+      "reb": 29.2,
+      "space": 55.2,
+      "rim": 2,
+      "perd": 58,
+      "usg": 16.8
+    },
+    "salauti01": {
+      "off": 42.5,
+      "def": 53.4,
+      "play": 14.4,
+      "reb": 65.3,
+      "space": 77.4,
+      "rim": 14.4,
+      "perd": 55.3,
+      "usg": 14.9
+    },
+    "moranja01": {
+      "off": 55.7,
+      "def": 36.1,
+      "play": 71.1,
+      "reb": 30,
+      "space": 27,
+      "rim": 8,
+      "perd": 53.4,
+      "usg": 32.5
+    },
+    "sabondo01": {
+      "off": 54.4,
+      "def": 48.2,
+      "play": 35.1,
+      "reb": 93.9,
+      "space": 17,
+      "rim": 13.8,
+      "perd": 53.5,
+      "usg": 23
+    },
+    "knechda01": {
+      "off": 38.5,
+      "def": 38.2,
+      "play": 13.3,
+      "reb": 37.6,
+      "space": 52.9,
+      "rim": 11.6,
+      "perd": 48.1,
+      "usg": 17.7
+    },
+    "eubandr01": {
+      "off": 33.5,
+      "def": 48.9,
+      "play": 11.5,
+      "reb": 58.2,
+      "space": 6,
+      "rim": 42.4,
+      "perd": 50.4,
+      "usg": 16.3
+    },
+    "terryda01": {
+      "off": 36.2,
+      "def": 61.1,
+      "play": 28.3,
+      "reb": 38.9,
+      "space": 57.8,
+      "rim": 22,
+      "perd": 69,
+      "usg": 14.8
+    },
+    "proctty01": {
+      "off": 38.5,
+      "def": 47.3,
+      "play": 32,
+      "reb": 31.3,
+      "space": 57.3,
+      "rim": 2,
+      "perd": 62.1,
+      "usg": 22
+    },
+    "harklej01": {
+      "off": 23.6,
+      "def": 48.5,
+      "play": 31.2,
+      "reb": 26.3,
+      "space": 27.8,
+      "rim": 9.2,
+      "perd": 64.1,
+      "usg": 16.2
+    },
+    "shannte01": {
+      "off": 36.4,
+      "def": 40.1,
+      "play": 19.5,
+      "reb": 25,
+      "space": 70.2,
+      "rim": 2,
+      "perd": 54.2,
+      "usg": 17.7
+    },
+    "wallake01": {
+      "off": 33.4,
+      "def": 54,
+      "play": 38,
+      "reb": 27.9,
+      "space": 62.6,
+      "rim": 7.4,
+      "perd": 64.8,
+      "usg": 16.1
+    },
+    "cissemo01": {
+      "off": 29.9,
+      "def": 65.1,
+      "play": 6.6,
+      "reb": 94.7,
+      "space": 6,
+      "rim": 74.6,
+      "perd": 58.2,
+      "usg": 14.3
+    },
+    "anthoco01": {
+      "off": 31.2,
+      "def": 46.3,
+      "play": 53.8,
+      "reb": 43.1,
+      "space": 41.2,
+      "rim": 16.8,
+      "perd": 58.9,
+      "usg": 25.8
+    },
+    "tatumja01": {
+      "off": 67.6,
+      "def": 65.2,
+      "play": 42.9,
+      "reb": 74.6,
+      "space": 54.9,
+      "rim": 14.2,
+      "perd": 64.8,
+      "usg": 30
+    },
+    "isaacjo01": {
+      "off": 33,
+      "def": 67.1,
+      "play": 13.3,
+      "reb": 63.2,
+      "space": 8.8,
+      "rim": 50,
+      "perd": 61.1,
+      "usg": 12.4
+    },
+    "battlja01": {
+      "off": 40.2,
+      "def": 40.1,
+      "play": 14.5,
+      "reb": 45.2,
+      "space": 69.1,
+      "rim": 2,
+      "perd": 48.9,
+      "usg": 14.1
+    },
+    "newelas01": {
+      "off": 44.1,
+      "def": 49.1,
+      "play": 15.9,
+      "reb": 47.7,
+      "space": 65.6,
+      "rim": 24.2,
+      "perd": 52.3,
+      "usg": 17.1
+    },
+    "hukpoar01": {
+      "off": 28.5,
+      "def": 65,
+      "play": 11.1,
+      "reb": 79.2,
+      "space": 22,
+      "rim": 50.6,
+      "perd": 56.6,
+      "usg": 10.9
+    },
+    "jackstr02": {
+      "off": 44.7,
+      "def": 58.9,
+      "play": 21.3,
+      "reb": 72.9,
+      "space": 70,
+      "rim": 43.8,
+      "perd": 57,
+      "usg": 15.3
+    },
+    "russeda01": {
+      "off": 47.9,
+      "def": 36.2,
+      "play": 50.2,
+      "reb": 31.3,
+      "space": 39,
+      "rim": 2,
+      "perd": 51.7,
+      "usg": 26
+    },
+    "peterta01": {
+      "off": 27.8,
+      "def": 49.8,
+      "play": 20.9,
+      "reb": 31.3,
+      "space": 49.6,
+      "rim": 5.4,
+      "perd": 64.2,
+      "usg": 16.6
+    },
+    "mbengbe01": {
+      "off": 21.8,
+      "def": 55.6,
+      "play": 27.5,
+      "reb": 30.5,
+      "space": 18.8,
+      "rim": 12.2,
+      "perd": 70,
+      "usg": 11.1
+    },
+    "coffeam01": {
+      "off": 36.5,
+      "def": 41.5,
+      "play": 17.9,
+      "reb": 31.3,
+      "space": 52.1,
+      "rim": 6.2,
+      "perd": 53.4,
+      "usg": 11.9
+    },
+    "carlsbr01": {
+      "off": 52.3,
+      "def": 57.2,
+      "play": 19.3,
+      "reb": 62,
+      "space": 58.7,
+      "rim": 51,
+      "perd": 51.6,
+      "usg": 18.9
+    },
+    "cainja01": {
+      "off": 47.1,
+      "def": 41.2,
+      "play": 18.4,
+      "reb": 41.8,
+      "space": 65.4,
+      "rim": 4.2,
+      "perd": 51.1,
+      "usg": 16.6
+    },
+    "chrisca02": {
+      "off": 31,
+      "def": 42.2,
+      "play": 18.2,
+      "reb": 43.5,
+      "space": 21,
+      "rim": 3.4,
+      "perd": 57,
+      "usg": 16.9
+    },
+    "thybuma01": {
+      "off": 39.8,
+      "def": 100,
+      "play": 14.9,
+      "reb": 32.1,
+      "space": 74.5,
+      "rim": 40.2,
+      "perd": 100,
+      "usg": 14.7
+    },
+    "sochaje01": {
+      "off": 36.7,
+      "def": 59.9,
+      "play": 21.2,
+      "reb": 56.1,
+      "space": 28.8,
+      "rim": 17.6,
+      "perd": 60.3,
+      "usg": 14.6
+    },
+    "klebima01": {
+      "off": 25.6,
+      "def": 55.1,
+      "play": 14.1,
+      "reb": 48.9,
+      "space": 18.2,
+      "rim": 25.8,
+      "perd": 57.7,
+      "usg": 9.6
+    },
+    "sassema01": {
+      "off": 41.6,
+      "def": 50.6,
+      "play": 36.8,
+      "reb": 24.2,
+      "space": 76.4,
+      "rim": 7,
+      "perd": 62.8,
+      "usg": 19.6
+    },
+    "johnsaj01": {
+      "off": 16.9,
+      "def": 29.9,
+      "play": 25.3,
+      "reb": 31.3,
+      "space": 22.2,
+      "rim": 2,
+      "perd": 48.1,
+      "usg": 20.6
+    },
+    "bogdabo01": {
+      "off": 37.7,
+      "def": 42.4,
+      "play": 27.9,
+      "reb": 35.9,
+      "space": 59.5,
+      "rim": 4,
+      "perd": 54.9,
+      "usg": 18.6
+    },
+    "bradlto01": {
+      "off": 35.6,
+      "def": 35.2,
+      "play": 15.3,
+      "reb": 62.8,
+      "space": 70.5,
+      "rim": 14.4,
+      "perd": 42.5,
+      "usg": 14.5
+    },
+    "nancela02": {
+      "off": 28.2,
+      "def": 56.3,
+      "play": 18.9,
+      "reb": 51.9,
+      "space": 49.4,
+      "rim": 12.8,
+      "perd": 63.1,
+      "usg": 14
+    },
+    "tshieos01": {
+      "off": 54.5,
+      "def": 30.5,
+      "play": 21,
+      "reb": 94.7,
+      "space": 6,
+      "rim": 11,
+      "perd": 44.2,
+      "usg": 17.2
+    },
+    "mcderdo01": {
+      "off": 41.5,
+      "def": 25,
+      "play": 16.3,
+      "reb": 23.7,
+      "space": 78.2,
+      "rim": 2,
+      "perd": 40.9,
+      "usg": 15.1
+    },
+    "blackle01": {
+      "off": 26.1,
+      "def": 44,
+      "play": 14.8,
+      "reb": 43.1,
+      "space": 57.6,
+      "rim": 17.4,
+      "perd": 55.6,
+      "usg": 11.6
+    },
+    "phillju01": {
+      "off": 31.3,
+      "def": 51,
+      "play": 11,
+      "reb": 29.6,
+      "space": 41.6,
+      "rim": 9.8,
+      "perd": 61,
+      "usg": 13.9
+    },
+    "wagnemo01": {
+      "off": 43.8,
+      "def": 44.4,
+      "play": 20.9,
+      "reb": 67,
+      "space": 43.3,
+      "rim": 8.8,
+      "perd": 52.2,
+      "usg": 24.3
+    },
+    "konanya01": {
+      "off": 35.4,
+      "def": 58.4,
+      "play": 9.8,
+      "reb": 71.2,
+      "space": 12,
+      "rim": 61,
+      "perd": 50.9,
+      "usg": 15.7
+    },
+    "toppiob01": {
+      "off": 68.9,
+      "def": 45.3,
+      "play": 36.8,
+      "reb": 61.1,
+      "space": 62.7,
+      "rim": 3.4,
+      "perd": 51.6,
+      "usg": 24.8
+    },
+    "maluakh01": {
+      "off": 29.5,
+      "def": 57,
+      "play": 5.9,
+      "reb": 79.6,
+      "space": 19.6,
+      "rim": 66.2,
+      "perd": 49.3,
+      "usg": 14.8
+    },
+    "gardnmy01": {
+      "off": 43,
+      "def": 67.4,
+      "play": 26.1,
+      "reb": 68.7,
+      "space": 67.9,
+      "rim": 18,
+      "perd": 69.3,
+      "usg": 15
+    },
+    "jacksan01": {
+      "off": 19.8,
+      "def": 42.2,
+      "play": 23.4,
+      "reb": 46,
+      "space": 30,
+      "rim": 5.2,
+      "perd": 59.1,
+      "usg": 17.8
+    },
+    "hayeski01": {
+      "off": 23.2,
+      "def": 46.1,
+      "play": 43,
+      "reb": 35.1,
+      "space": 34,
+      "rim": 7.6,
+      "perd": 62.2,
+      "usg": 18.7
+    },
+    "tateja01": {
+      "off": 31.7,
+      "def": 43.7,
+      "play": 17.1,
+      "reb": 46,
+      "space": 34.7,
+      "rim": 4.8,
+      "perd": 52.8,
+      "usg": 13.5
+    },
+    "reeseju01": {
+      "off": 34.3,
+      "def": 36.9,
+      "play": 15,
+      "reb": 80.9,
+      "space": 6,
+      "rim": 20.8,
+      "perd": 48.8,
+      "usg": 17.7
+    },
+    "murrade01": {
+      "off": 55.8,
+      "def": 57.1,
+      "play": 55.5,
+      "reb": 47.7,
+      "space": 41.2,
+      "rim": 9.2,
+      "perd": 69.4,
+      "usg": 26.6
+    },
+    "youngtr01": {
+      "off": 73.9,
+      "def": 39.3,
+      "play": 72.4,
+      "reb": 21.6,
+      "space": 57.5,
+      "rim": 2.2,
+      "perd": 55.2,
+      "usg": 28.1
+    },
+    "etienty01": {
+      "off": 45.9,
+      "def": 33.5,
+      "play": 31.2,
+      "reb": 21.2,
+      "space": 81.2,
+      "rim": 2,
+      "perd": 51.7,
+      "usg": 20.3
+    },
+    "jamesbr02": {
+      "off": 31.5,
+      "def": 46.4,
+      "play": 30,
+      "reb": 19.1,
+      "space": 63.9,
+      "rim": 6.2,
+      "perd": 62.2,
+      "usg": 16.7
+    },
+    "smithni01": {
+      "off": 39.6,
+      "def": 29.4,
+      "play": 23.1,
+      "reb": 19.1,
+      "space": 72.9,
+      "rim": 2,
+      "perd": 48.2,
+      "usg": 22
+    },
+    "payneca01": {
+      "off": 46.2,
+      "def": 63.3,
+      "play": 39.4,
+      "reb": 30.9,
+      "space": 51.9,
+      "rim": 18.8,
+      "perd": 73.1,
+      "usg": 19.2
+    },
+    "mcneeli01": {
+      "off": 41.8,
+      "def": 47.4,
+      "play": 18.4,
+      "reb": 51,
+      "space": 69.1,
+      "rim": 6.8,
+      "perd": 52.9,
+      "usg": 14.4
+    },
+    "weslebl01": {
+      "off": 30.7,
+      "def": 52.9,
+      "play": 40,
+      "reb": 28.8,
+      "space": 35.6,
+      "rim": 11.4,
+      "perd": 64,
+      "usg": 19.8
+    },
+    "robinje02": {
+      "off": 30.3,
+      "def": 35.7,
+      "play": 13.9,
+      "reb": 69.1,
+      "space": 28.8,
+      "rim": 2,
+      "perd": 45.8,
+      "usg": 14.1
+    },
+    "olynyke01": {
+      "off": 42.2,
+      "def": 60.8,
+      "play": 29.2,
+      "reb": 51.5,
+      "space": 31,
+      "rim": 11.8,
+      "perd": 62.2,
+      "usg": 16
+    },
+    "smithma02": {
+      "off": 48,
+      "def": 44.6,
+      "play": 36.6,
+      "reb": 38.9,
+      "space": 81.9,
+      "rim": 10.4,
+      "perd": 58.2,
+      "usg": 14.2
+    },
+    "kolokch01": {
+      "off": 17.1,
+      "def": 66.8,
+      "play": 12.8,
+      "reb": 55.7,
+      "space": 6,
+      "rim": 61.8,
+      "perd": 61.3,
+      "usg": 11.3
+    },
+    "chandke01": {
+      "off": 37.2,
+      "def": 26.4,
+      "play": 48.6,
+      "reb": 27.5,
+      "space": 75.8,
+      "rim": 2,
+      "perd": 47.9,
+      "usg": 20.7
+    },
+    "whitmca01": {
+      "off": 45.2,
+      "def": 37.4,
+      "play": 15.6,
+      "reb": 41,
+      "space": 37.2,
+      "rim": 15.8,
+      "perd": 51.6,
+      "usg": 23.7
+    },
+    "liddeej01": {
+      "off": 37.9,
+      "def": 41.7,
+      "play": 21.7,
+      "reb": 52.3,
+      "space": 54,
+      "rim": 24.8,
+      "perd": 46.2,
+      "usg": 17.2
+    },
+    "barnhbr01": {
+      "off": 26.3,
+      "def": 58.1,
+      "play": 16.6,
+      "reb": 55.2,
+      "space": 30.4,
+      "rim": 12.4,
+      "perd": 64.3,
+      "usg": 10.6
+    },
+    "johnsch06": {
+      "off": 47.5,
+      "def": 56.6,
+      "play": 28.2,
+      "reb": 59.4,
+      "space": 40,
+      "rim": 25.2,
+      "perd": 62.2,
+      "usg": 16.2
+    },
+    "liveris01": {
+      "off": 28.2,
+      "def": 61.6,
+      "play": 15.4,
+      "reb": 45.2,
+      "space": 40,
+      "rim": 22.6,
+      "perd": 61.3,
+      "usg": 9.9
+    },
+    "olbrila01": {
+      "off": 31.2,
+      "def": 50.2,
+      "play": 27.6,
+      "reb": 76.7,
+      "space": 6,
+      "rim": 21.6,
+      "perd": 54,
+      "usg": 13.4
+    },
+    "jeromty01": {
+      "off": 95.8,
+      "def": 47.7,
+      "play": 72.8,
+      "reb": 32.1,
+      "space": 95.2,
+      "rim": 11.4,
+      "perd": 61.7,
+      "usg": 32.7
+    },
+    "harpero02": {
+      "off": 50.1,
+      "def": 59.5,
+      "play": 20.9,
+      "reb": 38.9,
+      "space": 57.5,
+      "rim": 25.2,
+      "perd": 61.4,
+      "usg": 16.4
+    },
+    "berinjo01": {
+      "off": 50.2,
+      "def": 59.1,
+      "play": 14.3,
+      "reb": 71.6,
+      "space": 6,
+      "rim": 63.6,
+      "perd": 52.9,
+      "usg": 16.8
+    },
+    "slawsja01": {
+      "off": 37,
+      "def": 71.7,
+      "play": 26.7,
+      "reb": 46,
+      "space": 68.4,
+      "rim": 48.4,
+      "perd": 73.3,
+      "usg": 13.9
+    },
+    "looneke01": {
+      "off": 41.2,
+      "def": 48.2,
+      "play": 25.7,
+      "reb": 90.5,
+      "space": 6,
+      "rim": 33.4,
+      "perd": 51.3,
+      "usg": 9.9
+    },
+    "burtoty01": {
+      "off": 31.9,
+      "def": 37,
+      "play": 14.2,
+      "reb": 41,
+      "space": 55,
+      "rim": 9.4,
+      "perd": 50.8,
+      "usg": 18.3
+    },
+    "yangha01": {
+      "off": 5,
+      "def": 45.4,
+      "play": 16.1,
+      "reb": 54,
+      "space": 14,
+      "rim": 26.8,
+      "perd": 46.4,
+      "usg": 19.9
+    },
+    "connapa01": {
+      "off": 47.7,
+      "def": 52.1,
+      "play": 17.9,
+      "reb": 52.7,
+      "space": 66.6,
+      "rim": 2.4,
+      "perd": 63.1,
+      "usg": 14.9
+    },
+    "cryerlj01": {
+      "off": 40.7,
+      "def": 24.3,
+      "play": 19,
+      "reb": 26.3,
+      "space": 83.8,
+      "rim": 2,
+      "perd": 43.2,
+      "usg": 20.3
+    },
+    "strusma01": {
+      "off": 49.9,
+      "def": 36,
+      "play": 23.3,
+      "reb": 56.1,
+      "space": 91.6,
+      "rim": 2,
+      "perd": 46.6,
+      "usg": 17.4
+    },
+    "waterli01": {
+      "off": 33.5,
+      "def": 45.3,
+      "play": 19.2,
+      "reb": 27.1,
+      "space": 52.7,
+      "rim": 2,
+      "perd": 56.3,
+      "usg": 14.2
+    },
+    "hinsobl01": {
+      "off": 62.6,
+      "def": 25.3,
+      "play": 20.1,
+      "reb": 30.5,
+      "space": 100,
+      "rim": 2,
+      "perd": 41.4,
+      "usg": 18.3
+    },
+    "edeyza01": {
+      "off": 46.9,
+      "def": 65.2,
+      "play": 12.3,
+      "reb": 100,
+      "space": 12,
+      "rim": 87,
+      "perd": 57,
+      "usg": 20.2
+    },
+    "mclaujo01": {
+      "off": 38.7,
+      "def": 73.4,
+      "play": 29.4,
+      "reb": 29.6,
+      "space": 61.3,
+      "rim": 8.6,
+      "perd": 80.7,
+      "usg": 14.5
+    },
+    "johnske10": {
+      "off": 43,
+      "def": 55.2,
+      "play": 11.4,
+      "reb": 52.3,
+      "space": 39,
+      "rim": 21,
+      "perd": 62.8,
+      "usg": 18.9
+    },
+    "leonsma01": {
+      "off": 33,
+      "def": 57.2,
+      "play": 21.2,
+      "reb": 48.9,
+      "space": 22,
+      "rim": 26.4,
+      "perd": 63.6,
+      "usg": 14.4
+    },
+    "branhma01": {
+      "off": 45.4,
+      "def": 39.3,
+      "play": 22.4,
+      "reb": 40.1,
+      "space": 61.5,
+      "rim": 5,
+      "perd": 55.4,
+      "usg": 18.4
+    },
+    "ryanco01": {
+      "off": 55.5,
+      "def": 38.3,
+      "play": 20.7,
+      "reb": 28.4,
+      "space": 97.5,
+      "rim": 9,
+      "perd": 55.8,
+      "usg": 21.3
+    },
+    "laniech01": {
+      "off": 29,
+      "def": 38.6,
+      "play": 20.2,
+      "reb": 24.6,
+      "space": 36.8,
+      "rim": 2,
+      "perd": 50.9,
+      "usg": 15
+    },
+    "reathdu01": {
+      "off": 43.6,
+      "def": 50.5,
+      "play": 14.2,
+      "reb": 37.6,
+      "space": 71.8,
+      "rim": 28.8,
+      "perd": 51,
+      "usg": 13.2
+    },
+    "simpskj01": {
+      "off": 22.4,
+      "def": 56.2,
+      "play": 36.9,
+      "reb": 38,
+      "space": 40,
+      "rim": 2,
+      "perd": 70.6,
+      "usg": 21.8
+    },
+    "poulajo01": {
+      "off": 43.8,
+      "def": 40.9,
+      "play": 16.7,
+      "reb": 30.5,
+      "space": 88.9,
+      "rim": 11.4,
+      "perd": 54.4,
+      "usg": 16.2
+    },
+    "mogbojo01": {
+      "off": 34.3,
+      "def": 68.8,
+      "play": 20.7,
+      "reb": 69.1,
+      "space": 6,
+      "rim": 29.4,
+      "perd": 65.7,
+      "usg": 11.1
+    },
+    "balad01": {
+      "off": 29.7,
+      "def": 36.7,
+      "play": 22.2,
+      "reb": 27.5,
+      "space": 88.2,
+      "rim": 2,
+      "perd": 54.7,
+      "usg": 13.5
+    },
+    "willije02": {
+      "off": 39,
+      "def": 25.8,
+      "play": 17.4,
+      "reb": 33.4,
+      "space": 76.7,
+      "rim": 2,
+      "perd": 45.9,
+      "usg": 19.5
+    },
+    "timmedr01": {
+      "off": 44.7,
+      "def": 37.2,
+      "play": 24.1,
+      "reb": 38.4,
+      "space": 64.3,
+      "rim": 2,
+      "perd": 47,
+      "usg": 15.4
+    },
+    "jarrede01": {
+      "off": 24.9,
+      "def": 52.5,
+      "play": 34.1,
+      "reb": 54.4,
+      "space": 14,
+      "rim": 32.6,
+      "perd": 62.4,
+      "usg": 21.4
+    },
+    "paulch01": {
+      "off": 27.8,
+      "def": 49.6,
+      "play": 47.2,
+      "reb": 33.8,
+      "space": 49.5,
+      "rim": 2,
+      "perd": 64.4,
+      "usg": 14.2
+    },
+    "lawsoaj01": {
+      "off": 42.6,
+      "def": 57.2,
+      "play": 13,
+      "reb": 49.4,
+      "space": 73.5,
+      "rim": 15,
+      "perd": 67.9,
+      "usg": 17.5
+    },
+    "willilu01": {
+      "off": 21,
+      "def": 36.2,
+      "play": 21.2,
+      "reb": 42.6,
+      "space": 36.6,
+      "rim": 2,
+      "perd": 56.3,
+      "usg": 16.4
+    },
+    "davisjd01": {
+      "off": 36.3,
+      "def": 61.1,
+      "play": 37,
+      "reb": 40.1,
+      "space": 30,
+      "rim": 21.6,
+      "perd": 64.9,
+      "usg": 15.3
+    },
+    "okanito01": {
+      "off": 13.3,
+      "def": 20,
+      "play": 13.2,
+      "reb": 25.8,
+      "space": 38,
+      "rim": 10,
+      "perd": 41.4,
+      "usg": 14.7
+    },
+    "hallpj01": {
+      "off": 41,
+      "def": 47.1,
+      "play": 12.5,
+      "reb": 86.7,
+      "space": 71.4,
+      "rim": 40.4,
+      "perd": 47.1,
+      "usg": 17.3
+    },
+    "pippesc02": {
+      "off": 38.5,
+      "def": 56.7,
+      "play": 52.6,
+      "reb": 27.5,
+      "space": 43.2,
+      "rim": 17.6,
+      "perd": 73.9,
+      "usg": 26.1
+    },
+    "holmeda01": {
+      "off": 52.7,
+      "def": 39.4,
+      "play": 19,
+      "reb": 43.1,
+      "space": 77.4,
+      "rim": 20.8,
+      "perd": 42.3,
+      "usg": 16.4
+    },
+    "kawamyu01": {
+      "off": 34.7,
+      "def": 42.5,
+      "play": 44.7,
+      "reb": 39.3,
+      "space": 39.4,
+      "rim": 2,
+      "perd": 59,
+      "usg": 14.8
+    },
+    "dennira01": {
+      "off": 25.9,
+      "def": 39.4,
+      "play": 36.1,
+      "reb": 33,
+      "space": 42.4,
+      "rim": 11.6,
+      "perd": 51.8,
+      "usg": 21.4
+    },
+    "jordade01": {
+      "off": 45.4,
+      "def": 54.9,
+      "play": 13.3,
+      "reb": 90.5,
+      "space": 6,
+      "rim": 50.6,
+      "perd": 52.3,
+      "usg": 10.1
+    },
+    "mathega01": {
+      "off": 41.8,
+      "def": 50,
+      "play": 17.7,
+      "reb": 23.7,
+      "space": 66.4,
+      "rim": 11.8,
+      "perd": 60.3,
+      "usg": 14.1
+    },
+    "beaucma01": {
+      "off": 47.1,
+      "def": 45.9,
+      "play": 21,
+      "reb": 41.4,
+      "space": 54.8,
+      "rim": 15.4,
+      "perd": 57.1,
+      "usg": 21
+    },
+    "hayesni01": {
+      "off": 14.7,
+      "def": 45.5,
+      "play": 10.9,
+      "reb": 43.5,
+      "space": 6,
+      "rim": 6.4,
+      "perd": 56.8,
+      "usg": 12.1
+    },
+    "youngch01": {
+      "off": 37.6,
+      "def": 48.5,
+      "play": 20.7,
+      "reb": 38.4,
+      "space": 49.1,
+      "rim": 11.4,
+      "perd": 57.1,
+      "usg": 16.2
+    },
+    "colliza01": {
+      "off": 54.9,
+      "def": 42.8,
+      "play": 22.8,
+      "reb": 72,
+      "space": 75.9,
+      "rim": 24,
+      "perd": 46,
+      "usg": 18.8
+    },
+    "whiteda01": {
+      "off": 32.3,
+      "def": 15,
+      "play": 17,
+      "reb": 33.8,
+      "space": 46.7,
+      "rim": 2,
+      "perd": 36.9,
+      "usg": 24.1
+    },
+    "tillmxa01": {
+      "off": 33.7,
+      "def": 62.4,
+      "play": 17.9,
+      "reb": 59,
+      "space": 6,
+      "rim": 27.6,
+      "perd": 63.8,
+      "usg": 13.1
+    },
+    "scotttr01": {
+      "off": 26.6,
+      "def": 46,
+      "play": 18.8,
+      "reb": 45.6,
+      "space": 44.5,
+      "rim": 32.4,
+      "perd": 53.7,
+      "usg": 13.6
+    },
+    "greenje02": {
+      "off": 31.8,
+      "def": 31.2,
+      "play": 16.4,
+      "reb": 37.2,
+      "space": 34.6,
+      "rim": 7.2,
+      "perd": 40.5,
+      "usg": 17.8
+    },
+    "plumlma01": {
+      "off": 36.6,
+      "def": 71.1,
+      "play": 18,
+      "reb": 76.2,
+      "space": 6,
+      "rim": 11.2,
+      "perd": 71.8,
+      "usg": 7.9
+    },
+    "garcian01": {
+      "off": 20.4,
+      "def": 49.9,
+      "play": 17.9,
+      "reb": 60.3,
+      "space": 14,
+      "rim": 28.8,
+      "perd": 59.1,
+      "usg": 9.7
+    },
+    "smithty02": {
+      "off": 31.5,
+      "def": 37.3,
+      "play": 11.6,
+      "reb": 48.1,
+      "space": 37.2,
+      "rim": 2,
+      "perd": 49,
+      "usg": 14.8
+    },
+    "tysonhu01": {
+      "off": 22.2,
+      "def": 34.8,
+      "play": 25.7,
+      "reb": 56.1,
+      "space": 22.4,
+      "rim": 3.4,
+      "perd": 42.9,
+      "usg": 16.8
+    },
+    "topicni01": {
+      "off": 22.7,
+      "def": 25.3,
+      "play": 52.6,
+      "reb": 30.9,
+      "space": 67.2,
+      "rim": 2,
+      "perd": 47.5,
+      "usg": 21.2
+    },
+    "mcculke01": {
+      "off": 30,
+      "def": 59.8,
+      "play": 27.6,
+      "reb": 46.4,
+      "space": 48.3,
+      "rim": 2,
+      "perd": 69,
+      "usg": 16.9
+    },
+    "kesslwa01": {
+      "off": 57.4,
+      "def": 70.1,
+      "play": 20.5,
+      "reb": 83.4,
+      "space": 85.7,
+      "rim": 79,
+      "perd": 64.4,
+      "usg": 16.5
+    },
+    "inglejo01": {
+      "off": 41.6,
+      "def": 63.9,
+      "play": 40.1,
+      "reb": 32.6,
+      "space": 62.5,
+      "rim": 11.4,
+      "perd": 70,
+      "usg": 11.5
+    },
+    "bassech01": {
+      "off": 56.6,
+      "def": 60.7,
+      "play": 15.8,
+      "reb": 90.5,
+      "space": 6,
+      "rim": 63.2,
+      "perd": 55.2,
+      "usg": 17.2
+    },
+    "thierad01": {
+      "off": 26.8,
+      "def": 51,
+      "play": 15.7,
+      "reb": 50.2,
+      "space": 38.8,
+      "rim": 11.8,
+      "perd": 57.9,
+      "usg": 14.6
+    },
+    "antetth01": {
+      "off": 30.9,
+      "def": 75.3,
+      "play": 23.1,
+      "reb": 52.3,
+      "space": 6,
+      "rim": 31.6,
+      "perd": 79.9,
+      "usg": 16.5
+    },
+    "martial01": {
+      "off": 26,
+      "def": 57,
+      "play": 20.7,
+      "reb": 38.4,
+      "space": 10,
+      "rim": 20,
+      "perd": 67.7,
+      "usg": 19.5
+    },
+    "william01": {
+      "off": 21.8,
+      "def": 77.6,
+      "play": 11.4,
+      "reb": 67.4,
+      "space": 6,
+      "rim": 63.2,
+      "perd": 63.1,
+      "usg": 11.1
+    },
+    "biyombi01": {
+      "off": 9.5,
+      "def": 60,
+      "play": 4.6,
+      "reb": 45.6,
+      "space": 6,
+      "rim": 12.6,
+      "perd": 62.3,
+      "usg": 7.8
+    },
+    "smithto05": {
+      "off": 44.6,
+      "def": 58.6,
+      "play": 23.2,
+      "reb": 88.4,
+      "space": 6,
+      "rim": 42.2,
+      "perd": 53.5,
+      "usg": 17.1
+    },
+    "dadiepa01": {
+      "off": 33.8,
+      "def": 46.8,
+      "play": 24.4,
+      "reb": 50.6,
+      "space": 23.8,
+      "rim": 4.4,
+      "perd": 54.3,
+      "usg": 17.6
+    },
+    "mccluma01": {
+      "off": 21.8,
+      "def": 61.4,
+      "play": 20.4,
+      "reb": 20.8,
+      "space": 26.6,
+      "rim": 18.4,
+      "perd": 74.9,
+      "usg": 23.6
+    },
+    "kellymi02": {
+      "off": 25,
+      "def": 45.2,
+      "play": 22.8,
+      "reb": 43.9,
+      "space": 40.6,
+      "rim": 4.6,
+      "perd": 57.7,
+      "usg": 15.8
+    },
+    "curryse01": {
+      "off": 57.8,
+      "def": 37.7,
+      "play": 24.7,
+      "reb": 25,
+      "space": 88,
+      "rim": 2,
+      "perd": 52.9,
+      "usg": 18
+    },
+    "bealbr01": {
+      "off": 15.7,
+      "def": 19.1,
+      "play": 21.8,
+      "reb": 14.1,
+      "space": 66,
+      "rim": 2,
+      "perd": 43,
+      "usg": 22.2
+    },
+    "bufkiko01": {
+      "off": 18.3,
+      "def": 26.3,
+      "play": 22.9,
+      "reb": 30.9,
+      "space": 18.4,
+      "rim": 11.4,
+      "perd": 43.6,
+      "usg": 22.1
+    },
+    "lowryky01": {
+      "off": 5.2,
+      "def": 32.5,
+      "play": 21.5,
+      "reb": 21.6,
+      "space": 14,
+      "rim": 7.2,
+      "perd": 47.6,
+      "usg": 11.3
+    },
+    "livelde01": {
+      "off": 32.4,
+      "def": 85.9,
+      "play": 20.2,
+      "reb": 75.4,
+      "space": 6,
+      "rim": 93.8,
+      "perd": 69.2,
+      "usg": 11.8
+    },
+    "alexatr01": {
+      "off": 41.2,
+      "def": 53.2,
+      "play": 23.9,
+      "reb": 26.3,
+      "space": 84.2,
+      "rim": 14,
+      "perd": 65.9,
+      "usg": 15.8
+    },
+    "yurtsom01": {
+      "off": 20.3,
+      "def": 33.3,
+      "play": 17.3,
+      "reb": 71.6,
+      "space": 6,
+      "rim": 9.4,
+      "perd": 43,
+      "usg": 17.5
+    },
+    "travelu01": {
+      "off": 27.5,
+      "def": 66.1,
+      "play": 22.8,
+      "reb": 57.8,
+      "space": 14,
+      "rim": 30.2,
+      "perd": 74.2,
+      "usg": 17.5
+    },
+    "baldwpa01": {
+      "off": 33.6,
+      "def": 43.4,
+      "play": 13.6,
+      "reb": 56.9,
+      "space": 73.5,
+      "rim": 36,
+      "perd": 50.7,
+      "usg": 14.7
+    },
+    "willial06": {
+      "off": 56.4,
+      "def": 47.8,
+      "play": 29.1,
+      "reb": 59.9,
+      "space": 62.4,
+      "rim": 30.6,
+      "perd": 57.7,
+      "usg": 14.3
+    },
+    "gibsota01": {
+      "off": 41,
+      "def": 32.8,
+      "play": 20.4,
+      "reb": 67.4,
+      "space": 72.9,
+      "rim": 9.2,
+      "perd": 43.1,
+      "usg": 13.1
+    },
+    "cookeja01": {
+      "off": 5,
+      "def": 44.8,
+      "play": 17.7,
+      "reb": 50.2,
+      "space": 14,
+      "rim": 2,
+      "perd": 64.1,
+      "usg": 22
+    },
+    "bouchch01": {
+      "off": 17.5,
+      "def": 81.9,
+      "play": 13.7,
+      "reb": 48.1,
+      "space": 14,
+      "rim": 69.4,
+      "perd": 71.7,
+      "usg": 12.8
+    },
+    "crawfis01": {
+      "off": 32.9,
+      "def": 51.9,
+      "play": 14.9,
+      "reb": 44.3,
+      "space": 18.2,
+      "rim": 22.2,
+      "perd": 55.5,
+      "usg": 14
+    },
+    "highsha01": {
+      "off": 62.1,
+      "def": 59,
+      "play": 25,
+      "reb": 37.2,
+      "space": 87.6,
+      "rim": 2.4,
+      "perd": 65.9,
+      "usg": 12.2
+    },
+    "juzanjo01": {
+      "off": 42.3,
+      "def": 36.2,
+      "play": 19.8,
+      "reb": 48.5,
+      "space": 30,
+      "rim": 2.6,
+      "perd": 51.3,
+      "usg": 22.3
+    },
+    "washity02": {
+      "off": 43.6,
+      "def": 77.1,
+      "play": 43.5,
+      "reb": 20.8,
+      "space": 49.2,
+      "rim": 28.4,
+      "perd": 81.1,
+      "usg": 11.1
+    },
+    "jonescu01": {
+      "off": 33.1,
+      "def": 46.7,
+      "play": 28.7,
+      "reb": 33.4,
+      "space": 49.4,
+      "rim": 2,
+      "perd": 62.1,
+      "usg": 14.7
+    },
+    "enarutr01": {
+      "off": 46.7,
+      "def": 49.2,
+      "play": 22.8,
+      "reb": 42.2,
+      "space": 40,
+      "rim": 2,
+      "perd": 62.8,
+      "usg": 17.1
+    },
+    "breako01": {
+      "off": 59,
+      "def": 35.4,
+      "play": 32.1,
+      "reb": 26.3,
+      "space": 78.6,
+      "rim": 2,
+      "perd": 49.7,
+      "usg": 20.7
+    },
+    "jemistr01": {
+      "off": 5,
+      "def": 46.9,
+      "play": 3.1,
+      "reb": 55.7,
+      "space": 6,
+      "rim": 24.4,
+      "perd": 48.1,
+      "usg": 10.7
+    },
+    "odurojo01": {
+      "off": 29.6,
+      "def": 12.6,
+      "play": 15.7,
+      "reb": 67.4,
+      "space": 6,
+      "rim": 2,
+      "perd": 28.8,
+      "usg": 11
+    },
+    "houstca01": {
+      "off": 57.7,
+      "def": 40.7,
+      "play": 15.6,
+      "reb": 37.6,
+      "space": 83.8,
+      "rim": 6.8,
+      "perd": 51.4,
+      "usg": 17.4
+    },
+    "gordoer01": {
+      "off": 59.5,
+      "def": 55.5,
+      "play": 13.5,
+      "reb": 10.3,
+      "space": 89,
+      "rim": 12.4,
+      "perd": 67.5,
+      "usg": 14.2
+    },
+    "gilbeke01": {
+      "off": 26.9,
+      "def": 53.1,
+      "play": 28.4,
+      "reb": 19.1,
+      "space": 6,
+      "rim": 48,
+      "perd": 60.9,
+      "usg": 13
+    },
+    "templga01": {
+      "off": 18.1,
+      "def": 62.7,
+      "play": 21.9,
+      "reb": 33.4,
+      "space": 22,
+      "rim": 19.6,
+      "perd": 70.9,
+      "usg": 15.3
+    },
+    "roddyda01": {
+      "off": 53.9,
+      "def": 48.6,
+      "play": 18.9,
+      "reb": 68.3,
+      "space": 34.6,
+      "rim": 13.4,
+      "perd": 58.1,
+      "usg": 20.9
+    },
+    "klintbo01": {
+      "off": 10,
+      "def": 42.5,
+      "play": 19.2,
+      "reb": 67,
+      "space": 41.6,
+      "rim": 2,
+      "perd": 56,
+      "usg": 20.1
+    },
+    "jonesda06": {
+      "off": 63.6,
+      "def": 85.5,
+      "play": 59.4,
+      "reb": 47.3,
+      "space": 72.4,
+      "rim": 17.4,
+      "perd": 87.3,
+      "usg": 20.2
+    },
+    "reevean01": {
+      "off": 54.5,
+      "def": 46.4,
+      "play": 16.8,
+      "reb": 31.7,
+      "space": 84.2,
+      "rim": 2,
+      "perd": 56.3,
+      "usg": 13.1
+    },
+    "richmka01": {
+      "off": 43.8,
+      "def": 94.3,
+      "play": 30.3,
+      "reb": 37.6,
+      "space": 84.2,
+      "rim": 22.6,
+      "perd": 100,
+      "usg": 12
+    },
+    "morrimo01": {
+      "off": 25.5,
+      "def": 37.4,
+      "play": 34.1,
+      "reb": 28.8,
+      "space": 30,
+      "rim": 9,
+      "perd": 50.3,
+      "usg": 15.5
+    },
+    "peterdr01": {
+      "off": 5,
+      "def": 41.8,
+      "play": 14.7,
+      "reb": 37.2,
+      "space": 14,
+      "rim": 12.4,
+      "perd": 52.7,
+      "usg": 11.2
+    },
+    "sandfpa01": {
+      "off": 37,
+      "def": 22.4,
+      "play": 7.8,
+      "reb": 40.1,
+      "space": 83,
+      "rim": 2,
+      "perd": 40.2,
+      "usg": 19.8
+    },
+    "bantoda01": {
+      "off": 21.3,
+      "def": 69.2,
+      "play": 30.5,
+      "reb": 22.9,
+      "space": 6,
+      "rim": 67.2,
+      "perd": 66,
+      "usg": 15.3
+    },
+    "moorewe01": {
+      "off": 31,
+      "def": 66.1,
+      "play": 17,
+      "reb": 27.5,
+      "space": 6,
+      "rim": 29.4,
+      "perd": 68,
+      "usg": 6.2
+    },
+    "jeffrda01": {
+      "off": 53.4,
+      "def": 40.4,
+      "play": 12.8,
+      "reb": 23.7,
+      "space": 83.2,
+      "rim": 2,
+      "perd": 56.4,
+      "usg": 15
+    },
+    "youngja05": {
+      "off": 25.1,
+      "def": 32.3,
+      "play": 37,
+      "reb": 19.1,
+      "space": 39.5,
+      "rim": 2,
+      "perd": 48.8,
+      "usg": 20.3
+    },
+    "wisemja01": {
+      "off": 6.3,
+      "def": 38.5,
+      "play": 8.5,
+      "reb": 35.5,
+      "space": 6,
+      "rim": 19,
+      "perd": 42,
+      "usg": 11.6
+    },
+    "minixri01": {
+      "off": 59.8,
+      "def": 50.3,
+      "play": 26.3,
+      "reb": 27.5,
+      "space": 48.6,
+      "rim": 11.4,
+      "perd": 58,
+      "usg": 19.8
+    },
+    "broomjo01": {
+      "off": 5,
+      "def": 24.6,
+      "play": 19.3,
+      "reb": 70.8,
+      "space": 6,
+      "rim": 21.6,
+      "perd": 42.7,
+      "usg": 22.8
+    },
+    "martico01": {
+      "off": 5,
+      "def": 73.7,
+      "play": 7.4,
+      "reb": 62,
+      "space": 14,
+      "rim": 32.8,
+      "perd": 76.7,
+      "usg": 12.8
+    },
+    "loverla01": {
+      "off": 28.8,
+      "def": 55.8,
+      "play": 16.5,
+      "reb": 73.7,
+      "space": 6,
+      "rim": 27.6,
+      "perd": 62.4,
+      "usg": 12.1
+    },
+    "manonch01": {
+      "off": 23.2,
+      "def": 99.1,
+      "play": 16.7,
+      "reb": 57.3,
+      "space": 6,
+      "rim": 37.4,
+      "perd": 100,
+      "usg": 8.3
+    },
+    "gueyemo01": {
+      "off": 37.2,
+      "def": 40.3,
+      "play": 29.2,
+      "reb": 33.8,
+      "space": 20,
+      "rim": 21,
+      "perd": 50.8,
+      "usg": 14.6
+    },
+    "bambamo01": {
+      "off": 25.7,
+      "def": 26.9,
+      "play": 8.1,
+      "reb": 100,
+      "space": 6,
+      "rim": 54.4,
+      "perd": 31.6,
+      "usg": 12.2
+    },
+    "pullizy01": {
+      "off": 50.4,
+      "def": 37.5,
+      "play": 49.6,
+      "reb": 20,
+      "space": 39.5,
+      "rim": 2,
+      "perd": 52.9,
+      "usg": 17.4
+    },
+    "steveis01": {
+      "off": 41.4,
+      "def": 84.8,
+      "play": 46.4,
+      "reb": 20.4,
+      "space": 6,
+      "rim": 6.8,
+      "perd": 96.4,
+      "usg": 10.6
+    },
+    "tonjejo01": {
+      "off": 16.3,
+      "def": 59.6,
+      "play": 18.2,
+      "reb": 37.2,
+      "space": 40,
+      "rim": 2.4,
+      "perd": 70,
+      "usg": 16.3
+    },
+    "dickihu01": {
+      "off": 5.7,
+      "def": 32.3,
+      "play": 12.6,
+      "reb": 30.9,
+      "space": 6,
+      "rim": 35.2,
+      "perd": 40.4,
+      "usg": 17.7
+    },
+    "saricda01": {
+      "off": 12.5,
+      "def": 27,
+      "play": 9.8,
+      "reb": 38.4,
+      "space": 39.5,
+      "rim": 2,
+      "perd": 36.8,
+      "usg": 9.2
+    },
+    "huntlcj01": {
+      "off": 27.6,
+      "def": 43.6,
+      "play": 19.7,
+      "reb": 33,
+      "space": 6,
+      "rim": 2,
+      "perd": 53.6,
+      "usg": 11.7
+    },
+    "jonesdi01": {
+      "off": 19.9,
+      "def": 75.3,
+      "play": 27.5,
+      "reb": 46,
+      "space": 12,
+      "rim": 5.6,
+      "perd": 81.1,
+      "usg": 11.8
+    },
+    "sarrol01": {
+      "off": 39.2,
+      "def": 92.4,
+      "play": 27.6,
+      "reb": 69.1,
+      "space": 73.8,
+      "rim": 74.4,
+      "perd": 77,
+      "usg": 12.1
+    },
+    "labissk01": {
+      "off": 47.5,
+      "def": 57.2,
+      "play": 22.5,
+      "reb": 57.3,
+      "space": 20,
+      "rim": 23.6,
+      "perd": 61.4,
+      "usg": 12.1
+    },
+    "freemen01": {
+      "off": 40.6,
+      "def": 72.1,
+      "play": 13.6,
+      "reb": 66.2,
+      "space": 82.8,
+      "rim": 64,
+      "perd": 66.3,
+      "usg": 13.4
+    },
+    "shulgma01": {
+      "off": 5,
+      "def": 44.2,
+      "play": 10.3,
+      "reb": 42.6,
+      "space": 22,
+      "rim": 2,
+      "perd": 57.7,
+      "usg": 14.3
+    },
+    "fultzma01": {
+      "off": 5,
+      "def": 22.9,
+      "play": 39.9,
+      "reb": 10.7,
+      "space": 6,
+      "rim": 2,
+      "perd": 50.9,
+      "usg": 17.9
+    },
+    "zikarro01": {
+      "off": 51.8,
+      "def": 72.8,
+      "play": 17,
+      "reb": 93.9,
+      "space": 6,
+      "rim": 100,
+      "perd": 52.8,
+      "usg": 12.6
+    },
+    "jonesis01": {
+      "off": 17.1,
+      "def": 31.6,
+      "play": 10.7,
+      "reb": 36.8,
+      "space": 6,
+      "rim": 17.4,
+      "perd": 37.2,
+      "usg": 11.3
+    },
+    "nelsogr02": {
+      "off": 36.9,
+      "def": 100,
+      "play": 34.7,
+      "reb": 46,
+      "space": 6,
+      "rim": 100,
+      "perd": 72.9,
+      "usg": 21.7
+    },
+    "milleem01": {
+      "off": 57.7,
+      "def": 58.4,
+      "play": 35.1,
+      "reb": 24.2,
+      "space": 48.4,
+      "rim": 4.8,
+      "perd": 65,
+      "usg": 17.5
+    },
+    "telfoja01": {
+      "off": 5,
+      "def": 36.1,
+      "play": 9.4,
+      "reb": 27.1,
+      "space": 6,
+      "rim": 2,
+      "perd": 48,
+      "usg": 9.4
+    },
+    "pedulse01": {
+      "off": 14.8,
+      "def": 8.3,
+      "play": 42.5,
+      "reb": 27.5,
+      "space": 40,
+      "rim": 2,
+      "perd": 32.4,
+      "usg": 22.9
+    },
+    "ingraha01": {
+      "off": 66.5,
+      "def": 33.5,
+      "play": 12.1,
+      "reb": 30,
+      "space": 70.5,
+      "rim": 2,
+      "perd": 43.4,
+      "usg": 11.3
+    },
+    "sallihu01": {
+      "off": 9.4,
+      "def": 27.7,
+      "play": 23.8,
+      "reb": 12.8,
+      "space": 6,
+      "rim": 17.8,
+      "perd": 40.4,
+      "usg": 17.7
+    },
+    "searsma01": {
+      "off": 66.2,
+      "def": 10.4,
+      "play": 20.9,
+      "reb": 22.1,
+      "space": 83.3,
+      "rim": 2,
+      "perd": 33.6,
+      "usg": 34.9
+    },
+    "robinor01": {
+      "off": 51.3,
+      "def": 53.6,
+      "play": 33.8,
+      "reb": 41.4,
+      "space": 72.4,
+      "rim": 7.2,
+      "perd": 58.9,
+      "usg": 8.4
+    },
+    "grayha01": {
+      "off": 27.8,
+      "def": 43.2,
+      "play": 9.3,
+      "reb": 4,
+      "space": 14,
+      "rim": 40.2,
+      "perd": 56.1,
+      "usg": 8
+    },
+    "goldivl01": {
+      "off": 22.2,
+      "def": 91.5,
+      "play": 18.7,
+      "reb": 85.5,
+      "space": 6,
+      "rim": 87.6,
+      "perd": 64,
+      "usg": 12.6
+    },
+    "omierno01": {
+      "off": 82.5,
+      "def": 49.1,
+      "play": 31.8,
+      "reb": 75.4,
+      "space": 6,
+      "rim": 2.8,
+      "perd": 57.2,
+      "usg": 20.9
+    },
+    "moralal01": {
+      "off": 5,
+      "def": 16.2,
+      "play": 31.9,
+      "reb": 33.4,
+      "space": 6,
+      "rim": 2,
+      "perd": 36.8,
+      "usg": 20.9
+    },
+    "kentja01": {
+      "off": 51.6,
+      "def": 81.7,
+      "play": 9,
+      "reb": 55.7,
+      "space": 22,
+      "rim": 35.2,
+      "perd": 75.5,
+      "usg": 13.8
+    },
+    "antetal01": {
+      "off": 91.2,
+      "def": 36.6,
+      "play": 17,
+      "reb": 72,
+      "space": 37.2,
+      "rim": 29,
+      "perd": 41.4,
+      "usg": 32.8
+    },
+    "castlco01": {
+      "off": 17,
+      "def": 39.7,
+      "play": 9,
+      "reb": 93.5,
+      "space": 6,
+      "rim": 3,
+      "perd": 52.7,
+      "usg": 15
+    },
+    "clarkbr01": {
+      "off": 26.2,
+      "def": 56.2,
+      "play": 19.7,
+      "reb": 72,
+      "space": 6,
+      "rim": 2.6,
+      "perd": 71.1,
+      "usg": 22.4
+    },
+    "toppija01": {
+      "off": 48.2,
+      "def": 55.3,
+      "play": 22.2,
+      "reb": 17.4,
+      "space": 6,
+      "rim": 37,
+      "perd": 51.4,
+      "usg": 14.7
+    },
+    "livinch01": {
+      "off": 25.2,
+      "def": 67.1,
+      "play": 22.4,
+      "reb": 44.7,
+      "space": 14,
+      "rim": 4.2,
+      "perd": 72.8,
+      "usg": 18.4
+    },
+    "keelstr01": {
+      "off": 5,
+      "def": 15.4,
+      "play": 9,
+      "reb": 33,
+      "space": 24.4,
+      "rim": 2,
+      "perd": 48.3,
+      "usg": 32.6
+    },
+    "boehebu01": {
+      "off": 29.6,
+      "def": 11.2,
+      "play": 9,
+      "reb": 4,
+      "space": 48.9,
+      "rim": 2,
+      "perd": 31,
+      "usg": 17.3
+    },
+    "nfalyda01": {
+      "off": 29.5,
+      "def": 56.7,
+      "play": 3,
+      "reb": 100,
+      "space": 6,
+      "rim": 4.4,
+      "perd": 77.5,
+      "usg": 15.1
+    },
+    "hepbuch01": {
+      "off": 5,
+      "def": 32.6,
+      "play": 30.1,
+      "reb": 22.5,
+      "space": 14,
+      "rim": 2,
+      "perd": 60.5,
+      "usg": 23.1
+    },
+    "newtotr01": {
+      "off": 98.3,
+      "def": 56.2,
+      "play": 9,
+      "reb": 62.4,
+      "space": 84,
+      "rim": 2,
+      "perd": 75.1,
+      "usg": 36.2
+    },
+    "evbuoto01": {
+      "off": 5,
+      "def": 22,
+      "play": 9,
+      "reb": 62.8,
+      "space": 6,
+      "rim": 2,
+      "perd": 37,
+      "usg": 5.4
+    },
+    "umudest01": {
+      "off": 13.2,
+      "def": 100,
+      "play": 37.2,
+      "reb": 4,
+      "space": 6,
+      "rim": 14.2,
+      "perd": 100,
+      "usg": 12
+    },
+    "jonesco02": {
+      "off": 32.8,
+      "def": 84.6,
+      "play": 65.7,
+      "reb": 100,
+      "space": 14,
+      "rim": 11.4,
+      "perd": 74.8,
+      "usg": 17.8
+    },
+    "essenno01": {
+      "off": 5,
+      "def": 45.4,
+      "play": 9,
+      "reb": 4,
+      "space": 14,
+      "rim": 2,
+      "perd": 76.9,
+      "usg": 20.8
+    },
+    "flowetr01": {
+      "off": 60.8,
+      "def": 24.1,
+      "play": 46,
+      "reb": 41,
+      "space": 6,
+      "rim": 2,
+      "perd": 38.2,
+      "usg": 27.8
+    },
+    "brownda04": {
+      "off": 5,
+      "def": 26.3,
+      "play": 9,
+      "reb": 80.9,
+      "space": 6,
+      "rim": 2,
+      "perd": 42.4,
+      "usg": 14
+    }
+  }
+}

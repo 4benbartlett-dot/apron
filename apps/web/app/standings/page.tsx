@@ -66,11 +66,11 @@ export default function StandingsPage() {
         <Link href="/" className="text-xs font-semibold text-[var(--accent-ink)] hover:underline">Back to the board →</Link>
       </div>
       <p className="mb-5 text-sm leading-relaxed text-[var(--muted)]">
-        Each team&rsquo;s projected record from its roster&rsquo;s minutes-weighted impact, ranked within its conference.
+        Each team&rsquo;s projected 2026-27 record — the model&rsquo;s own read on the current roster (talent + fit), calibrated to real net ratings and ranked within its conference.
         {moved
-          ? " The Δ column shows how your offseason moves changed each team from its current-roster baseline — modeling rotation-minute displacement, so a star that benches a good player is worth less than one that displaces a scrub."
-          : " With no moves staged, this is the current-roster baseline. Make trades and signings on the board and the projection updates live, modeling minutes displacement as rosters change."}
-        {" "}A talent-on-hand projection, not a full-season forecast (no injuries, coaching, or playoff translation).
+          ? " The Δ column shows how your offseason moves change each team — talent, rotation-minute displacement (a star that benches a good player is worth less than one that displaces a scrub), and fit."
+          : " With no moves staged, this is the current roster — real injuries (a torn ACL cuts a star&rsquo;s minutes), the position-aware rotation, aging, and fit all baked in. Make trades and signings and it updates live."}
+        {" "}A current-roster projection, not a full-season forecast (no coaching or playoff translation).
       </p>
 
       <div className="grid gap-5 md:grid-cols-2">
@@ -79,7 +79,7 @@ export default function StandingsPage() {
       </div>
 
       <p className="mt-3 text-[11px] text-[var(--muted)]">
-        The line after #6 marks the play-in cut (top 6 clinch, 7&ndash;10 play in). Wins map from projected net rating (≈ 40 + 2 wins per net-rating point); the roster-value → net-rating fit is R²=0.97 on 2025-26 teams. Record capped to a plausible NBA range.
+        The line after #6 marks the play-in cut (top 6 clinch, 7&ndash;10 play in). Records come straight from the model: projected net rating (talent + fit) mapped to wins (≈ 41 + 2 per net-rating point), calibrated to actual 2025-26 net ratings (R²=0.87). Capped to a plausible NBA range.
       </p>
     </div>
   );

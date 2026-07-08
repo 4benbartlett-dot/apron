@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf, allocateRotation, eligiblePositions, secondaryPositionsOf } from "@/lib/league";
-import { IMPACT_2026, PLAYER_BIO_2026, SECONDARY_POSITIONS_2026 } from "@apron/data";
+import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf, allocateRotation, eligiblePositions, secondaryPositionsOf, teamFit, teamDimensions, playerDims, injuryOf, currentSalary } from "@/lib/league";
+import { IMPACT_2026, PLAYER_BIO_2026, SECONDARY_POSITIONS_2026, PLAYER_DIMENSIONS_2026, PLAYER_INJURIES_2026 } from "@apron/data";
 
 // Player value = "Apron Value" from the hardened impact model: box score
 // blended 50/50 with real stint-level RAPM, on a 0-100 scale (50 = replacement,
@@ -184,6 +184,12 @@ describe("player bio (real ages + availability, Basketball-Reference)", () => {
     }
   });
 
+  it("no rostered player is ever missing a position", () => {
+    const rostered = BASE_CONTRACTS.filter((c) => currentSalary(c) > 0 && !c.deadMoney);
+    const missing = rostered.filter((c) => !positionOf(c.playerId));
+    expect(missing.map((c) => c.playerName)).toEqual([]);
+  });
+
   it("measured secondary positions are real and distinct from the primary", () => {
     const withSec = Object.keys(SECONDARY_POSITIONS_2026);
     expect(withSec.length).toBeGreaterThan(50); // a meaningful share are versatile
@@ -195,6 +201,103 @@ describe("player bio (real ages + availability, Basketball-Reference)", () => {
       }
       // eligiblePositions leads with the primary, then the secondaries
       expect(eligiblePositions(id)[0]).toBe(primary);
+    }
+  });
+});
+
+describe("fit engine (dimensions + team chemistry)", () => {
+  const move = (name: string, to: string) => {
+    const p = BASE_CONTRACTS.find((c) => c.playerName === name)!;
+    return BASE_CONTRACTS.map((c) => (c.playerId === p.playerId ? { ...c, teamId: to } : c));
+  };
+  const teamRoster = (t: string, contracts = BASE_CONTRACTS) => contracts.filter((c) => c.teamId === t);
+
+  it("every rated player has a real dimensional profile", () => {
+    const ids = Object.keys(IMPACT_2026.byId);
+    const withDims = ids.filter((id) => PLAYER_DIMENSIONS_2026[id]);
+    expect(withDims.length).toBe(ids.length); // 100% coverage
+    for (const id of withDims.slice(0, 50)) {
+      const d = PLAYER_DIMENSIONS_2026[id]!;
+      for (const k of ["off", "def", "play", "reb", "space", "rim", "perd"] as const) {
+        expect(d[k]).toBeGreaterThanOrEqual(0);
+        expect(d[k]).toBeLessThanOrEqual(100);
+      }
+    }
+  });
+
+  it("the team-fit adjustment is bounded and never leaks into a no-move baseline", () => {
+    for (const t of TEAM_IDS) {
+      const f = teamFit(teamRoster(t)).nrtg;
+      expect(Math.abs(f)).toBeLessThanOrEqual(6.001);
+      // fit is applied as a delta, so an untouched roster keeps the exact baseline
+      expect(teamProjection(t, BASE_CONTRACTS)!.deltaNrtg).toBe(0);
+    }
+  });
+
+  it("an elite rim protector lifts a rim-needy team's fit more than a stacked one", () => {
+    // Find the team whose fit gains most from adding Wembanyama, and one that
+    // gains ~nothing (already anchored inside). The needy team must gain more.
+    const gain = (t: string) =>
+      teamFit(move("Victor Wembanyama", t).filter((c) => c.teamId === t)).nrtg - teamFit(teamRoster(t)).nrtg;
+    const gains = TEAM_IDS.filter((t) => t !== "SAS").map((t) => ({ t, g: gain(t) })).sort((a, b) => b.g - a.g);
+    expect(gains[0]!.g).toBeGreaterThan(1.5); // some team clearly needs rim protection
+    expect(gains[0]!.g).toBeGreaterThan(gains[gains.length - 1]!.g + 1); // and gains far more than the least-needy
+  });
+
+  it("team dimensions are sane and minutes-weighted", () => {
+    for (const t of TEAM_IDS) {
+      const d = teamDimensions(teamRoster(t));
+      for (const k of ["off", "def", "play", "reb", "space", "rim", "perd"] as const) {
+        expect(d[k]).toBeGreaterThanOrEqual(0);
+        expect(d[k]).toBeLessThanOrEqual(100);
+      }
+      expect(d.alphas).toBeLessThanOrEqual(6);
+    }
+  });
+
+  it("playerDims falls back gracefully for players without a measured profile", () => {
+    const anyContract = BASE_CONTRACTS.find((c) => !PLAYER_DIMENSIONS_2026[c.playerId] && impactScoreOf(c) > 0);
+    if (anyContract) {
+      const d = playerDims(anyContract);
+      expect(d.off).toBeGreaterThan(0);
+      expect(d.def).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe("real injury facts (not injury-prone tags)", () => {
+  const teamRotationMinutes = (playerId: string, team: string) => {
+    const rot = allocateRotation(BASE_CONTRACTS.filter((c) => c.teamId === team));
+    let m = 0;
+    for (const pos of ["PG", "SG", "SF", "PF", "C"]) for (const s of rot.byPos[pos] ?? []) if (s.playerId === playerId) m += s.minutes;
+    return m;
+  };
+
+  it("carries real reported injuries with a type and a recovery estimate", () => {
+    const majors = Object.values(PLAYER_INJURIES_2026).filter((i) => i.gamesOut >= 5);
+    expect(majors.length).toBeGreaterThan(0);
+    for (const inj of majors) {
+      expect(inj.type.length).toBeGreaterThan(0);
+      expect(inj.gamesOut).toBeGreaterThanOrEqual(5);
+      expect(inj.gamesOut).toBeLessThanOrEqual(82);
+    }
+  });
+
+  it("a season-ending injury projects the player to zero rotation minutes", () => {
+    const outAll = Object.entries(PLAYER_INJURIES_2026).find(([, i]) => i.gamesOut >= 82);
+    if (outAll) {
+      const c = BASE_CONTRACTS.find((x) => x.playerId === outAll[0]);
+      if (c) expect(teamRotationMinutes(c.playerId, c.teamId)).toBe(0);
+    }
+  });
+
+  it("injuryOf reflects the reported facts (a torn ACL reads as one)", () => {
+    const acl = Object.entries(PLAYER_INJURIES_2026).find(([, i]) => /ACL/i.test(i.type));
+    if (acl) {
+      const inj = injuryOf(acl[0]);
+      expect(inj).toBeTruthy();
+      expect(inj!.type).toMatch(/ACL/i);
+      expect(inj!.desc.length).toBeGreaterThan(0);
     }
   });
 });

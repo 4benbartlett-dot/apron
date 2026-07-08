@@ -41,10 +41,11 @@ describe("Jul 6 moves (same-day ingest)", () => {
     expect(teamOf("Tyler Herro")).toBe("MIL");
     expect(teamOf("Kel'el Ware")).toBe("MIL");
     expect(teamOf("Rui Hachimura")).toBe("LAC");
-    // A pending RFA offer sheet is NOT a signing: GSW holds the match right,
-    // so Post stays a Warrior (with his hold) until the feed resolves it.
+    // Post's offer sheet resolved Jul 7: Golden State declined to match Memphis'
+    // 3yr/$30M sheet, so he joins the Grizzlies — no lingering GSW cap hold.
     const post = BASE_CONTRACTS.filter((c) => c.playerName === "Quinten Post" && !c.deadMoney);
-    expect(post.every((c) => c.teamId === "GSW")).toBe(true);
+    expect(post.length).toBeGreaterThan(0);
+    expect(post.every((c) => c.teamId === "MEM")).toBe(true);
   });
 });
 

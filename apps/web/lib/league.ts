@@ -1,4 +1,5 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -384,6 +385,7 @@ function dealFromAav(aav: number, term: number): ContractYear[] {
 // signing row per player is the latest word — pending only if THAT row is
 // still the unmatched sheet.
 const PENDING_OFFER_SHEET = new Set<string>();
+const RESOLVED_OFFERS = new Set(RESOLVED_OFFER_SHEETS.map(normName));
 {
   const decided = new Set<string>();
   for (const t of TRANSACTIONS) {
@@ -391,7 +393,9 @@ const PENDING_OFFER_SHEET = new Set<string>();
     const k = normName(t.player);
     if (decided.has(k)) continue;
     decided.add(k);
-    if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail)) PENDING_OFFER_SHEET.add(k);
+    // A resolved offer sheet (old team declined to match) lets the new deal
+    // apply, so the player leaves his old team's cap hold — e.g. Quinten Post.
+    if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail) && !RESOLVED_OFFERS.has(k)) PENDING_OFFER_SHEET.add(k);
   }
 }
 
@@ -581,12 +585,17 @@ const rookieContracts = ROOKIES_2026.filter(
 // Cameron Carr report: drafted #24 by NYK, rights to LAL in a four-teamer).
 const rookiesAfterTrades = applyTrades(rookieContracts);
 
+// Audited-away dead-money charges: a deceased player wrongly on the books
+// (Brandon Clarke), and stale/erroneous stretches that shouldn't count against
+// a team in 2026-27 (see roster-corrections-2026.json).
+const SUPPRESSED_DEAD = new Set(SUPPRESS_DEAD_CAP.map(normName));
+
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = [
   ...afterReleases,
   ...rookiesAfterTrades.contracts,
   ...STATED_DEAD_CAP,
-];
+].filter((c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))));
 export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];
 export const SIGNINGS_APPLIED = [...afterSignings.signed, ...afterSignedFA.signed];
 
@@ -767,18 +776,27 @@ function agingShift(age: number): number {
   return Math.max(-1.2, shift);
 }
 
+/** The real, current injury (torn ACL, out for season, …) for a player, from
+ * the Basketball-Reference injury report — or undefined if healthy. */
+export function injuryOf(playerId: string): PlayerInjury | undefined {
+  return PLAYER_INJURIES_2026[playerId];
+}
+
 /**
- * Availability-aware minutes projection: a player's realistic 2026-27 minutes.
- * We start from his role (minutes/game) and a durability-regressed games count —
- * recovering minutes a star lost to injury (high MPG, few games) while trimming
- * an iron-man toward a sustainable load. Falls back to raw prior minutes when a
- * player has no bio row. Capped at {@link MAX_PLAYER_MINUTES}.
+ * A player's projected 2026-27 rotation minutes. Baseline is the minutes he
+ * ACTUALLY logged last season, capped — observed, not a guessed durability
+ * bump. The ONE availability adjustment is factual: a player with a real
+ * carrying injury (a torn ACL, an Achilles) is projected at his per-game rate
+ * over only the games he'll actually be available (82 − his recovery games), so
+ * a player out for the season projects to zero and a mid-recovery star to a
+ * partial year. No probabilistic "injury-prone" haircut — just the real thing.
  */
 function projectedMinutes(playerId: string, priorMp: number): number {
-  const b = PLAYER_BIO_2026[playerId];
-  if (b && b.mpg != null && b.g != null) {
-    const expGames = Math.min(78, b.g + 0.4 * (74 - b.g)); // mean-revert availability toward ~74
-    return Math.min(MAX_PLAYER_MINUTES, Math.max(0, b.mpg * expGames));
+  const inj = PLAYER_INJURIES_2026[playerId];
+  if (inj && inj.gamesOut >= 5) {
+    const bio = PLAYER_BIO_2026[playerId];
+    const mpg = bio?.mpg ?? (bio?.g ? priorMp / Math.max(1, bio.g) : priorMp / 70);
+    return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * Math.max(0, 82 - inj.gamesOut)));
   }
   return Math.min(MAX_PLAYER_MINUTES, Math.max(0, priorMp));
 }
@@ -793,15 +811,20 @@ export function positionSharesOf(playerId: string): Record<string, number> | und
   return POSITION_SHARES_2026[playerId];
 }
 
-/** Every spot a player can fill, best-fit first: primary, then measured
- * secondaries, else the positions adjacent to his primary. Unknown-position
- * players stay fully flexible so they never distort a team's balance. */
+/** Every spot a player can fill, best-fit first — deliberately generous so the
+ * rotation isn't rigid: his primary, every spot he actually logged real time at
+ * (measured secondaries, ≥12% of minutes), AND the spots adjacent to his
+ * primary. Deduped, primary first. Positionless-era flexibility, within reason
+ * (a center still can't slot at the point). Unknown-position players stay fully
+ * flexible so they never distort a team's balance. */
 export function eligiblePositions(playerId: string): string[] {
   const primary = POSITIONS_2026[playerId];
   if (!primary) return [...ROTATION_POSITIONS];
-  const measured = SECONDARY_POSITIONS_2026[playerId];
-  const secondary = measured && measured.length ? measured : POS_ADJACENT[primary] ?? [];
-  return [primary, ...secondary.filter((p) => p !== primary)];
+  const out = [primary];
+  for (const p of [...(SECONDARY_POSITIONS_2026[playerId] ?? []), ...(POS_ADJACENT[primary] ?? [])]) {
+    if (!out.includes(p)) out.push(p);
+  }
+  return out;
 }
 
 export interface RotationSlot {
@@ -883,30 +906,177 @@ export function rosterScore(roster: Contract[]): number {
   return allocateRotation(roster).score;
 }
 
+/* ------------------------- FIT ENGINE (dimensions) ------------------------- */
+// The talent spine (rosterScore, above) says how good the players are. The fit
+// engine says how well they go TOGETHER — spacing, shot-creation load, a real
+// playmaker, two-way balance, and defensive pairings (a rim protector next to a
+// switchable stopper is worth more than the sum of the two). It reads eight
+// per-player dimensions derived from real box stats and returns a bounded
+// net-rating adjustment, so fit refines a projection without ever dominating it.
+
+const fitClamp = (x: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, Number.isFinite(x) ? x : lo));
+const LEAGUE_DIMS: PlayerDims = { off: 50, def: 50, play: 42, reb: 45, space: 46, rim: 32, perd: 48, usg: 16 };
+
+/** The eight-dimension profile for a player (real where measured, impact-scaled
+ * fallback otherwise). */
+export function playerDims(c: Contract): PlayerDims {
+  const d = PLAYER_DIMENSIONS_2026[c.playerId];
+  if (d) return d;
+  const base = 50 + (impactEntry(c).av - 50) * 0.55;
+  return { off: base, def: base, play: 40, reb: 45, space: 45, rim: 30, perd: 48, usg: 16 };
+}
+
+export interface TeamDimensions {
+  off: number; def: number; play: number; reb: number; space: number; rim: number; perd: number;
+  spacers: number; nonShooters: number; alphas: number; glue: number;
+  defCore: number; hasCreator: boolean; hasPlaymaker: boolean;
+}
+
+/** Minutes-weighted team dimensions from the projected rotation, plus the fit
+ * signals (spacers, ball-dominant alphas, glue guys, defensive core). */
+export function teamDimensions(roster: Contract[]): TeamDimensions {
+  const rot = allocateRotation(roster);
+  const byId = new Map(roster.map((c) => [c.playerId, c]));
+  const perPlayer = new Map<string, number>();
+  for (const pos of ROTATION_POSITIONS) for (const s of rot.byPos[pos]!) perPlayer.set(s.playerId, (perPlayer.get(s.playerId) ?? 0) + s.minutes);
+
+  let total = 0;
+  const acc = { off: 0, def: 0, play: 0, reb: 0, space: 0, perd: 0 };
+  const people: { d: PlayerDims; min: number }[] = [];
+  for (const [id, min] of perPlayer) {
+    const c = byId.get(id);
+    const d = c ? playerDims(c) : LEAGUE_DIMS;
+    total += min;
+    people.push({ d, min });
+    acc.off += min * d.off; acc.def += min * d.def; acc.play += min * d.play;
+    acc.reb += min * d.reb; acc.space += min * d.space; acc.perd += min * d.perd;
+  }
+  total = total || 1;
+  // Rim protection is anchored by the best rim protector who plays real minutes,
+  // not the roster average — one center protects the paint for everyone.
+  const rimmers = people.filter((p) => p.min >= 900).map((p) => p.d.rim).sort((a, b) => b - a);
+  const rim = rimmers.length ? fitClamp(rimmers[0]! * 0.85 + (rimmers[1] ?? 0) * 0.15, 0, 100) : 32;
+
+  const key = people.filter((p) => p.min >= 1000);
+  const spacers = key.filter((p) => p.d.space >= 68).length;
+  const nonShooters = key.filter((p) => p.d.space < 30 && p.d.usg > 20).length;
+  const alphas = key.filter((p) => p.d.usg >= 27).length;
+  const glue = key.filter((p) => p.d.usg < 19 && (p.d.def >= 60 || p.d.play >= 58 || p.d.reb >= 58)).length;
+  // Defensive CORE — the combined above-average defense of a team's two best
+  // defenders (interior + perimeter both count). This is the AD-and-Draymond
+  // signal: two real defenders together switch, help, and recover.
+  const defTop = key
+    .map((p) => Math.max(0, p.d.def - 55) + Math.max(0, p.d.rim - 68) * 0.4 + Math.max(0, p.d.perd - 70) * 0.3)
+    .sort((a, b) => b - a);
+  const defCore = (defTop[0] ?? 0) + (defTop[1] ?? 0);
+  const hasCreator = key.some((p) => p.d.usg >= 28 || p.d.off >= 80);
+  const hasPlaymaker = key.some((p) => p.d.play >= 66);
+
+  return {
+    off: acc.off / total, def: acc.def / total, play: acc.play / total, reb: acc.reb / total,
+    space: acc.space / total, perd: acc.perd / total, rim,
+    spacers, nonShooters, alphas, glue, defCore, hasCreator, hasPlaymaker,
+  };
+}
+
+export interface TeamFit { nrtg: number; dims: TeamDimensions; notes: { label: string; nrtg: number }[]; }
+
+/** A BOUNDED net-rating fit adjustment (≈ ±6) layered on top of the talent
+ * projection: how well a roster's parts complement each other. */
+export function teamFit(roster: Contract[]): TeamFit {
+  const D = teamDimensions(roster);
+  const notes: { label: string; nrtg: number }[] = [];
+  const add = (label: string, v: number) => { if (Math.abs(v) >= 0.15) notes.push({ label, nrtg: Math.round(v * 10) / 10 }); return v; };
+  let fit = 0;
+
+  let sp = fitClamp((D.space - 49) / 10, -2, 1.8);
+  if (D.nonShooters >= 2) sp -= fitClamp((D.nonShooters - 1) * 0.7, 0, 2);
+  if (D.spacers >= 2 && D.hasCreator) sp += 0.7;
+  fit += add("Spacing", sp);
+
+  let df = fitClamp((D.def - 50) / 10, -2, 2);
+  if (D.rim >= 78) df += 0.8; else if (D.rim < 38) df -= 0.9;
+  fit += add("Defense", df);
+
+  fit += add("Defensive core", fitClamp(D.defCore / 16, 0, 2.2));
+
+  if (D.alphas >= 4) fit += add("Ball-dominance overload", -fitClamp((D.alphas - 3) * 0.8, 0, 2.4));
+  else if (D.alphas === 0) fit += add("No shot creation", -0.6);
+
+  if (D.play < 45) fit += add("Thin playmaking", -fitClamp((45 - D.play) * 0.08, 0, 1.6));
+  else if (D.play > 66) fit += add("Elite hub", 0.6);
+
+  if (D.off >= 56 && D.def >= 56) fit += add("Two-way balance", 1.2);
+  else if (D.off >= 52 && D.def >= 52) fit += add("Balanced", 0.5);
+
+  fit += add("Connectors", fitClamp(D.glue * 0.28, 0, 1.1));
+
+  return { nrtg: fitClamp(fit, -6, 6), dims: D, notes };
+}
+
 /**
- * Projected net rating + record for a team, anchored to the model's own
- * current-roster baseline and moved only by the roster changes in this session
- * (Δnrtg = nrtgPerScore · ΔrosterScore; wins = base + winsPerNrtg · Δnrtg).
- * With no moves it returns exactly the model's baseline — no drift. The delta
- * now models rotation-minutes displacement and a light aging prior; it is still
- * a current-roster projection, NOT a full season forecast (no injury,
- * role-change, coaching, or playoff-translation layer).
+ * How much a candidate player would improve a team's FIT (net-rating points) if
+ * added — the teamFit delta from slotting his real dimensions into the rotation,
+ * plus the single fit note that improves most (spacing, defensive core, …). For
+ * the free-agent "suggested signings" UI: a real complementarity read, not just
+ * impact + position. Pass the candidate's contract row (any team — it's moved
+ * onto `team` here) and the live league contracts.
+ */
+export function fitGainOf(candidate: Contract, team: string, contracts: Contract[]): { fitGain: number; topReason?: string } {
+  const teamRoster = contracts.filter((c) => c.teamId === team && c.playerId !== candidate.playerId);
+  const before = teamFit(teamRoster);
+  const after = teamFit([...teamRoster, { ...candidate, teamId: team }]);
+  const beforeMap = new Map(before.notes.map((n) => [n.label, n.nrtg]));
+  let topReason: string | undefined;
+  let topDelta = 0.3;
+  for (const n of after.notes) {
+    const d = n.nrtg - (beforeMap.get(n.label) ?? 0);
+    if (d > topDelta) { topDelta = d; topReason = n.label; }
+  }
+  return { fitGain: Math.round((after.nrtg - before.nrtg) * 10) / 10, topReason };
+}
+
+/** Letter grade for a 0-100 team dimension (a generous curve — minute-weighted
+ * team averages dilute toward the middle even for great rosters). */
+export function dimensionGrade(x: number): string {
+  const t: [number, string][] = [[80, "A+"], [74, "A"], [68, "A-"], [62, "B+"], [57, "B"], [52, "B-"], [47, "C+"], [42, "C"], [37, "C-"], [32, "D+"], [27, "D"], [0, "F"]];
+  for (const [lo, g] of t) if (x >= lo) return g;
+  return "F";
+}
+
+/** The model's own net-rating read on a roster: talent (position-aware rotation
+ * of impact + real-age aging + real-injury availability) plus the bounded fit
+ * adjustment, calibrated straight to actual net ratings (R²=0.87). */
+function modelNrtg(roster: Contract[]): number {
+  const cal = TEAM_CALIBRATION;
+  return cal.intercept + cal.rosterCoef * rosterScore(roster) + cal.fitCoef * teamFit(roster).nrtg;
+}
+function modelWins(nrtg: number): number {
+  return Math.max(12, Math.min(73, Math.round(TEAM_CALIBRATION.winsIntercept + TEAM_CALIBRATION.winsPerNrtg * nrtg)));
+}
+
+/**
+ * Projected net rating + record for a team — the MODEL'S OWN read on the current
+ * roster (talent + fit, calibrated to real net ratings), not anchored to any
+ * outside consensus. The baseline reflects everything the model knows: real
+ * injuries (a torn ACL drops a star's minutes), the position-aware rotation,
+ * real-age aging, and team fit. With no moves the live roster equals the base
+ * roster, so the delta is exactly zero — no drift. A current-roster projection,
+ * NOT a full-season forecast (no coaching or playoff translation).
  */
 export function teamProjection(team: string, liveContracts: Contract[]): TeamProjection | undefined {
-  const base = TEAM_STRENGTH_2026[team];
-  if (!base) return undefined;
-  const dScore =
-    rosterScore(liveContracts.filter((c) => c.teamId === team)) -
-    rosterScore(BASE_CONTRACTS.filter((c) => c.teamId === team));
-  const dNrtg = TEAM_CALIBRATION.nrtgPerScore * dScore;
-  const dWins = TEAM_CALIBRATION.winsPerNrtg * dNrtg;
+  if (!TEAM_STRENGTH_2026[team]) return undefined;
+  const baseNrtg = modelNrtg(BASE_CONTRACTS.filter((c) => c.teamId === team));
+  const projNrtg = modelNrtg(liveContracts.filter((c) => c.teamId === team));
+  const baseWins = modelWins(baseNrtg);
+  const projWins = modelWins(projNrtg);
   return {
-    baseNrtg: base.projNrtg,
-    baseWins: base.w,
-    projNrtg: Math.round((base.projNrtg + dNrtg) * 10) / 10,
-    projWins: Math.max(12, Math.min(73, Math.round(base.w + dWins))),
-    deltaNrtg: Math.round(dNrtg * 10) / 10,
-    deltaWins: Math.round(dWins),
+    baseNrtg: Math.round(baseNrtg * 10) / 10,
+    baseWins,
+    projNrtg: Math.round(projNrtg * 10) / 10,
+    projWins,
+    deltaNrtg: Math.round((projNrtg - baseNrtg) * 10) / 10,
+    deltaWins: projWins - baseWins,
   };
 }
 
@@ -1065,7 +1235,7 @@ export interface FreeAgent {
   renouncedInWorld?: boolean;
 }
 export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
-  return contracts
+  const derived = contracts
     .filter(
       (c) =>
         salaryForYear(c, "2025-26") > 0 &&
@@ -1096,8 +1266,23 @@ export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
         birdStatus,
         faType: faTypeOf(c.playerName),
       };
-    })
-    .sort((a, b) => b.lastSalary - a.lastSalary);
+    });
+  // Waived veterans who are unsigned UFAs (DeRozan, Cole Anthony…). A waiver
+  // extinguishes Bird rights and leaves no team hold, so they carry hold 0 and
+  // renounced=true — signable by anyone via room, an exception, or a minimum.
+  const have = new Set(derived.map((f) => f.playerId));
+  const waived: FreeAgent[] = WAIVED_FREE_AGENTS.filter((w) => !have.has(w.playerId)).map((w) => ({
+    playerId: w.playerId,
+    playerName: w.name,
+    priorTeam: w.priorTeam,
+    lastSalary: w.lastSalary,
+    hold: 0,
+    yearsOfService: EXPERIENCE[w.playerId] ?? 8,
+    birdStatus: "non_bird" as BirdStatus,
+    faType: "UFA",
+    renounced: true,
+  }));
+  return [...derived, ...waived].sort((a, b) => b.lastSalary - a.lastSalary);
 }
 export function holdsByTeam(fas: FreeAgent[]): Record<string, number> {
   const out: Record<string, number> = {};

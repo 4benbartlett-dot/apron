@@ -9,6 +9,9 @@ import impactRaw from "./impact-2026.json";
 import teamStrengthRaw from "./team-strength-2026.json";
 import positionsRaw from "./positions-2026.json";
 import playerBioRaw from "./player-bio-2026.json";
+import playerStatsRaw from "./player-stats-2026.json";
+import playerDimsRaw from "./player-dimensions-2026.json";
+import playerInjuriesRaw from "./player-injuries-2026.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
@@ -19,6 +22,7 @@ import experienceRaw from "./experience.json";
 import freeAgentsRaw from "./free-agents.json";
 import signingsRaw from "./signings.json";
 import ratingsRaw from "./ratings.json";
+import rosterCorrectionsRaw from "./roster-corrections-2026.json";
 
 /** Player years-of-service entering 2026-27 (Basketball-Reference). */
 export const EXPERIENCE = experienceRaw as Record<string, number>;
@@ -116,9 +120,18 @@ export interface TeamStrength {
 }
 export const TEAM_STRENGTH_2026: Record<string, TeamStrength> =
   (teamStrengthRaw as { byTeam: Record<string, TeamStrength> }).byTeam;
-/** Net-rating/wins calibration behind the projections (fit R²=0.97). */
-export const TEAM_CALIBRATION: { nrtgPerScore: number; winsPerNrtg: number } =
-  (teamStrengthRaw as { calibration: { nrtgPerScore: number; winsPerNrtg: number } }).calibration;
+/** Model-native projection calibration: projNrtg = intercept + rosterCoef·rosterScore
+ * + fitCoef·teamFit, fit to actual net ratings (R²=0.87); wins = winsIntercept +
+ * winsPerNrtg·projNrtg. */
+export interface TeamCalibration {
+  intercept: number;
+  rosterCoef: number;
+  fitCoef: number;
+  winsIntercept: number;
+  winsPerNrtg: number;
+}
+export const TEAM_CALIBRATION: TeamCalibration =
+  (teamStrengthRaw as { calibration: TeamCalibration }).calibration;
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage —
  * data-driven (most-played spot from play-by-play minute shares) where
  * available, else Basketball-Reference's assigned position. */
@@ -136,11 +149,37 @@ export const POSITION_SHARES_2026: Record<string, Record<string, number>> =
 export interface PlayerBio { age?: number; g?: number; gs?: number; mp?: number; mpg?: number; }
 export const PLAYER_BIO_2026: Record<string, PlayerBio> =
   (playerBioRaw as { byId: Record<string, PlayerBio> }).byId;
+
+/** Per-player 2025-26 statistical profile (Basketball-Reference advanced +
+ * per-game rate/box stats) — the raw material behind the dimensional model. */
+export const PLAYER_STATS_2026: Record<string, Record<string, number>> =
+  (playerStatsRaw as { byId: Record<string, Record<string, number>> }).byId;
+
+/** Dimensional player model, each 0-100: offense, defense, playmaking,
+ * rebounding, spacing, rim protection, perimeter defense, plus usage. Derived
+ * from the statistical profile and used by the team-fit engine. */
+export interface PlayerDims { off: number; def: number; play: number; reb: number; space: number; rim: number; perd: number; usg: number; }
+export const PLAYER_DIMENSIONS_2026: Record<string, PlayerDims> =
+  (playerDimsRaw as { byId: Record<string, PlayerDims> }).byId;
+
+/** Real, current injury facts (Basketball-Reference injury report): the actual
+ * reported injury, its date, and — for the majors that carry into 2026-27 — a
+ * standard-recovery estimate of games missed to start the season. Not a
+ * probabilistic "injury prone" tag; the real thing. */
+export interface PlayerInjury { name: string; team: string; date: string; desc: string; type: string; status: string; gamesOut: number; }
+export const PLAYER_INJURIES_2026: Record<string, PlayerInjury> =
+  (playerInjuriesRaw as { byId: Record<string, PlayerInjury> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
 export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
   (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;
 /** Waived DURING 2025-26 (before the transactions window) — no FA hold. */
 export const WAIVED_2025_26: string[] = (waivedRaw as { players: { name: string }[] }).players.map((p) => p.name);
+/** Audited roster corrections (Jul 2026). Waived players who are unsigned UFAs,
+ * dead-money charges that are wrong/stale, and resolved RFA offer sheets. */
+export interface WaivedFreeAgent { playerId: string; name: string; priorTeam: string; lastSalary: number; note?: string; }
+export const WAIVED_FREE_AGENTS: WaivedFreeAgent[] = (rosterCorrectionsRaw as { waivedFreeAgents: WaivedFreeAgent[] }).waivedFreeAgents;
+export const SUPPRESS_DEAD_CAP: string[] = (rosterCorrectionsRaw as { suppressDeadCap: string[] }).suppressDeadCap;
+export const RESOLVED_OFFER_SHEETS: string[] = (rosterCorrectionsRaw as { resolvedOfferSheets: string[] }).resolvedOfferSheets;
 /** Curated free-agent feed corrections, keyed by normalized name. */
 export const FA_OVERRIDES: Record<string, { birdStatus?: string }> = (faOverridesRaw as { byName: Record<string, { birdStatus?: string }> }).byName;
 

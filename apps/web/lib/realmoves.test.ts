@@ -312,10 +312,13 @@ describe("dead money rides the cap sheet, never the roster", () => {
     // the stretch charge still counts in Milwaukee's team salary
     expect(dead.years.find((y) => y.leagueYear === "2026-27")!.salary).toBeGreaterThan(20_000_000);
   });
-  it("stretched players never become phantom free agents of the paying team", () => {
+  it("stretched players never generate a phantom hold on the paying team", () => {
     for (const fa of freeAgentsOf(BASE_CONTRACTS)) {
       const dead = BASE_CONTRACTS.find((c) => c.deadMoney && c.playerName === fa.playerName);
-      if (dead) expect(fa.priorTeam).not.toBe(dead.teamId);
+      // A curated waived UFA (hold 0, e.g. DeRozan) is a signable free agent even
+      // though his old team still pays his dead money — only a HOLD-generating FA
+      // of the paying team would be a double-counted phantom.
+      if (dead && fa.hold > 0) expect(fa.priorTeam).not.toBe(dead.teamId);
     }
   });
 });
