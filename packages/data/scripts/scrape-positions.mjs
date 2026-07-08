@@ -21,7 +21,7 @@ const PBP = "https://www.basketball-reference.com/leagues/NBA_2026_play-by-play.
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36";
 const uncomment = (html) => html.replace(/<!--/g, "").replace(/-->/g, "");
 const POS = ["PG", "SG", "SF", "PF", "C"];
-const SECONDARY_MIN = 20; // a spot counts as a real secondary at ≥20% of minutes
+const SECONDARY_MIN = 12; // generous: a spot counts as a real secondary at ≥12% of minutes
 
 const norm = (p) => {
   const m = { G: "SG", "G-F": "SG", F: "SF", "F-G": "SF", "F-C": "PF", "C-F": "C", "PG-SG": "PG", "SG-PG": "SG", "SF-PF": "SF", "PF-SF": "PF", "SG-SF": "SG", "SF-SG": "SF", "PF-C": "PF", "C-PF": "C" };
@@ -104,13 +104,29 @@ async function main() {
     if (pos && id && !idHas.has(id)) { byId[id] = pos; idHas.add(id); fromTx++; }
   }
 
+  // Curated final fallback — rostered players who appear in NO stat feed:
+  // injured stars who sat out all of 2025-26 (no BRef row) and a few fringe
+  // rookies. Positions from their established/scouted spot, so no rostered
+  // player is ever left without one.
+  const CURATED = {
+    halibty01: "PG",              // Tyrese Haliburton (Achilles, out 2025-26)
+    lillada01: "PG",              // Damian Lillard (Achilles, out 2025-26)
+    irvinky01: "PG",              // Kyrie Irving (knee)
+    sorbeth01: "C",               // Thomas Sorber (rookie big, torn ACL)
+    "curated-ron-harper-jr": "SF", // Ron Harper Jr.
+    anderch02: "PG",              // Christian Anderson Jr. (rookie guard)
+    nickety01: "SF",              // Tyler Nickel (rookie wing)
+  };
+  let fromCurated = 0;
+  for (const [id, pos] of Object.entries(CURATED)) if (!byId[id]) { byId[id] = pos; fromCurated++; }
+
   writeFileSync(
     OUT,
     JSON.stringify({ source: "Basketball-Reference play-by-play (position shares) + advanced + transactions, 2025-26", byId, secondaryById, sharesById }, null, 2) + "\n",
   );
   const withSec = Object.keys(secondaryById).length;
   console.log(`Wrote ${Object.keys(byId).length} positions -> ${OUT}`);
-  console.log(`  ${fromPbp} primary from play-by-play, ${afterAdv - fromPbp} from advanced, ${fromTx} from transactions`);
+  console.log(`  ${fromPbp} primary from play-by-play, ${afterAdv - fromPbp} from advanced, ${fromTx} from transactions, ${fromCurated} curated`);
   console.log(`  ${withSec} players carry a measured secondary position (≥${SECONDARY_MIN}% of minutes)`);
 }
 main().catch((e) => { console.error(e); process.exit(1); });

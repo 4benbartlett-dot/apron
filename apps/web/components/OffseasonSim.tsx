@@ -15,7 +15,8 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, type FreeAgent } from "@/lib/league";
+import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
 import { findTradePackages } from "@/lib/tradeFinder";
@@ -1036,14 +1037,74 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
   const holds = lg.teamHolds(team);
   const fas = lg.freeAgents();
   const [q, setQ] = useState("");
+  const [sortBy, setSortBy] = useState<"fit" | "impact" | "salary" | "name">("fit");
+  const [posFilter, setPosFilter] = useState<string>("");
+  const [affordableOnly, setAffordableOnly] = useState(false);
   const [selected, setSelected] = useState<FreeAgent | null>(
     () => (initialId ? fas.find((f) => f.playerId === initialId) ?? null : null),
   );
-  const list = q ? fas.filter((f) => f.playerName.toLowerCase().includes(q.toLowerCase())) : fas;
   // Signing base = committed + kept holds; re-signing your own FA converts HIS
   // hold to salary, so it drops out of the base for that player.
   const signBaseFor = (fa: FreeAgent) =>
     committed + holds - (isOwnKept(fa, team) ? fa.hold : 0);
+
+  const byId = useMemo(() => new Map(lg.contracts.map((c) => [c.playerId, c] as const)), [lg]);
+  const rows = useMemo(
+    () =>
+      fas.map((fa) => {
+        const isOwn = isOwnKept(fa, team);
+        const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
+        return { fa, v, isOwn, pos: positionOf(fa.playerId), impact: faImpact(fa, byId), age: ageOf(fa.playerId) };
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fas, team, committed, holds, byId, lg.moves],
+  );
+  const rowOf = (id: string) => rows.find((r) => r.fa.playerId === id);
+  const suggestions = useMemo(() => {
+    const legal = new Map(rows.map((r) => [r.fa.playerId, r.v.legal] as const));
+    return suggestSignings(team, lg.contracts, fas, (fa) => !!legal.get(fa.playerId), 4);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, team, fas]);
+
+  const visible = rows
+    .filter((r) => !q || r.fa.playerName.toLowerCase().includes(q.toLowerCase()))
+    .filter((r) => !posFilter || r.pos === posFilter)
+    .filter((r) => !affordableOnly || r.v.legal)
+    .sort((a, b) => {
+      if (sortBy === "impact") return b.impact - a.impact;
+      if (sortBy === "salary") return b.fa.lastSalary - a.fa.lastSalary;
+      if (sortBy === "name") return a.fa.playerName.localeCompare(b.fa.playerName);
+      return Number(b.v.legal) - Number(a.v.legal) || b.impact - a.impact; // fit: signable first, then impact
+    });
+
+  const FaRow = (r: (typeof rows)[number], reason?: string) => {
+    const { fa, v, isOwn, pos, age } = r;
+    const color = mechColor(v.mechanism ? v.mechanism.id : null);
+    const label = v.legal ? v.mechanism!.label : `max ${fmtM(v.maxOffer)}`;
+    return (
+      <button key={fa.playerId + (reason ? "-s" : "")} onClick={() => setSelected(fa)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-2.5 py-2 text-left text-sm hover:brightness-125" title="Set the salary and term">
+        <span className="flex min-w-0 items-center gap-1.5">
+          <ImpactPill c={byId.get(fa.playerId)} />
+          {pos && <PosBadge playerId={fa.playerId} />}
+          <span className="flex min-w-0 flex-col">
+            <span className="flex items-center gap-1.5">
+              <span className="truncate">{fa.playerName}</span>
+              {isOwn && <Term k={fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird" ? fa.birdStatus : "bird"}><span className="text-[9px] font-bold text-[var(--tier-below_cap)]">OWN·{BIRD_LABEL[fa.birdStatus] ?? "BIRD"}</span></Term>}
+              {fa.faType === "RFA" && <Term k="rfa"><span className="text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span></Term>}
+            </span>
+            <span className="tabular text-[10px] text-[var(--muted)]">{age}y · asking {fmtM(fa.lastSalary)}{reason ? ` · ${reason}` : ""}</span>
+          </span>
+        </span>
+        <span className="shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold" style={{ color, borderColor: color, background: `color-mix(in srgb, ${color} 12%, transparent)` }}>
+          {label}
+        </span>
+      </button>
+    );
+  };
+
+  const chip = (val: string, txt: string) => (
+    <button key={val || "all"} onClick={() => setPosFilter(val)} className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${posFilter === val ? "bg-[var(--text)] text-[var(--bg)]" : "bg-[var(--panel-2)] text-[var(--muted)] hover:text-[var(--text)]"}`}>{txt}</button>
+  );
 
   return (
     <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
@@ -1067,34 +1128,36 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
         />
       ) : (
         <>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search free agents…" className="m-3 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
-          <div className="flex-1 overflow-y-auto px-3 pb-4">
-            {list.length === 0 && (
-              <div className="px-3 py-8 text-center text-xs leading-relaxed text-[var(--muted)]">
-                No free agent by that name. He may be under contract, on a
-                two-way — or having a wonderful career in Greece.
+          <div className="space-y-2 border-b border-[var(--border)] px-3 py-2.5">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search free agents…" className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
+            <div className="flex flex-wrap items-center gap-1.5">
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as typeof sortBy)} className="rounded border border-[var(--border)] bg-[var(--panel-2)] px-1.5 py-1 text-[11px] font-semibold focus:outline-none" title="Sort free agents">
+                <option value="fit">Sort: Best fit</option>
+                <option value="impact">Sort: Impact</option>
+                <option value="salary">Sort: Asking $</option>
+                <option value="name">Sort: Name</option>
+              </select>
+              <span className="flex items-center gap-1">{chip("", "All")}{SIGN_POSITIONS.map((p) => chip(p, p))}</span>
+              <label className="ml-auto flex cursor-pointer items-center gap-1 text-[10px] font-semibold text-[var(--muted)]">
+                <input type="checkbox" checked={affordableOnly} onChange={(e) => setAffordableOnly(e.target.checked)} className="accent-[var(--accent-ink)]" />
+                Can sign
+              </label>
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 pb-4 pt-2">
+            {suggestions.length > 0 && !q && !posFilter && !affordableOnly && (
+              <div className="mb-3">
+                <div className="label mb-1 !text-[9.5px]">Suggested for {teamMeta(team).name} <span className="font-normal text-[var(--muted)]">· fills a need, signable now</span></div>
+                {suggestions.map((s) => { const r = rowOf(s.fa.playerId); return r ? FaRow(r, s.reason) : null; })}
               </div>
             )}
-            {list.map((fa) => {
-              const isOwn = isOwnKept(fa, team);
-              const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
-              const color = mechColor(v.mechanism ? v.mechanism.id : null);
-              const label = v.legal ? v.mechanism!.label : `max ${fmtM(v.maxOffer)}`;
-              return (
-                <button key={fa.playerId} onClick={() => setSelected(fa)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-2 text-left text-sm hover:brightness-125" title="Set the salary and term">
-                  <span className="flex min-w-0 items-center gap-2">
-                    <span className="truncate">{fa.playerName}</span>
-                    {isOwn && <Term k={fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird" ? fa.birdStatus : "bird"}><span className="text-[9px] font-bold text-[var(--tier-below_cap)]">OWN · {BIRD_LABEL[fa.birdStatus] ?? "BIRD"}</span></Term>}
-                    {fa.faType === "RFA" && <Term k="rfa"><span className="text-[9px] font-bold text-[var(--tier-taxpayer)]">RFA</span></Term>}
-                    {fa.renounced && <span className="text-[9px] font-bold text-[var(--muted)]">RENOUNCED</span>}
-                    <span className="tabular text-xs text-[var(--muted)]">{fmtM(fa.lastSalary)}</span>
-                  </span>
-                  <span className="shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold" style={{ color, borderColor: color, background: `color-mix(in srgb, ${color} 12%, transparent)` }}>
-                    {label}
-                  </span>
-                </button>
-              );
-            })}
+            {(suggestions.length > 0 && !q && !posFilter && !affordableOnly) && <div className="label mb-1 !text-[9.5px]">All free agents</div>}
+            {visible.length === 0 && (
+              <div className="px-3 py-8 text-center text-xs leading-relaxed text-[var(--muted)]">
+                No free agent matches. Try clearing the filters.
+              </div>
+            )}
+            {visible.map((r) => FaRow(r))}
           </div>
         </>
       )}

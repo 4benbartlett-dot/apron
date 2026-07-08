@@ -1,7 +1,7 @@
 "use client";
 
 import type { Contract } from "@apron/cba-engine";
-import { allocateRotation, secondaryPositionsOf } from "@/lib/league";
+import { allocateRotation, secondaryPositionsOf, injuryOf } from "@/lib/league";
 import { ImpactPill } from "@/components/PlayerTags";
 
 const SLOTS: { pos: string; label: string }[] = [
@@ -64,6 +64,7 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
                     >
                       <ImpactPill c={c} />
                       <span className="min-w-0 flex-1 truncate">{s.playerName}</span>
+                      {(() => { const inj = injuryOf(s.playerId); return inj && inj.gamesOut >= 5 ? <span className="shrink-0 text-[8px] font-bold uppercase text-[var(--tier-second_apron)]" title={`${inj.type} — ~${inj.gamesOut} games out to start`}>INJ</span> : null; })()}
                       {i === 0 && !s.secondary && <span className="shrink-0 text-[8px] font-bold uppercase tracking-wide text-[var(--tier-below_cap)]">ST</span>}
                       <span className="tabular shrink-0 text-[9px] text-[var(--muted)]">{s.age}y</span>
                       <span className="tabular shrink-0 font-semibold">
@@ -83,12 +84,17 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
         <div className="mt-2 rounded-lg border border-dashed border-[var(--border)] p-2">
           <div className="label mb-1 !text-[9.5px]">Out of rotation <span className="text-[var(--muted)]">· no projected minutes in the 240-a-night budget</span></div>
           <div className="flex flex-wrap gap-1">
-            {out.map((b) => (
-              <span key={b.playerId} className="inline-flex items-center gap-1 rounded bg-[var(--panel-2)] px-1.5 py-0.5 text-[11px] text-[var(--muted)]" title={b.playerName}>
-                <ImpactPill c={byId.get(b.playerId)} />
-                <span className="max-w-[9rem] truncate">{b.playerName}</span>
-              </span>
-            ))}
+            {out.map((b) => {
+              const inj = injuryOf(b.playerId);
+              const hurt = inj && inj.gamesOut >= 5;
+              return (
+                <span key={b.playerId} className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] ${hurt ? "text-[var(--tier-second_apron)]" : "text-[var(--muted)]"}`} style={{ background: hurt ? "color-mix(in srgb, var(--tier-second_apron) 10%, transparent)" : "var(--panel-2)" }} title={hurt ? `${inj!.type} — ${inj!.desc}` : b.playerName}>
+                  <ImpactPill c={byId.get(b.playerId)} />
+                  <span className="max-w-[9rem] truncate">{b.playerName}</span>
+                  {hurt && <span className="text-[8px] font-bold uppercase">{inj!.type}</span>}
+                </span>
+              );
+            })}
           </div>
         </div>
       )}

@@ -1,75 +1,66 @@
 # Over the Apron
 
-**The NBA offseason, under the real CBA.** — live at
-[overtheapron.com](https://overtheapron.com)
+The NBA offseason, under the real CBA. Live at [overtheapron.com](https://overtheapron.com).
 
-Over the Apron is a trade machine and free-agency simulator that actually enforces the
-2023 collective bargaining agreement. Build any trade, sign any free agent,
-extend, renounce, and run a full offseason — every move builds on the last from
-live rosters, and every verdict tells you *which rule* made it legal or illegal.
+Over the Apron is a trade machine and free-agency simulator that enforces the
+2023 collective bargaining agreement. You build trades, sign free agents, run
+extensions and renouncements, and work a whole offseason on live rosters. Every
+move carries into the next, and when a move is blocked the app tells you which
+rule blocked it and cites it.
 
-Most trade machines check salary matching and stop. Over the Apron enforces the rules
-that actually decide deals in the apron era:
+Salary matching is the easy part, and most trade machines stop there. The rules
+that actually decide deals in the apron era are the ones this tries to get right:
 
-- **Apron system** — first/second-apron tiers with strict "exceeds" boundaries,
-  100% matching for apron teams, second-apron prohibitions (no aggregation via a
-  true bin-packing test, no cash out, no sign-and-trade acquisitions), and
-  **hard caps that persist**: use the Non-Taxpayer MLE and every later signing
-  and trade is checked against the first apron for the rest of the year.
-- **Trade matching** — the CBA's exact expanded formula (200% + $250k / outgoing +
-  an escalated $7.5M — $9,095,709 in 2026-27 / 125% + $250k),
-  below-cap room absorption, trade kickers, base-year compensation, and the full
-  trade-freeze calendar (rookies 30 days, offseason signings Dec 15, over-cap
-  Bird raises Jan 15, out-of-bounds extensions 6 months, matched RFAs one year).
-- **Free agency** — Bird / Early-Bird / Non-Bird ceilings with each player's
-  real rights status, cap holds by Bird type, renouncing (with Bird rights
-  forfeited), MLE/BAE/room gating and consumption, max-salary tiers, restricted
-  free agency with the Gilbert Arenas cap and a real offer-sheet **match flow**.
-- **Sign-and-trade, both sides** — 3–4 season term, first-apron hard cap, the
-  old team's salary-matching on the return package, and the acquirer's
-  room-or-matching requirement.
-- **Draft picks as real assets** — a pick-ownership ledger where executed trades
-  transfer picks, valued sensibly in the fairness meter, with the Stepien rule
-  checked against full inventory (including picks you traded three moves ago).
-- **A trade finder** — pick a target and it searches the acquirer's roster for
-  every package that survives the full rulebook, ranked by fit and value given.
+- **The apron system.** First- and second-apron tiers, 100% matching once a team
+  is over, and the second-apron restrictions (no aggregating salaries, no cash,
+  no sign-and-trade acquisitions). Hard caps stick: use the non-taxpayer mid-level
+  and every later move that season is measured against the first apron.
+- **Trade matching.** The CBA's expanded formula, including below-cap room
+  absorption, trade kickers, base-year compensation, and the trade-freeze
+  calendar (recent signings can't move until December 15, and so on).
+- **Free agency.** Bird, Early-Bird, and Non-Bird ceilings with each player's
+  real rights, cap holds by type, renouncing, the mid-level and bi-annual
+  exceptions, max-salary tiers, and restricted free agency with a working
+  offer-sheet match.
+- **Sign-and-trades, both sides.** Term limits, the first-apron hard cap, the old
+  team's matching on the return, and the new team's room-or-match requirement.
+- **Draft picks as assets.** A pick-ownership ledger that transfers picks when a
+  trade executes, and a Stepien-rule check that counts picks you dealt several
+  moves ago, not just the ones in front of you.
+- **A trade finder.** Name a target and it searches the other roster for packages
+  that clear the whole rulebook.
 
 ## Accuracy
 
-Two kinds of proof back every verdict:
+Two things back the verdicts. First, the engine's constants and formulas are
+checked against the CBA's own definitions in unit tests — exception amounts as a
+share of the cap, the max-salary tiers, the matching bands — and each rule
+carries its citation into the UI. Second, `apps/web/lib/realmoves.test.ts` replays
+real 2026 offseason moves against their pre-move state and asserts the engine
+calls them legal; a real move that gets rejected is a bug. Both suites run on
+every push.
 
-1. **Text verification** — the engine's constants and formulas are asserted
-   against the CBA's own definitions in unit tests (exception amounts as % of
-   cap, max-salary tiers, matching bands), and each rule carries its
-   Article/Section citation into the UI.
-2. **Reality replay** — `apps/web/lib/realmoves.test.ts` reconstructs real 2026
-   free-agency transactions (trades, sign-and-trades, signings) against their
-   pre-move state and asserts the engine calls them legal. Real moves are legal
-   by definition; a rejection is a bug. The suite runs on every push.
-
-What's approximated or not yet modeled is documented in the app at
-[`/accuracy`](apps/web/app/accuracy/page.tsx) — pick protections/swaps, TPEs as
-expiring objects, designated-player criteria, and a few data-precision notes.
+What's approximated or not yet modeled is written up in the app at
+[`/accuracy`](apps/web/app/accuracy/page.tsx).
 
 ## Stack
 
-pnpm + TypeScript monorepo:
+A pnpm + TypeScript monorepo:
 
 ```
-packages/cba-engine   Pure, dependency-free rules engine (validateTrade,
-                      validateSigning, sign-and-trade, extensions, provisions)
-                      — 231 tests (94 engine, 137 web), every check returns a reason + citation
-packages/data         League data: contracts, transactions, free-agent rights,
-                      draft picks, player ratings, plus the refresh scripts
-apps/web              Next.js app — the offseason board, drawers, trade finder,
-                      league cap board, and shareable sessions
+packages/cba-engine   The rules engine: validateTrade, validateSigning,
+                      sign-and-trades, extensions, provisions. No I/O, no deps.
+packages/data         League data (contracts, transactions, free-agent rights,
+                      draft picks, player ratings) and the scripts that refresh it.
+apps/web              The Next.js app: the offseason board, the drawers, the
+                      trade finder, the league cap board, shareable sessions.
 ```
 
-The engine is I/O-free and runs identically in the browser (instant simulation)
-and on the server. Team salary, apron tier, and room are never stored — always
-derived from contracts, so sessions are deterministic and replayable.
-League-year dollar thresholds live in one versioned file per season; the annual
-July update is a constants swap plus a green test run.
+The engine has no I/O, so it runs the same in the browser and on the server.
+Team salary, apron tier, and cap room are always derived from the contracts
+rather than stored, which keeps a session deterministic and replayable. The
+dollar thresholds for a season live in one file, so the yearly update is a
+constants swap and a test run.
 
 ```ts
 import { validateTrade, SEASON_2026_27 } from "@apron/cba-engine";
@@ -89,17 +80,17 @@ pnpm -r test                          # engine + app suites
 pnpm --filter @apron/web typecheck
 ```
 
-Data refresh: the scripts in `packages/data/scripts/` rebuild the JSON
-snapshots from public sources (set `FIRECRAWL_API_KEY` in your environment for
-sources that need a rendering proxy), then commit the updated JSON.
+To refresh the data, the scripts in `packages/data/scripts/` rebuild the JSON
+snapshots from public sources (some need `FIRECRAWL_API_KEY` set for a rendering
+proxy), then you commit the updated JSON.
 
 ## Deploy
 
-See [DEPLOY.md](DEPLOY.md) — it's a standard Next.js app; on Vercel set the
+See [DEPLOY.md](DEPLOY.md). It's a standard Next.js app; on Vercel, set the
 project root to `apps/web`.
 
-## Status & data posture
+## Status
 
-Active personal project, built during the 2026 offseason. Player names and
-salary figures are facts compiled from publicly available sources. Not
-affiliated with, endorsed by, or sponsored by the NBA or the NBPA.
+An active personal project, built during the 2026 offseason. Player names and
+salaries are compiled from public sources. Not affiliated with or endorsed by
+the NBA or the NBPA.

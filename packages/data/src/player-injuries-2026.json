@@ -1,0 +1,348 @@
+{
+  "source": "Basketball-Reference injury report",
+  "asOf": "2026-07",
+  "byId": {
+    "demineg01": {
+      "name": "Egor Dёmin",
+      "team": "Brooklyn Nets",
+      "date": "Mon, Mar 9, 2026",
+      "desc": "Out For Season (Foot) - The Nets reported Egor Demin will miss rest of season with plantar fasciitis.",
+      "type": "Foot",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "portemi01": {
+      "name": "Michael Porter Jr.",
+      "team": "Brooklyn Nets",
+      "date": "Fri, Apr 3, 2026",
+      "desc": "Out For Season (Hamstring) - Porter (hamstring) has been ruled out for the remainder of the 2025-26 season, according to Erik Slater of ClutchPoints.com.",
+      "type": "Hamstring",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "sharpda01": {
+      "name": "Day'Ron Sharpe",
+      "team": "Brooklyn Nets",
+      "date": "Thu, Mar 12, 2026",
+      "desc": "Out For Season (Thumb) - The Nets said on Thursday (Mar. 12) that Sharpe will undergo season-ending thumb surgery.",
+      "type": "Thumb",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "wolfda01": {
+      "name": "Danny Wolf",
+      "team": "Brooklyn Nets",
+      "date": "Fri, Apr 3, 2026",
+      "desc": "Out For Season (Ankle) - The Nets announced Friday that Wolf (ankle) is being shut down for the rest of the season, according to Erik Slater of ClutchPoints.com.",
+      "type": "Ankle",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "hallpj01": {
+      "name": "PJ Hall",
+      "team": "Charlotte Hornets",
+      "date": "Thu, Apr 9, 2026",
+      "desc": "Out For Season (Ankle) - The Hornets announced on Thursday (Apr. 9) that Hall underwent a procedure to address a fractured right ankle and will miss the remainder of the 2025-26 campaign.",
+      "type": "Ankle",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "essenno01": {
+      "name": "Noa Essengue",
+      "team": "Chicago Bulls",
+      "date": "Wed, Dec 3, 2025",
+      "desc": "Out For Season (Shoulder) - The Bulls reported on Wednesday (Dec. 3) that Essengue will have shoulder surgery and miss the remainder of the season, per HC Billy Donovan.",
+      "type": "Shoulder",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "smithja04": {
+      "name": "Jalen Smith",
+      "team": "Chicago Bulls",
+      "date": "Thu, Mar 26, 2026",
+      "desc": "Out For Season (Calf) - Smith will miss the remainder of the season, according to Joel Lorenzi of The Athletic.",
+      "type": "Calf",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "aldamsa01": {
+      "name": "Santi Aldama",
+      "team": "Dallas Mavericks",
+      "date": "Sun, Mar 15, 2026",
+      "desc": "Out For Season (Knee) - The Grizzlies said on Sunday (Mar. 15) that Aldama will undergo a season-ending arthroscopic procedure and receive an orthobiologic injection to address discomfort in his right",
+      "type": "Knee",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "irvinky01": {
+      "name": "Kyrie Irving",
+      "team": "Dallas Mavericks",
+      "date": "Wed, Feb 18, 2026",
+      "desc": "Out For Season (Knee) - The Mavericks said on Wednesday (Feb. 18) that Irving is OUT for the season, per ESPN's Shams Charania.",
+      "type": "Knee",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "livelde01": {
+      "name": "Dereck Lively II",
+      "team": "Dallas Mavericks",
+      "date": "Fri, Jun 26, 2026",
+      "desc": "Out For Season (Foot) - The Mavericks announced on Friday (Jun. 26) that Lively II is walking and lifting weights but hasn't progressed to running.",
+      "type": "Foot",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "butleji01": {
+      "name": "Jimmy Butler",
+      "team": "Golden State Warriors",
+      "date": "Tue, Jan 20, 2026",
+      "desc": "Out For Season (Knee) - Butler's injury from Monday (Jan. 19) Night's game involves a torn right ACL and he will be out for the rest of the season, as per Shams Charania of ESPN.",
+      "type": "Torn ACL",
+      "status": "out (early season)",
+      "gamesOut": 28
+    },
+    "moodymo01": {
+      "name": "Moses Moody",
+      "team": "Golden State Warriors",
+      "date": "Mon, Mar 23, 2026",
+      "desc": "Out For Season (Knee) - The Warriors reported guard Moses Moody has been diagnosed with a torn patellar tendon in his left knee, and is out for the season.",
+      "type": "Knee",
+      "status": "out (early season)",
+      "gamesOut": 30
+    },
+    "adamsst01": {
+      "name": "Steven Adams",
+      "team": "Houston Rockets",
+      "date": "Wed, Jan 28, 2026",
+      "desc": "Out For Season (Ankle) - The Rockets said on Wednesday (Jan. 28) that Adams underwent season-ending ankle surgery.",
+      "type": "Ankle",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "vanvlfr01": {
+      "name": "Fred VanVleet",
+      "team": "Houston Rockets",
+      "date": "Mon, Sep 22, 2025",
+      "desc": "Out For Season (ACL) - The Rockets said on Monday (Sept. 22) that VanVleet suffered a torn ACL and may be out for the entire 2025-26 campaign, per Shams Charania of ESPN.",
+      "type": "Torn ACL",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "furphjo01": {
+      "name": "Johnny Furphy",
+      "team": "Indiana Pacers",
+      "date": "Mon, Feb 9, 2026",
+      "desc": "Out For Season (Knee) - Furphy was diagnosed with a torn right ACL on Monday and will miss the remainder of the season, Michael Scotto of USA Today",
+      "type": "Torn ACL",
+      "status": "out (early season)",
+      "gamesOut": 38
+    },
+    "halibty01": {
+      "name": "Tyrese Haliburton",
+      "team": "Indiana Pacers",
+      "date": "Tue, Jan 27, 2026",
+      "desc": "Out For Season (Achilles) - The Pacers said on Tuesday (Jan. 27) that Haliburton will likely be in line for a relatively normal offseason and should be free of restrictions for the start of training c",
+      "type": "Torn Achilles",
+      "status": "out (early season)",
+      "gamesOut": 46
+    },
+    "zubaciv01": {
+      "name": "Ivica Zubac",
+      "team": "Indiana Pacers",
+      "date": "Fri, Mar 20, 2026",
+      "desc": "Out For Season (Rib) - The Pacers said on Friday (Mar. 20) that Zubac will miss the rest of the season with a fractured rib.",
+      "type": "Rib",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "konanya01": {
+      "name": "Yanic Konan Niederhäuser",
+      "team": "Los Angeles Clippers",
+      "date": "Thu, Mar 5, 2026",
+      "desc": "Out For Season (Foot) - Niederhauser has been diagnosed with a Lisfranc injury in his right foot and will require surgery. He's been ruled out for the remainder of the 2025-26 season, according to Joe",
+      "type": "Foot",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "kesslwa01": {
+      "name": "Walker Kessler",
+      "team": "Los Angeles Lakers",
+      "date": "Wed, Nov 5, 2025",
+      "desc": "Out For Season (Shoulder) - Kessler will undergo left shoulder surgery to address a torn labrum and will miss the remainder of the 2025-26 season, as per Tony Jones of The Athletic.",
+      "type": "Shoulder",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "caldwke01": {
+      "name": "Kentavious Caldwell-Pope",
+      "team": "Memphis Grizzlies",
+      "date": "Thu, Feb 19, 2026",
+      "desc": "Out For Season (Finger) - The Grizzlies announced Thursday that Caldwell-Pope underwent surgery to address the misalignment of his right pinky finger and will miss the remainder of the 2025-26 campaig",
+      "type": "Finger",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "edeyza01": {
+      "name": "Zach Edey",
+      "team": "Memphis Grizzlies",
+      "date": "Tue, Mar 3, 2026",
+      "desc": "Out For Season (Ankle) - The Grizzlies said that Edey will miss the remainder of the season.",
+      "type": "Ankle",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "pippesc02": {
+      "name": "Scotty Pippen Jr.",
+      "team": "Memphis Grizzlies",
+      "date": "Fri, Mar 13, 2026",
+      "desc": "Out For Season (Toe) - The Grizzlies said on Friday (Mar. 13) that Pippen Jr. will miss the remainder of the 2025-26 season after undergoing a sesamoidectomy to address ongoing discomfort in his right",
+      "type": "Toe",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "wellsja01": {
+      "name": "Jaylen Wells",
+      "team": "Memphis Grizzlies",
+      "date": "Tue, Mar 31, 2026",
+      "desc": "Out For Season (Toe) - The Grizzlies announced Tuesday that Wells underwent a successful procedure to stabilize his right great toe and will miss the remainder of the 2025-26 campaign.",
+      "type": "Toe",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "porteke02": {
+      "name": "Kevin Porter Jr.",
+      "team": "Milwaukee Bucks",
+      "date": "Sat, Mar 28, 2026",
+      "desc": "Out For Season (Knee) - Bucks head coach Doc Rivers said on Saturday (Mar. 28) that he would be surprised if Porter played again this season, per Eric Nehm of The Athletic.",
+      "type": "Knee",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "divindo01": {
+      "name": "Donte DiVincenzo",
+      "team": "Minnesota Timberwolves",
+      "date": "Sat, Apr 25, 2026",
+      "desc": "Out For Season (Leg) - DiVincenzo has been diagnosed with a torn right Achilles tendon, and he will miss the remainder of the postseason, per Shams Charania of ESPN reports.",
+      "type": "Torn Achilles",
+      "status": "out (season)",
+      "gamesOut": 82
+    },
+    "sorbeth01": {
+      "name": "Thomas Sorber",
+      "team": "Oklahoma City Thunder",
+      "date": "Mon, Jun 8, 2026",
+      "desc": "Out For Season (Knee) - The Thunder announced on Monday (Jun. 8) that Sorber is unlikely to play in the Summer League, per Justin Martinez of The Oklahoman.",
+      "type": "Knee",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "lillada01": {
+      "name": "Damian Lillard",
+      "team": "Portland Trail Blazers",
+      "date": "Thu, Sep 25, 2025",
+      "desc": "Out For Season (Achilles) - The Trail Blazers said on Thursday (Sept. 25) that Lillard won't be back on the court for the 2025-26 season due to his achilles injury.",
+      "type": "Torn Achilles",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "moranja01": {
+      "name": "Ja Morant",
+      "team": "Portland Trail Blazers",
+      "date": "Tue, Mar 24, 2026",
+      "desc": "Out For Season (Elbow) - The Grizzlies announced on Tuesday (Mar. 24) that Morant will miss the remainder of the season.",
+      "type": "Elbow",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "huntede01": {
+      "name": "De'Andre Hunter",
+      "team": "Sacramento Kings",
+      "date": "Fri, Feb 20, 2026",
+      "desc": "Out For Season (Eye) - Hunter is set to undergo season-ending eye surgery, according to Chris Haynes of NBA TV.",
+      "type": "Eye",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "lavinza01": {
+      "name": "Zach LaVine",
+      "team": "Sacramento Kings",
+      "date": "Fri, Feb 13, 2026",
+      "desc": "Out For Season (Finger) - LaVine will undergo season-ending surgery on his right hand after the All-Star break, per Chris Haynes of NBA TV.",
+      "type": "Finger",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "sabondo01": {
+      "name": "Domantas Sabonis",
+      "team": "Sacramento Kings",
+      "date": "Wed, Feb 18, 2026",
+      "desc": "Out For Season (Back) - Sabonis underwent season-ending knee surgery Wednesday (Feb. 18) to repair a torn left meniscus, Shams Charania of ESPN.",
+      "type": "Back",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "jonesda06": {
+      "name": "David Jones García",
+      "team": "San Antonio Spurs",
+      "date": "Wed, Feb 4, 2026",
+      "desc": "Out For Season (Ankle) - The Spurs announced on Wednesday (Feb. 4) that Jones Garcia underwent ankle surgery and will miss the remainder of the 2025-26 season, per Tom Orsborn of the San Antonio Expre",
+      "type": "Ankle",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "jacksja02": {
+      "name": "Jaren Jackson Jr.",
+      "team": "Utah Jazz",
+      "date": "Thu, Feb 12, 2026",
+      "desc": "Out For Season (Knee) - The Jazz said on Thursday (Feb. 12) that Jackson Jr. will miss the rest of the season to undergo knee surgery.",
+      "type": "Knee",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "nurkiju01": {
+      "name": "Jusuf Nurkić",
+      "team": "Utah Jazz",
+      "date": "Mon, Feb 23, 2026",
+      "desc": "Out For Season (Nose) - The Jazz reported on Monday (Feb. 23) that Nurkic will undergo season-ending nose surgery.",
+      "type": "Nose",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "davisan02": {
+      "name": "Anthony Davis",
+      "team": "Washington Wizards",
+      "date": "Tue, Apr 7, 2026",
+      "desc": "Out For Season (Finger) - Head coach Brian Keefe said Tuesday that Davis is not expected to play again this season, according to Chase Hughes of Monumental Sports Network.",
+      "type": "Finger",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "georgky01": {
+      "name": "Kyshawn George",
+      "team": "Washington Wizards",
+      "date": "Thu, Apr 2, 2026",
+      "desc": "Out For Season (Elbow) - The Wizards announced on Thursday (Apr. 2) that George will miss the rest of the season.",
+      "type": "Elbow",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "whitmca01": {
+      "name": "Cam Whitmore",
+      "team": "Washington Wizards",
+      "date": "Sun, Feb 15, 2026",
+      "desc": "Out For Season (Shoulder) - The Wizards announced Wednesday (Jan. 15) that Whitmore will miss the remainder of the 2025-26 season while he begins the recovery process for a diagnosed venous condition.",
+      "type": "Shoulder",
+      "status": "out",
+      "gamesOut": 0
+    },
+    "youngtr01": {
+      "name": "Trae Young",
+      "team": "Washington Wizards",
+      "date": "Tue, Apr 7, 2026",
+      "desc": "Out For Season (Quad) - Young isn't expected to play again in 2025-26, according to Chase Hughes of Monumental Sports Network.",
+      "type": "Quad",
+      "status": "out",
+      "gamesOut": 0
+    }
+  }
+}

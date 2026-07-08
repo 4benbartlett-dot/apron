@@ -2,9 +2,12 @@
   "source": "apron-impact-model-hardened team_strength_2026",
   "asOf": "2026-07-07",
   "calibration": {
-    "nrtgPerScore": 5.8554,
+    "intercept": -3.849,
+    "rosterCoef": 4.469,
+    "fitCoef": 0.636,
+    "winsIntercept": 41,
     "winsPerNrtg": 1.972,
-    "note": "Δnrtg = 5.8554·Δ(rosterScore); rosterScore = position-aware rotation allocation — five on-court spots of 3,936 min each, best players first at their primary spot (measured secondary / adjacency spillover), availability-aware projected minutes + real-age aging. wins = 40.2 + 1.972·projNrtg. Fit R²=0.82 vs shipped projNrtg, 0.85 vs actual net rating (n=30)."
+    "note": "MODEL-NATIVE projection: projNrtg = -3.849 + 4.469*rosterScore + 0.636*teamFit, fit directly to actual 2025-26 net ratings (R2=0.87, n=30). wins = 41.0 + 1.972*projNrtg (clamped 12-73). rosterScore = position-aware rotation of observed minutes (real-injury availability) x (impact + real-age aging); teamFit = bounded dimensional fit (spacing, playmaking, two-way balance, defensive pairings). The baseline is the model own read on the current roster, no longer anchored to the shipped consensus."
   },
   "byTeam": {
     "OKC": {

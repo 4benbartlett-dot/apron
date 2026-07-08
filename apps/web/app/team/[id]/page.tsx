@@ -11,6 +11,7 @@ import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
 import { Thermometer } from "@/components/Thermometer";
 import { DepthChart } from "@/components/DepthChart";
+import { TeamProfile } from "@/components/TeamProfile";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 
 export default function TeamWarRoom() {
@@ -126,10 +127,15 @@ export default function TeamWarRoom() {
             <div className="tabular mt-1 text-sm text-[var(--muted)]">{proj.baseWins} wins · {proj.baseNrtg >= 0 ? "+" : ""}{proj.baseNrtg.toFixed(1)} net</div>
           </div>
           <div className="w-full text-[11px] text-[var(--muted)] sm:w-auto sm:flex-1 sm:text-right">
-            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · models rotation-minute displacement, availability, and a real-age aging curve; a talent-on-hand projection, not a full-season forecast (no coaching or playoff translation).
+            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · models the position-aware rotation, a real-age aging curve, and team fit (spacing, playmaking, defensive pairings); a talent-on-hand projection, not a full-season forecast (no coaching or playoff translation).
           </div>
         </div>
       )}
+
+      <div className="panel mb-4 p-4">
+        <div className="mb-2 text-sm font-semibold">Team profile <span className="text-[var(--muted)]">· on-court identity + fit</span></div>
+        <TeamProfile roster={roster} />
+      </div>
 
       <div className="panel mb-4 p-4">
         <div className="mb-2 text-sm font-semibold">Projected rotation <span className="text-[var(--muted)]">· minutes by position, best players first</span></div>

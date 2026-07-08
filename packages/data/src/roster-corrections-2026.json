@@ -1,0 +1,10 @@
+{
+  "note": "Corrections from a July 2026 data audit (statuses verified against ESPN / Hoops Rumors / SalarySwish / Spotrac). waivedFreeAgents: players a team waived who are unsigned UFAs — surfaced as signable, with no Bird rights and no team cap hold. suppressDeadCap: dead-money charges that are wrong and should not sit on a team's books. resolvedOfferSheets: RFA offer sheets treated as resolved so the player leaves his old team's hold.",
+  "asOf": "2026-07-08",
+  "waivedFreeAgents": [
+    { "playerId": "derozde01", "name": "DeMar DeRozan", "priorTeam": "SAC", "lastSalary": 24570000, "note": "Waived by Sacramento Jul 6 2026; unsigned UFA. SAC keeps his $10M dead-money guarantee." }
+  ],
+  "suppressDeadCap": ["Brandon Clarke", "Vasilije Micic"],
+  "resolvedOfferSheets": ["Quinten Post"],
+  "resolvedOfferSheetsNote": "Jul 7 2026, 11:50 PM ET (Slater/ESPN, Shams, Fischer): Golden State declined to match Memphis' 3yr/$30M offer sheet (Y1 $9M guaranteed + $1.35M unlikely incentives), so Post joins the Grizzlies. No longer a pending GSW hold."
+}
