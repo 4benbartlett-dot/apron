@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, type FreeAgent } from "@/lib/league";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -41,6 +41,13 @@ interface Sel {
   from: string;
   to: string;
 }
+interface PickSwap {
+  year: number;
+  round: 1 | 2;
+  favoredTo: string;
+  otherTeam: string;
+}
+const swapKey = (s: PickSwap) => `${s.year}|${s.round}|${s.favoredTo}|${s.otherTeam}`;
 type LG = ReturnType<typeof useLeague>;
 
 // Picks come from the session pick-ownership ledger (lg.picksOf) — executed
@@ -78,6 +85,9 @@ export default function OffseasonSim() {
   const router = useRouter();
   const [sel, setSel] = useState<Record<string, Sel>>({});
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
+  // User-created pick swaps: favoredTo takes the more favorable of the two
+  // teams' same-year/round firsts. A right, not a concrete transfer.
+  const [swapSel, setSwapSel] = useState<PickSwap[]>([]);
   const [signFor, setSignFor] = useState<{ team: string; faId?: string } | null>(null);
   const [extendFor, setExtendFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
   const [finderOpen, setFinderOpen] = useState(false);
@@ -196,6 +206,7 @@ export default function OffseasonSim() {
       setBoard([]);
       setSel({});
       setPickSel({});
+      setSwapSel([]);
     };
     window.addEventListener("ota:pick-team", toPicker);
     return () => window.removeEventListener("ota:pick-team", toPicker);
@@ -210,6 +221,12 @@ export default function OffseasonSim() {
       for (const [p, mv] of Object.entries(n)) if (mv.from === id || mv.to === id) delete n[p];
       return n;
     });
+    setPickSel((s) => {
+      const n = { ...s };
+      for (const [p, mv] of Object.entries(n)) if (mv.from === id || mv.to === id) delete n[p];
+      return n;
+    });
+    setSwapSel((sw) => sw.filter((s) => s.favoredTo !== id && s.otherTeam !== id));
     if (signFor?.team === id) setSignFor(null);
   };
   const togglePlayer = (pid: string, from: string) =>
@@ -230,6 +247,10 @@ export default function OffseasonSim() {
       else n[pid] = { from, to: board.find((t) => t !== from) ?? from };
       return n;
     });
+  const addSwap = (s: PickSwap) =>
+    setSwapSel((sw) => (sw.some((x) => swapKey(x) === swapKey(s)) ? sw : [...sw, s]));
+  const removeSwap = (key: string) =>
+    setSwapSel((sw) => sw.filter((s) => swapKey(s) !== key));
 
   const { trade, verdict, byTeam } = useMemo(() => {
     const players = Object.entries(sel)
@@ -256,7 +277,7 @@ export default function OffseasonSim() {
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
   }, [board, sel, lg]);
 
-  const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0;
+  const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0 || swapSel.length > 0;
 
   // Sticky tray: the deal summary follows you while you scroll rosters.
   const verdictRef = useRef<HTMLDivElement>(null);
@@ -275,11 +296,12 @@ export default function OffseasonSim() {
     const row = (team: string) => (m[team] ??= { labels: [], tools: [] });
     for (const p of trade.players) row(p.to).labels.push(shortPlayerName(lg.playerName(p.playerId)));
     for (const [id, mv] of Object.entries(pickSel)) row(mv.to).labels.push(pickShareLabel(id));
+    for (const s of swapSel) row(s.favoredTo).labels.push(`’${s.year - 2000} ${s.round === 1 ? "1st" : "2nd"} swap w/ ${s.otherTeam}`);
     for (const [team, use] of Object.entries(trade.tpeUse ?? {})) {
       row(team).tools.push(use.label ?? "TPE");
     }
     return Object.entries(m).map(([team, haul]) => ({ team, ...haul }));
-  }, [trade, pickSel, lg]);
+  }, [trade, pickSel, swapSel, lg]);
 
   // Ted Stepien rule, against the FULL pick-ownership ledger: after this trade
   // (and every prior executed one), no team may lack a first-round pick in
@@ -321,8 +343,14 @@ export default function OffseasonSim() {
       (m[mv.from] ??= { in: 0, out: 0 }).out += val;
       (m[mv.to] ??= { in: 0, out: 0 }).in += val;
     }
+    // A swap right: the favored team gains the option value, the grantor loses it.
+    for (const s of swapSel) {
+      const val = pickSwapValue(s.year, s.round, s.favoredTo, s.otherTeam);
+      (m[s.favoredTo] ??= { in: 0, out: 0 }).in += val;
+      (m[s.otherTeam] ??= { in: 0, out: 0 }).out += val;
+    }
     return m;
-  }, [trade, pickSel, lg]);
+  }, [trade, pickSel, swapSel, lg]);
 
   // A hard cap triggered earlier (MLE/BAE/S&T, sim or real July) binds later
   // trades too — the message says WHICH, because only one is undoable.
@@ -365,24 +393,35 @@ export default function OffseasonSim() {
   const executeTrade = () => {
     const names = trade.players.map((p) => shortPlayerName(lg.playerName(p.playerId)));
     const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
+    const swaps = swapSel.map((s) => ({ year: s.year, round: s.round, favoredTo: s.favoredTo, otherTeam: s.otherTeam }));
+    const extras = [
+      pickMoves.length ? `${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : "",
+      swaps.length ? `${swaps.length} swap${swaps.length > 1 ? "s" : ""}` : "",
+    ].filter(Boolean);
+    const extraTxt = extras.length ? ` +${extras.join(" +")}` : "";
     dispatchMove({
       kind: "trade",
-      label: `Trade: ${names.join(", ")}${pickMoves.length ? ` +${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : ""}`,
+      label: `Trade: ${names.length ? names.join(", ") : "picks"}${extraTxt}`,
       players: trade.players.map((p) => ({ playerId: p.playerId, to: p.to })),
       picks: pickMoves,
+      pickSwaps: swaps.length ? swaps : undefined,
       // TPE plan chosen at staging rides along — the ledger and hard-cap
       // replay both read it back.
       tpeUse: trade.tpeUse,
     });
-    const teamsInvolved = new Set(trade.players.flatMap((p) => [p.from, p.to])).size;
+    const teamsInvolved = new Set([
+      ...trade.players.flatMap((p) => [p.from, p.to]),
+      ...swaps.flatMap((s) => [s.favoredTo, s.otherTeam]),
+    ]).size;
     leagueToast(
       "Filed",
       teamsInvolved >= 3
-        ? `A ${teamsInvolved}-team special — ${names.join(", ")}. The fax machines are humming.`
-        : `Trade executed — ${names.join(", ")}${pickMoves.length ? ` (+${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""})` : ""}. The league office thanks you.`,
+        ? `A ${teamsInvolved}-team special — ${names.join(", ") || "pick swaps and all"}. The fax machines are humming.`
+        : `Trade executed — ${names.join(", ") || "picks"}${extras.length ? ` (+${extras.join(", ")})` : ""}. The league office thanks you.`,
     );
     setSel({});
     setPickSel({});
+    setSwapSel([]);
   };
 
   const available = TEAM_IDS.filter((t) => !board.includes(t)).sort(byNickname);
@@ -493,6 +532,10 @@ export default function OffseasonSim() {
         ))}
       </div>
 
+      {board.length >= 2 && (
+        <PickSwapBuilder board={board} lg={lg} swaps={swapSel} onAdd={addSwap} onRemove={removeSwap} />
+      )}
+
       {shortcutsOpen && (
         <div className="fixed inset-0 z-[70]" onClick={() => setShortcutsOpen(false)}>
           <div className="infobox fixed left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2" onClick={(e) => e.stopPropagation()}>
@@ -529,6 +572,170 @@ export default function OffseasonSim() {
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
       {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
     </div>
+  );
+}
+
+const SWAP_SELECT =
+  "rounded-[4px] border border-[var(--border)] bg-[var(--panel)] px-1 py-1 text-[11px] font-medium text-[var(--text)]";
+
+/** Builder for user-created pick swaps: pick two board teams, a round and a
+ *  year they BOTH still control, and who takes the more favorable pick. A swap
+ *  is a right — it doesn't move a pick, so it never breaks Stepien coverage. */
+function PickSwapBuilder({
+  board,
+  lg,
+  swaps,
+  onAdd,
+  onRemove,
+}: {
+  board: string[];
+  lg: LG;
+  swaps: PickSwap[];
+  onAdd: (s: PickSwap) => void;
+  onRemove: (key: string) => void;
+}) {
+  const [favoredTo, setFavoredTo] = useState(board[0]!);
+  const [otherTeam, setOtherTeam] = useState(board.find((t) => t !== board[0]) ?? board[0]!);
+  const [round, setRound] = useState<1 | 2>(1);
+  const [year, setYear] = useState<number | "">("");
+
+  // Keep the two team selects valid (and distinct) as the board changes.
+  useEffect(() => {
+    if (!board.includes(favoredTo)) setFavoredTo(board[0]!);
+  }, [board, favoredTo]);
+  useEffect(() => {
+    if (otherTeam === favoredTo || !board.includes(otherTeam))
+      setOtherTeam(board.find((t) => t !== favoredTo) ?? favoredTo);
+  }, [board, favoredTo, otherTeam]);
+
+  // Years where BOTH teams still control their OWN pick of this round — an owed
+  // or already-swapped pick can't be put into a new swap.
+  const years = useMemo(() => {
+    const own = (team: string) =>
+      new Set(
+        lg
+          .picksOf(team)
+          .filter((p) => p.origin === team && p.round === round)
+          .map((p) => p.year),
+      );
+    const a = own(favoredTo);
+    const b = own(otherTeam);
+    return [...a].filter((y) => b.has(y)).sort((x, y) => x - y);
+  }, [favoredTo, otherTeam, round, lg]);
+  useEffect(() => {
+    if (year === "" || !years.includes(year as number)) setYear(years[0] ?? "");
+  }, [years, year]);
+
+  const dupe =
+    year !== "" &&
+    swaps.some(
+      (s) =>
+        s.year === year &&
+        s.round === round &&
+        ((s.favoredTo === favoredTo && s.otherTeam === otherTeam) ||
+          (s.favoredTo === otherTeam && s.otherTeam === favoredTo)),
+    );
+  const canAdd = year !== "" && favoredTo !== otherTeam && !dupe;
+
+  return (
+    <details className="panel mt-4 p-4">
+      <summary className="cursor-pointer text-sm font-semibold">
+        Pick swaps{" "}
+        <span className="font-normal text-[var(--muted)]">— give a team the right to swap firsts</span>
+      </summary>
+      <div className="mt-3 flex flex-wrap items-end gap-2">
+        <label className="flex flex-col gap-0.5">
+          <span className="label !text-[9px]">Round</span>
+          <select value={round} onChange={(e) => setRound(Number(e.target.value) as 1 | 2)} className={SWAP_SELECT}>
+            <option value={1}>1st</option>
+            <option value={2}>2nd</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-0.5">
+          <span className="label !text-[9px]">Year</span>
+          <select
+            value={year}
+            onChange={(e) => setYear(Number(e.target.value))}
+            disabled={!years.length}
+            className={SWAP_SELECT}
+          >
+            {years.length ? (
+              years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))
+            ) : (
+              <option value="">—</option>
+            )}
+          </select>
+        </label>
+        <label className="flex flex-col gap-0.5">
+          <span className="label !text-[9px]">Favored (takes better)</span>
+          <select value={favoredTo} onChange={(e) => setFavoredTo(e.target.value)} className={SWAP_SELECT}>
+            {[...board].sort(byNickname).map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </label>
+        <span className="pb-1.5 text-[var(--muted)]">⇄</span>
+        <label className="flex flex-col gap-0.5">
+          <span className="label !text-[9px]">With</span>
+          <select value={otherTeam} onChange={(e) => setOtherTeam(e.target.value)} className={SWAP_SELECT}>
+            {[...board]
+              .filter((t) => t !== favoredTo)
+              .sort(byNickname)
+              .map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+          </select>
+        </label>
+        <button
+          disabled={!canAdd}
+          onClick={() => canAdd && onAdd({ year: year as number, round, favoredTo, otherTeam })}
+          className="rounded-[4px] border border-[var(--tier-taxpayer)] px-2.5 py-1 text-[11px] font-semibold text-[var(--tier-taxpayer)] disabled:cursor-not-allowed disabled:opacity-40"
+          style={{ background: "color-mix(in srgb, var(--tier-taxpayer) 9%, transparent)" }}
+        >
+          Add swap
+        </button>
+      </div>
+      {!years.length && (
+        <div className="mt-2 text-[11px] text-[var(--muted)]">
+          These two teams don’t both still control a {round === 1 ? "first" : "second"} they could
+          swap — one has already traded away every year.
+        </div>
+      )}
+      {dupe && <div className="mt-2 text-[11px] text-[var(--muted)]">That swap is already staged.</div>}
+      {swaps.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {swaps.map((s) => (
+            <span
+              key={swapKey(s)}
+              className="tabular inline-flex items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
+              style={{
+                borderColor: "var(--tier-taxpayer)",
+                color: "var(--tier-taxpayer)",
+                background: "color-mix(in srgb, var(--tier-taxpayer) 9%, transparent)",
+              }}
+              title={`${s.favoredTo} takes the more favorable of the two ${s.year} ${s.round === 1 ? "firsts" : "seconds"}; ${s.otherTeam} gets the other. Est. swap value ${pickSwapValue(s.year, s.round, s.favoredTo, s.otherTeam)}.`}
+            >
+              ’{s.year - 2000} {s.round === 1 ? "1st" : "2nd"}: {s.favoredTo} ⇄ {s.otherTeam}
+              <button
+                onClick={() => onRemove(swapKey(s))}
+                className="text-[var(--muted)] hover:text-[var(--text)]"
+                aria-label="Remove swap"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+    </details>
   );
 }
 
