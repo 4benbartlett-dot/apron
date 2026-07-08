@@ -1,0 +1,193 @@
+{
+  "source": "Basketball-Reference All-NBA + All-Defensive, last 3 seasons (recency + team weighted)",
+  "byId": {
+    "jokicni01": {
+      "nba": 6.45,
+      "def": 0
+    },
+    "wembavi01": {
+      "nba": 3,
+      "def": 4.35
+    },
+    "gilgesh01": {
+      "nba": 6.45,
+      "def": 0
+    },
+    "doncilu01": {
+      "nba": 4.35,
+      "def": 0
+    },
+    "cunnica01": {
+      "nba": 5.1,
+      "def": 0
+    },
+    "brownja02": {
+      "nba": 3,
+      "def": 0
+    },
+    "leonaka01": {
+      "nba": 4.35,
+      "def": 0
+    },
+    "duranke01": {
+      "nba": 4.35,
+      "def": 0
+    },
+    "mitchdo01": {
+      "nba": 5.1,
+      "def": 0
+    },
+    "brunsja01": {
+      "nba": 6.45,
+      "def": 0
+    },
+    "durenja01": {
+      "nba": 3,
+      "def": 0
+    },
+    "johnsja05": {
+      "nba": 3,
+      "def": 0
+    },
+    "holmgch01": {
+      "nba": 3,
+      "def": 3
+    },
+    "maxeyty01": {
+      "nba": 3,
+      "def": 0
+    },
+    "murraja01": {
+      "nba": 3,
+      "def": 0
+    },
+    "antetgi01": {
+      "nba": 3.45,
+      "def": 0
+    },
+    "tatumja01": {
+      "nba": 3.45,
+      "def": 0
+    },
+    "mobleev01": {
+      "nba": 2.1,
+      "def": 2.1
+    },
+    "jamesle01": {
+      "nba": 3.45,
+      "def": 0
+    },
+    "curryst01": {
+      "nba": 3.45,
+      "def": 0
+    },
+    "edwaran01": {
+      "nba": 3.45,
+      "def": 0
+    },
+    "townska01": {
+      "nba": 2.1,
+      "def": 0
+    },
+    "willija06": {
+      "nba": 2.1,
+      "def": 2.1
+    },
+    "halibty01": {
+      "nba": 3.45,
+      "def": 0
+    },
+    "hardeja01": {
+      "nba": 2.1,
+      "def": 0
+    },
+    "davisan02": {
+      "nba": 1.35,
+      "def": 1.35
+    },
+    "sabondo01": {
+      "nba": 1.35,
+      "def": 0
+    },
+    "bookede01": {
+      "nba": 1.35,
+      "def": 0
+    },
+    "thompau01": {
+      "nba": 0,
+      "def": 3
+    },
+    "goberru01": {
+      "nba": 0,
+      "def": 6.45
+    },
+    "whitede01": {
+      "nba": 0,
+      "def": 4.35
+    },
+    "barnesc01": {
+      "nba": 0,
+      "def": 3
+    },
+    "wallaca01": {
+      "nba": 0,
+      "def": 3
+    },
+    "adebaba01": {
+      "nba": 0,
+      "def": 4.35
+    },
+    "anunoog01": {
+      "nba": 0,
+      "def": 3
+    },
+    "daniedy01": {
+      "nba": 0,
+      "def": 5.1
+    },
+    "dortlu01": {
+      "nba": 0,
+      "def": 2.1
+    },
+    "greendr01": {
+      "nba": 0,
+      "def": 2.1
+    },
+    "thompam01": {
+      "nba": 0,
+      "def": 2.1
+    },
+    "camarto01": {
+      "nba": 0,
+      "def": 2.1
+    },
+    "jacksja02": {
+      "nba": 0,
+      "def": 2.1
+    },
+    "zubaciv01": {
+      "nba": 0,
+      "def": 2.1
+    },
+    "joneshe01": {
+      "nba": 0,
+      "def": 1.35
+    },
+    "carusal01": {
+      "nba": 0,
+      "def": 1.35
+    },
+    "suggsja01": {
+      "nba": 0,
+      "def": 1.35
+    },
+    "mcdanja02": {
+      "nba": 0,
+      "def": 1.35
+    },
+    "holidjr01": {
+      "nba": 0,
+      "def": 1.35
+    }
+  }
+}

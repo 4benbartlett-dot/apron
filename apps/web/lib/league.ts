@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -847,14 +847,22 @@ export function allocateRotation(roster: Contract[]): Rotation {
     .filter((c) => currentSalary(c) > 0 && !c.deadMoney)
     .map((c) => {
       const e = impactEntry(c);
+      const elig = eligiblePositions(c.playerId);
+      // How he actually split his minutes across those spots (play-by-play
+      // shares), so a real combo guard plays some 1 and some 2 rather than being
+      // pinned to one position. Falls back to all-primary when unmeasured.
+      const rawShares = POSITION_SHARES_2026[c.playerId];
+      const shares = elig.map((pos, i) => (rawShares?.[pos] ?? (i === 0 ? 100 : 0)));
+      const shareSum = shares.reduce((s, x) => s + x, 0) || 1;
       return {
         id: c.playerId,
         name: c.playerName,
-        pts: adjustedPts(c), // pedigree-floored talent (aging is baked in)
+        pts: adjustedPts(c),
         av: adjustedAv(c),
         age: ageOf(c.playerId),
         mp: projectedMinutes(c.playerId, e.mp ?? 0),
-        elig: eligiblePositions(c.playerId),
+        elig,
+        weights: shares.map((s) => s / shareSum),
       };
     })
     .filter((p) => p.mp > 0)
@@ -870,10 +878,24 @@ export function allocateRotation(roster: Contract[]): Rotation {
     let remain = p.mp;
     let placed = false;
     const primary = p.elig[0];
-    // Route to the eligible spot where he gets the MOST minutes, not primary-
-    // first-then-spill — so a star behind a bigger star at his position slides
-    // cleanly to his open secondary spot (Curry starts at the 2 next to a point
-    // guard) instead of being split into scraps.
+    const put = (pos: string, take: number) => {
+      if (take <= 0.5) return;
+      cap[pos] -= take;
+      remain -= take;
+      weighted += p.pts * take;
+      byPos[pos]!.push({ playerId: p.id, playerName: p.name, minutes: take, pts: p.pts, av: p.av, age: p.age, pos, secondary: pos !== primary });
+      placed = true;
+    };
+    // Pass 1 — distribute his minutes across his spots the way he ACTUALLY plays
+    // them (a 54/44 combo guard gets 54% at the 2, 44% at the 3), capped by each
+    // spot's remaining budget.
+    p.elig.forEach((pos, i) => {
+      if (cap[pos] == null) return;
+      put(pos, Math.min(p.mp * p.weights[i]!, cap[pos]!, remain));
+    });
+    // Pass 2 — whatever couldn't fit (a spot was full, or he's behind a bigger
+    // star at his position) spills to his open eligible spots, most room first,
+    // so a Curry behind Luka slides to a full start at the 2 instead of scraps.
     while (remain > 0.5) {
       let bestPos: string | null = null;
       let bestTake = 0;
@@ -883,11 +905,7 @@ export function allocateRotation(roster: Contract[]): Rotation {
         if (take > bestTake + 1e-6) { bestTake = take; bestPos = pos; }
       }
       if (!bestPos || bestTake <= 0.5) break;
-      cap[bestPos] -= bestTake;
-      remain -= bestTake;
-      weighted += p.pts * bestTake;
-      byPos[bestPos]!.push({ playerId: p.id, playerName: p.name, minutes: bestTake, pts: p.pts, av: p.av, age: p.age, pos: bestPos, secondary: bestPos !== primary });
-      placed = true;
+      put(bestPos, bestTake);
     }
     if (!placed) benched.push({ playerId: p.id, playerName: p.name, av: p.av });
   }
@@ -1113,15 +1131,19 @@ function multiYearBpm(playerId: string): number {
   return den > 0 ? num / den : (cur?.bpm ?? 0);
 }
 
-/** Factual-accolade bonus on the Apron-Value scale (career honors, capped) —
- * All-NBA and MVPs on offense, All-Defensive and DPOY on defense (the Draymond
- * signal), plus All-Star / rings. */
+/** Factual-accolade bonus on the Apron-Value scale. RECENT All-NBA / All-
+ * Defensive (last three seasons) are weighted highest — proof a player is STILL
+ * elite — with the career résumé (All-NBA, MVP/DPOY, All-Defensive, rings) added
+ * as a floor so an aging great with a deep résumé isn't over-punished. Defense
+ * is credited heavily (the Draymond signal a box score never sees). */
 function accoladeBonus(playerId: string): number {
+  const r = PLAYER_RECENT_ACCOLADES[playerId];
+  const recent = (r?.nba ?? 0) * 1.5 + (r?.def ?? 0) * 1.7;
   const p = PLAYER_PEDIGREE_2026[playerId];
-  if (!p) return 0;
-  const off = p.an1 * 2 + p.an2 * 1.2 + p.an3 * 0.7 + p.mvp * 3 + p.as * 0.4;
-  const def = p.ad * 1.6 + p.dpoy * 4; // elite defense a box score never sees
-  return Math.min(17, off + def + p.ring * 0.6);
+  const career = p
+    ? Math.min(11, p.an1 * 0.9 + p.an2 * 0.55 + p.an3 * 0.35 + p.mvp * 1.4 + p.dpoy * 2.5 + p.ad * 0.9 + p.ring * 0.4 + p.as * 0.25)
+    : 0;
+  return Math.min(18, recent + career);
 }
 
 /** Gentle forward-aging past ~32, so a 40+ great still declines (but the

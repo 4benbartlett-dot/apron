@@ -296,6 +296,17 @@ describe("fit engine (dimensions + team chemistry)", () => {
     expect(gains[0]!.g).toBeGreaterThan(gains[gains.length - 1]!.g + 1); // and gains far more than the least-needy
   });
 
+  it("versatile players split their minutes across positions (real usage)", () => {
+    // A measured combo player (Devin Vassell: ~54% SG / 44% SF) should appear at
+    // more than one spot, not be pinned to a single position.
+    const vassell = BASE_CONTRACTS.find((c) => c.playerName === "Devin Vassell");
+    if (vassell) {
+      const rot = allocateRotation(BASE_CONTRACTS.filter((c) => c.teamId === vassell.teamId));
+      const spots = (["PG", "SG", "SF", "PF", "C"] as const).filter((pos) => (rot.byPos[pos] ?? []).some((s) => s.playerId === vassell.playerId));
+      expect(spots.length).toBeGreaterThanOrEqual(2);
+    }
+  });
+
   it("team dimensions are sane and minutes-weighted", () => {
     for (const t of TEAM_IDS) {
       const d = teamDimensions(teamRoster(t));
