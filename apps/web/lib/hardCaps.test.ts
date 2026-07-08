@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateSigning, validateTrade, teamSalary } from "@apron/cba-engine";
+import { validateSigning, validateTrade, teamSalary, type Contract } from "@apron/cba-engine";
 import { BASE_CONTRACTS, C, sessionHardCaps, leagueData, type Move } from "@/lib/league";
 
 // Reported by @SF_DavidGio on launch day: a trade taking back more than 100%
@@ -56,6 +56,45 @@ describe("sessionHardCaps — trade-triggered", () => {
       players: [{ playerId: santos.playerId, to: johnson.teamId }],
     } as Move;
     expect(sessionHardCaps([even]).GSW).toBeUndefined();
+  });
+
+  it("aggregating down through the second apron freezes a second-apron cap for the session", () => {
+    const base: Contract[] = [
+      { playerId: "bos-big", playerName: "BOS Big", teamId: "BOS", years: [{ leagueYear: "2026-27", salary: C.secondApron + 1_000_000 - 24_000_000, guarantee: "full" }] },
+      { playerId: "bos-a", playerName: "BOS A", teamId: "BOS", years: [{ leagueYear: "2026-27", salary: 12_000_000, guarantee: "full" }] },
+      { playerId: "bos-b", playerName: "BOS B", teamId: "BOS", years: [{ leagueYear: "2026-27", salary: 12_000_000, guarantee: "full" }] },
+      { playerId: "lal-big", playerName: "LAL Big", teamId: "LAL", years: [{ leagueYear: "2026-27", salary: 20_000_000, guarantee: "full" }] },
+      { playerId: "lal-fill", playerName: "LAL Fill", teamId: "LAL", years: [{ leagueYear: "2026-27", salary: 150_000_000, guarantee: "full" }] },
+    ];
+    const move: Move = {
+      kind: "trade",
+      label: "2A aggregate down",
+      players: [
+        { playerId: "bos-a", to: "LAL" },
+        { playerId: "bos-b", to: "LAL" },
+        { playerId: "lal-big", to: "BOS" },
+      ],
+    };
+    expect(sessionHardCaps([move], base).BOS).toBe(C.secondApron);
+  });
+
+  it("sending cash while staying below the second apron also freezes a second-apron cap", () => {
+    const base: Contract[] = [
+      { playerId: "bos-fill", playerName: "BOS Fill", teamId: "BOS", years: [{ leagueYear: "2026-27", salary: C.secondApron + 1_000_000 - 10_000_000, guarantee: "full" }] },
+      { playerId: "bos-out", playerName: "BOS Out", teamId: "BOS", years: [{ leagueYear: "2026-27", salary: 10_000_000, guarantee: "full" }] },
+      { playerId: "lal-in", playerName: "LAL In", teamId: "LAL", years: [{ leagueYear: "2026-27", salary: 7_000_000, guarantee: "full" }] },
+      { playerId: "lal-fill", playerName: "LAL Fill", teamId: "LAL", years: [{ leagueYear: "2026-27", salary: 150_000_000, guarantee: "full" }] },
+    ];
+    const move: Move = {
+      kind: "trade",
+      label: "cash down",
+      players: [
+        { playerId: "bos-out", to: "LAL" },
+        { playerId: "lal-in", to: "BOS" },
+      ],
+      cash: [{ from: "BOS", to: "LAL", amount: 500_000 }],
+    };
+    expect(sessionHardCaps([move], base).BOS).toBe(C.secondApron);
   });
 });
 

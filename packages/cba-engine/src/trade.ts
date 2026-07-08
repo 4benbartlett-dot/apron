@@ -6,8 +6,16 @@ import type {
   Trade,
   TradeVerdict,
 } from "./types";
-import { classifyTier, findContract, salaryForYear, teamSalary } from "./derive";
+import {
+  apronTeamSalary,
+  classifyTier,
+  findContract,
+  salaryForYear,
+  teamSalary,
+  tradeSalaryForYear,
+} from "./derive";
 import { maxIncomingSalary } from "./matching";
+import { poisonPillValues } from "./provisions";
 
 /** Dollar tolerance for floating-point / rounding wobble in comparisons. */
 const EPSILON = 1;
@@ -53,11 +61,19 @@ const CITE = {
   apronMatching:
     "2023 CBA — apron teams limited to 100% salary matching (the 110% allowance was a 2023-24 transition-only rule).",
   hardCap:
-    "2023 CBA — taking back more than 100% of outgoing salary hard-caps a team at the first apron for the remainder of the league year.",
+    "2023 CBA Art. VII §2(e), row E — using the Expanded Traded Player Exception hard-caps a team at the first apron for the remainder of the league year.",
+  roomAbsorption:
+    "2023 CBA Art. VII §6(j)(1)(v) — Room Under Salary Cap Plus $250,000.",
+  secondApronAggHardCap:
+    "2023 CBA Art. VII §2(e), row H — using an Aggregated Standard Traded Player Exception hard-caps a team at the second apron.",
   secondApronAgg:
-    "2023 CBA — a team over the second apron may not aggregate two or more salaries to match in a trade.",
+    "2023 CBA Art. VII §2(e), row H — a team may not use an Aggregated Standard Traded Player Exception if its post-trade Apron Team Salary exceeds the second apron.",
   secondApronCash:
-    "2023 CBA — a team over the second apron may not send out cash in a trade.",
+    "2023 CBA Art. VII §2(e), row I — paying cash in a trade hard-caps a team at the second apron and is barred if post-trade Apron Team Salary would exceed it.",
+  poisonPill:
+    "2023 CBA Art. VII §8(g) — rookie-scale-extension poison-pill value for the acquiring team is the average of current plus extension salaries.",
+  noMinimumAggregate:
+    "2023 CBA Art. VII §6(j)(4)(ii) — outside Dec. 15 through the trade deadline, an aggregation of three or more outgoing players for fewer replacements may include no more than one minimum traded player.",
   eligibility:
     "2023 CBA — a free agent signed this offseason is trade-restricted (generally until Dec 15). An extension is immediately trade-eligible.",
   noAggregate:
@@ -68,6 +84,24 @@ const CITE = {
 interface TeamLegs {
   outgoingPlayerSalaries: number[];
   incomingPlayerSalaries: number[];
+  outgoingCapSalaries: number[];
+  incomingCapSalaries: number[];
+  outgoingMinimumFlags: boolean[];
+  incomingCount: number;
+}
+
+function isMinimumTradedPlayer(
+  contract: ReturnType<typeof findContract>,
+  salary: number,
+  c: LeagueConstants,
+): boolean {
+  const yos = Math.min(contract?.yearsOfService ?? 10, 10);
+  const minimumForPlayer = c.minimumSalaries[yos] ?? c.minimumSalaries[0] ?? 0;
+  return (
+    !!contract?.minimumSalary ||
+    /minimum/i.test(contract?.signedUsing ?? "") ||
+    (minimumForPlayer > 0 && salary <= minimumForPlayer + EPSILON)
+  );
 }
 
 function legsFor(
@@ -80,6 +114,10 @@ function legsFor(
   const ly = c.leagueYear;
   const outgoingPlayerSalaries: number[] = [];
   const incomingPlayerSalaries: number[] = [];
+  const outgoingCapSalaries: number[] = [];
+  const incomingCapSalaries: number[] = [];
+  const outgoingMinimumFlags: boolean[] = [];
+  let incomingCount = 0;
 
   for (const m of trade.players) {
     if (m.from !== teamId && m.to !== teamId) continue;
@@ -94,26 +132,53 @@ function legsFor(
       });
       continue;
     }
-    const salary = salaryForYear(contract, ly);
+    const capSalary = salaryForYear(contract, ly);
+    const tradeSalary = tradeSalaryForYear(contract, ly);
     if (m.from === teamId) {
       // Base-Year Compensation: the sending team's outgoing value is reduced.
       const outValue =
         contract.bycPriorSalary != null
-          ? Math.max(salary * 0.5, contract.bycPriorSalary)
-          : salary;
+          ? Math.max(tradeSalary * 0.5, contract.bycPriorSalary)
+          : tradeSalary;
       outgoingPlayerSalaries.push(outValue);
+      outgoingCapSalaries.push(capSalary);
+      outgoingMinimumFlags.push(isMinimumTradedPlayer(contract, capSalary, c));
     }
     if (m.to === teamId) {
       // Trade kicker: a trade bonus is added to the salary the ACQUIRING team
       // takes on for matching, capped at the player's maximum.
-      const incValue = contract.tradeKickerPct
-        ? Math.min(c.maxSalary["10+"], salary * (1 + contract.tradeKickerPct))
-        : salary;
+      const incomingCap = contract.tradeKickerPct
+        ? Math.min(c.maxSalary["10+"], capSalary * (1 + contract.tradeKickerPct))
+        : capSalary;
+      const baseIncomingTrade = contract.tradeKickerPct
+        ? Math.min(c.maxSalary["10+"], tradeSalary * (1 + contract.tradeKickerPct))
+        : tradeSalary;
+      const incValue = contract.poisonPillExtensionSalaries?.length
+        ? poisonPillValues(baseIncomingTrade, contract.poisonPillExtensionSalaries).acquiringValue
+        : baseIncomingTrade;
       incomingPlayerSalaries.push(incValue);
+      incomingCapSalaries.push(incomingCap);
+      incomingCount += 1;
+      if (contract.poisonPillExtensionSalaries?.length) {
+        checks.push({
+          ruleId: "poison_pill_incoming_value",
+          ok: true,
+          teamId,
+          reason: `${contract.playerName} is in the poison-pill window, so ${teamId} uses ${fmt(incValue)} as incoming matching/room value instead of his current ${fmt(baseIncomingTrade)} salary.`,
+          citation: CITE.poisonPill,
+        });
+      }
     }
   }
 
-  return { outgoingPlayerSalaries, incomingPlayerSalaries };
+  return {
+    outgoingPlayerSalaries,
+    incomingPlayerSalaries,
+    outgoingCapSalaries,
+    incomingCapSalaries,
+    outgoingMinimumFlags,
+    incomingCount,
+  };
 }
 
 /**
@@ -126,7 +191,7 @@ function legsFor(
  * eligibility freezes, the 2-month post-acquisition aggregation freeze, BYC,
  * and trade kickers. Cap holds, sign-and-trade legality, TPE ledger selection,
  * and the Stepien pick ledger are enforced by the app layer on top of this
- * verdict; poison-pill remains unmodeled (disclosed on /accuracy).
+ * verdict.
  */
 export function validateTrade(
   data: LeagueData,
@@ -137,7 +202,14 @@ export function validateTrade(
   const teams: TeamTradeSummary[] = [];
 
   for (const teamId of trade.teams) {
-    const { outgoingPlayerSalaries, incomingPlayerSalaries } = legsFor(
+    const {
+      outgoingPlayerSalaries,
+      incomingPlayerSalaries,
+      outgoingCapSalaries,
+      incomingCapSalaries,
+      outgoingMinimumFlags,
+      incomingCount,
+    } = legsFor(
       data,
       teamId,
       trade,
@@ -147,16 +219,20 @@ export function validateTrade(
 
     const outgoingSalary = outgoingPlayerSalaries.reduce((a, b) => a + b, 0);
     const incomingSalary = incomingPlayerSalaries.reduce((a, b) => a + b, 0);
+    const outgoingCapSalary = outgoingCapSalaries.reduce((a, b) => a + b, 0);
+    const incomingCapSalary = incomingCapSalaries.reduce((a, b) => a + b, 0);
 
-    const pre = teamSalary(data, teamId, c.leagueYear);
-    const post = pre - outgoingSalary + incomingSalary;
+    const signedPre = teamSalary(data, teamId, c.leagueYear);
+    const pre = apronTeamSalary(data, teamId, c);
+    const post = pre - outgoingCapSalary + incomingCapSalary;
     const preTier = classifyTier(pre, c);
     const postTier = classifyTier(post, c);
     // Kept free-agent holds consume below-cap absorption room (they're Team
     // Salary for room purposes) — but never change apron tier.
-    const capRoom = c.salaryCap - pre - (trade.capHolds?.[teamId] ?? 0);
+    const capRoom = c.salaryCap - signedPre - (trade.capHolds?.[teamId] ?? 0);
 
-    const match = maxIncomingSalary(outgoingSalary, preTier, capRoom, c);
+    const allowance = post > c.firstApron + EPSILON ? 0 : c.tradeMatch.addOn;
+    const match = maxIncomingSalary(outgoingSalary, preTier, capRoom, c, { addOn: allowance });
 
     // Salary absorbed into a traded-player exception needs no matching —
     // it still counts fully toward post-trade (apron) salary.
@@ -172,6 +248,8 @@ export function validateTrade(
       postTradeTier: postTier,
       outgoingSalary,
       incomingSalary,
+      outgoingCapSalary,
+      incomingCapSalary,
       maxIncomingAllowed: match.maxIncoming,
       matchingRule: match.rule,
       ...(tpeAbsorbed > 0 ? { tpeAbsorbed } : {}),
@@ -207,6 +285,8 @@ export function validateTrade(
     // --- Rule 1: salary matching (on the non-TPE portion) ---
     const matchOk = matchable <= match.maxIncoming + EPSILON;
     const isApronTeam = preTier === "first_apron" || preTier === "second_apron";
+    const allowanceNote =
+      allowance === 0 ? "; the $250k allowance is removed because post-trade apron salary exceeds the first apron" : "";
     checks.push({
       ruleId: "salary_matching",
       ok: matchOk,
@@ -214,10 +294,10 @@ export function validateTrade(
       reason: matchOk
         ? `${teamId} sends ${fmt(outgoingSalary)} and takes back ${fmt(
             matchable,
-          )}${tpeAbsorbed > 0 ? " (after TPE absorption)" : ""} — within its ${fmt(match.maxIncoming)} limit (${match.ruleLabel}).`
+          )}${tpeAbsorbed > 0 ? " (after TPE absorption)" : ""} — within its ${fmt(match.maxIncoming)} limit (${match.ruleLabel}${allowanceNote}).`
         : `${teamId} can take back at most ${fmt(match.maxIncoming)} for ${fmt(
             outgoingSalary,
-          )} sent out (${match.ruleLabel}), but is acquiring ${fmt(
+          )} sent out (${match.ruleLabel}${allowanceNote}), but is acquiring ${fmt(
             matchable,
           )}${tpeAbsorbed > 0 ? " outside its TPE" : ""} — over by ${fmt(matchable - match.maxIncoming)}.`,
       citation: isApronTeam ? CITE.apronMatching : CITE.matching,
@@ -233,11 +313,14 @@ export function validateTrade(
       preTier === "below_cap" || preTier === "over_cap" || preTier === "taxpayer";
     if (subApron && tookBackMore) {
       const hardCapOk = post <= c.firstApron + EPSILON;
+      const expandedMatching = match.rule !== "cap_room_absorption";
       checks.push({
         ruleId: "hard_cap_first_apron",
-        ok: hardCapOk,
+        ok: !expandedMatching || hardCapOk,
         teamId,
-        reason: hardCapOk
+        reason: !expandedMatching
+          ? `${teamId} absorbs the extra salary with cap room, not the Expanded Traded Player Exception, so row E does not create a first-apron hard cap.`
+          : hardCapOk
           ? `${teamId} takes back more than it sends but stays under the first apron (${fmt(
               post,
             )} ≤ ${fmt(c.firstApron)}).`
@@ -246,7 +329,7 @@ export function validateTrade(
             )}); this trade would put it at ${fmt(post)} — ${fmt(
               post - c.firstApron,
             )} over the hard cap.`,
-        citation: CITE.hardCap,
+        citation: expandedMatching ? CITE.hardCap : CITE.roomAbsorption,
       });
     }
 
@@ -262,36 +345,55 @@ export function validateTrade(
     // incoming (a legal split); aggregation is required only when no such
     // packing exists.
     const overSecondApronAfter = classifyTier(post, c) === "second_apron";
-    if (overSecondApronAfter && outgoingPlayerSalaries.length >= 2) {
-      const aggregating = !binPackable(
-        incomingPlayerSalaries,
-        outgoingPlayerSalaries,
-      );
+    const aggregating =
+      outgoingPlayerSalaries.length >= 2 &&
+      !binPackable(incomingPlayerSalaries, outgoingPlayerSalaries);
+    if (aggregating) {
       checks.push({
-        ruleId: "second_apron_no_aggregation",
-        ok: !aggregating,
+        ruleId: overSecondApronAfter
+          ? "second_apron_no_aggregation"
+          : "hard_cap_second_apron_aggregation",
+        ok: !overSecondApronAfter,
         teamId,
-        reason: aggregating
+        reason: overSecondApronAfter
           ? `${teamId} would finish over the second apron and so cannot aggregate salaries: at least one incoming salary can only be matched by combining two or more outgoing players. (Aggregating is only legal if the trade itself drops the team to or below the second apron.)`
-          : `${teamId} finishes over the second apron but is not aggregating (each incoming salary matches a single outgoing player).`,
-        citation: CITE.secondApronAgg,
+          : `${teamId} uses aggregated trade matching and finishes at ${fmt(post)}, at or below the second apron (${fmt(c.secondApron)}) — legal, but row H hard-caps it at the second apron for the season.`,
+        citation: overSecondApronAfter ? CITE.secondApronAgg : CITE.secondApronAggHardCap,
       });
+      const minCount = outgoingMinimumFlags.filter(Boolean).length;
+      const timing = trade.timing ?? "offseason";
+      if (
+        timing !== "dec15_to_deadline" &&
+        outgoingPlayerSalaries.length >= 3 &&
+        incomingCount < outgoingPlayerSalaries.length &&
+        minCount > 1
+      ) {
+        checks.push({
+          ruleId: "minimum_traded_player_aggregation",
+          ok: false,
+          teamId,
+          reason: `${teamId} aggregates ${outgoingPlayerSalaries.length} outgoing players for fewer incoming players outside the Dec. 15-to-deadline window and includes ${minCount} minimum-salary players; the CBA allows no more than one.`,
+          citation: CITE.noMinimumAggregate,
+        });
+      }
     }
 
     // --- Rule 4: second apron cannot send out cash (same post-trade test) ---
-    if (overSecondApronAfter) {
-      const sendsCash = (trade.cash ?? []).some(
-        (mv) => mv.from === teamId && mv.amount > 0,
-      );
-      if (sendsCash) {
-        checks.push({
-          ruleId: "second_apron_no_cash_out",
-          ok: false,
-          teamId,
-          reason: `${teamId} is over the second apron and cannot send cash in a trade.`,
-          citation: CITE.secondApronCash,
-        });
-      }
+    const sendsCash = (trade.cash ?? []).some(
+      (mv) => mv.from === teamId && mv.amount > 0,
+    );
+    if (sendsCash) {
+      checks.push({
+        ruleId: overSecondApronAfter
+          ? "second_apron_no_cash_out"
+          : "hard_cap_second_apron_cash",
+        ok: !overSecondApronAfter,
+        teamId,
+        reason: overSecondApronAfter
+          ? `${teamId} pays cash and would finish over the second apron, which row I forbids.`
+          : `${teamId} pays cash while staying at or below the second apron (${fmt(post)} ≤ ${fmt(c.secondApron)}) — legal, but row I hard-caps it at the second apron for the season.`,
+        citation: CITE.secondApronCash,
+      });
     }
 
     // --- Rule 5: trade eligibility (restricted / recently-acquired) ---
@@ -318,7 +420,7 @@ export function validateTrade(
       const outSalaries = outgoingMoves.map((mv) => {
         const oc = findContract(data, mv.playerId);
         return {
-          salary: oc ? salaryForYear(oc, c.leagueYear) : 0,
+          salary: oc ? tradeSalaryForYear(oc, c.leagueYear) : 0,
           frozen: !!oc?.noAggregate,
           name: oc?.playerName ?? mv.playerId,
         };
