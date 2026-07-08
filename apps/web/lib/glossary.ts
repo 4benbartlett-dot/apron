@@ -26,7 +26,7 @@ export const GLOSSARY = {
   },
   first_apron: {
     title: "First apron",
-    body: "A hard line a few million above the tax. Teams over it lose tools: no sign-and-trade acquisitions, no expanded matching in trades (100% only), no regular-season waiver-market signings when the terminated contract was above the NT-MLE, and no pre-existing TPE use. Some moves (using the full MLE, acquiring via sign-and-trade, that row-D waiver signing, or expanded matching) hard-cap a team AT this line for the whole season.",
+    body: "A hard line a few million above the tax. Teams over it lose tools: no sign-and-trade acquisitions, no expanded matching in trades (100% only), no regular-season waiver-market signings when the terminated contract was above the NT-MLE, and no pre-existing TPE use. Some moves (using the full MLE, acquiring via sign-and-trade, a qualifying waiver signing, or expanded matching) hard-cap a team AT this line for the whole season.",
     cite: "2023 CBA · Art. VII §2(e)",
   },
   second_apron: {
@@ -68,7 +68,7 @@ export const GLOSSARY = {
   },
   ntmle: {
     title: "Non-Taxpayer Mid-Level Exception",
-    body: "The full MLE (9.12% of the cap, up to 4 years) for over-the-cap teams that stay below the first apron. Using more than the taxpayer portion hard-caps the team at the first apron for the rest of the season — and later moves in the sim must stay under that ceiling.",
+    body: "The full MLE (9.12% of the cap, up to 4 years) for over-the-cap teams that stay below the first apron. Using more than the taxpayer portion hard-caps the team at the first apron for the rest of the season — and later moves must stay under that ceiling.",
     cite: "2023 CBA · Art. VII §6(e)",
   },
   tpmle: {
@@ -116,7 +116,7 @@ export const GLOSSARY = {
 
   team_floor: {
     title: "Minimum team salary",
-    body: "Teams must spend at least 90% of the cap each season. Finish below the floor and the shortfall is paid out to the roster anyway — so tanking saves face, not money. The sim flags any sheet sitting under the line.",
+    body: "Teams must spend at least 90% of the cap each season. Finish below the floor and the shortfall is paid out to the roster anyway — so tanking saves face, not money. Over the Apron flags any sheet sitting under the line.",
     cite: "2023 CBA · Art. VII \u00a72(b)",
   },
 
@@ -134,12 +134,12 @@ export const GLOSSARY = {
   },
   tpe: {
     title: "Traded-player exception",
-    body: "When a team trades a player away without taking equal salary back, it can keep a credit — a TPE — good for one year, to absorb an incoming player without salary matching. The catch: a TPE from a past season can't be used if it would leave the team above the first apron, and using one hard-caps the team there (a TPE minted this offseason dodges that until next year). The sim applies your biggest usable TPE automatically when a trade needs it.",
+    body: "When a team trades a player away without taking equal salary back, it can keep a credit — a TPE — good for one year, to absorb an incoming player without salary matching. The catch: a TPE from a past season can't be used if it would leave the team above the first apron, and using one hard-caps the team there (a TPE minted this offseason dodges that until next year). Your biggest usable TPE is applied automatically when a trade needs it.",
     cite: "2023 CBA · Art. VII §6(j)(1)(i); §2(e) row F",
   },
   hard_cap: {
     title: "Hard cap",
-    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade, signing a row-D regular-season waiver player, using an aggregated trade to drop through the second apron, or sending cash in a trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary, not cap holds. This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
+    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade, signing a waived player whose prior contract topped the mid-level, combining salaries in a trade to drop through the second apron, or sending cash in a trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary, not cap holds. Your hard cap sticks across moves: a trade today can kill a signing next week, and vice versa.",
     cite: "2023 CBA · Art. VII §2(e)",
   },
   no_trade: {
@@ -159,7 +159,7 @@ export const GLOSSARY = {
   },
   picks: {
     title: "Draft-pick trading",
-    body: "Teams may trade firsts up to seven drafts out, but the Stepien rule bars leaving yourself without a first-round pick in consecutive future drafts. The sim tracks pick ownership across your move list, so a pick you dealt two trades ago still counts against you. A first your team already owes away in the real world never appears here — it isn't yours to trade, and its year counts as uncovered.",
+    body: "Teams may trade firsts up to seven drafts out, but the Stepien rule bars leaving yourself without a first-round pick in consecutive future drafts. The board tracks pick ownership across your move list, so a pick you dealt two trades ago still counts against you. A first your team already owes away in the real world never appears here — it isn't yours to trade, and its year counts as uncovered.",
     cite: "NBA rule (Stepien); 2023 CBA · Art. VII",
   },
   trade_value: {

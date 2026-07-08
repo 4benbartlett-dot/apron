@@ -184,7 +184,7 @@ function DemoTimeline() {
         </div>
       </div>
       <div className="mt-3 text-center text-[10px] text-[var(--muted)]">
-        Monday&rsquo;s signing killed Friday&rsquo;s trade. The sim remembers.
+        Monday&rsquo;s signing killed Friday&rsquo;s trade. The board remembers.
       </div>
     </div>
   );
@@ -326,7 +326,7 @@ export default function GuidePage() {
             Glossary
           </Link>
           <Link href="/accuracy" className="text-[var(--muted)] underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-            What the engine enforces
+            What the rules enforce
           </Link>
         </div>
       </Reveal>
