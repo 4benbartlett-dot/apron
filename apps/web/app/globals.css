@@ -266,10 +266,12 @@ body::after {
 }
 
 /* During PNG capture: html-to-image can't resolve the stamp's turbulence
-   mask (url(#n) inside a data URI), so drop the ink texture for the shot. */
+   mask (url(#n) inside a data URI), so drop the ink texture for the shot.
+   captureCard also hard-strips this inline; the shorthand zeroes mask-size
+   too so the serialized computed value stays clean. */
 .capture .stamp {
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
+  mask: none !important;
+  -webkit-mask: none !important;
 }
 /* Captures are snapshots (v2): freeze every animation at its resting state.
    WebKit evaluates cloned animations at t=0 — stamp-in starts at opacity 0,
