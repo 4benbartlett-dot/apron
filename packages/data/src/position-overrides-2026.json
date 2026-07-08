@@ -1,0 +1,414 @@
+{
+  "source": "Curated position overrides \u2014 a league-wide role review (30-team agent pass, adversarially verified) layered on top of the Basketball-Reference play-by-play scrape. Fills secondary positions the play-by-play table never measured (only ~230 players qualify) and corrects role-blind adjacency fallbacks (e.g. a small-ball five's second spot is C, not SF). Measured play-by-play primaries stay authoritative; only advanced-page fallback primaries are corrected here.",
+  "byId": {
+    "derozde01": "SF",
+    "thompkl01": "SG",
+    "wellsja01": "SF"
+  },
+  "secondaryById": {
+    "adebaba01": [
+      "PF"
+    ],
+    "aldamsa01": [
+      "C"
+    ],
+    "antetgi01": [
+      "C"
+    ],
+    "anthoco01": [
+      "SG"
+    ],
+    "anunoog01": [
+      "SF"
+    ],
+    "baileac01": [
+      "PF"
+    ],
+    "banchpa01": [
+      "SF"
+    ],
+    "batumni01": [
+      "SF",
+      "C"
+    ],
+    "bealbr01": [
+      "PG"
+    ],
+    "beysa01": [
+      "PF"
+    ],
+    "bogdabo01": [
+      "SF"
+    ],
+    "bridgmi02": [
+      "SF"
+    ],
+    "brookdi01": [
+      "SF"
+    ],
+    "butleji01": [
+      "PF"
+    ],
+    "buzelma01": [
+      "SF"
+    ],
+    "camarto01": [
+      "C"
+    ],
+    "carrica01": [
+      "SG"
+    ],
+    "cartede02": [
+      "SG"
+    ],
+    "champju01": [
+      "PF"
+    ],
+    "chrisma02": [
+      "SF"
+    ],
+    "clarkbr01": [
+      "C"
+    ],
+    "claytwa01": [
+      "SG"
+    ],
+    "clownno01": [
+      "C"
+    ],
+    "coulibi01": [
+      "SF"
+    ],
+    "cowarce01": [
+      "SF"
+    ],
+    "davisan02": [
+      "C"
+    ],
+    "demineg01": [
+      "SG"
+    ],
+    "derozde01": [
+      "PF"
+    ],
+    "dilliro01": [
+      "SG"
+    ],
+    "dunnkr01": [
+      "SG"
+    ],
+    "filipky01": [
+      "PF"
+    ],
+    "flaggco01": [
+      "PF"
+    ],
+    "furphjo01": [
+      "SF"
+    ],
+    "georgke01": [
+      "SG"
+    ],
+    "georgky01": [
+      "PF"
+    ],
+    "georgpa01": [
+      "SF"
+    ],
+    "giddejo01": [
+      "SG"
+    ],
+    "greendr01": [
+      "C"
+    ],
+    "greenjo02": [
+      "SF"
+    ],
+    "gueyemo02": [
+      "PF"
+    ],
+    "hardyja02": [
+      "PG"
+    ],
+    "herroty01": [
+      "PG"
+    ],
+    "howarje01": [
+      "SF"
+    ],
+    "huntede01": [
+      "PF"
+    ],
+    "ingrabr01": [
+      "PF"
+    ],
+    "isaacjo01": [
+      "C"
+    ],
+    "jacksan01": [
+      "SF"
+    ],
+    "jacksgg01": [
+      "SF"
+    ],
+    "jacksja02": [
+      "PF"
+    ],
+    "jakucka01": [
+      "SG"
+    ],
+    "jamessi01": [
+      "SF"
+    ],
+    "jaqueja01": [
+      "PF"
+    ],
+    "jeromty01": [
+      "PG"
+    ],
+    "jonesde02": [
+      "PF"
+    ],
+    "joneshe01": [
+      "SG",
+      "PF"
+    ],
+    "jovicni01": [
+      "SF"
+    ],
+    "knuepko01": [
+      "SG"
+    ],
+    "konchjo01": [
+      "SF"
+    ],
+    "kuminjo01": [
+      "SF"
+    ],
+    "kuzmaky01": [
+      "SF"
+    ],
+    "larsspe01": [
+      "SF"
+    ],
+    "leonaka01": [
+      "PF"
+    ],
+    "mannte01": [
+      "SF"
+    ],
+    "manntr01": [
+      "SG"
+    ],
+    "markkla01": [
+      "C",
+      "SF"
+    ],
+    "marshna01": [
+      "PF"
+    ],
+    "martica02": [
+      "PF"
+    ],
+    "matkoka01": [
+      "C"
+    ],
+    "mcbrimi01": [
+      "PG"
+    ],
+    "mcdanja02": [
+      "PF"
+    ],
+    "meltode01": [
+      "SG"
+    ],
+    "millebr02": [
+      "SG"
+    ],
+    "millejo02": [
+      "SG"
+    ],
+    "minotjo01": [
+      "SF"
+    ],
+    "mitchda01": [
+      "SG"
+    ],
+    "mogbojo01": [
+      "C"
+    ],
+    "monkma01": [
+      "PG"
+    ],
+    "moodymo01": [
+      "SF"
+    ],
+    "murphtr02": [
+      "SG",
+      "PF"
+    ],
+    "murraco01": [
+      "SF",
+      "C"
+    ],
+    "murrade01": [
+      "SG"
+    ],
+    "murrake02": [
+      "SF"
+    ],
+    "mykhasv01": [
+      "SG"
+    ],
+    "nembhan01": [
+      "SG"
+    ],
+    "nesmiaa01": [
+      "PF",
+      "SG"
+    ],
+    "okorois01": [
+      "SF"
+    ],
+    "pickeja02": [
+      "PG"
+    ],
+    "pippesc02": [
+      "SG"
+    ],
+    "podzibr01": [
+      "PG"
+    ],
+    "poolejo01": [
+      "SG"
+    ],
+    "porteke02": [
+      "SG"
+    ],
+    "portemi01": [
+      "PF"
+    ],
+    "portibo01": [
+      "C"
+    ],
+    "poweldr01": [
+      "SF"
+    ],
+    "princta02": [
+      "PF"
+    ],
+    "pritcpa01": [
+      "SG"
+    ],
+    "prospol01": [
+      "SF"
+    ],
+    "queende01": [
+      "PF"
+    ],
+    "quickim01": [
+      "SG"
+    ],
+    "raynama01": [
+      "PF"
+    ],
+    "risacza01": [
+      "PF"
+    ],
+    "rolliry01": [
+      "SG"
+    ],
+    "russeda01": [
+      "SG"
+    ],
+    "salauti01": [
+      "SF"
+    ],
+    "santogu01": [
+      "SF"
+    ],
+    "sarafbe01": [
+      "PG"
+    ],
+    "sassema01": [
+      "SG"
+    ],
+    "sensabr01": [
+      "SG"
+    ],
+    "sheppbe01": [
+      "SF"
+    ],
+    "sheppre01": [
+      "PG"
+    ],
+    "siakapa01": [
+      "SF"
+    ],
+    "smithdr01": [
+      "PG"
+    ],
+    "smithja04": [
+      "PF"
+    ],
+    "spencca01": [
+      "PG"
+    ],
+    "suggsja01": [
+      "SG"
+    ],
+    "tatumja01": [
+      "SF"
+    ],
+    "thompkl01": [
+      "SF"
+    ],
+    "tomlina01": [
+      "C"
+    ],
+    "toppiob01": [
+      "C"
+    ],
+    "trentga02": [
+      "SF"
+    ],
+    "walkeja01": [
+      "PF"
+    ],
+    "walkeja02": [
+      "SF"
+    ],
+    "wareke01": [
+      "PF"
+    ],
+    "washipj01": [
+      "SF",
+      "C"
+    ],
+    "wellsja01": [
+      "SG"
+    ],
+    "whitmca01": [
+      "SG"
+    ],
+    "wiggian01": [
+      "PF"
+    ],
+    "willico04": [
+      "SF"
+    ],
+    "willigr01": [
+      "C"
+    ],
+    "willizi01": [
+      "C"
+    ],
+    "willizi02": [
+      "PF",
+      "SG"
+    ],
+    "wolfda01": [
+      "C"
+    ]
+  }
+}
