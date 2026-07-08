@@ -1065,7 +1065,7 @@ export function dimensionGrade(x: number): string {
 
 /** The model's own net-rating read on a roster: talent (position-aware rotation
  * of impact + real-age aging + real-injury availability) plus the bounded fit
- * adjustment, calibrated straight to actual net ratings (R²=0.87). */
+ * adjustment, calibrated straight to actual net ratings (R²=0.75). */
 function modelNrtg(roster: Contract[]): number {
   const cal = TEAM_CALIBRATION;
   return cal.intercept + cal.rosterCoef * rosterScore(roster) + cal.fitCoef * teamFit(roster).nrtg;

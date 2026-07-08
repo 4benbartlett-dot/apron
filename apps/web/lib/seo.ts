@@ -149,8 +149,8 @@ export const SEO_TERMS: SeoTerm[] = [
         rows: [
           { label: "Small salaries (expanded)", value: "200% of outgoing + $250,000" },
           { label: "Mid salaries (expanded)", value: "Outgoing + $9,095,709" },
-          { label: "First-apron teams", value: "125% of outgoing + $250,000" },
-          { label: "Second-apron teams", value: "100% of outgoing (no aggregation, no cash)" },
+          { label: "Large salaries (expanded)", value: "125% of outgoing + $250,000" },
+          { label: "First or second apron", value: "100% of outgoing — dollar-for-dollar, no expanded bands" },
         ],
       },
       {
