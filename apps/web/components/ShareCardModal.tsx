@@ -188,15 +188,20 @@ export function ShareCardModal({
         }
       });
     });
+    // The verdict stamp is the one element that still dropped from the raster
+    // after the mask was neutralized. Its only difference from the tier badges
+    // (which export fine) is transform: rotate() — a rotated element vanishing
+    // wholesale is a known html-to-image foreignObject bug. Flatten it to an
+    // axis-aligned box for the shot; the tilt is cosmetic and restored after.
     node.querySelectorAll<HTMLElement>(".stamp").forEach((el) => {
-      const m = el.style.getPropertyValue("mask");
-      const wm = el.style.getPropertyValue("-webkit-mask");
-      restores.push(() => {
-        el.style.setProperty("mask", m);
-        el.style.setProperty("-webkit-mask", wm);
-      });
+      const saved = (["mask", "-webkit-mask", "transform", "opacity"] as const).map(
+        (p) => [p, el.style.getPropertyValue(p)] as const,
+      );
+      restores.push(() => saved.forEach(([p, v]) => el.style.setProperty(p, v)));
       el.style.setProperty("mask", "none", "important");
       el.style.setProperty("-webkit-mask", "none", "important");
+      el.style.setProperty("transform", "none", "important");
+      el.style.setProperty("opacity", "1", "important");
     });
     try {
       await Promise.all([
