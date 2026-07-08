@@ -107,7 +107,7 @@ export default async function TermPage({ params }: { params: Promise<{ slug: str
       <div className="mt-8 rounded-lg border border-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-4 py-3.5">
         <p className="text-[14px] font-semibold">See it enforced, not just explained.</p>
         <p className="mt-0.5 text-[13px] text-[var(--muted)]">
-          Build any trade or signing and the sim rules on it — citing this exact rule when it applies.
+          Build a trade or signing and the sim rules on it, with the relevant citation when one applies.
         </p>
         <div className="mt-2.5 flex flex-wrap gap-2">
           <Link href="/" className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">

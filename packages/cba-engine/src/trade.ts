@@ -57,9 +57,9 @@ function binPackable(incoming: number[], binCaps: number[]): boolean {
 
 const CITE = {
   matching:
-    "2023 CBA Art. VII — Traded Player Exception (salary matching). See Hoops Rumors salary-matching guide.",
+    "2023 CBA Art. VII §6(j)(1)(i)-(iv) — Traded Player Exception salary matching.",
   apronMatching:
-    "2023 CBA — apron teams limited to 100% salary matching (the 110% allowance was a 2023-24 transition-only rule).",
+    "2023 CBA Art. VII §6(j)(1)(i)-(ii), §6(j)(3), and §2(e) — apron teams are limited to 100% matching after the 2023-24 transition rule.",
   hardCap:
     "2023 CBA Art. VII §2(e), row E — using the Expanded Traded Player Exception hard-caps a team at the first apron for the remainder of the league year.",
   roomAbsorption:
@@ -75,9 +75,9 @@ const CITE = {
   noMinimumAggregate:
     "2023 CBA Art. VII §6(j)(4)(ii) — outside Dec. 15 through the trade deadline, an aggregation of three or more outgoing players for fewer replacements may include no more than one minimum traded player.",
   eligibility:
-    "2023 CBA — a free agent signed this offseason is trade-restricted (generally until Dec 15). An extension is immediately trade-eligible.",
+    "2023 CBA Art. VII §8(d), §8(f) — recently signed players and certain extensions are trade-restricted.",
   noAggregate:
-    "2023 CBA — a player acquired via trade may not be aggregated with other salaries for ~2 months after being acquired.",
+    "2023 CBA Art. VII §6(j)(4)(i) — a player acquired by trade may not be aggregated with other salaries for two months after being acquired.",
   unknownPlayer: "Apron engine — referenced player has no contract in the dataset.",
 } as const;
 

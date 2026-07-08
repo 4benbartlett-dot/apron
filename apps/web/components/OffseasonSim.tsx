@@ -408,9 +408,9 @@ export default function OffseasonSim() {
             The NBA offseason, <span className="underline-swipe">simplified</span>.
           </h1>
           <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-            Put teams on the board, then trade, sign, extend, and renounce — every
-            move builds on the last from today&rsquo;s live rosters, and every verdict
-            cites the rule.
+            Put teams on the board, then trade, sign, extend, and renounce. Each
+            move builds on the last from the current roster data, with rule
+            citations where they apply.
           </p>
         </div>
         <button
@@ -1782,7 +1782,7 @@ function ExtendDrawer({
   );
 }
 
-/** AI trade finder: pick a target + acquirer, get ranked legal packages. */
+/** Trade finder: pick a target + acquirer, get ranked legal packages. */
 function TradeFinderDrawer({
   board,
   lg,

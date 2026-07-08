@@ -4,7 +4,7 @@ import { GlossaryExplorer } from "@/components/GlossaryExplorer";
 export const metadata: Metadata = {
   title: "CBA Glossary — Over the Apron",
   description:
-    "Every apron-era CBA term in plain English: aprons, Bird rights, the MLEs, salary matching, hard caps, cap holds, and more — with citations.",
+    "Plain-English CBA terms for the apron era: aprons, Bird rights, the MLEs, salary matching, hard caps, cap holds, and more.",
 };
 
 export default function GlossaryPage() {

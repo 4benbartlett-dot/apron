@@ -2,29 +2,29 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 266 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 266 unit tests and real July 2026 move replays.",
+    "Which 2023 CBA rules the trade machine enforces, where the data is approximate, and which edge cases are still outside the live simulator.",
 };
 
 const MODELED = [
-  "2026-27 official thresholds: cap, luxury tax, first apron, second apron, MLEs, BAE, minimums",
-  "All exception / tier amounts cross-checked against the CBA's own %-of-cap formulas (BAE 3.32%, NT-MLE 9.12%, Room MLE 5.678%, Taxpayer MLE, min-team 90%, max 25/30/35%)",
-  "Trade salary matching — the CBA's exact expanded formula, greater of ( lesser of (200%+$250k, outgoing+$7.5M×cap-growth), 125%+$250k ) — the \"$7.5M\" escalates to $9,095,709 in 2026-27 (Art. VII §6(j)(1)(iv)); most machines still use the stale 2023-24 figure",
+  "2026-27 thresholds: cap, luxury tax, first apron, second apron, MLEs, BAE, minimum salaries, and max-salary tiers",
+  "Exception and tier amounts follow the CBA's percentage-of-cap formulas where the CBA defines them: BAE 3.32%, NT-MLE 9.12%, Room MLE 5.678%, minimum team salary 90%, and max tiers at 25/30/35%",
+  "Trade salary matching: the expanded formula from Art. VII §6(j)(1)(iv), including the cap-grown middle band. The 2026-27 middle add-on is $9,095,709, not the original 2023-24 $7.5M figure",
   "One-year veteran minimums (3+ YOS) count at the 2-YOS minimum on the cap, tax, aprons, and trade matching — the league reimburses the team (Art. VII §3(f), Art. IV §6(h))",
   "Minimum-salary scale derives from the CBA's own escalator: prior year's scale × cap growth (Art. I (jj)), telescoped from the CBA's printed Exhibit C",
   "Real-world pick obligations: a first already owed away (or protected-out) is locked from your trade board, and its year counts as uncovered for the Stepien rule",
-  "Traded-player exceptions: the real league-wide ledger (65 active TPEs, Spotrac \u00d7 SalarySwish cross-checked) plus TPEs your own uneven trades mint — the sim auto-absorbs incoming salary into your biggest usable exception; pre-existing TPEs are barred above the first apron and hard-cap you there (restriction row F), same-offseason ones aren't; room teams lost theirs with the room (\u00a76(n)(2))",
-  "Feed-derived offseason state, all 30 teams audited: cap-room teams lose the MLEs/BAE for the year (\u00a76(n)(1), \u00a76(g)(3)); exceptions the real July spent stay spent (BOS/SAS/PHI's NT-MLE, GSW's BAE, LAL's Room MLE\u2026); S&T and MLE/BAE acquisitions carry their in-world hard caps; demonstrated room spending marks the holds it required as renounced",
+  "Traded-player exceptions: active TPEs from the data feed plus TPEs created by uneven trades in your session. Pre-existing TPE use is blocked above the first apron and hard-caps the team there; same-offseason TPEs are treated separately",
+  "Offseason team state: cap-room teams lose the regular MLEs and BAE for the year; exceptions already spent in the feed stay spent; real hard caps from MLE/BAE and sign-and-trade activity carry into the simulator",
   "Apron teams limited to 100% matching (no 110%)",
   "Below-cap absorption capped at cap+$250k (or standard matching if larger)",
-  "Hard-cap triggers: NT-MLE / BAE / sign-and-trade / taking back >100% in a trade (Expanded TPE) / regular-season waiver signing of a player whose terminated salary exceeded the NT-MLE → first apron; Taxpayer MLE, aggregated trade matching, and cash sent in trades → second apron — persisted across the whole session and tested against APRON salary (holds excluded)",
+  "Hard-cap triggers: NT-MLE, BAE, sign-and-trade acquisition, expanded matching, pre-existing TPE use, and row-D regular-season waiver signings can create a first-apron cap; taxpayer MLE, row-H aggregation, and row-I cash can create a second-apron cap",
   "Art. VII §2 Apron Team Salary is a real derived layer: signed salary plus excluded performance-bonus addbacks and 0/1-YOS free-agent minimum addbacks, with explicit team-level adjustments for FA amounts, RFA tenders, first-round-pick/tender amounts, deemed-included exceptions, §4(l) exclusions, and incomplete-roster charges when the app/data layer supplies them",
   "Cap holds count against room (signing space and below-cap trade absorption) but never toward apron/tax status — the Art. VII §2 Apron Team Salary split",
-  "Second apron: no aggregation or cash-out, tested on POST-trade apron salary per Art. VII \u00a72(e)(2)(i)(A) \u2014 a team may aggregate down through the line (bin-packing combination test), but the sim now persists the row-H second-apron hard cap it accepts; exact-boundary tiers use strict 'exceeds'",
+  "Second apron: no aggregation or cash-out when the team finishes above the second apron after the trade. A team may aggregate or send cash only if the transaction lands it at or below the second apron, and that accepted move hard-caps it there",
   "Exception gating by apron tier: cap room, NT-MLE, Taxpayer MLE, Room MLE, BAE, minimum, Bird",
   "Maximum-salary tiers by years of service (25% / 30% / 35%)",
-  "Bird / Early-Bird / Non-Bird re-signing ceilings (175% / 120%-of-prior-or-min, etc.), with each FA's real Bird-rights status and UFA/RFA designation",
+  "Bird / Early-Bird / Non-Bird re-signing ceilings (175% / 120%-of-prior-or-min, etc.), using sourced or curated Bird-rights status and UFA/RFA designation where available",
   "Multi-year committed-salary cap sheet (4 seasons per team)",
   "Veteran extension & extend-and-trade first-year ceilings (140% / 120% of prior-or-estimated-average)",
   "Renegotiation ceiling (under-cap teams only, raise limited to cap room) and the stretch provision (2N+1 years, 15%-of-cap guardrail)",
@@ -39,7 +39,7 @@ const MODELED = [
   "Trade kicker bonus boosts the acquiring team's incoming matching value (applied when kicker data is present)",
   "Traded-player matching edge cases: the $250k allowance disappears if post-trade Apron Team Salary exceeds the first apron; non-guaranteed/deemed trade salary can be supplied separately from cap salary; outside Dec. 15 through the trade deadline, aggregating 3+ outgoing players for fewer replacements may include no more than one minimum traded player",
   "Sign-and-trade outgoing leg: build a return package to the FA's old team — validates both the acquirer's first-apron hard cap and the old team's salary matching",
-  "Pick-ownership ledger: executed trades actually transfer draft picks; boards show real inventory",
+  "Pick-ownership ledger: executed trades transfer draft picks inside the session, so later proposals see the updated inventory",
   "Ted Stepien rule against full pick inventory — sees picks traded in PRIOR moves, not just the current proposal",
   "Restricted free agents: Gilbert Arenas first-year cap (1-2 YOS → NT-MLE) and a real match flow — the original team can match your offer sheet and keep the player at your terms",
   "Regular-season waiver-market signing row D: if the terminated contract salary exceeded the NT-MLE, the signing is a first-apron transaction; the engine blocks it above the first apron and hard-caps it there when legal",
@@ -48,12 +48,12 @@ const MODELED = [
   "Sign-and-trade contracts enforce the 3–4 season term (§8(e)(1)(ii)) AND the acquirer must have room or match salary with the return package (§8(e)(1)(vii))",
   "Trade freezes per Art. VII §8(d)/(f): rookie signings 30 days; FA signings Dec 15; over-cap Bird re-signs at >120% until Jan 15; extensions beyond extend-and-trade limits 6 months; matched RFA offer sheets one year (§5(j))",
   "Renegotiation Mar–Jun blackout window",
-  "Dead money (waived/stretched salary, e.g. Lillard's charge on Milwaukee's books) rides the cap sheet and counts against every line, but is off the roster — never tradeable, extendable, or a phantom free agent",
+  "Dead money (waived/stretched salary, e.g. Lillard's charge on Milwaukee's books) rides the cap sheet and counts against cap, tax, and apron lines, but is off the roster — never tradeable, extendable, or a phantom free agent",
   "Waive charges follow real guarantees, not listed salary (DeRozan's SAC charge is his $10M guarantee, not $25.7M) — and a stated dead-cap figure survives the player re-signing elsewhere (Isaac's $8M on ORL next to his new minimum)",
-  "Mid-season 2025-26 waivers (invisible to the offseason transactions window) are curated so they can't synthesize phantom cap holds — the Saric class, from a community report",
-  "Real July signings are audited for the exception they actually used, not just the dollar figure — Sacramento's Achiuwa deal ($5.6M, above the BAE ceiling) is the Non-Tax MLE, so it hard-caps them at the first apron the same July they waived DeRozan to open it (the 14th capped team)",
-  "Every move surfaces its durable consequences even when it's legal — a heads-up when a trade or signing hard-caps a team (expanded matching, a pre-existing TPE, row-H aggregation, row-I cash, the NT-MLE/BAE, a sign-and-trade), turns on the second-apron restrictions, or locks acquired players from aggregation for ~2 months",
-    "Validated against reality: the real July 1, 2026 trades and sign-and-trades replay as legal through the engine, and 20 of 24 in-data signings do too — the four that miss (Grimes and Mamukelashvili's renounce-created cap room, Oubre's ~$65k reported-total rounding, Kennard's PHX headroom) are sheet-reconstruction bounds, not rule failures, each pinned by name in lib/realmoves.test.ts",
+  "Mid-season 2025-26 waivers that are missing from the offseason transaction feed are curated so they do not create phantom cap holds",
+  "Real signings are assigned to a mechanism, not just a dollar amount. For example, a deal above the BAE ceiling but below the NT-MLE is treated as NT-MLE use when the team context requires it",
+  "Legal moves still show their consequences: hard caps, second-apron restrictions, TPE usage, and aggregation freezes can affect the next move in the session",
+  "Representative July 2026 trades, sign-and-trades, and signings are checked against pre-move sheets. Remaining mismatches are treated as data reconstruction limits, not hidden verdict changes",
 ];
 
 const APPROXIMATE = [
@@ -61,15 +61,15 @@ const APPROXIMATE = [
   "Rookie-scale salaries are scaled estimates until the official 2026 scale posts",
   "Years of service is sourced for 84% of rostered players; the rest default to a mid-career value (affects minimum-salary amounts and max tiers, not trade matching)",
   "Early-Bird / extension average-salary alternative uses an estimated figure until the official one posts",
-  "Player value is \u201cApron Value\u201d \u2014 a 0-100 scale (50 = replacement, ~97 = league best) from box score blended 50/50 with real stint-level RAPM (5-man lineups reconstructed from play-by-play, possession-weighted ridge). Validated: it predicts a player\u2019s impact after he changes teams better than BPM (mover corr 0.426 vs 0.344, delta +0.082 [95% CI +0.024, +0.144], reliability 0.852) \u2014 a real but modest edge on a small mover sample. Each number carries a \u00b1 band and a tier; ~85% of rostered players have the full metric or its validated box half, the rest are box-/draft-projected and flagged approximate on hover",
-  "Team strength projects a net rating and a win total for every team \u2014 ranked by conference on /standings, with team pages showing the record and the exact win swing your moves cause. It models ROTATION by POSITION: the 19,680-minute budget (5 \u00d7 48 \u00d7 82) is split into five on-court spots of 3,936 minutes each, handed to the best players first at their primary position, with versatile players sliding to a measured secondary spot. So a trade is judged on minutes DISPLACEMENT that respects position \u2014 acquiring a center for a team already anchored at center mostly benches one of them, while the same center fills an empty middle for a team that needs one; the projected rotation (with minutes) shows on every team page. Minutes come from each player's actual 2025-26 role, adjusted for REAL, CURRENT injuries pulled from the Basketball-Reference report \u2014 a season-ending tear (Jimmy Butler's ACL) sits the player, rather than a vague \u201cinjury-prone\u201d discount. A real-age aging curve nudges each projection toward a ~26.5 peak and down after, and the baseline itself is now model-native rather than anchored to an outside consensus. On top of the talent projection sits a bounded FIT adjustment (\u00b16 net rating) from an 8-dimension player model \u2014 spacing, shot creation, playmaking, two-way balance, and defensive pairings \u2014 so a roster of complementary parts grades out above the sum of its talent. The full team projection is calibrated to actual 2025-26 net rating (R\u00b2=0.75); wins map from net rating (\u2248 41 + 2 wins per point). No-move rosters return the current model baseline exactly, so any delta is purely your moves \u2014 still a current-roster projection, not a full-season forecast",
-  "Honest bounds on the impact metric itself: it\u2019s benchmarked against BPM and internal baselines, NOT against EPM, DARKO, LEBRON, RAPTOR, betting markets, or playoff outcomes \u2014 so \u201cbetter than BPM\u201d is the proven claim, not \u201cbest all-in-one model.\u201d Those all-in-one metrics live behind interactive apps with no public bulk export, so a head-to-head isn\u2019t something we can just download; and the 2026-27 market win totals that would anchor the team model aren\u2019t posted this early in the offseason. The RAPM history behind it spans 2021\u20132026 only (more seasons would sharpen the priors and mover validation); stint reconstruction still has a low-retention tail (median 48 lineup-minutes); and there is no role-change, coaching, or playoff-translation layer. Fit is now a real, bounded layer (\u00b16 net rating) rather than a hand-wave, but it's capped so talent still leads. Current injuries are modeled from real reports; a probabilistic future-injury model isn't. Where this becomes genuinely special is the combination \u2014 impact, minutes, real injuries, aging, fit, cap cost, and team outcomes modeled together \u2014 not any single scalar",
+  "Player value is \u201cApron Value\u201d: a 0-100 on-court scale built from box score and stint-level RAPM. It is benchmarked against BPM on a limited player-movement sample, and each value carries an uncertainty band",
+  "Team strength is a current-roster projection, not a full-season forecast. It uses position-aware minutes, age, reported injuries, and a bounded fit adjustment for spacing, playmaking, defense, and two-way balance, then maps projected net rating to wins",
+  "Model benchmarks are limited. The player model has not been tested head-to-head against public all-in-one metrics such as EPM, DARKO, LEBRON, RAPTOR, betting markets, or playoff outcomes",
   "Positions are data-driven: a player's primary spot is where he actually logged the most minutes (Basketball-Reference play-by-play position shares), and a genuine SECONDARY position is any spot he played \u226512% of his minutes at \u2014 so versatile players (a combo guard, a switchable forward) can slide in the rotation model. Players the play-by-play table misses fall back to BRef's assigned position, then the transactions feed, then a curated fallback for rostered players with no stat row; deep-bench flexibility falls back to adjacent spots",
   "Draft-pick values project the origin team\u2019s slot from roster strength (mean-reverting for far-out years) onto the same impact scale, risk- and time-discounted \u2014 the fairness meter sums impact per side",
-  "Pick-obligation ledger is parsed from RealGM prose (all 30 teams; classifications are regex over scraped text \u2014 the gnarliest multi-team swap chains default to the most restrictive read)",
+  "Pick-obligation ledger is parsed from RealGM prose across the league; complex multi-team swap chains default to the most restrictive read",
   "TPE v1 approximations: one exception per team per trade, whole players only, minted amounts capped at the largest single outgoing salary; choosing WHICH traded player generates the exception is still simplified",
   "Rookie-scale hold detection uses an RFA-with-≤4-YOS heuristic for the 250/300% tier — the CBA keys it on the contract type, which the feed doesn't carry directly",
-  "Where a room team's renounce set is ambiguous (which specific holds it shed), the audited seed follows a prefer-largest rule \u2014 per-team confidence and the full per-signing audit trail live in the data file (the one prior low-confidence flag — BKN's room math — resolved on Jul 6: a missed Claxton trade leg was inflating their sheet by $23.1M)",
+  "Where a room team's renounce set is ambiguous, the seed chooses a consistent prefer-largest-holds path and keeps per-team confidence in the data file",
   "The engine can calculate the full Art. VII §2(e) Apron Team Salary when detailed ledgers are supplied; the public dataset still lacks reliable per-player likely/unlikely/excluded-bonus feeds and some team-level tender/exception subtotals, so most live teams currently use zero for those rare adjustment buckets unless curated",
 ];
 
@@ -77,9 +77,9 @@ const NOT_MODELED = [
   "Swap mechanics & conditional incoming picks (an owed/protected-out own first is locked and Stepien-uncovered, but swaps don't resolve to outcomes, and acquired conditional firsts aren't counted as coverage)",
   "The >10%-renegotiation-blocks-a-later-extension rule",
 
-  "Likely vs. unlikely incentives are typed in the engine, but the public contract feed does not reliably expose every bonus bucket, so live-roster bonus math remains mostly zero-filled unless curated",
+  "Likely vs. unlikely incentives are typed in the engine, but the public contract feed does not reliably expose bonus buckets, so live-roster bonus math remains mostly zero-filled unless curated",
   "Second-round pick exception & two-way contracts have engine validators, but they are not yet user-simulable signing mechanisms in the offseason drawer",
-  "Designated-player Higher Max criteria are engine-callable from All-NBA/DPOY/MVP inputs, but the UI does not yet expose full designated rookie/veteran extension workflows or every designated-player roster-count limit",
+  "Designated-player Higher Max criteria are engine-callable from All-NBA/DPOY/MVP inputs, but the UI does not yet expose full designated rookie/veteran extension workflows or the designated-player roster-count limits",
   "Second-apron frozen-pick / draft-penalty status is engine-callable from known end-of-season apron history, but the live trade board does not yet project future end-of-season second-apron status or automatically block that far-out pick in user inventory",
 ];
 
@@ -101,7 +101,6 @@ function Section({
       <div className="mb-1 flex items-center gap-2">
         <span className="text-lg font-bold" style={{ color }}>{mark}</span>
         <h2 className="text-base font-semibold">{title}</h2>
-        <span className="text-xs text-[var(--muted)]">({items.length})</span>
       </div>
       <p className="mb-3 text-xs text-[var(--muted)]">{note}</p>
       <ul className="space-y-1.5 text-sm">
@@ -123,19 +122,17 @@ export default function AccuracyPage() {
         <div>
         <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          What the engine models, what&rsquo;s approximate, and what it doesn&rsquo;t model yet, with rosters as of {DATA_AS_OF}.
-          Every rule is checked against the CBA&rsquo;s own text in unit tests, and against real 2026 free-agency moves replayed through the engine.
+          What the engine models, what depends on incomplete public data, and what it does not model yet. Rosters and transactions are current to {DATA_AS_OF}.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 266 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
-          title="Modeled &amp; tested"
+          title="Modeled"
           color="var(--tier-below_cap)"
           mark="✓"
           items={MODELED}
-          note="Enforced by the rules engine and covered by unit/golden tests."
+          note="Enforced by the rules engine or by the session state built on top of it."
         />
         <Section
           title="Approximate"
@@ -149,7 +146,7 @@ export default function AccuracyPage() {
           color="var(--tier-second_apron)"
           mark="✗"
           items={NOT_MODELED}
-          note="Real CBA rules on the roadmap — the honest gap to front-office-complete."
+          note="Real rules or data layers that remain outside the live simulator."
         />
       </div>
     </div>

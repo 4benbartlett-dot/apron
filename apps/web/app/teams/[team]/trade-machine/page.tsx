@@ -25,7 +25,7 @@ export async function generateMetadata({
   const title = `${t.nickname} Trade Machine — 2026 Cap Sheet, Exceptions & Hard Cap`;
   const description = `${t.name} salary: ${fmtM(t.committed)} (${t.tier.replace(/_/g, " ")}). ${
     Number.isFinite(t.hardCap) ? `Hard-capped at ${fmtM(t.hardCap)} (${t.hardCapSource}). ` : ""
-  }Build ${t.nickname} trades with every 2023 CBA rule enforced.`;
+  }Build ${t.nickname} trades with modeled 2023 CBA checks and current roster data.`;
   return {
     title,
     description,
@@ -82,8 +82,8 @@ export default async function TeamTradeMachine({ params }: { params: Promise<{ t
       </div>
 
       <p className="mt-4 text-[14.5px] leading-relaxed">
-        Every {t.nickname} trade here is ruled on under the 2023 CBA — salary matching, apron limits,
-        hard caps, and pick rules — starting from their real 2026 offseason, not a blank slate.
+        {t.nickname} trades here are checked against the modeled 2023 CBA rules — salary matching, apron limits,
+        hard caps, and pick rules — starting from the current 2026 offseason data, not a blank slate.
         {Number.isFinite(t.hardCap) && (
           <>
             {" "}That includes the part most trade machines miss: the {t.nickname} are already{" "}
@@ -130,7 +130,7 @@ export default async function TeamTradeMachine({ params }: { params: Promise<{ t
           ))}
         </div>
         <p className="mt-2 text-[12px] text-[var(--muted)]">
-          Live figures from the audited 2026 offseason feed — exceptions the real July spent stay spent.
+          Figures come from the current 2026 offseason feed; exceptions already spent in the feed stay spent.
         </p>
       </section>
 

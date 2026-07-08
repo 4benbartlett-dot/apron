@@ -70,9 +70,9 @@ const usedItThisJuly = (matcher: (src: string) => boolean, label: string): TermS
     heading: `Who used it this July`,
     body: teams.length
       ? [
-          `Real 2026 offseason usage, straight from the audited feed: ${teams
+          `Current 2026 offseason data: ${teams
             .map((t) => `the ${teamNickname(t.team)} (${t.source})`)
-            .join("; ")}. Each of those teams is hard-capped at the first apron of ${fmtM(C.firstApron)} for the rest of the season — the sim enforces that cap on every trade you build.`,
+            .join("; ")}. Each of those teams is hard-capped at the first apron of ${fmtM(C.firstApron)} for the rest of the season.`,
         ]
       : [`No team has used the ${label} yet this offseason.`],
   };
@@ -84,7 +84,7 @@ export const SEO_TERMS: SeoTerm[] = [
     key: "first_apron",
     question: "What is the first apron?",
     metaTitle: `First Apron Explained — ${fmtM(C.firstApron)} in 2026-27 | NBA CBA`,
-    metaDescription: `The NBA first apron for 2026-27 is ${fmtFull(C.firstApron)}. What it restricts, which moves hard-cap a team at it, and every team capped there right now.`,
+    metaDescription: `The NBA first apron for 2026-27 is ${fmtFull(C.firstApron)}. What it restricts, which moves hard-cap a team at it, and the teams currently capped there in the data.`,
     sections: [
       lines(),
       {
@@ -114,14 +114,14 @@ export const SEO_TERMS: SeoTerm[] = [
     key: "second_apron",
     question: "What is the second apron?",
     metaTitle: `Second Apron Explained — ${fmtM(C.secondApron)} in 2026-27 | NBA CBA`,
-    metaDescription: `The NBA second apron for 2026-27 is ${fmtFull(C.secondApron)}. The full restriction list — no aggregation, no cash, frozen picks — in plain English.`,
+    metaDescription: `The NBA second apron for 2026-27 is ${fmtFull(C.secondApron)}. The key restrictions — no aggregation, no cash, frozen picks — in plain English.`,
     sections: [
       lines(),
       {
         heading: "The restriction list",
         body: [
           "Second-apron teams cannot aggregate salaries in a trade (no combining two contracts to match one bigger one), cannot send cash in any trade, cannot use any mid-level exception, cannot sign regular-season waiver-market players covered by row D, and their own first-round pick seven drafts out is frozen — repeat offenders see it moved to the end of the round.",
-          "This is why star-heavy rosters shed role players: every dollar over the second apron closes another door.",
+          "This is why star-heavy rosters shed role players: crossing the second apron closes off several ordinary team-building tools.",
         ],
       },
     ],
@@ -141,8 +141,8 @@ export const SEO_TERMS: SeoTerm[] = [
     slug: "salary-matching",
     key: "matching",
     question: "How does NBA salary matching work?",
-    metaTitle: "NBA Salary Matching Rules 2026-27 — Exact Trade Math | Over the Apron",
-    metaDescription: `The exact 2026-27 trade-matching bands: 200% + $250k, outgoing + $9,095,709, or 125% + $250k — and how the aprons shrink them.`,
+    metaTitle: "NBA Salary Matching Rules 2026-27 — Trade Math | Over the Apron",
+    metaDescription: `The 2026-27 trade-matching bands: 200% + $250k, outgoing + $9,095,709, 125% + $250k, and dollar-for-dollar apron matching.`,
     sections: [
       {
         heading: "The 2026-27 matching bands",
@@ -150,7 +150,8 @@ export const SEO_TERMS: SeoTerm[] = [
           { label: "Small salaries (expanded)", value: "200% of outgoing + $250,000" },
           { label: "Mid salaries (expanded)", value: "Outgoing + $9,095,709" },
           { label: "Large salaries (expanded)", value: "125% of outgoing + $250,000" },
-          { label: "First or second apron", value: "100% of outgoing — dollar-for-dollar, no expanded bands" },
+          { label: "First-apron teams", value: "100% of outgoing — dollar-for-dollar" },
+          { label: "Second-apron teams", value: "100% of outgoing (no aggregation, no cash)" },
         ],
       },
       {
@@ -163,7 +164,7 @@ export const SEO_TERMS: SeoTerm[] = [
     faq: [
       {
         q: "Does using expanded matching have a cost?",
-        a: "Yes — taking back more than 125% + $250k of outgoing salary hard-caps the team at the first apron for the rest of the season.",
+        a: "Yes — taking back more salary than you send by using the expanded trade-matching rules hard-caps the team at the first apron for the rest of the season.",
       },
       {
         q: "What is aggregation?",
@@ -176,7 +177,7 @@ export const SEO_TERMS: SeoTerm[] = [
     slug: "traded-player-exception",
     key: "tpe",
     question: "What is a traded-player exception (TPE)?",
-    metaTitle: "Traded-Player Exceptions (TPE) Explained — Every Active NBA TPE | Over the Apron",
+    metaTitle: "Traded-Player Exceptions (TPE) Explained — Active NBA TPEs | Over the Apron",
     metaDescription:
       "What a TPE is, how one is created, the first-apron catch on using one — plus the biggest active NBA trade exceptions right now.",
     sections: [
@@ -191,7 +192,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "The first-apron catch",
         body: [
           "A pre-existing TPE (one created in an earlier transaction window) cannot be used if it would leave the team above the first apron — and using one hard-caps the team there for the season. A TPE created earlier in the same offseason is exempt from that particular trap.",
-          "The sim carries every real active TPE and auto-fits the right one to your trade, with the apron consequence printed on the receipt.",
+          "The sim carries active TPEs from the data feed and tries the usable exception when a trade needs one, with the apron consequence printed on the receipt.",
         ],
       },
     ],
@@ -219,7 +220,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "How it actually bites",
         body: [
           "The rule: a team may never leave itself without a first-round pick in consecutive future drafts. The subtlety: picks you already owe count against you. If your 2030 first is owed to another team — even protected — trading your 2031 first leaves 2030 and 2031 both uncovered, and the deal is dead. The offending pick is the one you just added, not the one that left years ago.",
-          "The sim tracks every real obligation for all 30 teams and names the exact pick that breaks the rule.",
+          "The sim tracks the current obligation ledger and names the pick that creates the Stepien problem.",
         ],
       },
     ],
@@ -240,7 +241,7 @@ export const SEO_TERMS: SeoTerm[] = [
     key: "ntmle",
     question: "What is the mid-level exception (MLE)?",
     metaTitle: `Mid-Level Exception 2026-27 — ${fmtM(C.nonTaxpayerMLE)} Non-Taxpayer MLE | NBA CBA`,
-    metaDescription: `The 2026-27 non-taxpayer MLE is ${fmtFull(C.nonTaxpayerMLE)}. Who can use it, the first-apron hard cap it triggers, and every team that spent it this July.`,
+    metaDescription: `The 2026-27 non-taxpayer MLE is ${fmtFull(C.nonTaxpayerMLE)}. Who can use it, the first-apron hard cap it triggers, and current July usage in the data.`,
     sections: [
       {
         heading: "The 2026-27 exception amounts",
@@ -276,7 +277,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "How it works",
         body: [
           `A team that uses cap room gives up the regular MLEs and bi-annual exception — in exchange it can sign one or more players using the Room MLE (${fmtFull(C.roomMLE)} in 2026-27, up to 3 years) even after its cap space is gone.`,
-          "The Lakers ran exactly this playbook in July 2026: room signings first, then Collin Sexton for the full Room MLE.",
+          "The Lakers' current feed state reflects this pattern: room operation first, then a Room MLE signing.",
         ],
       },
     ],
@@ -328,7 +329,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "Where it decides real deals",
         body: [
-          "Bird rights are why a capped-out team can hand its own star a max. They're also a trap: when a role player's Non-Bird 120% raise falls short of his market, the team must dip into its mid-level instead — exactly what happened with Jock Landale and the Hawks this July, which is why Atlanta is hard-capped.",
+          "Bird rights are why a capped-out team can hand its own star a max. They're also a constraint: when a player's Non-Bird 120% raise falls short of his market, the team may need cap room or an exception instead.",
         ],
       },
     ],
@@ -355,7 +356,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "The part everyone forgets",
         body: [
-          "Cap space isn't cap minus payroll — every unrenounced free agent sits on the books as a cap hold. To spend room you renounce the holds, which surrenders those players' Bird rights. And once a team USES room, it forfeits the regular MLEs and bi-annual exception for the year, keeping only the smaller Room MLE.",
+          "Cap space isn't cap minus payroll — unrenounced free agents sit on the books as cap holds. To spend room you renounce the holds, which surrenders those players' Bird rights. And once a team uses room, it forfeits the regular MLEs and bi-annual exception for the year, keeping only the smaller Room MLE.",
         ],
       },
     ],
@@ -371,9 +372,9 @@ export const SEO_TERMS: SeoTerm[] = [
     slug: "hard-cap",
     key: "hard_cap",
     question: "What triggers an NBA hard cap?",
-    metaTitle: "NBA Hard Caps Explained — Every Trigger and Every Capped 2026 Team | Over the Apron",
+    metaTitle: "NBA Hard Caps Explained — Triggers and Current Capped Teams | Over the Apron",
     metaDescription:
-      "The NBA has no permanent hard cap — teams create their own. Every trigger, both apron lines, and all teams currently hard-capped.",
+      "The NBA has no permanent hard cap — teams create their own. The main triggers, both apron lines, and teams currently hard-capped in the data.",
     sections: [
       {
         heading: "First-apron triggers",
@@ -414,7 +415,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "Why holds exist",
         body: [
-          "Without holds, a team could spend all its cap room on outside free agents and THEN re-sign its own stars with Bird rights — double-spending the same space. The hold reserves a placeholder charge (a multiple of last salary) for every unrenounced free agent until he signs or is renounced.",
+          "Without holds, a team could spend all its cap room on outside free agents and then re-sign its own stars with Bird rights — double-spending the same space. The hold reserves a placeholder charge (a multiple of last salary) for an unrenounced free agent until he signs or is renounced.",
           "One subtlety the sim models: holds count against CAP room, but not against APRON calculations — hard caps are tested against signed salary only.",
         ],
       },
@@ -431,9 +432,9 @@ export const SEO_TERMS: SeoTerm[] = [
     slug: "minimum-contract",
     key: "minimum",
     question: "How much is an NBA minimum contract?",
-    metaTitle: "NBA Minimum Salaries 2026-27 — Full Scale by Years of Service | Over the Apron",
+    metaTitle: "NBA Minimum Salaries 2026-27 — Scale by Years of Service | Over the Apron",
     metaDescription:
-      "The complete 2026-27 minimum-salary scale, the 2-YOS deemed charge on veteran one-year minimums, and why every team can always sign minimums.",
+      "Selected rows from the 2026-27 minimum-salary scale, the 2-YOS deemed charge on veteran one-year minimums, and why minimums remain available at any payroll.",
     sections: [
       {
         heading: "The 2026-27 minimum scale (selected rows)",
@@ -453,7 +454,7 @@ export const SEO_TERMS: SeoTerm[] = [
     faq: [
       {
         q: "Can hard-capped teams sign minimums?",
-        a: "Yes — the minimum exception is always available, to every team, regardless of cap, tax, or apron status.",
+        a: "Yes — the minimum exception remains available regardless of cap, tax, or apron status.",
       },
     ],
     related: ["mid-level-exception", "cap-space"],
@@ -537,19 +538,19 @@ export function teamSeo(id: string): TeamSeo {
       q: `Can the ${nickname} aggregate salaries in a trade?`,
       a: overSecond
         ? `No — they're over the second apron (${fmtM(C.secondApron)}), which bars aggregation entirely.`
-        : `Yes — they're below the second apron, so they can combine outgoing contracts to match a bigger incoming salary${overFirst ? ", though being over the first apron limits them to 100% + $250k matching" : ""}.`,
+        : `Yes — they're below the second apron, so they can combine outgoing contracts to match a bigger incoming salary${overFirst ? ", though being over the first apron limits matching to dollar-for-dollar" : ""}.`,
     },
     {
       q: `Are the ${nickname} hard-capped?`,
       a: capped
-        ? `Yes — at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their real July moves"}. Every trade in the sim is checked against that line.`
+        ? `Yes — at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their July moves"}. Later moves in the sim are checked against that line.`
         : `Not yet — but using the full MLE, the BAE, expanded matching, a sign-and-trade acquisition, or a row-D regular-season waiver signing would freeze the first apron (${fmtM(C.firstApron)}) as their ceiling; taxpayer MLE, row-H aggregation, or row-I cash can freeze the second apron.`,
     },
     {
       q: `Can the ${nickname} trade a first-round pick?`,
       a:
         owesFirsts > 0
-          ? `Carefully — they already owe ${owesFirsts} future first${owesFirsts > 1 ? "s" : ""}, and the Stepien rule bars leaving consecutive future drafts uncovered. The sim tracks every obligation and names the exact pick that would break the rule.`
+          ? `Carefully — they already owe ${owesFirsts} future first${owesFirsts > 1 ? "s" : ""}, and the Stepien rule bars leaving consecutive future drafts uncovered. The sim tracks the current obligations and names the pick that would break the rule.`
           : `Yes — they control their own future firsts${extraFirsts ? ` plus ${extraFirsts} incoming` : ""}, subject to the Stepien rule's ban on trading firsts in consecutive future drafts.`,
     },
   ];
