@@ -8,6 +8,7 @@ import waivedRaw from "./waived-2025-26.json";
 import impactRaw from "./impact-2026.json";
 import teamStrengthRaw from "./team-strength-2026.json";
 import positionsRaw from "./positions-2026.json";
+import positionOverridesRaw from "./position-overrides-2026.json";
 import playerBioRaw from "./player-bio-2026.json";
 import playerStatsRaw from "./player-stats-2026.json";
 import playerDimsRaw from "./player-dimensions-2026.json";
@@ -135,14 +136,26 @@ export interface TeamCalibration {
 }
 export const TEAM_CALIBRATION: TeamCalibration =
   (teamStrengthRaw as { calibration: TeamCalibration }).calibration;
+const positionOverrides = positionOverridesRaw as {
+  byId?: Record<string, string>;
+  secondaryById?: Record<string, string[]>;
+};
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage —
  * data-driven (most-played spot from play-by-play minute shares) where
- * available, else Basketball-Reference's assigned position. */
-export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
-/** Measured SECONDARY positions (spots a player logged ≥12% of his minutes at,
- * from play-by-play shares), for players with a meaningful second slot. */
-export const SECONDARY_POSITIONS_2026: Record<string, string[]> =
-  (positionsRaw as { secondaryById?: Record<string, string[]> }).secondaryById ?? {};
+ * available, else Basketball-Reference's assigned position. Curated overrides
+ * (position-overrides-2026.json) win where present. */
+export const POSITIONS_2026: Record<string, string> = {
+  ...(positionsRaw as { byId: Record<string, string> }).byId,
+  ...(positionOverrides.byId ?? {}),
+};
+/** SECONDARY positions a player realistically plays. Base is the play-by-play
+ * measure (spots he logged ≥12% of his minutes at); curated overrides fill the
+ * ~250 rostered players the play-by-play table never measured and correct
+ * role-blind cases (a small-ball five whose second spot is C, not SF). */
+export const SECONDARY_POSITIONS_2026: Record<string, string[]> = {
+  ...((positionsRaw as { secondaryById?: Record<string, string[]> }).secondaryById ?? {}),
+  ...(positionOverrides.secondaryById ?? {}),
+};
 /** Raw share of minutes at each position (PG/SG/SF/PF/C), where measured. */
 export const POSITION_SHARES_2026: Record<string, Record<string, number>> =
   (positionsRaw as { sharesById?: Record<string, Record<string, number>> }).sharesById ?? {};
