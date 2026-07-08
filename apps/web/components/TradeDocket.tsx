@@ -160,6 +160,9 @@ export function tradeConsequences(
   teams: TeamTradeSummary[],
   tpeUse: Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }> | undefined,
   holdsOf: (t: string) => number,
+  /** Engine rule checks — used to surface the row-H aggregation / row-I cash
+   * second-apron hard caps, which finish at/below 2A so no tier change shows. */
+  checks?: { ruleId?: string; ok?: boolean; teamId?: string }[],
 ): MoveConsequence[] {
   const out: MoveConsequence[] = [];
   const cappedNew = new Set<string>();
@@ -186,6 +189,19 @@ export function tradeConsequences(
         team: t.teamId,
         severity: "cap",
         text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) — it spent a Regular-Season-arisen traded-player exception (restriction row F).`,
+      });
+    }
+    // Row H / row I: aggregating salaries or sending cash is LEGAL if the team
+    // finishes at/below the second apron, but it hard-caps them there for the
+    // season — and since the tier doesn't change, nothing else would say so.
+    const aggCap = checks?.some((c) => c.ok && c.teamId === t.teamId && c.ruleId === "hard_cap_second_apron_aggregation");
+    const cashCap = checks?.some((c) => c.ok && c.teamId === t.teamId && c.ruleId === "hard_cap_second_apron_cash");
+    if ((aggCap || cashCap) && !cappedNew.has(t.teamId)) {
+      cappedNew.add(t.teamId);
+      out.push({
+        team: t.teamId,
+        severity: "cap",
+        text: `${name(t.teamId)} is now hard-capped at the second apron (${fmtM(C.secondApron)}) for the season — it ${aggCap ? "aggregated salaries to match one incoming player (Art. VII §2(e), row H)" : "sent cash in the trade (row I)"}.`,
       });
     }
     if (t.postTradeTier === "second_apron") {
