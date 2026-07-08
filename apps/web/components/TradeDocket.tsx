@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { matchRuleLabel, classifyTier, type ApronTier, type TeamTradeSummary } from "@apron/cba-engine";
 import { C, teamMeta, feedStateOf, isRowFCapped } from "@/lib/league";
-import { pickShareLabel } from "@/lib/trade-share";
+import { pickShareLabel, swapShareLabel, type DecodedSwap } from "@/lib/trade-share";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
@@ -35,13 +35,19 @@ export function buildDocket(
   nameOf: (id: string) => string,
   salaryOf: (id: string) => number,
   tpeUse?: Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }>,
+  swaps: DecodedSwap[] = [],
 ): DocketTeam[] {
   const touched = (t: string) =>
     players.some((p) => p.from === t || p.to === t) ||
-    Object.values(picks).some((m) => m.from === t || m.to === t);
+    Object.values(picks).some((m) => m.from === t || m.to === t) ||
+    swaps.some((s) => s.favoredTo === t || s.otherTeam === t);
   return verdictTeams
     .filter((t) => touched(t.teamId))
     .map((t) => {
+      // A swap right is incoming for the favored team ("to") and outgoing for
+      // the team whose pick it encumbers ("from"), so it books on both legs.
+      const swapSide = (dir: "to" | "from") =>
+        swaps.filter((s) => (dir === "to" ? s.favoredTo : s.otherTeam) === t.teamId);
       const side = (dir: "to" | "from"): DocketLine[] => [
         ...players
           .filter((p) => p[dir] === t.teamId)
@@ -49,6 +55,7 @@ export function buildDocket(
         ...Object.entries(picks)
           .filter(([, m]) => m[dir] === t.teamId)
           .map(([id]) => ({ label: pickShareLabel(id), pick: true })),
+        ...swapSide(dir).map((s) => ({ label: swapShareLabel(s, t.teamId), pick: true })),
       ];
       return {
         teamId: t.teamId,

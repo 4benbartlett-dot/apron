@@ -118,7 +118,7 @@ export default function OffseasonSim() {
       const t = params.get("t");
       if (t) {
         const d = decodeTradeParam(t);
-        if (d && (d.players.length || d.picks.length)) {
+        if (d && (d.players.length || d.picks.length || d.swaps.length)) {
           const saved = JSON.parse(localStorage.getItem("apron_board_v1") || "[]");
           const merged = [...d.teams, ...(Array.isArray(saved) ? saved : [])]
             .filter((id: string, i: number, arr: string[]) => TEAM_IDS.includes(id) && arr.indexOf(id) === i)
@@ -126,6 +126,9 @@ export default function OffseasonSim() {
           setBoard(merged);
           setSel(Object.fromEntries(d.players.map((m) => [m.playerId, { from: m.from, to: m.to }])));
           setPickSel(Object.fromEntries(d.picks.map((m) => [m.id, { from: m.from, to: m.to }])));
+          setSwapSel(
+            d.swaps.map((s) => ({ year: s.year, round: s.round as 1 | 2, favoredTo: s.favoredTo, otherTeam: s.otherTeam })),
+          );
           setShareOpen(true);
           track("trade_link_open");
           setReady(true);
@@ -287,9 +290,9 @@ export default function OffseasonSim() {
     return c ? currentSalary(c) : 0;
   };
   const docketTeams = useMemo(
-    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf, trade.tpeUse),
+    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf, trade.tpeUse, swapSel),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [trade, pickSel, verdict, lg],
+    [trade, pickSel, swapSel, verdict, lg],
   );
   const trayHauls = useMemo<TrayHaul[]>(() => {
     const m: Record<string, { labels: string[]; tools: string[] }> = {};
@@ -560,6 +563,7 @@ export default function OffseasonSim() {
         <ShareCardModal
           trade={trade}
           picks={sharePicks}
+          swaps={swapSel}
           verdict={verdict}
           extraViolations={[...stepienViolations, ...hardCapTradeViolations]}
           holdsOf={lg.teamHolds}
