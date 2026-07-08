@@ -1,10 +1,11 @@
 // Positions per player from Basketball-Reference. PRIMARY source is the
 // play-by-play table, whose pct_1..pct_5 columns give the share of a player's
 // minutes actually spent at PG/SG/SF/PF/C — so we get a data-driven primary
-// (most-played) AND real secondary positions (any spot he logged ≥20% at).
+// (most-played) AND real secondary positions (any spot he logged ≥12% at).
 // Falls back to the advanced page's single position (full coverage of everyone
 // who played) and then the transactions feed (rookies) for players the
-// play-by-play table misses.
+// play-by-play table misses, plus a curated final fallback for rostered players
+// without a stat-row position source.
 //   node scripts/scrape-positions.mjs
 // Output: src/positions-2026.json {
 //   byId: { id: primary }, secondaryById: { id: [pos,…] }, sharesById: { id: {PG,SG,SF,PF,C} }
@@ -39,7 +40,7 @@ async function main() {
   const secondaryById = {};
   const sharesById = {};
 
-  // 1) Play-by-play: real position shares → primary (argmax) + secondaries (≥20%).
+  // 1) Play-by-play: real position shares → primary (argmax) + secondaries (≥12%).
   const $pbp = await fetchDoc(PBP);
   let $tbl = null;
   $pbp("table").each((_, t) => { if ($pbp(t).find('[data-stat="pct_1"]').length) $tbl = $pbp(t); });

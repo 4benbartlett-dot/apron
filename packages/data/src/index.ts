@@ -136,8 +136,8 @@ export const TEAM_CALIBRATION: TeamCalibration =
  * data-driven (most-played spot from play-by-play minute shares) where
  * available, else Basketball-Reference's assigned position. */
 export const POSITIONS_2026: Record<string, string> = (positionsRaw as { byId: Record<string, string> }).byId;
-/** Measured SECONDARY positions (spots a player logged ≥20% of his minutes at,
- * from play-by-play shares), for the ~1-in-5 genuinely versatile players. */
+/** Measured SECONDARY positions (spots a player logged ≥12% of his minutes at,
+ * from play-by-play shares), for players with a meaningful second slot. */
 export const SECONDARY_POSITIONS_2026: Record<string, string[]> =
   (positionsRaw as { secondaryById?: Record<string, string[]> }).secondaryById ?? {};
 /** Raw share of minutes at each position (PG/SG/SF/PF/C), where measured. */

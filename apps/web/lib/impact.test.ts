@@ -140,8 +140,8 @@ describe("team projections (net rating + wins, delta from moves)", () => {
 
   it("the aging prior never leaks into a no-move baseline", () => {
     // Aging is applied to both the live and base roster, so an untouched roster
-    // returns exactly the author's shipped baseline — the coarse aging layer can
-    // only ever refine the DELTA from a move, never distort the standings floor.
+    // returns exactly the model-native baseline. The aging layer is part of the
+    // baseline now, but it must not create no-move drift.
     for (const t of ["OKC", "BOS", "DEN", "WAS"]) {
       const p = teamProjection(t, BASE_CONTRACTS)!;
       expect(p.deltaNrtg).toBe(0);
@@ -155,6 +155,19 @@ describe("team projections (net rating + wins, delta from moves)", () => {
       if (!p) continue;
       expect(p.projWins).toBeGreaterThanOrEqual(12);
       expect(p.projWins).toBeLessThanOrEqual(73);
+    }
+  });
+
+  it("model-native standings conserve the NBA's 1,230 total wins", () => {
+    const wins = TEAM_IDS.reduce((sum, t) => sum + (teamProjection(t, BASE_CONTRACTS)?.baseWins ?? 0), 0);
+    expect(wins).toBe(1230);
+  });
+
+  it("the exported team-strength snapshot mirrors the model-native baseline", () => {
+    for (const t of TEAM_IDS) {
+      const p = teamProjection(t, BASE_CONTRACTS)!;
+      const s = teamStrengthOf(t)!;
+      expect(s.projNrtg).toBe(p.baseNrtg);
     }
   });
 });
