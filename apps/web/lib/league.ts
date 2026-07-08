@@ -1352,14 +1352,17 @@ export function pickValue(year: number, round: 1 | 2, origin?: string): number {
   // Lottery flattening: the worst team's EXPECTED slot is ~2.5, not 1.
   const now = 2.5 + (rank - 1) * (27.5 / 29);
   const slot = now * revert + 15.5 * (1 - revert);
-  // Impact-points units (pts/100 above replacement): a top first ≈ a solid
-  // rotation player's impact, risk- and time-discounted; late firsts and
-  // seconds taper to fractions of a point.
+  // Impact-points units (pts/100 above replacement) on the SAME scale as a
+  // player's assetMeterValue, so picks and players trade like-for-like: a top
+  // first ≈ a low starter (~2.7), a mid first ≈ a rotation piece (~1.4), a late
+  // first ≈ a fringe rotation player (~0.8), seconds a fraction of that. Kept to
+  // 0.1 precision — NOT rounded to a whole number, which used to collapse a
+  // contender's first and every second to 0.
   const meter =
     round === 1
-      ? 2.8 * Math.exp(-0.08 * (slot - 1))
-      : 0.4 * Math.exp(-0.05 * (slot - 1));
-  return Math.round(meter * Math.pow(0.97, dist));
+      ? 2.9 * Math.exp(-0.05 * (slot - 1))
+      : 0.5 * Math.exp(-0.05 * (slot - 1));
+  return Math.round(meter * Math.pow(0.97, dist) * 10) / 10;
 }
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {
   return contracts
