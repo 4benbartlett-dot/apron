@@ -69,7 +69,7 @@ export default function StandingsPage() {
         Each team&rsquo;s projected 2026-27 record — the model&rsquo;s own read on the current roster (talent + fit), calibrated to real net ratings and ranked within its conference.
         {moved
           ? " The Δ column shows how your offseason moves change each team — talent, rotation-minute displacement (a star that benches a good player is worth less than one that displaces a scrub), and fit."
-          : " With no moves staged, this is the current roster — real injuries (a torn ACL cuts a star&rsquo;s minutes), the position-aware rotation, aging, and fit all baked in. Make trades and signings and it updates live."}
+          : " With no moves staged, this is the current roster — real injuries (a torn ACL cuts a star’s minutes), the position-aware rotation, aging, and fit all baked in. Make trades and signings and it updates live."}
         {" "}A current-roster projection, not a full-season forecast (no coaching or playoff translation).
       </p>
 
