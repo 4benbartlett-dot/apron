@@ -1166,17 +1166,31 @@ function multiYearBpm(playerId: string): number {
     { bpm: hist["2025"]?.bpm, mp: hist["2025"]?.mp, w: 0.35 },
     { bpm: hist["2024"]?.bpm, mp: hist["2024"]?.mp, w: 0.2 },
   ];
-  let num = 0, den = 0;
+  let num = 0, den = 0, totalMp = 0;
   for (const s of seasons) {
     if (s.bpm == null || !Number.isFinite(s.bpm)) continue;
-    const conf = fitClamp((s.mp ?? 0) / 1400, 0.15, 1); // a thin season counts less
-    num += s.bpm * s.w * conf;
+    // Confidence is STRICTLY minutes-proportional (no floor), so a garbage-time
+    // handful of minutes barely counts — a +44 BPM from a 4-minute cameo used to
+    // dominate here. Each season's BPM is also clipped to a sane range so a
+    // freak tiny-sample number can't move a player's value.
+    const conf = fitClamp((s.mp ?? 0) / 1400, 0, 1);
+    const bpm = fitClamp(s.bpm, -12, 15);
+    num += bpm * s.w * conf;
     den += s.w * conf;
+    totalMp += s.mp ?? 0;
   }
-  // A rookie has no NBA seasons yet — fall back to his projected rookie-season
-  // BPM (draft slot + college + consensus) so a top pick isn't valued as
-  // replacement-level and a second-rounder isn't either.
-  return den > 0 ? num / den : (cur?.bpm ?? PROJECTED_PLAYERS_2026[playerId]?.bpm ?? 0);
+  if (den > 0) {
+    // A thin overall body of work (a few hundred career minutes) is regressed
+    // toward the league mean (0), not a below-replacement prior — that de-noises
+    // a small sample without biasing the league aggregate down.
+    const raw = num / den;
+    const shrink = totalMp / (totalMp + 350);
+    return raw * shrink;
+  }
+  // No qualifying NBA minutes (a rookie, or a returning vet) — fall back to his
+  // projected BPM (draft slot + college + consensus, or the returning-vet read)
+  // so a top pick isn't valued as replacement-level and a second-rounder isn't.
+  return cur?.bpm ?? PROJECTED_PLAYERS_2026[playerId]?.bpm ?? 0;
 }
 
 /** Factual-accolade bonus on the Apron-Value scale. RECENT All-NBA / All-
