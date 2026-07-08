@@ -1,7 +1,11 @@
 export * from "./types";
 export * from "./constants";
 export {
+  apronCommittedSalary,
+  apronSalaryForYear,
+  apronTeamSalary,
   salaryForYear,
+  tradeSalaryForYear,
   findContract,
   teamSalary,
   classifyTier,
@@ -30,9 +34,17 @@ export {
 export { stretchProvision, type StretchResult } from "./stretch";
 export {
   poisonPillValues,
+  validateSecondRoundPickException,
+  validateTwoWayContract,
+  twoWaySalary,
+  meetsHigherMaxCriteria,
+  designatedVeteranMaxPct,
   arenasFirstYearMax,
   violatesStepien,
   validateOfferSheet,
   renegotiationAllowed,
   type OfferSheetVerdict,
+  type SecondRoundPickExceptionOffer,
+  type TwoWayContractOffer,
+  type HigherMaxCriteriaInput,
 } from "./provisions";

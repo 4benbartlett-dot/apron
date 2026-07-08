@@ -139,7 +139,7 @@ export const GLOSSARY = {
   },
   hard_cap: {
     title: "Hard cap",
-    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary (signed money — cap holds don't count). This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
+    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade, using an aggregated trade to drop through the second apron, or sending cash in a trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary, not cap holds. This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
     cite: "2023 CBA · Art. VII §2(e)",
   },
   no_trade: {

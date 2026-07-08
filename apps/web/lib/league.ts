@@ -1393,6 +1393,8 @@ export type Move =
       picks?: { id: string; to: string }[];
       /** TPE absorption chosen when the trade was staged (per team). */
       tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
+      /** Optional cash sent in the trade; row I creates a second-apron hard cap. */
+      cash?: { from: string; to: string; amount: number }[];
     }
   | {
       kind: "sign";
@@ -1636,6 +1638,7 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
  * (first apron), Taxpayer-MLE signings (second apron), and trades where a
  * sub-apron team took back MORE salary than it sent beyond what cap-room
  * absorption covers — the Expanded TPE, restriction-table row E (first
+ * apron) — plus row H aggregated trade matching and row I cash trades (second
  * apron). Recomputed by replaying the ledger, so saved sessions and shared
  * ?gm= links are repaired retroactively; removing an early move un-triggers
  * caps that no longer apply. Hard caps test APRON salary — holds excluded. */
@@ -1662,11 +1665,25 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
       if (players.length) {
         const teams = [...new Set(players.flatMap((p) => [p.from, p.to]))];
         const holds = holdsByTeam(freeAgentsOf(cs).filter((f) => !renounced.has(f.playerId)));
-        const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds, tpeUse: m.tpeUse }, C);
+        const signedPre = new Map(
+          teams.map((team) => [
+            team,
+            cs
+              .filter((c) => c.teamId === team)
+              .reduce((sum, c) => sum + currentSalary(c), 0),
+          ]),
+        );
+        const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds, tpeUse: m.tpeUse, cash: m.cash }, C);
         // Restriction-table row F: using a PRE-EXISTING TPE hard-caps the
         // team at the first apron for the rest of the year.
         for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
           if (use.preExisting && use.amount > 0) capAt(team, C.firstApron);
+        }
+        for (const check of v.checks) {
+          if (!check.ok || !check.teamId) continue;
+          if (check.ruleId === "hard_cap_second_apron_aggregation" || check.ruleId === "hard_cap_second_apron_cash") {
+            capAt(check.teamId, C.secondApron);
+          }
         }
         for (const t of v.teams) {
           const sub = t.preTradeTier !== "first_apron" && t.preTradeTier !== "second_apron";
@@ -1678,7 +1695,7 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
           // expanded formula (row E) does. Assume the team takes the cap-free
           // route whenever room covers the whole incoming.
           const absorption =
-            Math.max(0, C.salaryCap - t.preTradeSalary - (holds[t.teamId] ?? 0)) +
+            Math.max(0, C.salaryCap - (signedPre.get(t.teamId) ?? t.preTradeSalary) - (holds[t.teamId] ?? 0)) +
             t.outgoingSalary +
             250_000;
           if (matchable > absorption + 1) capAt(t.teamId, C.firstApron);

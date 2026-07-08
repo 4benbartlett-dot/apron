@@ -20,6 +20,22 @@ export interface ContractYear {
   /** Base salary / cap hit for this league year, in dollars. */
   salary: number;
   guarantee: GuaranteeType;
+  /**
+   * Performance bonuses excluded from Salary under Art. VII §3(d). They are
+   * not part of ordinary Team Salary, but Art. VII §2(e)(1)(i) adds them back
+   * for Apron Team Salary.
+   */
+  excludedPerformanceBonus?: number;
+  /**
+   * Salary value for traded-player-exception matching when the CBA deems a
+   * different amount than the cap hit, e.g. unearned non-guaranteed money under
+   * Art. VII §6(j)(6). Omitted = use `salary`.
+   */
+  tradeSalary?: number;
+  /** Informational bonus split for max/SRPE helpers. `salary` should still be
+   * the cap Salary amount after likely/unlikely treatment. */
+  likelyBonus?: number;
+  unlikelyBonus?: number;
 }
 
 /** A player's re-signing rights with their current team. */
@@ -37,6 +53,14 @@ export interface Contract {
   birdStatus?: BirdStatus;
   /** The exception/mechanism used to sign the deal (informational for now). */
   signedUsing?: string;
+  /** Years of NBA service for minimum salary, max salary, two-way, and apron addback rules. */
+  yearsOfService?: number;
+  /** True for a Standard NBA Contract signed by a free agent. Used for the 0/1-YOS apron/tax addback. */
+  signedAsFreeAgent?: boolean;
+  /** True for two-way contracts, which have their own roster/compensation rules and do not create TPEs. */
+  twoWay?: boolean;
+  /** True when this contract is at the player's applicable minimum salary. */
+  minimumSalary?: boolean;
   /** A waived/stretched cap charge: counts toward team salary and aprons,
    * but the player is not on the roster — not tradeable, not extendable,
    * never a free agent of this team. */
@@ -59,6 +83,13 @@ export interface Contract {
    * salary); the acquiring team still counts his full salary.
    */
   bycPriorSalary?: number;
+  /**
+   * Rookie-scale extension salaries for the poison-pill window: after the
+   * extension is signed but before it takes effect, the sender uses the current
+   * salary while the acquirer uses the average of current + extension salaries
+   * for room/matching purposes (Art. VII §8(g)).
+   */
+  poisonPillExtensionSalaries?: number[];
 }
 
 export interface Team {
@@ -145,6 +176,25 @@ export interface CashMovement {
   amount: number;
 }
 
+export interface ApronTeamSalaryAdjustments {
+  /** Art. VII §2(e)(1)(iii): amounts addable to Team Salary under §4(a)(1)(iii). */
+  section4a1iiiAmounts?: number;
+  /** Art. VII §2(e)(1)(iv): Free Agent Amounts excluded from Apron Team Salary. */
+  freeAgentAmounts?: number;
+  /** Art. VII §2(e)(1)(v): RFA qualifying/first-refusal amounts added back. */
+  restrictedFreeAgentTenderAmounts?: number;
+  /** Art. VII §2(e)(1)(vi): unsigned first-round-pick amounts excluded. */
+  unsignedFirstRoundPickAmounts?: number;
+  /** Art. VII §2(e)(1)(vii): outstanding required tenders to first-round picks. */
+  requiredTenderAmounts?: number;
+  /** Art. VII §2(e)(1)(viii): exception amounts deemed included in Team Salary. */
+  exceptionAmountsDeemedIncluded?: number;
+  /** Art. VII §2(e)(1)(ix): amounts excluded from Team Salary under §4(l). */
+  section4lExcludedAmounts?: number;
+  /** Art. VII §2(e)(1)(x): incomplete-roster charges are excluded from Apron Team Salary. */
+  incompleteRosterCharges?: number;
+}
+
 export interface Trade {
   /** All teams party to the trade. */
   teams: string[];
@@ -164,6 +214,11 @@ export interface Trade {
    * expiry, §6(n)(2) room-team renunciation); the engine enforces the
    * apron consequences and carves the absorbed salary out of matching. */
   tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
+  /**
+   * Timing bucket for the Art. VII §6(j)(4)(ii) minimum-player aggregation
+   * restriction. Default is offseason/pre-Dec. 15, when the restriction applies.
+   */
+  timing?: "offseason" | "pre_dec15" | "dec15_to_deadline" | "post_deadline";
 }
 
 /* ----------------------------- Verdicts ----------------------------- */
@@ -186,6 +241,9 @@ export interface TeamTradeSummary {
   postTradeTier: ApronTier;
   outgoingSalary: number;
   incomingSalary: number;
+  /** Actual cap/apron salary leaving and arriving; may differ from matching values for BYC/poison-pill. */
+  outgoingCapSalary: number;
+  incomingCapSalary: number;
   maxIncomingAllowed: number;
   matchingRule: string;
   /** Incoming salary absorbed into a traded-player exception (no matching). */

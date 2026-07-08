@@ -9,6 +9,15 @@ export interface MatchResult {
   ruleLabel: string;
 }
 
+export interface MatchOptions {
+  /**
+   * The flat allowance in Art. VII §6(j). It is normally $250,000, but §6(j)(3)
+   * reduces it to $0 if the team's post-assignment Apron Team Salary would
+   * exceed the first apron.
+   */
+  addOn?: number;
+}
+
 /** Display names for the matching rules — what users see in verdicts.
  * Year-agnostic: the middle band's dollar figure escalates with the cap
  * (Art. VII §6(j)(1)(iv)) — use `matchRuleLabel(rule, c)` for exact dollars. */
@@ -55,6 +64,7 @@ export function maxIncomingSalary(
   tier: ApronTier,
   capRoom: number,
   c: LeagueConstants,
+  opts: MatchOptions = {},
 ): MatchResult {
   // Apron teams: strict 100%. No expanded bands, no aggregation premium.
   if (tier === "first_apron") {
@@ -65,7 +75,8 @@ export function maxIncomingSalary(
   }
 
   // Over-the-cap expanded traded-player formula, per the CBA text.
-  const { addOn, escalatedFlatAddOn } = c.tradeMatch;
+  const addOn = opts.addOn ?? c.tradeMatch.addOn;
+  const { escalatedFlatAddOn } = c.tradeMatch;
   const doubled = outgoing * 2 + addOn; //            (y)(A) 200% + $250k
   const flat = outgoing + escalatedFlatAddOn; //      (y)(B) 100% + $7.5M×growth
   const stretched = outgoing * 1.25 + addOn; //       (z)    125% + $250k
@@ -81,7 +92,7 @@ export function maxIncomingSalary(
   // It may alternatively use standard matching, so take the greater. The
   // separate first-apron hard-cap check in validateTrade still applies.
   if (tier === "below_cap") {
-    const absorption = outgoing + Math.max(0, capRoom) + 250_000;
+    const absorption = outgoing + Math.max(0, capRoom) + addOn;
     if (absorption >= expanded) {
       return { maxIncoming: absorption, rule: "cap_room_absorption", ruleLabel: MATCH_RULE_LABEL.cap_room_absorption! };
     }
