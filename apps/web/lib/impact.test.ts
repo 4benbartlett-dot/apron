@@ -307,6 +307,19 @@ describe("fit engine (dimensions + team chemistry)", () => {
     }
   });
 
+  it("no player is listed twice at the same position (Pass-1/Pass-2 spillback merges)", () => {
+    // A split player can be placed partially at a spot in Pass 1, then have
+    // leftover minutes spill back to that SAME spot in Pass 2 — the allocator
+    // must merge, not emit a duplicate slot (which would double-key the UI).
+    for (const t of TEAM_IDS) {
+      const rot = allocateRotation(BASE_CONTRACTS.filter((c) => c.teamId === t));
+      for (const pos of ["PG", "SG", "SF", "PF", "C"] as const) {
+        const ids = (rot.byPos[pos] ?? []).map((s) => s.playerId);
+        expect(new Set(ids).size, `${t} ${pos} has a duplicated player`).toBe(ids.length);
+      }
+    }
+  });
+
   it("team dimensions are sane and minutes-weighted", () => {
     for (const t of TEAM_IDS) {
       const d = teamDimensions(teamRoster(t));
