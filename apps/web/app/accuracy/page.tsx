@@ -29,7 +29,6 @@ const APPROXIMATE = [
   "A rookie has no NBA minutes yet, so his value, fit, and playing time are projected from draft slot, college production, and scouting consensus — a read on his rookie year, not a ceiling. Most rookies grade out below average, top picks near it.",
   "A handful of recently-retired or overseas veterans (Dwight Howard, Serge Ibaka, and the like) are on the free-agent board as minimum-deal flyers, valued for the realistic drop since their last NBA season — a 40-year-old Dwight reads as a deep-bench center, not the DPOY version.",
   "Positions come from where a player actually logged his minutes; a real second position is any spot he played at least ~12% of the time. Players without enough tracked minutes fall back to their listed position.",
-  "Rookie-scale and minimum-salary amounts are close estimates until the official 2026 numbers post.",
   "Draft-pick trade value is projected from each team's strength, discounted for risk and how far out the pick is — the fairness meter just adds it up per side.",
   "Some traded-player-exception details are simplified: one exception per team per trade, whole players only.",
   "A few fine adjustments to a team's apron salary need per-player bonus data that public feeds don't carry. When it isn't public, those small adjustments are left out rather than guessed.",
@@ -51,7 +50,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     group: "Money lines & exceptions",
     items: [
       "Exception and tier amounts follow the CBA's percentage-of-cap formulas: bi-annual 3.32%, non-taxpayer mid-level 9.12%, room mid-level 5.678%, minimum team salary 90% of the cap, max tiers at 25/30/35% by years of service (Art. VII §6, Art. II §7).",
-      "Minimum salaries are grown forward from the CBA's printed Exhibit C scale.",
+      "Minimum salaries and the first-round rookie scale are the official 2026-27 figures (rookies at the standard 120% of scale, off the $164,961,000 cap).",
       "One-year veteran minimums (3+ years of service) count at the two-year minimum on the cap, tax, aprons, and trade matching; the league reimburses the difference (Art. VII §3(f), Art. IV §6(h)).",
       "Exceptions are gated by apron tier: cap room, non-taxpayer mid-level, taxpayer mid-level, room mid-level, bi-annual, minimum, and Bird.",
     ],
