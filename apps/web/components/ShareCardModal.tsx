@@ -169,6 +169,35 @@ export function ShareCardModal({
     const node = cardRef.current;
     if (!node) throw new Error("no card");
     node.classList.add("capture");
+    // html-to-image deep-clones <svg> verbatim WITHOUT inlining computed styles,
+    // so var()-based fill/stroke never resolve in the exported raster — the logo
+    // mark loses its arc, ball, and apron line and prints as an empty square.
+    // Bake the current theme's concrete colors onto the SVG for the shot, and
+    // hard-strip the verdict stamp's turbulence mask (a data-URI filter that
+    // can't survive rasterization). Both are undone in the finally.
+    const restores: Array<() => void> = [];
+    node.querySelectorAll("svg *").forEach((el) => {
+      (["fill", "stroke", "stop-color"] as const).forEach((attr) => {
+        const v = el.getAttribute(attr);
+        if (v && v.includes("var(")) {
+          const resolved = getComputedStyle(el).getPropertyValue(attr).trim();
+          if (resolved) {
+            restores.push(() => el.setAttribute(attr, v));
+            el.setAttribute(attr, resolved);
+          }
+        }
+      });
+    });
+    node.querySelectorAll<HTMLElement>(".stamp").forEach((el) => {
+      const m = el.style.getPropertyValue("mask");
+      const wm = el.style.getPropertyValue("-webkit-mask");
+      restores.push(() => {
+        el.style.setProperty("mask", m);
+        el.style.setProperty("-webkit-mask", wm);
+      });
+      el.style.setProperty("mask", "none", "important");
+      el.style.setProperty("-webkit-mask", "none", "important");
+    });
     try {
       await Promise.all([
         document.fonts?.ready ?? Promise.resolve(),
@@ -213,6 +242,7 @@ export function ShareCardModal({
       new Promise<never>((_, rej) => setTimeout(() => rej(new Error("capture timeout")), 10_000)),
     ]);
     } finally {
+      restores.forEach((r) => r());
       node.classList.remove("capture");
     }
   };
