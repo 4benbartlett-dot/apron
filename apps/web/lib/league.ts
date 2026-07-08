@@ -1364,6 +1364,24 @@ export function pickValue(year: number, round: 1 | 2, origin?: string): number {
       : 0.5 * Math.exp(-0.05 * (slot - 1));
   return Math.round(meter * Math.pow(0.97, dist) * 10) / 10;
 }
+
+/** Value of a pick-SWAP right, on the SAME meter units as pickValue. A swap
+ * lets the holder take the more favorable of two same-year/round firsts and
+ * leaves the counterparty the less favorable — a modest option worth a fraction
+ * of an average pick between the two teams. We deliberately do NOT project which
+ * team finishes better (records that far out are unknowable, per the sim's
+ * design), so the value is symmetric: the holder gains it, the grantor loses it.
+ * The share is small because both sides already own a pick that year — a swap
+ * only trades the marginal upside, not the pick itself. */
+export function pickSwapValue(
+  year: number,
+  round: 1 | 2,
+  teamA?: string,
+  teamB?: string,
+): number {
+  const base = (pickValue(year, round, teamA) + pickValue(year, round, teamB)) / 2;
+  return Math.round(base * 0.35 * 10) / 10;
+}
 export function rosterOf(contracts: Contract[], teamId: string): Contract[] {
   return contracts
     .filter((c) => c.teamId === teamId && currentSalary(c) > 0 && !c.deadMoney)
@@ -1459,8 +1477,13 @@ export type Move =
       kind: "trade";
       label: string;
       players: { playerId: string; to: string }[];
-      /** Draft picks changing hands (by original-owner pick id). */
+      /** Draft picks changing hands outright (by original-owner pick id). */
       picks?: { id: string; to: string }[];
+      /** Pick-swap RIGHTS created in this trade: `favoredTo` gets the more
+       *  favorable of the two teams' same-year/round firsts, `otherTeam` the
+       *  less favorable. A right, not a concrete transfer — pick ownership (and
+       *  therefore Stepien coverage) is unchanged, so applyMove ignores these. */
+      pickSwaps?: { year: number; round: 1 | 2; favoredTo: string; otherTeam: string }[];
       /** TPE absorption chosen when the trade was staged (per team). */
       tpeUse?: Record<
         string,
