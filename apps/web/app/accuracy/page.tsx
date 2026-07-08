@@ -27,6 +27,7 @@ const APPROXIMATE = [
   "Apron Value — the 0-100 number on every player — is a rough read on impact from box scores and lineup data. It leans on BPM and carries an uncertainty band; it isn't trying to out-do the big public metrics like EPM or DARKO.",
   "A team's projected record is a read on the roster as it stands today — not a full-season forecast. There's no coaching, chemistry, or playoff translation baked in.",
   "A rookie has no NBA minutes yet, so his value, fit, and playing time are projected from draft slot, college production, and scouting consensus — a read on his rookie year, not a ceiling. Most rookies grade out below average, top picks near it.",
+  "A handful of recently-retired or overseas veterans (Dwight Howard, Serge Ibaka, and the like) are on the free-agent board as minimum-deal flyers, valued for the realistic drop since their last NBA season — a 40-year-old Dwight reads as a deep-bench center, not the DPOY version.",
   "Positions come from where a player actually logged his minutes; a real second position is any spot he played at least ~12% of the time. Players without enough tracked minutes fall back to their listed position.",
   "Rookie-scale and minimum-salary amounts are close estimates until the official 2026 numbers post.",
   "Draft-pick trade value is projected from each team's strength, discounted for risk and how far out the pick is — the fairness meter just adds it up per side.",

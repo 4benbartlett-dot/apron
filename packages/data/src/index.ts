@@ -10,6 +10,7 @@ import teamStrengthRaw from "./team-strength-2026.json";
 import positionsRaw from "./positions-2026.json";
 import positionOverridesRaw from "./position-overrides-2026.json";
 import rookieProjectionsRaw from "./rookie-projections-2026.json";
+import returningFasRaw from "./returning-fas-2026.json";
 import playerBioRaw from "./player-bio-2026.json";
 import playerStatsRaw from "./player-stats-2026.json";
 import playerDimsRaw from "./player-dimensions-2026.json";
@@ -29,8 +30,31 @@ import signingsRaw from "./signings.json";
 import ratingsRaw from "./ratings.json";
 import rosterCorrectionsRaw from "./roster-corrections-2026.json";
 
+/* --- Returning veterans (recently retired / overseas) as signable minimum free
+ * agents. One curated record per player fans out into the maps below. --- */
+interface ReturningFa {
+  playerId: string; playerName: string; lastNbaTeam: string; notionalSalary: number;
+  age: number; yos: number; primary: string; secondary?: string[];
+  bpm: number; mpg: number;
+  dims: { off: number; def: number; play: number; reb: number; space: number; rim: number; perd: number };
+  archetype?: string;
+}
+const returningFas = (returningFasRaw as { players: ReturningFa[] }).players;
+const rvNorm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, "").trim();
+/** FA contract stubs: a 2025-26 salary and NO 2026-27 row makes each surface as
+ * a free agent — a small non-Bird hold on his last team, signable by anyone. */
+export const RETURNING_FA_CONTRACTS = returningFas.map((p) => ({
+  playerId: p.playerId, playerName: p.playerName, teamId: p.lastNbaTeam,
+  years: [{ leagueYear: "2025-26", salary: p.notionalSalary, guarantee: "full" }],
+}));
+const rvYos = Object.fromEntries(returningFas.map((p) => [p.playerId, p.yos]));
+const rvBios = Object.fromEntries(returningFas.map((p) => [p.playerId, { age: p.age - 1 }]));
+const rvPositions = Object.fromEntries(returningFas.map((p) => [p.playerId, p.primary]));
+const rvSecondaries = Object.fromEntries(returningFas.filter((p) => p.secondary?.length).map((p) => [p.playerId, p.secondary!]));
+const rvFaInfo = Object.fromEntries(returningFas.map((p) => [rvNorm(p.playerName), { name: p.playerName, team: p.lastNbaTeam, restriction: "UFA", birdStatus: "non_bird" as const }]));
+
 /** Player years-of-service entering 2026-27 (Basketball-Reference). */
-export const EXPERIENCE = experienceRaw as Record<string, number>;
+export const EXPERIENCE = { ...(experienceRaw as Record<string, number>), ...rvYos };
 
 export interface PlayerRating {
   /** 0-99 OVR-style rating derived from Box Plus/Minus. */
@@ -52,10 +76,12 @@ export interface FreeAgentInfo {
   birdStatus?: "bird" | "early_bird" | "non_bird";
 }
 
-/** 2026 free-agent Bird status + UFA/RFA, keyed by normalized name (Spotrac). */
-export const FREE_AGENT_INFO = (
-  freeAgentsRaw as { byName: Record<string, FreeAgentInfo> }
-).byName;
+/** 2026 free-agent Bird status + UFA/RFA, keyed by normalized name (Spotrac);
+ * plus curated returning veterans (non-Bird UFAs). */
+export const FREE_AGENT_INFO: Record<string, FreeAgentInfo> = {
+  ...(freeAgentsRaw as { byName: Record<string, FreeAgentInfo> }).byName,
+  ...rvFaInfo,
+};
 
 export interface SigningInfo {
   name: string;
@@ -154,6 +180,12 @@ export interface RookieProjection {
 }
 export const ROOKIE_PROJECTIONS_2026: Record<string, RookieProjection> =
   (rookieProjectionsRaw as { byId: Record<string, RookieProjection> }).byId;
+/** Value/fit/minutes projections for every player with NO current NBA sample —
+ * rookies AND returning veterans — through one lookup the model consumes. */
+export const PROJECTED_PLAYERS_2026: Record<string, RookieProjection> = {
+  ...ROOKIE_PROJECTIONS_2026,
+  ...Object.fromEntries(returningFas.map((p) => [p.playerId, { bpm: p.bpm, dims: p.dims, secondary: p.secondary, mpg: p.mpg, archetype: p.archetype }])),
+};
 const rookieSecondaries: Record<string, string[]> = Object.fromEntries(
   Object.entries(ROOKIE_PROJECTIONS_2026)
     .filter(([, r]) => r.secondary && r.secondary.length)
@@ -166,6 +198,7 @@ const rookieSecondaries: Record<string, string[]> = Object.fromEntries(
 export const POSITIONS_2026: Record<string, string> = {
   ...(positionsRaw as { byId: Record<string, string> }).byId,
   ...(positionOverrides.byId ?? {}),
+  ...rvPositions,
 };
 /** SECONDARY positions a player realistically plays. Base is the play-by-play
  * measure (spots he logged ≥12% of his minutes at); curated overrides fill the
@@ -175,6 +208,7 @@ export const SECONDARY_POSITIONS_2026: Record<string, string[]> = {
   ...((positionsRaw as { secondaryById?: Record<string, string[]> }).secondaryById ?? {}),
   ...(positionOverrides.secondaryById ?? {}),
   ...rookieSecondaries,
+  ...rvSecondaries,
 };
 /** Raw share of minutes at each position (PG/SG/SF/PF/C), where measured. */
 export const POSITION_SHARES_2026: Record<string, Record<string, number>> =
@@ -183,8 +217,10 @@ export const POSITION_SHARES_2026: Record<string, Record<string, number>> =
  * the aging curve), games played + started, minutes, minutes/game. 100% of the
  * impact-model players are covered. */
 export interface PlayerBio { age?: number; g?: number; gs?: number; mp?: number; mpg?: number; }
-export const PLAYER_BIO_2026: Record<string, PlayerBio> =
-  (playerBioRaw as { byId: Record<string, PlayerBio> }).byId;
+export const PLAYER_BIO_2026: Record<string, PlayerBio> = {
+  ...(playerBioRaw as { byId: Record<string, PlayerBio> }).byId,
+  ...rvBios,
+};
 
 /** Per-player 2025-26 statistical profile (Basketball-Reference advanced +
  * per-game rate/box stats) — the raw material behind the dimensional model. */

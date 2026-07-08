@@ -1,0 +1,161 @@
+{
+  "source": "Recently-retired or overseas veterans added as signable minimum-deal free agents for 2026-27, valued for the realistic quality drop since their last NBA season (agent research, web-verified). Notional last salary = a small non-Bird hold on the last team; signable by anyone. Value/fit/minutes route through the same no-NBA-sample projection path rookies use. age = 2026-27 age.",
+  "players": [
+    {
+      "playerId": "howardw01",
+      "playerName": "Dwight Howard",
+      "lastNbaTeam": "LAL",
+      "notionalSalary": 3000000,
+      "age": 40,
+      "yos": 18,
+      "primary": "C",
+      "secondary": [],
+      "bpm": -4.5,
+      "mpg": 6,
+      "dims": {
+        "off": 34,
+        "def": 40,
+        "play": 22,
+        "reb": 66,
+        "space": 8,
+        "rim": 62,
+        "perd": 30
+      },
+      "archetype": "aging rim-running rebounding center (Taiwan)"
+    },
+    {
+      "playerId": "couside01",
+      "playerName": "DeMarcus Cousins",
+      "lastNbaTeam": "DEN",
+      "notionalSalary": 3000000,
+      "age": 36,
+      "yos": 11,
+      "primary": "C",
+      "secondary": [],
+      "bpm": -3.5,
+      "mpg": 8,
+      "dims": {
+        "off": 42,
+        "def": 34,
+        "play": 44,
+        "reb": 58,
+        "space": 40,
+        "rim": 48,
+        "perd": 28
+      },
+      "archetype": "skilled slow-footed comeback big"
+    },
+    {
+      "playerId": "walljo01",
+      "playerName": "John Wall",
+      "lastNbaTeam": "LAC",
+      "notionalSalary": 3000000,
+      "age": 35,
+      "yos": 11,
+      "primary": "PG",
+      "secondary": [],
+      "bpm": -3.5,
+      "mpg": 8,
+      "dims": {
+        "off": 42,
+        "def": 38,
+        "play": 56,
+        "reb": 34,
+        "space": 34,
+        "rim": 40,
+        "perd": 36
+      },
+      "archetype": "playmaking-first flyer, eroded burst"
+    },
+    {
+      "playerId": "thomais02",
+      "playerName": "Isaiah Thomas",
+      "lastNbaTeam": "PHX",
+      "notionalSalary": 3000000,
+      "age": 37,
+      "yos": 11,
+      "primary": "PG",
+      "secondary": [],
+      "bpm": -4.0,
+      "mpg": 7,
+      "dims": {
+        "off": 46,
+        "def": 22,
+        "play": 48,
+        "reb": 18,
+        "space": 44,
+        "rim": 30,
+        "perd": 24
+      },
+      "archetype": "undersized microwave scorer"
+    },
+    {
+      "playerId": "walkeke02",
+      "playerName": "Kemba Walker",
+      "lastNbaTeam": "DAL",
+      "notionalSalary": 3000000,
+      "age": 36,
+      "yos": 11,
+      "primary": "PG",
+      "secondary": [],
+      "bpm": -3.5,
+      "mpg": 8,
+      "dims": {
+        "off": 44,
+        "def": 30,
+        "play": 48,
+        "reb": 26,
+        "space": 46,
+        "rim": 34,
+        "perd": 30
+      },
+      "archetype": "aging small scoring guard (comeback)"
+    },
+    {
+      "playerId": "ibakase01",
+      "playerName": "Serge Ibaka",
+      "lastNbaTeam": "MIL",
+      "notionalSalary": 3000000,
+      "age": 37,
+      "yos": 14,
+      "primary": "PF",
+      "secondary": [
+        "C"
+      ],
+      "bpm": -3.0,
+      "mpg": 9,
+      "dims": {
+        "off": 40,
+        "def": 46,
+        "play": 28,
+        "reb": 50,
+        "space": 52,
+        "rim": 48,
+        "perd": 40
+      },
+      "archetype": "stretch shot-blocking backup 5 (EuroLeague)"
+    },
+    {
+      "playerId": "whiteha01",
+      "playerName": "Hassan Whiteside",
+      "lastNbaTeam": "UTA",
+      "notionalSalary": 3000000,
+      "age": 37,
+      "yos": 11,
+      "primary": "C",
+      "secondary": [],
+      "bpm": -2.5,
+      "mpg": 10,
+      "dims": {
+        "off": 40,
+        "def": 52,
+        "play": 20,
+        "reb": 64,
+        "space": 8,
+        "rim": 66,
+        "perd": 34
+      },
+      "archetype": "rim-protecting rebounder (CBA DPOY)"
+    }
+  ]
+}

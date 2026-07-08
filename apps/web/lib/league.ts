@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, ROOKIE_PROJECTIONS_2026 } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -553,7 +553,15 @@ const STATED_DEAD_CAP: Contract[] = (() => {
 // future sheet row under any id supersedes its stub by name.
 const sheetNames = new Set(base.contracts.map((c) => normName(c.playerName)));
 const extraStubs = EXTRA_CONTRACTS.filter((x) => !sheetNames.has(normName(x.playerName))) as unknown as Contract[];
-const activeRaw = [...base.contracts, ...extraStubs].filter((c) => !RETIRED.has(normName(c.playerName)));
+// Returning veterans (retired/overseas) are deliberately re-added AFTER the
+// retired filter — their expiring stub makes them signable minimum free agents.
+const returningStubs = (RETURNING_FA_CONTRACTS as unknown as Contract[]).filter(
+  (x) => !sheetNames.has(normName(x.playerName)),
+);
+const activeRaw = [
+  ...[...base.contracts, ...extraStubs].filter((c) => !RETIRED.has(normName(c.playerName))),
+  ...returningStubs,
+];
 const deduped = dedupe(activeRaw);
 // Options first (a declined option makes a player a FA), then trades, then the
 // offseason's signings restore/re-sign anyone who agreed to a new deal.
@@ -804,7 +812,7 @@ function projectedMinutes(playerId: string, priorMp: number): number {
   // A rookie has no bio playing-time row, so fall back to his projected
   // draft-slot minutes/game — otherwise he'd project to zero and never appear
   // in the rotation. He still competes for those minutes in allocateRotation.
-  const rkMpg = ROOKIE_PROJECTIONS_2026[playerId]?.mpg;
+  const rkMpg = PROJECTED_PLAYERS_2026[playerId]?.mpg;
   const mpg = bio && bio.mpg && bio.mpg > 0 ? bio.mpg : rkMpg != null ? rkMpg : priorMp / Math.max(1, bio?.g ?? 60);
   const inj = PLAYER_INJURIES_2026[playerId];
   const games = inj && inj.gamesOut >= 5 ? Math.max(0, 82 - inj.gamesOut) : HEALTHY_GAMES;
@@ -968,7 +976,7 @@ export function playerDims(c: Contract): PlayerDims {
   // Rookies have no measured profile — use the projected archetype dimensions
   // (a rim-running big reads high reb/rim, a shooter high space) with usage
   // estimated from his scoring/playmaking read.
-  const rk = ROOKIE_PROJECTIONS_2026[c.playerId];
+  const rk = PROJECTED_PLAYERS_2026[c.playerId];
   if (rk) {
     const usg = fitClamp(Math.round(15 + (rk.dims.off - 50) * 0.12 + (rk.dims.play - 50) * 0.08), 8, 28);
     return { ...rk.dims, usg };
@@ -1168,7 +1176,7 @@ function multiYearBpm(playerId: string): number {
   // A rookie has no NBA seasons yet — fall back to his projected rookie-season
   // BPM (draft slot + college + consensus) so a top pick isn't valued as
   // replacement-level and a second-rounder isn't either.
-  return den > 0 ? num / den : (cur?.bpm ?? ROOKIE_PROJECTIONS_2026[playerId]?.bpm ?? 0);
+  return den > 0 ? num / den : (cur?.bpm ?? PROJECTED_PLAYERS_2026[playerId]?.bpm ?? 0);
 }
 
 /** Factual-accolade bonus on the Apron-Value scale. RECENT All-NBA / All-
