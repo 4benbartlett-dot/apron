@@ -12,9 +12,12 @@ Salary matching is the easy part, and most trade machines stop there. The rules
 that actually decide deals in the apron era are the ones this tries to get right:
 
 - **The apron system.** First- and second-apron tiers, 100% matching once a team
-  is over, and the second-apron restrictions (no aggregating salaries, no cash,
-  no sign-and-trade acquisitions). Hard caps stick: use the non-taxpayer mid-level
-  and every later move that season is measured against the first apron.
+  is over, first-apron restrictions (no sign-and-trade acquisitions, no expanded
+  matching, no row-D regular-season waiver signings, no pre-existing TPE use),
+  and second-apron restrictions (no aggregating salaries, no cash, no MLE, frozen
+  first seven drafts out). Hard caps stick: use the non-taxpayer mid-level and
+  every later move that season is measured against the first apron; row-H
+  aggregation and row-I cash can freeze the second apron.
 - **Trade matching.** The CBA's expanded formula, including below-cap room
   absorption, trade kickers, base-year compensation, and the trade-freeze
   calendar (recent signings can't move until December 15, and so on).
@@ -22,8 +25,11 @@ that actually decide deals in the apron era are the ones this tries to get right
   real rights, cap holds by type, renouncing, the mid-level and bi-annual
   exceptions, max-salary tiers, and restricted free agency with a working
   offer-sheet match.
-- **Sign-and-trades, both sides.** Term limits, the first-apron hard cap, the old
-  team's matching on the return, and the new team's room-or-match requirement.
+- **Sign-and-trades, both sides.** The Art. VII §8(e)(1) structure checks
+  (Veteran FA, prior roster, 3-to-4 seasons, no NT-MLE/Room-MLE, protected first
+  year, pre-regular-season timing, 5th-year max cap), the first-apron hard cap,
+  the old team's matching on the return, and the new team's room-or-match
+  requirement.
 - **Draft picks as assets.** A pick-ownership ledger that transfers picks when a
   trade executes, and a Stepien-rule check that counts picks you dealt several
   moves ago, not just the ones in front of you.

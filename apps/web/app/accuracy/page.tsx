@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy — 255 Tests Against the 2023 CBA | Over the Apron",
+  title: "NBA CBA Rules Coverage & Accuracy — 266 Tests Against the 2023 CBA | Over the Apron",
   description:
-    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 255 unit tests and real July 2026 move replays.",
+    "Exactly which 2023 CBA rules the trade machine enforces, what's approximate, and what isn't modeled — verified by 266 unit tests and real July 2026 move replays.",
 };
 
 const MODELED = [
@@ -18,7 +18,7 @@ const MODELED = [
   "Feed-derived offseason state, all 30 teams audited: cap-room teams lose the MLEs/BAE for the year (\u00a76(n)(1), \u00a76(g)(3)); exceptions the real July spent stay spent (BOS/SAS/PHI's NT-MLE, GSW's BAE, LAL's Room MLE\u2026); S&T and MLE/BAE acquisitions carry their in-world hard caps; demonstrated room spending marks the holds it required as renounced",
   "Apron teams limited to 100% matching (no 110%)",
   "Below-cap absorption capped at cap+$250k (or standard matching if larger)",
-  "Hard-cap triggers: NT-MLE / BAE / sign-and-trade / taking back >100% in a trade (Expanded TPE) → first apron; Taxpayer MLE, aggregated trade matching, and cash sent in trades → second apron — persisted across the whole session and tested against APRON salary (holds excluded)",
+  "Hard-cap triggers: NT-MLE / BAE / sign-and-trade / taking back >100% in a trade (Expanded TPE) / regular-season waiver signing of a player whose terminated salary exceeded the NT-MLE → first apron; Taxpayer MLE, aggregated trade matching, and cash sent in trades → second apron — persisted across the whole session and tested against APRON salary (holds excluded)",
   "Art. VII §2 Apron Team Salary is a real derived layer: signed salary plus excluded performance-bonus addbacks and 0/1-YOS free-agent minimum addbacks, with explicit team-level adjustments for FA amounts, RFA tenders, first-round-pick/tender amounts, deemed-included exceptions, §4(l) exclusions, and incomplete-roster charges when the app/data layer supplies them",
   "Cap holds count against room (signing space and below-cap trade absorption) but never toward apron/tax status — the Art. VII §2 Apron Team Salary split",
   "Second apron: no aggregation or cash-out, tested on POST-trade apron salary per Art. VII \u00a72(e)(2)(i)(A) \u2014 a team may aggregate down through the line (bin-packing combination test), but the sim now persists the row-H second-apron hard cap it accepts; exact-boundary tiers use strict 'exceeds'",
@@ -33,7 +33,7 @@ const MODELED = [
   "Free-agent cap holds by Bird status (Non-Bird 120% / Early-Bird 130% / Bird 150–190%, rookie-scale QVFAs 250/300% per Art. VII §4(d)(1)(ii))",
   "Trade eligibility: a free agent signed this offseason is trade-restricted; a just-acquired player can't be aggregated for ~2 months",
   "MLE / exception consumption tracking within an offseason session",
-  "Sign-and-trade acquisition: second-apron block + first-apron hard cap on the acquiring team",
+  "Sign-and-trade acquisition: second-apron block + first-apron hard cap on the acquiring team, plus Art. VII §8(e)(1) contract-structure checks when facts are supplied (Veteran FA / prior-roster / 3-to-4 seasons / no NT-MLE or Room-MLE / first-year protection / pre-regular-season / 5th-Year-Higher-Max 25% cap / room for salary plus unlikely bonuses)",
   "Base-year compensation: re-sign your own FA to a >20% raise over the cap, then trade — outgoing matching value = max(50% of new salary, prior salary), while the sender's actual cap/apron salary removes the full cap hit",
   "Poison-pill rookie-scale extensions: when structured extension salaries are present, the acquiring team uses the Art. VII §8(g) average of current + extension salaries for matching/room value while actual post-trade cap/apron salary stays on the current-year hit",
   "Trade kicker bonus boosts the acquiring team's incoming matching value (applied when kicker data is present)",
@@ -42,6 +42,8 @@ const MODELED = [
   "Pick-ownership ledger: executed trades actually transfer draft picks; boards show real inventory",
   "Ted Stepien rule against full pick inventory — sees picks traded in PRIOR moves, not just the current proposal",
   "Restricted free agents: Gilbert Arenas first-year cap (1-2 YOS → NT-MLE) and a real match flow — the original team can match your offer sheet and keep the player at your terms",
+  "Regular-season waiver-market signing row D: if the terminated contract salary exceeded the NT-MLE, the signing is a first-apron transaction; the engine blocks it above the first apron and hard-caps it there when legal",
+  "Second-apron draft-pick penalty helper: a second-apron season freezes the team's own first seven drafts out (2024-25 → 2032), and two repeat second-apron seasons in the next four move that pick to the end of the first round",
   "Roster limits: 21-player offseason hard cap on signings, 15-by-opening-night warning",
   "Sign-and-trade contracts enforce the 3–4 season term (§8(e)(1)(ii)) AND the acquirer must have room or match salary with the return package (§8(e)(1)(vii))",
   "Trade freezes per Art. VII §8(d)/(f): rookie signings 30 days; FA signings Dec 15; over-cap Bird re-signs at >120% until Jan 15; extensions beyond extend-and-trade limits 6 months; matched RFA offer sheets one year (§5(j))",
@@ -78,6 +80,7 @@ const NOT_MODELED = [
   "Likely vs. unlikely incentives are typed in the engine, but the public contract feed does not reliably expose every bonus bucket, so live-roster bonus math remains mostly zero-filled unless curated",
   "Second-round pick exception & two-way contracts have engine validators, but they are not yet user-simulable signing mechanisms in the offseason drawer",
   "Designated-player Higher Max criteria are engine-callable from All-NBA/DPOY/MVP inputs, but the UI does not yet expose full designated rookie/veteran extension workflows or every designated-player roster-count limit",
+  "Second-apron frozen-pick / draft-penalty status is engine-callable from known end-of-season apron history, but the live trade board does not yet project future end-of-season second-apron status or automatically block that far-out pick in user inventory",
 ];
 
 function Section({
@@ -124,7 +127,7 @@ export default function AccuracyPage() {
           Every rule is checked against the CBA&rsquo;s own text in unit tests, and against real 2026 free-agency moves replayed through the engine.
         </p>
         </div>
-        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 255 tests</span>
+        <span className="stamp stamp-in mt-1 text-[13px] text-[var(--tier-below_cap)]">Audited · 266 tests</span>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
