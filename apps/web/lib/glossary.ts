@@ -26,12 +26,12 @@ export const GLOSSARY = {
   },
   first_apron: {
     title: "First apron",
-    body: "A hard line a few million above the tax. Teams over it lose tools: no sign-and-trade acquisitions, no expanded matching in trades (100% only), no buyout-market signings above the minimum. Some moves (using the full MLE, acquiring via sign-and-trade) hard-cap a team AT this line for the whole season.",
+    body: "A hard line a few million above the tax. Teams over it lose tools: no sign-and-trade acquisitions, no expanded matching in trades (100% only), no regular-season waiver-market signings when the terminated contract was above the NT-MLE, and no pre-existing TPE use. Some moves (using the full MLE, acquiring via sign-and-trade, that row-D waiver signing, or expanded matching) hard-cap a team AT this line for the whole season.",
     cite: "2023 CBA · Art. VII",
   },
   second_apron: {
     title: "Second apron",
-    body: "The most restrictive tier, above the first apron. Second-apron teams can't aggregate salaries in a trade (no combining two players to match one), can't send cash, can't use any MLE, and their future first-round pick can be frozen. Designed to make super-team payrolls painful to operate.",
+    body: "The most restrictive tier, above the first apron. Second-apron teams can't aggregate salaries in a trade (no combining two players to match one), can't send cash, can't use any MLE, and their own first seven drafts out freezes; repeat second-apron seasons can move it to the end of the first round. Designed to make super-team payrolls painful to operate.",
     cite: "2023 CBA · Art. VII",
   },
   cap: {
@@ -139,7 +139,7 @@ export const GLOSSARY = {
   },
   hard_cap: {
     title: "Hard cap",
-    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade, using an aggregated trade to drop through the second apron, or sending cash in a trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary, not cap holds. This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
+    body: "Certain moves — using the full MLE or BAE, taking back extra salary under expanded matching, acquiring a player by sign-and-trade, signing a row-D regular-season waiver player, using an aggregated trade to drop through the second apron, or sending cash in a trade — freeze a ceiling (first or second apron) the team may not cross for the rest of the season, for any reason. The ceiling is tested against apron salary, not cap holds. This sim remembers your hard cap across moves: a trade today can kill a signing next week, and vice versa.",
     cite: "2023 CBA · Art. VII §2(e)",
   },
   no_trade: {

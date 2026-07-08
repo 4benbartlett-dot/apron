@@ -1300,7 +1300,15 @@ function SignEditor({
   );
   const senderOk = returnSalary <= sendMatch.maxIncoming + 1;
   // Acquirer stays under the first-apron hard cap after sending the return out…
-  const acquirerSt = validateSignAndTrade(committed - returnSalary, salary, C);
+  const acquirerSt = validateSignAndTrade(committed - returnSalary, salary, C, {
+    seasons: Math.max(3, years),
+    optionYears: 0,
+    firstSeasonFullyProtected: true,
+    beforeRegularSeason: true,
+    finishedPriorSeasonWithPriorTeam: true,
+    veteranFreeAgent: true,
+    signedUsing: "bird",
+  });
   // …AND (CBA §8(e)(1)(vii)) must have Room for the new salary or match it with
   // the outgoing return package — free absorption into an over-cap sheet is out.
   const acquirerMatch = maxIncomingSalary(

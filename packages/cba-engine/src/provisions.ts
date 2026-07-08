@@ -225,6 +225,109 @@ export function designatedVeteranMaxPct(opts: {
   return null;
 }
 
+export interface RegularSeasonWaiverSigningOffer {
+  teamApronSalaryBeforeSigning: number;
+  signingSalary: number;
+  /** Salary in the salary-cap year before the prior contract was terminated. */
+  terminatedContractSalary: number;
+  terminatedDuringRegularSeason: boolean;
+}
+
+/**
+ * Transaction Restrictions Table row D: signing, during the regular season, a
+ * player whose prior contract was terminated that same regular season and whose
+ * prior salary exceeded the Non-Taxpayer MLE is a first-apron transaction.
+ */
+export function validateRegularSeasonWaiverSigning(
+  offer: RegularSeasonWaiverSigningOffer,
+  c: LeagueConstants,
+): SimpleVerdict & { hardCap: "first_apron" | null; resultingSalary: number } {
+  const resultingSalary = offer.teamApronSalaryBeforeSigning + offer.signingSalary;
+  const rowDTriggered =
+    offer.terminatedDuringRegularSeason &&
+    offer.terminatedContractSalary > c.nonTaxpayerMLE + 1;
+  if (!rowDTriggered) {
+    return {
+      legal: true,
+      hardCap: null,
+      resultingSalary,
+      reason:
+        "Row D is not triggered: the prior contract was not a regular-season termination above the Non-Taxpayer MLE.",
+    };
+  }
+  if (resultingSalary > c.firstApron + 1) {
+    return {
+      legal: false,
+      hardCap: "first_apron",
+      resultingSalary,
+      reason: `Regular-season signing of a waived player whose prior salary exceeded the Non-Taxpayer MLE is a first-apron transaction; ${fmt(resultingSalary)} would exceed ${fmt(c.firstApron)}.`,
+    };
+  }
+  return {
+    legal: true,
+    hardCap: "first_apron",
+    resultingSalary,
+    reason:
+      "Legal regular-season waiver signing, but row D hard-caps the team at the first apron for the season.",
+  };
+}
+
+export interface SecondApronDraftPickStatusInput {
+  /**
+   * Salary cap year start for the trigger season. Example: 2024 for the 2024-25
+   * salary cap year, whose frozen pick is the 2032 first.
+   */
+  triggerSalaryCapYearStart: number;
+  /** Salary cap year starts in which the team is known to have been a Second Apron Team. */
+  secondApronSalaryCapYearStarts: number[];
+  /** Salary cap year starts among the four-year follow-up window whose status is known. */
+  knownFollowUpSalaryCapYearStarts?: number[];
+}
+
+export interface SecondApronDraftPickStatus {
+  frozenDraftYear: number;
+  followUpSalaryCapYearStarts: number[];
+  repeatSecondApronYears: number[];
+  nonSecondApronYearsKnown: number[];
+  tradeProhibited: boolean;
+  draftPickPenalty: boolean;
+  /** The CBA releases the frozen pick after the third known non-2A follow-up regular season. */
+  releasableAfterRegularSeasonSalaryCapYearStart: number | null;
+}
+
+/**
+ * Art. VII §2(f): a Second Apron Team freezes its own first-round pick seven
+ * seasons out (2024-25 -> 2032). If it is second-apron again in two or more of
+ * the next four salary-cap years, that frozen pick moves to the end of round one.
+ */
+export function secondApronDraftPickStatus(
+  input: SecondApronDraftPickStatusInput,
+): SecondApronDraftPickStatus {
+  const trigger = input.triggerSalaryCapYearStart;
+  const frozenDraftYear = trigger + 8;
+  const followUpSalaryCapYearStarts = [trigger + 1, trigger + 2, trigger + 3, trigger + 4];
+  const second = new Set(input.secondApronSalaryCapYearStarts);
+  const known = new Set(input.knownFollowUpSalaryCapYearStarts ?? followUpSalaryCapYearStarts);
+  const repeatSecondApronYears = followUpSalaryCapYearStarts.filter((y) => second.has(y));
+  const nonSecondApronYearsKnown = followUpSalaryCapYearStarts.filter(
+    (y) => known.has(y) && !second.has(y),
+  );
+  const draftPickPenalty = repeatSecondApronYears.length >= 2;
+  const releasableAfterRegularSeasonSalaryCapYearStart =
+    !draftPickPenalty && nonSecondApronYearsKnown.length >= 3
+      ? nonSecondApronYearsKnown[2]!
+      : null;
+  return {
+    frozenDraftYear,
+    followUpSalaryCapYearStarts,
+    repeatSecondApronYears,
+    nonSecondApronYearsKnown,
+    tradeProhibited: releasableAfterRegularSeasonSalaryCapYearStart == null,
+    draftPickPenalty,
+    releasableAfterRegularSeasonSalaryCapYearStart,
+  };
+}
+
 /**
  * Ted Stepien rule (2023 CBA Art. VII §7-ish, trade rules): a team may not be
  * without its own first-round pick in two consecutive future drafts. Given the

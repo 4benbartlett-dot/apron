@@ -9,6 +9,10 @@ const c = (playerId: string, teamId: string, salary: number): Contract => ({
   teamId,
   years: [{ leagueYear: "2026-27", salary, guarantee: "full" }],
 });
+const min = (playerId: string, teamId: string): Contract => ({
+  ...c(playerId, teamId, C.minimumSalaries[2]!),
+  minimumSalary: true,
+});
 
 // TAX: a luxury-tax team (~$195M). APR2: a second-apron team (~$240M).
 const data: LeagueData = {
@@ -136,5 +140,37 @@ describe("explainBlocked", () => {
     const e = explainBlocked(v, [], C);
     expect(e.fixes.join(" ")).toMatch(/combining salaries is forbidden while the team finishes over the second apron/);
     expect(e.fixes.join(" ")).toMatch(/at or below the line makes aggregation legal/);
+  });
+
+  it("minimum-player aggregation restriction: explains the Dec. 15-to-deadline route", () => {
+    const minData: LeagueData = {
+      leagueYear: "2026-27",
+      teams: [{ id: "TAX", name: "TAX" }, { id: "OTH", name: "OTH" }],
+      contracts: [
+        min("m1", "TAX"),
+        min("m2", "TAX"),
+        c("mid", "TAX", 4_000_000),
+        c("fill", "TAX", 150_000_000),
+        c("incoming", "OTH", 8_000_000),
+        c("oth-fill", "OTH", 120_000_000),
+      ],
+    };
+    const v = validateTrade(
+      minData,
+      {
+        teams: ["TAX", "OTH"],
+        players: [
+          { playerId: "m1", from: "TAX", to: "OTH" },
+          { playerId: "m2", from: "TAX", to: "OTH" },
+          { playerId: "mid", from: "TAX", to: "OTH" },
+          { playerId: "incoming", from: "OTH", to: "TAX" },
+        ],
+      },
+      C,
+    );
+    expect(v.violations.some((x) => x.ruleId === "minimum_traded_player_aggregation")).toBe(true);
+    const e = explainBlocked(v, [], C);
+    expect(e.fixes.join(" ")).toMatch(/multiple minimum-salary players/);
+    expect(e.fixes.join(" ")).toMatch(/Dec\. 15-to-trade-deadline/);
   });
 });

@@ -215,6 +215,12 @@ export function explainBlocked(
     if (v.ruleId === "second_apron_no_cash_out") {
       push(v.teamId ?? null, "Drop the cash: a team finishing over the second apron may not send cash in any trade.");
     }
+    if (v.ruleId === "minimum_traded_player_aggregation") {
+      push(
+        v.teamId ?? null,
+        "This package aggregates multiple minimum-salary players outside the Dec. 15-to-trade-deadline window. Make only one minimum player part of the aggregated outgoing side, turn it into separate one-for-one legs, or wait until the Dec. 15-to-deadline window when this specific restriction opens up.",
+      );
+    }
     if (v.ruleId === "trade_eligibility" || /not trade-eligible|cannot be traded/i.test(v.reason)) {
       const who = v.reason.match(/^([A-ZÀ-ž][\w'.\- À-ž]+?) cannot be traded/)?.[1];
       push(

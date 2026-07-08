@@ -25,7 +25,12 @@ export {
 } from "./signing";
 export { capHold } from "./holds";
 export { maxSalaryTier, playerMaxSalary, reSignMax } from "./maxsalary";
-export { validateSignAndTrade, type SignTradeVerdict } from "./signandtrade";
+export {
+  validateSignAndTrade,
+  type SignTradeCheck,
+  type SignTradeOptions,
+  type SignTradeVerdict,
+} from "./signandtrade";
 export {
   veteranExtensionMax,
   extendAndTradeMax,
@@ -36,6 +41,8 @@ export {
   poisonPillValues,
   validateSecondRoundPickException,
   validateTwoWayContract,
+  validateRegularSeasonWaiverSigning,
+  secondApronDraftPickStatus,
   twoWaySalary,
   meetsHigherMaxCriteria,
   designatedVeteranMaxPct,
@@ -47,4 +54,7 @@ export {
   type SecondRoundPickExceptionOffer,
   type TwoWayContractOffer,
   type HigherMaxCriteriaInput,
+  type RegularSeasonWaiverSigningOffer,
+  type SecondApronDraftPickStatusInput,
+  type SecondApronDraftPickStatus,
 } from "./provisions";

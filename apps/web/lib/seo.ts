@@ -93,18 +93,18 @@ export const SEO_TERMS: SeoTerm[] = [
           `As of the real July 2026 moves, ${cappedTeams().length} teams are hard-capped at the first apron: ${cappedTeams()
             .map((t) => `${teamNickname(t.team)}${t.source ? ` (${t.source})` : ""}`)
             .join(", ")}.`,
-          "A hard cap isn't a penalty — it's the price of a tool. Use the full mid-level, the bi-annual exception, or acquire a player by sign-and-trade, and the first apron becomes a wall you cannot cross for any reason, all season.",
+          "A hard cap isn't a penalty — it's the price of a tool. Use the full mid-level, the bi-annual exception, acquire a player by sign-and-trade, use expanded trade matching, or sign a row-D regular-season waiver player, and the first apron becomes a wall you cannot cross for any reason, all season.",
         ],
       },
     ],
     faq: [
       {
         q: "What can't a team over the first apron do?",
-        a: "No sign-and-trade acquisitions, no expanded salary matching in trades (100% + $250k only), no buyout-market signings above the minimum, and no using a pre-existing traded-player exception.",
+        a: "No sign-and-trade acquisitions, no expanded salary matching in trades (100% only if they remain above the line), no regular-season waiver-market signings when the terminated contract was above the NT-MLE, and no using a pre-existing traded-player exception.",
       },
       {
         q: "What hard-caps a team at the first apron?",
-        a: "Using the non-taxpayer mid-level, the bi-annual exception, expanded (200%) salary matching, acquiring a player via sign-and-trade, or absorbing salary into a pre-existing traded-player exception.",
+        a: "Using the non-taxpayer mid-level, the bi-annual exception, expanded salary matching, acquiring a player via sign-and-trade, signing a row-D regular-season waiver player, or absorbing salary into a pre-existing traded-player exception.",
       },
     ],
     related: ["second-apron", "hard-cap", "mid-level-exception", "salary-matching"],
@@ -120,7 +120,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "The restriction list",
         body: [
-          "Second-apron teams cannot aggregate salaries in a trade (no combining two contracts to match one bigger one), cannot send cash in any trade, cannot use any mid-level exception, cannot sign buyout players above the minimum, and their first-round pick seven drafts out is frozen — repeat offenders see it moved to the end of the round.",
+          "Second-apron teams cannot aggregate salaries in a trade (no combining two contracts to match one bigger one), cannot send cash in any trade, cannot use any mid-level exception, cannot sign regular-season waiver-market players covered by row D, and their own first-round pick seven drafts out is frozen — repeat offenders see it moved to the end of the round.",
           "This is why star-heavy rosters shed role players: every dollar over the second apron closes another door.",
         ],
       },
@@ -132,7 +132,7 @@ export const SEO_TERMS: SeoTerm[] = [
       },
       {
         q: "Which pick gets frozen?",
-        a: "The team's own first-round pick seven years out. Stay over the second apron in repeat seasons and the frozen pick drops to the end of the first round.",
+        a: "The team's own first-round pick in the first draft after the seventh following season — for example, 2024-25 second-apron status freezes the 2032 first. Stay over the second apron in at least two of the next four seasons and that frozen pick drops to the end of the first round.",
       },
     ],
     related: ["first-apron", "salary-matching", "hard-cap", "traded-player-exception"],
@@ -378,12 +378,14 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "First-apron triggers",
         body: [
-          "Using more than the taxpayer portion of the non-taxpayer MLE, using the bi-annual exception, acquiring a player via sign-and-trade, taking back more than 125% + $250k in a trade (expanded matching), or using a pre-existing traded-player exception.",
+          "Using more than the taxpayer portion of the non-taxpayer MLE, using the bi-annual exception, acquiring a player via sign-and-trade, signing a row-D regular-season waiver player, taking back more than 100% in a trade through expanded matching, or using a pre-existing traded-player exception.",
         ],
       },
       {
-        heading: "Second-apron trigger",
-        body: ["Using the taxpayer MLE hard-caps a team at the second apron."],
+        heading: "Second-apron triggers",
+        body: [
+          "Using the taxpayer MLE, acquiring a player with aggregated trade matching while landing at or below the second apron, sending cash in a trade while landing at or below the second apron, or using a traded-player exception for a sign-and-traded contract hard-caps the team at the second apron.",
+        ],
       },
       {
         heading: `Hard-capped teams right now (${cappedTeams().length})`,
@@ -541,7 +543,7 @@ export function teamSeo(id: string): TeamSeo {
       q: `Are the ${nickname} hard-capped?`,
       a: capped
         ? `Yes — at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their real July moves"}. Every trade in the sim is checked against that line.`
-        : `Not yet — but using the full MLE, the BAE, expanded matching, or a sign-and-trade acquisition would freeze the first apron (${fmtM(C.firstApron)}) as their ceiling.`,
+        : `Not yet — but using the full MLE, the BAE, expanded matching, a sign-and-trade acquisition, or a row-D regular-season waiver signing would freeze the first apron (${fmtM(C.firstApron)}) as their ceiling; taxpayer MLE, row-H aggregation, or row-I cash can freeze the second apron.`,
     },
     {
       q: `Can the ${nickname} trade a first-round pick?`,
