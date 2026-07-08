@@ -226,12 +226,12 @@ describe("player bio (real ages + availability, Basketball-Reference)", () => {
 describe("pedigree-floored value (aging stars stay impactful)", () => {
   const named2 = (n: string) => BASE_CONTRACTS.find((c) => c.playerName === n && !c.deadMoney)!;
 
-  it("floors an aged/injury-shortened star well above his raw current impact", () => {
-    // Anthony Davis (a 20-game, injury-hit season) reads near replacement raw,
-    // but his pedigree keeps him a star.
+  it("recovers an injury-shortened star from his body of work + accolades", () => {
+    // Anthony Davis (a 20-game 2025-26) reads near replacement raw, but his
+    // strong 2023-25 BPM and All-NBA/All-Defensive honors keep him a star.
     const ad = named2("Anthony Davis");
     expect(IMPACT_2026.byId[ad.playerId]!.av).toBeLessThan(60); // raw is depressed
-    expect(adjustedAv(ad)).toBeGreaterThan(75); // pedigree floors him back to star
+    expect(adjustedAv(ad)).toBeGreaterThan(70); // multi-year + accolades restore him
   });
 
   it("keeps aging stars impactful (LeBron, Curry, Draymond all clearly positive)", () => {

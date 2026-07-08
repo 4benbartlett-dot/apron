@@ -13,6 +13,7 @@ import playerStatsRaw from "./player-stats-2026.json";
 import playerDimsRaw from "./player-dimensions-2026.json";
 import playerInjuriesRaw from "./player-injuries-2026.json";
 import playerPedigreeRaw from "./player-pedigree-2026.json";
+import playerHistoryRaw from "./player-history.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
@@ -175,9 +176,15 @@ export const PLAYER_INJURIES_2026: Record<string, PlayerInjury> =
  * established star stays a star even when his aged or injury-shortened current
  * season understates him. The value model floors current impact at the
  * age-decayed pedigree. */
-export interface PlayerPedigree { peakOvr: number; as: number; mvp: number; dpoy: number; ring: number; fame: number; }
+export interface PlayerPedigree { peakOvr: number; an1: number; an2: number; an3: number; ad: number; as: number; mvp: number; dpoy: number; roy: number; smoy: number; mip: number; ring: number; fame: number; }
 export const PLAYER_PEDIGREE_2026: Record<string, PlayerPedigree> =
   (playerPedigreeRaw as { byId: Record<string, PlayerPedigree> }).byId;
+
+/** Prior-season advanced stats (2023-24, 2024-25) by playerId, so a player's
+ * value can lean on his recent BODY OF WORK, not one aged/injured season. */
+export interface SeasonLine { bpm?: number; vorp?: number; mp?: number; g?: number; per?: number; ws?: number; }
+export const PLAYER_HISTORY: Record<string, Record<string, SeasonLine>> =
+  (playerHistoryRaw as { byId: Record<string, Record<string, SeasonLine>> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
 export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
   (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;

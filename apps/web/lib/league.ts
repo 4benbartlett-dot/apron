@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -869,16 +869,26 @@ export function allocateRotation(roster: Contract[]): Rotation {
   for (const p of players) {
     let remain = p.mp;
     let placed = false;
-    p.elig.forEach((pos, i) => {
-      if (remain <= 0 || cap[pos] == null) return;
-      const take = Math.min(remain, cap[pos]!);
-      if (take <= 0) return;
-      cap[pos] -= take;
-      remain -= take;
-      weighted += p.pts * take;
-      byPos[pos]!.push({ playerId: p.id, playerName: p.name, minutes: take, pts: p.pts, av: p.av, age: p.age, pos, secondary: i > 0 });
+    const primary = p.elig[0];
+    // Route to the eligible spot where he gets the MOST minutes, not primary-
+    // first-then-spill — so a star behind a bigger star at his position slides
+    // cleanly to his open secondary spot (Curry starts at the 2 next to a point
+    // guard) instead of being split into scraps.
+    while (remain > 0.5) {
+      let bestPos: string | null = null;
+      let bestTake = 0;
+      for (const pos of p.elig) {
+        if (cap[pos] == null) continue;
+        const take = Math.min(remain, cap[pos]!);
+        if (take > bestTake + 1e-6) { bestTake = take; bestPos = pos; }
+      }
+      if (!bestPos || bestTake <= 0.5) break;
+      cap[bestPos] -= bestTake;
+      remain -= bestTake;
+      weighted += p.pts * bestTake;
+      byPos[bestPos]!.push({ playerId: p.id, playerName: p.name, minutes: bestTake, pts: p.pts, av: p.av, age: p.age, pos: bestPos, secondary: bestPos !== primary });
       placed = true;
-    });
+    }
     if (!placed) benched.push({ playerId: p.id, playerName: p.name, av: p.av });
   }
   for (const pos of ROTATION_POSITIONS) byPos[pos]!.sort((a, b) => b.minutes - a.minutes);
@@ -1072,36 +1082,64 @@ export function teamProjection(team: string, liveContracts: Contract[]): TeamPro
  * (a RAPM × true-wins blend), linearly scaled so the league's best reads 100.
  * This is the number shown on every player chip, card, and finder result.
  */
-/* --------------------------- VALUE MODEL (pedigree-floored) --------------------------- */
-// A player's displayed impact and his talent weight both start from the current
-// 2025-26 metric, then get FLOORED at his age-decayed star PEDIGREE — so an
-// age-42 LeBron or a 20-game Anthony Davis reads like the star he still is, not
-// the replacement his shortened, aged sample implies — plus a small credit for
-// the two-way defense a box score misses. This is what de-compresses the middle
-// of the league and keeps aging stars impactful.
+/* --------------------------- VALUE MODEL (multi-year + accolades) --------------------------- */
+// A player's value is built from his recent BODY OF WORK, not one aged or
+// injury-shortened season: a minutes-and-recency-weighted three-year impact
+// (2023-24 → 2025-26), blended with the current RAPM-anchored metric, then
+// credited for FACTUAL accolades (All-NBA, All-Defensive, MVP/DPOY, rings) —
+// which is how a 20-game Anthony Davis stays a star and a Draymond's defense
+// finally registers. A gentle age decline keeps a 42-year-old honest.
 
-/** Share of peak a player retains at a given age (peak ~27, ≈ −2%/yr after). */
-function ageDecay(age: number): number {
-  if (age <= 28) return 1.0;
-  return Math.max(0.66, 1 - (age - 28) * 0.02);
+const BPM_TO_AV = 3.6; // av ≈ 50 + 3.6·BPM (Jokić ~+13 → ~97, replacement −2 → ~43)
+
+/** A player's three-year weighted BPM — his recent body of work, so a single
+ * down or injured season doesn't define him. Recency-weighted and shrunk for
+ * low-minute seasons. */
+function multiYearBpm(playerId: string): number {
+  const cur = PLAYER_STATS_2026[playerId];
+  const hist = PLAYER_HISTORY[playerId] ?? {};
+  const seasons = [
+    { bpm: cur?.bpm, mp: cur?.mp, w: 0.45 },
+    { bpm: hist["2025"]?.bpm, mp: hist["2025"]?.mp, w: 0.35 },
+    { bpm: hist["2024"]?.bpm, mp: hist["2024"]?.mp, w: 0.2 },
+  ];
+  let num = 0, den = 0;
+  for (const s of seasons) {
+    if (s.bpm == null || !Number.isFinite(s.bpm)) continue;
+    const conf = fitClamp((s.mp ?? 0) / 1400, 0.15, 1); // a thin season counts less
+    num += s.bpm * s.w * conf;
+    den += s.w * conf;
+  }
+  return den > 0 ? num / den : (cur?.bpm ?? 0);
 }
 
-/** A player's star pedigree on the 0-100 Apron-Value scale, decayed to his
- * current age. 0 when there's no pedigree match (fringe / very young). */
-function pedigreeValue(playerId: string): number {
+/** Factual-accolade bonus on the Apron-Value scale (career honors, capped) —
+ * All-NBA and MVPs on offense, All-Defensive and DPOY on defense (the Draymond
+ * signal), plus All-Star / rings. */
+function accoladeBonus(playerId: string): number {
   const p = PLAYER_PEDIGREE_2026[playerId];
   if (!p) return 0;
-  const acc = Math.min(13, p.dpoy * 5 + p.mvp * 3 + p.ring * 1.5 + p.as * 0.7 + p.fame * 0.03);
-  return Math.min(100, p.peakOvr + acc) * ageDecay(ageOf(playerId));
+  const off = p.an1 * 2 + p.an2 * 1.2 + p.an3 * 0.7 + p.mvp * 3 + p.as * 0.4;
+  const def = p.ad * 1.6 + p.dpoy * 4; // elite defense a box score never sees
+  return Math.min(17, off + def + p.ring * 0.6);
 }
 
-/** The player's ADJUSTED Apron Value (0-100): current form, floored at his
- * age-decayed pedigree, plus a two-way defensive credit — the number shown
- * everywhere and the basis for his talent weight in the rotation. */
+/** Gentle forward-aging past ~32, so a 40+ great still declines (but the
+ * multi-year BPM already carries most of the age signal, so this is light). */
+function ageMult(age: number): number {
+  return age <= 32 ? 1 : Math.max(0.84, 1 - (age - 32) * 0.017);
+}
+
+/** The player's ADJUSTED Apron Value (0-100) — his recent body of work
+ * (multi-year BPM, which already shrinks thin seasons and carries aging)
+ * leaning over the current RAPM metric, credited for factual accolades, lightly
+ * aged. Shown everywhere and the basis for his talent weight in the rotation. */
 export function adjustedAv(c: Contract): number {
   const cur = impactEntry(c).av;
-  const twoWay = Math.max(0, playerDims(c).def - 58) * 0.18; // elite D the box misses
-  return Math.round(Math.min(100, Math.max(0, Math.max(cur, pedigreeValue(c.playerId)) + twoWay)) * 10) / 10;
+  const historyAv = 50 + BPM_TO_AV * multiYearBpm(c.playerId);
+  const base = (0.35 * cur + 0.65 * historyAv) * ageMult(ageOf(c.playerId));
+  const value = base + accoladeBonus(c.playerId);
+  return Math.round(fitClamp(value, 0, 100) * 10) / 10;
 }
 
 /** Talent in impact points/100 from the adjusted value (same 50-centered scale
@@ -1110,7 +1148,7 @@ function adjustedPts(c: Contract): number {
   return (adjustedAv(c) - 50) * 0.268;
 }
 
-/** The player's headline impact number (0-100), pedigree-floored. */
+/** The player's headline impact number (0-100). */
 export function impactScoreOf(c: Contract): number {
   return Math.round(adjustedAv(c));
 }
