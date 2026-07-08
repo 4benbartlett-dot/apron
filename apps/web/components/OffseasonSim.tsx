@@ -1254,10 +1254,15 @@ function SignEditor({
       .sort((a, b) => a.amt - b.amt);
   })();
 
-  const [salary, setSalary] = useState<number>(
-    Math.max(floor, Math.min(round100k(fa.lastSalary), ceiling)),
+  const initialSalary = Math.max(floor, Math.min(round100k(fa.lastSalary), ceiling));
+  const [salary, setSalary] = useState<number>(initialSalary);
+  // A vet-minimum signing defaults to a ONE-year term: it's the common veteran-
+  // minimum structure AND the only term that earns the 2-YOS cap reimbursement
+  // (§3(f)), so the default reflects the discount instead of hiding it behind a
+  // multi-year term. Non-minimum signings still default to three years.
+  const [years, setYears] = useState<number>(
+    deemedMinSalary(fa.playerId, initialSalary, 1) !== initialSalary ? 1 : Math.min(3, maxYears),
   );
-  const [years, setYears] = useState<number>(Math.min(3, maxYears));
 
   const v = validateSigning(base, salary, C, opts);
   // 8% raises only for a Bird / Early-Bird own-FA re-sign; Non-Bird and every
@@ -1270,6 +1275,11 @@ function SignEditor({
   const bookedSalary =
     years === 1 ? deemedMinSalary(fa.playerId, salary, 1, v.mechanism?.id ?? "unspecified") : salary;
   const isDeemedMin = bookedSalary !== salary;
+  // A 3+ YOS vet minimum that would deem at one year but is signed for MORE than
+  // one — the reimbursement doesn't apply, so it counts in full. Flag it so the
+  // missing discount isn't a surprise (the common point of confusion).
+  const isMultiYearVetMin =
+    years > 1 && deemedMinSalary(fa.playerId, salary, 1, v.mechanism?.id ?? "unspecified") !== salary;
   // Post-signing cap charge = base (committed + other kept holds) + new salary.
   const afterCharge = base + bookedSalary;
   // Post-signing APRON salary — the number tiers and hard caps actually test.
@@ -1532,6 +1542,12 @@ function SignEditor({
             One-year vet minimum: he&rsquo;s paid {fmtM(salary)}, but with 3+ years of
             service he counts only <span className="tabular">{fmtM(bookedSalary)}</span> against the cap, tax,
             and aprons — the league reimburses the difference (Art. VII §3(f)).
+          </div>
+        )}
+        {isMultiYearVetMin && (
+          <div className="mt-1 text-[var(--muted)]">
+            Multi-year minimum — counts in full ({fmtM(salary)}); the 2-YOS reimbursement (Art. VII §3(f))
+            applies only to one-year deals. Drop it to a 1-year term to get the reduced cap charge.
           </div>
         )}
         {exceedsHardCap && (
