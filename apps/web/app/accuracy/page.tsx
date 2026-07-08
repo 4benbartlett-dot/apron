@@ -27,7 +27,6 @@ const APPROXIMATE = [
   "Apron Value — the 0-100 number on every player — is a rough read on impact from box scores and lineup data. It leans on BPM and carries an uncertainty band; it isn't trying to out-do the big public metrics like EPM or DARKO.",
   "A team's projected record is a read on the roster as it stands today — not a full-season forecast. There's no coaching, chemistry, or playoff translation baked in.",
   "Positions come from where a player actually logged his minutes; a real second position is any spot he played at least ~12% of the time. Players without enough tracked minutes fall back to their listed position.",
-  "Bird-rights type and years of service come from public listings where they exist; when those come up short, we estimate on the conservative side. That can nudge a re-sign ceiling, but never whether a trade is legal.",
   "Rookie-scale and minimum-salary amounts are close estimates until the official 2026 numbers post.",
   "Draft-pick trade value is projected from each team's strength, discounted for risk and how far out the pick is — the fairness meter just adds it up per side.",
   "Some traded-player-exception details are simplified: one exception per team per trade, whole players only.",

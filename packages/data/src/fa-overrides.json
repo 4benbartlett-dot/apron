@@ -1,10 +1,94 @@
 {
   "asOf": "2026-07-07",
-  "note": "Curated corrections to the scraped free-agent feed (survives re-scrapes — the scraper never writes this file). Keyed by normalized name.",
+  "note": "Curated corrections to the scraped free-agent feed (survives re-scrapes \u2014 the scraper never writes this file). Keyed by normalized name.",
   "byName": {
+    "alex antetokounmpo": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Milwaukee on Oct 13, 2025 -- his first NBA-roster season. Prior time was G League (Raptors 905, Wisconsin Herd) and PAOK in Greece. 1 season on the NBA roster"
+    },
+    "david jonesgarcia": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with San Antonio on July 23, 2025 after a strong Summer League. 2025-26 was his first season with the Spurs (cut short by ankle surgery). 1 season with the current"
+    },
+    "david roddy": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Denver on March 4, 2026 -- a partial first season. Started 2025-26 in Toronto's camp (waived Oct), then Raptors 905, before Denver. No prior Nuggets tenure. 1"
+    },
+    "dillon jones": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with the Knicks on Jan 20, 2026 -- first season with NY. His 2024-25 rookie season was with Oklahoma City. 1 (partial) season with the current team. Non-Bird."
+    },
+    "elijah harkless": {
+      "birdStatus": "early_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Utah on Jan 1, 2025 (finished 2024-25 with the Jazz), then carried over as a holdover into 2025-26 -- described as 'a holdover from last season,' set to be an"
+    },
+    "ethan thompson": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Indiana on Nov 30, 2025 (the 'two-year' figure is contract length, not tenure). First season with the Pacers. 1 season with the current team. Non-Bird."
+    },
+    "harrison ingram": {
+      "birdStatus": "early_bird",
+      "why": "Web-verified team tenure: Drafted 48th by San Antonio in 2024, signed a two-way July 29, 2024 (finished 2024-25 with SAS), then RE-SIGNED a two-way with the Spurs Aug 6, 2025 as a holdover (2025-26). Two co"
+    },
+    "hunter dickinson": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Undrafted 2025; signed a two-way with New Orleans on June 27, 2025. 2025-26 was his rookie season (mostly Birmingham Squadron). Re-signed a two-way July 2026. 1 season with the cur"
+    },
+    "isaiah crawford": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Houston on July 26, 2025 -- his first season with the Rockets (2025-26). His rookie year (2024-25) was with Sacramento. 1 season with the current team. Non-Bi"
+    },
+    "isaiah stevens": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Sacramento on July 7, 2025 -- his first season with the Kings (2025-26). His rookie 2024-25 season was with Miami. The 'two-year' deal is contract length, not"
+    },
+    "jahmai mashack": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Drafted 59th in 2025 (rights traded to Memphis). Signed a two-way with the Grizzlies on Nov 16, 2025; NBA debut Nov 20, 2025. Rookie season, 1 season with the current team. Non-Bir"
+    },
+    "jalen slawson": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Indiana on Feb 27, 2026 -- first real season with the Pacers. He was on an Exhibit 10 with IND in Sept 2025 but was WAIVED Oct 18 before re-signing midseason,"
+    },
     "jonathan kuminga": {
       "birdStatus": "non_bird",
-      "why": "2023 CBA Art. VII §8(b): traded mid-season while on an expiring deal without the Bird clock carrying — ATL holds only Non-Bird rights (120% hold, not the feed's full-Bird 150-190%). Web-verified vs hoopsrumors/espn."
+      "why": "2023 CBA Art. VII \u00a78(b): traded mid-season while on an expiring deal without the Bird clock carrying \u2014 ATL holds only Non-Bird rights (120% hold, not the feed's full-Bird 150-190%). Web-verified vs hoopsrumors/espn."
+    },
+    "mac mcclung": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Chicago at the Feb 2026 trade deadline -- first sustained season with the Bulls. His 2025-26 path was fractured: signed/waived by CHI in Oct 2025, then Indian"
+    },
+    "moussa cisse": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed with Dallas on July 8, 2025, converted to a two-way Oct 18, 2025 as an undrafted player. 2025-26 was his first season with the Mavs (they extended him a QO). 1 season with t"
+    },
+    "patrick baldwin": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Sacramento on Feb 22, 2026 -- only a partial first season with the Kings. Spent 2025-26 bouncing through the G League and 10-days (Clippers, 76ers) before lan"
+    },
+    "sean pedulla": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Undrafted 2025 rookie. Signed a two-way with the Clippers on Feb 20, 2026 after starring for Portland's G League affiliate. First (partial) NBA season, first season with LAC. Non-B"
+    },
+    "taelon peter": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Drafted 54th by Indiana in 2025; signed a two-way in late July 2025. 2025-26 was his rookie season. 1 season with the current team. Non-Bird."
+    },
+    "tyler smith": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Dallas on March 1, 2026 -- a partial first season. Drafted 33rd by Milwaukee in 2024 (rookie year with Bucks), waived Oct 2025, then Houston two-way (waived J"
+    },
+    "tyty washington": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with the Clippers on Dec 27, 2025 -- a partial first season. He was on a LAC camp deal in Oct 2025 but WAIVED Oct 18 before re-signing midseason via the G League. "
+    },
+    "vladislav goldin": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Undrafted 2025; signed a two-way with Miami on June 26, 2025. 2025-26 was his rookie season; Heat gave him a two-way QO June 27, 2026. 1 season with the current team. Non-Bird."
+    },
+    "wendell moore": {
+      "birdStatus": "non_bird",
+      "why": "Web-verified team tenure: Signed a two-way with Detroit on Nov 10, 2025. He had a prior Pistons stint in 2024-25 but was WAIVED on Feb 6, 2025, which broke any consecutive-season chain. The current run is a"
     }
   }
 }
