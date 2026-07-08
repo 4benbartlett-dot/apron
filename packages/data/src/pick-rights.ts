@@ -36,6 +36,10 @@ export interface PickHolding {
   counterparties?: string[];
   favorable?: Favorable;
   protection?: string;
+  /** This entry describes the SAME underlying pick as another holding (kept in
+   *  the data for provenance) — the structured team-page chips skip it to avoid
+   *  double-counting; valuation and the raw ledger still see it. */
+  overlapsPrior?: boolean;
   note: string;
   source?: string;
 }

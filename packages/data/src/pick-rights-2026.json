@@ -142,6 +142,7 @@
             "PHI"
           ],
           "protection": "1-8",
+          "overlapsPrior": true,
           "note": "Philadelphia's 2028 first protected 1-8; if it lands 1-8 (not conveyed) BKN instead gets PHI's 2028 2nd; BKN may pass this first onward to Phoenix (then possibly Washington)",
           "source": "Brooklyn-Philadelphia, 2/10/2022"
         },
@@ -2496,6 +2497,7 @@
           ],
           "favorable": "less",
           "protection": "1-5",
+          "overlapsPrior": true,
           "note": "Utah receives the 2nd most favorable (median) of the Utah/Cleveland/Minnesota 2027 firsts; Memphis takes the most favorable, Phoenix the least. Utah's own pick barred from selections 1-5. Same pool as the 2027 ownFirstObligations entry \u2014 Utah nets a single 2027 first (the middle of three).",
           "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
         },
@@ -2704,6 +2706,7 @@
           ],
           "favorable": "more",
           "protection": "PHI leg protected 1-8",
+          "overlapsPrior": true,
           "note": "WAS gets more favorable of its own 2028 1st and least/less favorable of PHI(if conveyed, prot 1-8), BKN, PHX; may then swap that pick for MIL/POR; overlaps with the other WAS 2028 first entry",
           "source": "Brooklyn-New York, 7/6/2024"
         },
