@@ -1,0 +1,3845 @@
+{
+  "source": "82orBust peak ratings + accolades, matched by name",
+  "byId": {
+    "tatumja01": {
+      "peakOvr": 77.3,
+      "as": 6,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 90.9
+    },
+    "brownja02": {
+      "peakOvr": 64.4,
+      "as": 5,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 75.28
+    },
+    "whitede01": {
+      "peakOvr": 65.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 30.02
+    },
+    "vucevni01": {
+      "peakOvr": 65.7,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 36.61
+    },
+    "hausesa01": {
+      "peakOvr": 50.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 21.66
+    },
+    "pritcpa01": {
+      "peakOvr": 57.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 27.26
+    },
+    "gonzahu01": {
+      "peakOvr": 38.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.64
+    },
+    "scheiba01": {
+      "peakOvr": 45.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.15
+    },
+    "garzalu01": {
+      "peakOvr": 64.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.13
+    },
+    "quetane01": {
+      "peakOvr": 63.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 17.24
+    },
+    "walshjo01": {
+      "peakOvr": 41.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 11.91
+    },
+    "william01": {
+      "peakOvr": 33.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.59
+    },
+    "bantoda01": {
+      "peakOvr": 41.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.66
+    },
+    "tonjejo01": {
+      "peakOvr": 33,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.4
+    },
+    "davisjd01": {
+      "peakOvr": 36.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 3.45
+    },
+    "portemi01": {
+      "peakOvr": 65.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 30.42
+    },
+    "claxtni01": {
+      "peakOvr": 61,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.33
+    },
+    "mannte01": {
+      "peakOvr": 47.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.84
+    },
+    "agbajoc01": {
+      "peakOvr": 36.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.23
+    },
+    "willizi02": {
+      "peakOvr": 41.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.59
+    },
+    "sharpda01": {
+      "peakOvr": 53.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.41
+    },
+    "traorno01": {
+      "peakOvr": 18.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.69
+    },
+    "clownno01": {
+      "peakOvr": 35.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.88
+    },
+    "poweldr01": {
+      "peakOvr": 22.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.23
+    },
+    "sarafbe01": {
+      "peakOvr": 16.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.85
+    },
+    "wolfda01": {
+      "peakOvr": 37.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.72
+    },
+    "minotjo01": {
+      "peakOvr": 48.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.04
+    },
+    "wilsoja03": {
+      "peakOvr": 31.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.6
+    },
+    "smithma02": {
+      "peakOvr": 42.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.01
+    },
+    "thomaca02": {
+      "peakOvr": 42.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 26.52
+    },
+    "highsha01": {
+      "peakOvr": 43,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.12
+    },
+    "bufkiko01": {
+      "peakOvr": 23.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.17
+    },
+    "whiteda01": {
+      "peakOvr": 30.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.08
+    },
+    "johnske07": {
+      "peakOvr": 34.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.84
+    },
+    "tysonhu01": {
+      "peakOvr": 26.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.45
+    },
+    "martity01": {
+      "peakOvr": 34.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.5
+    },
+    "timmedr01": {
+      "peakOvr": 35.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.92
+    },
+    "nelsogr02": {
+      "peakOvr": 36.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.33
+    },
+    "townska01": {
+      "peakOvr": 81.1,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 45.7
+    },
+    "anunoog01": {
+      "peakOvr": 60.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 24.75
+    },
+    "brunsja01": {
+      "peakOvr": 75.9,
+      "as": 3,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 58.82
+    },
+    "bridgmi01": {
+      "peakOvr": 61.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.26
+    },
+    "hartjo01": {
+      "peakOvr": 62.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.05
+    },
+    "robinmi01": {
+      "peakOvr": 68.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.18
+    },
+    "alvarjo01": {
+      "peakOvr": 49.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.34
+    },
+    "mcbrimi01": {
+      "peakOvr": 44.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.23
+    },
+    "dadiepa01": {
+      "peakOvr": 29.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.54
+    },
+    "shamela01": {
+      "peakOvr": 46.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.12
+    },
+    "clarkjo01": {
+      "peakOvr": 48.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20
+    },
+    "kolekty01": {
+      "peakOvr": 36.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.6
+    },
+    "hukpoar01": {
+      "peakOvr": 32.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.68
+    },
+    "diawamo01": {
+      "peakOvr": 34.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.19
+    },
+    "sochaje01": {
+      "peakOvr": 47.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.86
+    },
+    "embiijo01": {
+      "peakOvr": 94.3,
+      "as": 5,
+      "mvp": 1,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 82.76
+    },
+    "georgpa01": {
+      "peakOvr": 77.4,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 46.49
+    },
+    "maxeyty01": {
+      "peakOvr": 65.7,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 47.41
+    },
+    "edgecvj01": {
+      "peakOvr": 52.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.98
+    },
+    "grimequ01": {
+      "peakOvr": 51,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.48
+    },
+    "oubreke01": {
+      "peakOvr": 51.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.59
+    },
+    "drumman01": {
+      "peakOvr": 68,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 42.26
+    },
+    "barlodo01": {
+      "peakOvr": 47.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.75
+    },
+    "watfotr01": {
+      "peakOvr": 43.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11
+    },
+    "lowryky01": {
+      "peakOvr": 75,
+      "as": 5,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 65.66
+    },
+    "edwarju01": {
+      "peakOvr": 37.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.11
+    },
+    "bonaad01": {
+      "peakOvr": 41.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.55
+    },
+    "broomjo01": {
+      "peakOvr": 27.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 3.77
+    },
+    "walkeja01": {
+      "peakOvr": 36.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.83
+    },
+    "payneca01": {
+      "peakOvr": 50.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.13
+    },
+    "bassech01": {
+      "peakOvr": 50.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.2
+    },
+    "baldwpa01": {
+      "peakOvr": 37.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.02
+    },
+    "barnesc01": {
+      "peakOvr": 63.9,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 40.26
+    },
+    "ingrabr01": {
+      "peakOvr": 63.5,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 38.92
+    },
+    "quickim01": {
+      "peakOvr": 62,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.01
+    },
+    "barrerj01": {
+      "peakOvr": 56.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.9
+    },
+    "poeltja01": {
+      "peakOvr": 64.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.89
+    },
+    "murraco01": {
+      "peakOvr": 56.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.78
+    },
+    "dickgr01": {
+      "peakOvr": 32,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.31
+    },
+    "walteja01": {
+      "peakOvr": 42.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.01
+    },
+    "mamuksa01": {
+      "peakOvr": 63.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.32
+    },
+    "templga01": {
+      "peakOvr": 40.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.07
+    },
+    "jackstr02": {
+      "peakOvr": 59.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.57
+    },
+    "mogbojo01": {
+      "peakOvr": 38.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.87
+    },
+    "battlja01": {
+      "peakOvr": 34.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.61
+    },
+    "sheadja01": {
+      "peakOvr": 35.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.41
+    },
+    "paulch01": {
+      "peakOvr": 95.9,
+      "as": 5,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 71.81
+    },
+    "bambamo01": {
+      "peakOvr": 53.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.71
+    },
+    "simonan01": {
+      "peakOvr": 47.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 28.59
+    },
+    "giddejo01": {
+      "peakOvr": 64.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.98
+    },
+    "sextoco01": {
+      "peakOvr": 55.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.54
+    },
+    "colliza01": {
+      "peakOvr": 53.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.36
+    },
+    "willipa01": {
+      "peakOvr": 38.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.21
+    },
+    "okorois01": {
+      "peakOvr": 42.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.26
+    },
+    "smithja04": {
+      "peakOvr": 53.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.23
+    },
+    "jonestr01": {
+      "peakOvr": 63.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.34
+    },
+    "dilliro01": {
+      "peakOvr": 20.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.05
+    },
+    "yabusgu01": {
+      "peakOvr": 49.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.35
+    },
+    "buzelma01": {
+      "peakOvr": 43.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.07
+    },
+    "essenno01": {
+      "peakOvr": 33.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 2.55
+    },
+    "richani01": {
+      "peakOvr": 47.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.47
+    },
+    "millele01": {
+      "peakOvr": 51.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.76
+    },
+    "gueyemo01": {
+      "peakOvr": 34.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.35
+    },
+    "iveyja01": {
+      "peakOvr": 40.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.39
+    },
+    "carteje01": {
+      "peakOvr": 46.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.23
+    },
+    "mobleev01": {
+      "peakOvr": 67.8,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 1,
+      "ring": 0,
+      "fame": 33.92
+    },
+    "mitchdo01": {
+      "peakOvr": 78.5,
+      "as": 4,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 63.17
+    },
+    "hardeja01": {
+      "peakOvr": 93.1,
+      "as": 7,
+      "mvp": 1,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 103.84
+    },
+    "allenja01": {
+      "peakOvr": 73.3,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 32.03
+    },
+    "strusma01": {
+      "peakOvr": 50.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.29
+    },
+    "schrode01": {
+      "peakOvr": 50.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.2
+    },
+    "merrisa01": {
+      "peakOvr": 49.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.75
+    },
+    "wadede01": {
+      "peakOvr": 44.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.49
+    },
+    "tysonja01": {
+      "peakOvr": 47.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.07
+    },
+    "elliske01": {
+      "peakOvr": 53,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.1
+    },
+    "nancela02": {
+      "peakOvr": 63.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.51
+    },
+    "bryanth01": {
+      "peakOvr": 64.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.35
+    },
+    "portecr01": {
+      "peakOvr": 48.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.21
+    },
+    "proctty01": {
+      "peakOvr": 33.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.19
+    },
+    "tomlina01": {
+      "peakOvr": 40,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.88
+    },
+    "rubiori01": {
+      "peakOvr": 59.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.04
+    },
+    "cunnica01": {
+      "peakOvr": 62.4,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 44.2
+    },
+    "harrito02": {
+      "peakOvr": 65.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 27.01
+    },
+    "huertke01": {
+      "peakOvr": 49.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.62
+    },
+    "robindu01": {
+      "peakOvr": 54.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.35
+    },
+    "stewais01": {
+      "peakOvr": 47.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.13
+    },
+    "leverca01": {
+      "peakOvr": 55,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.96
+    },
+    "thompau01": {
+      "peakOvr": 54.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.44
+    },
+    "durenja01": {
+      "peakOvr": 67.9,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 27.86
+    },
+    "reedpa01": {
+      "peakOvr": 69.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.24
+    },
+    "jenkida01": {
+      "peakOvr": 44,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.7
+    },
+    "sassema01": {
+      "peakOvr": 38.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.52
+    },
+    "greenja02": {
+      "peakOvr": 55.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.64
+    },
+    "jonesis01": {
+      "peakOvr": 37.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.82
+    },
+    "laniech01": {
+      "peakOvr": 26,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 3.49
+    },
+    "saricda01": {
+      "peakOvr": 51.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.9
+    },
+    "klintbo01": {
+      "peakOvr": 29.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 2.59
+    },
+    "halibty01": {
+      "peakOvr": 82.1,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 40.57
+    },
+    "siakapa01": {
+      "peakOvr": 66.7,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 46.83
+    },
+    "zubaciv01": {
+      "peakOvr": 64.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 27.55
+    },
+    "nembhan01": {
+      "peakOvr": 42.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.16
+    },
+    "toppiob01": {
+      "peakOvr": 57,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.51
+    },
+    "nesmiaa01": {
+      "peakOvr": 43.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.08
+    },
+    "mccontj01": {
+      "peakOvr": 56,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.21
+    },
+    "walkeja02": {
+      "peakOvr": 37.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.41
+    },
+    "sheppbe01": {
+      "peakOvr": 34.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.79
+    },
+    "brownko01": {
+      "peakOvr": 40.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.05
+    },
+    "huffja01": {
+      "peakOvr": 58.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.19
+    },
+    "furphjo01": {
+      "peakOvr": 29.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.09
+    },
+    "pottemi01": {
+      "peakOvr": 54.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.85
+    },
+    "joneska03": {
+      "peakOvr": 21.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.77
+    },
+    "bradlto01": {
+      "peakOvr": 53.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.36
+    },
+    "wisemja01": {
+      "peakOvr": 38.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.64
+    },
+    "mathega01": {
+      "peakOvr": 39.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.1
+    },
+    "morrimo01": {
+      "peakOvr": 58.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.35
+    },
+    "mccluma01": {
+      "peakOvr": 35.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.3
+    },
+    "antetgi01": {
+      "peakOvr": 100,
+      "as": 7,
+      "mvp": 1,
+      "dpoy": 1,
+      "ring": 1,
+      "fame": 105.31
+    },
+    "turnemy01": {
+      "peakOvr": 58.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.19
+    },
+    "kuzmaky01": {
+      "peakOvr": 50.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.21
+    },
+    "portibo01": {
+      "peakOvr": 55.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 28.11
+    },
+    "diengou01": {
+      "peakOvr": 33.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 11.02
+    },
+    "porteke02": {
+      "peakOvr": 62.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.88
+    },
+    "rolliry01": {
+      "peakOvr": 50.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.23
+    },
+    "trentga02": {
+      "peakOvr": 50.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.42
+    },
+    "harriga01": {
+      "peakOvr": 49.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.44
+    },
+    "princta02": {
+      "peakOvr": 42.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.44
+    },
+    "simsje01": {
+      "peakOvr": 41,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.68
+    },
+    "greenaj01": {
+      "peakOvr": 36.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.42
+    },
+    "antetth01": {
+      "peakOvr": 30.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 10.95
+    },
+    "jacksan01": {
+      "peakOvr": 25.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.27
+    },
+    "lillada01": {
+      "peakOvr": 85.4,
+      "as": 3,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 58.23
+    },
+    "hayesni01": {
+      "peakOvr": 19.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 2.11
+    },
+    "smithty02": {
+      "peakOvr": 37,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 3.77
+    },
+    "micicva01": {
+      "peakOvr": 31.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.38
+    },
+    "mccolcj01": {
+      "peakOvr": 61,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 29.24
+    },
+    "johnsja05": {
+      "peakOvr": 60.4,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 26.81
+    },
+    "kuminjo01": {
+      "peakOvr": 47.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 26.42
+    },
+    "alexani01": {
+      "peakOvr": 60.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 24.83
+    },
+    "okongon01": {
+      "peakOvr": 58.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.75
+    },
+    "kispeco01": {
+      "peakOvr": 41.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.98
+    },
+    "risacza01": {
+      "peakOvr": 38.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.76
+    },
+    "vincega01": {
+      "peakOvr": 33.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.73
+    },
+    "hieldbu01": {
+      "peakOvr": 56.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.27
+    },
+    "daniedy01": {
+      "peakOvr": 60,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.1
+    },
+    "newelas01": {
+      "peakOvr": 40.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.82
+    },
+    "wallake01": {
+      "peakOvr": 32.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.05
+    },
+    "landajo01": {
+      "peakOvr": 51.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.23
+    },
+    "gueyemo02": {
+      "peakOvr": 42.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.18
+    },
+    "reathdu01": {
+      "peakOvr": 43,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.59
+    },
+    "nfalyda01": {
+      "peakOvr": 40,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.7
+    },
+    "houstca01": {
+      "peakOvr": 38.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 2.98
+    },
+    "ballla01": {
+      "peakOvr": 65.7,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 37.12
+    },
+    "bridgmi02": {
+      "peakOvr": 55.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 30.66
+    },
+    "greenjo02": {
+      "peakOvr": 38.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.9
+    },
+    "willigr01": {
+      "peakOvr": 48.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.14
+    },
+    "whiteco01": {
+      "peakOvr": 59.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.66
+    },
+    "millebr02": {
+      "peakOvr": 50.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.6
+    },
+    "connapa01": {
+      "peakOvr": 53.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.12
+    },
+    "knuepko01": {
+      "peakOvr": 66.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.38
+    },
+    "manntr01": {
+      "peakOvr": 34.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.91
+    },
+    "salauti01": {
+      "peakOvr": 30.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.03
+    },
+    "mcneeli01": {
+      "peakOvr": 38.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.51
+    },
+    "jamessi01": {
+      "peakOvr": 38.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.99
+    },
+    "kalkbry01": {
+      "peakOvr": 61.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.08
+    },
+    "diabamo01": {
+      "peakOvr": 56.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.08
+    },
+    "conlemi01": {
+      "peakOvr": 68.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 33.7
+    },
+    "branhma01": {
+      "peakOvr": 35.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.76
+    },
+    "smithni01": {
+      "peakOvr": 24.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.07
+    },
+    "adebaba01": {
+      "peakOvr": 70.2,
+      "as": 3,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 53.96
+    },
+    "herroty01": {
+      "peakOvr": 57,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 40.57
+    },
+    "wiggian01": {
+      "peakOvr": 57.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23
+    },
+    "powelno01": {
+      "peakOvr": 60.5,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 33.82
+    },
+    "mitchda01": {
+      "peakOvr": 49.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.46
+    },
+    "fontesi01": {
+      "peakOvr": 47.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.6
+    },
+    "jovicni01": {
+      "peakOvr": 42.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.93
+    },
+    "wareke01": {
+      "peakOvr": 59.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.25
+    },
+    "jaqueja01": {
+      "peakOvr": 48.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.1
+    },
+    "jakucka01": {
+      "peakOvr": 45,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.65
+    },
+    "smithdr01": {
+      "peakOvr": 51.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.89
+    },
+    "johnske10": {
+      "peakOvr": 40.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.55
+    },
+    "larsspe01": {
+      "peakOvr": 43,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.43
+    },
+    "gardnmy01": {
+      "peakOvr": 46.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.59
+    },
+    "roziete01": {
+      "peakOvr": 58.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 29.78
+    },
+    "wagnefr01": {
+      "peakOvr": 59.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 29.8
+    },
+    "banede01": {
+      "peakOvr": 63.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 27.74
+    },
+    "suggsja01": {
+      "peakOvr": 47.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.89
+    },
+    "banchpa01": {
+      "peakOvr": 59.2,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 37.72
+    },
+    "isaacjo01": {
+      "peakOvr": 55,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.15
+    },
+    "cartewe01": {
+      "peakOvr": 55.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.97
+    },
+    "bitadgo01": {
+      "peakOvr": 62.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.48
+    },
+    "blackan01": {
+      "peakOvr": 41.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.95
+    },
+    "howarje01": {
+      "peakOvr": 28.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.62
+    },
+    "wagnemo01": {
+      "peakOvr": 56.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.38
+    },
+    "dasiltr01": {
+      "peakOvr": 42.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.24
+    },
+    "richaja02": {
+      "peakOvr": 34.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.19
+    },
+    "pendano01": {
+      "peakOvr": 36.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.65
+    },
+    "davisan02": {
+      "peakOvr": 88,
+      "as": 6,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 79.72
+    },
+    "youngtr01": {
+      "peakOvr": 71.8,
+      "as": 4,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 64.1
+    },
+    "sarral01": {
+      "peakOvr": 44.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.05
+    },
+    "johnstr03": {
+      "peakOvr": 28.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.92
+    },
+    "coulibi01": {
+      "peakOvr": 36.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.33
+    },
+    "hardyja02": {
+      "peakOvr": 29.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.93
+    },
+    "russeda01": {
+      "peakOvr": 58.4,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 32.62
+    },
+    "carrica01": {
+      "peakOvr": 31.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.32
+    },
+    "whitmca01": {
+      "peakOvr": 48.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.44
+    },
+    "rileywi01": {
+      "peakOvr": 31.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.18
+    },
+    "georgky01": {
+      "peakOvr": 37.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.88
+    },
+    "champju01": {
+      "peakOvr": 49,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.23
+    },
+    "gillan01": {
+      "peakOvr": 34.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.3
+    },
+    "smartma01": {
+      "peakOvr": 54.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 1,
+      "ring": 0,
+      "fame": 21.92
+    },
+    "weslebl01": {
+      "peakOvr": 29.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.06
+    },
+    "jonesdi01": {
+      "peakOvr": 34.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.11
+    },
+    "exumda01": {
+      "peakOvr": 46.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.39
+    },
+    "labissk01": {
+      "peakOvr": 39.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.45
+    },
+    "willial06": {
+      "peakOvr": 38.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.1
+    },
+    "richmka01": {
+      "peakOvr": 38.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.21
+    },
+    "gilbeke01": {
+      "peakOvr": 34.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.76
+    },
+    "jokicni01": {
+      "peakOvr": 100,
+      "as": 7,
+      "mvp": 3,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 112.54
+    },
+    "murraja01": {
+      "peakOvr": 67.1,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 42.31
+    },
+    "gordoaa01": {
+      "peakOvr": 60.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 27.48
+    },
+    "johnsca02": {
+      "peakOvr": 60.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.49
+    },
+    "valanjo01": {
+      "peakOvr": 72.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.11
+    },
+    "nnajize01": {
+      "peakOvr": 36,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 15.2
+    },
+    "braunch01": {
+      "peakOvr": 48.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 20.8
+    },
+    "watsope01": {
+      "peakOvr": 42.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 17.64
+    },
+    "strawju01": {
+      "peakOvr": 30.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.89
+    },
+    "hardati02": {
+      "peakOvr": 50.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.68
+    },
+    "brownbr01": {
+      "peakOvr": 54.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.72
+    },
+    "pickeja02": {
+      "peakOvr": 34.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.11
+    },
+    "jonessp01": {
+      "peakOvr": 34.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.84
+    },
+    "edwaran01": {
+      "peakOvr": 63.6,
+      "as": 4,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 64.51
+    },
+    "goberru01": {
+      "peakOvr": 81.3,
+      "as": 3,
+      "mvp": 0,
+      "dpoy": 1,
+      "ring": 0,
+      "fame": 41.91
+    },
+    "randlju01": {
+      "peakOvr": 64.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.36
+    },
+    "mcdanja02": {
+      "peakOvr": 46.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.97
+    },
+    "reidna01": {
+      "peakOvr": 53.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.28
+    },
+    "divindo01": {
+      "peakOvr": 64.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.57
+    },
+    "dosunay01": {
+      "peakOvr": 59.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.88
+    },
+    "berinjo01": {
+      "peakOvr": 49.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.29
+    },
+    "shannte01": {
+      "peakOvr": 34.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.27
+    },
+    "hylanbo01": {
+      "peakOvr": 52.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.91
+    },
+    "inglejo01": {
+      "peakOvr": 56.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.52
+    },
+    "phillju01": {
+      "peakOvr": 30,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.09
+    },
+    "clarkja02": {
+      "peakOvr": 38.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.1
+    },
+    "gilgesh01": {
+      "peakOvr": 90.2,
+      "as": 4,
+      "mvp": 1,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 80.99
+    },
+    "harteis01": {
+      "peakOvr": 71.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.33
+    },
+    "dortlu01": {
+      "peakOvr": 43,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 27.44
+    },
+    "carusal01": {
+      "peakOvr": 57.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 13.12
+    },
+    "holmgch01": {
+      "peakOvr": 72.2,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 31.39
+    },
+    "joeis01": {
+      "peakOvr": 54.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 21.18
+    },
+    "wiggiaa01": {
+      "peakOvr": 45.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 21.05
+    },
+    "willija07": {
+      "peakOvr": 52.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 15.13
+    },
+    "willike04": {
+      "peakOvr": 47.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 19.53
+    },
+    "willija06": {
+      "peakOvr": 65.5,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 36.2
+    },
+    "wallaca01": {
+      "peakOvr": 52.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 17.37
+    },
+    "topicni01": {
+      "peakOvr": 25.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.97
+    },
+    "mccaija01": {
+      "peakOvr": 45.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.88
+    },
+    "mitchaj01": {
+      "peakOvr": 55.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 16.44
+    },
+    "plumlma01": {
+      "peakOvr": 64.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.84
+    },
+    "holidjr01": {
+      "peakOvr": 70.2,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 34.06
+    },
+    "grantje01": {
+      "peakOvr": 58.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.41
+    },
+    "avdijde01": {
+      "peakOvr": 68.1,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 32
+    },
+    "williro04": {
+      "peakOvr": 51.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.05
+    },
+    "thybuma01": {
+      "peakOvr": 49.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.57
+    },
+    "hendesc01": {
+      "peakOvr": 35.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.91
+    },
+    "sharpsh01": {
+      "peakOvr": 43.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.78
+    },
+    "clingdo01": {
+      "peakOvr": 63.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.83
+    },
+    "yangha01": {
+      "peakOvr": 15,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 3.5
+    },
+    "murrakr01": {
+      "peakOvr": 34.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.64
+    },
+    "krejcvi01": {
+      "peakOvr": 42,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.13
+    },
+    "camarto01": {
+      "peakOvr": 47.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.52
+    },
+    "cissosi01": {
+      "peakOvr": 34.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.9
+    },
+    "aytonde01": {
+      "peakOvr": 66.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.95
+    },
+    "ruperra01": {
+      "peakOvr": 35.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.12
+    },
+    "louzama01": {
+      "peakOvr": 29.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.46
+    },
+    "markkla01": {
+      "peakOvr": 68.8,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 37.21
+    },
+    "jacksja02": {
+      "peakOvr": 59.1,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 1,
+      "ring": 0,
+      "fame": 42.53
+    },
+    "nurkiju01": {
+      "peakOvr": 64.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.66
+    },
+    "baileac01": {
+      "peakOvr": 33.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.98
+    },
+    "konchjo01": {
+      "peakOvr": 51.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.49
+    },
+    "willico04": {
+      "peakOvr": 22.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.3
+    },
+    "kesslwa01": {
+      "peakOvr": 64.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.8
+    },
+    "georgke01": {
+      "peakOvr": 43.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 24.48
+    },
+    "loveke01": {
+      "peakOvr": 82.2,
+      "as": 3,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 51.13
+    },
+    "mykhasv01": {
+      "peakOvr": 44,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.07
+    },
+    "filipky01": {
+      "peakOvr": 47,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.28
+    },
+    "sensabr01": {
+      "peakOvr": 37.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.66
+    },
+    "colliis01": {
+      "peakOvr": 34.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.47
+    },
+    "balllo01": {
+      "peakOvr": 55,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.01
+    },
+    "willivi01": {
+      "peakOvr": 40.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.02
+    },
+    "bouchch01": {
+      "peakOvr": 58.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.23
+    },
+    "curryst01": {
+      "peakOvr": 85.1,
+      "as": 6,
+      "mvp": 2,
+      "dpoy": 0,
+      "ring": 3,
+      "fame": 110.3
+    },
+    "butleji01": {
+      "peakOvr": 87.4,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 49.76
+    },
+    "porzikr01": {
+      "peakOvr": 79.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 29.76
+    },
+    "greendr01": {
+      "peakOvr": 62.6,
+      "as": 3,
+      "mvp": 0,
+      "dpoy": 1,
+      "ring": 3,
+      "fame": 55.23
+    },
+    "moodymo01": {
+      "peakOvr": 43.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 21.95
+    },
+    "horfoal01": {
+      "peakOvr": 72,
+      "as": 4,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 53.11
+    },
+    "podzibr01": {
+      "peakOvr": 52.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.76
+    },
+    "meltode01": {
+      "peakOvr": 52.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.04
+    },
+    "paytoga02": {
+      "peakOvr": 57.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 18.34
+    },
+    "santogu01": {
+      "peakOvr": 43.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.34
+    },
+    "postqu01": {
+      "peakOvr": 44.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.92
+    },
+    "curryse01": {
+      "peakOvr": 57.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.33
+    },
+    "richawi02": {
+      "peakOvr": 40.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.27
+    },
+    "spencpa01": {
+      "peakOvr": 35.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.12
+    },
+    "leonaka01": {
+      "peakOvr": 89.7,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 40.96
+    },
+    "garlada01": {
+      "peakOvr": 56.6,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 44.09
+    },
+    "collijo01": {
+      "peakOvr": 62.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.89
+    },
+    "bogdabo01": {
+      "peakOvr": 54.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.76
+    },
+    "jonesde02": {
+      "peakOvr": 49.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.79
+    },
+    "mathube01": {
+      "peakOvr": 49.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.51
+    },
+    "lopezbr01": {
+      "peakOvr": 66.9,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 41.95
+    },
+    "jacksis01": {
+      "peakOvr": 56.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.3
+    },
+    "batumni01": {
+      "peakOvr": 63.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.58
+    },
+    "dunnkr01": {
+      "peakOvr": 50.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.43
+    },
+    "bealbr01": {
+      "peakOvr": 67.2,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 40.87
+    },
+    "konanya01": {
+      "peakOvr": 42.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.26
+    },
+    "chrisca02": {
+      "peakOvr": 27.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.51
+    },
+    "millejo02": {
+      "peakOvr": 46.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.85
+    },
+    "sandeko01": {
+      "peakOvr": 34.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.23
+    },
+    "jamesle01": {
+      "peakOvr": 100,
+      "as": 4,
+      "mvp": 2,
+      "dpoy": 0,
+      "ring": 2,
+      "fame": 87.44
+    },
+    "doncilu01": {
+      "peakOvr": 91.3,
+      "as": 5,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 84.91
+    },
+    "hachiru01": {
+      "peakOvr": 48.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.73
+    },
+    "reaveau01": {
+      "peakOvr": 59.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 28.27
+    },
+    "vandeja01": {
+      "peakOvr": 53.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.32
+    },
+    "kennalu01": {
+      "peakOvr": 54,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.87
+    },
+    "klebima01": {
+      "peakOvr": 47.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.79
+    },
+    "laravja01": {
+      "peakOvr": 45.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.57
+    },
+    "knechda01": {
+      "peakOvr": 37.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.17
+    },
+    "hayesja02": {
+      "peakOvr": 53.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.06
+    },
+    "jamesbr02": {
+      "peakOvr": 24.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.09
+    },
+    "thierad01": {
+      "peakOvr": 31.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 5.21
+    },
+    "bookede01": {
+      "peakOvr": 68.7,
+      "as": 5,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 73.98
+    },
+    "greenja05": {
+      "peakOvr": 49.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 29.68
+    },
+    "brookdi01": {
+      "peakOvr": 45.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 23.62
+    },
+    "allengr01": {
+      "peakOvr": 56.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.6
+    },
+    "onealro01": {
+      "peakOvr": 52.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.4
+    },
+    "willima07": {
+      "peakOvr": 68.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.37
+    },
+    "maluakh01": {
+      "peakOvr": 34.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 4.45
+    },
+    "dunnry01": {
+      "peakOvr": 37.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.53
+    },
+    "goodwjo01": {
+      "peakOvr": 50.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.32
+    },
+    "gilleco01": {
+      "peakOvr": 59.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.06
+    },
+    "coffeam01": {
+      "peakOvr": 40.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 3.92
+    },
+    "ighodos01": {
+      "peakOvr": 45.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.41
+    },
+    "flemira01": {
+      "peakOvr": 29.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.11
+    },
+    "littlna01": {
+      "peakOvr": 36.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.5
+    },
+    "anthoco01": {
+      "peakOvr": 47.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.34
+    },
+    "liddeej01": {
+      "peakOvr": 34.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.42
+    },
+    "lavinza01": {
+      "peakOvr": 66,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 49.13
+    },
+    "sabondo01": {
+      "peakOvr": 81.2,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 35.38
+    },
+    "derozde01": {
+      "peakOvr": 71.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 26.99
+    },
+    "huntede01": {
+      "peakOvr": 46.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.45
+    },
+    "monkma01": {
+      "peakOvr": 50.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.58
+    },
+    "murrake02": {
+      "peakOvr": 49.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.14
+    },
+    "cartede02": {
+      "peakOvr": 33.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.78
+    },
+    "cliffni01": {
+      "peakOvr": 28,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.34
+    },
+    "westbru01": {
+      "peakOvr": 82.4,
+      "as": 8,
+      "mvp": 1,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 108.86
+    },
+    "eubandr01": {
+      "peakOvr": 53.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.42
+    },
+    "mcderdo01": {
+      "peakOvr": 48.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.39
+    },
+    "achiupr01": {
+      "peakOvr": 47.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.94
+    },
+    "raynama01": {
+      "peakOvr": 46.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.6
+    },
+    "hayeski01": {
+      "peakOvr": 37.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.55
+    },
+    "irvinky01": {
+      "peakOvr": 87.2,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 45.39
+    },
+    "middlkh01": {
+      "peakOvr": 63.8,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 42.15
+    },
+    "thompkl01": {
+      "peakOvr": 59.1,
+      "as": 5,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 3,
+      "fame": 80.73
+    },
+    "gaffoda01": {
+      "peakOvr": 70.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.02
+    },
+    "washipj01": {
+      "peakOvr": 47.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.34
+    },
+    "flaggco01": {
+      "peakOvr": 60.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 27.35
+    },
+    "martica02": {
+      "peakOvr": 47.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.94
+    },
+    "marshna01": {
+      "peakOvr": 51.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.7
+    },
+    "chrisma02": {
+      "peakOvr": 42.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.22
+    },
+    "livelde01": {
+      "peakOvr": 62.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.98
+    },
+    "poweldw01": {
+      "peakOvr": 59.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.01
+    },
+    "johnsaj01": {
+      "peakOvr": 14.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.71
+    },
+    "baglema01": {
+      "peakOvr": 57.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.6
+    },
+    "willibr03": {
+      "peakOvr": 49.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.42
+    },
+    "jonesty01": {
+      "peakOvr": 57.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.85
+    },
+    "mcgeeja01": {
+      "peakOvr": 63.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.58
+    },
+    "prospol01": {
+      "peakOvr": 50.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 12.32
+    },
+    "robinje02": {
+      "peakOvr": 41.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.22
+    },
+    "duranke01": {
+      "peakOvr": 94.8,
+      "as": 7,
+      "mvp": 1,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 102.17
+    },
+    "sengual01": {
+      "peakOvr": 68,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 39.65
+    },
+    "vanvlfr01": {
+      "peakOvr": 65.9,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 33.67
+    },
+    "adamsst01": {
+      "peakOvr": 61.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.53
+    },
+    "finnedo01": {
+      "peakOvr": 52.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.22
+    },
+    "smithja05": {
+      "peakOvr": 49.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 22.19
+    },
+    "sheppre01": {
+      "peakOvr": 53.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.14
+    },
+    "thompam01": {
+      "peakOvr": 68.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.65
+    },
+    "capelca01": {
+      "peakOvr": 68.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 20.58
+    },
+    "easonta01": {
+      "peakOvr": 52,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.97
+    },
+    "holidaa01": {
+      "peakOvr": 45.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.48
+    },
+    "okogijo01": {
+      "peakOvr": 48.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.19
+    },
+    "greenje02": {
+      "peakOvr": 53.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.88
+    },
+    "tateja01": {
+      "peakOvr": 41.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.36
+    },
+    "moranja01": {
+      "peakOvr": 65.9,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 47.12
+    },
+    "caldwke01": {
+      "peakOvr": 51.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 19.93
+    },
+    "aldamsa01": {
+      "peakOvr": 52.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.06
+    },
+    "clarkbr01": {
+      "peakOvr": 64.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.73
+    },
+    "jeromty01": {
+      "peakOvr": 69.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.72
+    },
+    "hendrta01": {
+      "peakOvr": 44.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.79
+    },
+    "edeyza01": {
+      "peakOvr": 56.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.47
+    },
+    "cowarce01": {
+      "peakOvr": 50.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.51
+    },
+    "spencca01": {
+      "peakOvr": 58.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.9
+    },
+    "pippesc02": {
+      "peakOvr": 54.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.29
+    },
+    "wellsja01": {
+      "peakOvr": 40.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.24
+    },
+    "anderky01": {
+      "peakOvr": 55.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.23
+    },
+    "niangge01": {
+      "peakOvr": 43,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.04
+    },
+    "gordoer01": {
+      "peakOvr": 57.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 26.9
+    },
+    "diakima01": {
+      "peakOvr": 35.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 6.76
+    },
+    "kolokch01": {
+      "peakOvr": 36.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.12
+    },
+    "loverla01": {
+      "peakOvr": 34.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.75
+    },
+    "willilu01": {
+      "peakOvr": 31.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.62
+    },
+    "willizi01": {
+      "peakOvr": 77.7,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 45.63
+    },
+    "poolejo01": {
+      "peakOvr": 45.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 30.85
+    },
+    "murrade01": {
+      "peakOvr": 63.5,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 31.27
+    },
+    "murphtr02": {
+      "peakOvr": 60.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 24.98
+    },
+    "joneshe01": {
+      "peakOvr": 48.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 18.29
+    },
+    "looneke01": {
+      "peakOvr": 54.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 1,
+      "fame": 21.09
+    },
+    "fearsje01": {
+      "peakOvr": 39.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 17.78
+    },
+    "beysa01": {
+      "peakOvr": 58.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21.27
+    },
+    "queende01": {
+      "peakOvr": 48.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.9
+    },
+    "hawkijo01": {
+      "peakOvr": 26.5,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 13.04
+    },
+    "missiyv01": {
+      "peakOvr": 44.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 11.62
+    },
+    "jordade01": {
+      "peakOvr": 64.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.85
+    },
+    "matkoka01": {
+      "peakOvr": 48.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.97
+    },
+    "peavymi01": {
+      "peakOvr": 23.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.26
+    },
+    "mcgowbr01": {
+      "peakOvr": 39.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 9.96
+    },
+    "terryda01": {
+      "peakOvr": 34.7,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.92
+    },
+    "sprinja01": {
+      "peakOvr": 36,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 7.21
+    },
+    "foxde01": {
+      "peakOvr": 64.8,
+      "as": 1,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 43.7
+    },
+    "vassede01": {
+      "peakOvr": 50,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 24.98
+    },
+    "barneha02": {
+      "peakOvr": 53.1,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 25.66
+    },
+    "johnske04": {
+      "peakOvr": 50.2,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 28.46
+    },
+    "olynyke01": {
+      "peakOvr": 74.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 15.53
+    },
+    "wembavi01": {
+      "peakOvr": 84.1,
+      "as": 2,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 42.49
+    },
+    "harpedy01": {
+      "peakOvr": 56.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 14.71
+    },
+    "kornelu01": {
+      "peakOvr": 68.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.85
+    },
+    "castlst01": {
+      "peakOvr": 50.6,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 21
+    },
+    "bryanca01": {
+      "peakOvr": 31.9,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 6.4
+    },
+    "champju02": {
+      "peakOvr": 46.4,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 16.67
+    },
+    "mclaujo01": {
+      "peakOvr": 47,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 10.45
+    },
+    "waterli01": {
+      "peakOvr": 43.3,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.76
+    },
+    "biyombi01": {
+      "peakOvr": 52.8,
+      "as": 0,
+      "mvp": 0,
+      "dpoy": 0,
+      "ring": 0,
+      "fame": 8.1
+    }
+  }
+}

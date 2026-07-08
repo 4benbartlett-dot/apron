@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -762,20 +762,6 @@ export function ageOf(playerId: string): number {
   return 20 + (EXPERIENCE[playerId] ?? 7);
 }
 
-/**
- * An aging prior for the NEXT season, keyed on REAL age (a smooth NBA aging
- * curve: improvement up to a ~26.5 peak, decline after, steepening past the
- * mid-30s). An ADDITIVE nudge in impact points/100, bounded ≈ +0.7 … −1.2, so
- * it refines a projection without dominating it. Applied only inside team
- * projections, never to a displayed player value.
- */
-function agingShift(age: number): number {
-  const PEAK = 26.5;
-  if (age <= PEAK) return Math.min(0.7, (PEAK - age) * 0.09);
-  const past = age - PEAK;
-  const shift = past <= 5.5 ? -0.075 * past : -0.075 * 5.5 - 0.11 * (past - 5.5);
-  return Math.max(-1.2, shift);
-}
 
 /** The real, current injury (torn ACL, out for season, …) for a player, from
  * the Basketball-Reference injury report — or undefined if healthy. */
@@ -864,8 +850,8 @@ export function allocateRotation(roster: Contract[]): Rotation {
       return {
         id: c.playerId,
         name: c.playerName,
-        pts: e.pts + agingShift(ageOf(c.playerId)),
-        av: e.av,
+        pts: adjustedPts(c), // pedigree-floored talent (aging is baked in)
+        av: adjustedAv(c),
         age: ageOf(c.playerId),
         mp: projectedMinutes(c.playerId, e.mp ?? 0),
         elig: eligiblePositions(c.playerId),
@@ -1086,13 +1072,52 @@ export function teamProjection(team: string, liveContracts: Contract[]): TeamPro
  * (a RAPM × true-wins blend), linearly scaled so the league's best reads 100.
  * This is the number shown on every player chip, card, and finder result.
  */
+/* --------------------------- VALUE MODEL (pedigree-floored) --------------------------- */
+// A player's displayed impact and his talent weight both start from the current
+// 2025-26 metric, then get FLOORED at his age-decayed star PEDIGREE — so an
+// age-42 LeBron or a 20-game Anthony Davis reads like the star he still is, not
+// the replacement his shortened, aged sample implies — plus a small credit for
+// the two-way defense a box score misses. This is what de-compresses the middle
+// of the league and keeps aging stars impactful.
+
+/** Share of peak a player retains at a given age (peak ~27, ≈ −2%/yr after). */
+function ageDecay(age: number): number {
+  if (age <= 28) return 1.0;
+  return Math.max(0.66, 1 - (age - 28) * 0.02);
+}
+
+/** A player's star pedigree on the 0-100 Apron-Value scale, decayed to his
+ * current age. 0 when there's no pedigree match (fringe / very young). */
+function pedigreeValue(playerId: string): number {
+  const p = PLAYER_PEDIGREE_2026[playerId];
+  if (!p) return 0;
+  const acc = Math.min(13, p.dpoy * 5 + p.mvp * 3 + p.ring * 1.5 + p.as * 0.7 + p.fame * 0.03);
+  return Math.min(100, p.peakOvr + acc) * ageDecay(ageOf(playerId));
+}
+
+/** The player's ADJUSTED Apron Value (0-100): current form, floored at his
+ * age-decayed pedigree, plus a two-way defensive credit — the number shown
+ * everywhere and the basis for his talent weight in the rotation. */
+export function adjustedAv(c: Contract): number {
+  const cur = impactEntry(c).av;
+  const twoWay = Math.max(0, playerDims(c).def - 58) * 0.18; // elite D the box misses
+  return Math.round(Math.min(100, Math.max(0, Math.max(cur, pedigreeValue(c.playerId)) + twoWay)) * 10) / 10;
+}
+
+/** Talent in impact points/100 from the adjusted value (same 50-centered scale
+ * as the box metric: av 50 → 0). Drives the rotation weighting. */
+function adjustedPts(c: Contract): number {
+  return (adjustedAv(c) - 50) * 0.268;
+}
+
+/** The player's headline impact number (0-100), pedigree-floored. */
 export function impactScoreOf(c: Contract): number {
-  return Math.round(impactEntry(c).av);
+  return Math.round(adjustedAv(c));
 }
 /** Talent above replacement, in impact points/100 (0-centered) — the unit the
  * fairness meter and trade finder sum. A below-replacement throw-in is ~0. */
 export function impactMeterOf(c: Contract): number {
-  return Math.max(0, impactEntry(c).pts);
+  return Math.max(0, adjustedPts(c));
 }
 
 /** Primary position (PG/SG/SF/PF/C), or undefined if we have no sample. */
