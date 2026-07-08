@@ -282,4 +282,31 @@ describe("traded-player exceptions (v1: absorption + row F)", () => {
     expect(v.legal).toBe(true);
     expect(v.checks.some((ch) => ch.ruleId === "tpe_first_apron")).toBe(false);
   });
+
+  it("an offseason-arisen STANDING TPE (firstApronCap:false) also has no gate", () => {
+    // Standing (preExisting) but arose THIS offseason — row F(ii) defers its
+    // first-apron cap, so the engine must key off firstApronCap, not
+    // preExisting. Over-the-apron use stays legal, exactly like a fresh TPE.
+    const hot = league([
+      filler("AAA", 193_000_000),
+      contract("small4", "AAA", 2_000_000),
+      filler("BBB", 160_000_000),
+      contract("big4", "BBB", 18_000_000),
+    ]);
+    const v = validateTrade(
+      hot,
+      {
+        teams: ["AAA", "BBB"],
+        players: [
+          { playerId: "small4", from: "AAA", to: "BBB" },
+          { playerId: "big4", from: "BBB", to: "AAA" },
+        ],
+        // post ≈ 211M > 1A, but this TPE arose this offseason.
+        tpeUse: { AAA: { amount: 18_000_000, preExisting: true, firstApronCap: false } },
+      },
+      C,
+    );
+    expect(v.legal).toBe(true);
+    expect(v.checks.some((ch) => ch.ruleId === "tpe_first_apron")).toBe(false);
+  });
 });

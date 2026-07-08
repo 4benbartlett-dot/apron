@@ -33,13 +33,22 @@ describe("tradeConsequences", () => {
     expect(cap?.text).toContain("expanded matching");
   });
 
-  it("flags a first-apron hard cap from spending a pre-existing TPE", () => {
+  it("flags a first-apron hard cap from spending a row-F (Regular-Season) TPE", () => {
     const items = tradeConsequences(
       [team({ incomingSalary: 8_000_000, outgoingSalary: 0, tpeAbsorbed: 8_000_000 })],
-      { DEN: { amount: 8_000_000, preExisting: true } },
+      { DEN: { amount: 8_000_000, preExisting: true, firstApronCap: true } },
       () => 0,
     );
-    expect(items.some((i) => i.severity === "cap" && /pre-existing traded-player exception/.test(i.text))).toBe(true);
+    expect(items.some((i) => i.severity === "cap" && /Regular-Season-arisen traded-player exception/.test(i.text))).toBe(true);
+  });
+
+  it("does NOT flag a hard cap when the TPE arose this offseason (row F(ii))", () => {
+    const items = tradeConsequences(
+      [team({ incomingSalary: 8_000_000, outgoingSalary: 0, tpeAbsorbed: 8_000_000 })],
+      { DEN: { amount: 8_000_000, preExisting: true, firstApronCap: false } },
+      () => 0,
+    );
+    expect(items.some((i) => i.severity === "cap")).toBe(false);
   });
 
   it("names the second-apron restrictions when a team finishes there", () => {

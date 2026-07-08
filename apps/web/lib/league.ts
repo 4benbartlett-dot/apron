@@ -30,6 +30,26 @@ export function normName(name: string): string {
 
 /** Sim "today" — anchored to the data snapshot (2026 free agency opened 6/30). */
 const SIM_TODAY = new Date(2026, 6, 1); // July 1, 2026
+
+/** Start of the current sim offseason — the day after the 2025-26 Regular
+ * Season ended (~Apr 12, 2026). A Standard TPE lives exactly one year, so a
+ * ledger row's ARISE date is its expiry minus a year; a row that arose on or
+ * after this boundary arose in THIS offseason and is not yet row-F restricted
+ * (§6(j)(1)(i): its first-apron hard cap only attaches after the FOLLOWING —
+ * 2026-27 — Regular Season). Expressed as a yyyy-mm-dd string for the same
+ * lexical date comparison the ledger already uses. The exact day is not load-
+ * bearing: every real row arose either by Feb 2026 (Regular Season) or in late
+ * June 2026 (offseason), far from this boundary. */
+const CURRENT_OFFSEASON_START = "2026-04-13";
+
+/** Whether using this TPE is a restriction-table row-F first-apron transaction:
+ * it can't leave the team over the first apron, and using it hard-caps the team
+ * there for the year (§2(e) row F, §6(j)(1)(i)). True for Regular-Season-arisen
+ * standing TPEs; false for current-offseason-arisen and same-offseason-minted
+ * ones. Falls back to `preExisting` for legacy plans that predate the flag. */
+export const isRowFCapped = (s: { preExisting: boolean; firstApronCap?: boolean }) =>
+  s.firstApronCap ?? s.preExisting;
+
 function parseMDY(s: string): Date | null {
   const m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   return m ? new Date(Number(m[3]), Number(m[1]) - 1, Number(m[2])) : null;
@@ -1392,7 +1412,10 @@ export type Move =
       /** Draft picks changing hands (by original-owner pick id). */
       picks?: { id: string; to: string }[];
       /** TPE absorption chosen when the trade was staged (per team). */
-      tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
+      tpeUse?: Record<
+        string,
+        { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }
+      >;
       /** Optional cash sent in the trade; row I creates a second-apron hard cap. */
       cash?: { from: string; to: string; amount: number }[];
     }
@@ -1674,10 +1697,13 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
           ]),
         );
         const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds, tpeUse: m.tpeUse, cash: m.cash }, C);
-        // Restriction-table row F: using a PRE-EXISTING TPE hard-caps the
-        // team at the first apron for the rest of the year.
+        // Restriction-table row F: using a Regular-Season-arisen TPE hard-caps
+        // the team at the first apron for the rest of the year. A TPE that
+        // AROSE in the current offseason is exempt until after the following
+        // Regular Season (§6(j)(1)(i)), so gate on the row-F flag, not merely
+        // "pre-existing".
         for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
-          if (use.preExisting && use.amount > 0) capAt(team, C.firstApron);
+          if (isRowFCapped(use) && use.amount > 0) capAt(team, C.firstApron);
         }
         for (const check of v.checks) {
           if (!check.ok || !check.teamId) continue;
@@ -1790,8 +1816,13 @@ export interface TpeSlot {
   amount: number;
   /** "Kennard TPE" style display label (originating player). */
   label: string;
-  /** Minted before this offseason (restriction-table row F applies). */
+  /** Standing before this session — governs §6(n)(2) room renunciation. */
   preExisting: boolean;
+  /** Restriction-table row F applies: using it can't leave the team over the
+   * first apron and hard-caps it there. True for Regular-Season-arisen TPEs;
+   * false for current-offseason-arisen ones (row-F dormant until after the
+   * following Regular Season) and session-minted ones. See {@link isRowFCapped}. */
+  firstApronCap: boolean;
   expires: string;
 }
 
@@ -1806,11 +1837,19 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
   for (const r of TRADE_EXCEPTIONS) {
     if (r.expires < "2026-07-05") continue; // expired before the sim's today
     if (feedStateOf(r.team).roomTeam) continue; // renounced with the room
+    // Row F(ii): a Standard TPE lives exactly a year, so it arose on its
+    // expiry minus a year. If that arise date lands in the CURRENT offseason
+    // (on/after CURRENT_OFFSEASON_START), its first-apron hard cap hasn't
+    // attached yet — it only does after the following (2026-27) Regular
+    // Season. Earlier-arisen TPEs (prior Regular Season, or a prior offseason
+    // whose Regular Season already ended) are row-F restricted now.
+    const arose = `${Number(r.expires.slice(0, 4)) - 1}${r.expires.slice(4)}`;
     add({
       team: r.team,
       amount: r.amount,
       label: `${r.player} TPE`,
       preExisting: true,
+      firstApronCap: arose < CURRENT_OFFSEASON_START,
       expires: r.expires,
     });
   }
@@ -1870,6 +1909,7 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
             amount: minted,
             label: `${shortPlayerName(agg.largestName)} TPE (this session)`,
             preExisting: false,
+            firstApronCap: false, // arose this offseason — row F dormant
             expires: "2027-07-05",
           });
         }
@@ -1890,10 +1930,10 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
 /** Pick a TPE plan that legalizes failing legs: for each team whose matching
  * fails, absorb its LARGEST incoming players into a usable TPE until the
  * remainder fits the matching ceiling. Row-F aware: when the team would
- * finish above the first apron, PRE-EXISTING exceptions are off the table
- * (§2(e) row F) and only same-offseason TPEs are tried. Candidates are
- * attempted largest-first until one covers enough. Returns undefined when
- * no TPE helps. */
+ * finish above the first apron, row-F-restricted exceptions are off the table
+ * (§2(e) row F) and only row-F-dormant TPEs — current-offseason-arisen and
+ * same-offseason-minted — are tried. Candidates are attempted largest-first
+ * until one covers enough. Returns undefined when no TPE helps. */
 export function fitTpePlan(
   verdictTeams: {
     teamId: string;
@@ -1903,12 +1943,12 @@ export function fitTpePlan(
   }[],
   incomingByTeam: Record<string, { playerId: string; salary: number }[]>,
   ledger: Record<string, TpeSlot[]>,
-): Record<string, { amount: number; preExisting: boolean; label?: string }> | undefined {
-  const plan: Record<string, { amount: number; preExisting: boolean; label?: string }> = {};
+): Record<string, { amount: number; preExisting: boolean; firstApronCap: boolean; label?: string }> | undefined {
+  const plan: Record<string, { amount: number; preExisting: boolean; firstApronCap: boolean; label?: string }> = {};
   for (const t of verdictTeams) {
     if (t.incomingSalary <= t.maxIncomingAllowed + 1) continue;
     const overFirstApron = t.postTradeSalary > C.firstApron + 1;
-    const candidates = (ledger[t.teamId] ?? []).filter((s) => !overFirstApron || !s.preExisting);
+    const candidates = (ledger[t.teamId] ?? []).filter((s) => !overFirstApron || !isRowFCapped(s));
     const incoming = [...(incomingByTeam[t.teamId] ?? [])].sort((a, b) => b.salary - a.salary);
     for (const tpe of candidates) {
       let absorbed = 0;
@@ -1918,7 +1958,12 @@ export function fitTpePlan(
         absorbed += p.salary;
       }
       if (absorbed > 0 && t.incomingSalary - absorbed <= t.maxIncomingAllowed + 1) {
-        plan[t.teamId] = { amount: absorbed, preExisting: tpe.preExisting, label: tpe.label };
+        plan[t.teamId] = {
+          amount: absorbed,
+          preExisting: tpe.preExisting,
+          firstApronCap: tpe.firstApronCap,
+          label: tpe.label,
+        };
         break;
       }
     }

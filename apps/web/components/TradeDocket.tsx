@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { matchRuleLabel, classifyTier, type ApronTier, type TeamTradeSummary } from "@apron/cba-engine";
-import { C, teamMeta, feedStateOf } from "@/lib/league";
+import { C, teamMeta, feedStateOf, isRowFCapped } from "@/lib/league";
 import { pickShareLabel } from "@/lib/trade-share";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -23,7 +23,7 @@ export interface DocketTeam {
   sendsTotal: number;
   gets: DocketLine[];
   sends: DocketLine[];
-  tpeUse?: { amount: number; preExisting: boolean; label?: string };
+  tpeUse?: { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string };
 }
 
 /** Assemble the docket from a staged trade — the ONE source for the board,
@@ -34,7 +34,7 @@ export function buildDocket(
   verdictTeams: { teamId: string; incomingSalary: number; outgoingSalary: number; postTradeTier: ApronTier }[],
   nameOf: (id: string) => string,
   salaryOf: (id: string) => number,
-  tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>,
+  tpeUse?: Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }>,
 ): DocketTeam[] {
   const touched = (t: string) =>
     players.some((p) => p.from === t || p.to === t) ||
@@ -73,7 +73,7 @@ export interface DocketCheck {
 export function buildChecks(opts: {
   legal: boolean;
   involved: TeamTradeSummary[];
-  tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
+  tpeUse?: Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }>;
   violationReasons: string[];
   extraViolations: string[];
   hasPicks: boolean;
@@ -107,18 +107,22 @@ export function buildChecks(opts: {
       .map((t) => {
         const use = tpeUse?.[t.teamId];
         const label = use?.label ? `the ${use.label}` : "a traded-player exception";
-        const kind = use ? (use.preExisting ? "pre-existing" : "created this offseason") : undefined;
+        const kind = use ? (isRowFCapped(use) ? "pre-existing" : "created this offseason") : undefined;
         return {
           ok: true,
           text: `${t.teamId} absorbs ${fmtM(t.tpeAbsorbed!)} into ${label}${kind ? ` (${kind})` : ""} — no matching needed for that salary`,
         };
       }),
-    // Row F consequence: spending a PRE-EXISTING TPE freezes the 1st apron.
+    // Row F consequence: spending a Regular-Season-arisen TPE freezes the 1st
+    // apron. A current-offseason-arisen TPE is exempt until next season.
     ...involved
-      .filter((t) => (t.tpeAbsorbed ?? 0) > 0 && tpeUse?.[t.teamId]?.preExisting)
+      .filter((t) => {
+        const use = tpeUse?.[t.teamId];
+        return (t.tpeAbsorbed ?? 0) > 0 && use != null && isRowFCapped(use);
+      })
       .map((t) => ({
         ok: true,
-        text: `${t.teamId} used a pre-existing TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the league year`,
+        text: `${t.teamId} used a Regular-Season-arisen TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the league year`,
       })),
     // Real-July hard caps the deal respects — named so readers can check.
     ...involved
@@ -154,7 +158,7 @@ export interface MoveConsequence {
  * aggregation freeze on everyone acquired. */
 export function tradeConsequences(
   teams: TeamTradeSummary[],
-  tpeUse: Record<string, { amount: number; preExisting: boolean; label?: string }> | undefined,
+  tpeUse: Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }> | undefined,
   holdsOf: (t: string) => number,
 ): MoveConsequence[] {
   const out: MoveConsequence[] = [];
@@ -175,12 +179,13 @@ export function tradeConsequences(
         text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season — it used expanded matching (took back more than 125% + $250k).`,
       });
     }
-    if (!cappedNew.has(t.teamId) && (t.tpeAbsorbed ?? 0) > 0 && tpeUse?.[t.teamId]?.preExisting) {
+    const use = tpeUse?.[t.teamId];
+    if (!cappedNew.has(t.teamId) && (t.tpeAbsorbed ?? 0) > 0 && use != null && isRowFCapped(use)) {
       cappedNew.add(t.teamId);
       out.push({
         team: t.teamId,
         severity: "cap",
-        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) — it spent a pre-existing traded-player exception (restriction row F).`,
+        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) — it spent a Regular-Season-arisen traded-player exception (restriction row F).`,
       });
     }
     if (t.postTradeTier === "second_apron") {
@@ -342,7 +347,7 @@ export function TradeDocket({
               <span className="font-semibold uppercase tracking-[0.08em] text-[var(--accent-ink)]">TPE</span>{" "}
               <span className="tabular">
                 {t.tpeUse.label ?? "Traded-player exception"} absorbs {fmtM(t.tpeUse.amount)} ·{" "}
-                {t.tpeUse.preExisting ? "pre-existing, first-apron hard cap" : "created this offseason"}
+                {isRowFCapped(t.tpeUse) ? "pre-existing, first-apron hard cap" : "created this offseason"}
               </span>
             </div>
           )}

@@ -207,13 +207,23 @@ export interface Trade {
   capHolds?: Record<string, number>;
   /** Traded-player-exception usage per team: `amount` of incoming salary
    * absorbed into a standing TPE (needs no matching, §6(j)(1)(i)).
-   * `preExisting` TPEs (minted before this offseason) are restriction-table
-   * row F: unusable if post-trade apron salary would exceed the first apron,
-   * and using one hard-caps the team there for the year. Same-offseason
-   * TPEs carry no such gate. The app layer owns the TPE ledger (amounts,
-   * expiry, §6(n)(2) room-team renunciation); the engine enforces the
-   * apron consequences and carves the absorbed salary out of matching. */
-  tpeUse?: Record<string, { amount: number; preExisting: boolean; label?: string }>;
+   * `preExisting` TPEs (minted before this offseason) still lose to §6(n)(2)
+   * room renunciation, but the restriction-table row F apron gate keys off
+   * `firstApronCap`, NOT `preExisting`: only a TPE that AROSE during a prior
+   * Regular Season (or a prior offseason whose following Regular Season has
+   * ended) is row-F restricted — unusable if post-trade apron salary would
+   * exceed the first apron, and using one hard-caps the team there for the
+   * year (§6(j)(1)(i)). A TPE that AROSE in the CURRENT offseason carries no
+   * such gate until after the following Regular Season, so `firstApronCap` is
+   * false for it even though `preExisting` is true. When `firstApronCap` is
+   * omitted the engine falls back to `preExisting` (legacy callers). The app
+   * layer owns the TPE ledger (amounts, expiry, §6(n)(2) room-team
+   * renunciation) and sets both flags; the engine enforces the apron
+   * consequences and carves the absorbed salary out of matching. */
+  tpeUse?: Record<
+    string,
+    { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }
+  >;
   /**
    * Timing bucket for the Art. VII §6(j)(4)(ii) minimum-player aggregation
    * restriction. Default is offseason/pre-Dec. 15, when the restriction applies.

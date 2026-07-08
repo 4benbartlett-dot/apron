@@ -855,7 +855,13 @@ function TeamColumn({
           <Term
             key={tpe.label + tpe.expires}
             k="tpe"
-            extra={`${fmtM(tpe.amount)} absorbable · expires ${tpe.expires}${tpe.preExisting ? " · using it hard-caps at the first apron (row F)" : " · minted this offseason"}`}
+            extra={`${fmtM(tpe.amount)} absorbable · expires ${tpe.expires}${
+              tpe.firstApronCap
+                ? " · using it hard-caps at the first apron (row F)"
+                : tpe.preExisting
+                  ? " · arose this offseason — no first-apron hard cap until next season"
+                  : " · minted this offseason"
+            }`}
           >
             <span
               className="tabular inline-block rounded-[4px] border border-dashed bg-[var(--panel)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--muted)]"
