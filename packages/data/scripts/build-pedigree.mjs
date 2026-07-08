@@ -28,7 +28,11 @@ function main() {
     if (!name) continue;
     const k = nm(name);
     const ovr = r[idx.ovr] || 0;
-    const rec = { peakOvr: ovr, as: r[idx.as] || 0, mvp: r[idx.mvp] || 0, dpoy: r[idx.dpoy] || 0, ring: r[idx.ring] || 0, fame: r[idx.fame] || 0 };
+    // Full accolade set — factual honors, not vibes: All-NBA 1st/2nd/3rd,
+    // All-Defensive, All-Star, MVP/DPOY/ROY/SMOY/MIP, championships, and the
+    // fame composite. All-Defensive is how a Draymond's value gets captured.
+    const g = (c) => r[idx[c]] || 0;
+    const rec = { peakOvr: ovr, an1: g("an1"), an2: g("an2"), an3: g("an3"), ad: g("ad"), as: g("as"), mvp: g("mvp"), dpoy: g("dpoy"), roy: g("roy"), smoy: g("smoy"), mip: g("mip"), ring: g("ring"), fame: g("fame") };
     if (!peak[k] || ovr > peak[k].peakOvr) peak[k] = rec;
   }
 
