@@ -32,17 +32,25 @@ export default function TeamWarRoom() {
   // Match the offseason board: a team that operated under the cap has its
   // MLEs/BAE dead, and exceptions the real July already spent stay spent.
   const power = spendingPower(committed + holds, C, { apronSalary: committed, roomTeam: feed.roomTeam, consumed });
+  // The LIVE hard cap: the real-July feed AND anything the user's own staged
+  // moves triggered this session (same source the board enforces). A team the
+  // user just hard-capped can't cross that line with any further addition.
+  const liveHardCap = lg.hardCapOf(id);
   const roster = lg.roster(id);
   const picks = DRAFT_PICKS[id] ?? { incoming: [], outgoing: [] };
   const spaceAfterHolds = C.salaryCap - committed - holds;
   const proj = teamProjection(id, lg.contracts);
 
-  const line = (n: number, hc: "first_apron" | "second_apron" | null) =>
-    hc === "first_apron"
-      ? Math.max(0, C.firstApron - committed)
-      : hc === "second_apron"
-        ? Math.max(0, C.secondApron - committed)
-        : n;
+  // Room under the binding hard cap: a cap already triggered (this session or
+  // real July) caps EVERY addition; a mechanism whose USE would trigger a cap
+  // caps to that apron. Take the tightest.
+  const line = (n: number, hc: "first_apron" | "second_apron" | null) => {
+    const caps = [n];
+    if (Number.isFinite(liveHardCap)) caps.push(Math.max(0, liveHardCap - committed));
+    if (hc === "first_apron") caps.push(Math.max(0, C.firstApron - committed));
+    else if (hc === "second_apron") caps.push(Math.max(0, C.secondApron - committed));
+    return Math.min(...caps);
+  };
 
   // "What can this team do" summary — reflects what the real July already used,
   // and says WHY the team is limited.
@@ -58,8 +66,13 @@ export default function TeamWarRoom() {
   // Why it's limited: what the audited July actually did.
   if (feed.roomTeam)
     canDo.push(`Operated under the cap this July${consumed.room_mle ? " (used its Room MLE)" : ""}, so the non-taxpayer MLE and bi-annual exception are dead for the season (Art. VII §6(n)).`);
-  if (feed.hardCap !== Infinity)
-    canDo.push(`Hard-capped at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron${feed.hardCapSource ? ` — triggered by the ${feed.hardCapSource}` : ""}, so it can't cross that line the rest of the season.`);
+  if (Number.isFinite(liveHardCap)) {
+    // A cap tighter than the real-July feed means the user's own staged move
+    // triggered it; attribute it so the "why" stays honest.
+    const sessionTriggered = !Number.isFinite(feed.hardCap) || liveHardCap < feed.hardCap;
+    const src = sessionTriggered ? "a move you've staged this session" : feed.hardCapSource ? `the ${feed.hardCapSource}` : "";
+    canDo.push(`Hard-capped at the ${liveHardCap === C.firstApron ? "first" : "second"} apron${src ? ` — triggered by ${src}` : ""}, so it can't cross that line the rest of the season.`);
+  }
 
   if (sheet.isOverSecondApron)
     canDo.push("Over the second apron: can't aggregate salaries, no mid-level, no cash out, and its future first-rounder can be frozen.");

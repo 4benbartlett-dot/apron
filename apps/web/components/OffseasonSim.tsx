@@ -830,7 +830,11 @@ function TeamColumn({
       <div className="flex flex-wrap gap-1 px-4 pt-2.5">
         {power.mechanisms.map((m) => {
           const used = exceptionUsed[m.id] ?? 0;
-          const remaining = Math.max(0, Math.min(m.maxSalary - used, line(m)));
+          // m.maxSalary is ALREADY net of this session's exception use (spendingPower
+          // subtracts `consumed`, which includes these signings). Don't subtract
+          // `used` again — that double-counts and understates what's left. `used`
+          // is kept only to annotate the tooltip.
+          const remaining = Math.max(0, Math.min(m.maxSalary, line(m)));
           return (
             <Term
               key={m.id}

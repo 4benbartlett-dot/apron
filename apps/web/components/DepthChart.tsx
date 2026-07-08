@@ -1,7 +1,7 @@
 "use client";
 
 import type { Contract } from "@apron/cba-engine";
-import { allocateRotation, secondaryPositionsOf, injuryOf } from "@/lib/league";
+import { allocateRotation, secondaryPositionsOf, injuryOf, type RotationSlot } from "@/lib/league";
 import { ImpactPill } from "@/components/PlayerTags";
 
 const SLOTS: { pos: string; label: string }[] = [
@@ -12,7 +12,12 @@ const SLOTS: { pos: string; label: string }[] = [
   { pos: "C", label: "Center" },
 ];
 
-const mpg = (minutes: number) => Math.round(minutes / 82);
+// Per-game minutes at a spot. A player's slot total is SEASON minutes = mpg ×
+// the games he's projected to play, so an injured player (games = 82 − gamesOut)
+// must be divided by HIS games, not a flat 82 — otherwise a 31-mpg star out 28
+// games reads as a 20-minute role player.
+const gamesFor = (id: string) => { const inj = injuryOf(id); return inj && inj.gamesOut >= 5 ? Math.max(1, 82 - inj.gamesOut) : 82; };
+const mpgOf = (minutes: number, id: string) => Math.round(minutes / gamesFor(id));
 
 /**
  * Projected rotation, laid out by position. Each of the five on-court spots has
@@ -51,10 +56,28 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
   const isStarter = (id: string) => homeOf.has(id);
   const startsAt = (id: string, pos: string) => homeOf.get(id) === pos;
 
-  // Anyone on the roster the model never gives a minute (no projected role, or
-  // squeezed out) is surfaced so nobody silently disappears.
+  // Display-ready column per spot: this spot's starter leads, then other starters
+  // passing through, then bench by minutes here. Sub-1-mpg spillback slivers are
+  // dropped (they'd render as a misleading "0m" rotation line) — a starter always
+  // shows at his own spot.
+  const columns: Record<string, RotationSlot[]> = {};
+  for (const { pos } of SLOTS) {
+    const rank = (id: string) => (startsAt(id, pos) ? 2 : isStarter(id) ? 1 : 0);
+    columns[pos] = [...(rot.byPos[pos] ?? [])]
+      .filter((s) => startsAt(s.playerId, pos) || mpgOf(s.minutes, s.playerId) >= 1)
+      .sort((a, b) => {
+        const r = rank(b.playerId) - rank(a.playerId);
+        if (r) return r;
+        if (isStarter(a.playerId)) return (totalMin.get(b.playerId) ?? 0) - (totalMin.get(a.playerId) ?? 0);
+        return b.minutes - a.minutes;
+      });
+  }
+
+  // Anyone on the roster the model never gives displayed minutes (no projected
+  // role, squeezed out, or only sub-1-mpg slivers) is surfaced so nobody silently
+  // disappears.
   const shown = new Set<string>();
-  for (const pos of SLOTS) for (const s of rot.byPos[pos.pos] ?? []) shown.add(s.playerId);
+  for (const { pos } of SLOTS) for (const s of columns[pos]!) shown.add(s.playerId);
   const out = [
     ...rot.benched,
     ...roster
@@ -69,16 +92,7 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
     <div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
         {SLOTS.map(({ pos, label }) => {
-          // This spot's starter leads, then any other starters passing through,
-          // then bench players by minutes here — so a split starter never sits
-          // below a bench specialist who logs more raw minutes at this position.
-          const rank = (id: string) => (startsAt(id, pos) ? 2 : isStarter(id) ? 1 : 0);
-          const slots = [...(rot.byPos[pos] ?? [])].sort((a, b) => {
-            const r = rank(b.playerId) - rank(a.playerId);
-            if (r) return r;
-            if (isStarter(a.playerId)) return (totalMin.get(b.playerId) ?? 0) - (totalMin.get(a.playerId) ?? 0);
-            return b.minutes - a.minutes;
-          });
+          const slots = columns[pos] ?? [];
           return (
             <div key={pos} className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2">
               <div className="label mb-1.5 flex items-baseline justify-between !text-[9.5px]">
@@ -94,7 +108,7 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
                       key={s.playerId + pos}
                       className="flex items-center gap-1 rounded bg-[var(--panel)] px-1.5 py-1 text-[11.5px]"
                       style={{ opacity: isStarter(s.playerId) ? 1 : s.secondary ? 0.72 : 0.9 }}
-                      title={`${s.playerName} · ${s.age} yrs · ~${mpg(s.minutes)} mpg at ${pos}${sec.length ? ` (also ${sec.join("/")})` : ""}`}
+                      title={`${s.playerName} · ${s.age} yrs · ~${mpgOf(s.minutes, s.playerId)} mpg at ${pos}${sec.length ? ` (also ${sec.join("/")})` : ""}`}
                     >
                       <ImpactPill c={c} />
                       <span className="min-w-0 flex-1 truncate">{s.playerName}</span>
@@ -102,7 +116,7 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
                       {startsAt(s.playerId, pos) && <span className="shrink-0 text-[8px] font-bold uppercase tracking-wide text-[var(--tier-below_cap)]">ST</span>}
                       <span className="tabular shrink-0 text-[9px] text-[var(--muted)]">{s.age}y</span>
                       <span className="tabular shrink-0 font-semibold">
-                        {mpg(s.minutes)}<span className="text-[8px] font-normal text-[var(--muted)]">m</span>
+                        {mpgOf(s.minutes, s.playerId)}<span className="text-[8px] font-normal text-[var(--muted)]">m</span>
                       </span>
                     </div>
                   );

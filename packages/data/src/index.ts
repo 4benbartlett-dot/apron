@@ -124,7 +124,7 @@ export interface TeamStrength {
 export const TEAM_STRENGTH_2026: Record<string, TeamStrength> =
   (teamStrengthRaw as { byTeam: Record<string, TeamStrength> }).byTeam;
 /** Model-native projection calibration: projNrtg = intercept + rosterCoef·rosterScore
- * + fitCoef·teamFit, fit to actual net ratings (R²=0.87); wins = winsIntercept +
+ * + fitCoef·teamFit, fit to actual net ratings (R²=0.75); wins = winsIntercept +
  * winsPerNrtg·projNrtg. */
 export interface TeamCalibration {
   intercept: number;
