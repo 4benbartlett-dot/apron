@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { spendingPower } from "@apron/cba-engine";
-import { DRAFT_PICKS, PICK_RIGHTS } from "@apron/data";
+import { DRAFT_PICKS, PICK_RIGHTS, type OwnFirstObligation } from "@apron/data";
 import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor } from "@/lib/league";
 import { useLeague } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -191,31 +191,47 @@ export default function TeamWarRoom() {
           <div className="mb-2 text-sm font-semibold">Draft capital</div>
           {(() => {
             const rights = PICK_RIGHTS[id];
-            const obl = new Map((rights?.ownFirstObligations ?? []).map((o) => [o.year, o]));
-            const ownYears = [2027, 2028, 2029, 2030, 2031, 2032];
+            // Group obligations by year — a team can have >1 leg on the same
+            // year (e.g. PHI 2028 is both owed-to-BOS and protected-to-BKN), and
+            // a Map keyed by year would silently drop all but the last.
+            const oblByYear = new Map<number, OwnFirstObligation[]>();
+            for (const o of rights?.ownFirstObligations ?? []) {
+              const arr = oblByYear.get(o.year);
+              if (arr) arr.push(o);
+              else oblByYear.set(o.year, [o]);
+            }
+            // Range is data-driven so obligations past 2032 (real 2033 owes
+            // exist) always render; falls back to the 2027–2032 window.
+            const maxOwnYear = Math.max(2032, ...(rights?.ownFirstObligations ?? []).map((o) => o.year));
+            const ownYears = Array.from({ length: maxOwnYear - 2027 + 1 }, (_, i) => 2027 + i);
             const chip = (color: string, text: string, title: string, key: string) => (
               <span key={key} title={title} className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
                 style={{ borderColor: color, color, background: `color-mix(in srgb, ${color} 8%, transparent)` }}>{text}</span>
             );
+            const oblChip = (y: number, o: OwnFirstObligation, key: string) => {
+              const color = o.status === "owed" ? "var(--tier-second_apron)" : "var(--tier-taxpayer)";
+              const label = o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
+              return chip(color, `’${y - 2000} ${label}`, o.note ?? `${y} first-rounder`, key);
+            };
             return (
               <>
                 <div className="label mb-1 !text-[10px]">Own first-rounders</div>
                 <div className="mb-3 flex flex-wrap gap-1">
-                  {ownYears.map((y) => {
-                    const o = obl.get(y);
-                    const color = !o ? "var(--tier-below_cap)" : o.status === "owed" ? "var(--tier-second_apron)" : "var(--tier-taxpayer)";
-                    const label = !o ? "kept" : o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
-                    return chip(color, `’${y - 2000} ${label}`, o?.note ?? `${y} first-rounder — kept, clean`, `own${y}`);
+                  {ownYears.flatMap((y) => {
+                    const legs = oblByYear.get(y) ?? [];
+                    if (!legs.length)
+                      return [chip("var(--tier-below_cap)", `’${y - 2000} kept`, `${y} first-rounder — kept, clean`, `own${y}`)];
+                    return legs.map((o, j) => oblChip(y, o, `own${y}-${j}`));
                   })}
                 </div>
                 <div className="label mb-1 !text-[10px]">Incoming picks &amp; swap rights</div>
                 <div className="mb-3 flex flex-wrap gap-1">
-                  {(rights?.holdings ?? []).map((h, i) => {
+                  {(rights?.holdings ?? []).filter((h) => !h.overlapsPrior).map((h, i) => {
                     const kindTxt = h.kind === "outright" ? `from ${h.origin ?? h.counterparties?.[0] ?? "?"}` : h.kind === "swap_right" ? `swap ${h.favorable ?? ""}`.trim() : "conditional";
                     const color = h.kind === "swap_right" ? "var(--tier-taxpayer)" : h.kind === "conditional" ? "var(--muted)" : "var(--tier-below_cap)";
                     return chip(color, `’${h.year - 2000} ${h.round === 1 ? "1st" : "2nd"} · ${kindTxt}`, h.note, `h${i}`);
                   })}
-                  {!rights?.holdings.length && <span className="text-[10px] text-[var(--muted)]">None</span>}
+                  {!rights?.holdings.filter((h) => !h.overlapsPrior).length && <span className="text-[10px] text-[var(--muted)]">None</span>}
                 </div>
                 <details className="text-[11px]">
                   <summary className="cursor-pointer text-[var(--muted)]">Full ledger (RealGM) — {picks.incoming.length} in, {picks.outgoing.length} out</summary>
