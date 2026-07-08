@@ -801,7 +801,7 @@ function projectedMinutes(playerId: string, priorMp: number): number {
   return Math.min(MAX_PLAYER_MINUTES, Math.max(0, priorMp));
 }
 
-/** Measured secondary positions (spots a player logged ≥20% of his minutes at). */
+/** Measured secondary positions (spots a player logged ≥12% of his minutes at). */
 export function secondaryPositionsOf(playerId: string): string[] {
   return SECONDARY_POSITIONS_2026[playerId] ?? [];
 }
