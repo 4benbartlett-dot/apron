@@ -597,12 +597,22 @@ const rookieContracts = ROOKIES_2026.filter(
 ).map(
   (r) => {
     const deal = ROOKIE_DEALS.get(normName(r.playerName));
+    const dealYears =
+      deal && deal.total > 0 ? dealFromAav(Math.round(deal.total / deal.yrs), deal.yrs) : r.years;
+    // A first-rounder's 2026-27 cap hit is the OFFICIAL rookie scale (what
+    // Spotrac/HoopsRumors show), not dealFromAav's uniform-raise split of the
+    // reported 4-year total — that back-loads too little and overstates year 1
+    // (Dybantsa $15.56M vs the official $14.75M). Pin year 1 to the scale figure
+    // carried on rookies-2026.json; keep the reported deal's later years.
+    const scaleY1 =
+      (r as unknown as { round?: number }).round === 1
+        ? r.years.find((y) => y.leagueYear === YEAR)?.salary
+        : undefined;
+    const years =
+      scaleY1 != null ? dealYears.map((y) => (y.leagueYear === YEAR ? { ...y, salary: scaleY1 } : y)) : dealYears;
     return {
       ...r,
-      years:
-        deal && deal.total > 0
-          ? dealFromAav(Math.round(deal.total / deal.yrs), deal.yrs)
-          : r.years,
+      years,
       restriction: "signed his rookie-scale contract (30-day trade freeze)",
     };
   },
