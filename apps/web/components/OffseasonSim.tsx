@@ -581,7 +581,7 @@ function TradeVerdict({
     [legal, verdict, extraViolations, lg],
   );
   const triggers = useMemo(
-    () => (legal ? tradeConsequences(verdict.teams, tpeUse, lg.teamHolds) : []),
+    () => (legal ? tradeConsequences(verdict.teams, tpeUse, lg.teamHolds, verdict.checks) : []),
     [legal, verdict, tpeUse, lg],
   );
   const hasFix = !!explainer && (explainer.subject.length > 0 || explainer.fixes.length > 0);
@@ -1514,6 +1514,12 @@ function SignEditor({
         <div className="mt-1 text-[var(--muted)]">
           Team after: <span className="tabular text-[var(--text)]">{fmtM(afterCharge)}</span> ·{" "}
           <Term k={afterTier} underline>{afterTier.replace("_", " ")}</Term>
+          {afterCharge !== apronAfter && (
+            <>
+              {" "}· apron <span className="tabular text-[var(--text)]">{fmtM(apronAfter)}</span>{" "}
+              <span className="text-[10px]">(FA holds count on the cap &amp; tax line, not the apron — the tier and any hard cap test the apron number)</span>
+            </>
+          )}
         </div>
         {v.legal && (() => {
           const id = v.mechanism!.id;
@@ -1559,6 +1565,11 @@ function SignEditor({
           <div className="mt-1 text-[var(--tier-taxpayer)]">
             Restricted FA — {teamMeta(fa.priorTeam).name} can match this offer sheet
             {isArenasRfa ? "; 1–2 yr Arenas cap applies (year 1 ≤ NT-MLE)" : ""}.
+          </div>
+        )}
+        {feedStateOf(team).roomTeam && (
+          <div className="mt-1 text-[var(--muted)]">
+            Room team: {teamMeta(team).name} used cap space in July, so its Non-Tax MLE and Bi-Annual are dead for the year (Art. VII §6(n)(1)) — only the Room MLE and minimums remain, even well over the cap.
           </div>
         )}
         {rosterFull && (
@@ -1712,6 +1723,12 @@ function ExtendDrawer({
   const clamped = Math.max(floor, Math.min(salary, ceiling));
   const rows = Array.from({ length: years }, (_, k) => Math.round(clamped * (1 + 0.08 * k)));
   const total = rows.reduce((a, b) => a + b, 0);
+  // §8(f)(i): a freshly-extended player is trade-frozen for 6 months only if the
+  // extension EXCEEDS extend-and-trade limits — 5+ covered seasons, or a first-
+  // year salary above 120% of the final existing year (or of the estimated
+  // average). Mirrors the reducer so the drawer warns before you commit.
+  const etLimit = Math.max(finalYearSalary * 1.2, C.estimatedAverageSalary * 1.2);
+  const extFreezes = remainingYears + years >= 5 || clamped > etLimit + 1;
 
   const doExtend = () => {
     dispatchMove({
@@ -1792,6 +1809,16 @@ function ExtendDrawer({
             <span className="tabular">{fmtFull(total)}</span>
           </div>
         </div>
+
+        {extFreezes && (
+          <div
+            className="mb-4 rounded-md border px-2.5 py-1.5 text-[11.5px] leading-snug"
+            style={{ borderColor: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 8%, transparent)" }}
+          >
+            <span className="mr-1 font-bold text-[var(--tier-second_apron)]">⚠</span>
+            Heads up: this exceeds extend-and-trade limits (5+ total seasons or a first-year raise above 120%), so {playerName} can&apos;t be traded for 6 months (Art. VII §8(f)).
+          </div>
+        )}
 
         <button
           onClick={doExtend}
