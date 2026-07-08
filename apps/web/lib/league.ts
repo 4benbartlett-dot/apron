@@ -883,7 +883,12 @@ export function allocateRotation(roster: Contract[]): Rotation {
       cap[pos] -= take;
       remain -= take;
       weighted += p.pts * take;
-      byPos[pos]!.push({ playerId: p.id, playerName: p.name, minutes: take, pts: p.pts, av: p.av, age: p.age, pos, secondary: pos !== primary });
+      // A player can land at the same spot twice — a partial Pass-1 placement, then
+      // a Pass-2 spillback when his other eligible spot is full. Merge into his
+      // existing slot so he isn't listed (or keyed) twice at one position.
+      const existing = byPos[pos]!.find((s) => s.playerId === p.id);
+      if (existing) existing.minutes += take;
+      else byPos[pos]!.push({ playerId: p.id, playerName: p.name, minutes: take, pts: p.pts, av: p.av, age: p.age, pos, secondary: pos !== primary });
       placed = true;
     };
     // Pass 1 — distribute his minutes across his spots the way he ACTUALLY plays

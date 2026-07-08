@@ -26,6 +26,31 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
   const rot = allocateRotation(roster);
   const byId = new Map(roster.map((c) => [c.playerId, c]));
 
+  // Each player's TOTAL projected minutes, and his spots ranked by minutes there
+  // — the basis for a realistic starting five.
+  const totalMin = new Map<string, number>();
+  const posMinOf = new Map<string, { pos: string; min: number }[]>();
+  for (const { pos } of SLOTS) for (const s of rot.byPos[pos] ?? []) {
+    totalMin.set(s.playerId, (totalMin.get(s.playerId) ?? 0) + s.minutes);
+    const arr = posMinOf.get(s.playerId) ?? [];
+    arr.push({ pos, min: s.minutes });
+    posMinOf.set(s.playerId, arr);
+  }
+  // Build the starting five as one player per spot: take players in order of
+  // overall role and give each his biggest still-open position. A split starter
+  // (plays 55% at the 3, 45% at the 4) still claims a starting job at his main
+  // spot, and one center can't occupy two starter slots — so a real wing starter
+  // isn't bumped by a backup big who simply logs more raw minutes.
+  const starterAt: Record<string, string> = {};
+  const homeOf = new Map<string, string>();
+  for (const [id] of [...totalMin.entries()].sort((a, b) => b[1] - a[1])) {
+    if (Object.keys(starterAt).length >= SLOTS.length) break;
+    const open = (posMinOf.get(id) ?? []).slice().sort((a, b) => b.min - a.min).find((x) => !starterAt[x.pos]);
+    if (open) { starterAt[open.pos] = id; homeOf.set(id, open.pos); }
+  }
+  const isStarter = (id: string) => homeOf.has(id);
+  const startsAt = (id: string, pos: string) => homeOf.get(id) === pos;
+
   // Anyone on the roster the model never gives a minute (no projected role, or
   // squeezed out) is surfaced so nobody silently disappears.
   const shown = new Set<string>();
@@ -44,7 +69,16 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
     <div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
         {SLOTS.map(({ pos, label }) => {
-          const slots = rot.byPos[pos] ?? [];
+          // This spot's starter leads, then any other starters passing through,
+          // then bench players by minutes here — so a split starter never sits
+          // below a bench specialist who logs more raw minutes at this position.
+          const rank = (id: string) => (startsAt(id, pos) ? 2 : isStarter(id) ? 1 : 0);
+          const slots = [...(rot.byPos[pos] ?? [])].sort((a, b) => {
+            const r = rank(b.playerId) - rank(a.playerId);
+            if (r) return r;
+            if (isStarter(a.playerId)) return (totalMin.get(b.playerId) ?? 0) - (totalMin.get(a.playerId) ?? 0);
+            return b.minutes - a.minutes;
+          });
           return (
             <div key={pos} className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2">
               <div className="label mb-1.5 flex items-baseline justify-between !text-[9.5px]">
@@ -52,20 +86,20 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
                 <span className="text-[var(--muted)]">{label}</span>
               </div>
               <div className="space-y-1">
-                {slots.map((s, i) => {
+                {slots.map((s) => {
                   const c = byId.get(s.playerId);
                   const sec = secondaryPositionsOf(s.playerId);
                   return (
                     <div
                       key={s.playerId + pos}
                       className="flex items-center gap-1 rounded bg-[var(--panel)] px-1.5 py-1 text-[11.5px]"
-                      style={{ opacity: s.secondary ? 0.72 : i === 0 ? 1 : 0.9 }}
+                      style={{ opacity: isStarter(s.playerId) ? 1 : s.secondary ? 0.72 : 0.9 }}
                       title={`${s.playerName} · ${s.age} yrs · ~${mpg(s.minutes)} mpg at ${pos}${sec.length ? ` (also ${sec.join("/")})` : ""}`}
                     >
                       <ImpactPill c={c} />
                       <span className="min-w-0 flex-1 truncate">{s.playerName}</span>
                       {(() => { const inj = injuryOf(s.playerId); return inj && inj.gamesOut >= 5 ? <span className="shrink-0 text-[8px] font-bold uppercase text-[var(--tier-second_apron)]" title={`${inj.type} — ~${inj.gamesOut} games out to start`}>INJ</span> : null; })()}
-                      {i === 0 && !s.secondary && <span className="shrink-0 text-[8px] font-bold uppercase tracking-wide text-[var(--tier-below_cap)]">ST</span>}
+                      {startsAt(s.playerId, pos) && <span className="shrink-0 text-[8px] font-bold uppercase tracking-wide text-[var(--tier-below_cap)]">ST</span>}
                       <span className="tabular shrink-0 text-[9px] text-[var(--muted)]">{s.age}y</span>
                       <span className="tabular shrink-0 font-semibold">
                         {mpg(s.minutes)}<span className="text-[8px] font-normal text-[var(--muted)]">m</span>
