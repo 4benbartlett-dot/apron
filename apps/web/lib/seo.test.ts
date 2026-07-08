@@ -66,7 +66,7 @@ describe("salary-matching term matches the engine (no phantom 125% apron band)",
     expect(maxIncomingSalary(out, "first_apron", 0, C).maxIncoming).toBe(out);
     expect(maxIncomingSalary(out, "second_apron", 0, C).maxIncoming).toBe(out);
     // The 125% band belongs to below-apron (over-the-cap) teams on big salaries.
-    expect(maxIncomingSalary(out, "over_the_cap", 0, C).maxIncoming).toBeGreaterThan(out);
+    expect(maxIncomingSalary(out, "over_cap", 0, C).maxIncoming).toBeGreaterThan(out);
   });
 
   it("the displayed matching bands never grant an apron team more than 100%", () => {
