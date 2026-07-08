@@ -12,6 +12,7 @@ import playerBioRaw from "./player-bio-2026.json";
 import playerStatsRaw from "./player-stats-2026.json";
 import playerDimsRaw from "./player-dimensions-2026.json";
 import playerInjuriesRaw from "./player-injuries-2026.json";
+import playerPedigreeRaw from "./player-pedigree-2026.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
@@ -169,6 +170,14 @@ export const PLAYER_DIMENSIONS_2026: Record<string, PlayerDims> =
 export interface PlayerInjury { name: string; team: string; date: string; desc: string; type: string; status: string; gamesOut: number; }
 export const PLAYER_INJURIES_2026: Record<string, PlayerInjury> =
   (playerInjuriesRaw as { byId: Record<string, PlayerInjury> }).byId;
+
+/** Star PEDIGREE (82orBust peak rating + accolades) — the signal that an
+ * established star stays a star even when his aged or injury-shortened current
+ * season understates him. The value model floors current impact at the
+ * age-decayed pedigree. */
+export interface PlayerPedigree { peakOvr: number; as: number; mvp: number; dpoy: number; ring: number; fame: number; }
+export const PLAYER_PEDIGREE_2026: Record<string, PlayerPedigree> =
+  (playerPedigreeRaw as { byId: Record<string, PlayerPedigree> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
 export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
   (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;

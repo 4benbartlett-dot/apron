@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf, allocateRotation, eligiblePositions, secondaryPositionsOf, teamFit, teamDimensions, playerDims, injuryOf, currentSalary } from "@/lib/league";
-import { IMPACT_2026, PLAYER_BIO_2026, SECONDARY_POSITIONS_2026, PLAYER_DIMENSIONS_2026, PLAYER_INJURIES_2026 } from "@apron/data";
+import { BASE_CONTRACTS, impactScoreOf, impactMeterOf, impactComponents, positionOf, teamStrengthOf, teamProjection, TEAM_IDS, ageOf, allocateRotation, eligiblePositions, secondaryPositionsOf, teamFit, teamDimensions, playerDims, injuryOf, currentSalary, adjustedAv } from "@/lib/league";
+import { IMPACT_2026, PLAYER_BIO_2026, SECONDARY_POSITIONS_2026, PLAYER_DIMENSIONS_2026, PLAYER_INJURIES_2026, PLAYER_PEDIGREE_2026 } from "@apron/data";
 
 // Player value = "Apron Value" from the hardened impact model: box score
 // blended 50/50 with real stint-level RAPM, on a 0-100 scale (50 = replacement,
@@ -15,10 +15,10 @@ describe("Apron Value scale (hardened model)", () => {
     const curry = impactScoreOf(named("Stephen Curry"));
     expect(jokic).toBeGreaterThan(94);
     expect(jokic).toBeLessThanOrEqual(100);
-    expect(sga).toBeLessThan(jokic);
     expect(sga).toBeGreaterThan(88);
+    expect(sga).toBeLessThanOrEqual(jokic); // two MVP-caliber stars can both cap at 100
     expect(curry).toBeGreaterThan(50);
-    expect(curry).toBeLessThan(sga);
+    expect(curry).toBeLessThan(sga); // Curry (~79) is a clear star, below the very top
   });
 
   it("clipped to 0-100 (no negatives), replacement near 50", () => {
@@ -219,6 +219,40 @@ describe("player bio (real ages + availability, Basketball-Reference)", () => {
       }
       // eligiblePositions leads with the primary, then the secondaries
       expect(eligiblePositions(id)[0]).toBe(primary);
+    }
+  });
+});
+
+describe("pedigree-floored value (aging stars stay impactful)", () => {
+  const named2 = (n: string) => BASE_CONTRACTS.find((c) => c.playerName === n && !c.deadMoney)!;
+
+  it("floors an aged/injury-shortened star well above his raw current impact", () => {
+    // Anthony Davis (a 20-game, injury-hit season) reads near replacement raw,
+    // but his pedigree keeps him a star.
+    const ad = named2("Anthony Davis");
+    expect(IMPACT_2026.byId[ad.playerId]!.av).toBeLessThan(60); // raw is depressed
+    expect(adjustedAv(ad)).toBeGreaterThan(75); // pedigree floors him back to star
+  });
+
+  it("keeps aging stars impactful (LeBron, Curry, Draymond all clearly positive)", () => {
+    for (const n of ["LeBron James", "Stephen Curry", "Draymond Green"]) {
+      expect(impactMeterOf(named2(n))).toBeGreaterThan(2); // real positive impact
+    }
+  });
+
+  it("does not inflate role players without pedigree", () => {
+    // A journeyman's adjusted value tracks his current form, not a star floor.
+    for (const n of ["De'Anthony Melton", "Grayson Allen"]) {
+      const c = BASE_CONTRACTS.find((x) => x.playerName === n);
+      if (c) expect(adjustedAv(c)).toBeLessThan(62);
+    }
+  });
+
+  it("adjusted value stays on the 0-100 scale", () => {
+    for (const c of BASE_CONTRACTS.filter((x) => !x.deadMoney && currentSalary(x) > 0)) {
+      const v = adjustedAv(c);
+      expect(v).toBeGreaterThanOrEqual(0);
+      expect(v).toBeLessThanOrEqual(100);
     }
   });
 });
