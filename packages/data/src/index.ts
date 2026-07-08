@@ -9,6 +9,7 @@ import impactRaw from "./impact-2026.json";
 import teamStrengthRaw from "./team-strength-2026.json";
 import positionsRaw from "./positions-2026.json";
 import positionOverridesRaw from "./position-overrides-2026.json";
+import rookieProjectionsRaw from "./rookie-projections-2026.json";
 import playerBioRaw from "./player-bio-2026.json";
 import playerStatsRaw from "./player-stats-2026.json";
 import playerDimsRaw from "./player-dimensions-2026.json";
@@ -140,6 +141,24 @@ const positionOverrides = positionOverridesRaw as {
   byId?: Record<string, string>;
   secondaryById?: Record<string, string[]>;
 };
+/** Projected value/fit/position for incoming rookies (no NBA sample yet) —
+ * from draft slot + college production + scouting consensus. */
+export interface RookieProjection {
+  bpm: number;
+  dims: { off: number; def: number; play: number; reb: number; space: number; rim: number; perd: number };
+  secondary?: string[];
+  archetype?: string;
+  /** Projected rookie-season minutes/game from draft slot + readiness — a rookie
+   * has no bio playing-time row, so without this he'd project to zero minutes. */
+  mpg?: number;
+}
+export const ROOKIE_PROJECTIONS_2026: Record<string, RookieProjection> =
+  (rookieProjectionsRaw as { byId: Record<string, RookieProjection> }).byId;
+const rookieSecondaries: Record<string, string[]> = Object.fromEntries(
+  Object.entries(ROOKIE_PROJECTIONS_2026)
+    .filter(([, r]) => r.secondary && r.secondary.length)
+    .map(([id, r]) => [id, r.secondary!]),
+);
 /** Primary position (PG/SG/SF/PF/C) by playerId, near-full coverage —
  * data-driven (most-played spot from play-by-play minute shares) where
  * available, else Basketball-Reference's assigned position. Curated overrides
@@ -155,6 +174,7 @@ export const POSITIONS_2026: Record<string, string> = {
 export const SECONDARY_POSITIONS_2026: Record<string, string[]> = {
   ...((positionsRaw as { secondaryById?: Record<string, string[]> }).secondaryById ?? {}),
   ...(positionOverrides.secondaryById ?? {}),
+  ...rookieSecondaries,
 };
 /** Raw share of minutes at each position (PG/SG/SF/PF/C), where measured. */
 export const POSITION_SHARES_2026: Record<string, Record<string, number>> =

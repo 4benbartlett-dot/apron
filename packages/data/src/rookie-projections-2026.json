@@ -1,0 +1,1085 @@
+{
+  "source": "Rookie 2026-27 projections \u2014 a per-player read from draft slot + college/pre-draft production + media scouting consensus (agent research pass). bpm is a projected rookie-season Box Plus/Minus (most rookies are below average); dims are archetype fit ratings (0-100, 50 = NBA average); secondary is an adjacent spot the rookie can also play. Feeds the same value/fit/rotation model veterans use, so a lottery pick projects like a rotation piece and a second-rounder like a bench flyer.",
+  "byId": {
+    "dybanaj01": {
+      "bpm": 0.3,
+      "dims": {
+        "off": 62,
+        "def": 52,
+        "play": 55,
+        "reb": 55,
+        "space": 46,
+        "rim": 40,
+        "perd": 54
+      },
+      "secondary": [
+        "SG",
+        "PF"
+      ],
+      "archetype": "three-level scoring wing",
+      "confidence": "high",
+      "mpg": 28
+    },
+    "peterda02": {
+      "bpm": -1,
+      "dims": {
+        "off": 60,
+        "def": 50,
+        "play": 48,
+        "reb": 44,
+        "space": 52,
+        "rim": 30,
+        "perd": 52
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "shot-creating scoring guard",
+      "confidence": "high",
+      "mpg": 26
+    },
+    "boozeca02": {
+      "bpm": -0.6,
+      "dims": {
+        "off": 57,
+        "def": 48,
+        "play": 55,
+        "reb": 62,
+        "space": 46,
+        "rim": 42,
+        "perd": 42
+      },
+      "secondary": [
+        "C"
+      ],
+      "archetype": "skilled point-forward big",
+      "confidence": "high",
+      "mpg": 25
+    },
+    "wilsoca01": {
+      "bpm": -2.4,
+      "dims": {
+        "off": 46,
+        "def": 55,
+        "play": 46,
+        "reb": 56,
+        "space": 28,
+        "rim": 52,
+        "perd": 52
+      },
+      "secondary": [
+        "SF",
+        "C"
+      ],
+      "archetype": "athletic two-way finisher",
+      "confidence": "high",
+      "mpg": 23
+    },
+    "wagleke01": {
+      "bpm": -2,
+      "dims": {
+        "off": 52,
+        "def": 40,
+        "play": 52,
+        "reb": 46,
+        "space": 60,
+        "rim": 30,
+        "perd": 38
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "big shooting combo guard",
+      "confidence": "medium",
+      "mpg": 21
+    },
+    "brownmi02": {
+      "bpm": -2.6,
+      "dims": {
+        "off": 51,
+        "def": 40,
+        "play": 53,
+        "reb": 40,
+        "space": 55,
+        "rim": 30,
+        "perd": 40
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "shooting lead guard",
+      "confidence": "medium",
+      "mpg": 19
+    },
+    "acuffda01": {
+      "bpm": -2.5,
+      "dims": {
+        "off": 54,
+        "def": 37,
+        "play": 55,
+        "reb": 42,
+        "space": 50,
+        "rim": 34,
+        "perd": 35
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "scoring pick-and-roll guard",
+      "confidence": "medium",
+      "mpg": 19
+    },
+    "flemiki01": {
+      "bpm": -2.7,
+      "dims": {
+        "off": 48,
+        "def": 52,
+        "play": 54,
+        "reb": 44,
+        "space": 44,
+        "rim": 34,
+        "perd": 56
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "two-way playmaking guard",
+      "confidence": "medium",
+      "mpg": 17
+    },
+    "johnsmo01": {
+      "bpm": -3,
+      "dims": {
+        "off": 42,
+        "def": 55,
+        "play": 38,
+        "reb": 62,
+        "space": 28,
+        "rim": 56,
+        "perd": 46
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "energy rebounding big",
+      "confidence": "medium",
+      "mpg": 16
+    },
+    "burribr01": {
+      "bpm": -3,
+      "dims": {
+        "off": 50,
+        "def": 46,
+        "play": 42,
+        "reb": 46,
+        "space": 48,
+        "rim": 34,
+        "perd": 48
+      },
+      "secondary": [
+        "PG"
+      ],
+      "archetype": "tough two-way scoring guard",
+      "confidence": "medium",
+      "mpg": 15
+    },
+    "lendeya01": {
+      "bpm": -1.8,
+      "dims": {
+        "off": 48,
+        "def": 56,
+        "play": 52,
+        "reb": 58,
+        "space": 48,
+        "rim": 48,
+        "perd": 50
+      },
+      "secondary": [
+        "SF",
+        "C"
+      ],
+      "archetype": "versatile two-way connector forward",
+      "confidence": "medium",
+      "mpg": 15
+    },
+    "maraad01": {
+      "bpm": -3.4,
+      "dims": {
+        "off": 42,
+        "def": 55,
+        "play": 48,
+        "reb": 54,
+        "space": 30,
+        "rim": 64,
+        "perd": 30
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "shot-blocking passing giant",
+      "confidence": "medium",
+      "mpg": 13
+    },
+    "amentna01": {
+      "bpm": -3.2,
+      "dims": {
+        "off": 44,
+        "def": 42,
+        "play": 40,
+        "reb": 46,
+        "space": 46,
+        "rim": 40,
+        "perd": 43
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "toolsy 6'10 face-up shot-making forward",
+      "confidence": "medium",
+      "mpg": 12
+    },
+    "steinha02": {
+      "bpm": -2.8,
+      "dims": {
+        "off": 43,
+        "def": 44,
+        "play": 36,
+        "reb": 66,
+        "space": 40,
+        "rim": 41,
+        "perd": 38
+      },
+      "secondary": [
+        "C"
+      ],
+      "archetype": "physical energy big, elite rebounder",
+      "confidence": "medium",
+      "mpg": 12
+    },
+    "swainda01": {
+      "bpm": -3,
+      "dims": {
+        "off": 44,
+        "def": 49,
+        "play": 46,
+        "reb": 50,
+        "space": 34,
+        "rim": 47,
+        "perd": 52
+      },
+      "secondary": [
+        "SG",
+        "PF"
+      ],
+      "archetype": "slashing two-way wing, shaky shooter",
+      "confidence": "medium",
+      "mpg": 11
+    },
+    "stirtbe01": {
+      "bpm": -2.9,
+      "dims": {
+        "off": 44,
+        "def": 34,
+        "play": 55,
+        "reb": 40,
+        "space": 47,
+        "rim": 33,
+        "perd": 33
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "polished pick-and-roll floor general",
+      "confidence": "medium",
+      "mpg": 10
+    },
+    "okorieb01": {
+      "bpm": -3.4,
+      "dims": {
+        "off": 48,
+        "def": 36,
+        "play": 42,
+        "reb": 39,
+        "space": 45,
+        "rim": 38,
+        "perd": 37
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "shot-creating scoring guard",
+      "confidence": "medium",
+      "mpg": 10
+    },
+    "anderch02": {
+      "bpm": -2.9,
+      "dims": {
+        "off": 46,
+        "def": 35,
+        "play": 54,
+        "reb": 39,
+        "space": 52,
+        "rim": 34,
+        "perd": 35
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "shooting lead guard, elite passer",
+      "confidence": "medium",
+      "mpg": 9
+    },
+    "graveal01": {
+      "bpm": -3.3,
+      "dims": {
+        "off": 42,
+        "def": 47,
+        "play": 44,
+        "reb": 50,
+        "space": 49,
+        "rim": 41,
+        "perd": 45
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "three-and-D connector forward",
+      "confidence": "medium",
+      "mpg": 8
+    },
+    "quainja01": {
+      "bpm": -3.9,
+      "dims": {
+        "off": 36,
+        "def": 52,
+        "play": 36,
+        "reb": 55,
+        "space": 26,
+        "rim": 62,
+        "perd": 42
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "explosive rim-protecting big (ACL recovery)",
+      "confidence": "low",
+      "mpg": 7
+    },
+    "lopezka01": {
+      "bpm": -3.3,
+      "dims": {
+        "off": 42,
+        "def": 48,
+        "play": 43,
+        "reb": 48,
+        "space": 37,
+        "rim": 44,
+        "perd": 49
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "athletic downhill two-way forward",
+      "confidence": "medium",
+      "mpg": 7
+    },
+    "philola01": {
+      "bpm": -2.8,
+      "dims": {
+        "off": 47,
+        "def": 37,
+        "play": 53,
+        "reb": 40,
+        "space": 47,
+        "rim": 41,
+        "perd": 38
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "shifty scoring-and-playmaking lead guard",
+      "confidence": "medium",
+      "mpg": 7
+    },
+    "ejiofzu01": {
+      "bpm": -3,
+      "dims": {
+        "off": 42,
+        "def": 51,
+        "play": 44,
+        "reb": 62,
+        "space": 28,
+        "rim": 58,
+        "perd": 43
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "pro-ready energy five, rim protector",
+      "confidence": "medium",
+      "mpg": 6
+    },
+    "carrca01": {
+      "bpm": -3.2,
+      "dims": {
+        "off": 44,
+        "def": 44,
+        "play": 39,
+        "reb": 44,
+        "space": 55,
+        "rim": 40,
+        "perd": 46
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "movement-shooting three-and-D wing",
+      "confidence": "medium",
+      "mpg": 6
+    },
+    "delarse01": {
+      "bpm": -4,
+      "dims": {
+        "off": 40,
+        "def": 38,
+        "play": 58,
+        "reb": 38,
+        "space": 52,
+        "rim": 22,
+        "perd": 42
+      },
+      "secondary": [
+        "PG"
+      ],
+      "archetype": "big playmaking combo guard",
+      "confidence": "medium",
+      "mpg": 5
+    },
+    "reedjta01": {
+      "bpm": -3.4,
+      "dims": {
+        "off": 42,
+        "def": 52,
+        "play": 44,
+        "reb": 66,
+        "space": 20,
+        "rim": 60,
+        "perd": 30
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "physical rebounding rim-protecting center",
+      "confidence": "high",
+      "mpg": 5
+    },
+    "cenacch01": {
+      "bpm": -4,
+      "dims": {
+        "off": 38,
+        "def": 44,
+        "play": 34,
+        "reb": 60,
+        "space": 33,
+        "rim": 52,
+        "perd": 32
+      },
+      "secondary": [
+        "C"
+      ],
+      "archetype": "mobile two-way big with shooting upside",
+      "confidence": "medium",
+      "mpg": 4
+    },
+    "jeffejo01": {
+      "bpm": -3.4,
+      "dims": {
+        "off": 44,
+        "def": 52,
+        "play": 56,
+        "reb": 54,
+        "space": 32,
+        "rim": 40,
+        "perd": 46
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "connective playmaking forward",
+      "confidence": "high",
+      "mpg": 5
+    },
+    "karabal01": {
+      "bpm": -3.3,
+      "dims": {
+        "off": 44,
+        "def": 42,
+        "play": 48,
+        "reb": 44,
+        "space": 62,
+        "rim": 30,
+        "perd": 40
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "plug-and-play floor-spacing forward",
+      "confidence": "high",
+      "mpg": 4
+    },
+    "peatko01": {
+      "bpm": -3.5,
+      "dims": {
+        "off": 44,
+        "def": 50,
+        "play": 42,
+        "reb": 52,
+        "space": 26,
+        "rim": 44,
+        "perd": 44
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "physical interior-scoring combo forward",
+      "confidence": "high",
+      "mpg": 3
+    },
+    "thornbr01": {
+      "bpm": -3.5,
+      "dims": {
+        "off": 48,
+        "def": 38,
+        "play": 54,
+        "reb": 40,
+        "space": 52,
+        "rim": 38,
+        "perd": 36
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "polished undersized scoring lead guard",
+      "confidence": "high",
+      "mpg": 3
+    },
+    "saundri01": {
+      "bpm": -4.6,
+      "dims": {
+        "off": 42,
+        "def": 40,
+        "play": 40,
+        "reb": 42,
+        "space": 60,
+        "rim": 34,
+        "perd": 40
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "movement-shooting off-ball wing",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "evansis01": {
+      "bpm": -4,
+      "dims": {
+        "off": 44,
+        "def": 34,
+        "play": 30,
+        "reb": 34,
+        "space": 66,
+        "rim": 28,
+        "perd": 34
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "quick-trigger movement-shooting specialist",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "thomame01": {
+      "bpm": -4.5,
+      "dims": {
+        "off": 42,
+        "def": 36,
+        "play": 40,
+        "reb": 36,
+        "space": 60,
+        "rim": 30,
+        "perd": 36
+      },
+      "secondary": [
+        "PG"
+      ],
+      "archetype": "shot-making floor-spacing two-guard",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "brazitr01": {
+      "bpm": -4,
+      "dims": {
+        "off": 38,
+        "def": 50,
+        "play": 34,
+        "reb": 54,
+        "space": 48,
+        "rim": 52,
+        "perd": 40
+      },
+      "secondary": [
+        "C"
+      ],
+      "archetype": "athletic play-finishing stretch four",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "milleba01": {
+      "bpm": -4.6,
+      "dims": {
+        "off": 36,
+        "def": 46,
+        "play": 50,
+        "reb": 54,
+        "space": 26,
+        "rim": 46,
+        "perd": 38
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "playmaking non-shooting mobile big",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "conwery01": {
+      "bpm": -4.2,
+      "dims": {
+        "off": 48,
+        "def": 38,
+        "play": 38,
+        "reb": 44,
+        "space": 55,
+        "rim": 20,
+        "perd": 40
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "high-volume shooting wing / movement scorer",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "smithbr01": {
+      "bpm": -4,
+      "dims": {
+        "off": 42,
+        "def": 36,
+        "play": 62,
+        "reb": 33,
+        "space": 46,
+        "rim": 15,
+        "perd": 38
+      },
+      "secondary": [],
+      "archetype": "pass-first lead guard / pick-and-roll maestro",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "kayilja01": {
+      "bpm": -4.3,
+      "dims": {
+        "off": 42,
+        "def": 44,
+        "play": 46,
+        "reb": 40,
+        "space": 44,
+        "rim": 22,
+        "perd": 46
+      },
+      "secondary": [
+        "PG"
+      ],
+      "archetype": "well-rounded two-way combo guard",
+      "confidence": "low",
+      "mpg": 3
+    },
+    "mitchdi01": {
+      "bpm": -4.2,
+      "dims": {
+        "off": 40,
+        "def": 52,
+        "play": 40,
+        "reb": 55,
+        "space": 20,
+        "rim": 42,
+        "perd": 52
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "high-energy athletic play-finisher / defender",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "owehot01": {
+      "bpm": -4,
+      "dims": {
+        "off": 46,
+        "def": 50,
+        "play": 40,
+        "reb": 44,
+        "space": 38,
+        "rim": 25,
+        "perd": 54
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "tough two-way slashing wing / on-ball defender",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "gilleja02": {
+      "bpm": -4.5,
+      "dims": {
+        "off": 44,
+        "def": 42,
+        "play": 54,
+        "reb": 33,
+        "space": 46,
+        "rim": 15,
+        "perd": 44
+      },
+      "secondary": [
+        "PG"
+      ],
+      "archetype": "undersized shot-making lead guard / pest defender",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "bilodty01": {
+      "bpm": -4.5,
+      "dims": {
+        "off": 47,
+        "def": 34,
+        "play": 34,
+        "reb": 45,
+        "space": 60,
+        "rim": 28,
+        "perd": 32
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "stretch forward / shooting big",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "brownma05": {
+      "bpm": -4.2,
+      "dims": {
+        "off": 40,
+        "def": 58,
+        "play": 42,
+        "reb": 54,
+        "space": 18,
+        "rim": 48,
+        "perd": 55
+      },
+      "secondary": [
+        "PF",
+        "C"
+      ],
+      "archetype": "switchable defensive big / play-finisher",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "sharpem01": {
+      "bpm": -4.8,
+      "dims": {
+        "off": 46,
+        "def": 34,
+        "play": 40,
+        "reb": 33,
+        "space": 56,
+        "rim": 15,
+        "perd": 34
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "undersized off-ball movement shooter",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "okparfe01": {
+      "bpm": -4.4,
+      "dims": {
+        "off": 38,
+        "def": 52,
+        "play": 30,
+        "reb": 55,
+        "space": 12,
+        "rim": 60,
+        "perd": 34
+      },
+      "secondary": [],
+      "archetype": "rim-running shot-blocking center",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "nickety01": {
+      "bpm": -4.8,
+      "dims": {
+        "off": 45,
+        "def": 34,
+        "play": 34,
+        "reb": 40,
+        "space": 60,
+        "rim": 20,
+        "perd": 34
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "specialist floor-spacing shooter",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "lawalto01": {
+      "bpm": -4.7,
+      "dims": {
+        "off": 38,
+        "def": 52,
+        "play": 34,
+        "reb": 55,
+        "space": 24,
+        "rim": 44,
+        "perd": 50
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "explosive switchable defensive forward / lob finisher",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "hopkibr01": {
+      "bpm": -4.2,
+      "dims": {
+        "off": 44,
+        "def": 44,
+        "play": 42,
+        "reb": 58,
+        "space": 34,
+        "rim": 32,
+        "perd": 40
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "physical downhill driving forward",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "bradlja02": {
+      "bpm": -4.2,
+      "dims": {
+        "off": 40,
+        "def": 52,
+        "play": 52,
+        "reb": 38,
+        "space": 44,
+        "rim": 22,
+        "perd": 58
+      },
+      "secondary": [
+        "PG"
+      ],
+      "archetype": "defensive pressure backup point guard",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "nelsoiz01": {
+      "bpm": -4.6,
+      "dims": {
+        "off": 38,
+        "def": 50,
+        "play": 30,
+        "reb": 62,
+        "space": 24,
+        "rim": 55,
+        "perd": 34
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "high-motor rim-running energy big",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "veesahe01": {
+      "bpm": -4.4,
+      "dims": {
+        "off": 45,
+        "def": 40,
+        "play": 44,
+        "reb": 46,
+        "space": 52,
+        "rim": 40,
+        "perd": 32
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "skilled floor-spacing five",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "onyenug01": {
+      "bpm": -4.3,
+      "dims": {
+        "off": 34,
+        "def": 56,
+        "play": 26,
+        "reb": 56,
+        "space": 20,
+        "rim": 68,
+        "perd": 34
+      },
+      "secondary": [],
+      "archetype": "elite shot-blocking rim protector",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "jonesla03": {
+      "bpm": -4.7,
+      "dims": {
+        "off": 40,
+        "def": 50,
+        "play": 38,
+        "reb": 54,
+        "space": 40,
+        "rim": 34,
+        "perd": 52
+      },
+      "secondary": [
+        "SG",
+        "PF"
+      ],
+      "archetype": "physical 3-and-D energy wing",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "martini01": {
+      "bpm": -4.5,
+      "dims": {
+        "off": 50,
+        "def": 34,
+        "play": 44,
+        "reb": 46,
+        "space": 48,
+        "rim": 30,
+        "perd": 32
+      },
+      "secondary": [
+        "PF"
+      ],
+      "archetype": "crafty midrange scoring forward",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "ishchvs01": {
+      "bpm": -4.5,
+      "dims": {
+        "off": 44,
+        "def": 40,
+        "play": 46,
+        "reb": 48,
+        "space": 50,
+        "rim": 32,
+        "perd": 40
+      },
+      "secondary": [
+        "SF"
+      ],
+      "archetype": "efficient versatile combo wing",
+      "confidence": "low",
+      "mpg": 3
+    },
+    "ngoyna01": {
+      "bpm": -5.5,
+      "dims": {
+        "off": 30,
+        "def": 52,
+        "play": 22,
+        "reb": 56,
+        "space": 18,
+        "rim": 64,
+        "perd": 30
+      },
+      "secondary": [],
+      "archetype": "raw lob-finishing defensive-anchor big",
+      "confidence": "low",
+      "mpg": 3
+    },
+    "pierrja01": {
+      "bpm": -4.8,
+      "dims": {
+        "off": 46,
+        "def": 38,
+        "play": 40,
+        "reb": 44,
+        "space": 46,
+        "rim": 34,
+        "perd": 38
+      },
+      "secondary": [
+        "SG"
+      ],
+      "archetype": "three-level scoring wing",
+      "confidence": "low",
+      "mpg": 3
+    },
+    "kaufmtr01": {
+      "bpm": -4.7,
+      "dims": {
+        "off": 47,
+        "def": 38,
+        "play": 44,
+        "reb": 54,
+        "space": 30,
+        "rim": 44,
+        "perd": 30
+      },
+      "secondary": [
+        "PF",
+        "C"
+      ],
+      "archetype": "polished undersized post scorer",
+      "confidence": "medium",
+      "mpg": 3
+    },
+    "lewisma06": {
+      "bpm": -5.2,
+      "dims": {
+        "off": 38,
+        "def": 46,
+        "play": 38,
+        "reb": 46,
+        "space": 40,
+        "rim": 34,
+        "perd": 48
+      },
+      "secondary": [
+        "PF",
+        "SG"
+      ],
+      "archetype": "raw switchable 3-and-D swingman",
+      "confidence": "low",
+      "mpg": 3
+    }
+  }
+}

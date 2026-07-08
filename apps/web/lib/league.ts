@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, ROOKIE_PROJECTIONS_2026 } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -801,7 +801,11 @@ export function injuryOf(playerId: string): PlayerInjury | undefined {
  */
 function projectedMinutes(playerId: string, priorMp: number): number {
   const bio = PLAYER_BIO_2026[playerId];
-  const mpg = bio && bio.mpg && bio.mpg > 0 ? bio.mpg : priorMp / Math.max(1, bio?.g ?? 60);
+  // A rookie has no bio playing-time row, so fall back to his projected
+  // draft-slot minutes/game — otherwise he'd project to zero and never appear
+  // in the rotation. He still competes for those minutes in allocateRotation.
+  const rkMpg = ROOKIE_PROJECTIONS_2026[playerId]?.mpg;
+  const mpg = bio && bio.mpg && bio.mpg > 0 ? bio.mpg : rkMpg != null ? rkMpg : priorMp / Math.max(1, bio?.g ?? 60);
   const inj = PLAYER_INJURIES_2026[playerId];
   const games = inj && inj.gamesOut >= 5 ? Math.max(0, 82 - inj.gamesOut) : HEALTHY_GAMES;
   return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * games));
@@ -961,6 +965,14 @@ const LEAGUE_DIMS: PlayerDims = { off: 50, def: 50, play: 42, reb: 45, space: 46
 export function playerDims(c: Contract): PlayerDims {
   const d = PLAYER_DIMENSIONS_2026[c.playerId];
   if (d) return d;
+  // Rookies have no measured profile — use the projected archetype dimensions
+  // (a rim-running big reads high reb/rim, a shooter high space) with usage
+  // estimated from his scoring/playmaking read.
+  const rk = ROOKIE_PROJECTIONS_2026[c.playerId];
+  if (rk) {
+    const usg = fitClamp(Math.round(15 + (rk.dims.off - 50) * 0.12 + (rk.dims.play - 50) * 0.08), 8, 28);
+    return { ...rk.dims, usg };
+  }
   const base = 50 + (impactEntry(c).av - 50) * 0.55;
   return { off: base, def: base, play: 40, reb: 45, space: 45, rim: 30, perd: 48, usg: 16 };
 }
@@ -1153,7 +1165,10 @@ function multiYearBpm(playerId: string): number {
     num += s.bpm * s.w * conf;
     den += s.w * conf;
   }
-  return den > 0 ? num / den : (cur?.bpm ?? 0);
+  // A rookie has no NBA seasons yet — fall back to his projected rookie-season
+  // BPM (draft slot + college + consensus) so a top pick isn't valued as
+  // replacement-level and a second-rounder isn't either.
+  return den > 0 ? num / den : (cur?.bpm ?? ROOKIE_PROJECTIONS_2026[playerId]?.bpm ?? 0);
 }
 
 /** Factual-accolade bonus on the Apron-Value scale. RECENT All-NBA / All-

@@ -136,7 +136,10 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     // moves it a lot. (On a capped contender both shrink toward the ceiling.)
     const roleSwing = Math.abs(teamProjection("MIA", moveTo("Grayson Allen", "MIA"))!.deltaWins);
     const starSwing = Math.abs(teamProjection("MIA", moveTo("Nikola Jokić", "MIA"))!.deltaWins);
-    expect(roleSwing).toBeLessThanOrEqual(3);
+    // ≤4: the marginal rotation player a good role player now displaces can be a
+    // projected rookie, so his swing is a touch larger than when it was always a
+    // veteran — still marginal, and still dwarfed by a star.
+    expect(roleSwing).toBeLessThanOrEqual(4);
     expect(starSwing).toBeGreaterThan(roleSwing + 8);
   });
 
