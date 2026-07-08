@@ -1,4 +1,4 @@
-/** Plain-English explainers for every CBA term the UI surfaces. Opened from
+/** Plain-English explainers for the CBA terms the UI surfaces. Opened from
  * clickable chips/badges via <Term>. Keep each body 2–3 sentences, concrete,
  * and cite the CBA article where it helps. */
 export interface GlossaryEntry {
@@ -21,18 +21,18 @@ export const GLOSSARY = {
   },
   taxpayer: {
     title: "Luxury tax",
-    body: "Team salary is above the tax line, so the owner pays an escalating tax on every dollar over. Being a taxpayer also shrinks which exceptions are available (the full MLE gives way to the smaller Taxpayer MLE).",
+    body: "Team salary is above the tax line, so the owner pays an escalating tax on the overage. Being a taxpayer also shrinks which exceptions are available (the full MLE gives way to the smaller Taxpayer MLE).",
     cite: "2023 CBA · Art. VII §2",
   },
   first_apron: {
     title: "First apron",
     body: "A hard line a few million above the tax. Teams over it lose tools: no sign-and-trade acquisitions, no expanded matching in trades (100% only), no regular-season waiver-market signings when the terminated contract was above the NT-MLE, and no pre-existing TPE use. Some moves (using the full MLE, acquiring via sign-and-trade, that row-D waiver signing, or expanded matching) hard-cap a team AT this line for the whole season.",
-    cite: "2023 CBA · Art. VII",
+    cite: "2023 CBA · Art. VII §2(e)",
   },
   second_apron: {
     title: "Second apron",
     body: "The most restrictive tier, above the first apron. Second-apron teams can't aggregate salaries in a trade (no combining two players to match one), can't send cash, can't use any MLE, and their own first seven drafts out freezes; repeat second-apron seasons can move it to the end of the first round. Designed to make super-team payrolls painful to operate.",
-    cite: "2023 CBA · Art. VII",
+    cite: "2023 CBA · Art. VII §2(e), §2(f)",
   },
   cap: {
     title: "Salary cap",
@@ -68,7 +68,7 @@ export const GLOSSARY = {
   },
   ntmle: {
     title: "Non-Taxpayer Mid-Level Exception",
-    body: "The full MLE (9.12% of the cap, up to 4 years) for over-the-cap teams that stay below the first apron. Using more than the taxpayer portion hard-caps the team at the first apron for the rest of the season — a hard cap this sim carries into every later move.",
+    body: "The full MLE (9.12% of the cap, up to 4 years) for over-the-cap teams that stay below the first apron. Using more than the taxpayer portion hard-caps the team at the first apron for the rest of the season — and later moves in the sim must stay under that ceiling.",
     cite: "2023 CBA · Art. VII §6(e)",
   },
   tpmle: {
@@ -95,7 +95,7 @@ export const GLOSSARY = {
   // ---- cap-sheet numbers ---------------------------------------------------
   committed_salary: {
     title: "Committed salary",
-    body: "The sum of every guaranteed salary a team has on the books for a season. Your own free agents' cap holds pile on top until re-signed or renounced — holds eat cap ROOM, but apron and tax status are measured on signed salary alone (the CBA excludes Free Agent Amounts from apron math). That's why a team can have no space yet still be under the aprons.",
+    body: "The guaranteed salary a team has on the books for a season. Your own free agents' cap holds pile on top until re-signed or renounced — holds eat cap ROOM, but apron and tax status are measured on signed salary alone (the CBA excludes Free Agent Amounts from apron math). That's why a team can have no space yet still be under the aprons.",
     cite: "2023 CBA · Art. VII §1, §2, §4(d)",
   },
   max_salary: {
@@ -129,7 +129,7 @@ export const GLOSSARY = {
   // ---- trade rules ---------------------------------------------------------
   matching: {
     title: "Salary matching",
-    body: "In a trade, each over-the-cap team's incoming salary is capped by a formula on its outgoing salary — expanded bands (200% + $250k on small salaries, outgoing + ~$9.1M in the middle, 125% + $250k on big ones) for teams below the first apron, and a strict 100% for teams above it. The middle figure is the CBA's \"$7.5M\" grown with the cap since 2023-24 — most trade machines still use the stale $7.5M. Every leg of a trade is judged under its own team's band.",
+    body: "In a trade, each over-the-cap team's incoming salary is capped by a formula on its outgoing salary — expanded bands (200% + $250k on small salaries, outgoing + ~$9.1M in the middle, 125% + $250k on big ones) for teams below the first apron, and a strict 100% for teams above it. The middle figure is the CBA's \"$7.5M\" grown with the cap since 2023-24. Each team in a trade is judged under its own band.",
     cite: "2023 CBA · Art. VII §6(j)(1)(iv)",
   },
   tpe: {
@@ -159,17 +159,17 @@ export const GLOSSARY = {
   },
   picks: {
     title: "Draft-pick trading",
-    body: "Teams may trade firsts up to seven drafts out, but the Stepien rule bars leaving yourself without a first-round pick in consecutive future drafts. This sim tracks pick ownership across every move you make, so a pick you dealt two trades ago still counts against you. A first your team already owes away in the real world never appears here — it isn't yours to trade, and its year counts as uncovered.",
+    body: "Teams may trade firsts up to seven drafts out, but the Stepien rule bars leaving yourself without a first-round pick in consecutive future drafts. The sim tracks pick ownership across your move list, so a pick you dealt two trades ago still counts against you. A first your team already owes away in the real world never appears here — it isn't yours to trade, and its year counts as uncovered.",
     cite: "NBA rule (Stepien); 2023 CBA · Art. VII",
   },
   trade_value: {
     title: "Apron Value",
-    body: "Each player's on-court value on a 0-100 scale where 50 is replacement level and ~97 is the league's best. It's box score blended 50/50 with real stint-level RAPM (the exact 5-man lineups reconstructed from play-by-play), validated to predict a player's impact after he changes teams better than BPM (mover correlation 0.426 vs 0.344; reliability 0.852). Hover shows the ± band, tier, and the RAPM/box components. It's a talent gauge, not a contract measure — matching and the aprons handle legality.",
+    body: "Each player's on-court value on a 0-100 scale where 50 is replacement level and the high 90s are league-best. It blends box-score production with stint-level RAPM from reconstructed five-man lineups. Hover shows the uncertainty band, tier, and components. It's a talent gauge, not a contract measure — matching and the aprons handle legality.",
     cite: "overtheapron.com/accuracy",
   },
   projected_standings: {
     title: "Projected standings",
-    body: "Each team's projected net rating and win total from its roster's impact, ranked within its conference. It models rotation by position: the minutes budget is split into five on-court spots, handed to the best players first at their primary position (versatile players slide to a measured secondary spot), so a trade is judged on minutes DISPLACEMENT that respects position — a center added to a team already anchored at center mostly benches one of them, while a player with a real, current injury (a season-ending tear like Jimmy Butler's ACL) sits rather than taking rotation minutes. The projected rotation shows on each team page. A real-age aging curve nudges each projection toward a ~26.5 peak, and a bounded fit layer (±6 net rating, from an 8-dimension player model) rewards complementary rosters — spacing, defense, playmaking, two-way balance. The baseline is model-native and calibrated to actual 2025-26 net rating (R²=0.75), so with no moves staged it returns the current model baseline exactly and the Δ you see is purely the effect of your trades and signings. Still a talent-on-hand projection, not a full-season forecast (no coaching or playoff translation).",
+    body: "Each team's projected net rating and win total from its current roster, ranked within its conference. The model allocates minutes by position, accounts for reported injuries, applies a real-age curve, and adds a bounded fit layer for spacing, defense, playmaking, and two-way balance. The projected rotation shows on each team page. This is a talent-on-hand projection, not a full-season forecast; it does not model coaching, chemistry changes, or playoff translation.",
     cite: "overtheapron.com/standings",
   },
 } as const;

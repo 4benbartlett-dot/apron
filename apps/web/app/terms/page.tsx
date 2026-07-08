@@ -5,17 +5,16 @@ import { SEO_TERMS, glossaryFor, SITE } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "NBA CBA Terms Explained — Aprons, MLEs, TPEs, Matching | Over the Apron",
   description:
-    "Deep, current explainers for every apron-era CBA concept — with 2026-27 dollar figures and the real teams affected right now.",
+    "Plain-English explainers for apron-era CBA concepts, with 2026-27 dollar figures and current team context.",
   alternates: { canonical: `${SITE}/terms` },
 };
 
 export default function TermsIndex() {
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="text-[26px] font-bold leading-tight tracking-tight">CBA terms, explained with live data</h1>
+      <h1 className="text-[26px] font-bold leading-tight tracking-tight">CBA terms, explained with current data</h1>
       <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-        Not just definitions — each page carries the current 2026-27 dollar figures and the real teams
-        affected right now, pulled from the same audited data the <Link href="/" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">trade machine</Link> enforces.
+        Each page carries the current 2026-27 dollar figures and team context from the same data used by the <Link href="/" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">trade machine</Link>.
       </p>
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {SEO_TERMS.map((t) => (

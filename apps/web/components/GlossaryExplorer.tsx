@@ -18,7 +18,7 @@ const DRAWERS: { id: string; title: string; blurb: string; color: string; keys: 
   {
     id: "tools",
     title: "Signing tools",
-    blurb: "Every way to add a player with no cap room.",
+    blurb: "How teams add players without cap room.",
     color: "var(--tier-below_cap)",
     keys: ["bird", "early_bird", "non_bird", "cap_room", "ntmle", "tpmle", "room_mle", "bae", "minimum"],
   },
@@ -32,7 +32,7 @@ const DRAWERS: { id: string; title: string; blurb: string; color: string; keys: 
   {
     id: "numbers",
     title: "The numbers",
-    blurb: "The bookkeeping behind every figure on a cap sheet.",
+    blurb: "The bookkeeping behind the cap sheet.",
     color: "var(--tier-over_cap)",
     keys: ["committed_salary", "max_salary", "yos", "raises", "cap_hold", "rfa", "trade_value"],
   },
@@ -79,9 +79,8 @@ export function GlossaryExplorer() {
               Glossary
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-              All {total} terms the simulator uses, filed in four drawers —
-              explained the way you&rsquo;d explain them to a friend, cited the way
-              you&rsquo;d win an argument. The same cards pop up anywhere you tap a
+              The main terms the simulator uses, filed in four drawers —
+              written plainly, with CBA references where they help. The same cards pop up anywhere you tap a
               term in the app.
             </p>
           </div>

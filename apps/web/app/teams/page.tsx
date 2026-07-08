@@ -8,7 +8,7 @@ import { TeamLogo } from "@/components/TeamLogo";
 export const metadata: Metadata = {
   title: "NBA Team Trade Machines — All 30 Cap Sheets | Over the Apron",
   description:
-    "Every team's 2026-27 cap sheet, hard-cap status, and remaining exceptions — each with a CBA-exact trade machine that starts from the real July moves.",
+    "2026-27 cap sheets, hard-cap status, remaining exceptions, and CBA-aware trade machines built from the current roster data.",
   alternates: { canonical: `${SITE}/teams` },
 };
 
@@ -18,7 +18,7 @@ export default function TeamsIndex() {
     <div className="mx-auto max-w-3xl">
       <h1 className="text-[26px] font-bold leading-tight tracking-tight">Team trade machines</h1>
       <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-        Thirty cap sheets, live from the real 2026 offseason — hard caps, spent exceptions, and all.
+        Cap sheets from the current 2026 offseason data, including hard caps and spent exceptions.
         Pick a team to see what it can still do, then build the trade.
       </p>
       <div className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">

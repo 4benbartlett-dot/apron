@@ -56,8 +56,8 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
 
       <p className="relative mt-6 text-center text-xs text-[var(--muted)]">
         {late
-          ? "Working late, GM? Front offices never sleep — and every verdict still cites the 2023 CBA."
-          : "Live rosters, cap holds, and apron lines — every verdict cites the 2023 CBA."}
+          ? "Working late, GM? Front offices never sleep — and the CBA still sets the terms."
+          : "Live rosters, cap holds, apron lines, and rule citations where they apply."}
       </p>
     </div>
   );

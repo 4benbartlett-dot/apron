@@ -2,11 +2,11 @@
 
 The NBA offseason, under the real CBA. Live at [overtheapron.com](https://overtheapron.com).
 
-Over the Apron is a trade machine and free-agency simulator that enforces the
+Over the Apron is a trade machine and free-agency simulator built around the
 2023 collective bargaining agreement. You build trades, sign free agents, run
-extensions and renouncements, and work a whole offseason on live rosters. Every
-move carries into the next, and when a move is blocked the app tells you which
-rule blocked it and cites it.
+extensions and renouncements, and work a whole offseason from current rosters.
+Moves carry into the next one, and when a move is blocked the app explains the
+rule and cites the relevant CBA provision when one applies.
 
 Salary matching is the easy part, and most trade machines stop there. The rules
 that actually decide deals in the apron era are the ones this tries to get right:
@@ -16,7 +16,7 @@ that actually decide deals in the apron era are the ones this tries to get right
   matching, no row-D regular-season waiver signings, no pre-existing TPE use),
   and second-apron restrictions (no aggregating salaries, no cash, no MLE, frozen
   first seven drafts out). Hard caps stick: use the non-taxpayer mid-level and
-  every later move that season is measured against the first apron; row-H
+  later moves that season are measured against the first apron; row-H
   aggregation and row-I cash can freeze the second apron.
 - **Trade matching.** The CBA's expanded formula, including below-cap room
   absorption, trade kickers, base-year compensation, and the trade-freeze
@@ -34,17 +34,15 @@ that actually decide deals in the apron era are the ones this tries to get right
   trade executes, and a Stepien-rule check that counts picks you dealt several
   moves ago, not just the ones in front of you.
 - **A trade finder.** Name a target and it searches the other roster for packages
-  that clear the whole rulebook.
+  that clear the modeled rules.
 
 ## Accuracy
 
-Two things back the verdicts. First, the engine's constants and formulas are
-checked against the CBA's own definitions in unit tests — exception amounts as a
-share of the cap, the max-salary tiers, the matching bands — and each rule
-carries its citation into the UI. Second, `apps/web/lib/realmoves.test.ts` replays
-real 2026 offseason moves against their pre-move state and asserts the engine
-calls them legal; a real move that gets rejected is a bug. Both suites run on
-every push.
+The rules engine keeps the CBA math separate from the interface: thresholds,
+matching bands, exceptions, hard caps, trade restrictions, and pick rules all
+live in the shared TypeScript package. App data supplies the roster and
+transaction context, and the product publishes its known approximations instead
+of hiding them.
 
 What's approximated or not yet modeled is written up in the app at
 [`/accuracy`](apps/web/app/accuracy/page.tsx).

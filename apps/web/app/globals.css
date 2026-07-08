@@ -592,7 +592,7 @@ button:active { transform: translateY(0.5px); }
 /* The cap sheet signs itself on the way out of the printer. */
 @media print {
   main::after {
-    content: "Filed from overtheapron.com — every verdict cites the 2023 CBA.";
+    content: "Filed from overtheapron.com — CBA rules shown where they apply.";
     display: block;
     margin-top: 28px;
     font-size: 9px;

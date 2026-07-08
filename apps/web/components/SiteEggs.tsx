@@ -42,9 +42,9 @@ export function SiteEggs() {
     try {
       console.log(
         "%c   ●\n  ╱        OVER THE APRON\n ╱         NBA offseason, simplified\n╺ ╺ ╺ ╺\n\n" +
-          "Every verdict cites the rule. See exactly what's enforced —\n" +
+          "Rules are cited where they apply. See what is modeled —\n" +
           "and what's approximate — at overtheapron.com/accuracy.\n" +
-          "Catch something wrong? Say so. It becomes a permanent test.",
+          "Catch something wrong? Say so. It goes into the review queue.",
         "color:#b4501e; font-family:ui-monospace,monospace; line-height:1.5;",
       );
     } catch {

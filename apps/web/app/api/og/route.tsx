@@ -117,7 +117,7 @@ export async function GET(req: Request) {
               simplified.
             </div>
             <div style={{ fontSize: 26, color: muted, marginTop: 22, lineHeight: 1.4 }}>
-              Trades, signings, aprons, and hard caps — every verdict cites the rule.
+              Trades, signings, aprons, and hard caps — with the rule shown when it matters.
             </div>
           </div>
           <div
@@ -232,7 +232,7 @@ export async function GET(req: Request) {
             }}
           >
             {s.legal
-              ? "Satisfies salary matching and every apron rule."
+              ? "Satisfies the modeled salary-matching and apron checks."
               : truncate(s.reason || "Violates the 2023 CBA.", 210)}
           </div>
           {/* The growth loop lives HERE — this image is what X actually shows. */}

@@ -43,8 +43,8 @@ export default function DraftPicksPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Draft-Pick Ledger</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            Every team’s future picks — owed, owned, swaps, and protections.
-            This page is the real-world ledger
+            Future picks by team — owed, owned, swaps, and protections.
+            This page reflects the current obligation ledger
             {picksMoved > 0
               ? ` — the ${picksMoved} pick${picksMoved > 1 ? "s" : ""} you've traded this session live in the boards' DRAFT PICKS OWNED chips.`
               : "; picks you trade in the sim move on the board's chips."}

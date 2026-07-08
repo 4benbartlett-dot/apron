@@ -9,7 +9,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "How to play — Over the Apron",
   description:
-    "Run an NBA front office under the real 2023 CBA: pick a team, read the cap sheet, make moves that build on each other, and get a rule citation with every verdict.",
+    "Run an NBA front office under the 2023 CBA: pick a team, read the cap sheet, make moves that build on each other, and see the rule behind the verdict.",
 };
 
 /** One play: call chip + title on the left, a live demo artifact on the right. */
@@ -236,9 +236,7 @@ export default function GuidePage() {
               The CBA runs you.
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-              Live rosters, real cap sheets, every 2023-CBA rule enforced — and a
-              citation with every verdict. Anything underlined or badge-shaped,
-              anywhere on the site, can be tapped for a plain-English explainer.
+              Live rosters, real cap sheets, and the core 2023 CBA rules that decide most offseason moves. Anything underlined or badge-shaped can be tapped for a plain-English explainer.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link href="/" className="rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white hover:brightness-95">
@@ -256,7 +254,7 @@ export default function GuidePage() {
         <Play n="01" title="Take a job" demo={<DemoPicker />}>
           <p>
             Pick a franchise — that&rsquo;s whose cap sheet, roster, free agents,
-            and draft picks you inherit, exactly as they stand today. Bring
+            and draft picks you inherit from the current data. Bring
             trade partners onto the board with <span className={chip}>+ Add team</span> (up
             to eight), and switch jobs anytime via the logo or{" "}
             <span className={chip}>Switch team</span>.
@@ -265,11 +263,11 @@ export default function GuidePage() {
 
         <Play n="02" title="Read the cap sheet" demo={<DemoThermometer />}>
           <p>
-            Every team card is a real ledger: the salary meter against the four
+            Each team card is a ledger: the salary meter against the four
             lines that decide everything, four seasons of commitments, your own
             free agents&rsquo;{" "}
             <Term k="cap_hold" underline className="text-[var(--text)]">cap holds</Term>,
-            and a chip for every signing tool the CBA currently allows this
+            and chips for the signing tools the CBA currently allows this
             team. Tap any number, badge, or line — the fine print pops up where
             you&rsquo;re standing.
           </p>
@@ -278,7 +276,7 @@ export default function GuidePage() {
         <Play n="03" title="Make moves" demo={<DemoStage />}>
           <p>
             <strong>Trade</strong> — tap players and pick chips to stage them.{" "}
-            <strong>Sign</strong> — every free agent shows the best legal
+            <strong>Sign</strong> — free agents show the best legal
             mechanism and your true max offer. <strong>Extend</strong> — the{" "}
             <span className={chip}>EXT</span> tag opens a sheet capped by the 140% rule.{" "}
             <strong>Renounce</strong> — clear a hold to open room, at the cost of{" "}
@@ -288,14 +286,13 @@ export default function GuidePage() {
           </p>
         </Play>
 
-        <Play n="04" title="Every verdict cites the rule" demo={<DemoStamps />}>
+        <Play n="04" title="See why a move passes or fails" demo={<DemoStamps />}>
           <p>
-            Stage anything and the stamp comes down — never just &ldquo;no,&rdquo;
-            always <em>which</em> rule: the{" "}
+            Stage a move and the stamp comes down — not just &ldquo;no,&rdquo;
+            but the rule behind the result when one applies: the{" "}
             <Term k="matching" underline className="text-[var(--text)]">matching band</Term>{" "}
             you failed by how many dollars, the aggregation ban, the freeze
-            date, the Stepien rule. Real July deals replay as legal through
-            this engine; that&rsquo;s the bar.
+            date, the Stepien rule. The coverage page lists what is modeled and where public data is still incomplete.
           </p>
         </Play>
 
@@ -304,8 +301,8 @@ export default function GuidePage() {
             The part no trade machine does: your offseason is one continuous
             timeline. Use the full MLE today and the{" "}
             <Term k="hard_cap" underline className="text-[var(--text)]">hard cap</Term>{" "}
-            it triggers will block a perfectly-matched trade next week. Every
-            verdict is judged against everything you&rsquo;ve already done — your
+            it triggers will block a perfectly-matched trade next week. Each
+            verdict is judged against the moves you&rsquo;ve already made — your
             move list lives in the bar at the bottom, undo-able move by move.
           </p>
         </Play>
@@ -313,7 +310,7 @@ export default function GuidePage() {
         <Play n="06" title="Ship the receipt" demo={<DemoCard />}>
           <p>
             Hit <span className={chip}>Share card</span> on any verdict for a
-            screenshot-ready filing: the deal, the stamp, and the exact rules it
+            screenshot-ready filing: the deal, the stamp, and the rules it
             passes or breaks. Download it, copy the link, or post it — settle
             the group chat with citations.
           </p>

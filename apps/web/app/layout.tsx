@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   ),
   title: "Over the Apron — NBA Offseason, Simplified",
   description:
-    "Build trades, sign free agents, and run a full NBA offseason with every 2023 CBA rule enforced — apron limits, Bird rights, hard caps, and the reasons why.",
+    "Build trades, sign free agents, and run an NBA offseason with cited 2023 CBA rules, apron limits, Bird rights, hard caps, and clear reasons for each verdict.",
   openGraph: {
     title: "Over the Apron — NBA Offseason, Simplified",
     description:
-      "Build trades, sign free agents, and run a full NBA offseason with every 2023 CBA rule enforced.",
+      "Build trades, sign free agents, and run an NBA offseason with cited 2023 CBA rules and clear limits.",
     images: ["/api/og"],
   },
   twitter: { card: "summary_large_image" },
@@ -81,7 +81,7 @@ export default function RootLayout({
               operatingSystem: "Web",
               offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
               description:
-                "NBA trade machine and offseason simulator with every 2023 CBA rule enforced — apron limits, hard caps, salary matching, traded-player exceptions, and the reasons why.",
+                "NBA trade machine and offseason simulator with cited 2023 CBA rules for apron limits, hard caps, salary matching, traded-player exceptions, and free agency.",
             }),
           }}
         />
@@ -109,7 +109,7 @@ export default function RootLayout({
               </svg>
               Over the Apron
             </span>
-            <span>Every verdict cites the 2023 CBA.</span>
+            <span>Verdicts cite the rule when one applies.</span>
             <Link href="/accuracy" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
               Rules coverage &amp; accuracy
             </Link>
