@@ -14,6 +14,7 @@ import playerDimsRaw from "./player-dimensions-2026.json";
 import playerInjuriesRaw from "./player-injuries-2026.json";
 import playerPedigreeRaw from "./player-pedigree-2026.json";
 import playerHistoryRaw from "./player-history.json";
+import recentAccoladesRaw from "./player-recent-accolades.json";
 import extraContractsRaw from "./extra-contracts.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
@@ -185,6 +186,13 @@ export const PLAYER_PEDIGREE_2026: Record<string, PlayerPedigree> =
 export interface SeasonLine { bpm?: number; vorp?: number; mp?: number; g?: number; per?: number; ws?: number; }
 export const PLAYER_HISTORY: Record<string, Record<string, SeasonLine>> =
   (playerHistoryRaw as { byId: Record<string, Record<string, SeasonLine>> }).byId;
+
+/** Last-three-season All-NBA / All-Defensive selections, recency- and
+ * team-level-weighted — proof a player is STILL elite, not just was. Weighted
+ * above career totals in the value model. */
+export interface RecentAccolades { nba: number; def: number; }
+export const PLAYER_RECENT_ACCOLADES: Record<string, RecentAccolades> =
+  (recentAccoladesRaw as { byId: Record<string, RecentAccolades> }).byId;
 /** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
 export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
   (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;

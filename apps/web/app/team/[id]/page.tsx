@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { spendingPower } from "@apron/cba-engine";
 import { DRAFT_PICKS } from "@apron/data";
-import { C, TEAM_IDS, teamMeta, teamProjection } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor } from "@/lib/league";
 import { useLeague } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -27,7 +27,11 @@ export default function TeamWarRoom() {
   const sheet = lg.capSheet(id);
   const holds = lg.teamHolds(id);
   const committed = lg.teamSalary(id);
-  const power = spendingPower(committed + holds, C);
+  const feed = feedStateOf(id);
+  const consumed = consumedFor(lg.moves, id);
+  // Match the offseason board: a team that operated under the cap has its
+  // MLEs/BAE dead, and exceptions the real July already spent stay spent.
+  const power = spendingPower(committed + holds, C, { apronSalary: committed, roomTeam: feed.roomTeam, consumed });
   const roster = lg.roster(id);
   const picks = DRAFT_PICKS[id] ?? { incoming: [], outgoing: [] };
   const spaceAfterHolds = C.salaryCap - committed - holds;
@@ -40,19 +44,29 @@ export default function TeamWarRoom() {
         ? Math.max(0, C.secondApron - committed)
         : n;
 
-  // "What can this team do" summary
+  // "What can this team do" summary — reflects what the real July already used,
+  // and says WHY the team is limited.
   const canDo: string[] = [];
   if (spaceAfterHolds > 1_000_000)
     canDo.push(`~${fmtM(spaceAfterHolds)} in cap space (after renouncing/holding its own free agents).`);
   const topExc = power.mechanisms.find((m) => m.id !== "minimum" && m.id !== "cap_room");
   if (topExc)
-    canDo.push(`Can sign an outside free agent up to ${fmtM(Math.min(topExc.maxSalary, line(topExc.maxSalary, topExc.hardCap)))} via the ${topExc.label}.`);
-  if (sheet.isOverSecondApron)
-    canDo.push("Hard-limited by the second apron: can't aggregate salaries, no mid-level, no cash out, and its 2033 first-rounder is frozen.");
-  else if (sheet.isOverFirstApron)
-    canDo.push("Over the first apron: capped at 100% salary matching and only the taxpayer MLE.");
+    canDo.push(`Can add an outside free agent up to ${fmtM(Math.min(topExc.maxSalary, line(topExc.maxSalary, topExc.hardCap)))} via the ${topExc.label}.`);
   else
-    canDo.push("Below the first apron: full expanded salary-matching and the non-taxpayer MLE are available.");
+    canDo.push("Outside free agents can only be added on minimum deals — its cap room and exceptions are already spent or dead for the year.");
+
+  // Why it's limited: what the audited July actually did.
+  if (feed.roomTeam)
+    canDo.push(`Operated under the cap this July${consumed.room_mle ? " (used its Room MLE)" : ""}, so the non-taxpayer MLE and bi-annual exception are dead for the season (Art. VII §6(n)).`);
+  if (feed.hardCap !== Infinity)
+    canDo.push(`Hard-capped at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron${feed.hardCapSource ? ` — triggered by the ${feed.hardCapSource}` : ""}, so it can't cross that line the rest of the season.`);
+
+  if (sheet.isOverSecondApron)
+    canDo.push("Over the second apron: can't aggregate salaries, no mid-level, no cash out, and its future first-rounder can be frozen.");
+  else if (sheet.isOverFirstApron)
+    canDo.push("Over the first apron: capped at 100% salary matching in trades.");
+  else if (!feed.roomTeam)
+    canDo.push("Below the first apron: full expanded salary-matching is available.");
   canDo.push(`Draft capital: ${picks.incoming.length} extra incoming picks, owes ${picks.outgoing.length}.`);
 
   return (
