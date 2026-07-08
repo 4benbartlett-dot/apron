@@ -27,10 +27,25 @@ export interface DecodedPick {
   to: string;
 }
 
+export interface DecodedSwap {
+  year: number;
+  round: number;
+  favoredTo: string; // team that takes the more favorable pick
+  otherTeam: string; // team whose pick can be swapped away
+}
+
 /** Human label for a pick id, e.g. "MIL 2028 1st". */
 export function pickShareLabel(id: string): string {
   const [origin, year, round] = id.split("|");
   return `${origin} ${year} ${round === "1" ? "1st" : "2nd"}`;
+}
+
+/** Label a pick swap from one team's side, e.g. "’28 1st swap w/ OKC".
+ * A swap is a right, so it reads the same on both legs — only the named
+ * counterparty flips depending on whose card row it appears in. */
+export function swapShareLabel(s: DecodedSwap, viewer?: string): string {
+  const other = viewer === s.otherTeam ? s.favoredTo : s.otherTeam;
+  return `’${s.year - 2000} ${s.round === 1 ? "1st" : "2nd"} swap w/ ${other}`;
 }
 
 /** btoa/atob with a URL-safe alphabet: no +, /, or = to get mangled by
@@ -48,12 +63,14 @@ export function decodeTradeParam(t: string): {
   teams: string[];
   players: { playerId: string; from: string; to: string }[];
   picks: DecodedPick[];
+  swaps: DecodedSwap[];
 } | null {
   try {
     const o = JSON.parse(atob(fromB64Url(t))) as {
       t?: unknown;
       s?: Record<string, DecodedMove>;
       p?: Record<string, DecodedMove>;
+      w?: { y: number; r: number; f: string; o: string }[];
     };
     if (!Array.isArray(o.t) || !o.s || typeof o.s !== "object") return null;
     const teams = o.t as string[];
@@ -70,7 +87,10 @@ export function decodeTradeParam(t: string): {
         return !(round === "1" && mv.from === origin && lockedFirstEncumbrance(origin!, Number(yearStr)));
       })
       .map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
-    return { teams, players, picks };
+    const swaps = (Array.isArray(o.w) ? o.w : [])
+      .filter((w) => teams.includes(w.f) && teams.includes(w.o) && w.f !== w.o)
+      .map((w) => ({ year: w.y, round: w.r, favoredTo: w.f, otherTeam: w.o }));
+    return { teams, players, picks, swaps };
   } catch {
     return null;
   }
@@ -81,10 +101,12 @@ export function encodeTradeParam(
   teams: string[],
   players: { playerId: string; from: string; to: string }[],
   picks: DecodedPick[] = [],
+  swaps: DecodedSwap[] = [],
 ): string {
   const s = Object.fromEntries(players.map((p) => [p.playerId, { from: p.from, to: p.to }]));
   const payload: Record<string, unknown> = { t: teams, s };
   if (picks.length) payload.p = Object.fromEntries(picks.map((k) => [k.id, { from: k.from, to: k.to }]));
+  if (swaps.length) payload.w = swaps.map((k) => ({ y: k.year, r: k.round, f: k.favoredTo, o: k.otherTeam }));
   return toB64Url(btoa(JSON.stringify(payload)));
 }
 
@@ -114,7 +136,7 @@ const lastName = shortPlayerName;
 /** Compute a sharable summary of a trade param (server-safe). */
 export function summarizeTrade(t: string): TradeSummary | null {
   const d = decodeTradeParam(t);
-  if (!d || (!d.players.length && !d.picks.length)) return null;
+  if (!d || (!d.players.length && !d.picks.length && !d.swaps.length)) return null;
   const data = leagueData(BASE_CONTRACTS);
   // Base-state holds (server-side; session renounces aren't visible here).
   let trade: Trade = {
@@ -182,10 +204,12 @@ export function summarizeTrade(t: string): TradeSummary | null {
       incoming: [
         ...d.players.filter((p) => p.to === ts.teamId).map((p) => nameOf(p.playerId)),
         ...d.picks.filter((p) => p.to === ts.teamId).map((p) => pickShareLabel(p.id)),
+        ...d.swaps.filter((s) => s.favoredTo === ts.teamId).map((s) => swapShareLabel(s, ts.teamId)),
       ],
       outgoing: [
         ...d.players.filter((p) => p.from === ts.teamId).map((p) => nameOf(p.playerId)),
         ...d.picks.filter((p) => p.from === ts.teamId).map((p) => pickShareLabel(p.id)),
+        ...d.swaps.filter((s) => s.otherTeam === ts.teamId).map((s) => swapShareLabel(s, ts.teamId)),
       ],
       rule,
     };

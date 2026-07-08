@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import type { Trade, TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta } from "@/lib/league";
-import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick } from "@/lib/trade-share";
+import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick, type DecodedSwap } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import qrcode from "qrcode-generator";
 import { TradeDocket, buildDocket, buildChecks } from "@/components/TradeDocket";
@@ -24,6 +24,7 @@ interface PlayerLine {
 export function ShareCardModal({
   trade,
   picks,
+  swaps = [],
   verdict,
   extraViolations,
   holdsOf,
@@ -33,6 +34,7 @@ export function ShareCardModal({
 }: {
   trade: Trade;
   picks: DecodedPick[];
+  swaps?: DecodedSwap[];
   verdict: TradeVerdict;
   extraViolations: string[];
   holdsOf?: (team: string) => number;
@@ -81,8 +83,8 @@ export function ShareCardModal({
   }, []);
 
   const token = useMemo(
-    () => encodeTradeParam(trade.teams, trade.players, picks),
-    [trade, picks],
+    () => encodeTradeParam(trade.teams, trade.players, picks, swaps),
+    [trade, picks, swaps],
   );
   // Links land on the FULL offseason page (the board decodes ?t=, pops this
   // card, and closing it leaves the visitor in the real sim, not a bare
@@ -106,7 +108,8 @@ export function ShareCardModal({
   const involved = verdict.teams.filter(
     (t) =>
       trade.players.some((p) => p.from === t.teamId || p.to === t.teamId) ||
-      picks.some((p) => p.from === t.teamId || p.to === t.teamId),
+      picks.some((p) => p.from === t.teamId || p.to === t.teamId) ||
+      swaps.some((s) => s.favoredTo === t.teamId || s.otherTeam === t.teamId),
   );
 
   const linesFor = (teamId: string, dir: "in" | "out") => {
@@ -140,9 +143,10 @@ export function ShareCardModal({
         nameOf,
         salaryOf,
         trade.tpeUse,
+        swaps,
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [trade, picks, verdict],
+    [trade, picks, swaps, verdict],
   );
 
   const copyLink = async () => {
