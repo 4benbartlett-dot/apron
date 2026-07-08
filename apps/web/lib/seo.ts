@@ -93,7 +93,7 @@ export const SEO_TERMS: SeoTerm[] = [
           `As of the real July 2026 moves, ${cappedTeams().length} teams are hard-capped at the first apron: ${cappedTeams()
             .map((t) => `${teamNickname(t.team)}${t.source ? ` (${t.source})` : ""}`)
             .join(", ")}.`,
-          "A hard cap isn't a penalty — it's the price of a tool. Use the full mid-level, the bi-annual exception, acquire a player by sign-and-trade, use expanded trade matching, or sign a row-D regular-season waiver player, and the first apron becomes a wall you cannot cross for any reason, all season.",
+          "A hard cap isn't a penalty — it's the price of a tool. Use the full mid-level, the bi-annual exception, acquire a player by sign-and-trade, use expanded trade matching, or sign a waived player whose prior contract topped the mid-level, and the first apron becomes a wall you cannot cross for any reason, all season.",
         ],
       },
     ],
@@ -104,7 +104,7 @@ export const SEO_TERMS: SeoTerm[] = [
       },
       {
         q: "What hard-caps a team at the first apron?",
-        a: "Using the non-taxpayer mid-level, the bi-annual exception, expanded salary matching, acquiring a player via sign-and-trade, signing a row-D regular-season waiver player, or absorbing salary into a pre-existing traded-player exception.",
+        a: "Using the non-taxpayer mid-level, the bi-annual exception, expanded salary matching, acquiring a player via sign-and-trade, signing a waived player whose prior contract topped the mid-level, or absorbing salary into a pre-existing traded-player exception.",
       },
     ],
     related: ["second-apron", "hard-cap", "mid-level-exception", "salary-matching"],
@@ -120,7 +120,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "The restriction list",
         body: [
-          "Second-apron teams cannot aggregate salaries in a trade (no combining two contracts to match one bigger one), cannot send cash in any trade, cannot use any mid-level exception, cannot sign regular-season waiver-market players covered by row D, and their own first-round pick seven drafts out is frozen — repeat offenders see it moved to the end of the round.",
+          "Second-apron teams cannot aggregate salaries in a trade (no combining two contracts to match one bigger one), cannot send cash in any trade, cannot use any mid-level exception, cannot sign a waived player whose prior contract topped the mid-level, and their own first-round pick seven drafts out is frozen — repeat offenders see it moved to the end of the round.",
           "This is why star-heavy rosters shed role players: crossing the second apron closes off several ordinary team-building tools.",
         ],
       },
@@ -157,7 +157,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "Why $9,095,709?",
         body: [
-          `The CBA wrote the middle band as outgoing + $7.5M in 2023 dollars, escalating with cap growth (Art. VII §6(j)). With the 2026-27 cap at ${fmtFull(C.salaryCap)}, the escalated figure is $9,095,709. Most trade machines still use the flat $7.5M — that's a real class of wrong verdicts.`,
+          `The CBA wrote the middle band as outgoing + $7.5M in 2023 dollars, escalating with cap growth (Art. VII §6(j)). With the 2026-27 cap at ${fmtFull(C.salaryCap)}, that comes to $9,095,709.`,
         ],
       },
     ],
@@ -192,7 +192,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "The first-apron catch",
         body: [
           "A pre-existing TPE (one created in an earlier transaction window) cannot be used if it would leave the team above the first apron — and using one hard-caps the team there for the season. A TPE created earlier in the same offseason is exempt from that particular trap.",
-          "The sim carries active TPEs from the data feed and tries the usable exception when a trade needs one, with the apron consequence printed on the receipt.",
+          "When a trade needs one, your traded-player exceptions are there to absorb the incoming salary — with any apron cost shown on the receipt.",
         ],
       },
     ],
@@ -220,7 +220,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "How it actually bites",
         body: [
           "The rule: a team may never leave itself without a first-round pick in consecutive future drafts. The subtlety: picks you already owe count against you. If your 2030 first is owed to another team — even protected — trading your 2031 first leaves 2030 and 2031 both uncovered, and the deal is dead. The offending pick is the one you just added, not the one that left years ago.",
-          "The sim tracks the current obligation ledger and names the pick that creates the Stepien problem.",
+          "If a pick you already owe would break the Stepien rule, Over the Apron names it.",
         ],
       },
     ],
@@ -363,7 +363,7 @@ export const SEO_TERMS: SeoTerm[] = [
     faq: [
       {
         q: "What did room cost the Lakers in July 2026?",
-        a: "Operating as a room team meant renouncing LeBron James' hold and losing the non-taxpayer MLE and BAE for the season — the sim arrives with all of that already applied.",
+        a: "Operating as a room team meant renouncing LeBron James' hold and losing the non-taxpayer MLE and BAE for the season — your offseason starts with all of that already applied.",
       },
     ],
     related: ["cap-hold", "room-mid-level-exception", "bird-rights"],
@@ -379,7 +379,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "First-apron triggers",
         body: [
-          "Using more than the taxpayer portion of the non-taxpayer MLE, using the bi-annual exception, acquiring a player via sign-and-trade, signing a row-D regular-season waiver player, taking back more than 100% in a trade through expanded matching, or using a pre-existing traded-player exception.",
+          "Using more than the taxpayer portion of the non-taxpayer MLE, using the bi-annual exception, acquiring a player via sign-and-trade, signing a waived player whose prior contract topped the mid-level, taking back more than 100% in a trade through expanded matching, or using a pre-existing traded-player exception.",
         ],
       },
       {
@@ -416,7 +416,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "Why holds exist",
         body: [
           "Without holds, a team could spend all its cap room on outside free agents and then re-sign its own stars with Bird rights — double-spending the same space. The hold reserves a placeholder charge (a multiple of last salary) for an unrenounced free agent until he signs or is renounced.",
-          "One subtlety the sim models: holds count against CAP room, but not against APRON calculations — hard caps are tested against signed salary only.",
+          "One subtlety worth knowing: holds count against CAP room, but not against APRON calculations — hard caps are tested against signed salary only.",
         ],
       },
     ],
@@ -447,7 +447,7 @@ export const SEO_TERMS: SeoTerm[] = [
       {
         heading: "The deemed-minimum quirk",
         body: [
-          `A veteran with 3+ years of service signing a one-year minimum only charges the team the 2-YOS figure (${fmtFull(C.minimumSalaries[2] ?? 0)}) — the league reimburses the rest, so aging vets aren't priced out of jobs. The sim books those contracts at the deemed charge automatically.`,
+          `A veteran with 3+ years of service signing a one-year minimum only charges the team the 2-YOS figure (${fmtFull(C.minimumSalaries[2] ?? 0)}) — the league reimburses the rest, so aging vets aren't priced out of jobs. Those contracts are booked at the deemed charge automatically.`,
         ],
       },
     ],
@@ -543,14 +543,14 @@ export function teamSeo(id: string): TeamSeo {
     {
       q: `Are the ${nickname} hard-capped?`,
       a: capped
-        ? `Yes — at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their July moves"}. Later moves in the sim are checked against that line.`
-        : `Not yet — but using the full MLE, the BAE, expanded matching, a sign-and-trade acquisition, or a row-D regular-season waiver signing would freeze the first apron (${fmtM(C.firstApron)}) as their ceiling; taxpayer MLE, row-H aggregation, or row-I cash can freeze the second apron.`,
+        ? `Yes — at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their July moves"}. Later moves are checked against that line.`
+        : `Not yet — but using the full MLE, the BAE, expanded matching, a sign-and-trade acquisition, or signing a waived player whose prior contract topped the mid-level would freeze the first apron (${fmtM(C.firstApron)}) as their ceiling; the taxpayer mid-level, combining salaries in a trade, or sending cash can freeze the second apron.`,
     },
     {
       q: `Can the ${nickname} trade a first-round pick?`,
       a:
         owesFirsts > 0
-          ? `Carefully — they already owe ${owesFirsts} future first${owesFirsts > 1 ? "s" : ""}, and the Stepien rule bars leaving consecutive future drafts uncovered. The sim tracks the current obligations and names the pick that would break the rule.`
+          ? `Carefully — they already owe ${owesFirsts} future first${owesFirsts > 1 ? "s" : ""}, and the Stepien rule bars leaving consecutive future drafts uncovered. The board tracks the current obligations and names the pick that would break the rule.`
           : `Yes — they control their own future firsts${extraFirsts ? ` plus ${extraFirsts} incoming` : ""}, subject to the Stepien rule's ban on trading firsts in consecutive future drafts.`,
     },
   ];
