@@ -739,7 +739,8 @@ export interface TeamProjection {
  * games = 19,680 player-minutes to hand out. This is the scarce resource a
  * trade actually competes for. */
 export const TEAM_MINUTES = 240 * 82;
-const MAX_PLAYER_MINUTES = 2950; // ~36 MPG — the ceiling even iron-men live under
+const MAX_PLAYER_MINUTES = 3020; // ~36.8 MPG × 82 — the ceiling even iron-men live under
+const HEALTHY_GAMES = 82; // a full season for anyone without a documented carrying injury
 const ROTATION_POSITIONS = ["PG", "SG", "SF", "PF", "C"] as const;
 const POS_MINUTES = TEAM_MINUTES / 5; // 3,936 minutes at each of the five on-court spots
 // Where a player can slide when he has no MEASURED secondary — the spots next to
@@ -783,22 +784,21 @@ export function injuryOf(playerId: string): PlayerInjury | undefined {
 }
 
 /**
- * A player's projected 2026-27 rotation minutes. Baseline is the minutes he
- * ACTUALLY logged last season, capped — observed, not a guessed durability
- * bump. The ONE availability adjustment is factual: a player with a real
- * carrying injury (a torn ACL, an Achilles) is projected at his per-game rate
- * over only the games he'll actually be available (82 − his recovery games), so
- * a player out for the season projects to zero and a mid-recovery star to a
- * partial year. No probabilistic "injury-prone" haircut — just the real thing.
+ * A player's projected 2026-27 rotation minutes, built from his established
+ * per-game ROLE, not his depressed season total. A star who rested or missed a
+ * stretch last year still projects to his real minutes-per-game — that's why a
+ * 31-mpg guard reads like a 31-mpg guard, not a bench player. The one
+ * adjustment is factual availability: a real carrying injury (torn ACL,
+ * Achilles) costs him the games he'll actually miss to start the season, so a
+ * player out for the year projects to zero and a mid-recovery star to a partial
+ * one. No probabilistic "injury-prone" haircut — just role × real games.
  */
 function projectedMinutes(playerId: string, priorMp: number): number {
+  const bio = PLAYER_BIO_2026[playerId];
+  const mpg = bio && bio.mpg && bio.mpg > 0 ? bio.mpg : priorMp / Math.max(1, bio?.g ?? 60);
   const inj = PLAYER_INJURIES_2026[playerId];
-  if (inj && inj.gamesOut >= 5) {
-    const bio = PLAYER_BIO_2026[playerId];
-    const mpg = bio?.mpg ?? (bio?.g ? priorMp / Math.max(1, bio.g) : priorMp / 70);
-    return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * Math.max(0, 82 - inj.gamesOut)));
-  }
-  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, priorMp));
+  const games = inj && inj.gamesOut >= 5 ? Math.max(0, 82 - inj.gamesOut) : HEALTHY_GAMES;
+  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * games));
 }
 
 /** Measured secondary positions (spots a player logged ≥12% of his minutes at). */
