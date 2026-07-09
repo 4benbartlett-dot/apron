@@ -100,6 +100,15 @@ describe("validateSigning picks the right exception", () => {
     expect(v.legal).toBe(true);
     expect(v.mechanism?.id).toBe("bird");
   });
+
+  it("each mechanism carries its CBA max contract length", () => {
+    const seasons = (teamSalary: number, ask: number, opts = {}) =>
+      validateSigning(teamSalary, ask, C, opts).mechanism?.maxSeasons;
+    expect(seasons(225_000_000, 2_000_000)).toBe(2); // 2A team → minimum, 2yr max
+    expect(seasons(212_000_000, 5_000_000)).toBe(3); // first-apron → Taxpayer MLE, 3yr
+    expect(seasons(190_000_000, 12_000_000)).toBe(4); // over-cap → Non-Tax MLE, 4yr
+    expect(seasons(212_000_000, 40_000_000, { isOwnFreeAgent: true })).toBe(5); // Bird, 5yr
+  });
 });
 
 describe("minimum exception is player-specific (not everyone gets the 10+ figure)", () => {

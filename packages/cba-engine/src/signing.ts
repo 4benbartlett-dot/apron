@@ -43,8 +43,24 @@ export interface SignMechanism {
   maxSalary: number;
   /** Apron line this mechanism hard-caps the team at, if any. */
   hardCap: "first_apron" | "second_apron" | null;
+  /** Longest contract (in seasons) this mechanism can sign, per Art. VII.
+   * Populated by spendingPower for every returned mechanism. */
+  maxSeasons?: number;
   citation: string;
 }
+
+/** Max contract length by mechanism (2023 CBA Art. VII): Bird 5; cap space and
+ * the Non-Tax MLE 4; the Taxpayer MLE and Room MLE 3; the Bi-Annual Exception
+ * and the minimum 2. */
+export const MECHANISM_MAX_SEASONS: Record<MechanismId, number> = {
+  bird: 5,
+  cap_room: 4,
+  ntmle: 4,
+  tpmle: 3,
+  room_mle: 3,
+  bae: 2,
+  minimum: 2,
+};
 
 export interface SpendingPower {
   teamSalary: number;
@@ -163,6 +179,7 @@ export function spendingPower(
     citation: CITES.minimum,
   });
 
+  for (const m of mechanisms) m.maxSeasons = MECHANISM_MAX_SEASONS[m.id];
   return { teamSalary, tier, capRoom, mechanisms };
 }
 

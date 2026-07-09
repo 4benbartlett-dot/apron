@@ -1488,6 +1488,14 @@ function SignEditor({
   );
 
   const v = validateSigning(base, salary, C, opts);
+  // Each exception caps contract length (Art. VII): the Taxpayer/Room MLE at 3,
+  // the Bi-Annual and the minimum at 2, etc. Don't let the term picker offer
+  // more years than the mechanism actually covering this salary allows, and
+  // pull the selected term down if a salary change swaps to a shorter-max tool.
+  const mechMaxYears = Math.min(maxYears, v.mechanism?.maxSeasons ?? maxYears);
+  useEffect(() => {
+    setYears((y) => Math.min(y, mechMaxYears));
+  }, [mechMaxYears]);
   // 8% raises only for a Bird / Early-Bird own-FA re-sign; Non-Bird and every
   // exception/cap-room signing get 5%.
   const raise = isOwn && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") ? 0.08 : 0.05;
@@ -1683,7 +1691,7 @@ function SignEditor({
       {/* Term picker */}
       <label className="mb-1 block text-xs text-[var(--muted)]">Contract length</label>
       <div className="mb-4 flex gap-1">
-        {Array.from({ length: maxYears }, (_, i) => i + 1).map((n) => (
+        {Array.from({ length: mechMaxYears }, (_, i) => i + 1).map((n) => (
           <button
             key={n}
             onClick={() => setYears(n)}
