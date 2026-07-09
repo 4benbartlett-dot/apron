@@ -15,14 +15,14 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, type FreeAgent } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, type FreeAgent, type Move } from "@/lib/league";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
 import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
-import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
+import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam } from "@/lib/store";
 import { fmtM, fmtFull } from "@/lib/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,7 @@ import { Thermometer } from "@/components/Thermometer";
 import { leagueToast } from "@/components/SiteEggs";
 import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
+import { OffseasonRecapModal } from "@/components/OffseasonRecapModal";
 import { decodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
@@ -81,6 +82,9 @@ export default function OffseasonSim() {
   const [board, setBoard] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  // A shared offseason (?gm=) greets the visitor with a recap of every move
+  // it staged; closing it drops them onto the live board with those moves.
+  const [recap, setRecap] = useState<{ moves: Move[]; teams: string[] } | null>(null);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const router = useRouter();
   const [sel, setSel] = useState<Record<string, Sel>>({});
@@ -133,6 +137,19 @@ export default function OffseasonSim() {
           track("trade_link_open");
           setReady(true);
           return;
+        }
+      }
+      // A shared offseason (?gm=) stages a whole session of moves (the store
+      // hydrates them from the same param). Greet the visitor with a recap of
+      // what they opened; the board is restored from &board= just below.
+      const gm = params.get("gm");
+      if (gm) {
+        const shared = decodeMovesParam(gm);
+        if (shared) {
+          const boardTeams = (params.get("board") || "")
+            .split(",")
+            .filter((id) => TEAM_IDS.includes(id));
+          setRecap({ moves: shared, teams: boardTeams });
         }
       }
       // Deep links from team pages / SEO landing pages: ?team=<ID> opens the
@@ -570,6 +587,16 @@ export default function OffseasonSim() {
           nameOf={lg.playerName}
           salaryOf={salaryOf}
           onClose={() => setShareOpen(false)}
+        />
+      )}
+      {recap && (
+        <OffseasonRecapModal
+          moves={recap.moves}
+          teams={recap.teams}
+          onClose={() => setRecap(null)}
+          onShare={() => {
+            void navigator.clipboard?.writeText(window.location.href).catch(() => {});
+          }}
         />
       )}
       {signFor && <SignDrawer team={signFor.team} initialId={signFor.faId} lg={lg} onClose={() => setSignFor(null)} />}

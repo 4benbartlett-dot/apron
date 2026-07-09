@@ -61,6 +61,23 @@ function emit() {
   for (const l of listeners) l();
 }
 
+/** UTF-8- and URL-safe base64 for the shared-offseason (?gm=) token. Move
+ * labels carry →, ×, ·, — (outside Latin1, which plain btoa can't encode and
+ * would silently blank the whole token), and +,/,= get mangled in a query
+ * string — so encode the bytes, then swap to the url-safe alphabet. Decode
+ * also accepts the classic +,/ forms so any pre-existing link still opens. */
+function gmEncode(str: string): string {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function gmDecode(token: string): string {
+  const restored = token.replace(/ /g, "+").replace(/-/g, "+").replace(/_/g, "/");
+  const bin = atob(restored + "=".repeat((4 - (restored.length % 4)) % 4));
+  return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+}
+
 /** Load saved moves once, after hydration (called from a mount effect). */
 export function hydrateMoves() {
   if (hydrated || typeof window === "undefined") return;
@@ -68,7 +85,7 @@ export function hydrateMoves() {
   try {
     // A shared offseason (?gm=) takes priority over localStorage.
     const gm = new URLSearchParams(window.location.search).get("gm");
-    const raw = gm ? atob(gm) : window.localStorage.getItem(STORAGE_KEY) || "[]";
+    const raw = gm ? gmDecode(gm) : window.localStorage.getItem(STORAGE_KEY) || "[]";
     const saved = JSON.parse(raw);
     if (Array.isArray(saved) && saved.length) {
       moves = saved as Move[];
@@ -79,12 +96,29 @@ export function hydrateMoves() {
   }
 }
 
+/** Pure encoder for a move list → shareable token (UTF-8- and URL-safe). */
+export function encodeMovesToken(list: Move[]): string {
+  return gmEncode(JSON.stringify(list));
+}
+
 /** Encode the whole offseason (all moves) for a shareable URL. */
 export function encodeMoves(): string {
   try {
-    return btoa(JSON.stringify(moves));
+    return encodeMovesToken(moves);
   } catch {
     return "";
+  }
+}
+
+/** Decode a shared-offseason (?gm=) token into its move list — used to greet a
+ * visitor with a recap of the offseason they opened (null if the token is
+ * empty or malformed). Reads independently of store hydration order. */
+export function decodeMovesParam(token: string): Move[] | null {
+  try {
+    const saved = JSON.parse(gmDecode(token));
+    return Array.isArray(saved) && saved.length ? (saved as Move[]) : null;
+  } catch {
+    return null;
   }
 }
 
