@@ -611,3 +611,105 @@ button:active { transform: translateY(0.5px); }
 /* Hide the scrollbar on tight horizontal strips (the trade tray). */
 .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
 .scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ---------- Team easter eggs (design-preview branch) ---------- */
+
+/* SAC · Light the Beam — a violet column rises from the Kings' card top.
+   The div's bottom edge sits on the card, so scaleY from the bottom origin
+   reads as the beam firing upward. */
+.egg-beam {
+  position: fixed;
+  top: 0;
+  width: 14px;
+  z-index: 60;
+  pointer-events: none;
+  border-radius: 3px;
+  background: linear-gradient(
+    to top,
+    rgba(90, 45, 129, 0.95),
+    rgba(122, 63, 197, 0.55) 55%,
+    rgba(122, 63, 197, 0) 96%
+  );
+  box-shadow: 0 0 26px 7px rgba(90, 45, 129, 0.3);
+  transform-origin: bottom center;
+  animation: beam-up 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* Landing flare where the beam meets the card. */
+.egg-beam::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 46px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(122, 63, 197, 0.55), transparent 70%);
+}
+@keyframes beam-up {
+  0% { transform: scaleY(0); opacity: 0; }
+  12% { opacity: 1; }
+  30% { transform: scaleY(1); }
+  72% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+
+/* PHX · Tumbleweed — rolls the width of the own-firsts shelf (runway measured
+   at roll time), spinning and hopping on individual transform properties so
+   the three motions compose. Invisible until it rolls. */
+.egg-tumbleweed {
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  color: var(--muted);
+  opacity: 0;
+  pointer-events: auto;
+}
+.egg-tumbleweed.egg-rolling {
+  animation: tumble-x 3.8s 0.4s cubic-bezier(0.3, 0.05, 0.6, 0.95) both;
+}
+.egg-tumbleweed.egg-rolling svg {
+  display: block;
+  animation:
+    tumble-spin 3.8s 0.4s linear both,
+    tumble-hop 3.8s 0.4s both;
+}
+@keyframes tumble-x {
+  0% { transform: translateX(-16px); opacity: 0; }
+  7% { opacity: 0.85; }
+  88% { opacity: 0.85; }
+  100% { transform: translateX(var(--egg-runway, 480px)); opacity: 0; }
+}
+@keyframes tumble-spin {
+  from { rotate: 0deg; }
+  to { rotate: 1040deg; }
+}
+@keyframes tumble-hop {
+  0%, 20%, 42%, 66%, 88%, 100% { translate: 0 0; }
+  11% { translate: 0 -7px; }
+  31% { translate: 0 -4px; }
+  54% { translate: 0 -8px; }
+  77% { translate: 0 -3px; }
+  94% { translate: 0 -4px; }
+}
+
+/* MIA · Heat Culture — the toast stamp gutters like a flame. */
+.egg-toast.egg-heat .stamp {
+  animation: heat-flicker 1.4s ease-in-out infinite;
+  text-shadow: 0 0 9px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+@keyframes heat-flicker {
+  0%, 100% { opacity: 1; }
+  42% { opacity: 0.76; }
+  58% { opacity: 0.94; }
+  74% { opacity: 0.82; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-beam { display: none; }
+  .egg-toast.egg-heat .stamp { animation: none; }
+  /* The tumbleweed skips the ride and sits parked at the end of the shelf. */
+  .egg-tumbleweed,
+  .egg-tumbleweed.egg-rolling { animation: none; opacity: 0.5; left: auto; right: 4px; }
+  .egg-tumbleweed.egg-rolling svg { animation: none; }
+}
