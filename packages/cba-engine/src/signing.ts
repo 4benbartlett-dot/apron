@@ -162,14 +162,20 @@ export function spendingPower(
   return { teamSalary, tier, capRoom, mechanisms };
 }
 
+// When several mechanisms can cover a salary, use the least costly one. The
+// minimum is free — no hard cap, no exception burned — so it MUST rank ahead of
+// the exceptions: an over-cap team signing a player at his minimum should use
+// the Minimum exception, NOT waste its Non-Tax MLE (and trigger a first-apron
+// hard cap) on a deal the minimum already covers. bird/cap_room stay first as
+// the natural tools for own re-signs and under-cap teams.
 const PRIORITY: MechanismId[] = [
   "bird",
   "cap_room",
+  "minimum",
   "ntmle",
   "tpmle",
   "room_mle",
   "bae",
-  "minimum",
 ];
 
 function apronLine(
