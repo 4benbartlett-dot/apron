@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import type { Trade, TradeVerdict } from "@apron/cba-engine";
-import { C, teamMeta } from "@/lib/league";
+import { C, teamMeta, positionOf } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick, type DecodedSwap } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import qrcode from "qrcode-generator";
-import { TradeDocket, buildDocket, buildChecks } from "@/components/TradeDocket";
+import { TradeDocket, buildDocket, buildChecks, type DocketLine } from "@/components/TradeDocket";
 import { explainBlocked } from "@/lib/tradeFix";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -93,9 +93,46 @@ export function ShareCardModal({
 
   // The export is the SERVER-rendered card (Satori) — deterministic and
   // bulletproof, where html-to-image silently dropped the verdict stamp on
-  // real browsers. Same card the X unfurl uses; ?fmt sizes it per format.
-  const ogImageUrl = (fmt: "feed" | "square" | "story") =>
-    `/api/og?t=${encodeURIComponent(token)}&fmt=${fmt}`;
+  // real browsers. We hand the render route the SAME data the modal computed
+  // (?d=), so the download is a pixel copy of what's on screen AND carries the
+  // live-session numbers (not base-roster). ?fmt sizes it per format.
+  const ogImageUrl = (fmt: "feed" | "square" | "story") => {
+    const maxLines =
+      fmt === "feed" ? 5 : fmt === "story" ? (involved.length > 2 ? 3 : 4) : involved.length > 2 ? 2 : 3;
+    const maxChecks = fmt === "feed" ? 6 : fmt === "story" && involved.length <= 2 ? 2 : 1;
+    const clamp = (lines: DocketLine[]): Array<[string, number | null, string | null]> => {
+      const shown = lines.length > maxLines ? lines.slice(0, maxLines - 1) : lines;
+      const out = shown.map(
+        (l): [string, number | null, string | null] => [
+          l.label,
+          l.pick ? null : l.amount ?? 0,
+          l.playerId ? positionOf(l.playerId) ?? null : null,
+        ],
+      );
+      const extra = lines.length - shown.length;
+      if (extra > 0) out.push([`+${extra} more`, null, null]);
+      return out;
+    };
+    const payload = {
+      v: 1,
+      lg: legal ? 1 : 0,
+      tm: docketTeams.map((t) => ({
+        id: t.teamId,
+        nm: teamMeta(t.teamId).name,
+        tr: t.tier,
+        gt: t.getsTotal,
+        st: t.sendsTotal,
+        g: clamp(t.gets),
+        s: clamp(t.sends),
+      })),
+      ck: checks.slice(0, maxChecks).map((c): [number, string] => [c.ok ? 1 : 0, c.text]),
+      fx: !legal && firstFix ? firstFix : "",
+      fn: filingNo(token),
+    };
+    const b64 = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(payload))));
+    const d = b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    return `/api/og?d=${d}&fmt=${fmt}`;
+  };
 
   // Stories can't carry links — the QR is the link. Low ECC keeps the module
   // count down so long trade tokens stay scannable at story size.
