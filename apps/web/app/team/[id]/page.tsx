@@ -86,7 +86,7 @@ export default function TeamWarRoom() {
   return (
     <div>
       <div className="mb-5 flex items-center gap-4">
-        <TeamLogo id={id} size={56} />
+        <TeamLogo id={id} size={56} flourish />
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{meta.name}</h1>
           <div className="mt-1 flex items-center gap-3">
