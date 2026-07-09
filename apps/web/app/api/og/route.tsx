@@ -26,6 +26,305 @@ const TIER: Record<ApronTier, { label: string; color: string }> = {
 const mono = "ui-monospace, Menlo, monospace";
 
 const sienna = "#b4501e";
+const panel2 = "#ece8db";
+const accentInk = "#8a3a12";
+const POS_C: Record<string, string> = {
+  PG: "#2b7a3f",
+  SG: "#33619f",
+  SF: "#96690a",
+  PF: "#b65410",
+  C: "#bd2828",
+};
+const rgba = (hex: string, a: number) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+};
+const money = (n: number) => `${n < 0 ? "-" : ""}$${(Math.abs(n) / 1e6).toFixed(1)}M`;
+// The exact modal logo mark, baked to concrete colors so it rasterizes.
+const markSvg =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${ink}"/><line x1="11" y1="41" x2="53" y2="41" stroke="${sienna}" stroke-width="4.5" stroke-dasharray="7.5 6" stroke-linecap="round"/><path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="${bg}" stroke-width="5" stroke-linecap="round"/><circle cx="50.5" cy="21.5" r="6.5" fill="${bg}"/></svg>`,
+  );
+
+// Compact display payload the client passes (?d=), so the download is a
+// pixel copy of the on-screen modal AND uses the live-session numbers.
+type PLine = [string, number | null, string | null]; // [label, salary|null(pick), pos|null]
+interface PTeam {
+  id: string;
+  nm: string;
+  tr: ApronTier;
+  gt: number;
+  st: number;
+  g: PLine[];
+  s: PLine[];
+}
+interface Payload {
+  v: number;
+  lg: number; // legal 1/0
+  tm: PTeam[];
+  ck: [number, string][]; // [ok, text]
+  fx: string; // one route to legal
+  fn: string; // filing "NO. 26-XXXXX"
+}
+
+// Natural (tight) height for the feed card, so it matches the modal's grow.
+function feedHeight(p: Payload): number {
+  let h = 40 + 40 + 74 + 86 + 36 + 54 + 70; // padT+padB, masthead, logos row, checks label, seal, bar
+  for (const t of p.tm) h += 58 + Math.max(t.g.length, t.s.length, 1) * 40 + 40 + 14;
+  for (const c of p.ck) h += 30 * Math.max(1, Math.ceil(c[1].length / 58)) + 18;
+  if (p.fx) h += 62;
+  return Math.round(h);
+}
+
+function DealLine({ l }: { l: PLine }) {
+  const [label, amount, pos] = l;
+  if (amount === null) {
+    return (
+      <div style={{ display: "flex", fontSize: 21, fontWeight: 600, color: accentInk, fontFamily: mono }}>
+        {label}
+      </div>
+    );
+  }
+  const pc = pos ? POS_C[pos] ?? muted : muted;
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {pos ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              minWidth: 28,
+              marginRight: 9,
+              padding: "3px 5px",
+              borderRadius: 4,
+              fontSize: 14,
+              fontWeight: 700,
+              color: pc,
+              background: rgba(pc, 0.16),
+              fontFamily: mono,
+            }}
+          >
+            {pos}
+          </div>
+        ) : null}
+        <div style={{ display: "flex", fontSize: 23, color: ink }}>{label}</div>
+      </div>
+      <div style={{ display: "flex", fontSize: 22, color: muted, fontFamily: mono }}>{money(amount)}</div>
+    </div>
+  );
+}
+
+function TeamCard({ t, origin }: { t: PTeam; origin: string }) {
+  const tier = TIER[t.tr] ?? TIER.over_cap;
+  const column = (dir: "g" | "s") => {
+    const lines = dir === "g" ? t.g : t.s;
+    return (
+      <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "14px 22px" }}>
+        <div style={{ display: "flex", fontSize: 14, fontWeight: 600, letterSpacing: 1, color: muted, marginBottom: 9 }}>
+          {(dir === "g" ? "GETS · " : "SENDS · ") + money(dir === "g" ? t.gt : t.st)}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+          {lines.length === 0 ? (
+            <div style={{ display: "flex", fontSize: 22, color: muted }}>—</div>
+          ) : (
+            lines.map((l, i) => <DealLine key={i} l={l} />)
+          )}
+        </div>
+      </div>
+    );
+  };
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        border: `1px solid ${border}`,
+        borderRadius: 12,
+        background: panel,
+        marginBottom: 14,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "12px 22px",
+          borderBottom: `1px solid ${border}`,
+          background: rgba(panel2, 0.55),
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${origin}/logos/${t.id}.png`} width={26} height={26} style={{ marginRight: 10 }} alt="" />
+          <div style={{ display: "flex", fontSize: 26, fontWeight: 700, color: ink }}>{t.nm}</div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            border: `1.5px solid ${tier.color}`,
+            borderRadius: 5,
+            padding: "3px 9px",
+            fontSize: 15,
+            fontWeight: 700,
+            letterSpacing: 1,
+            color: tier.color,
+            background: rgba(tier.color, 0.12),
+          }}
+        >
+          {tier.label}
+        </div>
+      </div>
+      <div style={{ display: "flex" }}>
+        {column("g")}
+        <div style={{ display: "flex", width: 1, background: border }} />
+        {column("s")}
+      </div>
+    </div>
+  );
+}
+
+function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: string }) {
+  const legal = p.lg === 1;
+  const vc = legal ? "#2b7a3f" : "#bd2828";
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background: bg,
+        fontFamily: "sans-serif",
+        padding: "34px 36px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingBottom: 16,
+          borderBottom: `1px solid ${border}`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={markSvg} width={40} height={40} style={{ marginRight: 12, borderRadius: 9 }} alt="" />
+          <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: ink }}>Over the Apron</div>
+        </div>
+        <div style={{ display: "flex", fontSize: 18, letterSpacing: 1, color: muted, fontFamily: mono }}>
+          {`OVERTHEAPRON.COM · ${p.fn}`}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {p.tm.map((t, i) => (
+            <div key={t.id} style={{ display: "flex", alignItems: "center" }}>
+              {i > 0 ? <div style={{ display: "flex", fontSize: 22, color: muted, margin: "0 11px" }}>⇄</div> : null}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${origin}/logos/${t.id}.png`} width={34} height={34} alt="" />
+            </div>
+          ))}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            border: `3px solid ${vc}`,
+            borderRadius: 9,
+            padding: "3px 16px",
+            fontSize: 26,
+            fontWeight: 800,
+            letterSpacing: 2,
+            color: vc,
+            transform: "rotate(-3deg)",
+          }}
+        >
+          {legal ? "LEGAL TRADE" : "BLOCKED"}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", marginTop: 2 }}>
+        {p.tm.map((t) => (
+          <TeamCard key={t.id} t={t} origin={origin} />
+        ))}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", marginTop: 6 }}>
+        <div style={{ display: "flex", fontSize: 15, fontWeight: 600, letterSpacing: 1, color: muted, marginBottom: 11 }}>
+          {legal ? "WHY IT WORKS" : "WHY IT DOESN'T"}
+        </div>
+        {p.ck.map((c, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "flex-start", marginBottom: 12 }}>
+            <div style={{ display: "flex", fontSize: 22, fontWeight: 700, color: c[0] ? "#2b7a3f" : "#bd2828", marginRight: 12 }}>
+              {c[0] ? "✓" : "✗"}
+            </div>
+            <div style={{ display: "flex", fontSize: 21, lineHeight: 1.35, color: ink, flexShrink: 1 }}>{c[1]}</div>
+          </div>
+        ))}
+        {p.fx ? (
+          <div
+            style={{
+              display: "flex",
+              marginTop: 6,
+              paddingTop: 12,
+              borderTop: `1px dashed ${border}`,
+              fontSize: 19,
+              lineHeight: 1.35,
+              color: muted,
+            }}
+          >
+            <div style={{ display: "flex", fontWeight: 700, color: accentInk, marginRight: 7 }}>One route to legal:</div>
+            <div style={{ display: "flex", flexShrink: 1 }}>{p.fx}</div>
+          </div>
+        ) : null}
+      </div>
+
+      <div style={{ display: "flex", flexGrow: 1, minHeight: 12 }} />
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingTop: 12,
+          borderTop: `1px dashed ${border}`,
+          fontSize: 15,
+          letterSpacing: 1,
+          color: muted,
+          fontFamily: mono,
+        }}
+      >
+        <div style={{ display: "flex" }}>{`FILED ${date} · ${p.fn}`}</div>
+        <div style={{ display: "flex", fontWeight: 700, color: vc }}>
+          {legal ? "LEGAL UNDER THE 2023 CBA" : "BLOCKED UNDER THE 2023 CBA"}
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 14,
+          background: ink,
+          borderRadius: 10,
+          padding: "15px 0",
+          fontSize: 18,
+          fontWeight: 700,
+          letterSpacing: 2,
+          color: bg,
+        }}
+      >
+        FULL TRADE + RULING AT OVERTHEAPRON.COM
+      </div>
+    </div>
+  );
+}
 
 function Wordmark() {
   return (
@@ -100,6 +399,29 @@ export async function GET(req: Request) {
   const t = url.searchParams.get("t") || "";
   const fmtParam = url.searchParams.get("fmt");
   const dims = DIMS[(fmtParam as keyof typeof DIMS) in DIMS ? (fmtParam as keyof typeof DIMS) : "feed"];
+
+  // Rich, pixel-faithful card: the client passes what the modal computed
+  // (?d=), so the download matches the on-screen card AND its live-session
+  // numbers. Feed grows to fit; square/story are fixed frames.
+  const dParam = url.searchParams.get("d");
+  if (dParam) {
+    try {
+      const binary = atob(dParam.replace(/-/g, "+").replace(/_/g, "/"));
+      const jsonStr = new TextDecoder().decode(Uint8Array.from(binary, (c) => c.charCodeAt(0)));
+      const p = JSON.parse(jsonStr) as Payload;
+      const date = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      const size =
+        fmtParam === "square"
+          ? { width: 1080, height: Math.max(1080, feedHeight(p)) }
+          : fmtParam === "story"
+            ? { width: 1080, height: Math.max(1920, feedHeight(p)) }
+            : { width: 1080, height: feedHeight(p) };
+      return new ImageResponse(<RichTradeCard p={p} origin={url.origin} date={date} />, size);
+    } catch {
+      /* malformed payload — fall through to the token recompute below */
+    }
+  }
+
   const s = summarizeTrade(t);
 
   if (!s) {
