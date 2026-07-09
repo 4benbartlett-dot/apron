@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     title: "Over the Apron — NBA Offseason, Simplified",
     description:
       "Build trades, sign free agents, and run an NBA offseason with cited 2023 CBA rules and clear limits.",
-    images: ["/api/og"],
+    images: ["/api/og?v=2"],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: ["/api/og?v=2"] },
 };
 
 export const viewport: Viewport = {

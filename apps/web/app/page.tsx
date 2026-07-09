@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import OffseasonSim from "@/components/OffseasonSim";
 import { summarizeTrade, lastName } from "@/lib/trade-share";
 
+/** Bump when the OG-card renderer changes in a way X/Facebook should re-fetch.
+ * Social crawlers cache og:image by URL under our immutable/1yr header, so
+ * cards shared while the image was broken (relative URL / pre-Satori) stay
+ * stuck on the stale blank until the URL itself changes. This version param
+ * is that lever — a new value = a new URL = a forced fresh crawl. */
+const OG_VERSION = "2";
+
 /** Shared trade links (?t=) land on the full offseason page — this gives
  * them the same LEGAL/BLOCKED unfurl the /trade route had. */
 export async function generateMetadata({
@@ -18,7 +25,7 @@ export async function generateMetadata({
     .map((pt) => `${pt.team} get ${pt.incoming.map(lastName).join(", ") || "—"}`)
     .join("  •  ");
   const title = `${s.legal ? "LEGAL" : "BLOCKED"}: ${active.map((pt) => pt.team).join("–")} trade · Over the Apron`;
-  const og = `/api/og?t=${encodeURIComponent(t!)}`;
+  const og = `/api/og?t=${encodeURIComponent(t!)}&v=${OG_VERSION}`;
 
   return {
     title,
