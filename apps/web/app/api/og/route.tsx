@@ -288,6 +288,7 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
           <div
             style={{
               display: "flex",
+              alignItems: "flex-start",
               marginTop: 6,
               paddingTop: 12,
               borderTop: `1px dashed ${border}`,
@@ -296,8 +297,10 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
               color: muted,
             }}
           >
-            <div style={{ display: "flex", fontWeight: 700, color: accentInk, marginRight: 7 }}>One route to legal:</div>
-            <div style={{ display: "flex", flexShrink: 1 }}>{p.fx}</div>
+            <div style={{ display: "flex", flexShrink: 0, fontWeight: 700, color: accentInk, marginRight: 7 }}>
+              One route to legal:
+            </div>
+            <div style={{ display: "flex", flexGrow: 1, flexShrink: 1 }}>{p.fx}</div>
           </div>
         ) : null}
       </div>
