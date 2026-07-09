@@ -1,6 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { spendingPower } from "@apron/cba-engine";
-import { C, feedStateOf, consumedFor, teamMeta } from "@/lib/league";
+import {
+  BASE_CONTRACTS,
+  C,
+  TEAM_IDS,
+  consumedFor,
+  currentSalary,
+  feedStateOf,
+  freeAgentsOf,
+  teamMeta,
+} from "@/lib/league";
 
 // FEED_TEAM_STATE: how each team's real July actually happened — audited by
 // five agents replaying every feed signing against the exception system
@@ -98,11 +107,74 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
   });
 
   it("every in-world hard cap names its source move", () => {
-    for (const t of ["ATL", "BOS", "DET", "GSW", "HOU", "IND", "LAC", "LAL", "MIA", "PHI", "PHX", "SAS", "UTA"]) {
+    for (const t of ["ATL", "BOS", "DET", "GSW", "IND", "LAC", "LAL", "MIA", "PHI", "SAS", "UTA"]) {
       const s = feedStateOf(t);
-      expect(s.hardCap).toBe(C.firstApron);
+      expect(s.hardCap, t).toBe(C.firstApron);
       expect(s.hardCapSource, t).toBeTruthy();
     }
+    // Taxpayer-MLE users are capped at the SECOND apron, not the first (HR on
+    // Smart: "resulting in a second-apron hard cap"; Gozlan on Kennard: TP-MLE
+    // unless PHX ducked the first apron, which it never did).
+    for (const t of ["HOU", "PHX"]) {
+      const s = feedStateOf(t);
+      expect(s.hardCap, t).toBe(C.secondApron);
+      expect(s.consumed.tpmle, t).toBe(C.taxpayerMLE);
+      expect(s.hardCapSource, t).toContain("Taxpayer MLE");
+    }
+  });
+
+  // Jul 9 2026 audit: /team/IND showed $222.1M committed (a second-apron badge)
+  // against a FIRST-apron hard cap from Oubre's partial NT-MLE — a state the
+  // CBA cannot produce, so one side had to be wrong. The books were, three
+  // ways: Braden Smith's draft-rights trade surname-matched CHI's Jalen Smith
+  // onto IND (applyTrades fallback), Potter's NON-guaranteed $2.8M was charged
+  // as dead money after his Jul 8 waive, and Nance's agreed-but-unexecutable
+  // vet-min was booked at full charge (now pendingSignings). PHX and HOU
+  // carried the mirror error: Kennard's and Smart's taxpayer-MLE deals were
+  // booked $304k hot off a source estimate and attributed to a partial NT-MLE,
+  // pinning the wrong (first-apron) hard cap on second-apron-capped teams.
+  describe("hard-cap coherence (the IND/PHX/HOU July audit)", () => {
+    const bookedSalary = (team: string) =>
+      BASE_CONTRACTS.filter((c) => c.teamId === team).reduce((s, c) => s + currentSalary(c), 0);
+
+    it("INVARIANT: no team's booked salary exceeds its own in-world hard cap at rest", () => {
+      for (const t of TEAM_IDS) {
+        const booked = bookedSalary(t);
+        const cap = feedStateOf(t).hardCap;
+        expect(booked, `${t} booked $${booked} exceeds its hard cap $${cap}`).toBeLessThanOrEqual(cap);
+      }
+    });
+
+    it("IND: Oubre's official 2yr/$16.5M partial NT-MLE — booked = consumed, $1.6M under the cap (HR, Jul 1)", () => {
+      const oubre = BASE_CONTRACTS.find((c) => c.playerName === "Kelly Oubre Jr.")!;
+      expect(oubre.teamId).toBe("IND");
+      expect(currentSalary(oubre)).toBe(8_048_780); // 16.5M/2.05, NOT the $17M headline's 8,292,683
+      expect(feedStateOf("IND").consumed.ntmle).toBe(8_048_780);
+      // Hoops Rumors printed "just $1.6MM below a first-apron hard cap with 14
+      // players under contract" — our sheet lands $1,600,035 below on 14.
+      expect(bookedSalary("IND")).toBe(C.firstApron - 1_600_035);
+    });
+
+    it("IND books exclude Jalen Smith (CHI's), Potter dead money, and the pending Nance minimum", () => {
+      const smith = BASE_CONTRACTS.filter((c) => c.playerName === "Jalen Smith");
+      expect(smith).toHaveLength(1);
+      expect(smith[0]!.teamId).toBe("CHI"); // Braden Smith's rights trade must not move him
+      const potter = BASE_CONTRACTS.find((c) => c.playerName === "Micah Potter")!;
+      expect(potter.deadMoney).toBe(true);
+      expect(currentSalary(potter)).toBe(0); // non-guaranteed, waived clean
+      expect(BASE_CONTRACTS.some((c) => c.playerName === "Larry Nance Jr." && c.teamId === "IND")).toBe(false);
+      expect(freeAgentsOf(BASE_CONTRACTS).some((f) => f.playerName === "Larry Nance Jr.")).toBe(true);
+    });
+
+    it("PHX + HOU: taxpayer-MLE deals booked at exactly the exception (y1 $6,064,000)", () => {
+      for (const [name, team] of [["Luke Kennard", "PHX"], ["Marcus Smart", "HOU"]] as const) {
+        const c = BASE_CONTRACTS.find((x) => x.playerName === name)!;
+        expect(c.teamId, name).toBe(team);
+        // A signings.json rescrape regressing to the 6,368,000 estimate fails here.
+        expect(currentSalary(c), name).toBe(C.taxpayerMLE);
+      }
+      expect(bookedSalary("PHX")).toBeLessThanOrEqual(C.secondApron);
+    });
   });
 
   it("session moves stack on top of feed consumption", () => {

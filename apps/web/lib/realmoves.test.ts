@@ -181,10 +181,10 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
   ["Collin Sexton", "LAL", 2, 19.2],
   ["Tobias Harris", "SAS", 2, 30.84],
   ["Dean Wade", "PHI", 4, 39],
-  ["Kelly Oubre Jr.", "IND", 2, 17],
+  ["Kelly Oubre Jr.", "IND", 2, 16.5], // Spotrac official; the "$17M" headline was rounded
   ["De'Anthony Melton", "GSW", 2, 11],
-  ["Marcus Smart", "HOU", 2, 13],
-  ["Luke Kennard", "PHX", 2, 13.05],
+  ["Marcus Smart", "HOU", 2, 12.4312], // full taxpayer MLE (HR: "caps out at about $12.43MM")
+  ["Luke Kennard", "PHX", 2, 12.4312], // full taxpayer MLE (Gozlan: "two years, $12.4 million")
   ["Keon Ellis", "BKN", 2, 18],
   ["Moritz Wagner", "BKN", 2, 19],
   ["Jaxson Hayes", "UTA", 2, 12],
@@ -208,15 +208,14 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
 //  - Grimes / Mamukelashvili (LAL): their real money was cap room created by
 //    renounces the harness can't restore — once Kessler's ~$28M is booked,
 //    lenient mode sees only Room-MLE-sized space.
-//  - Oubre (IND): the reported 2yr/$17M back-solves ~$65k over our sheet's
-//    first-apron ceiling — sub-$100k rounding on a reported total.
-//  - Kennard (PHX): our reconstructed PHX sheet leaves less first-apron
-//    headroom than reality did when he signed.
+// (Oubre and Kennard HEALED in the Jul 9 hard-cap audit: IND's sheet lost a
+// mis-teamed Jalen Smith, phantom Potter dead money, and the pending Nance
+// charge, so Oubre's official 2yr/$16.5M NT-MLE now fits under the first
+// apron; Kennard re-booked at the taxpayer MLE's exact 2yr/$12,431,200 —
+// see feed-team-state.json rationales.)
 // The gate below is EXACT: a new failure fails the suite, and so does one of
 // these silently healing (update the list and /accuracy when data improves).
 const DOCUMENTED_BOUNDS = [
-  "Kelly Oubre Jr.",
-  "Luke Kennard",
   "Quentin Grimes",
   "Sandro Mamukelashvili",
 ];

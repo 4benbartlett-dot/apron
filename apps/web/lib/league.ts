@@ -1,5 +1,5 @@
 import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS } from "@apron/data";
-import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS } from "@apron/data";
+import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
   salaryForYear,
@@ -251,6 +251,13 @@ function dedupe(contracts: Contract[]): Contract[] {
 
 const cloneContract = (c: Contract): Contract => ({ ...c, years: [...c.years] });
 
+// 2026 draftees by normalized name: a draft-night trade of one moves RIGHTS,
+// not a sheet contract, so the veteran pass must never resolve it — least of
+// all via the surname fallback (Braden Smith's rights deal "from Chicago"
+// surname-matched CHI's Jalen Smith and shipped him to IND). The rookie pass
+// (rookiesAfterTrades) owns these rows.
+const ROOKIE_CLASS_2026 = new Set(ROOKIES_2026.map((r) => norm(r.playerName)));
+
 /** Apply recent trades (Spotrac feed): move traded players to their new team. */
 function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: string[] } {
   const cloned = contracts.map(cloneContract);
@@ -270,7 +277,7 @@ function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: str
     const dest = stdTeam(m[1]);
     if (!VALID_TEAMS.has(dest)) continue;
     let c = byName.get(k);
-    if (!c) {
+    if (!c && !ROOKIE_CLASS_2026.has(k)) {
       // Name-variant fallback (the Nicolas/Nic Claxton class of miss): the
       // trade prose and the contract sheet disagree on the first name. Match
       // by suffix-aware surname + the trade's FROM team, only when unique.
@@ -315,6 +322,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
   const signed: string[] = [];
   for (const t of TRANSACTIONS) {
     if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    if (PENDING_SIGNING.has(normName(t.player))) continue;
     // Two-way deals carry no cap salary — move the player out of the FA pool
     // (old team keeps no hold) into the new team's two-way slot.
     if (/two-way contract/i.test(t.detail)) {
@@ -406,6 +414,12 @@ function dealFromAav(aav: number, term: number): ContractYear[] {
 // still the unmatched sheet.
 const PENDING_OFFER_SHEET = new Set<string>();
 const RESOLVED_OFFERS = new Set(RESOLVED_OFFER_SHEETS.map(normName));
+// Agreed deals a team can't legally EXECUTE yet on our reconciled sheet (e.g.
+// Nance's IND minimum, which would sit over Indiana's Oubre first-apron hard
+// cap): booked as pending — the player keeps his old team + FA hold, no new
+// charge — until the feed shows the cap-clearing move or corrected terms.
+// Curated in roster-corrections-2026.json (pendingSignings).
+const PENDING_SIGNING = new Set(PENDING_SIGNINGS.map(normName));
 {
   const decided = new Set<string>();
   for (const t of TRANSACTIONS) {
@@ -426,6 +440,7 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     const s = SIGNINGS[normName(c.playerName)];
     if (!s || !s.aav || s.aav <= 0) return c;
     if (PENDING_OFFER_SHEET.has(normName(c.playerName))) return c;
+    if (PENDING_SIGNING.has(normName(c.playerName))) return c;
     // A vet EXTENSION of a player still under contract adds FUTURE years —
     // replacing YEAR-forward would overwrite his real current salary.
     const hasCurrent = c.years.some((y) => y.leagueYear === YEAR && y.salary > 0);
@@ -498,6 +513,11 @@ const RELEASE_TERMS: Record<string, { guaranteed: number; stretched?: boolean }>
   // Jul 8 2026 waive by DEN — the feed states "leaves behind $2 million in dead
   // cap" (of his $10.4M salary), so only $2M is guaranteed and sticks to DEN.
   "jonas valanciunas": { guaranteed: 2_000_000 },
+  // Hoops Rumors Jul 8 2026: IND exercised his option Jun 29 but the $2.8M
+  // stayed NON-guaranteed, and the Jul 8 waive means "none of Potter's salary
+  // will remain on Indiana's books" — zero dead money. (Charging the full
+  // $2.8M put IND over its own Oubre NT-MLE first-apron hard cap.)
+  "micah potter": { guaranteed: 0 },
 };
 
 function applyReleases(contracts: Contract[]): Contract[] {
