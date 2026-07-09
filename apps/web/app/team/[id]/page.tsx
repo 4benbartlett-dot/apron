@@ -192,19 +192,37 @@ export default function TeamWarRoom() {
           {(() => {
             const rights = PICK_RIGHTS[id];
             // Layer the user's staged pick/swap trades on top of the real-world
-            // ledger so draft capital tracks their moves: a pick id is
-            // ORIGIN|YEAR|ROUND, and a trade move records where it lands (`to`).
+            // ledger so draft capital tracks their moves. A pick id is
+            // ORIGIN|YEAR|ROUND; a trade move records who sent it (`from`) and
+            // where it lands (`to`). Moves made before from-tracking lack
+            // `from`, so fall back to the origin heuristic for those.
             const sessionPicks = lg.moves.flatMap((m) => (m.kind === "trade" ? m.picks ?? [] : []));
             const sessionSwaps = lg.moves.flatMap((m) => (m.kind === "trade" ? m.pickSwaps ?? [] : []));
-            const sentOwnFirst = new Map<number, string>(); // own 1st traded out this session → new owner
-            const acquired: { origin: string; year: number; round: number }[] = [];
-            for (const p of sessionPicks) {
+            const parsed = sessionPicks.map((p) => {
               const [origin, yr, rd] = p.id.split("|");
-              const year = Number(yr);
-              const round = rd === "1" ? 1 : 2;
-              if (p.to === id) acquired.push({ origin: origin ?? "?", year, round });
-              else if (origin === id && round === 1) sentOwnFirst.set(year, p.to);
+              return {
+                id: p.id,
+                to: p.to,
+                origin: origin ?? "?",
+                year: Number(yr),
+                round: rd === "1" ? 1 : 2,
+                sentByTeam: p.from !== undefined ? p.from === id : origin === id && p.to !== id,
+                receivedByTeam: p.to === id,
+              };
+            });
+            const sentOwnFirst = new Map<number, string>(); // own 1st traded out → new owner
+            const reTraded = new Set<string>(); // "YEAR|ROUND|ORIGIN" of a held pick sent away
+            for (const p of parsed) {
+              if (p.sentByTeam && p.origin === id && p.round === 1) sentOwnFirst.set(p.year, p.to);
+              else if (p.sentByTeam && p.origin !== id) reTraded.add(`${p.year}|${p.round}|${p.origin}`);
             }
+            const sentIds = new Set(parsed.filter((p) => p.sentByTeam).map((p) => p.id));
+            // Picks acquired (another team's pick, received and not later re-sent).
+            const acquired = parsed.filter((p) => p.receivedByTeam && p.origin !== id && !sentIds.has(p.id));
+            // Real-world incoming holdings the team re-traded away this session.
+            const visibleHoldings = (rights?.holdings ?? []).filter(
+              (h) => !h.overlapsPrior && !reTraded.has(`${h.year}|${h.round}|${h.origin ?? ""}`),
+            );
             const swapsForTeam = sessionSwaps.filter((s) => s.favoredTo === id || s.otherTeam === id);
             // Group obligations by year — a team can have >1 leg on the same
             // year (e.g. PHI 2028 is both owed-to-BOS and protected-to-BKN), and
@@ -245,7 +263,7 @@ export default function TeamWarRoom() {
                 </div>
                 <div className="label mb-1 !text-[10px]">Incoming picks &amp; swap rights</div>
                 <div className="mb-3 flex flex-wrap gap-1">
-                  {(rights?.holdings ?? []).filter((h) => !h.overlapsPrior).map((h, i) => {
+                  {visibleHoldings.map((h, i) => {
                     const kindTxt = h.kind === "outright" ? `from ${h.origin ?? h.counterparties?.[0] ?? "?"}` : h.kind === "swap_right" ? `swap ${h.favorable ?? ""}`.trim() : "conditional";
                     const color = h.kind === "swap_right" ? "var(--tier-taxpayer)" : h.kind === "conditional" ? "var(--muted)" : "var(--tier-below_cap)";
                     return chip(color, `’${h.year - 2000} ${h.round === 1 ? "1st" : "2nd"} · ${kindTxt}`, h.note, `h${i}`);
@@ -256,7 +274,7 @@ export default function TeamWarRoom() {
                   {swapsForTeam.map((s, i) =>
                     chip("var(--tier-taxpayer)", `’${s.year - 2000} ${s.round === 1 ? "1st" : "2nd"} swap w/ ${s.favoredTo === id ? s.otherTeam : s.favoredTo}`, `Swap right from your staged moves (${s.favoredTo === id ? "you take the more favorable pick" : "counterparty takes the more favorable pick"})`, `sess-swap${i}`),
                   )}
-                  {!rights?.holdings.filter((h) => !h.overlapsPrior).length && !acquired.length && !swapsForTeam.length && <span className="text-[10px] text-[var(--muted)]">None</span>}
+                  {!visibleHoldings.length && !acquired.length && !swapsForTeam.length && <span className="text-[10px] text-[var(--muted)]">None</span>}
                 </div>
                 <details className="text-[11px]">
                   <summary className="cursor-pointer text-[var(--muted)]">Full ledger (RealGM) — {picks.incoming.length} in, {picks.outgoing.length} out</summary>

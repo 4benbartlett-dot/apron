@@ -395,7 +395,7 @@ export default function OffseasonSim() {
 
   const executeTrade = () => {
     const names = trade.players.map((p) => shortPlayerName(lg.playerName(p.playerId)));
-    const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, to: mv.to }));
+    const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
     const swaps = swapSel.map((s) => ({ year: s.year, round: s.round, favoredTo: s.favoredTo, otherTeam: s.otherTeam }));
     const extras = [
       pickMoves.length ? `${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : "",
