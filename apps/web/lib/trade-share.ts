@@ -119,6 +119,8 @@ export function filingNo(token: string): string {
 
 export interface TradeSummary {
   legal: boolean;
+  /** Outright pick transfers were part of the deal (so Stepien was checked). */
+  hasPicks: boolean;
   reason?: string;
   perTeam: {
     team: string;
@@ -191,8 +193,14 @@ export function summarizeTrade(t: string): TradeSummary | null {
     BASE_CONTRACTS.find((c) => c.playerId === id)?.playerName ?? id;
   const perTeam = v.teams.map((ts) => {
     const use = trade.tpeUse?.[ts.teamId];
+    // Only claim a matching rule for a leg that actually PASSED matching — a
+    // blocked-on-matching team would otherwise carry "legal under …" right
+    // next to the BLOCKED verdict.
+    const legPassed = !v.violations.some(
+      (x) => x.teamId === ts.teamId && x.ruleId === "salary_matching",
+    );
     const rule =
-      ts.incomingSalary > 0
+      ts.incomingSalary > 0 && legPassed
         ? ts.tpeAbsorbed
           ? `${use?.label ?? "TPE"} absorbs ${fmtM(ts.tpeAbsorbed)}; rest ${matchRuleLabel(ts.matchingRule, C)}`
           : matchRuleLabel(ts.matchingRule, C)
@@ -216,6 +224,7 @@ export function summarizeTrade(t: string): TradeSummary | null {
   });
   return {
     legal: v.legal && !stepienFinding && !feedCapped,
+    hasPicks: d.picks.length > 0,
     reason:
       v.violations[0]?.reason ??
       (stepienFinding

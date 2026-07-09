@@ -492,8 +492,12 @@ export async function GET(req: Request) {
   }
 
   const accent = s.legal ? TIER.below_cap.color : TIER.second_apron.color;
-  // 3-4 team deals need a denser card to keep the seal strip on canvas.
-  const compact = s.perTeam.length > 2;
+  // 3-4 team deals need a denser card: the canvas is a fixed 1200×630, so
+  // every extra team card is paid for with padding and type size, or the
+  // last team's rows crash into the seal strip.
+  const nTeams = Math.min(s.perTeam.length, 4);
+  const compact = nTeams > 2;
+  const dense = nTeams > 3;
 
   return new ImageResponse(
     (
@@ -505,7 +509,7 @@ export async function GET(req: Request) {
           flexDirection: "column",
           background: bg,
           color: ink,
-          padding: 52,
+          padding: dense ? 32 : compact ? 40 : 44,
           fontFamily: "sans-serif",
         }}
       >
@@ -518,14 +522,14 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", marginTop: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", marginTop: compact ? 10 : 12 }}>
           <div
             style={{
               display: "flex",
               border: `4px solid ${accent}`,
               borderRadius: 10,
               padding: "2px 18px",
-              fontSize: 30,
+              fontSize: compact ? 26 : 30,
               fontWeight: 800,
               color: accent,
               letterSpacing: 3,
@@ -536,7 +540,7 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", marginTop: 14 }}>
+        <div style={{ display: "flex", flexDirection: "column", marginTop: compact ? 10 : 14 }}>
           {s.perTeam.slice(0, 4).map((pt, i) => (
             <div
               key={i}
@@ -546,23 +550,26 @@ export async function GET(req: Request) {
                 background: panel,
                 border: `1px solid ${border}`,
                 borderRadius: 10,
-                padding: compact ? "8px 20px" : "12px 22px",
-                marginBottom: compact ? 8 : 10,
+                padding: dense ? "5px 16px" : compact ? "8px 20px" : "10px 22px",
+                marginBottom: dense ? 5 : compact ? 8 : 10,
               }}
             >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ fontSize: compact ? 22 : 27, fontWeight: 700 }}>{pt.name}</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: TIER[pt.tier].color, letterSpacing: 1.2 }}>
+                <div style={{ fontSize: dense ? 19 : compact ? 22 : 27, fontWeight: 700 }}>{pt.name}</div>
+                <div style={{ fontSize: dense ? 14 : 16, fontWeight: 700, color: TIER[pt.tier].color, letterSpacing: 1.2 }}>
                   {TIER[pt.tier].label}
                 </div>
               </div>
-              <div style={{ display: "flex", fontSize: compact ? 18 : 20, color: TIER.below_cap.color, marginTop: 4, fontFamily: mono }}>
-                IN&nbsp;&nbsp;{pt.incoming.join(", ") || "—"}
+              <div style={{ display: "flex", fontSize: dense ? 15 : compact ? 18 : 20, color: TIER.below_cap.color, marginTop: 4, fontFamily: mono }}>
+                IN&nbsp;&nbsp;{truncate(pt.incoming.join(", ") || "—", 120)}
               </div>
-              <div style={{ display: "flex", fontSize: compact ? 17 : 19, color: muted, marginTop: 2, fontFamily: mono }}>
-                OUT&nbsp;{pt.outgoing.join(", ") || "—"}
+              <div style={{ display: "flex", fontSize: dense ? 14 : compact ? 17 : 19, color: muted, marginTop: 2, fontFamily: mono }}>
+                OUT&nbsp;{truncate(pt.outgoing.join(", ") || "—", 120)}
               </div>
-              {pt.rule && !compact ? (
+              {/* Rule lines only on LEGAL cards — the share modal shows only
+                  violations when blocked, and a green "legal under …" line
+                  beside a BLOCKED stamp reads as a contradiction. */}
+              {pt.rule && s.legal && !compact ? (
                 <div style={{ display: "flex", alignItems: "center", fontSize: 15, color: muted, marginTop: 6 }}>
                   <div style={{ display: "flex", width: 7, height: 7, borderRadius: 7, background: TIER.below_cap.color, marginRight: 8 }} />
                   legal under {pt.rule}
@@ -577,14 +584,14 @@ export async function GET(req: Request) {
             style={{
               display: "flex",
               borderTop: `1px solid ${border}`,
-              paddingTop: 12,
-              fontSize: 18,
+              paddingTop: compact ? 10 : 12,
+              fontSize: compact ? 16 : 18,
               color: muted,
             }}
           >
             {s.legal
-              ? "Satisfies the modeled salary-matching and apron checks."
-              : truncate(s.reason || "Violates the 2023 CBA.", 210)}
+              ? `Clears salary matching, the aprons, and every hard cap${s.hasPicks ? " — Stepien rule included" : ""} on current rosters.`
+              : truncate(s.reason || "Violates the 2023 CBA.", compact ? 150 : 210)}
           </div>
           {/* The growth loop lives HERE — this image is what X actually shows. */}
           <div
@@ -592,12 +599,12 @@ export async function GET(req: Request) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop: 12,
+              marginTop: compact ? 10 : 12,
               background: ink,
               color: bg,
               borderRadius: 10,
-              padding: "12px 24px",
-              fontSize: 21,
+              padding: compact ? "10px 20px" : "12px 24px",
+              fontSize: compact ? 18 : 21,
               fontWeight: 700,
               letterSpacing: 1.5,
             }}
