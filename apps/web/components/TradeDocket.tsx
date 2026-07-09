@@ -186,7 +186,7 @@ export function tradeConsequences(
       out.push({
         team: t.teamId,
         severity: "cap",
-        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season — it used expanded matching (took back more than 125% + $250k).`,
+        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season — it used expanded matching (took back more than 100% + $250k of the salary it sent out).`,
       });
     }
     const use = tpeUse?.[t.teamId];
@@ -221,7 +221,7 @@ export function tradeConsequences(
       out.push({
         team: t.teamId,
         severity: "restrict",
-        text: `${name(t.teamId)} finishes over the first apron — limited to 100% + $250k matching and the taxpayer mid-level.`,
+        text: `${name(t.teamId)} finishes over the first apron — limited to strict 100% matching (dollar-for-dollar, no $250k) and the taxpayer mid-level.`,
       });
     }
     if (t.incomingSalary > 0) {
