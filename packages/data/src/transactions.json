@@ -2,6 +2,244 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Micah Potter",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana (IND)"
+    },
+    {
+      "player": "Jonas Valanciunas",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver (DEN); leaves behind $2 million in dead cap"
+    },
+    {
+      "player": "Larry Nance Jr.",
+      "pos": "PF",
+      "date": "Jul 08, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Indiana (IND)"
+    },
+    {
+      "player": "Quinten Post",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Other",
+      "detail": "Golden State (GSW) declined matching the 3 year $30 million Offer Sheet from Memphis (MEM)"
+    },
+    {
+      "player": "D'Angelo Russell",
+      "pos": "PG",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Washington (WAS) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "John Collins",
+      "pos": "PF",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Detroit (DET) from LA (LAC) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Tarik Biberovic",
+      "pos": "PF",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Dallas (DAL) from Memphis (MEM) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Marcus Sasser",
+      "pos": "PG",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Dallas (DAL) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Khris Middleton",
+      "pos": "SF",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Washington (WAS) from Dallas (DAL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Khris Middleton",
+      "pos": "SF",
+      "date": "Jul 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $17.61 million contract with Dallas (DAL) as part of a Sign-and-Trade with Washington (WAS)"
+    },
+    {
+      "player": "Gary Harris",
+      "pos": "SG",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Detroit (DET) from Milwaukee (MIL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Taurean Prince",
+      "pos": "PF",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Detroit (DET) from Milwaukee (MIL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Caris LeVert",
+      "pos": "SG",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Milwaukee (MIL) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Quinten Post",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $30 million contract with Memphis (MEM) via Offer Sheet; Golden State (GSW) has the right to match."
+    },
+    {
+      "player": "AJ Johnson",
+      "pos": "PG",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Dallas (DAL) as part of a 6-team trade: Dallas (DAL) traded a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Santi Aldama",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Dallas (DAL) from Memphis (MEM) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Harrison Barnes",
+      "pos": "PF",
+      "date": "Jul 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $8 million contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Isaiah Stewart",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Quadir Copeland",
+      "pos": "F",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Houston (HOU)"
+    },
+    {
+      "player": "Carmelo Anthony",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "LeBron James",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Maxi Kleber",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Luke Kennard",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Marcus Smart",
+      "pos": "PG",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Jaxson Hayes",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Avery Bradley",
+      "pos": "PG",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Jared Dudley",
+      "pos": "SF",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Wayne Ellington",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Dwight Howard",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Markieff Morris",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Nick Smith Jr.",
+      "pos": "PG",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Drew Timme",
+      "pos": "F",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Dion Waiters",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Renounce",
+      "detail": "Los Angeles (LAL) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Hunter Dickinson",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with New Orleans (NOP)"
+    },
+    {
       "player": "Kevon Looney",
       "pos": "C",
       "date": "Jul 07, 2026",
@@ -55,14 +293,63 @@
       "pos": "SG",
       "date": "Jul 07, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with New Orleans (NOP)"
+      "detail": "Signed a Two-Way contract with Utah (UTA)"
+    },
+    {
+      "player": "Jaden Hardy",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Trade",
+      "detail": "Traded to Los Angeles (LAL) from Washington (WAS) with a 2031 2nd round pick and a 2032 2nd round pick for Deandre Ayton"
+    },
+    {
+      "player": "Deandre Ayton",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Trade",
+      "detail": "Traded to Washington (WAS) from Los Angeles (LAL) for Jaden Hardy, a 2031 2nd round pick and a 2032 2nd round pick"
+    },
+    {
+      "player": "Kelly Oubre Jr.",
+      "pos": "SF",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $16.5 million contract with Indiana (IND)"
+    },
+    {
+      "player": "Quentin Grimes",
+      "pos": "SG",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $60 million contract with Los Angeles (LAL) - includes 2029-30 Player Option"
+    },
+    {
+      "player": "Sandro Mamukelashvili",
+      "pos": "C",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $52 million contract with Los Angeles (LAL) - includes 2029-30 Player Option"
+    },
+    {
+      "player": "John Collins",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $51 million contract with LA Clippers (LAC) as part of a sign-and-trade with Detroit (DET)"
+    },
+    {
+      "player": "Kobe Sanders",
+      "pos": "G",
+      "date": "Jul 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $11.28 million contract with LA Clippers (LAC)"
     },
     {
       "player": "Precious Achiuwa",
       "pos": "PF",
       "date": "Jul 07, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $11.5 million a contract with Sacramento (SAC)"
+      "detail": "Signed a 2 year $11.23 million a contract with Sacramento (SAC)"
     },
     {
       "player": "Thomas Bryant",
@@ -93,6 +380,13 @@
       "detail": "Signed a 4 year $48 million contract with Phoenix (PHX)"
     },
     {
+      "player": "John Collins",
+      "pos": "PF",
+      "date": "Jul 07, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Utah (UTA) as part of a 3-team trade: LA (LAC) traded Norman Powell to Miami (MIA); LA (LAC) traded a 2027 2nd round pick and $2,500,000 to Utah (UTA); Miami (MIA) traded Kevin Love and Kyle Anderson to Utah (UTA)"
+    },
+    {
       "player": "Josh Minott",
       "pos": "SF",
       "date": "Jul 06, 2026",
@@ -111,14 +405,14 @@
       "pos": "G",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Charlotte (CHA)"
+      "detail": "Signed a 2 year Two-Way contract with Charlotte (CHA)"
     },
     {
       "player": "Michael Ajayi",
       "pos": "F",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Charlotte (CHA)"
+      "detail": "Signed a 2 year Two-Way contract with Charlotte (CHA)"
     },
     {
       "player": "Tosan Evbuomwan",
@@ -132,7 +426,7 @@
       "pos": "G",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Agreed to a Two-Way contract with Phoenix (PHX)"
+      "detail": "Signed a Two-Way contract with Phoenix (PHX)"
     },
     {
       "player": "Ebuka Okorie",
@@ -175,13 +469,6 @@
       "date": "Jul 06, 2026",
       "type": "Signing",
       "detail": "Signed a 2 year $28 million contract with LA Clippers (LAC) - includes 2027-28 Team Option"
-    },
-    {
-      "player": "Quinten Post",
-      "pos": "C",
-      "date": "Jul 06, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 3 year $30 million contract with Memphis (MEM) via Offer Sheet; Golden State (GSW) has the right to match."
     },
     {
       "player": "Kam Jones",
@@ -251,7 +538,7 @@
       "pos": "C",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 3 year $47.4 million contract with Boston (BOS)"
+      "detail": "Signed a 3 year $47.4 million contract with Boston (BOS) - includes 2028-29 Player Option"
     },
     {
       "player": "Ariel Hukporti",
@@ -286,14 +573,14 @@
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 1 year $6.5 million contract with Miami (MIA)"
+      "detail": "Signed a 1 year $6.07 million contract with Miami (MIA)"
     },
     {
       "player": "Landry Shamet",
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 4 year $24 million contract with New York (NYK)"
+      "detail": "Signed a 4 year $23.98 million contract with New York (NYK) - includes 2029-30 Player Option"
     },
     {
       "player": "Andrew Wiggins",
@@ -321,7 +608,7 @@
       "pos": "PG",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 3 year $14-plus million contract with New York (NYK)"
+      "detail": "Signed a 3 year $14.38 million contract with New York (NYK)"
     },
     {
       "player": "Isaiah Joe",
@@ -391,7 +678,7 @@
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Signing",
-      "detail": "Signed a 4 year $10 million contract with New York (NYK)"
+      "detail": "Signed a 4 year $11.28 million contract with New York (NYK) - includes 2029-30 Team Option"
     },
     {
       "player": "Trae Young",
@@ -433,7 +720,7 @@
       "pos": "G",
       "date": "Jul 05, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Portland (POR)"
+      "detail": "Signed a Two-Way contract with Philadelphia (PHI)"
     },
     {
       "player": "Jaden Bradley",
@@ -646,20 +933,6 @@
       "detail": "Agreed to a 3 year $15.3 million contract with LA Clippers (LAC)"
     },
     {
-      "player": "Jaden Hardy",
-      "pos": "SG",
-      "date": "Jul 03, 2026",
-      "type": "Trade",
-      "detail": "Traded to Los Angeles (LAL) from Washington (WAS) with a 2031 2nd round pick and a 2032 2nd round pick for Deandre Ayton"
-    },
-    {
-      "player": "Deandre Ayton",
-      "pos": "C",
-      "date": "Jul 03, 2026",
-      "type": "Trade",
-      "detail": "Traded to Washington (WAS) from Los Angeles (LAL) for Jaden Hardy, a 2031 2nd round pick and a 2032 2nd round pick"
-    },
-    {
       "player": "Tyler Bilodeau",
       "pos": "F",
       "date": "Jul 03, 2026",
@@ -863,27 +1136,6 @@
       "detail": "Signed a contract with Utah (UTA)"
     },
     {
-      "player": "Tarik Biberovic",
-      "pos": "PF",
-      "date": "Jul 01, 2026",
-      "type": "Trade",
-      "detail": "Traded to Dallas (DAL) from Memphis (MEM) with Santi Aldama for AJ Johnson, a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick"
-    },
-    {
-      "player": "AJ Johnson",
-      "pos": "PG",
-      "date": "Jul 01, 2026",
-      "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Dallas (DAL) with a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick for Santi Aldama and Tarik Biberovic"
-    },
-    {
-      "player": "Santi Aldama",
-      "pos": "C",
-      "date": "Jul 01, 2026",
-      "type": "Trade",
-      "detail": "Traded to Dallas (DAL) from Memphis (MEM) with Tarik Biberovic for AJ Johnson, a 2030 1st round pick \\[protected GSW pick\\] , 2nd-round pick and 2nd-round pick"
-    },
-    {
       "player": "Koa Peat",
       "pos": "PF",
       "date": "Jul 01, 2026",
@@ -968,13 +1220,6 @@
       "detail": "Signed a 4 year $9.26 million contract with Cleveland (CLE) via 2nd-round exception"
     },
     {
-      "player": "Kelly Oubre Jr.",
-      "pos": "SF",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 2 year $17 million contract with Indiana (IND)"
-    },
-    {
       "player": "Jamir Watkins",
       "pos": "G",
       "date": "Jul 01, 2026",
@@ -1001,20 +1246,6 @@
       "date": "Jul 01, 2026",
       "type": "Signing",
       "detail": "Agreed to a 2 year $19.2 million contract with Los Angeles (LAL)"
-    },
-    {
-      "player": "Quentin Grimes",
-      "pos": "SG",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $60 million contract with Los Angeles (LAL) - includes 2029-30 Player Option"
-    },
-    {
-      "player": "Sandro Mamukelashvili",
-      "pos": "C",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $52 million contract with Los Angeles (LAL) - includes 2029-30 Player Option"
     },
     {
       "player": "Walker Kessler",
@@ -1059,13 +1290,6 @@
       "detail": "Agreed to a 2 year $45 million contract with Chicago (CHI)"
     },
     {
-      "player": "John Collins",
-      "pos": "PF",
-      "date": "Jul 01, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 3 year $51 million contract with LA Clippers (LAC) as part of a sign-and-trade with Detroit (DET)"
-    },
-    {
       "player": "Marcus Smart",
       "pos": "PG",
       "date": "Jul 01, 2026",
@@ -1106,13 +1330,6 @@
       "date": "Jun 30, 2026",
       "type": "Signing",
       "detail": "Agreed to a 2 year $13.05 million contract with Phoenix (PHX) - includes 2027-28 Player Option"
-    },
-    {
-      "player": "Kobe Sanders",
-      "pos": "G",
-      "date": "Jun 30, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 4 year $11.2 million contract with LA Clippers (LAC)"
     },
     {
       "player": "Kam Jones",
@@ -1582,13 +1799,6 @@
       "date": "Jun 29, 2026",
       "type": "Qualifying Offer",
       "detail": "Brooklyn (BKN) declined to tender Qualifying Offer; becomes an Unrestricted Free Agent"
-    },
-    {
-      "player": "Harrison Barnes",
-      "pos": "PF",
-      "date": "Jun 29, 2026",
-      "type": "Signing",
-      "detail": "Agreed to a 1 year $8 million contract with San Antonio (SAS)"
     },
     {
       "player": "Colin Castleton",
@@ -2578,13 +2788,6 @@
       "detail": "Drafted by Miami (MIA): Round 2 (#41 overall)"
     },
     {
-      "player": "Isaiah Stewart",
-      "pos": "C",
-      "date": "Jun 24, 2026",
-      "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Detroit (DET) for 2nd-round pick, 2nd-round pick and 2nd-round pick"
-    },
-    {
       "player": "Dillon Mitchell",
       "pos": "F",
       "date": "Jun 24, 2026",
@@ -3080,13 +3283,6 @@
       "date": "Jun 15, 2026",
       "type": "Signing",
       "detail": "Signed a 3 year contract with Chicago (CHI) as head coach - includes 2029-30 Club Option"
-    },
-    {
-      "player": "Quin Snyder",
-      "pos": "COA",
-      "date": "Jun 08, 2026",
-      "type": "Signing",
-      "detail": "Signed a multi-year contract extension with Atlanta (ATL)"
     }
   ]
 }

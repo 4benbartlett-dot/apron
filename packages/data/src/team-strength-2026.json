@@ -1,6 +1,6 @@
 {
   "source": "apron-impact-model-hardened team_strength_2026",
-  "asOf": "2026-07-08",
+  "asOf": "2026-07-09",
   "calibration": {
     "intercept": -7.35,
     "rosterCoef": 3.353,
@@ -30,7 +30,7 @@
     },
     "DET": {
       "av": 58.6,
-      "projNrtg": 3,
+      "projNrtg": 2.7,
       "nrtg": 8.2,
       "w": 47
     },
@@ -66,7 +66,7 @@
     },
     "DEN": {
       "av": 56.6,
-      "projNrtg": 5.2,
+      "projNrtg": 5,
       "nrtg": 5.2,
       "w": 51
     },
@@ -132,7 +132,7 @@
     },
     "DAL": {
       "av": 51.3,
-      "projNrtg": -4.5,
+      "projNrtg": -4.6,
       "nrtg": -5.4,
       "w": 32
     },
@@ -144,7 +144,7 @@
     },
     "MEM": {
       "av": 51.2,
-      "projNrtg": -2.3,
+      "projNrtg": -1.9,
       "nrtg": -5.9,
       "w": 36
     },
@@ -156,13 +156,13 @@
     },
     "MIL": {
       "av": 50.5,
-      "projNrtg": -5.2,
+      "projNrtg": -4.5,
       "nrtg": -6.5,
       "w": 30
     },
     "IND": {
       "av": 49.4,
-      "projNrtg": -4.3,
+      "projNrtg": -4.1,
       "nrtg": -8,
       "w": 32
     },
@@ -186,7 +186,7 @@
     },
     "WAS": {
       "av": 45.4,
-      "projNrtg": -4.7,
+      "projNrtg": -4.9,
       "nrtg": -11.8,
       "w": 28
     }

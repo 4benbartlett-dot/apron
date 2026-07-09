@@ -13,12 +13,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "khris middleton": {
-      "name": "Khris Middleton",
-      "team": "DAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "draymond green": {
       "name": "Draymond Green",
       "team": "GSW",
@@ -156,12 +150,6 @@
       "team": "SAS",
       "restriction": "UFA",
       "birdStatus": "early_bird"
-    },
-    "larry nance": {
-      "name": "Larry Nance Jr.",
-      "team": "CLE",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "jeff green": {
       "name": "Jeff Green",
@@ -548,11 +536,6 @@
     "moussa cisse": {
       "name": "Moussa Cisse",
       "team": "DAL",
-      "restriction": "RFA"
-    },
-    "hunter dickinson": {
-      "name": "Hunter Dickinson",
-      "team": "NOP",
       "restriction": "RFA"
     },
     "lachlan olbrich": {
