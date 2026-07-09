@@ -988,8 +988,16 @@ function TeamColumn({
       exceptionUsed[mv.mechanism] = (exceptionUsed[mv.mechanism] ?? 0) + mv.salary;
     }
   }
+  // A hard cap the team ALREADY carries (real July moves or session moves)
+  // binds every tool — the same clamp the team page and the sign drawer
+  // apply, so the chip can't advertise money the drawer would refuse.
+  const liveHardCap = lg.hardCapOf(teamId);
   const line = (m: { maxSalary: number; hardCap: "first_apron" | "second_apron" | null }) =>
-    Math.min(m.maxSalary, m.hardCap === "first_apron" ? Math.max(0, C.firstApron - committed) : m.hardCap === "second_apron" ? Math.max(0, C.secondApron - committed) : Infinity);
+    Math.min(
+      m.maxSalary,
+      Number.isFinite(liveHardCap) ? Math.max(0, liveHardCap - committed) : Infinity,
+      m.hardCap === "first_apron" ? Math.max(0, C.firstApron - committed) : m.hardCap === "second_apron" ? Math.max(0, C.secondApron - committed) : Infinity,
+    );
 
   return (
     <div className="panel overflow-hidden">
@@ -1515,7 +1523,7 @@ function SignEditor({
   );
 
   const v = validateSigning(base, salary, C, opts);
-  // Each exception caps contract length (Art. VII): the Taxpayer/Room MLE at 3,
+  // Each exception caps contract length (Art. VII): the Room MLE at 3, the Taxpayer MLE,
   // the Bi-Annual and the minimum at 2, etc. Don't let the term picker offer
   // more years than the mechanism actually covering this salary allows, and
   // pull the selected term down if a salary change swaps to a shorter-max tool.
@@ -1753,7 +1761,7 @@ function SignEditor({
               </span>
             </Term>
           ) : (
-            <span className="font-semibold" style={{ color: "var(--tier-second_apron)" }}>Not allowed</span>
+            <span className="font-semibold" style={{ color: "var(--tier-second_apron)" }}>Blocked</span>
           )}
           {v.legal && Math.floor(ceiling) - 50_000 > floor && Math.round(salary) >= Math.floor(ceiling) - 50_000 && (
             <Term k="max_salary" extra={`${fa.playerName}'s ceiling here is ${fmtM(ceiling)}.`}>
@@ -2234,7 +2242,7 @@ function TradeFinderDrawer({
               <span className="font-semibold">{target.playerName}</span>
               <span className="tabular text-xs text-[var(--muted)]">{fmtM(currentSalary(target))} · {teamMeta(target.teamId).name}</span>
             </div>
-            <button onClick={() => setTargetId(null)} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">change</button>
+            <button onClick={() => setTargetId(null)} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">Change</button>
           </div>
           {mode === "reverse" ? (
             <>

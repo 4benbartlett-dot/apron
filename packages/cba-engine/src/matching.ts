@@ -27,7 +27,10 @@ export const MATCH_RULE_LABEL: Record<string, string> = {
   expanded_tier1_200pct: "expanded matching, 200% + $250k band",
   expanded_tier2_flat: "expanded matching, outgoing + escalated-$7.5M band",
   expanded_tier3_125pct: "expanded matching, 125% + $250k band",
-  cap_room_absorption: "absorbed into cap room",
+  // Reads correctly both bare ("within its limit (cap-room absorption)") and
+  // composed ("legal under cap-room absorption") — the old "absorbed into cap
+  // room" broke the latter.
+  cap_room_absorption: "cap-room absorption",
 };
 
 /** Rule label with the year's exact escalated dollar figure filled in. */

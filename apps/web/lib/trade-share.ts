@@ -199,10 +199,15 @@ export function summarizeTrade(t: string): TradeSummary | null {
     const legPassed = !v.violations.some(
       (x) => x.teamId === ts.teamId && x.ruleId === "salary_matching",
     );
+    // When the TPE swallows the whole incoming salary there is no "rest" to
+    // match — citing a band computed for $0 would be noise.
+    const matchableIn = ts.incomingSalary - (ts.tpeAbsorbed ?? 0);
     const rule =
       ts.incomingSalary > 0 && legPassed
         ? ts.tpeAbsorbed
-          ? `${use?.label ?? "TPE"} absorbs ${fmtM(ts.tpeAbsorbed)}; rest ${matchRuleLabel(ts.matchingRule, C)}`
+          ? matchableIn > 0
+            ? `${use?.label ?? "TPE"} absorbs ${fmtM(ts.tpeAbsorbed)}; rest ${matchRuleLabel(ts.matchingRule, C)}`
+            : `${use?.label ?? "TPE"} absorbs the full ${fmtM(ts.tpeAbsorbed)} — no matching needed`
           : matchRuleLabel(ts.matchingRule, C)
         : undefined;
     return {

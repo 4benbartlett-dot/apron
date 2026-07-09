@@ -31,7 +31,7 @@ export const GLOSSARY = {
   },
   second_apron: {
     title: "Second apron",
-    body: "The most restrictive tier, above the first apron. Second-apron teams can't aggregate salaries in a trade (no combining two players to match one), can't send cash, can't use any MLE, and their own first seven drafts out freezes; repeat second-apron seasons can move it to the end of the first round. Designed to make super-team payrolls painful to operate.",
+    body: "The most restrictive tier, above the first apron. Second-apron teams can't aggregate salaries in a trade (no combining two players to match one), can't send cash, can't use any MLE, and their own first-round pick seven drafts out is frozen; repeat second-apron seasons can drop it to the end of the first round. Designed to make super-team payrolls painful to operate.",
     cite: "2023 CBA · Art. VII §2(e), §2(f)",
   },
   cap: {
@@ -53,13 +53,13 @@ export const GLOSSARY = {
   },
   early_bird: {
     title: "Early Bird rights",
-    body: "The two-season version of Bird rights: a team over the cap can re-sign its own free agent for up to 175% of his prior salary (or the league-average salary, if greater), on a deal of at least two seasons.",
-    cite: "2023 CBA · Art. VII §6(c)",
+    body: "The two-season version of Bird rights: a team over the cap can re-sign its own free agent for up to 175% of his prior salary (or 105% of the league-average salary, if greater), on a deal of at least two seasons.",
+    cite: "2023 CBA · Art. VII §6(b)",
   },
   non_bird: {
     title: "Non-Bird rights",
     body: "The one-season version: an over-the-cap team can re-sign its own free agent, but only up to 120% of his prior salary (or 120% of the minimum). Enough for role players, useless for a star raise.",
-    cite: "2023 CBA · Art. VII §6(d)",
+    cite: "2023 CBA · Art. VII §6(b)",
   },
   cap_room: {
     title: "Cap space",
@@ -84,7 +84,7 @@ export const GLOSSARY = {
   bae: {
     title: "Bi-Annual Exception",
     body: "A small exception (3.32% of the cap, up to 2 years) usable only every other season, and only by teams below the first apron. Using it hard-caps the team at the first apron.",
-    cite: "2023 CBA · Art. VII §6(h)",
+    cite: "2023 CBA · Art. VII §6(d)",
   },
   minimum: {
     title: "Minimum exception",

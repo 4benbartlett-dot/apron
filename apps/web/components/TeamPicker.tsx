@@ -33,7 +33,7 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
           Whose front office are you running?
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-[var(--muted)]">
-          Pick a team to take over their real cap sheet. You can bring trade
+          Pick a team to take over its real cap sheet. You can bring trade
           partners onto the board any time.
         </p>
       </div>

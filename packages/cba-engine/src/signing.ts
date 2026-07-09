@@ -50,13 +50,13 @@ export interface SignMechanism {
 }
 
 /** Max contract length by mechanism (2023 CBA Art. VII): Bird 5; cap space and
- * the Non-Tax MLE 4; the Taxpayer MLE and Room MLE 3; the Bi-Annual Exception
- * and the minimum 2. */
+ * the Non-Tax MLE 4; the Room MLE 3; the Taxpayer MLE (§6(f)(1) — the 2023
+ * CBA cut it from 3 seasons to 2), the Bi-Annual Exception, and the minimum 2. */
 export const MECHANISM_MAX_SEASONS: Record<MechanismId, number> = {
   bird: 5,
   cap_room: 4,
   ntmle: 4,
-  tpmle: 3,
+  tpmle: 2,
   room_mle: 3,
   bae: 2,
   minimum: 2,
