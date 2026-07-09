@@ -157,6 +157,34 @@ describe("transaction-restriction hard-cap consequences", () => {
     expect(v.checks.some((x) => x.ruleId === "hard_cap_second_apron_aggregation" && x.ok)).toBe(true);
   });
 
+  it("does NOT aggregate a below-apron 2-for-2 that each fit a single Standard TPE (+$250k)", () => {
+    // AAA (over cap, below the first apron) sends two $10M players and takes
+    // back $10.2M + $9.8M. Each incoming fits its matched outgoing player's own
+    // Standard TPE ($10.25M ceiling), so NO aggregation — no second-apron cap.
+    const data = league([
+      filler("AAA", 150_000_000),
+      contract("a1", "AAA", 10_000_000),
+      contract("a2", "AAA", 10_000_000),
+      contract("b1", "BBB", 10_200_000),
+      contract("b2", "BBB", 9_800_000),
+    ]);
+    const v = validateTrade(
+      data,
+      {
+        teams: ["AAA", "BBB"],
+        players: [
+          { playerId: "a1", from: "AAA", to: "BBB" },
+          { playerId: "a2", from: "AAA", to: "BBB" },
+          { playerId: "b1", from: "BBB", to: "AAA" },
+          { playerId: "b2", from: "BBB", to: "AAA" },
+        ],
+      },
+      C26,
+    );
+    expect(v.legal).toBe(true);
+    expect(v.checks.some((x) => x.ruleId === "hard_cap_second_apron_aggregation")).toBe(false);
+  });
+
   it("row I: sending cash while ending below 2A is legal but hard-caps at 2A", () => {
     const data = league([
       filler("AAA", 200_000_000),

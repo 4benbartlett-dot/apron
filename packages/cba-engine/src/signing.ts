@@ -119,7 +119,11 @@ export function spendingPower(
     });
   }
   if (!roomTeam && capRoom <= 0) {
-    if (tier === "over_cap" || tier === "taxpayer") {
+    // capRoom <= 0 means the team is over the cap once holds are counted. A
+    // below_cap APRON tier here is a team whose SIGNED salary is under the cap
+    // but whose FA holds push it over — still an over-the-cap non-taxpayer, so
+    // it keeps the full Non-Taxpayer MLE + BAE (not just the minimum).
+    if (tier === "below_cap" || tier === "over_cap" || tier === "taxpayer") {
       // Over the cap but under the first apron.
       push({
         id: "ntmle",

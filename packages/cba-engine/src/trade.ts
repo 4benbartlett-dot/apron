@@ -349,9 +349,19 @@ export function validateTrade(
     // incoming (a legal split); aggregation is required only when no such
     // packing exists.
     const overSecondApronAfter = classifyTier(post, c) === "second_apron";
+    // Each outgoing player is its own Standard TPE, which absorbs incoming up
+    // to 100% of that player's salary PLUS the $250k allowance (§6(j)(1)(i)) —
+    // so a bin's capacity is salary + allowance, not the raw salary. Without
+    // this, a non-aggregated 2-for-2 taking back even a little over a single
+    // outgoing was misread as aggregation and needlessly hard-capped at the
+    // second apron. `allowance` is already 0 once post-trade salary clears the
+    // first apron (§6(j)(3)), so genuine over-apron aggregations still register.
     const aggregating =
       outgoingPlayerSalaries.length >= 2 &&
-      !binPackable(incomingPlayerSalaries, outgoingPlayerSalaries);
+      !binPackable(
+        incomingPlayerSalaries,
+        outgoingPlayerSalaries.map((s) => s + allowance),
+      );
     if (aggregating) {
       checks.push({
         ruleId: overSecondApronAfter
@@ -434,7 +444,14 @@ export function validateTrade(
         const nonFrozenSum = outSalaries
           .filter((o) => !o.frozen)
           .reduce((a, b) => a + b.salary, 0);
-        const bins = [...frozen.map((o) => o.salary), nonFrozenSum];
+        // Same Standard-TPE allowance as above: each frozen player is its own
+        // exception (salary + $250k), and the non-frozen players form one
+        // aggregate exception (sum + $250k). Without it a recently-acquired
+        // player's own TPE could be misread as forced aggregation.
+        const bins = [
+          ...frozen.map((o) => o.salary + allowance),
+          nonFrozenSum + allowance,
+        ];
         const mustAggregate = !binPackable(incomingPlayerSalaries, bins);
         if (mustAggregate) {
           const names = frozen.map((o) => o.name).join(", ");
