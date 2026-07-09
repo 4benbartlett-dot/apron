@@ -19,7 +19,7 @@ import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMi
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
-import { findTradePackages } from "@/lib/tradeFinder";
+import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce } from "@/lib/store";
@@ -2074,28 +2074,97 @@ function TradeFinderDrawer({
   onClose: () => void;
   onLoad: (acquirer: string, seller: string, targetId: string, playerIds: string[], sweetenerIds?: string[]) => void;
 }) {
+  // "reverse" = pick a player, see what the whole league would legally offer for
+  // him. "forward" = pick your team + a target, see what you can send.
+  const [mode, setMode] = useState<"reverse" | "forward">("reverse");
   const [acquirer, setAcquirer] = useState<string>(board[0] ?? TEAM_IDS[0]!);
   const [q, setQ] = useState("");
+  const [posFilter, setPosFilter] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<"impact" | "salary">("impact");
   const [targetId, setTargetId] = useState<string | null>(null);
 
-  // Rostered players (with a salary) other than the acquirer's, for the target search.
+  const capHolds = useMemo(() => Object.fromEntries(TEAM_IDS.map((t) => [t, lg.teamHolds(t)])), [lg]);
+
+  // Target/player search pool — filtered by position, sorted by impact or salary.
   const candidates = useMemo(
     () =>
       lg.contracts
-        .filter((c) => c.teamId !== acquirer && currentSalary(c) > 0 && !c.restriction)
-        .sort((a, b) => currentSalary(b) - currentSalary(a)),
-    [lg.contracts, acquirer],
+        .filter(
+          (c) =>
+            currentSalary(c) > 0 &&
+            !c.restriction &&
+            !c.deadMoney &&
+            (mode === "reverse" || c.teamId !== acquirer),
+        )
+        .filter((c) => !posFilter || positionOf(c.playerId) === posFilter)
+        .sort((a, b) =>
+          sortBy === "salary" ? currentSalary(b) - currentSalary(a) : impactScoreOf(b) - impactScoreOf(a),
+        ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lg.contracts, acquirer, mode, posFilter, sortBy],
   );
-  const list = q
-    ? candidates.filter((c) => c.playerName.toLowerCase().includes(q.toLowerCase())).slice(0, 40)
-    : candidates.slice(0, 40);
+  const list = (q ? candidates.filter((c) => c.playerName.toLowerCase().includes(q.toLowerCase())) : candidates).slice(0, 50);
 
   const target = targetId ? lg.contracts.find((c) => c.playerId === targetId) : null;
-  const packages = useMemo(() => {
-    if (!targetId) return [];
-    const capHolds = Object.fromEntries(TEAM_IDS.map((t) => [t, lg.teamHolds(t)]));
-    return findTradePackages(lg.data, acquirer, targetId, 3, 10, capHolds);
-  }, [lg, acquirer, targetId]);
+  const forwardPackages = useMemo(
+    () => (mode === "forward" && targetId ? findTradePackages(lg.data, acquirer, targetId, 3, 10, capHolds) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mode, lg, acquirer, targetId, capHolds],
+  );
+  const reverseOffers = useMemo(
+    () => (mode === "reverse" && targetId ? findOffersForPlayer(lg.data, targetId, 3, capHolds) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mode, lg, targetId, capHolds],
+  );
+
+  const playerRow = (playerId: string, name: string, salary: number) => (
+    <div key={playerId} className="flex items-center justify-between gap-2 text-sm">
+      <span className="flex min-w-0 items-center gap-1.5">
+        <ImpactPill c={lg.contracts.find((x) => x.playerId === playerId)} />
+        <PosBadge playerId={playerId} />
+        <span className="truncate">{name}</span>
+      </span>
+      <span className="tabular text-xs text-[var(--muted)]">{fmtM(salary)}</span>
+    </div>
+  );
+
+  const packageCard = (pkg: TradePackage & { valueRatio?: number }, i: number, showAcquirer: boolean) => (
+    <div key={i} className="rounded-md border border-[var(--border)] bg-[var(--panel-2)] p-2.5">
+      {showAcquirer && (
+        <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold">
+          <TeamLogo id={pkg.acquirer} size={16} /> {teamMeta(pkg.acquirer).name} offers
+          {pkg.valueRatio != null && (
+            <span className="ml-auto tabular text-[10px] font-normal text-[var(--muted)]">
+              {Math.round(pkg.valueRatio * 100)}%{pkg.valueRatio >= 1.15 ? " · overpay" : pkg.valueRatio <= 0.85 ? " · light" : " · fair"}
+            </span>
+          )}
+        </div>
+      )}
+      <div className="mb-1.5 space-y-1">
+        {pkg.players.map((p) => playerRow(p.playerId, p.playerName, p.salary))}
+        {pkg.players.length === 0 && (
+          <div className="text-xs text-[var(--muted)]">
+            No salary needed — <Term k="cap_room" className="underline decoration-dotted underline-offset-2">absorbed into cap room</Term>
+          </div>
+        )}
+        {pkg.sweeteners.length > 0 && (
+          <div className="mt-1 border-t border-dashed border-[var(--border)] pt-1">
+            <div className="label !text-[9px]">{teamMeta(pkg.seller).name} also sends</div>
+            {pkg.sweeteners.map((p) => playerRow(p.playerId, p.playerName, p.salary))}
+          </div>
+        )}
+      </div>
+      <div className="flex items-center justify-between border-t border-[var(--border)] pt-1.5 text-[11px] text-[var(--muted)]">
+        <span className="tabular">out {fmtM(pkg.outSalary)} · in {fmtM(pkg.inSalary)} · value {pkg.valueGiven}</span>
+        <button
+          onClick={() => onLoad(pkg.acquirer, pkg.seller, targetId!, pkg.players.map((p) => p.playerId), pkg.sweeteners.map((p) => p.playerId))}
+          className="rounded border border-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
+        >
+          Load into board
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
@@ -2104,18 +2173,30 @@ function TradeFinderDrawer({
         <button onClick={onClose} className="text-[var(--muted)] hover:text-[var(--text)]">✕</button>
       </div>
 
-      <div className="border-b border-[var(--border)] p-3">
-        <label className="mb-1 block text-[10px] uppercase tracking-wide text-[var(--muted)]">Acquiring team</label>
-        <select
-          value={acquirer}
-          onChange={(e) => { setAcquirer(e.target.value); setTargetId(null); }}
-          className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm"
-        >
-          {[...TEAM_IDS].sort(byNickname).map((t) => (
-            <option key={t} value={t}>{teamMeta(t).name}</option>
-          ))}
-        </select>
+      <div className="flex gap-1 border-b border-[var(--border)] p-3">
+        {([["reverse", "Offers for a player"], ["forward", "Trade for a player"]] as const).map(([m, label]) => (
+          <button
+            key={m}
+            onClick={() => { setMode(m); setTargetId(null); }}
+            className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${mode === m ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
+
+      {mode === "forward" && (
+        <div className="border-b border-[var(--border)] p-3">
+          <label className="mb-1 block text-[10px] uppercase tracking-wide text-[var(--muted)]">Acquiring team</label>
+          <select
+            value={acquirer}
+            onChange={(e) => { setAcquirer(e.target.value); setTargetId(null); }}
+            className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm"
+          >
+            {[...TEAM_IDS].sort(byNickname).map((t) => (<option key={t} value={t}>{teamMeta(t).name}</option>))}
+          </select>
+        </div>
+      )}
 
       {target ? (
         <div className="flex flex-1 flex-col overflow-y-auto">
@@ -2128,63 +2209,51 @@ function TradeFinderDrawer({
             </div>
             <button onClick={() => setTargetId(null)} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">change</button>
           </div>
-          <div className="p-3 text-xs text-[var(--muted)]">
-            {packages.length
-              ? `${packages.length} legal package${packages.length > 1 ? "s" : ""} from ${teamMeta(acquirer).name} (ranked by salary fit, then least value given):`
-              : `No legal ${teamMeta(acquirer).name} package matches ${target.playerName} (try renouncing/adjusting or a different acquirer).`}
-          </div>
-          <div className="flex-1 space-y-2 overflow-y-auto px-3 pb-4">
-            {packages.map((pkg, i) => (
-              <div key={i} className="rounded-md border border-[var(--border)] bg-[var(--panel-2)] p-2.5">
-                <div className="mb-1.5 space-y-1">
-                  {pkg.players.map((p) => (
-                    <div key={p.playerId} className="flex items-center justify-between gap-2 text-sm">
-                      <span className="flex min-w-0 items-center gap-1.5">
-                        <ImpactPill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
-                        <PosBadge playerId={p.playerId} />
-                        <span className="truncate">{p.playerName}</span>
-                      </span>
-                      <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
-                    </div>
-                  ))}
-                  {pkg.players.length === 0 && (
-                    <div className="text-xs text-[var(--muted)]">
-                      No salary needed — <Term k="cap_room" className="underline decoration-dotted underline-offset-2">absorbed into cap room</Term>
-                    </div>
-                  )}
-                  {pkg.sweeteners.length > 0 && (
-                    <div className="mt-1 border-t border-dashed border-[var(--border)] pt-1">
-                      <div className="label !text-[9px]">You also get</div>
-                      {pkg.sweeteners.map((p) => (
-                        <div key={p.playerId} className="flex items-center justify-between gap-2 text-sm">
-                          <span className="flex min-w-0 items-center gap-1.5">
-                            <ImpactPill c={lg.contracts.find((x) => x.playerId === p.playerId)} />
-                            <PosBadge playerId={p.playerId} />
-                            <span className="truncate">{p.playerName}</span>
-                          </span>
-                          <span className="tabular text-xs text-[var(--muted)]">{fmtM(p.salary)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center justify-between border-t border-[var(--border)] pt-1.5 text-[11px] text-[var(--muted)]">
-                  <span className="tabular">out {fmtM(pkg.outSalary)} · in {fmtM(pkg.inSalary)} · value {pkg.valueGiven}</span>
-                  <button
-                    onClick={() => onLoad(acquirer, pkg.seller, target.playerId, pkg.players.map((p) => p.playerId), pkg.sweeteners.map((p) => p.playerId))}
-                    className="rounded border border-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
-                  >
-                    Load into board
-                  </button>
-                </div>
+          {mode === "reverse" ? (
+            <>
+              <div className="p-3 text-xs text-[var(--muted)]">
+                {reverseOffers.length
+                  ? `${reverseOffers.length} legal offer${reverseOffers.length > 1 ? "s" : ""} for ${target.playerName}, best value first — every one is executable:`
+                  : `No legal offer for ${target.playerName} right now (he may be too expensive to match, or restricted).`}
               </div>
-            ))}
-          </div>
+              <div className="flex-1 space-y-2 overflow-y-auto px-3 pb-4">
+                {reverseOffers.map((o, i) => packageCard(o, i, true))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="p-3 text-xs text-[var(--muted)]">
+                {forwardPackages.length
+                  ? `${forwardPackages.length} legal package${forwardPackages.length > 1 ? "s" : ""} from ${teamMeta(acquirer).name} (salary fit, then least value given):`
+                  : `No legal ${teamMeta(acquirer).name} package matches ${target.playerName}.`}
+              </div>
+              <div className="flex-1 space-y-2 overflow-y-auto px-3 pb-4">
+                {forwardPackages.map((pkg, i) => packageCard(pkg, i, false))}
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search a target player…" className="m-3 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
-          <div className="flex-1 overflow-y-auto px-3 pb-4">
+          <div className="flex items-center gap-1.5 px-3 pt-3">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={mode === "reverse" ? "Search any player…" : "Search a target player…"} className="flex-1 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "impact" | "salary")} className="rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-1.5 py-2 text-xs">
+              <option value="impact">Impact</option>
+              <option value="salary">Salary</option>
+            </select>
+          </div>
+          <div className="flex flex-wrap gap-1 px-3 pt-2">
+            {([null, "PG", "SG", "SF", "PF", "C"] as const).map((p) => (
+              <button
+                key={p ?? "all"}
+                onClick={() => setPosFilter(p)}
+                className={`rounded-[4px] border px-2 py-0.5 text-[10px] font-medium ${posFilter === p ? "border-[var(--accent)] text-[var(--accent-ink)]" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
+              >
+                {p ?? "All"}
+              </button>
+            ))}
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 pb-4 pt-2">
             {list.map((c) => (
               <button key={c.playerId} onClick={() => setTargetId(c.playerId)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-2 text-left text-sm hover:brightness-125">
                 <span className="flex min-w-0 items-center gap-2">

@@ -1,5 +1,5 @@
 import { validateTrade, type LeagueData } from "@apron/cba-engine";
-import { C, currentSalary, rosterOf, assetMeterValue } from "./league";
+import { C, TEAM_IDS, currentSalary, rosterOf, assetMeterValue } from "./league";
 
 export interface FinderPlayer {
   playerId: string;
@@ -7,6 +7,8 @@ export interface FinderPlayer {
   salary: number;
 }
 export interface TradePackage {
+  /** Team sending the package to acquire the target. */
+  acquirer: string;
   seller: string;
   players: FinderPlayer[];
   /** Extra seller players that come back WITH the target (to fix the
@@ -101,13 +103,14 @@ export function findTradePackages(
       if (pkg.length > 0 && inSalary > outSalary * 2 + 8_000_000) continue;
       if (!tryTrade(pkg, sweet)) continue;
       out.push({
+        acquirer,
         seller,
         players: pkg.map((c) => toFinder(c, currentSalary(c))),
         sweeteners: sweet.map((c) => toFinder(c, currentSalary(c))),
         outSalary,
         inSalary,
         targetSalary,
-        valueGiven: pkg.reduce((s, c) => s + assetMeterValue(c), 0),
+        valueGiven: Math.round(pkg.reduce((s, c) => s + assetMeterValue(c), 0) * 10) / 10,
       });
       break; // first (smallest) sweetener set that works for this package
     }
@@ -121,4 +124,47 @@ export function findTradePackages(
         (a.players.length + a.sweeteners.length) - (b.players.length + b.sweeteners.length),
     )
     .slice(0, limit);
+}
+
+export interface LeagueOffer extends TradePackage {
+  /** How the package's value compares to the target's (>1 = an overpay). */
+  valueRatio: number;
+}
+
+/**
+ * REVERSE finder: given a player, gather the best legal offer EACH other team
+ * can make to acquire him. For every team we run the forward search, then keep
+ * the package whose outgoing value best matches the target's — a fair offer,
+ * preferring a modest overpay to a lowball — and rank the field by value
+ * offered. Every returned offer has already passed the full CBA (both teams'
+ * salary matching, aprons, aggregation), so any of them can be executed.
+ */
+export function findOffersForPlayer(
+  data: LeagueData,
+  targetId: string,
+  maxPlayers = 3,
+  capHolds: Record<string, number> = {},
+): LeagueOffer[] {
+  const target = data.contracts.find((c) => c.playerId === targetId);
+  if (!target) return [];
+  const seller = target.teamId;
+  const targetValue = assetMeterValue(target);
+  const offers: LeagueOffer[] = [];
+  for (const acquirer of TEAM_IDS) {
+    if (acquirer === seller) continue;
+    const pkgs = findTradePackages(data, acquirer, targetId, maxPlayers, 12, capHolds);
+    if (!pkgs.length) continue;
+    // The fairest package this team can make: value closest to the target's,
+    // with ties (and near-ties) broken toward the slight OVERPAY a seller would
+    // actually accept, then the tighter salary fit.
+    const best = pkgs.reduce((a, b) => {
+      const da = Math.abs(a.valueGiven - targetValue);
+      const db = Math.abs(b.valueGiven - targetValue);
+      if (Math.abs(da - db) > 0.15) return db < da ? b : a;
+      if (Math.abs(a.valueGiven - b.valueGiven) > 0.05) return b.valueGiven > a.valueGiven ? b : a;
+      return Math.abs(a.outSalary - a.inSalary) <= Math.abs(b.outSalary - b.inSalary) ? a : b;
+    });
+    offers.push({ ...best, valueRatio: targetValue > 0 ? best.valueGiven / targetValue : 1 });
+  }
+  return offers.sort((a, b) => b.valueGiven - a.valueGiven);
 }
