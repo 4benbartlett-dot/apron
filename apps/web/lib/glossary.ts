@@ -68,7 +68,7 @@ export const GLOSSARY = {
   },
   ntmle: {
     title: "Non-Taxpayer Mid-Level Exception",
-    body: "The full MLE (9.12% of the cap, up to 4 years) for over-the-cap teams that stay below the first apron. Using more than the taxpayer portion hard-caps the team at the first apron for the rest of the season — and later moves must stay under that ceiling.",
+    body: "The full MLE (9.12% of the cap, up to 4 years) for over-the-cap teams that stay below the first apron. Spending past the taxpayer portion — in dollars or years — hard-caps the team at the first apron for the rest of the season, and later moves must stay under that ceiling.",
     cite: "2023 CBA · Art. VII §6(e)",
   },
   tpmle: {

@@ -113,7 +113,7 @@ export default function TeamWarRoom() {
           ))}
         </ul>
         <div className="mt-3">
-          <Thermometer salary={committed + holds} c={C} />
+          <Thermometer salary={committed} holds={holds} c={C} />
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
           {power.mechanisms.map((m) => (
