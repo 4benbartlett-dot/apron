@@ -62,6 +62,22 @@ describe("validateSigning picks the right exception", () => {
     expect(v.hardCap).toBe(null);
   });
 
+  it("keeps the NT-MLE + BAE when FA holds (not signed salary) push a team over the cap", () => {
+    // Regression: signed salary $160M is UNDER the $165M cap, but $20M of kept
+    // FA holds push cap salary over it. Apron salary (holds excluded) stays
+    // below the cap, so tier reads "below_cap" — yet this is an over-the-cap
+    // NON-taxpayer, entitled to the full Non-Taxpayer MLE + BAE, not just the
+    // minimum. The engine used to offer only the minimum here.
+    const opts = { apronSalary: 160_000_000 };
+    const ids = spendingPower(180_000_000, C, opts).mechanisms.map((m) => m.id);
+    expect(ids).toContain("ntmle");
+    expect(ids).toContain("bae");
+    const v = validateSigning(180_000_000, 10_000_000, C, opts);
+    expect(v.legal).toBe(true);
+    expect(v.mechanism?.id).toBe("ntmle");
+    expect(v.hardCap).toBe("first_apron");
+  });
+
   it("Non-Tax MLE cannot be used if it would breach the first-apron hard cap", () => {
     // $205M team is only ~$4M below the first apron.
     const v = validateSigning(205_000_000, 10_000_000, C);
