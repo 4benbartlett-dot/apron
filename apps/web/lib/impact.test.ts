@@ -124,11 +124,14 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     expect(after).toBeGreaterThan(before);
   });
 
-  it("the seller's loss doesn't depend on where the star is dealt", () => {
-    // Removing a player is a property of the roster he leaves, not the buyer.
+  it("the seller's loss barely depends on where the star is dealt", () => {
+    // Losing a player is mostly a property of the roster he leaves. Under the
+    // zero-sum standings a better-fitting buyer makes the whole league a touch
+    // tougher for everyone (including the seller), so the seller's loss can now
+    // differ by at most a win depending on the destination — no more.
     const a = teamProjection("DEN", moveTo("Nikola Jokić", "UTA"))!.deltaWins;
     const b = teamProjection("DEN", moveTo("Nikola Jokić", "BOS"))!.deltaWins;
-    expect(a).toBe(b);
+    expect(Math.abs(a - b)).toBeLessThanOrEqual(1);
   });
 
   it("a role player is marginal; a star is not", () => {
@@ -154,36 +157,38 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     }
   });
 
-  it("projected wins stay in a plausible NBA range", () => {
+  it("projected wins are bounded 0-82, and real base rosters stay believable", () => {
     for (const t of TEAM_IDS) {
       const p = teamProjection(t, BASE_CONTRACTS);
       if (!p) continue;
-      expect(p.projWins).toBeGreaterThanOrEqual(12);
-      expect(p.projWins).toBeLessThanOrEqual(73);
+      expect(p.projWins).toBeGreaterThanOrEqual(0); // a gutted roster CAN reach 0-82
+      expect(p.projWins).toBeLessThanOrEqual(82);
+      // but with no moves, every real team lands in a believable band
+      expect(p.projWins).toBeGreaterThanOrEqual(10);
+      expect(p.projWins).toBeLessThanOrEqual(75);
     }
   });
 
-  it("model-native standings conserve the NBA's 1,230 total wins", () => {
-    // The model's UNROUNDED win total sits within ~1 of 1,230 (net ratings sum
-    // to ≈0), but each team's wins are rounded to an integer for display, and 30
-    // independent roundings vary the sum by a few (it steps by 2 as a borderline
-    // team crosses .5). ±3 stays an imperceptible slack while still catching any
-    // real aggregate drift.
+  it("model-native standings sum to EXACTLY 1,230 wins", () => {
+    // Leaguewide apportionment rounds real-valued wins to integers that add up
+    // to exactly 1,230 — no half-wins, no ties, the standings always balance.
     const wins = TEAM_IDS.reduce((sum, t) => sum + (teamProjection(t, BASE_CONTRACTS)?.baseWins ?? 0), 0);
-    expect(Math.abs(wins - 1230)).toBeLessThanOrEqual(3);
+    expect(wins).toBe(1230);
   });
 
-  it("keeps the total after moves — wins are zero-sum (re-centered)", () => {
-    // Moving one star between teams must REDISTRIBUTE wins, not manufacture or
-    // destroy them: the leaguewide total holds (a stronger team is offset by a
-    // weaker field), as long as no team is pushed into the 12/73 clamp.
+  it("stays EXACTLY 1,230 after moves — improving a team takes wins from the field", () => {
+    // Moving one star REDISTRIBUTES wins, never manufactures or destroys them:
+    // the total holds at exactly 1,230 and the leaguewide delta sums to 0.
     const sumWins = (c: typeof BASE_CONTRACTS) =>
       TEAM_IDS.reduce((s, t) => s + (teamProjection(t, c)?.projWins ?? 0), 0);
-    const base = sumWins(BASE_CONTRACTS);
+    const sumDelta = (c: typeof BASE_CONTRACTS) =>
+      TEAM_IDS.reduce((s, t) => s + (teamProjection(t, c)?.deltaWins ?? 0), 0);
     const live = BASE_CONTRACTS.map((c) =>
       /Joki|Jokić/.test(c.playerName) && !c.deadMoney ? { ...c, teamId: "WAS" } : c,
     );
-    expect(Math.abs(sumWins(live) - base)).toBeLessThanOrEqual(3);
+    expect(sumWins(BASE_CONTRACTS)).toBe(1230);
+    expect(sumWins(live)).toBe(1230); // total unchanged by the move
+    expect(sumDelta(live)).toBe(0); // exactly zero-sum: every win one team gains, another loses
     expect(teamProjection("WAS", live)!.deltaWins).toBeGreaterThan(0); // gained the star
     expect(teamProjection("DEN", live)!.deltaWins).toBeLessThan(0); // lost the star
   });
