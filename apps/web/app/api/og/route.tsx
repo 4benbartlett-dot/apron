@@ -87,11 +87,12 @@ interface Payload {
 
 // Natural (tight) height for the feed card, so it matches the modal's grow.
 function feedHeight(p: Payload): number {
-  // Deliberately errs generous: a small bottom gap beats clipping the footer.
-  let h = 36 + 40 + 76 + 78 + 32 + 52 + 74; // padT+padB, masthead, logos row, checks label, seal, bar
-  for (const t of p.tm) h += 56 + Math.max(t.g.length, t.s.length, 1) * 40 + 38 + 14;
-  for (const c of p.ck) h += 30 * Math.max(1, Math.ceil(c[1].length / 86)) + 16;
-  if (p.fx) h += 30 * Math.max(1, Math.ceil(p.fx.length / 92)) + 30;
+  // Estimated because Satori needs a fixed canvas; erring slightly generous so
+  // the footer never clips, tuned so the common card sits close-to-tight.
+  let h = 34 + 36 + 74 + 74 + 28 + 48 + 78; // padT+padB, masthead, logos row, checks label, seal, bar
+  for (const t of p.tm) h += 52 + Math.max(t.g.length, t.s.length, 1) * 40 + 34 + 14;
+  for (const c of p.ck) h += 28 * Math.max(1, Math.ceil(c[1].length / 88)) + 14;
+  if (p.fx) h += 28 * Math.max(1, Math.ceil(p.fx.length / 92)) + 42;
   return Math.round(h);
 }
 
