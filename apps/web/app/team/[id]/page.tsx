@@ -191,6 +191,21 @@ export default function TeamWarRoom() {
           <div className="mb-2 text-sm font-semibold">Draft capital</div>
           {(() => {
             const rights = PICK_RIGHTS[id];
+            // Layer the user's staged pick/swap trades on top of the real-world
+            // ledger so draft capital tracks their moves: a pick id is
+            // ORIGIN|YEAR|ROUND, and a trade move records where it lands (`to`).
+            const sessionPicks = lg.moves.flatMap((m) => (m.kind === "trade" ? m.picks ?? [] : []));
+            const sessionSwaps = lg.moves.flatMap((m) => (m.kind === "trade" ? m.pickSwaps ?? [] : []));
+            const sentOwnFirst = new Map<number, string>(); // own 1st traded out this session → new owner
+            const acquired: { origin: string; year: number; round: number }[] = [];
+            for (const p of sessionPicks) {
+              const [origin, yr, rd] = p.id.split("|");
+              const year = Number(yr);
+              const round = rd === "1" ? 1 : 2;
+              if (p.to === id) acquired.push({ origin: origin ?? "?", year, round });
+              else if (origin === id && round === 1) sentOwnFirst.set(year, p.to);
+            }
+            const swapsForTeam = sessionSwaps.filter((s) => s.favoredTo === id || s.otherTeam === id);
             // Group obligations by year — a team can have >1 leg on the same
             // year (e.g. PHI 2028 is both owed-to-BOS and protected-to-BKN), and
             // a Map keyed by year would silently drop all but the last.
@@ -219,9 +234,13 @@ export default function TeamWarRoom() {
                 <div className="mb-3 flex flex-wrap gap-1">
                   {ownYears.flatMap((y) => {
                     const legs = oblByYear.get(y) ?? [];
-                    if (!legs.length)
+                    const chips = legs.map((o, j) => oblChip(y, o, `own${y}-${j}`));
+                    const sent = sentOwnFirst.get(y);
+                    if (sent)
+                      chips.push(chip("var(--tier-second_apron)", `’${y - 2000} → ${sent}`, `${y} first-rounder — traded to ${sent} in your staged moves`, `own${y}-sess`));
+                    if (!chips.length)
                       return [chip("var(--tier-below_cap)", `’${y - 2000} kept`, `${y} first-rounder — kept, clean`, `own${y}`)];
-                    return legs.map((o, j) => oblChip(y, o, `own${y}-${j}`));
+                    return chips;
                   })}
                 </div>
                 <div className="label mb-1 !text-[10px]">Incoming picks &amp; swap rights</div>
@@ -231,7 +250,13 @@ export default function TeamWarRoom() {
                     const color = h.kind === "swap_right" ? "var(--tier-taxpayer)" : h.kind === "conditional" ? "var(--muted)" : "var(--tier-below_cap)";
                     return chip(color, `’${h.year - 2000} ${h.round === 1 ? "1st" : "2nd"} · ${kindTxt}`, h.note, `h${i}`);
                   })}
-                  {!rights?.holdings.filter((h) => !h.overlapsPrior).length && <span className="text-[10px] text-[var(--muted)]">None</span>}
+                  {acquired.map((p, i) =>
+                    chip("var(--tier-below_cap)", `’${p.year - 2000} ${p.round === 1 ? "1st" : "2nd"} · from ${p.origin}`, `Acquired from ${p.origin} in your staged moves`, `sess-in${i}`),
+                  )}
+                  {swapsForTeam.map((s, i) =>
+                    chip("var(--tier-taxpayer)", `’${s.year - 2000} ${s.round === 1 ? "1st" : "2nd"} swap w/ ${s.favoredTo === id ? s.otherTeam : s.favoredTo}`, `Swap right from your staged moves (${s.favoredTo === id ? "you take the more favorable pick" : "counterparty takes the more favorable pick"})`, `sess-swap${i}`),
+                  )}
+                  {!rights?.holdings.filter((h) => !h.overlapsPrior).length && !acquired.length && !swapsForTeam.length && <span className="text-[10px] text-[var(--muted)]">None</span>}
                 </div>
                 <details className="text-[11px]">
                   <summary className="cursor-pointer text-[var(--muted)]">Full ledger (RealGM) — {picks.incoming.length} in, {picks.outgoing.length} out</summary>
