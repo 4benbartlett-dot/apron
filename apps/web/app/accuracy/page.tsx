@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { DATA_AS_OF } from "@apron/data";
+import { C } from "@/lib/league";
+import { fmtFull } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "NBA CBA Rules Coverage & Accuracy | Over the Apron",
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 // collapsible "fine print" at the bottom for anyone who wants to check the math.
 const COVERED = [
   "Every 2026-27 money line — the cap, luxury tax, both aprons, the mid-level and bi-annual exceptions, minimum salaries, and the max tiers — set from the CBA's own percentage-of-cap formulas, not typed in by hand.",
-  "Trade matching with the real expanded math — including the middle band that grows with the cap to $9,095,709 for 2026-27, not the flat $7.5M from 2023-24.",
+  `Trade matching with the real expanded math — including the middle band that grows with the cap to ${fmtFull(C.tradeMatch.escalatedFlatAddOn)} for 2026-27, not the flat $7.5M from 2023-24.`,
   "What each apron actually costs you: over the first apron you lose expanded matching and can't bring a player in by sign-and-trade; over the second you also can't combine salaries or send cash, and a future first-rounder can be frozen.",
   "Every move that hard-caps a team, enforced for the rest of the season. Using the mid-level or bi-annual, taking a player by sign-and-trade, or taking back extra salary caps you at the first apron; the taxpayer mid-level, combining salaries in a trade, or sending cash caps you at the second.",
   "Traded-player exceptions — the real league-wide ledger, plus any your own lopsided trades create — applied for you to absorb an incoming salary.",
@@ -24,18 +26,20 @@ const COVERED = [
 ];
 
 const APPROXIMATE = [
-  "Apron Value — the 0-100 number on every player — is a rough read on impact from box scores and lineup data. It leans on BPM and carries an uncertainty band; it isn't trying to out-do the big public metrics like EPM or DARKO.",
+  "Apron Value — the 0–100 number on every player — is a rough read on impact from box scores and lineup data. It leans on BPM and carries an uncertainty band; it isn't trying to outdo the big public metrics like EPM or DARKO.",
   "A team's projected record is a read on the roster as it stands today — not a full-season forecast. There's no coaching, chemistry, or playoff translation baked in.",
   "A rookie has no NBA minutes yet, so his value, fit, and playing time are projected from draft slot, college production, and scouting consensus — a read on his rookie year, not a ceiling. Most rookies grade out below average, top picks near it.",
-  "A handful of recently-retired or overseas veterans (Dwight Howard, Serge Ibaka, and the like) are on the free-agent board as minimum-deal flyers, valued for the realistic drop since their last NBA season — a 40-year-old Dwight reads as a deep-bench center, not the DPOY version.",
+  "A handful of recently retired or overseas veterans (Dwight Howard, Serge Ibaka, and the like) are on the free-agent board as minimum-deal flyers, valued for the realistic drop since their last NBA season — a 40-year-old Dwight reads as a deep-bench center, not the DPOY version.",
   "Positions come from where a player actually logged his minutes; a real second position is any spot he played at least ~12% of the time. Players without enough tracked minutes fall back to their listed position.",
   "Draft-pick trade value is projected from each team's strength, discounted for risk and how far out the pick is — the fairness meter just adds it up per side.",
   "Some traded-player-exception details are simplified: one exception per team per trade, whole players only.",
+  "Any use of the non-taxpayer mid-level hard-caps the team at the first apron here; the real rule only applies that cap when a team spends past the taxpayer portion.",
+  "A matched offer sheet freezes the player from trades outright for a year here; the real rule is no trade without the player's consent — and never to the team that made the offer.",
   "A few fine adjustments to a team's apron salary need per-player bonus data that public feeds don't carry. When it isn't public, those small adjustments are left out rather than guessed.",
 ];
 
 const NOT_INCLUDED = [
-  "Pick swaps and conditional incoming picks. An owed pick is locked and counts against the Stepien rule, but a swap doesn't resolve to a final pick, and a conditional first you'd acquire isn't counted as coverage.",
+  "Pick-swap outcomes and conditional incoming picks. You can trade swap rights on the board, but a swap never resolves to a final pick slot, and a conditional first you'd acquire isn't counted as Stepien coverage.",
   "Incentive bonuses. Public contracts don't reliably say which bonuses count as likely or unlikely, so bonus money stays out of the live totals.",
   "Signing second-round-pick exceptions and two-way contracts — you can't do those from the offseason drawer yet.",
   "Designated “supermax” extensions — you can't build one from the board yet.",
@@ -50,7 +54,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     group: "Money lines & exceptions",
     items: [
       "Exception and tier amounts follow the CBA's percentage-of-cap formulas: bi-annual 3.32%, non-taxpayer mid-level 9.12%, room mid-level 5.678%, minimum team salary 90% of the cap, max tiers at 25/30/35% by years of service (Art. VII §6, Art. II §7).",
-      "Minimum salaries and the first-round rookie scale are the official 2026-27 figures (rookies at the standard 120% of scale, off the $164,961,000 cap).",
+      `Minimum salaries and the first-round rookie scale are the official 2026-27 figures (rookies at the standard 120% of scale, off the ${fmtFull(C.salaryCap)} cap).`,
       "One-year veteran minimums (3+ years of service) count at the two-year minimum on the cap, tax, aprons, and trade matching; the league reimburses the difference (Art. VII §3(f), Art. IV §6(h)).",
       "Exceptions are gated by apron tier: cap room, non-taxpayer mid-level, taxpayer mid-level, room mid-level, bi-annual, minimum, and Bird.",
     ],
@@ -58,7 +62,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
   {
     group: "Trades & matching",
     items: [
-      "The expanded matching formula, greater of (lesser of (200% + $250k, outgoing + $9,095,709), 125% + $250k), for teams below the aprons; strict 100% at or above either apron.",
+      `The expanded matching formula, greater of (lesser of (200% + $250k, outgoing + ${fmtFull(C.tradeMatch.escalatedFlatAddOn)}), 125% + $250k), for teams below the aprons; strict 100% at or above either apron.`,
       "The $250k matching allowance disappears once a team's apron salary would clear the first apron after the trade (Art. VII §6(j)(3)).",
       "Base-year compensation: re-sign your own free agent to a raise over 20%, then trade him, and his outgoing matching value drops to the greater of half the new salary or the old one — while your cap sheet still loses the full amount.",
       "Poison-pill rookie extensions use the average of current and extension salaries for the acquiring team's matching, per Art. VII §8(g).",
@@ -81,9 +85,9 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     items: [
       "Bird, Early-Bird, and Non-Bird re-signing ceilings (175% / 120%-of-prior-or-minimum), using each free agent's real Bird status and restricted/unrestricted designation where it's sourced.",
       "Cap holds by Bird status (Non-Bird 120%, Early-Bird 130%, Bird 150–190%, rookie-scale restricted 250/300%). Renounce a hold to open space; keep it and it converts to salary on re-sign with no double-count; renouncing forfeits Bird rights.",
-      "Veteran extensions and extend-and-trades at their first-year ceilings (140% / 120% of the prior or estimated-average salary), with 8% raises on added years.",
+      "Veteran extensions at their first-year ceiling (140% of the prior or estimated-average salary) with 8% raises on added years; extend-and-trades at the tighter 120% ceiling with 5% raises.",
       "Renegotiations (under-cap teams only, raise limited to cap room) and the stretch provision (spread over 2N+1 years, with the 15%-of-cap guardrail).",
-      "Restricted free agency: the Gilbert Arenas first-year cap for 1-2 year players, and a real match flow where the original team can match your offer sheet and keep the player at your terms.",
+      "Restricted free agency: the Gilbert Arenas first-year cap for 1–2 year players, and a real match flow where the original team can match your offer sheet and keep the player at your terms.",
     ],
   },
   {
@@ -137,7 +141,7 @@ export default function AccuracyPage() {
   return (
     <div>
       <div className="mb-5">
-        <h1 className="text-2xl font-bold tracking-tight">Rules Coverage &amp; Accuracy</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Rules coverage &amp; accuracy</h1>
         <p className="mt-1 max-w-2xl text-sm text-[var(--muted)]">
           What Over the Apron gets right about the 2023 CBA, where the public data forces an estimate, and what isn&rsquo;t in the board yet. Rosters and transactions are current to {DATA_AS_OF}.
         </p>

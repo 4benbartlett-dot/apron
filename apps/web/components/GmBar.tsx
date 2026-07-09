@@ -136,7 +136,7 @@ export function GmBar() {
           onClick={(e) => {
             e.stopPropagation();
             resetMoves();
-            leagueToast("Filed", "Front-office memory wiped — the next GM inherits a clean ledger.");
+            leagueToast("Struck", "Front-office memory wiped — the next GM inherits a clean ledger.");
           }}
           className="shrink-0 rounded-md border border-[var(--border)] px-3 py-1 text-xs font-semibold text-[var(--tier-second_apron)] hover:bg-[var(--panel-2)]"
         >

@@ -9,7 +9,7 @@ import { track } from "@/lib/analytics";
 const KIND: Record<Move["kind"], { label: string; color: string }> = {
   trade: { label: "Trade", color: "var(--accent)" },
   sign: { label: "Signing", color: "var(--tier-below_cap)" },
-  sign_trade: { label: "Sign & Trade", color: "var(--accent)" },
+  sign_trade: { label: "S&T", color: "var(--accent)" },
   renounce: { label: "Renounce", color: "var(--muted)" },
   extend: { label: "Extension", color: "var(--tier-below_cap)" },
   waive: { label: "Waive", color: "var(--tier-second_apron)" },

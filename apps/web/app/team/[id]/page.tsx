@@ -103,7 +103,7 @@ export default function TeamWarRoom() {
       </div>
 
       <div className="panel mb-4 p-4">
-        <div className="mb-2 text-sm font-semibold">What {meta.name} can do this offseason</div>
+        <div className="mb-2 text-sm font-semibold">What the {meta.name} can do this offseason</div>
         <ul className="space-y-1.5 text-sm">
           {canDo.map((c, i) => (
             <li key={i} className="flex gap-2">

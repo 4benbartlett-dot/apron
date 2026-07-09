@@ -664,7 +664,7 @@ export function ShareCardModal({
             {copied ? "Copied ✓" : "Copy link"}
           </button>
           <button onClick={downloadImage} disabled={downloading} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)] disabled:opacity-60">
-            {downloading ? "Rendering…" : canNativeShare ? "Save image" : "Download image"}
+            {downloading ? "Printing…" : canNativeShare ? "Save image" : "Download image"}
           </button>
           {canCopyImage && (
             <button onClick={copyImage} className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]" title="Copy the card itself — paste into any app">
@@ -672,7 +672,7 @@ export function ShareCardModal({
             </button>
           )}
           <a href={tweetHref} target="_blank" rel="noopener noreferrer" onClick={() => track("share_tweet")} className="rounded-md bg-[var(--text)] px-3 py-1.5 text-xs font-semibold text-[var(--bg)] hover:opacity-90">
-            Post on 𝕏
+            Post on X
           </a>
           {canNativeShare && (
             <button

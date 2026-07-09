@@ -301,7 +301,7 @@ export default function GuidePage() {
             The part no trade machine does: your offseason is one continuous
             timeline. Use the full MLE today and the{" "}
             <Term k="hard_cap" underline className="text-[var(--text)]">hard cap</Term>{" "}
-            it triggers will block a perfectly-matched trade next week. Each
+            it triggers will block a perfectly matched trade next week. Each
             verdict is judged against the moves you&rsquo;ve already made — your
             move list lives in the bar at the bottom, undo-able move by move.
           </p>

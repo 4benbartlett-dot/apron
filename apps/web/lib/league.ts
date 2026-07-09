@@ -129,7 +129,7 @@ export const YEAR = "2026-27";
 export const C: LeagueConstants = SEASON_2026_27;
 
 const FA_RESTRICTION =
-  "signed as a free agent this offseason (not trade-eligible until Dec 15)";
+  "signed as a free agent this offseason (not trade-eligible until Dec. 15)";
 
 /** Seasons shown in the multi-year cap sheet. */
 export const CAP_SHEET_YEARS = ["2026-27", "2027-28", "2028-29", "2029-30"] as const;
@@ -1679,11 +1679,11 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
             ...copy[idx]!,
             bycPriorSalary: prior,
             // CBA Art. VII §8(d)(iii): this exact re-signing (over-cap Bird at
-            // >120%) is frozen until Jan 15, not Dec 15.
+            // >120%) is frozen until Jan. 15, not Dec. 15.
             restriction:
               m.restricted === false
                 ? undefined
-                : "re-signed over the cap at a >20% raise (not trade-eligible until Jan 15)",
+                : "re-signed over the cap at a >20% raise (not trade-eligible until Jan. 15)",
           };
         }
       }
@@ -1715,7 +1715,7 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
       teamId: m.toTeam,
       noAggregate: true,
       // A sign-and-trade acquisition is a newly-signed free agent — trade-
-      // restricted (can't be re-traded until Dec 15), same as a plain signing.
+      // restricted (can't be re-traded until Dec. 15), same as a plain signing.
       restriction: FA_RESTRICTION,
       signedUsing: "Sign-and-trade",
     };

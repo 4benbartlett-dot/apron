@@ -10,7 +10,7 @@ export default function DeadlinesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Deadlines & Eligibility</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Deadlines & eligibility</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Upcoming option/guarantee decisions and extension-eligible players —
           compiled from public reporting. Real-world calendar; your sim moves

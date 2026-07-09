@@ -4,13 +4,20 @@ import Link from "next/link";
 import { useState } from "react";
 import { capSheet as engCapSheet } from "@apron/cba-engine";
 import { useLeague, useMoves } from "@/lib/store";
-import { TEAMS, C, teamMeta, BASE_CONTRACTS, leagueData } from "@/lib/league";
+import { TEAMS, C, teamMeta, BASE_CONTRACTS, leagueData, holdsByTeam, freeAgentsOf, feedStateOf } from "@/lib/league";
 import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
 
 const BASE_DATA = leagueData(BASE_CONTRACTS);
+// Holds for the "league as of today" view: real-world only — feed-forced
+// renounces are gone in the real world, but session renounces are not.
+const BASE_HOLDS = holdsByTeam(
+  freeAgentsOf(BASE_CONTRACTS).filter(
+    (f) => !feedStateOf(f.priorTeam).forcedRenounced.has(f.playerName.toLowerCase()),
+  ),
+);
 
 export default function LeaguePage() {
   const lg = useLeague();
@@ -28,7 +35,7 @@ export default function LeaguePage() {
     <div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">League Cap Board</h1>
+          <h1 className="text-2xl font-bold tracking-tight">League cap board</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
             All 30 teams by 2026-27 committed salary, against the four CBA thresholds.
           </p>
@@ -59,7 +66,7 @@ export default function LeaguePage() {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {sheets.map((s) => {
           const meta = teamMeta(s.teamId);
-          const holds = lg.teamHolds(s.teamId);
+          const holds = applyMine ? lg.teamHolds(s.teamId) : BASE_HOLDS[s.teamId] ?? 0;
           const spaceAfterHolds = C.salaryCap - s.salary - holds;
           const overUnder =
             spaceAfterHolds > 0
@@ -86,7 +93,10 @@ export default function LeaguePage() {
               <div className="mt-3 mb-2 flex items-baseline gap-2">
                 <span className="tabular text-xl font-bold">{fmtFull(s.salary)}</span>
               </div>
-              <Thermometer salary={s.salary} c={C} />
+              {/* Cap charge = salary + kept holds — the SAME bar the board and
+                  team page draw, so the three surfaces tell one story. The
+                  tier badge stays holds-excluded (apron status), as everywhere. */}
+              <Thermometer salary={s.salary + holds} c={C} />
               <div className="mt-2 flex items-center justify-between text-[11px] text-[var(--muted)]">
                 <span>{overUnder}</span>
                 {holds > 0 && <span>+{fmtM(holds)} FA holds</span>}

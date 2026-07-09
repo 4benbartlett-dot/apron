@@ -142,22 +142,22 @@ export const SEO_TERMS: SeoTerm[] = [
     key: "matching",
     question: "How does NBA salary matching work?",
     metaTitle: "NBA Salary Matching Rules 2026-27 — Trade Math | Over the Apron",
-    metaDescription: `The 2026-27 trade-matching bands: 200% + $250k, outgoing + $9,095,709, 125% + $250k, and dollar-for-dollar apron matching.`,
+    metaDescription: `The 2026-27 trade-matching bands: 200% + $250k, outgoing + ${fmtFull(C.tradeMatch.escalatedFlatAddOn)}, 125% + $250k, and dollar-for-dollar apron matching.`,
     sections: [
       {
         heading: "The 2026-27 matching bands",
         rows: [
           { label: "Small salaries (expanded)", value: "200% of outgoing + $250,000" },
-          { label: "Mid salaries (expanded)", value: "Outgoing + $9,095,709" },
+          { label: "Mid salaries (expanded)", value: `Outgoing + ${fmtFull(C.tradeMatch.escalatedFlatAddOn)}` },
           { label: "Large salaries (expanded)", value: "125% of outgoing + $250,000" },
           { label: "First-apron teams", value: "100% of outgoing — dollar-for-dollar" },
           { label: "Second-apron teams", value: "100% of outgoing (no aggregation, no cash)" },
         ],
       },
       {
-        heading: "Why $9,095,709?",
+        heading: `Why ${fmtFull(C.tradeMatch.escalatedFlatAddOn)}?`,
         body: [
-          `The CBA wrote the middle band as outgoing + $7.5M in 2023 dollars, escalating with cap growth (Art. VII §6(j)). With the 2026-27 cap at ${fmtFull(C.salaryCap)}, that comes to $9,095,709.`,
+          `The CBA wrote the middle band as outgoing + $7.5M in 2023 dollars, escalating with cap growth (Art. VII §6(j)). With the 2026-27 cap at ${fmtFull(C.salaryCap)}, that comes to ${fmtFull(C.tradeMatch.escalatedFlatAddOn)}.`,
         ],
       },
     ],
@@ -168,7 +168,7 @@ export const SEO_TERMS: SeoTerm[] = [
       },
       {
         q: "What is aggregation?",
-        a: "Combining multiple outgoing contracts into one matching calculation. Second-apron teams can't do it at all, and recently-acquired players sometimes can't be aggregated for two months.",
+        a: "Combining multiple outgoing contracts into one matching calculation. Second-apron teams can't do it at all, and recently acquired players sometimes can't be aggregated for two months.",
       },
     ],
     related: ["traded-player-exception", "first-apron", "second-apron", "hard-cap"],
@@ -322,7 +322,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "The three tiers",
         rows: [
           { label: "Full Bird (3 seasons)", value: "Up to the max, 8% raises, 5 years" },
-          { label: "Early Bird (2 seasons)", value: "175% of prior salary or 105% of average salary, 4 years min 2" },
+          { label: "Early Bird (2 seasons)", value: "175% of prior salary or 105% of average salary, 2–4 years" },
           { label: "Non-Bird (1 season)", value: "120% of prior salary, 4 years" },
         ],
       },
@@ -502,12 +502,27 @@ export function teamSeo(id: string): TeamSeo {
   const fas = freeAgentsOf(BASE_CONTRACTS).filter(
     (f) => f.priorTeam === id && !feed.forcedRenounced.has(f.playerName.toLowerCase()),
   );
-  const holds = holdsByTeam(freeAgentsOf(BASE_CONTRACTS))[id] ?? 0;
+  // Holds must skip feed-forced renounces (same rule as the live board) —
+  // unfiltered holds sank BKN's real cap room and inflated LAL's by ~$78M.
+  const holds = fas.reduce((n, f) => n + f.hold, 0);
   const power = spendingPower(committed + holds, C, {
     apronSalary: committed,
     roomTeam: feed.roomTeam,
     consumed: consumedFor([], id),
   });
+  // Clamp every advertised amount by the team's live hard cap and by the
+  // apron the mechanism itself would freeze — the exact clamp the board and
+  // the sign drawer apply, so no SEO page can advertise money the engine
+  // would refuse (e.g. "NT-MLE up to $15.0M" for a team $10M under its cap).
+  const capLine = (m: { maxSalary: number; hardCap: "first_apron" | "second_apron" | null }) =>
+    Math.max(
+      0,
+      Math.min(
+        m.maxSalary,
+        Number.isFinite(feed.hardCap) ? feed.hardCap - committed : Infinity,
+        m.hardCap === "first_apron" ? C.firstApron - committed : m.hardCap === "second_apron" ? C.secondApron - committed : Infinity,
+      ),
+    );
   const tier = classifyTier(committed, C);
   const tpes = (tpeLedger([])[id] ?? []).map((s) => ({ label: s.label, amount: s.amount }));
   const topContracts = BASE_CONTRACTS.filter((c) => c.teamId === id && !c.deadMoney)
@@ -531,7 +546,9 @@ export function teamSeo(id: string): TeamSeo {
       a: feed.roomTeam
         ? `No — the ${nickname} operated as a cap-room team this July, which forfeits the non-taxpayer MLE and bi-annual exception for the season.${power.mechanisms.some((m) => m.id === "room_mle") ? " They keep the smaller Room MLE." : " Their Room MLE is already spent, leaving minimum contracts only."}`
         : mle
-          ? `Yes — ${fmtM(mle.maxSalary)} of the non-taxpayer MLE remains${capped ? `, but spending it is what hard-capped them (${feed.hardCapSource})` : ", though using it hard-caps them at the first apron"}.`
+          ? capLine(mle) > 0
+            ? `Yes — ${fmtM(capLine(mle))} of the non-taxpayer MLE fits under their ceiling${capped ? ` (hard-capped by ${feed.hardCapSource})` : ", though using it hard-caps them at the first apron"}.`
+            : `On paper — but their hard cap (${fmtM(feed.hardCap)}, from ${feed.hardCapSource ?? "their July moves"}) leaves no room to actually spend it.`
           : `Not the full one — at ${fmtM(committed)} in salary they're limited to ${overFirst ? "the taxpayer MLE at most" : "whatever portion survives their apron position"}.`,
     },
     {
@@ -564,7 +581,7 @@ export function teamSeo(id: string): TeamSeo {
     hardCap: feed.hardCap,
     hardCapSource: feed.hardCapSource,
     roomTeam: feed.roomTeam,
-    mechanisms: power.mechanisms.map((m) => ({ label: m.label, maxSalary: m.maxSalary })),
+    mechanisms: power.mechanisms.map((m) => ({ label: m.label, maxSalary: capLine(m) })),
     tpes,
     topContracts,
     holds,

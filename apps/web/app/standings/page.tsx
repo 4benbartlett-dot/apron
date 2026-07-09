@@ -79,7 +79,7 @@ export default function StandingsPage() {
       </div>
 
       <p className="mt-3 text-[11px] text-[var(--muted)]">
-        The line after #6 marks the play-in cut (top 6 clinch, 7&ndash;10 play in). Records come from projected net rating (talent + fit) mapped to wins and calibrated to actual 2025-26 net ratings. Capped to a plausible NBA range.
+        The line after #6 marks the play-in cut (top 6 clinch, 7&ndash;10 play in). Records come from projected net rating (talent + fit) mapped to wins and calibrated to actual 2025-26 net ratings. Wins are zero-sum: the league always totals exactly 1,230, so improving your team pulls wins from everyone else&rsquo;s column.
       </p>
     </div>
   );

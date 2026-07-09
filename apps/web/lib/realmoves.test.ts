@@ -281,7 +281,7 @@ describe("extension vs. FA-signing trade eligibility (CBA §8(d)/(f))", () => {
     expect(find("Kristaps Porziņģis").restriction).toBeUndefined();
   });
   it("a true free-agent signing carries the Dec-15 freeze (Trae Young)", () => {
-    expect(find("Trae Young").restriction).toMatch(/Dec 15/);
+    expect(find("Trae Young").restriction).toMatch(/Dec\. 15/);
   });
 });
 
