@@ -1046,18 +1046,22 @@ function TeamColumn({
           // `used` again — that double-counts and understates what's left. `used`
           // is kept only to annotate the tooltip.
           const remaining = Math.max(0, Math.min(m.maxSalary, line(m)));
+          // The minimum is NOT a finite pool — any team can sign unlimited
+          // minimums (roster spots are the only limit), so the amount shown is
+          // just the largest single min contract. Never frame it as depleting.
+          const depletes = used > 0 && m.id !== "minimum";
           return (
             <Term
               key={m.id}
               k={m.id}
-              extra={used > 0 ? `${fmtM(used)} already used this offseason; ${fmtM(remaining)} left.` : undefined}
+              extra={depletes ? `${fmtM(used)} already used this offseason; ${fmtM(remaining)} left.` : undefined}
             >
               <span
                 className="tabular inline-block rounded-[4px] border bg-[var(--panel)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--muted)]"
-                style={{ borderColor: used > 0 ? "var(--tier-taxpayer)" : "var(--border)" }}
+                style={{ borderColor: depletes ? "var(--tier-taxpayer)" : "var(--border)" }}
               >
                 {m.label} <span className="font-semibold text-[var(--text)]">{fmtM(remaining)}</span>
-                {used > 0 ? " left" : ""}
+                {depletes ? " left" : ""}
               </span>
             </Term>
           );
