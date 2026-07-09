@@ -51,6 +51,17 @@ describe("validateSigning picks the right exception", () => {
     expect(v.hardCap).toBe("first_apron");
   });
 
+  it("over-cap team signs a MINIMUM player via the Minimum, not the MLE", () => {
+    // Regression: the picker ranked the Non-Tax MLE ahead of the Minimum, so a
+    // minimum free agent signed over the cap wrongly burned the MLE and
+    // hard-capped the team at the first apron. The Minimum covers it — use it,
+    // with no hard cap (this is the Kadary Richmond report).
+    const v = validateSigning(190_000_000, C.minimumSalaries[1]!, C, { yearsOfService: 1 });
+    expect(v.legal).toBe(true);
+    expect(v.mechanism?.id).toBe("minimum");
+    expect(v.hardCap).toBe(null);
+  });
+
   it("Non-Tax MLE cannot be used if it would breach the first-apron hard cap", () => {
     // $205M team is only ~$4M below the first apron.
     const v = validateSigning(205_000_000, 10_000_000, C);
