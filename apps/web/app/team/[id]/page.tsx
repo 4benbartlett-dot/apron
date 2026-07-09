@@ -13,6 +13,7 @@ import { Thermometer } from "@/components/Thermometer";
 import { DepthChart } from "@/components/DepthChart";
 import { TeamProfile } from "@/components/TeamProfile";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
+import { Tumbleweed } from "@/components/Tumbleweed";
 
 export default function TeamWarRoom() {
   const params = useParams();
@@ -246,10 +247,16 @@ export default function TeamWarRoom() {
               const label = o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
               return chip(color, `’${y - 2000} ${label}`, o.note ?? `${y} first-rounder`, key);
             };
+            // PHX easter egg: when nearly every own first is encumbered or
+            // already out the door, a tumbleweed rolls through the shelf.
+            const bareYears = ownYears.filter(
+              (y) => (oblByYear.get(y) ?? []).length > 0 || sentOwnFirst.has(y),
+            ).length;
             return (
               <>
                 <div className="label mb-1 !text-[10px]">Own first-rounders</div>
-                <div className="mb-3 flex flex-wrap gap-1">
+                <div className="relative mb-3 flex flex-wrap gap-1">
+                  {id === "PHX" && bareYears >= 3 && <Tumbleweed />}
                   {ownYears.flatMap((y) => {
                     const legs = oblByYear.get(y) ?? [];
                     const chips = legs.map((o, j) => oblChip(y, o, `own${y}-${j}`));

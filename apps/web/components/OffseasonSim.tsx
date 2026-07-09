@@ -15,7 +15,8 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, type FreeAgent, type Move } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
+import { heatCultureEgg, lightTheBeam, moveTouches } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -188,6 +189,28 @@ export default function OffseasonSim() {
       /* ignore */
     }
   }, [board, ready]);
+
+  // SAC easter egg: any move of yours that IMPROVES the Kings' projection
+  // lights the beam off their board card. The baseline resets whenever SAC
+  // joins the board, so only real gains fire it — undo never does.
+  const sacOnBoard = board.includes("SAC");
+  const sacProj = useRef<{ wins: number; nrtg: number } | null>(null);
+  useEffect(() => {
+    if (!sacOnBoard) {
+      sacProj.current = null;
+      return;
+    }
+    const p = teamProjection("SAC", lg.contracts);
+    if (!p) return;
+    const prev = sacProj.current;
+    sacProj.current = { wins: p.projWins, nrtg: p.projNrtg };
+    const last = lg.moves[lg.moves.length - 1];
+    if (!prev || !last || !moveTouches(last, "SAC")) return;
+    // A full projected win always beams; short of that, a clear net-rating
+    // gain does too (small wins-conserving moves can round to +0).
+    if (p.projWins > prev.wins || p.projNrtg > prev.nrtg + 0.1) lightTheBeam();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lg.moves.length, sacOnBoard]);
 
   // Power-user keys: T finder · S sign · G glossary · ? this card.
   // Escape closes the topmost surface from anywhere (including inputs);
@@ -532,7 +555,7 @@ export default function OffseasonSim() {
       {/* board */}
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {board.map((id, i) => (
-          <div key={id} className="fade-up" style={{ animationDelay: `${i * 70}ms` }}>
+          <div key={id} data-egg-team={id} className="fade-up" style={{ animationDelay: `${i * 70}ms` }}>
           <TeamColumn
             teamId={id}
             board={board}
@@ -1620,6 +1643,7 @@ function SignEditor({
       years,
       mechanism: v.mechanism?.id,
     });
+    heatCultureEgg(team, v.mechanism?.id);
     onDone();
   };
   // Restricted FA: the original team may MATCH the offer sheet — the player

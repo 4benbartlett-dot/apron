@@ -2,13 +2,15 @@
 
 import { useEffect } from "react";
 
-/** A paper-slip toast from the league office. */
-export function leagueToast(stamp: string, text: string, tone: "green" | "red" = "green") {
+/** A paper-slip toast from the league office. The "heat" tone burns in the
+ * site accent with a guttering stamp — reserved for Miami. */
+export function leagueToast(stamp: string, text: string, tone: "green" | "red" | "heat" = "green") {
   if (typeof document === "undefined") return;
   document.querySelector(".egg-toast")?.remove();
   const el = document.createElement("div");
-  el.className = "egg-toast";
-  const color = tone === "green" ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
+  el.className = tone === "heat" ? "egg-toast egg-heat" : "egg-toast";
+  const color =
+    tone === "green" ? "var(--tier-below_cap)" : tone === "heat" ? "var(--accent)" : "var(--tier-second_apron)";
   const safe = (t: string) => t.replace(/[<>&]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[ch]!);
   el.innerHTML = `<span class="stamp" style="color:${color}">${safe(stamp)}</span><span>${safe(text)}</span>`;
   document.body.appendChild(el);
