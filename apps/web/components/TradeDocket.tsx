@@ -83,9 +83,11 @@ export function buildChecks(opts: {
   tpeUse?: Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }>;
   violationReasons: string[];
   extraViolations: string[];
-  hasPicks: boolean;
+  /** An outright FIRST moved — Stepien only governs firsts, so a 2nds-only
+   * deal must not claim the rule was checked. */
+  hasFirsts: boolean;
 }): DocketCheck[] {
-  const { legal, involved, tpeUse, violationReasons, extraViolations, hasPicks } = opts;
+  const { legal, involved, tpeUse, violationReasons, extraViolations, hasFirsts } = opts;
   if (!legal) {
     return [
       ...violationReasons.map((text) => ({ ok: false, text })),
@@ -147,7 +149,7 @@ export function buildChecks(opts: {
         ok: true,
         text: `${t.teamId} finishes over the second apron — no aggregation or cash used, as required`,
       })),
-    ...(hasPicks
+    ...(hasFirsts
       ? [{ ok: true, text: "Stepien rule satisfied — no team left without firsts in consecutive future drafts" }]
       : []),
   ];

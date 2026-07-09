@@ -105,7 +105,7 @@ export function GlossaryExplorer() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={`Search ${total} terms…`}
-            className="ml-auto w-full max-w-[220px] rounded-full border border-[var(--border)] bg-[var(--panel)] px-3.5 py-1.5 text-[12.5px] focus:border-[var(--border-strong)] focus:outline-none"
+            className="ml-auto w-full max-w-[220px] rounded-full border border-[var(--border)] bg-[var(--panel)] px-3.5 py-1.5 text-[12.5px] focus:border-[var(--border-strong)]"
           />
         </div>
       </Reveal>

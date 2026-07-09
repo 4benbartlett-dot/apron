@@ -175,13 +175,13 @@ export default function TeamWarRoom() {
           <div className="max-h-[50vh] space-y-1 overflow-y-auto">
             {roster.map((c) => (
               <div key={c.playerId} className="flex items-center justify-between rounded-md bg-[var(--panel-2)] px-2.5 py-1.5 text-sm">
-                <span className="flex items-center gap-1.5 truncate">
+                <span className="flex min-w-0 items-center gap-1.5">
                   <ImpactPill c={c} />
                   <PosBadge playerId={c.playerId} />
                   <span className="truncate">{c.playerName}</span>
                   {c.restriction && <span className="shrink-0 text-[9px] font-bold text-[var(--tier-second_apron)]">NO-TRADE</span>}
                 </span>
-                <span className="tabular text-[var(--muted)]">{fmtM(salaryOf(c))}</span>
+                <span className="tabular shrink-0 text-[var(--muted)]">{fmtM(salaryOf(c))}</span>
               </div>
             ))}
           </div>
