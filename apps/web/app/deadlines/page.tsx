@@ -40,7 +40,11 @@ export default function DeadlinesPage() {
           Upcoming option & guarantee decisions{" "}
           <span className="text-[var(--muted)]">({deadlines.length})</span>
         </h2>
-        <div className="panel overflow-hidden">
+        {/* The column set is ~26rem of fixed tracks — on a phone the table
+            scrolls sideways inside the panel instead of clipping the Amount
+            column behind overflow-hidden. */}
+        <div className="panel overflow-x-auto">
+          <div className="min-w-[27rem]">
           <div className="grid grid-cols-[6rem_1fr_3rem_9rem_7rem] gap-2 border-b border-[var(--border)] px-4 py-2 text-[11px] uppercase tracking-wide text-[var(--muted)]">
             <div>Date</div>
             <div>Player</div>
@@ -52,7 +56,7 @@ export default function DeadlinesPage() {
             {deadlines.map((r, i) => (
               <div
                 key={i}
-                className="grid grid-cols-[6rem_1fr_3rem_9rem_7rem] items-center gap-2 border-b border-[var(--border)]/30 px-4 py-1.5 text-sm hover:bg-[var(--panel-2)]"
+                className="grid grid-cols-[6rem_1fr_3rem_9rem_7rem] items-center gap-2 border-b border-[var(--border)]/30 px-4 py-1.5 text-sm"
               >
                 <div className="text-xs text-[var(--muted)]">{r.date}</div>
                 <div className="truncate">
@@ -68,6 +72,7 @@ export default function DeadlinesPage() {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
       </section>

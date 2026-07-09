@@ -398,7 +398,7 @@ export default function OffseasonSim() {
         tpeUse: trade.tpeUse,
         violationReasons: verdict.violations.map((v) => v.reason),
         extraViolations: [...stepienViolations, ...hardCapTradeViolations],
-        hasPicks: Object.keys(pickSel).length > 0,
+        hasFirsts: Object.keys(pickSel).some((id) => id.endsWith("|1")),
       }),
     [docketLegal, verdict, docketTeams, trade, pickSel, stepienViolations, hardCapTradeViolations],
   );
@@ -1389,9 +1389,9 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
       ) : (
         <>
           <div className="space-y-2 border-b border-[var(--border)] px-3 py-2.5">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search free agents…" className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search free agents…" className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm" />
             <div className="flex flex-wrap items-center gap-1.5">
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as typeof sortBy)} className="rounded border border-[var(--border)] bg-[var(--panel-2)] px-1.5 py-1 text-[11px] font-semibold focus:outline-none" title="Sort free agents">
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as typeof sortBy)} className="rounded border border-[var(--border)] bg-[var(--panel-2)] px-1.5 py-1 text-[11px] font-semibold" title="Sort free agents">
                 <option value="fit">Sort: Best fit</option>
                 <option value="impact">Sort: Impact</option>
                 <option value="salary">Sort: Asking $</option>
@@ -1688,7 +1688,7 @@ function SignEditor({
           step={100_000}
           min={floor}
           onChange={(e) => setSalary(Number(e.target.value) || 0)}
-          className="tabular w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm focus:outline-none"
+          className="tabular w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm"
         />
       </div>
       <input
@@ -2027,7 +2027,7 @@ function ExtendDrawer({
             step={100_000}
             min={floor}
             onChange={(e) => setSalary(Number(e.target.value) || 0)}
-            className="tabular w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm focus:outline-none"
+            className="tabular w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2 py-1.5 text-sm"
           />
         </div>
         <input
@@ -2263,7 +2263,7 @@ function TradeFinderDrawer({
       ) : (
         <>
           <div className="flex items-center gap-1.5 px-3 pt-3">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={mode === "reverse" ? "Search any player…" : "Search a target player…"} className="flex-1 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm focus:outline-none" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={mode === "reverse" ? "Search any player…" : "Search a target player…"} className="flex-1 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm" />
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "impact" | "salary")} className="rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-1.5 py-2 text-xs">
               <option value="impact">Impact</option>
               <option value="salary">Salary</option>

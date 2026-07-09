@@ -53,7 +53,7 @@ export default function DraftPicksPage() {
         <select
           value={team}
           onChange={(e) => setTeam(e.target.value)}
-          className="ml-auto rounded-md border border-[var(--border)] bg-[var(--panel)] px-3 py-2 text-sm font-semibold focus:outline-none"
+          className="ml-auto rounded-md border border-[var(--border)] bg-[var(--panel)] px-3 py-2 text-sm font-semibold"
         >
           {teamsWithPicks.map((id) => (
             <option key={id} value={id}>{teamMeta(id).name}</option>

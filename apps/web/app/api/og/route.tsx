@@ -83,6 +83,9 @@ interface Payload {
   ck: [number, string][]; // [ok, text]
   fx: string; // one route to legal
   fn: string; // filing "NO. 26-XXXXX"
+  /** Client's "Filed" date — the server clock may sit past midnight UTC
+   * while the user's card on screen still says yesterday. */
+  dt?: string;
 }
 
 // Natural (tight) height for the feed card, so it matches the modal's grow.
@@ -320,7 +323,7 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
           fontFamily: mono,
         }}
       >
-        <div style={{ display: "flex" }}>{`FILED ${date} · ${p.fn}`}</div>
+        <div style={{ display: "flex" }}>{`FILED ${date.toUpperCase()} · ${p.fn}`}</div>
         <div style={{ display: "flex", fontWeight: 700, color: vc }}>
           {legal ? "LEGAL UNDER THE 2023 CBA" : "BLOCKED UNDER THE 2023 CBA"}
         </div>
@@ -429,7 +432,8 @@ export async function GET(req: Request) {
       const binary = atob(dParam.replace(/-/g, "+").replace(/_/g, "/"));
       const jsonStr = new TextDecoder().decode(Uint8Array.from(binary, (c) => c.charCodeAt(0)));
       const p = JSON.parse(jsonStr) as Payload;
-      const date = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      const date =
+        p.dt || new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
       const size =
         fmtParam === "square"
           ? { width: 1080, height: Math.max(1080, feedHeight(p)) }

@@ -128,6 +128,9 @@ export function ShareCardModal({
       ck: checks.slice(0, maxChecks).map((c): [number, string] => [c.ok ? 1 : 0, c.text]),
       fx: !legal && firstFix ? firstFix : "",
       fn: filingNo(token),
+      // The user's own date — the server clock can sit past midnight UTC
+      // while the card on screen still says yesterday.
+      dt: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
     };
     const b64 = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(payload))));
     const d = b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -174,7 +177,7 @@ export function ShareCardModal({
     tpeUse: trade.tpeUse,
     violationReasons: verdict.violations.map((v) => v.reason),
     extraViolations,
-    hasPicks: picks.length > 0,
+    hasFirsts: picks.some((p) => p.id.endsWith("|1")),
   });
 
   const docketTeams = useMemo(
