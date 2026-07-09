@@ -47,24 +47,27 @@ function featuredTeam(moves: Move[]): string | null {
   return best && bestN >= Math.max(2, Math.ceil(moves.length * 0.4)) ? best : null;
 }
 
-/** Greets a visitor who opened a shared offseason link (?gm=): a front-office
- * "ledger" recapping every move on the session they just loaded, then an
- * invitation to explore or fork it. The moves are already staged on the board
- * behind this card — closing it drops them straight into the live sim. */
+/** The offseason "ledger" card. Two voices, same card:
+ *  - visitor (default): greets someone who opened a shared link (?gm=) — the
+ *    moves are already staged behind it, closing drops them into the live sim.
+ *  - owner: opened from the moves footer mid-session to review (and share)
+ *    your own offseason so far. */
 export function OffseasonRecapModal({
   moves,
   teams,
   onClose,
   onShare,
+  owner = false,
 }: {
   moves: Move[];
   teams: string[];
   onClose: () => void;
   onShare: () => void;
+  owner?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
-    track("offseason_link_open", { moves: moves.length });
+    track(owner ? "offseason_recap_open" : "offseason_link_open", { moves: moves.length });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -78,7 +81,13 @@ export function OffseasonRecapModal({
     return list.slice(0, 8);
   }, [teams, moves]);
   const featured = useMemo(() => featuredTeam(moves), [moves]);
-  const headline = featured ? `${teamMeta(featured).name}’ offseason` : "An offseason on the books";
+  // Possessive that survives non-plural nicknames: Warriors’ but Heat’s.
+  const featuredName = featured ? teamMeta(featured).name : null;
+  const headline = featuredName
+    ? `${featuredName}${featuredName.endsWith("s") ? "’" : "’s"} offseason`
+    : owner
+      ? "Your offseason on the books"
+      : "An offseason on the books";
 
   const copyLink = () => {
     onShare();
@@ -149,10 +158,12 @@ export function OffseasonRecapModal({
             <span className="tabular uppercase tracking-[0.08em]">
               {moves.length} {moves.length === 1 ? "transaction" : "transactions"} on file
             </span>
-            <span className="tabular font-semibold uppercase tracking-[0.08em] text-[var(--accent-ink)]">Shared offseason</span>
+            <span className="tabular font-semibold uppercase tracking-[0.08em] text-[var(--accent-ink)]">
+              {owner ? "Your offseason" : "Shared offseason"}
+            </span>
           </div>
           <div className="flex items-center justify-center bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--bg)]">
-            Open on the live board — tweak, extend, or fork it
+            {owner ? "One link rebuilds it all — share your offseason" : "Open on the live board — tweak, extend, or fork it"}
           </div>
         </div>
 
@@ -162,17 +173,19 @@ export function OffseasonRecapModal({
             onClick={onClose}
             className="rounded-md bg-[var(--accent)] px-4 py-1.5 text-xs font-bold text-[var(--bg)] shadow-sm hover:opacity-90"
           >
-            Explore in the sim →
+            {owner ? "Back to the board →" : "Explore in the sim →"}
           </button>
           <button
             onClick={copyLink}
             className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-3 py-1.5 text-xs font-semibold hover:border-[var(--text)]"
           >
-            {copied ? "Copied ✓" : "Copy link"}
+            {copied ? "Copied ✓" : owner ? "Copy share link" : "Copy link"}
           </button>
         </div>
         <p className="mt-2 text-center text-[11px] leading-snug text-[#f4f1e9]/60">
-          Every move is already staged on the board behind this card.
+          {owner
+            ? "The link rebuilds this exact offseason for anyone who opens it."
+            : "Every move is already staged on the board behind this card."}
         </p>
       </div>
     </div>
