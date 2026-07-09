@@ -49,6 +49,21 @@ const markSvg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${ink}"/><line x1="11" y1="41" x2="53" y2="41" stroke="${sienna}" stroke-width="4.5" stroke-dasharray="7.5 6" stroke-linecap="round"/><path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="${bg}" stroke-width="5" stroke-linecap="round"/><circle cx="50.5" cy="21.5" r="6.5" fill="${bg}"/></svg>`,
   );
 
+// ✓ / ✗ / ⇄ as SVG icons — Satori's default font has no such glyphs, so
+// the raw characters would render as empty boxes.
+const svgIcon = (inner: string) =>
+  "data:image/svg+xml," +
+  encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">${inner}</svg>`);
+const checkImg = svgIcon(
+  `<path d="M2.5 8.5 L6.4 12.4 L13.5 3.5" fill="none" stroke="#2b7a3f" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>`,
+);
+const crossImg = svgIcon(
+  `<path d="M4 4 L12 12 M12 4 L4 12" fill="none" stroke="#bd2828" stroke-width="2.1" stroke-linecap="round"/>`,
+);
+const swapImg = svgIcon(
+  `<path d="M2 5.2 L13 5.2 M10.3 2.6 L13 5.2 L10.3 7.8 M14 10.8 L3 10.8 M5.7 8.2 L3 10.8 L5.7 13.4" fill="none" stroke="${muted}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>`,
+);
+
 // Compact display payload the client passes (?d=), so the download is a
 // pixel copy of the on-screen modal AND uses the live-session numbers.
 type PLine = [string, number | null, string | null]; // [label, salary|null(pick), pos|null]
@@ -72,10 +87,10 @@ interface Payload {
 
 // Natural (tight) height for the feed card, so it matches the modal's grow.
 function feedHeight(p: Payload): number {
-  let h = 40 + 40 + 74 + 86 + 36 + 54 + 70; // padT+padB, masthead, logos row, checks label, seal, bar
-  for (const t of p.tm) h += 58 + Math.max(t.g.length, t.s.length, 1) * 40 + 40 + 14;
-  for (const c of p.ck) h += 30 * Math.max(1, Math.ceil(c[1].length / 58)) + 18;
-  if (p.fx) h += 62;
+  let h = 34 + 34 + 72 + 72 + 30 + 46 + 66; // padT+padB, masthead, logos row, checks label, seal, bar
+  for (const t of p.tm) h += 54 + Math.max(t.g.length, t.s.length, 1) * 38 + 36 + 14;
+  for (const c of p.ck) h += 30 * Math.max(1, Math.ceil(c[1].length / 82)) + 14;
+  if (p.fx) h += 58;
   return Math.round(h);
 }
 
@@ -226,7 +241,8 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
         <div style={{ display: "flex", alignItems: "center" }}>
           {p.tm.map((t, i) => (
             <div key={t.id} style={{ display: "flex", alignItems: "center" }}>
-              {i > 0 ? <div style={{ display: "flex", fontSize: 22, color: muted, margin: "0 11px" }}>⇄</div> : null}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {i > 0 ? <img src={swapImg} width={22} height={22} style={{ margin: "0 11px" }} alt="" /> : null}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`${origin}/logos/${t.id}.png`} width={34} height={34} alt="" />
             </div>
@@ -261,9 +277,8 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
         </div>
         {p.ck.map((c, i) => (
           <div key={i} style={{ display: "flex", alignItems: "flex-start", marginBottom: 12 }}>
-            <div style={{ display: "flex", fontSize: 22, fontWeight: 700, color: c[0] ? "#2b7a3f" : "#bd2828", marginRight: 12 }}>
-              {c[0] ? "✓" : "✗"}
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={c[0] ? checkImg : crossImg} width={20} height={20} style={{ marginRight: 12, marginTop: 3 }} alt="" />
             <div style={{ display: "flex", fontSize: 21, lineHeight: 1.35, color: ink, flexShrink: 1 }}>{c[1]}</div>
           </div>
         ))}
