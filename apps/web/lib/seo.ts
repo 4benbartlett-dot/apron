@@ -104,7 +104,7 @@ export const SEO_TERMS: SeoTerm[] = [
       },
       {
         q: "What hard-caps a team at the first apron?",
-        a: "Using the non-taxpayer mid-level, the bi-annual exception, expanded salary matching, acquiring a player via sign-and-trade, signing a waived player whose prior contract topped the mid-level, or absorbing salary into a pre-existing traded-player exception.",
+        a: "Using the non-taxpayer mid-level (past its taxpayer portion in dollars or years), the bi-annual exception, expanded salary matching, acquiring a player via sign-and-trade, signing a waived player whose prior contract topped the mid-level, or absorbing salary into a pre-existing traded-player exception.",
       },
     ],
     related: ["second-apron", "hard-cap", "mid-level-exception", "salary-matching"],

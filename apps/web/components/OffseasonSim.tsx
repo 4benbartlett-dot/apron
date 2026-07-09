@@ -970,10 +970,10 @@ function TeamColumn({
   const others = board.filter((t) => t !== teamId);
   const pre = summary?.preTradeSalary ?? committed;
   const post = summary?.postTradeSalary ?? pre;
-  // Cap-charge view = actual salary + free-agent holds (kept consistent between
-  // the thermometer, badge, and exceptions).
+  // Cap charge = actual salary + free-agent holds — the Team Salary basis for
+  // cap room. Tier badges and the thermometer's solid bar use holds-excluded
+  // salary (Apron Team Salary basis).
   const capCharge = committed + holds;
-  const postCharge = summary ? summary.postTradeSalary + holds : capCharge;
   const capRoom = C.salaryCap - capCharge;
   const ownFAs = lg
     .freeAgents()
@@ -1047,7 +1047,16 @@ function TeamColumn({
       </div>
 
       <div className="px-4 pt-3">
-        <Thermometer salary={capCharge} ghost={postCharge !== capCharge ? postCharge : undefined} c={C} />
+        {/* Solid = signed salary (the basis the Tax/1A/2A ticks actually
+            judge, per Apron Team Salary §2(e)(1)(iv)); hatch = kept holds
+            (cap room only, §4(a)(2)). Ghost marks post-trade salary on the
+            same holds-excluded basis. */}
+        <Thermometer
+          salary={committed}
+          holds={holds}
+          ghost={summary && summary.postTradeSalary !== committed ? summary.postTradeSalary : undefined}
+          c={C}
+        />
       </div>
 
       {/* four-season commitments */}

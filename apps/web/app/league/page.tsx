@@ -93,10 +93,11 @@ export default function LeaguePage() {
               <div className="mt-3 mb-2 flex items-baseline gap-2">
                 <span className="tabular text-xl font-bold">{fmtFull(s.salary)}</span>
               </div>
-              {/* Cap charge = salary + kept holds — the SAME bar the board and
-                  team page draw, so the three surfaces tell one story. The
-                  tier badge stays holds-excluded (apron status), as everywhere. */}
-              <Thermometer salary={s.salary + holds} c={C} />
+              {/* Solid = signed salary (what the Tax/1A/2A ticks judge, per
+                  Apron Team Salary §2(e)(1)(iv)); hatch = kept holds (they
+                  consume cap room, §4(a)(2)). Same split bar as the board
+                  and team page. */}
+              <Thermometer salary={s.salary} holds={holds} c={C} />
               <div className="mt-2 flex items-center justify-between text-[11px] text-[var(--muted)]">
                 <span>{overUnder}</span>
                 {holds > 0 && <span>+{fmtM(holds)} FA holds</span>}
