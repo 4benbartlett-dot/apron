@@ -87,10 +87,11 @@ interface Payload {
 
 // Natural (tight) height for the feed card, so it matches the modal's grow.
 function feedHeight(p: Payload): number {
-  let h = 34 + 34 + 72 + 72 + 30 + 46 + 66; // padT+padB, masthead, logos row, checks label, seal, bar
-  for (const t of p.tm) h += 54 + Math.max(t.g.length, t.s.length, 1) * 38 + 36 + 14;
-  for (const c of p.ck) h += 30 * Math.max(1, Math.ceil(c[1].length / 82)) + 14;
-  if (p.fx) h += 58;
+  // Deliberately errs generous: a small bottom gap beats clipping the footer.
+  let h = 36 + 40 + 76 + 78 + 32 + 52 + 74; // padT+padB, masthead, logos row, checks label, seal, bar
+  for (const t of p.tm) h += 56 + Math.max(t.g.length, t.s.length, 1) * 40 + 38 + 14;
+  for (const c of p.ck) h += 30 * Math.max(1, Math.ceil(c[1].length / 86)) + 16;
+  if (p.fx) h += 30 * Math.max(1, Math.ceil(p.fx.length / 92)) + 30;
   return Math.round(h);
 }
 
