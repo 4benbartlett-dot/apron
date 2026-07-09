@@ -1274,19 +1274,27 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
     committed + holds - (isOwnKept(fa, team) ? fa.hold : 0);
 
   const byId = useMemo(() => new Map(lg.contracts.map((c) => [c.playerId, c] as const)), [lg]);
-  const rows = useMemo(
-    () =>
-      fas.map((fa) => {
-        const isOwn = isOwnKept(fa, team);
-        const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
-        return { fa, v, isOwn, pos: positionOf(fa.playerId), impact: faImpact(fa, byId), age: ageOf(fa.playerId) };
-      }),
+  const rows = useMemo(() => {
+    // A hard cap already triggered (this session, or by the team's real July
+    // moves) binds EVERY later signing — even a Bird re-sign or a minimum,
+    // which carry no hard cap of their own. validateSigning only tests each
+    // mechanism's own hard cap, not the team's already-binding one, so fold it
+    // in here exactly as the signing panel does — otherwise the list marks
+    // signings legal/affordable that the panel then blocks. hardCapOf is
+    // Infinity when the team has no cap, so uncapped teams are unaffected.
+    const hc = lg.hardCapOf(team);
+    return fas.map((fa) => {
+      const isOwn = isOwnKept(fa, team);
+      const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
+      const legal = v.legal && committed + fa.lastSalary <= hc + 1;
+      const maxOffer = Math.min(v.maxOffer, Math.max(0, hc - committed));
+      return { fa, v, legal, maxOffer, isOwn, pos: positionOf(fa.playerId), impact: faImpact(fa, byId), age: ageOf(fa.playerId) };
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fas, team, committed, holds, byId, lg.moves],
-  );
+  }, [fas, team, committed, holds, byId, lg.moves]);
   const rowOf = (id: string) => rows.find((r) => r.fa.playerId === id);
   const suggestions = useMemo(() => {
-    const legal = new Map(rows.map((r) => [r.fa.playerId, r.v.legal] as const));
+    const legal = new Map(rows.map((r) => [r.fa.playerId, r.legal] as const));
     return suggestSignings(team, lg.contracts, fas, (fa) => !!legal.get(fa.playerId), 4);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, team, fas]);
@@ -1294,18 +1302,18 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
   const visible = rows
     .filter((r) => !q || r.fa.playerName.toLowerCase().includes(q.toLowerCase()))
     .filter((r) => !posFilter || r.pos === posFilter)
-    .filter((r) => !affordableOnly || r.v.legal)
+    .filter((r) => !affordableOnly || r.legal)
     .sort((a, b) => {
       if (sortBy === "impact") return b.impact - a.impact;
       if (sortBy === "salary") return b.fa.lastSalary - a.fa.lastSalary;
       if (sortBy === "name") return a.fa.playerName.localeCompare(b.fa.playerName);
-      return Number(b.v.legal) - Number(a.v.legal) || b.impact - a.impact; // fit: signable first, then impact
+      return Number(b.legal) - Number(a.legal) || b.impact - a.impact; // fit: signable first, then impact
     });
 
   const FaRow = (r: (typeof rows)[number], reason?: string) => {
-    const { fa, v, isOwn, pos, age } = r;
-    const color = mechColor(v.mechanism ? v.mechanism.id : null);
-    const label = v.legal ? v.mechanism!.label : `max ${fmtM(v.maxOffer)}`;
+    const { fa, v, legal, maxOffer, isOwn, pos, age } = r;
+    const color = mechColor(legal && v.mechanism ? v.mechanism.id : null);
+    const label = legal ? v.mechanism!.label : `max ${fmtM(maxOffer)}`;
     return (
       <button key={fa.playerId + (reason ? "-s" : "")} onClick={() => setSelected(fa)} className="mb-1 flex w-full items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-2.5 py-2 text-left text-sm hover:brightness-125" title="Set the salary and term">
         <span className="flex min-w-0 items-center gap-1.5">
