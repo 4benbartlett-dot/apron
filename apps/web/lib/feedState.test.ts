@@ -69,9 +69,10 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     expect(ids).not.toContain("bae");
   });
 
-  it("DET carries the Collins S&T hard cap; DEN/WAS/CHA stay clean controls", () => {
-    expect(feedStateOf("DET").hardCap).toBe(C.firstApron);
-    for (const t of ["DEN", "WAS", "CHA"]) {
+  it("DET + WAS carry sign-and-trade hard caps; DEN/CHA stay clean controls", () => {
+    expect(feedStateOf("DET").hardCap).toBe(C.firstApron); // Collins S&T (Jul 1)
+    expect(feedStateOf("WAS").hardCap).toBe(C.firstApron); // Middleton S&T (Jul 8)
+    for (const t of ["DEN", "CHA"]) {
       const s = feedStateOf(t);
       expect(s.roomTeam).toBe(false);
       expect(s.hardCap).toBe(Infinity);

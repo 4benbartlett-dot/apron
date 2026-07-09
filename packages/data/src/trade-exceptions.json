@@ -5,16 +5,6 @@
   "rows": [
     {
       "team": "ATL",
-      "player": "Luke Kennard",
-      "amount": 11000000,
-      "expires": "2027-02-05",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
-      "team": "ATL",
       "player": "Kobe Bufkin",
       "amount": 4503720,
       "expires": "2026-09-16",
@@ -35,14 +25,14 @@
     },
     {
       "team": "ATL",
-      "player": "Clint Capela",
-      "amount": 1541920,
-      "expires": "2026-07-06",
-      "original": 6700000,
+      "player": "Luke Kennard",
+      "amount": 1775700,
+      "expires": "2027-02-05",
       "sources": [
         "spotrac",
         "salaryswish"
-      ]
+      ],
+      "original": 11000000
     },
     {
       "team": "ATL",
@@ -85,11 +75,11 @@
     },
     {
       "team": "BOS",
-      "player": "Jrue Holiday",
-      "amount": 4721429,
-      "expires": "2026-07-07",
+      "player": "Jaylen Brown",
+      "amount": 2952438,
+      "expires": "2027-07-06",
+      "singleSource": true,
       "sources": [
-        "spotrac",
         "salaryswish"
       ]
     },
@@ -118,17 +108,6 @@
       "player": "Chris Boucher",
       "amount": 2296274,
       "expires": "2027-02-05",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
-      "team": "BOS",
-      "player": "Kristaps Porzingis",
-      "amount": 1050226,
-      "expires": "2026-07-07",
-      "original": 22531707,
       "sources": [
         "spotrac",
         "salaryswish"
@@ -250,16 +229,6 @@
     },
     {
       "team": "CLE",
-      "player": "Isaac Okoro",
-      "amount": 1000000,
-      "expires": "2026-07-06",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
-      "team": "CLE",
       "player": "Darius Garland",
       "amount": 263397,
       "expires": "2027-02-04",
@@ -304,11 +273,11 @@
       "player": "Michael Porter Jr.",
       "amount": 6880985,
       "expires": "2026-07-08",
-      "original": 17275985,
+      "singleSource": true,
       "sources": [
-        "spotrac",
         "salaryswish"
-      ]
+      ],
+      "original": 17275985
     },
     {
       "team": "DEN",
@@ -331,17 +300,6 @@
       ]
     },
     {
-      "team": "DET",
-      "player": "Dennis Schroder",
-      "amount": 8677600,
-      "expires": "2026-07-07",
-      "original": 14104000,
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
       "team": "GSW",
       "player": "Trayce Jackson-Davis",
       "amount": 2221677,
@@ -353,11 +311,11 @@
     },
     {
       "team": "HOU",
-      "player": "Cam Whitmore",
-      "amount": 3539760,
-      "expires": "2026-07-06",
+      "player": "Dorian Finney-Smith",
+      "amount": 13335000,
+      "expires": "2027-07-06",
+      "singleSource": true,
       "sources": [
-        "spotrac",
         "salaryswish"
       ]
     },
@@ -433,21 +391,21 @@
     },
     {
       "team": "MIA",
-      "player": "Duncan Robinson",
-      "amount": 16834692,
-      "expires": "2026-07-07",
+      "player": "Haywood Highsmith",
+      "amount": 5616000,
+      "expires": "2026-08-15",
       "sources": [
         "spotrac",
         "salaryswish"
       ]
     },
     {
-      "team": "MIA",
-      "player": "Haywood Highsmith",
-      "amount": 5616000,
-      "expires": "2026-08-15",
+      "team": "MIL",
+      "player": "Giannis Antetokounmpo",
+      "amount": 25456566,
+      "expires": "2027-07-06",
+      "singleSource": true,
       "sources": [
-        "spotrac",
         "salaryswish"
       ]
     },
@@ -466,27 +424,6 @@
       "player": "Rob Dillingham",
       "amount": 6576120,
       "expires": "2027-02-05",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
-      "team": "MIN",
-      "player": "Nickeil Alexander-Walker",
-      "amount": 62382,
-      "expires": "2026-07-06",
-      "original": 7580900,
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
-      "team": "NOP",
-      "player": "Kelly Olynyk",
-      "amount": 13445122,
-      "expires": "2026-07-06",
       "sources": [
         "spotrac",
         "salaryswish"
@@ -519,6 +456,26 @@
       "expires": "2027-02-05",
       "sources": [
         "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "OKC",
+      "player": "Isaiah Joe",
+      "amount": 11323006,
+      "expires": "2027-07-06",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "OKC",
+      "player": "Aaron Wiggins",
+      "amount": 9224300,
+      "expires": "2027-07-06",
+      "singleSource": true,
+      "sources": [
         "salaryswish"
       ]
     },
@@ -583,16 +540,6 @@
       ]
     },
     {
-      "team": "PHX",
-      "player": "Kevin Durant",
-      "amount": 251166,
-      "expires": "2026-07-06",
-      "singleSource": true,
-      "sources": [
-        "spotrac"
-      ]
-    },
-    {
       "team": "POR",
       "player": "Kris Murray",
       "amount": 3132000,
@@ -653,25 +600,25 @@
       ]
     },
     {
-      "team": "UTA",
-      "player": "John Collins",
-      "amount": 2215000,
-      "expires": "2026-07-07",
-      "original": 26580000,
+      "team": "WAS",
+      "player": "Jaden Hardy",
+      "amount": 6000000,
+      "expires": "2027-07-08",
+      "singleSource": true,
       "sources": [
-        "spotrac",
         "salaryswish"
       ]
     },
     {
       "team": "WAS",
       "player": "Kelly Olynyk",
-      "amount": 13445122,
+      "amount": 5341122,
       "expires": "2026-07-09",
       "sources": [
         "spotrac",
         "salaryswish"
       ],
+      "original": 13445122,
       "expiresMismatch": {
         "spotrac": "2026-07-09",
         "salaryswish": "2026-07-08"

@@ -495,6 +495,9 @@ const RELEASE_TERMS: Record<string, { guaranteed: number; stretched?: boolean }>
   "demar derozan": { guaranteed: 10_000_000 },
   // Star Tribune: non-guaranteed $2.41M — pre-staged for the expected MIN waive.
   "mouhamadou gueye": { guaranteed: 0 },
+  // Jul 8 2026 waive by DEN — the feed states "leaves behind $2 million in dead
+  // cap" (of his $10.4M salary), so only $2M is guaranteed and sticks to DEN.
+  "jonas valanciunas": { guaranteed: 2_000_000 },
 };
 
 function applyReleases(contracts: Contract[]): Contract[] {

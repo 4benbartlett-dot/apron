@@ -63,7 +63,7 @@
       "years": 4,
       "total": 60000000,
       "aav": 15000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "sandro mamukelashvili": {
       "name": "Sandro Mamukelashvili",
@@ -71,7 +71,7 @@
       "years": 4,
       "total": 52000000,
       "aav": 13000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "john collins": {
       "name": "John Collins",
@@ -79,7 +79,7 @@
       "years": 3,
       "total": 51000000,
       "aav": 17000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "collin gillespie": {
       "name": "Collin Gillespie",
@@ -135,7 +135,7 @@
       "years": 3,
       "total": 30000000,
       "aav": 10000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "rui hachimura": {
       "name": "Rui Hachimura",
@@ -157,8 +157,8 @@
       "name": "Landry Shamet",
       "team": "NYK",
       "years": 4,
-      "total": 24000000,
-      "aav": 6000000,
+      "total": 23978467,
+      "aav": 5994617,
       "status": "Official"
     },
     "jusuf nurkic": {
@@ -209,6 +209,14 @@
       "aav": 9000000,
       "status": "Official"
     },
+    "khris middleton": {
+      "name": "Khris Middleton",
+      "team": "WAS",
+      "years": 3,
+      "total": 17612034,
+      "aav": 5870678,
+      "status": "Official"
+    },
     "ousmane dieng": {
       "name": "Ousmane Dieng",
       "team": "MIL",
@@ -221,9 +229,9 @@
       "name": "Kelly Oubre Jr.",
       "team": "IND",
       "years": 2,
-      "total": 17000000,
-      "aav": 8500000,
-      "status": "Agreed"
+      "total": 16500000,
+      "aav": 8250000,
+      "status": "Official"
     },
     "jordan miller": {
       "name": "Jordan Miller",
@@ -237,8 +245,8 @@
       "name": "Jose Alvarado",
       "team": "NYK",
       "years": 3,
-      "total": 14580000,
-      "aav": 4860000,
+      "total": 14384484,
+      "aav": 4794828,
       "status": "Official"
     },
     "jock landale": {
@@ -305,12 +313,28 @@
       "aav": 6000000,
       "status": "Agreed"
     },
+    "kobe sanders": {
+      "name": "Kobe Sanders",
+      "team": "LAC",
+      "years": 4,
+      "total": 11279212,
+      "aav": 2819803,
+      "status": "Official"
+    },
+    "mohamed diawara": {
+      "name": "Mohamed Diawara",
+      "team": "NYK",
+      "years": 4,
+      "total": 11278738,
+      "aav": 2819685,
+      "status": "Official"
+    },
     "precious achiuwa": {
       "name": "Precious Achiuwa",
       "team": "SAC",
       "years": 2,
-      "total": 11500000,
-      "aav": 5750000,
+      "total": 11227850,
+      "aav": 5613925,
       "status": "Official"
     },
     "deanthony melton": {
@@ -320,22 +344,6 @@
       "total": 11227850,
       "aav": 5613925,
       "status": "Agreed"
-    },
-    "kobe sanders": {
-      "name": "Kobe Sanders",
-      "team": "LAC",
-      "years": 4,
-      "total": 11200000,
-      "aav": 2800000,
-      "status": "Agreed"
-    },
-    "mohamed diawara": {
-      "name": "Mohamed Diawara",
-      "team": "NYK",
-      "years": 4,
-      "total": 10000000,
-      "aav": 2500000,
-      "status": "Official"
     },
     "jaylen clark": {
       "name": "Jaylen Clark",
@@ -359,14 +367,14 @@
       "years": 1,
       "total": 8000000,
       "aav": 8000000,
-      "status": "Agreed"
+      "status": "Official"
     },
     "tim hardaway": {
       "name": "Tim Hardaway Jr.",
       "team": "MIA",
       "years": 1,
-      "total": 6500000,
-      "aav": 6500000,
+      "total": 6065000,
+      "aav": 6065000,
       "status": "Official"
     },
     "daeqwon plowden": {
@@ -425,6 +433,14 @@
       "aav": 3876529,
       "status": "Agreed"
     },
+    "larry nance": {
+      "name": "Larry Nance Jr.",
+      "team": "IND",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Agreed"
+    },
     "kevon looney": {
       "name": "Kevon Looney",
       "team": "LAL",
@@ -469,8 +485,8 @@
       "name": "Thomas Bryant",
       "team": "CLE",
       "years": 1,
-      "total": 3524948,
-      "aav": 3524948,
+      "total": 3524115,
+      "aav": 3524115,
       "status": "Official"
     },
     "jevon carter": {
@@ -559,7 +575,7 @@
       "years": 1,
       "total": 678882,
       "aav": 678882,
-      "status": "Agreed"
+      "status": "Official"
     },
     "jamir watkins": {
       "name": "Jamir Watkins",
@@ -569,9 +585,17 @@
       "aav": 678882,
       "status": "Official"
     },
+    "hunter dickinson": {
+      "name": "Hunter Dickinson",
+      "team": "NOP",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Official"
+    },
     "trey alexander": {
       "name": "Trey Alexander",
-      "team": "NOP",
+      "team": "UTA",
       "years": 1,
       "total": 678882,
       "aav": 678882,

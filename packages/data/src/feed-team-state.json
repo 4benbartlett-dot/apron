@@ -186,8 +186,10 @@
    "hardCapSource": "Hayes + Okogie NT-MLE (split)"
   },
   "WAS": {
+   "inWorldHardCap": "first_apron",
+   "hardCapSource": "Khris Middleton sign-and-trade",
    "confidence": "high",
-   "rationale": "Trae Young 4yr/$212,799,690 (y1 = 49,488,300): prior team WAS per contracts-2025-26 ($46.39M) and he declined a $48.97M WAS player option on Jun 17 -> own Bird (max) re-sign, consumes nothing at any amount. Jamir Watkins signed a two-way (skipped despite the $678,882 feed row). Deandre Ayton arrived by trade for Jaden Hardy (not a signing; no S&T marker). WAS committed = $190.4M (over cap). No exception use, no hard cap."
+   "rationale": "Trae Young 4yr/$212,799,690 (y1 = 49,488,300): prior team WAS per contracts-2025-26 ($46.39M) and he declined a $48.97M WAS player option on Jun 17 -> own Bird (max) re-sign, consumes nothing at any amount. Jamir Watkins signed a two-way (skipped despite the $678,882 feed row). Deandre Ayton arrived by trade for Jaden Hardy (not a signing; no S&T marker). WAS committed = $190.4M (over cap). Jul 8 2026: acquired Khris Middleton (3yr/$17.61M, signed by DAL) via the 6-team sign-and-trade, sending out D'Angelo Russell + 2nd-round picks — WAS is the sign-and-trade ACQUIRER, so it is hard-capped at the first apron ($209.015M) for the season (Art. VII). That is the only new cap consequence."
   }
  }
 }
