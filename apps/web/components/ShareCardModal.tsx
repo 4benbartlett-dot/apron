@@ -173,47 +173,108 @@ export function ShareCardModal({
     const node = cardRef.current;
     if (!node) throw new Error("no card");
     node.classList.add("capture");
-    // html-to-image deep-clones <svg> verbatim WITHOUT inlining computed styles,
-    // so var()-based fill/stroke never resolve in the exported raster — the logo
-    // mark loses its arc, ball, and apron line and prints as an empty square.
-    // Bake the current theme's concrete colors onto the SVG for the shot, and
-    // hard-strip the verdict stamp's turbulence mask (a data-URI filter that
-    // can't survive rasterization). Both are undone in the finally.
     const restores: Array<() => void> = [];
-    node.querySelectorAll("svg *").forEach((el) => {
-      (["fill", "stroke", "stop-color"] as const).forEach((attr) => {
-        const v = el.getAttribute(attr);
-        if (v && v.includes("var(")) {
-          const resolved = getComputedStyle(el).getPropertyValue(attr).trim();
-          if (resolved) {
-            restores.push(() => el.setAttribute(attr, v));
-            el.setAttribute(attr, resolved);
-          }
-        }
-      });
-    });
-    // The verdict stamp is the one element that still dropped from the raster
-    // after the mask was neutralized. Its only difference from the tier badges
-    // (which export fine) is transform: rotate() — a rotated element vanishing
-    // wholesale is a known html-to-image foreignObject bug. Flatten it to an
-    // axis-aligned box for the shot; the tilt is cosmetic and restored after.
-    node.querySelectorAll<HTMLElement>(".stamp").forEach((el) => {
-      const saved = (["mask", "-webkit-mask", "transform", "opacity"] as const).map(
-        (p) => [p, el.style.getPropertyValue(p)] as const,
-      );
-      restores.push(() => saved.forEach(([p, v]) => el.style.setProperty(p, v)));
-      el.style.setProperty("mask", "none", "important");
-      el.style.setProperty("-webkit-mask", "none", "important");
-      el.style.setProperty("transform", "none", "important");
-      el.style.setProperty("opacity", "1", "important");
-    });
     try {
-      await Promise.all([
-        document.fonts?.ready ?? Promise.resolve(),
-        ...Array.from(node.querySelectorAll("img"))
+      // Fonts must be applied before we paint the stamp to a canvas below.
+      await (document.fonts?.ready ?? Promise.resolve());
+
+      // html-to-image deep-clones <svg> verbatim WITHOUT inlining computed
+      // styles, so var()-based fill/stroke never resolve in the exported raster
+      // — the logo mark loses its arc, ball, and apron line and prints as an
+      // empty square. Bake the current theme's concrete colors onto the SVG for
+      // the shot; undone in the finally.
+      node.querySelectorAll("svg *").forEach((el) => {
+        (["fill", "stroke", "stop-color"] as const).forEach((attr) => {
+          const v = el.getAttribute(attr);
+          if (v && v.includes("var(")) {
+            const resolved = getComputedStyle(el).getPropertyValue(attr).trim();
+            if (resolved) {
+              restores.push(() => el.setAttribute(attr, v));
+              el.setAttribute(attr, resolved);
+            }
+          }
+        });
+      });
+
+      // The verdict stamp is the one element html-to-image keeps dropping at the
+      // canvas-rasterization step: it's present and correct in the clone (mask
+      // stripped, transform stripped) yet gone from the PNG. But <img> elements
+      // — the team logos, the QR — ALWAYS survive, because the browser
+      // rasterizes them independently of the foreignObject. So paint each stamp
+      // to a canvas and swap a plain <img> of it into its flex slot for the
+      // shot; the live span is restored afterward. Canvas text uses the loaded
+      // web font (fonts.ready awaited above), so it matches the card.
+      node.querySelectorAll<HTMLElement>(".stamp").forEach((span) => {
+        const h = span.offsetHeight;
+        if (!h) return;
+        const cs = getComputedStyle(span);
+        const scale = 3;
+        const bw = 2.5;
+        const r = 7;
+        const text = (span.textContent || "").toUpperCase();
+        const font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+        // Size the box to the single-line text so a wrapped/constrained span
+        // (or a narrow story frame) can never clip the stamp — fillText won't
+        // wrap, so the canvas must be at least as wide as the text.
+        const measure = document.createElement("canvas").getContext("2d");
+        let w = span.offsetWidth;
+        if (measure) {
+          measure.font = font;
+          try {
+            (measure as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = cs.letterSpacing;
+          } catch {
+            /* older engines */
+          }
+          const padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+          w = Math.max(w, Math.ceil(measure.measureText(text).width + padX + bw * 2));
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w * scale;
+        canvas.height = h * scale;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.scale(scale, scale);
+        const color = cs.color;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = bw;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(bw / 2, bw / 2, w - bw, h - bw, r);
+        else ctx.rect(bw / 2, bw / 2, w - bw, h - bw);
+        ctx.stroke();
+        ctx.fillStyle = color;
+        ctx.font = font;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        try {
+          (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = cs.letterSpacing;
+        } catch {
+          /* older engines: text is a hair tighter, fine */
+        }
+        // letter-spacing adds a trailing gap after the last glyph; nudge left by
+        // half of it so centered text stays visually centered.
+        const gap = parseFloat(cs.letterSpacing) || 0;
+        ctx.fillText(text, w / 2 - gap / 2, h / 2 + 0.5);
+
+        const img = document.createElement("img");
+        img.src = canvas.toDataURL("image/png");
+        img.width = w;
+        img.height = h;
+        img.style.display = cs.display === "inline" ? "inline-block" : cs.display;
+        img.style.verticalAlign = "middle";
+        const prevDisplay = span.style.display;
+        span.style.display = "none";
+        span.parentNode?.insertBefore(img, span.nextSibling);
+        restores.push(() => {
+          img.remove();
+          span.style.display = prevDisplay;
+        });
+      });
+
+      await Promise.all(
+        Array.from(node.querySelectorAll("img"))
           .filter((i) => !i.classList.contains("hold-overlay"))
           .map((i) => i.decode().catch(() => {})),
-      ]);
+      );
     // Explicit geometry so exports are identical from any screen size: the
     // preview's responsive aspect classes don't apply inside the capture
     // clone on phones. aspect-ratio is the preferred size, minHeight pins the
