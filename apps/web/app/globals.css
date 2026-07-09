@@ -895,8 +895,13 @@ button:active { transform: translateY(0.5px); }
 /* ============ BKN — a passing B train: headlights + rumble ============ */
 .li-subway:is(:hover, .li-play) .li-img { animation: li-kf-subway 1.6s ease-in-out both; }
 @keyframes li-kf-subway {
-  8%, 24%, 40%, 56%, 72% { transform: translate(0.8px, -0.6px); }
-  16%, 32%, 48%, 64%, 80% { transform: translate(-0.8px, 0.5px); }
+  10% { transform: translateY(-22%) scale(0.98, 1.04); }
+  26% { transform: translateY(0) scale(1.12, 0.84); }
+  38% { transform: translateY(-12%) scale(0.99, 1.03); }
+  52% { transform: translateY(0) scale(1.08, 0.9); }
+  64% { transform: translateY(-5%); }
+  74% { transform: translateY(0) scale(1.04, 0.96); }
+  86% { transform: scale(0.99, 1.01); }
 }
 .li-subway .li-x i {
   z-index: 1;
@@ -1084,10 +1089,13 @@ button:active { transform: translateY(0.5px); }
   background-position: 0 140%;
 }
 .li-summit:is(:hover, .li-play) .li-shine { animation: li-sweep-v 2s ease-in-out both; }
-.li-summit:is(:hover, .li-play) .li-img { animation: li-kf-summit 2.6s ease both; }
+.li-summit:is(:hover, .li-play) .li-img { transform-origin: 42% 78%; animation: li-kf-summit 2.2s cubic-bezier(0.34, 1.15, 0.5, 1) both; }
 @keyframes li-kf-summit {
-  40% { transform: translateY(-2.5px); }
-  70% { transform: translateY(-1px); }
+  18% { transform: rotate(-14deg) translateY(-2px); }
+  32% { transform: rotate(9deg) translateY(1px); }
+  38% { transform: rotate(7deg); }
+  54% { transform: rotate(-3deg); }
+  72% { transform: rotate(1deg); }
 }
 .li-summit .li-x i {
   width: 9%; height: 9%; min-width: 3px; min-height: 3px;
@@ -1099,6 +1107,27 @@ button:active { transform: translateY(0.5px); }
 .li-summit .li-x i:nth-child(2) { left: 58%; top: 17%; }
 .li-summit:is(:hover, .li-play) .li-x i { animation: li-kf-snowglint 0.7s 1.3s ease both; }
 .li-summit:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 1.6s; }
+/* rock chips off the strike point */
+.li-summit .li-x i:nth-child(3),
+.li-summit .li-x i:nth-child(4) {
+  width: 7%; height: 7%; min-width: 2.5px; min-height: 2.5px;
+  left: 40%; top: 62%;
+  background: #8d8371;
+  transform: none;
+  filter: none;
+}
+.li-summit:is(:hover, .li-play) .li-x i:nth-child(3) { animation: li-kf-chipl 0.7s 0.62s ease-out both; }
+.li-summit:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-chipr 0.8s 0.62s ease-out both; }
+@keyframes li-kf-chipl {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.34), calc(var(--li-size) * 0.16)) rotate(-160deg); }
+}
+@keyframes li-kf-chipr {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.3), calc(var(--li-size) * -0.08)) rotate(180deg); }
+}
 @keyframes li-kf-snowglint {
   0% { opacity: 0; transform: rotate(45deg) scale(0.3); }
   50% { opacity: 1; transform: rotate(45deg) scale(1.2); }
@@ -1144,10 +1173,13 @@ button:active { transform: translateY(0.5px); }
 }
 
 /* ============ GSW — a headlight crosses the ACTUAL bridge span ============ */
-.li-bridge:is(:hover, .li-play) .li-img { animation: li-kf-bridgepop 2.4s ease both; }
+.li-bridge:is(:hover, .li-play) .li-img { animation: li-kf-bridgepop 2.4s ease-in-out both; }
 .li-bridge { --li-shine-c: rgba(255, 199, 44, 0.9); }
 @keyframes li-kf-bridgepop {
-  45% { transform: scale(1.04); }
+  20% { transform: rotate(-1.6deg) translateY(0.5px); }
+  40% { transform: rotate(1.3deg) translateY(-0.5px) scale(1.03); }
+  60% { transform: rotate(-1deg) scale(1.03); }
+  80% { transform: rotate(0.5deg); }
 }
 /* the stage itself is masked by the logo, so the light only exists on the art */
 .li-bridge .li-x {
@@ -1299,7 +1331,10 @@ button:active { transform: translateY(0.5px); }
 .li-showtime { --li-shine-c: rgba(253, 185, 39, 0.95); }
 .li-showtime:is(:hover, .li-play) .li-shine { animation-duration: 1.9s; }
 @keyframes li-kf-showtime {
-  45% { transform: scale(1.07); }
+  15% { transform: perspective(320px) rotateY(40deg) scale(1.03); }
+  55% { transform: perspective(320px) rotateY(310deg) scale(1.08); }
+  78% { transform: perspective(320px) rotateY(372deg) scale(1.02); }
+  100% { transform: perspective(320px) rotateY(360deg); }
 }
 .li-showtime .li-x b {
   z-index: 1;
@@ -1327,8 +1362,12 @@ button:active { transform: translateY(0.5px); }
 /* ============ MEM — grit-grind: grinder sparks off the bottom edge ============ */
 .li-grit:is(:hover, .li-play) .li-img { animation: li-kf-grit 1.8s ease-in-out both; }
 @keyframes li-kf-grit {
-  12%, 44%, 76% { transform: translateX(-1.5px) rotate(-0.5deg); }
-  28%, 60%, 92% { transform: translateX(1.5px) rotate(0.5deg); }
+  16% { transform: scale(0.93, 0.95) translateY(1px); }
+  30% { transform: scale(1.15) translate(2px, -2px); }
+  38% { transform: scale(1.13) translate(1px, -2px) rotate(-2deg); }
+  46% { transform: scale(1.13) translate(2.5px, -2px) rotate(2deg); }
+  54% { transform: scale(1.12) translate(1.5px, -2px) rotate(-1.5deg); }
+  72% { transform: scale(1.02) translate(0, 0); }
 }
 .li-grit .li-x i {
   width: 16%; height: 5%; min-width: 5px; min-height: 1.5px;
@@ -1438,8 +1477,12 @@ button:active { transform: translateY(0.5px); }
 /* ============ NOP — a Mardi Gras throw over the bird ============ */
 .li-wing:is(:hover, .li-play) .li-img { animation: li-kf-wing 2s ease both; }
 @keyframes li-kf-wing {
-  30% { transform: scaleY(1.09) translateY(-1.5px); }
-  60% { transform: scaleY(0.97); }
+  12% { transform: scale(1.14, 0.82) translateY(1px); }
+  26% { transform: scale(0.88, 1.16) translateY(-3.5px); }
+  40% { transform: scale(1.12, 0.86) translateY(-4.5px); }
+  54% { transform: scale(0.92, 1.1) translateY(-6px); }
+  74% { transform: scale(1.01, 0.99) translateY(-3px); }
+  100% { transform: translateY(0); }
 }
 .li-wing .li-x i {
   width: 4.5px; height: 4.5px;
@@ -1466,7 +1509,10 @@ button:active { transform: translateY(0.5px); }
 /* ============ NYK — marquee bulbs chase the ball, two laps ============ */
 .li-marquee:is(:hover, .li-play) .li-img { animation: li-kf-marquee 2.2s ease both; }
 @keyframes li-kf-marquee {
-  35% { transform: scale(1.07); }
+  18% { transform: scale(1.09) rotate(-2deg); }
+  32% { transform: scale(1); }
+  58% { transform: scale(1.09) rotate(2deg); }
+  74% { transform: scale(1); }
 }
 .li-marquee .li-x i {
   width: 4px; height: 4px;
@@ -1600,8 +1646,10 @@ button:active { transform: translateY(0.5px); }
 .li-flare:is(:hover, .li-play) .li-img { animation: li-kf-flare 2.4s ease both; }
 .li-flare { --li-shine-c: rgba(249, 160, 27, 0.9); }
 @keyframes li-kf-flare {
-  35% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.24) rgba(229, 96, 32, 0.9)) brightness(1.13); transform: scale(1.05); }
-  70% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.14) rgba(229, 96, 32, 0.6)) brightness(1.05); }
+  22% { filter: brightness(0.55) saturate(0.6); transform: translateY(3px) scale(0.9); }
+  34% { filter: brightness(0.5) saturate(0.5); transform: translateY(3.5px) scale(0.88); }
+  52% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.3) rgba(229, 96, 32, 0.95)) brightness(1.35); transform: translateY(-2px) scale(1.12); }
+  72% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.16) rgba(229, 96, 32, 0.6)) brightness(1.08); transform: translateY(-1px) scale(1.04); }
 }
 .li-flare .li-x i {
   width: 3.5px; height: 3.5px;
@@ -1717,6 +1765,35 @@ button:active { transform: translateY(0.5px); }
 }
 .li-rowel:is(:hover, .li-play) .li-x i:nth-child(2) { animation: li-kf-tick 0.6s 0.5s ease-out both; }
 .li-rowel:is(:hover, .li-play) .li-x i:nth-child(3) { animation: li-kf-tick 0.6s 0.75s ease-out both; }
+/* the FIESTA streamers (the 90s court, briefly) */
+.li-rowel .li-x i:nth-child(4),
+.li-rowel .li-x i:nth-child(5),
+.li-rowel .li-x i:nth-child(6) {
+  width: 26%; height: 9%; min-width: 8px; min-height: 3px;
+  left: 44%; top: 36%;
+  border-radius: 3px;
+}
+.li-rowel .li-x i:nth-child(4) { background: #ea1d76; }
+.li-rowel .li-x i:nth-child(5) { background: #00b2a9; }
+.li-rowel .li-x i:nth-child(6) { background: #ff6b35; }
+.li-rowel:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-fiesta1 1.1s 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+.li-rowel:is(:hover, .li-play) .li-x i:nth-child(5) { animation: li-kf-fiesta2 1.1s 0.58s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+.li-rowel:is(:hover, .li-play) .li-x i:nth-child(6) { animation: li-kf-fiesta3 1.1s 0.71s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+@keyframes li-kf-fiesta1 {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scaleX(0.2); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.5), calc(var(--li-size) * -0.42)) rotate(-38deg) scaleX(1); }
+}
+@keyframes li-kf-fiesta2 {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scaleX(0.2); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.1), calc(var(--li-size) * -0.58)) rotate(24deg) scaleX(1); }
+}
+@keyframes li-kf-fiesta3 {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scaleX(0.2); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.56), calc(var(--li-size) * -0.36)) rotate(42deg) scaleX(1); }
+}
 @keyframes li-kf-tick {
   0% { opacity: 0; transform: translate(0, 0); }
   25% { opacity: 0.9; }
@@ -1787,7 +1864,12 @@ button:active { transform: translateY(0.5px); }
   background-position: 140% 0;
 }
 @keyframes li-kf-oath {
-  35% { transform: scale(1.05); }
+  16% { transform: scale(1.06) rotate(-4deg); }
+  34% { transform: scale(0.02) rotate(160deg); opacity: 0; }
+  44% { transform: scale(0.02) rotate(200deg); opacity: 0; }
+  58% { transform: scale(1.16) rotate(354deg); opacity: 1; }
+  74% { transform: scale(0.97) rotate(360deg); }
+  100% { transform: scale(1) rotate(360deg); }
 }
 .li-oath .li-x i {
   width: 12%; height: 12%; min-width: 4px; min-height: 4px;
@@ -1826,4 +1908,227 @@ button:active { transform: translateY(0.5px); }
   .li-toss .li-svg path { animation: none !important; }
   .li-x { display: none; }
   .logo-idle:is(:hover, .li-play) .li-img { filter: none; }
+}
+
+/* ---------- Board eggs, tranche 2: five showpieces ---------- */
+
+/* card shakes — a violent shudder (OKC strike, SAS split) and a lower,
+   longer rumble (BKN train) */
+.egg-shudder { animation: egg-shudder-kf 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important; }
+@keyframes egg-shudder-kf {
+  6% { transform: translate(-4px, 2px) rotate(-0.3deg); }
+  14% { transform: translate(5px, -2px) rotate(0.3deg); }
+  24% { transform: translate(-4px, 1px); }
+  36% { transform: translate(3px, -1px); }
+  50% { transform: translate(-2px, 1px); }
+  66% { transform: translate(1.5px, 0); }
+  82% { transform: translate(-0.8px, 0); }
+}
+.egg-rumble { animation: egg-rumble-kf 1.9s ease-in-out both !important; }
+@keyframes egg-rumble-kf {
+  8%, 24%, 40%, 56%, 72%, 88% { transform: translate(1.2px, -0.8px); }
+  16%, 32%, 48%, 64%, 80% { transform: translate(-1.2px, 0.8px); }
+}
+
+/* OKC · The Strike */
+.egg-strike { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
+.st-dim {
+  position: fixed;
+  inset: 0;
+  background: #0c0a06;
+  animation: st-dim-kf 1.5s ease-out both;
+}
+@keyframes st-dim-kf {
+  0% { opacity: 0; }
+  6% { opacity: 0.42; }
+  20% { opacity: 0.34; }
+  100% { opacity: 0; }
+}
+.st-bolt {
+  position: fixed;
+  top: 0;
+  left: 0;
+  filter: drop-shadow(0 0 10px rgba(126, 200, 255, 0.95)) drop-shadow(0 0 26px rgba(126, 200, 255, 0.5));
+  animation: st-bolt-kf 1.1s ease-out both;
+}
+@keyframes st-bolt-kf {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  9% { opacity: 0.15; }
+  13% { opacity: 1; }
+  30% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+.st-flash {
+  position: fixed;
+  width: 220px;
+  height: 90px;
+  transform: translate(-50%, -55%) scale(0.3);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95), rgba(126, 200, 255, 0.45) 45%, transparent 72%);
+  animation: st-flash-kf 0.7s ease-out both;
+}
+@keyframes st-flash-kf {
+  0% { opacity: 0; transform: translate(-50%, -55%) scale(0.3); }
+  12% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -55%) scale(1.7); }
+}
+
+/* CHI · The Intro — the lights go down, one spotlight roves and settles */
+.egg-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  overflow: hidden;
+  animation: in-fade 3.2s ease both;
+}
+@keyframes in-fade {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  86% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.in-spot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  /* the circle is the light; the shadow is the arena going dark */
+  box-shadow: 0 0 0 200vmax rgba(12, 9, 4, 0.82);
+  background: radial-gradient(circle, rgba(255, 244, 214, 0.1) 0%, transparent 52%, rgba(12, 9, 4, 0.55) 80%, rgba(12, 9, 4, 0.82) 100%);
+  animation: in-sweep 2.7s cubic-bezier(0.45, 0.05, 0.35, 1) both;
+}
+@keyframes in-sweep {
+  0% { transform: translate(var(--p0)); }
+  32% { transform: translate(var(--p1)); }
+  62% { transform: translate(var(--p2)); }
+  86%, 100% { transform: translate(var(--pf)); }
+}
+
+/* LAL · Seventeen-and-Counting — cut-paper confetti over the card only */
+.egg-confetti {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+}
+.egg-confetti i {
+  position: absolute;
+  top: -14px;
+  border-radius: 1px;
+  opacity: 0;
+  animation:
+    cf-fall 3s cubic-bezier(0.3, 0.05, 0.6, 0.95) both,
+    cf-tumble 3s linear both;
+}
+@keyframes cf-fall {
+  0% { opacity: 0; translate: 0 0; }
+  8% { opacity: 1; }
+  62% { translate: var(--cfd, 12px) calc(var(--fall, 380px) * 0.62); }
+  88% { opacity: 1; }
+  100% { opacity: 0; translate: calc(var(--cfd, 12px) * 0.4) var(--fall, 380px); }
+}
+@keyframes cf-tumble {
+  to { transform: rotateX(calc(680deg * var(--cfs, 1))) rotateZ(calc(420deg * var(--cfs, 1))); }
+}
+/* the pennant rises to the rafters */
+.cf-banner {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 26px;
+  height: 34px;
+  transform: translate(-50%, 40px);
+  opacity: 0;
+  background: #552583;
+  border: 2px solid #fdb927;
+  border-top-width: 4px;
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 50% 100%, 0 72%);
+  animation: cf-banner-kf 3.6s 0.4s cubic-bezier(0.22, 1.1, 0.36, 1) both;
+}
+@keyframes cf-banner-kf {
+  0% { opacity: 0; transform: translate(-50%, 42px) rotate(0deg); }
+  18% { opacity: 1; transform: translate(-50%, 0) rotate(-3deg); }
+  26% { transform: translate(-50%, 0) rotate(2.5deg); }
+  34% { transform: translate(-50%, 0) rotate(-1.5deg); }
+  42%, 88% { transform: translate(-50%, 0) rotate(0deg); opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, 0); }
+}
+
+/* SAS · The 101st Blow — hairline draws, pauses, splits, heals */
+.egg-crack { position: fixed; z-index: 60; pointer-events: none; }
+.ck-line {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation:
+    ck-draw 1.1s 0.1s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+    ck-widen 0.5s 1.35s ease-out forwards,
+    ck-heal 0.9s 2.5s ease both;
+}
+@keyframes ck-draw { to { stroke-dashoffset: 0; } }
+@keyframes ck-widen { to { stroke-width: 3.4; } }
+@keyframes ck-heal { to { opacity: 0; } }
+.ck-glow {
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+  animation: ck-flash 0.6s 1.35s ease-out both;
+}
+@keyframes ck-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.ck-dust {
+  position: absolute;
+  top: 42%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(180, 168, 140, 0.75);
+  filter: blur(2px);
+  opacity: 0;
+  animation: ck-dust-kf 1s 1.4s ease-out both;
+}
+@keyframes ck-dust-kf {
+  0% { opacity: 0; transform: translateY(0) scale(0.4); }
+  20% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-20px) scale(1.9); }
+}
+
+/* BKN · Stand clear of the closing doors — headlights through the card */
+.egg-subway {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.sw-light {
+  position: absolute;
+  left: -55%;
+  width: 50%;
+  height: 17%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  filter: blur(4px);
+  opacity: 0;
+  animation: sw-pass 1.4s ease-in-out both;
+}
+@keyframes sw-pass {
+  0% { opacity: 0; transform: translateX(0); }
+  16% { opacity: 0.95; }
+  100% { opacity: 0; transform: translateX(320%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-strike,
+  .egg-intro,
+  .egg-confetti,
+  .egg-crack,
+  .egg-subway { display: none; }
+  .egg-shudder,
+  .egg-rumble { animation: none !important; }
 }

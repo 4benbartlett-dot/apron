@@ -16,7 +16,7 @@ import {
   type MechanismId,
 } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
-import { heatCultureEgg, lightTheBeam, moveTouches } from "@/components/teamEggs";
+import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -211,6 +211,56 @@ export default function OffseasonSim() {
     if (p.projWins > prev.wins || p.projNrtg > prev.nrtg + 0.1) lightTheBeam();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lg.moves.length, sacOnBoard]);
+
+  // Board showpieces: five team eggs fired by the move that just landed
+  // (never by undo — only when the ledger GROWS). One per move, by priority.
+  const prevMoveCount = useRef(0);
+  useEffect(() => {
+    const n = lg.moves.length;
+    const grew = n > prevMoveCount.current;
+    prevMoveCount.current = n;
+    if (!grew) return;
+    const mv = lg.moves[n - 1]!;
+    const impactOf = (pid: string) => {
+      const c = lg.contracts.find((x) => x.playerId === pid);
+      return c ? impactScoreOf(c) : 0;
+    };
+    // who just received a star? (CHI intro / LAL confetti share this shape)
+    const arrival = (team: string, minImpact: number, minSalary = 0) => {
+      if (mv.kind === "trade")
+        return mv.players.find(
+          (p) => p.to === team && impactOf(p.playerId) >= minImpact && salaryOf(p.playerId) >= minSalary,
+        )?.playerId;
+      if (minSalary > 0) return undefined; // confetti is trade-only, per the lore
+      if (mv.kind === "sign" && mv.teamId === team && impactOf(mv.playerId) >= minImpact) return mv.playerId;
+      if (mv.kind === "sign_trade" && mv.toTeam === team && impactOf(mv.playerId) >= minImpact) return mv.playerId;
+      return undefined;
+    };
+    const chiStar = board.includes("CHI") ? arrival("CHI", 60) : undefined;
+    const lalMax = board.includes("LAL") ? arrival("LAL", 0, 0.28 * C.salaryCap) : undefined;
+    if (chiStar) {
+      introEgg(lg.playerName(chiStar));
+    } else if (lalMax && mv.kind === "trade") {
+      confettiEgg();
+    } else if (
+      board.includes("OKC") &&
+      mv.kind === "trade" &&
+      (mv.picks ?? []).some((p) => p.to === "OKC" && p.id.endsWith("|1"))
+    ) {
+      strikeEgg(lg.picksOf("OKC").filter((p) => p.round === 1).length);
+    } else if (board.includes("SAS") && moveTouches(mv, "SAS") && lg.moves.filter((m) => moveTouches(m, "SAS")).length === 5) {
+      rockCrackEgg();
+    } else if (
+      board.includes("BKN") &&
+      mv.kind === "trade" &&
+      (mv.players.some((p) => p.to === "BKN") ||
+        (mv.picks ?? []).some((p) => p.to === "BKN" || p.from === "BKN") ||
+        (mv.pickSwaps ?? []).some((s) => s.favoredTo === "BKN" || s.otherTeam === "BKN"))
+    ) {
+      subwayEgg();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lg.moves.length]);
 
   // Power-user keys: T finder · S sign · G glossary · ? this card.
   // Escape closes the topmost surface from anywhere (including inputs);

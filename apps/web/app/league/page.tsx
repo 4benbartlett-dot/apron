@@ -77,6 +77,7 @@ export default function LeaguePage() {
           return (
             <Link
               key={s.teamId}
+              data-li-scope
               href={`/team/${s.teamId}`}
               className="panel block p-4 transition-colors hover:border-[var(--muted)]"
             >
