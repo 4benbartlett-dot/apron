@@ -1,4 +1,5 @@
 import draftPicksRaw from "./draft-picks.json";
+import { PICK_RIGHTS } from "./pick-rights";
 
 /**
  * Real-world encumbrances on each team's OWN future first-round picks, parsed
@@ -111,16 +112,6 @@ export function firstEncumbranceOf(team: string, year: number): FirstEncumbrance
 
 /* --------------------------- Acquired incoming picks --------------------- */
 
-const CITY_TO_ID: Record<string, string> = {
-  Atlanta: "ATL", Boston: "BOS", Brooklyn: "BKN", Charlotte: "CHA", Chicago: "CHI",
-  Cleveland: "CLE", Dallas: "DAL", Denver: "DEN", Detroit: "DET", "Golden State": "GSW",
-  Houston: "HOU", Indiana: "IND", "L.A. Clippers": "LAC", "L.A. Lakers": "LAL",
-  Memphis: "MEM", Miami: "MIA", Milwaukee: "MIL", Minnesota: "MIN", "New Orleans": "NOP",
-  "New York": "NYK", "Oklahoma City": "OKC", Orlando: "ORL", Philadelphia: "PHI",
-  Phoenix: "PHX", Portland: "POR", Sacramento: "SAC", "San Antonio": "SAS",
-  Toronto: "TOR", Utah: "UTA", Washington: "WAS",
-};
-
 export interface AcquiredPick {
   /** The team that currently owns this pick (holder). */
   team: string;
@@ -133,30 +124,29 @@ export interface AcquiredPick {
 
 /**
  * Picks a team already owns from REAL trades — another team's future pick that
- * conveys to them outright. Only clean, unconditional acquisitions ("YEAR
- * (first|second) round draft pick from <one team>") within the tradeable
- * window are included; swaps, conditional/either-or picks, and protected picks
- * are left out because there is no single pick to cleanly send on.
+ * conveys to them outright. Derived from the structured PICK_RIGHTS ledger (the
+ * same source the team pages render), so the board and team pages can't drift:
+ * only kind:"outright" holdings from a single identified origin team, carrying
+ * no protection band or favorability condition, within the tradeable window.
+ * Swaps, either-or pools, and protected picks are left out because no single
+ * pick is guaranteed to convey — counting one as clean inventory would grant
+ * its holder phantom Stepien coverage.
  */
 export const ACQUIRED_PICKS: AcquiredPick[] = (() => {
   const out: AcquiredPick[] = [];
   const seen = new Set<string>();
-  const re = /^(\d{4})\s+(first|second)\s+round draft pick from ([A-Z][A-Za-z.\s'-]+?)(\s*\(|$)/;
-  for (const [team, td] of Object.entries(TEAMS_RAW)) {
-    for (const p of td.incoming) {
-      const h = p.headline;
-      if (/\bswap\b/i.test(h) || / or /.test(h) || /outgoing/i.test(h) || /protect/i.test(h)) continue;
-      const m = re.exec(h);
-      if (!m) continue;
-      const year = Number(m[1]);
-      if (year < 2027 || year > 2032) continue;
-      const round = m[2] === "first" ? 1 : 2;
-      const origin = CITY_TO_ID[m[3]!.trim()];
-      if (!origin || origin === team) continue;
-      const id = `${origin}|${year}|${round}`;
+  for (const [team, rights] of Object.entries(PICK_RIGHTS)) {
+    for (const h of rights.holdings) {
+      if (h.kind !== "outright" || h.protection || h.favorable || h.overlapsPrior) continue;
+      const origin = h.origin;
+      // A compound origin ("OKC/HOU/IND/MIA") or a missing one marks a pool
+      // pick with no identified team — never clean inventory.
+      if (!origin || !(origin in PICK_RIGHTS) || origin === team) continue;
+      if (h.year < 2027 || h.year > 2032) continue;
+      const id = `${origin}|${h.year}|${h.round}`;
       if (seen.has(id)) continue; // a pick can't be owned twice
       seen.add(id);
-      out.push({ team, id, origin, year, round });
+      out.push({ team, id, origin, year: h.year, round: h.round });
     }
   }
   return out;

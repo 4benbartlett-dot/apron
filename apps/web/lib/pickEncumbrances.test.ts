@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { violatesStepien } from "@apron/cba-engine";
-import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf, ACQUIRED_PICKS } from "@apron/data";
+import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf, ACQUIRED_PICKS, PICK_RIGHTS } from "@apron/data";
 import { lockedFirstEncumbrance, PICK_YEARS } from "@/lib/store";
 import { summarizeTrade, encodeTradeParam } from "@/lib/trade-share";
 
@@ -90,7 +90,7 @@ describe("Stepien with real obligations", () => {
 });
 
 describe("acquired incoming picks (real trades before the sim)", () => {
-  it("parses clean 'from <team>' picks into structured inventory, no double-owns", () => {
+  it("derives clean acquired picks into structured inventory, no double-owns", () => {
     expect(ACQUIRED_PICKS.length).toBeGreaterThan(50);
     const ids = ACQUIRED_PICKS.map((p) => p.id);
     expect(new Set(ids).size).toBe(ids.length); // a pick can't be owned twice
@@ -102,10 +102,41 @@ describe("acquired incoming picks (real trades before the sim)", () => {
     }
   });
 
-  it("OKC owns Denver's and San Antonio's 2027 firsts (a real holding)", () => {
-    const okc = ACQUIRED_PICKS.filter((p) => p.team === "OKC").map((p) => p.id);
-    expect(okc).toContain("DEN|2027|1");
-    expect(okc).toContain("SAS|2027|1");
+  it("clean outright holdings are inventory (BKN owns NYK's 2029, MEM owns ORL's 2030)", () => {
+    expect(ACQUIRED_PICKS.find((p) => p.id === "NYK|2029|1")?.team).toBe("BKN");
+    expect(ACQUIRED_PICKS.find((p) => p.id === "ORL|2030|1")?.team).toBe("MEM");
+  });
+
+  it("conditional/protected picks are NOT inventory, even when only the detail says so", () => {
+    // The headline-regex builder missed conditions living in the detail text:
+    // the board sold these as clean while team pages called them conditional.
+    const ids = new Set(ACQUIRED_PICKS.map((p) => p.id));
+    expect(ids.has("DEN|2027|1")).toBe(false); // → OKC only outside prot 1-5, rolls to 2029
+    expect(ids.has("SAS|2027|1")).toBe(false); // → OKC only if it lands 17-30
+    expect(ids.has("DEN|2029|1")).toBe(false); // → OKC only after a first conveys
+    expect(ids.has("GSW|2030|1")).toBe(false); // → MEM protected 1-20
+    expect(ids.has("LAL|2027|1")).toBe(false); // → MEM protected 1-4
+    expect(ids.has("PHI|2028|1")).toBe(false); // → BOS or instead a swap right
+    expect(ids.has("DAL|2027|1")).toBe(false); // → CHA protected 1-2
+    expect(ids.has("MIA|2027|1")).toBe(false); // → CHA protected 1-14, rolls to 2028
+    expect(ids.has("HOU|2029|1")).toBe(false); // → BKN least favorable of HOU/DAL/PHX
+    expect(ids.has("LAL|2027|2")).toBe(false); // → BKN only if LAL's first conveys to MEM
+    expect(ids.has("MIN|2029|2")).toBe(false); // → CHA only if MIN's first conveys to UTA
+  });
+
+  it("every acquired pick traces to an outright, unconditional PICK_RIGHTS holding", () => {
+    // ACQUIRED_PICKS ⊆ pick-rights outright holdings — one source of truth, so
+    // the board's inventory can never drift from what the team pages label.
+    for (const p of ACQUIRED_PICKS) {
+      const h = (PICK_RIGHTS[p.team]?.holdings ?? []).find(
+        (h) =>
+          h.kind === "outright" && h.origin === p.origin &&
+          h.year === p.year && h.round === p.round,
+      );
+      expect(h, `${p.id} held by ${p.team} has no outright pick-rights holding`).toBeDefined();
+      expect(h!.protection, `${p.id} carries a protection band`).toBeUndefined();
+      expect(h!.favorable, `${p.id} carries a favorability condition`).toBeUndefined();
+    }
   });
 
   it("never lists a pick a team already owes away as also acquired", () => {

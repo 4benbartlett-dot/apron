@@ -186,8 +186,7 @@
         {
           "year": 2029,
           "round": 1,
-          "kind": "outright",
-          "origin": "HOU",
+          "kind": "conditional",
           "counterparties": [
             "HOU",
             "DAL",
@@ -431,7 +430,7 @@
         {
           "year": 2027,
           "round": 1,
-          "kind": "outright",
+          "kind": "conditional",
           "origin": "DAL",
           "protection": "1-2",
           "note": "DAL 2027 first, protected 1-2; if it lands top-2 and is not conveyed, CHA instead receives MIA's 2028 second",
@@ -440,7 +439,7 @@
         {
           "year": 2027,
           "round": 1,
-          "kind": "outright",
+          "kind": "conditional",
           "origin": "MIA",
           "protection": "1-14",
           "note": "MIA first, protected 1-14 in 2027 and unprotected in 2028 (rolls to 2028 if not conveyed in 2027)",
@@ -1609,8 +1608,7 @@
         {
           "year": 2027,
           "round": 2,
-          "kind": "outright",
-          "origin": "OKC/HOU/IND/MIA",
+          "kind": "conditional",
           "counterparties": [
             "OKC",
             "HOU",
