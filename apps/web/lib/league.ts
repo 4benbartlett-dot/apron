@@ -1123,22 +1123,38 @@ function modelNrtg(roster: Contract[]): number {
   const cal = TEAM_CALIBRATION;
   return cal.intercept + cal.rosterCoef * rosterScore(roster) + cal.fitCoef * teamFit(roster).nrtg;
 }
-function modelWins(nrtg: number): number {
-  return Math.max(12, Math.min(73, Math.round(TEAM_CALIBRATION.winsIntercept + TEAM_CALIBRATION.winsPerNrtg * nrtg)));
+export const SEASON_GAMES = 82;
+/** Every game produces exactly one win, so the 30 teams share a fixed 1,230. */
+export const LEAGUE_WINS = (30 * SEASON_GAMES) / 2;
+
+// Real-valued expected wins from net rating — the SAME linear calibration, but
+// bounded to a full 0..82 season instead of clamped to 12..73. A normal roster
+// still lands in its usual range; only a fantasy superteam approaches 82-0 (or a
+// gutted one 0-82). Integer rounding is done leaguewide (apportionWins), never
+// per team.
+function rawWins(nrtg: number): number {
+  return Math.max(0, Math.min(SEASON_GAMES, TEAM_CALIBRATION.winsIntercept + TEAM_CALIBRATION.winsPerNrtg * nrtg));
 }
 
-// Wins are ZERO-SUM: the league plays a fixed ~1,230 games no matter how talent
-// is distributed, so the leaguewide net-rating total is a constant — every point
-// one team gains is a point an opponent loses. The per-team model reads each
-// roster independently, so without a correction, signing an unsigned free agent
-// (LeBron) would manufacture wins from nowhere and a lopsided trade would add or
-// shed leaguewide wins. So after moves we re-center every team's net rating by a
-// single offset that restores the base leaguewide total — a team that gets
-// better pulls the rest of the field down to compensate (a stronger rival is a
-// harder schedule for everyone else), and total wins stay ~1,230.
-// Lazily computed (not at module load) — modelNrtg's dependency chain uses
-// consts declared further down the file, so evaluating it eagerly here would hit
-// the temporal dead zone.
+// Round real-valued team wins to integers that sum to EXACTLY `total`
+// (largest-remainder / Hamilton apportionment), bounded 0..82. This is what
+// keeps the standings adding up — no half-wins, no ties, always 1,230 total.
+function apportionWins(raw: number[], total: number): number[] {
+  const res = raw.map((w) => Math.floor(w));
+  let rem = Math.round(total - res.reduce((a, b) => a + b, 0));
+  const byFrac = raw.map((w, i) => ({ i, frac: w - Math.floor(w) })).sort((a, b) => b.frac - a.frac);
+  for (let k = 0; rem > 0 && k < byFrac.length; k++) {
+    if (res[byFrac[k]!.i]! < SEASON_GAMES) { res[byFrac[k]!.i]!++; rem--; }
+  }
+  for (let k = byFrac.length - 1; rem < 0 && k >= 0; k--) {
+    if (res[byFrac[k]!.i]! > 0) { res[byFrac[k]!.i]!--; rem++; }
+  }
+  return res;
+}
+
+// Base leaguewide net-rating total, computed lazily (not at module load —
+// modelNrtg's dependency chain uses consts declared further down the file, so
+// eager evaluation would hit the temporal dead zone).
 let _baseTotalNrtg: number | null = null;
 function baseTotalNrtg(): number {
   if (_baseTotalNrtg === null) {
@@ -1149,17 +1165,28 @@ function baseTotalNrtg(): number {
   }
   return _baseTotalNrtg;
 }
-let _centerCache: { ref: Contract[]; offset: number } | null = null;
-function leagueCenterOffset(liveContracts: Contract[]): number {
-  if (liveContracts === BASE_CONTRACTS) return 0; // no moves → no drift
-  if (_centerCache && _centerCache.ref === liveContracts) return _centerCache.offset;
-  const liveTotal = TEAM_IDS.reduce(
-    (s, t) => s + modelNrtg(liveContracts.filter((c) => c.teamId === t)),
-    0,
-  );
-  const offset = (baseTotalNrtg() - liveTotal) / TEAM_IDS.length;
-  _centerCache = { ref: liveContracts, offset };
-  return offset;
+
+// League standings: each team's re-centered net rating + integer wins that sum
+// to EXACTLY 1,230. Wins are ZERO-SUM — the league plays a fixed 1,230 games
+// however talent is spread — so after moves we re-center every team's net rating
+// by one offset that restores the base leaguewide total (a team that improves
+// pulls the field down to compensate; signing an unsigned free agent can't
+// manufacture leaguewide wins), then apportion to integers. So improving your
+// team by N wins takes exactly N from the rest of the league. Memoized by the
+// contracts reference.
+let _standingsCache: { ref: Contract[]; standings: Record<string, { nrtg: number; wins: number }> } | null = null;
+function leagueStandings(liveContracts: Contract[]): Record<string, { nrtg: number; wins: number }> {
+  if (_standingsCache && _standingsCache.ref === liveContracts) return _standingsCache.standings;
+  const raw = TEAM_IDS.map((t) => modelNrtg(liveContracts.filter((c) => c.teamId === t)));
+  const offset = (baseTotalNrtg() - raw.reduce((a, b) => a + b, 0)) / TEAM_IDS.length;
+  const nrtgs = raw.map((n) => n + offset);
+  const wins = apportionWins(nrtgs.map(rawWins), LEAGUE_WINS);
+  const standings: Record<string, { nrtg: number; wins: number }> = {};
+  TEAM_IDS.forEach((t, i) => {
+    standings[t] = { nrtg: Math.round(nrtgs[i]! * 10) / 10, wins: wins[i]! };
+  });
+  _standingsCache = { ref: liveContracts, standings };
+  return standings;
 }
 
 /**
@@ -1173,21 +1200,18 @@ function leagueCenterOffset(liveContracts: Contract[]): number {
  */
 export function teamProjection(team: string, liveContracts: Contract[]): TeamProjection | undefined {
   if (!TEAM_STRENGTH_2026[team]) return undefined;
-  const baseNrtg = modelNrtg(BASE_CONTRACTS.filter((c) => c.teamId === team));
-  // Zero-sum re-centering keeps the leaguewide win total at its ~1,230 baseline
-  // after moves (see leagueCenterOffset). With no moves the offset is 0, so an
-  // untouched league still mirrors the base exactly.
-  const projNrtg =
-    modelNrtg(liveContracts.filter((c) => c.teamId === team)) + leagueCenterOffset(liveContracts);
-  const baseWins = modelWins(baseNrtg);
-  const projWins = modelWins(projNrtg);
+  // Both records come from the leaguewide apportionment, so base and projection
+  // each sum to exactly 1,230 and the delta across all teams sums to 0 — improve
+  // one team and the field gives back exactly that many wins.
+  const base = leagueStandings(BASE_CONTRACTS)[team]!;
+  const proj = leagueStandings(liveContracts)[team]!;
   return {
-    baseNrtg: Math.round(baseNrtg * 10) / 10,
-    baseWins,
-    projNrtg: Math.round(projNrtg * 10) / 10,
-    projWins,
-    deltaNrtg: Math.round((projNrtg - baseNrtg) * 10) / 10,
-    deltaWins: projWins - baseWins,
+    baseNrtg: base.nrtg,
+    baseWins: base.wins,
+    projNrtg: proj.nrtg,
+    projWins: proj.wins,
+    deltaNrtg: Math.round((proj.nrtg - base.nrtg) * 10) / 10,
+    deltaWins: proj.wins - base.wins,
   };
 }
 
