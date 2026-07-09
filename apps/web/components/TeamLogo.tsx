@@ -52,8 +52,8 @@ const RECIPES: Record<string, Recipe> = {
   CLE: { fx: "chalk", a: "#860038", b: "#fdbb30", extra: { i: 5 } },
   // the horse rears in kicked-up dust; one lone star winks after it settles
   DAL: { fx: "rear", a: "#00538c", b: "#b8c4ca", extra: { i: 3, b: 1 } },
-  // sunrise climbs the peak, snowcaps glint, a cloud drifts behind the summit
-  DEN: { fx: "summit", a: "#0e2240", b: "#fec524", extra: { i: 2, b: 1 } },
+  // the pickaxe SWINGS — chips fly on impact, sunrise climbs, a cloud drifts
+  DEN: { fx: "summit", a: "#0e2240", b: "#fec524", extra: { i: 4, b: 1 } },
   // Motor City rev: torque twist with three exhaust puffs out the back
   DET: { fx: "rev", a: "#c8102e", b: "#1d42ba", extra: { i: 3 } },
   // a headlight crosses the ACTUAL bridge span — the moving light is clipped
@@ -91,8 +91,8 @@ const RECIPES: Record<string, Recipe> = {
   POR: { fx: "pinwheel", a: "#e03a3e", b: "#8d9093", extra: { i: 4 } },
   // a miniature Golden 1 beam fires straight up off the crown
   SAC: { fx: "gleam", a: "#5a2d81", b: "#c0c4c8", extra: { b: 2 } },
-  // the spur's rowel spins at the heel, kicking two ticks of dust
-  SAS: { fx: "rowel", a: "#c4ced4", b: "#8a8d90", extra: { i: 3, text: ["✦", "", ""] } },
+  // the rowel spins at the heel — and the FIESTA streamers make an appearance
+  SAS: { fx: "rowel", a: "#c4ced4", b: "#8a8d90", extra: { i: 6, text: ["✦", "", ""] } },
   // three claw streaks rake THROUGH the art; a maple leaf flutters down after
   TOR: { fx: "claw", a: "#ce1141", b: "#a1a1a4", extra: { i: 1 } },
   // a two-beat swing riff — three notes rise off the mark in rhythm
@@ -137,6 +137,7 @@ export function TeamLogo({
 }) {
   const r = RECIPES[id];
   const [play, setPlay] = useState(false);
+  const wrap = useRef<HTMLSpanElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playOnce = (delay = 0, hold = 2600) => {
     if (timer.current) clearTimeout(timer.current);
@@ -152,6 +153,56 @@ export function TeamLogo({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flourish]);
+  // Widen the hover target: inside a [data-li-scope] container (team-picker
+  // boxes, league-page cards) the whole box plays the scene, not just the
+  // 38px logo. Mirrors :hover exactly — enter plays, leave resets.
+  useEffect(() => {
+    const scope = wrap.current?.closest("[data-li-scope]");
+    if (!scope) return;
+    const on = () => {
+      if (timer.current) clearTimeout(timer.current);
+      setPlay(true);
+    };
+    const off = () => {
+      if (timer.current) clearTimeout(timer.current);
+      setPlay(false);
+    };
+    scope.addEventListener("mouseenter", on);
+    scope.addEventListener("mouseleave", off);
+    return () => {
+      scope.removeEventListener("mouseenter", on);
+      scope.removeEventListener("mouseleave", off);
+    };
+  }, []);
+  // No hover on this device? Play the scene once as the logo scrolls into
+  // view, staggered by screen position so a grid cascades instead of firing
+  // all thirty at once. (Scroll/resize check, not IntersectionObserver —
+  // some embedded webviews never deliver it. Tap still replays any time.)
+  useEffect(() => {
+    if (typeof matchMedia === "undefined" || !matchMedia("(hover: none)").matches) return;
+    const el = wrap.current;
+    if (!el) return;
+    let done = false;
+    const check = () => {
+      if (done) return;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (!vh) return;
+      const r = el.getBoundingClientRect();
+      if (r.top >= vh - 24 || r.bottom <= 0) return;
+      done = true;
+      stop();
+      playOnce(120 + ((r.left * 5 + r.top) % 700), 2600);
+    };
+    const stop = () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check, { passive: true });
+    check();
+    return stop;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const img = (
     <img
@@ -167,6 +218,7 @@ export function TeamLogo({
 
   return (
     <span
+      ref={wrap}
       className={`logo-idle li-${r.fx}${play ? " li-play" : ""}`}
       data-team={id}
       onTouchStart={() => playOnce(0, 2200)}

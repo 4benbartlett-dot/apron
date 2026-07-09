@@ -42,6 +42,7 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
         {TEAM_IDS.map((id, i) => (
           <button
             key={id}
+            data-li-scope
             onClick={() => onPick(id)}
             className="team-pick fade-up flex flex-col items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--panel-2)]/50 px-2 pb-2.5 pt-3"
             style={{ animationDelay: `${100 + i * 22}ms` }}
