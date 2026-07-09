@@ -1520,7 +1520,7 @@ export type Move =
       label: string;
       players: { playerId: string; to: string }[];
       /** Draft picks changing hands outright (by original-owner pick id). */
-      picks?: { id: string; to: string }[];
+      picks?: { id: string; from?: string; to: string }[];
       /** Pick-swap RIGHTS created in this trade: `favoredTo` gets the more
        *  favorable of the two teams' same-year/round firsts, `otherTeam` the
        *  less favorable. A right, not a concrete transfer — pick ownership (and
