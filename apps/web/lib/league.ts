@@ -1127,6 +1127,41 @@ function modelWins(nrtg: number): number {
   return Math.max(12, Math.min(73, Math.round(TEAM_CALIBRATION.winsIntercept + TEAM_CALIBRATION.winsPerNrtg * nrtg)));
 }
 
+// Wins are ZERO-SUM: the league plays a fixed ~1,230 games no matter how talent
+// is distributed, so the leaguewide net-rating total is a constant — every point
+// one team gains is a point an opponent loses. The per-team model reads each
+// roster independently, so without a correction, signing an unsigned free agent
+// (LeBron) would manufacture wins from nowhere and a lopsided trade would add or
+// shed leaguewide wins. So after moves we re-center every team's net rating by a
+// single offset that restores the base leaguewide total — a team that gets
+// better pulls the rest of the field down to compensate (a stronger rival is a
+// harder schedule for everyone else), and total wins stay ~1,230.
+// Lazily computed (not at module load) — modelNrtg's dependency chain uses
+// consts declared further down the file, so evaluating it eagerly here would hit
+// the temporal dead zone.
+let _baseTotalNrtg: number | null = null;
+function baseTotalNrtg(): number {
+  if (_baseTotalNrtg === null) {
+    _baseTotalNrtg = TEAM_IDS.reduce(
+      (s, t) => s + modelNrtg(BASE_CONTRACTS.filter((c) => c.teamId === t)),
+      0,
+    );
+  }
+  return _baseTotalNrtg;
+}
+let _centerCache: { ref: Contract[]; offset: number } | null = null;
+function leagueCenterOffset(liveContracts: Contract[]): number {
+  if (liveContracts === BASE_CONTRACTS) return 0; // no moves → no drift
+  if (_centerCache && _centerCache.ref === liveContracts) return _centerCache.offset;
+  const liveTotal = TEAM_IDS.reduce(
+    (s, t) => s + modelNrtg(liveContracts.filter((c) => c.teamId === t)),
+    0,
+  );
+  const offset = (baseTotalNrtg() - liveTotal) / TEAM_IDS.length;
+  _centerCache = { ref: liveContracts, offset };
+  return offset;
+}
+
 /**
  * Projected net rating + record for a team — the MODEL'S OWN read on the current
  * roster (talent + fit, calibrated to real net ratings), not anchored to any
@@ -1139,7 +1174,11 @@ function modelWins(nrtg: number): number {
 export function teamProjection(team: string, liveContracts: Contract[]): TeamProjection | undefined {
   if (!TEAM_STRENGTH_2026[team]) return undefined;
   const baseNrtg = modelNrtg(BASE_CONTRACTS.filter((c) => c.teamId === team));
-  const projNrtg = modelNrtg(liveContracts.filter((c) => c.teamId === team));
+  // Zero-sum re-centering keeps the leaguewide win total at its ~1,230 baseline
+  // after moves (see leagueCenterOffset). With no moves the offset is 0, so an
+  // untouched league still mirrors the base exactly.
+  const projNrtg =
+    modelNrtg(liveContracts.filter((c) => c.teamId === team)) + leagueCenterOffset(liveContracts);
   const baseWins = modelWins(baseNrtg);
   const projWins = modelWins(projNrtg);
   return {

@@ -173,6 +173,21 @@ describe("team projections (net rating + wins, delta from moves)", () => {
     expect(Math.abs(wins - 1230)).toBeLessThanOrEqual(3);
   });
 
+  it("keeps the total after moves — wins are zero-sum (re-centered)", () => {
+    // Moving one star between teams must REDISTRIBUTE wins, not manufacture or
+    // destroy them: the leaguewide total holds (a stronger team is offset by a
+    // weaker field), as long as no team is pushed into the 12/73 clamp.
+    const sumWins = (c: typeof BASE_CONTRACTS) =>
+      TEAM_IDS.reduce((s, t) => s + (teamProjection(t, c)?.projWins ?? 0), 0);
+    const base = sumWins(BASE_CONTRACTS);
+    const live = BASE_CONTRACTS.map((c) =>
+      /Joki|Jokić/.test(c.playerName) && !c.deadMoney ? { ...c, teamId: "WAS" } : c,
+    );
+    expect(Math.abs(sumWins(live) - base)).toBeLessThanOrEqual(3);
+    expect(teamProjection("WAS", live)!.deltaWins).toBeGreaterThan(0); // gained the star
+    expect(teamProjection("DEN", live)!.deltaWins).toBeLessThan(0); // lost the star
+  });
+
   it("the exported team-strength snapshot mirrors the model-native baseline", () => {
     for (const t of TEAM_IDS) {
       const p = teamProjection(t, BASE_CONTRACTS)!;
