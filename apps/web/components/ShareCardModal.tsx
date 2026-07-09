@@ -91,6 +91,12 @@ export function ShareCardModal({
   // trade machine). /trade?t= still works and redirects here for old links.
   const shareUrl = `${typeof window === "undefined" ? "https://overtheapron.com" : window.location.origin}/?t=${encodeURIComponent(token)}`;
 
+  // The export is the SERVER-rendered card (Satori) — deterministic and
+  // bulletproof, where html-to-image silently dropped the verdict stamp on
+  // real browsers. Same card the X unfurl uses; ?fmt sizes it per format.
+  const ogImageUrl = (fmt: "feed" | "square" | "story") =>
+    `/api/og?t=${encodeURIComponent(token)}&fmt=${fmt}`;
+
   // Stories can't carry links — the QR is the link. Low ECC keeps the module
   // count down so long trade tokens stay scannable at story size.
   const qrDataUrl = useMemo(() => {
@@ -317,36 +323,24 @@ export function ShareCardModal({
     }
   };
 
+  // Touch devices: lay a pixel-true copy over the card so the OS long-press
+  // gesture treats the whole card as a saveable image. It's just the server
+  // card — no in-browser capture needed.
   useEffect(() => {
     if (!touchDevice) return;
-    let live = true;
-    setHoldImg(null);
-    // Let the stamp-in animation settle before snapshotting.
-    const timer = setTimeout(() => {
-      captureCard()
-        .then((u) => {
-          if (live) setHoldImg(u);
-        })
-        .catch(() => {});
-    }, 700);
-    return () => {
-      live = false;
-      clearTimeout(timer);
-    };
+    setHoldImg(ogImageUrl(format));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [format, touchDevice]);
+  }, [format, touchDevice, token]);
 
   // Copy the rendered card itself to the clipboard — paste anywhere.
   // ClipboardItem takes the pending promise so Safari's user-gesture rule
   // is satisfied even though the capture is async.
   const copyImage = async () => {
-    const node = cardRef.current;
-    if (!node) return;
     track("share_copy_image");
     try {
-      const blobPromise = captureCard()
-        .then((dataUrl) => fetch(dataUrl))
-        .then((r) => r.blob());
+      // ClipboardItem takes the pending promise so Safari's user-gesture rule
+      // is satisfied even though the fetch is async.
+      const blobPromise = fetch(ogImageUrl(format)).then((r) => r.blob());
       await navigator.clipboard.write([new ClipboardItem({ "image/png": blobPromise })]);
       setCopiedImg(true);
       setTimeout(() => setCopiedImg(false), 1600);
@@ -358,8 +352,6 @@ export function ShareCardModal({
   };
 
   const downloadImage = async () => {
-    const node = cardRef.current;
-    if (!node) return;
     track("share_download");
     setDownloading(true);
     const name = `over-the-apron-${format}-${legal ? "legal" : "blocked"}-${involved.map((t) => t.teamId).join("-")}.png`;
@@ -370,11 +362,11 @@ export function ShareCardModal({
       a.click();
     };
     try {
-      const url = await captureCard();
+      const blob = await (await fetch(ogImageUrl(format))).blob();
+      const objUrl = URL.createObjectURL(blob);
       // Phones: hand the PNG to the share sheet, whose "Save Image" writes
       // straight to Photos — a raw download strands the file in Files.
       if (canNativeShare) {
-        const blob = await (await fetch(url)).blob();
         const file = new File([blob], name, { type: "image/png" });
         if (navigator.canShare?.({ files: [file] })) {
           try {
@@ -382,16 +374,19 @@ export function ShareCardModal({
           } catch {
             /* sheet dismissed — not an error */
           }
+          URL.revokeObjectURL(objUrl);
           return;
         }
       }
-      save(url);
+      save(objUrl);
+      URL.revokeObjectURL(objUrl);
     } catch {
-      const res = await fetch(`/api/og?t=${encodeURIComponent(token)}`);
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      save(url);
-      URL.revokeObjectURL(url);
+      // Server unreachable — fall back to the in-browser capture.
+      try {
+        save(await captureCard());
+      } catch {
+        /* give up */
+      }
     } finally {
       setDownloading(false);
     }
@@ -400,14 +395,9 @@ export function ShareCardModal({
   const shareStory = async () => {
     track("share_story");
     setFormat("story");
-    // Let the story frame (and its QR) render before capturing.
-    await new Promise((r) => setTimeout(r, 450));
-    const node = cardRef.current;
-    if (!node) return;
     setDownloading(true);
     try {
-      const dataUrl = await captureCard(3);
-      const blob = await (await fetch(dataUrl)).blob();
+      const blob = await (await fetch(ogImageUrl("story"))).blob();
       const file = new File([blob], "over-the-apron-story.png", { type: "image/png" });
       if (navigator.canShare?.({ files: [file] })) {
         // The web can't jump straight into Instagram's story composer (that
@@ -417,7 +407,7 @@ export function ShareCardModal({
         await navigator.share({ files: [file] });
       } else {
         const a = document.createElement("a");
-        a.href = dataUrl;
+        a.href = URL.createObjectURL(blob);
         a.download = "over-the-apron-story.png";
         a.click();
       }
