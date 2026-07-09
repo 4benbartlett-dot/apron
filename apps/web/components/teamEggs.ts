@@ -88,27 +88,57 @@ export function strikeEgg(firstCount: number) {
   setTimeout(() => wrap.remove(), 1900);
 }
 
-/** CHI — The Intro. A star arrives: the lights go DOWN, one spotlight roves
- * the board Sirius-style and settles on the Bulls card. */
+/** CHI — The Intro. A star arrives: the lights go DOWN and one spotlight
+ * hunts the board — drifting slowly, pausing on the wrong teams the way a
+ * real arena spotlight does — before finding and tightening on the player's
+ * own roster row. The toast waits for the light to land. */
 export function introEgg(playerName: string) {
-  leagueToast("And now…", `${playerName}. From parts elsewhere. Your newest Bull.`);
-  if (reducedMotion()) return;
+  if (reducedMotion()) {
+    leagueToast("And now…", `${playerName}. From parts elsewhere. Your newest Bull.`);
+    return;
+  }
   const card = cardOf("CHI");
   if (!card || document.querySelector(".egg-intro")) return;
-  const r = card.getBoundingClientRect();
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const spot = 260; // spotlight diameter
-  const pt = (px: number, py: number) => `${(px - spot / 2).toFixed(0)}px, ${(py - spot / 2).toFixed(0)}px`;
+  // the player's own row inside the Bulls card — the innermost element that
+  // names him and is row-sized. Falls back to the card header.
+  const inView = (rc: DOMRect) => rc.top > 40 && rc.bottom < vh - 20;
+  const row = [...card.querySelectorAll<HTMLElement>("div, span")]
+    .filter((e) => (e.textContent || "").includes(playerName))
+    .map((e) => ({ e, rc: e.getBoundingClientRect() }))
+    .filter(({ rc }) => rc.height > 8 && rc.height < 56 && rc.width > 60)
+    .sort((a, b) => a.rc.width * a.rc.height - b.rc.width * b.rc.height)[0];
+  const cr = card.getBoundingClientRect();
+  const target =
+    row && inView(row.rc)
+      ? { x: row.rc.left + row.rc.width / 2, y: row.rc.top + row.rc.height / 2 }
+      : { x: cr.left + cr.width / 2, y: cr.top + Math.min(cr.height * 0.25, 150) };
+  // the hunt visits the OTHER front offices first
+  const others = [...document.querySelectorAll<HTMLElement>("[data-egg-team]")]
+    .filter((c) => c.dataset.eggTeam !== "CHI")
+    .map((c) => c.getBoundingClientRect())
+    .filter((rc) => rc.top < vh && rc.bottom > 0)
+    .slice(0, 2);
+  const w1 = others[0]
+    ? { x: others[0].left + others[0].width / 2, y: Math.max(others[0].top + 130, 120) }
+    : { x: vw * 0.78, y: vh * 0.3 };
+  const w2 = others[1]
+    ? { x: others[1].left + others[1].width / 2, y: Math.max(others[1].top + 170, 160) }
+    : { x: vw * 0.24, y: vh * 0.6 };
+  const spot = 320; // roaming diameter; the landing iris tightens via scale
+  const pt = (p: { x: number; y: number }) => `${(p.x - spot / 2).toFixed(0)}px, ${(p.y - spot / 2).toFixed(0)}px`;
   const wrap = document.createElement("div");
   wrap.className = "egg-intro";
-  wrap.style.setProperty("--p0", pt(vw * 0.16, vh * 0.22));
-  wrap.style.setProperty("--p1", pt(vw * 0.74, vh * 0.3));
-  wrap.style.setProperty("--p2", pt(vw * 0.32, vh * 0.62));
-  wrap.style.setProperty("--pf", pt(r.left + r.width / 2, r.top + Math.min(r.height / 2, 190)));
+  wrap.style.setProperty("--p0", pt({ x: vw * 0.12, y: -60 }));
+  wrap.style.setProperty("--p1", pt(w1));
+  wrap.style.setProperty("--p2", pt(w2));
+  wrap.style.setProperty("--pf", pt(target));
   wrap.innerHTML = '<i class="in-spot"></i>';
   document.body.appendChild(wrap);
-  setTimeout(() => wrap.remove(), 3300);
+  // the PA waits until the light finds him
+  setTimeout(() => leagueToast("And now…", `${playerName}. From parts elsewhere. Your newest Bull.`), 4100);
+  setTimeout(() => wrap.remove(), 5700);
 }
 
 /** LAL — Seventeen-and-Counting. A max player arrives via trade: purple and

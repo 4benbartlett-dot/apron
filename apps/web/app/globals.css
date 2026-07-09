@@ -1974,38 +1974,45 @@ button:active { transform: translateY(0.5px); }
   100% { opacity: 0; transform: translate(-50%, -55%) scale(1.7); }
 }
 
-/* CHI · The Intro — the lights go down, one spotlight roves and settles */
+/* CHI · The Intro — the lights go down and one spotlight HUNTS: a slow
+   drift, a pause on the wrong team, another look, then it finds the man and
+   the iris tightens on his roster row. The PA (toast) waits for the light. */
 .egg-intro {
   position: fixed;
   inset: 0;
   z-index: 70;
   pointer-events: none;
   overflow: hidden;
-  animation: in-fade 3.2s ease both;
+  animation: in-fade 5.6s ease both;
 }
 @keyframes in-fade {
   0% { opacity: 0; }
-  8% { opacity: 1; }
-  86% { opacity: 1; }
+  9% { opacity: 1; }
+  88% { opacity: 1; }
   100% { opacity: 0; }
 }
 .in-spot {
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
-  height: 260px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
   /* the circle is the light; the shadow is the arena going dark */
-  box-shadow: 0 0 0 200vmax rgba(12, 9, 4, 0.82);
-  background: radial-gradient(circle, rgba(255, 244, 214, 0.1) 0%, transparent 52%, rgba(12, 9, 4, 0.55) 80%, rgba(12, 9, 4, 0.82) 100%);
-  animation: in-sweep 2.7s cubic-bezier(0.45, 0.05, 0.35, 1) both;
+  box-shadow: 0 0 0 200vmax rgba(12, 9, 4, 0.84);
+  background: radial-gradient(circle, rgba(255, 244, 214, 0.12) 0%, transparent 40%, rgba(12, 9, 4, 0.5) 76%, rgba(12, 9, 4, 0.84) 100%);
+  animation: in-sweep 4.9s both;
 }
+/* each leg eases in and out — the light coasts, considers, moves on */
 @keyframes in-sweep {
-  0% { transform: translate(var(--p0)); }
-  32% { transform: translate(var(--p1)); }
-  62% { transform: translate(var(--p2)); }
-  86%, 100% { transform: translate(var(--pf)); }
+  0% { transform: translate(var(--p0)) scale(1.08); animation-timing-function: cubic-bezier(0.45, 0.05, 0.3, 0.95); }
+  24% { transform: translate(var(--p1)) scale(1); animation-timing-function: linear; }
+  33% { transform: translate(var(--p1)) scale(1); animation-timing-function: cubic-bezier(0.45, 0.05, 0.3, 0.95); }
+  56% { transform: translate(var(--p2)) scale(1.02); animation-timing-function: linear; }
+  64% { transform: translate(var(--p2)) scale(1.02); animation-timing-function: cubic-bezier(0.5, 0.05, 0.2, 1); }
+  84% { transform: translate(var(--pf)) scale(0.62); animation-timing-function: ease-in-out; }
+  90% { transform: translate(var(--pf)) scale(0.68); }
+  100% { transform: translate(var(--pf)) scale(0.64); }
 }
 
 /* LAL · Seventeen-and-Counting — cut-paper confetti over the card only */
