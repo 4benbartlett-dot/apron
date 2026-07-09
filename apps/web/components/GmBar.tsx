@@ -78,9 +78,17 @@ export function GmBar() {
         </div>
         <button
           onClick={shareOffseason}
-          className="shrink-0 rounded-md border border-[var(--border)] px-3 py-1 text-xs font-semibold hover:bg-[var(--panel-2)]"
+          title="Copy a link that reloads your entire offseason — every move, on the live board"
+          className="group shrink-0 rounded-md bg-[var(--accent)] px-3.5 py-1.5 text-xs font-bold text-[var(--bg)] shadow-sm transition-transform hover:opacity-90 active:scale-[0.97]"
         >
-          {copied ? "Copied ✓" : "Share offseason"}
+          {copied ? (
+            "Copied ✓"
+          ) : (
+            <span className="inline-flex items-center gap-1.5">
+              <span className="transition-transform group-hover:-translate-y-px group-hover:translate-x-px">↗</span>
+              Share offseason
+            </span>
+          )}
         </button>
         <button
           onClick={undoMove}
