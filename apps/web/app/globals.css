@@ -817,27 +817,29 @@ button:active { transform: translateY(0.5px); }
   .egg-tumbleweed.egg-rolling svg { animation: none; }
 }
 
-/* ---------- Logo micro-idles (design-preview branch) ----------
-   The real logo art, augmented — never redrawn. Motion runs on the actual
-   <img>; light runs on an overlay MASKED BY THE LOGO FILE ITSELF
-   (mask-image: url(/logos/ID.png)), so sweeps and glints live strictly
-   inside the logo's own silhouette. Plays on hover / tap / .li-play. */
+
+/* ---------- Logo micro-idles v2 (design-preview branch) ----------
+   The real logo art, augmented — never redrawn. Motion on the actual <img>;
+   light masked BY the logo file (sweeps stay inside its silhouette); and a
+   city-specific grace note staged around the art for every franchise.
+   Unhurried on purpose: scenes run 1.4–2.6s. */
 .logo-idle {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  isolation: isolate;
 }
-.logo-idle .li-img { display: block; }
-/* every team gets a soft glow in its own color while playing */
+.logo-idle .li-img { display: block; position: relative; z-index: 2; }
 .logo-idle:is(:hover, .li-play) .li-img {
   filter: drop-shadow(0 0 calc(var(--li-size) * 0.12) color-mix(in srgb, var(--li-a) 55%, transparent));
 }
-/* the masked light sweep — clipped to the logo's alpha channel */
+/* masked light sweep — clipped to the logo's alpha channel */
 .li-shine {
   position: absolute;
   inset: 0;
+  z-index: 4;
   pointer-events: none;
   opacity: 0;
   -webkit-mask-image: var(--li-mask);
@@ -852,115 +854,502 @@ button:active { transform: translateY(0.5px); }
   background-size: 260% 100%;
   background-position: 140% 0;
 }
-.logo-idle:is(:hover, .li-play) .li-shine { animation: li-sweep 0.85s ease-out both; }
+.logo-idle:is(:hover, .li-play) .li-shine { animation: li-sweep 1.3s 0.15s ease-in-out both; }
 @keyframes li-sweep {
   0% { opacity: 0; background-position: 140% 0; }
-  15% { opacity: 1; }
+  12% { opacity: 1; }
   100% { opacity: 0; background-position: -60% 0; }
 }
-/* vertical variant (DEN sunrise) */
 @keyframes li-sweep-v {
   0% { opacity: 0; background-position: 0 140%; }
-  15% { opacity: 1; }
+  12% { opacity: 1; }
   100% { opacity: 0; background-position: 0 -60%; }
 }
-/* physical grace notes around the art */
-.li-fx { position: absolute; pointer-events: none; opacity: 0; }
+/* grace-note stage: props default hidden, revealed by each scene */
+.li-x { position: absolute; inset: 0; pointer-events: none; }
+.li-x i, .li-x b, .li-x .li-svg { position: absolute; display: block; opacity: 0; z-index: 3; }
+.li-x i { font-style: normal; }
 
-/* --- the thirty motions --- */
-.li-hawk:is(:hover, .li-play) .li-img { animation: li-kf-hawk 0.8s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
+/* ============ ATL — the hawk banks; two feathers flutter down ============ */
+.li-hawk:is(:hover, .li-play) .li-img { animation: li-kf-hawk 1.7s cubic-bezier(0.34, 1.15, 0.5, 1) both; }
 @keyframes li-kf-hawk {
-  28% { transform: translateY(-3px) rotate(-9deg); }
-  62% { transform: translateY(1px) rotate(4deg); }
+  22% { transform: translateY(-4px) rotate(-10deg); }
+  55% { transform: translateY(1.5px) rotate(5deg); }
 }
-.li-swish:is(:hover, .li-play) .li-img { animation: li-kf-swish 0.75s ease-out both; }
-@keyframes li-kf-swish {
-  30% { transform: translateY(-4px); }
-  55% { transform: translateY(1.5px) scale(1.04, 0.92); }
-  75% { transform: scale(0.98, 1.03); }
+.li-hawk .li-x i {
+  width: 16%; height: 8%; min-width: 5px; min-height: 2.5px;
+  border-radius: 50%;
+  background: var(--li-a);
 }
-.li-jig:is(:hover, .li-play) .li-img { animation: li-kf-jig 0.9s ease-in-out both; }
+.li-hawk .li-x i:nth-child(1) { left: 56%; top: 6%; }
+.li-hawk .li-x i:nth-child(2) { left: 30%; top: 0; }
+.li-hawk:is(:hover, .li-play) .li-x i { animation: li-kf-feather 1.6s ease-in both; }
+.li-hawk:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.35s; }
+@keyframes li-kf-feather {
+  0% { opacity: 0; transform: translate(0, 0) rotate(15deg); }
+  12% { opacity: 0.9; }
+  45% { transform: translate(calc(var(--li-size) * 0.12), calc(var(--li-size) * 0.4)) rotate(80deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.15), calc(var(--li-size) * 0.9)) rotate(170deg); }
+}
+
+/* ============ BKN — a passing B train: headlights + rumble ============ */
+.li-subway:is(:hover, .li-play) .li-img { animation: li-kf-subway 1.6s ease-in-out both; }
+@keyframes li-kf-subway {
+  8%, 24%, 40%, 56%, 72% { transform: translate(0.8px, -0.6px); }
+  16%, 32%, 48%, 64%, 80% { transform: translate(-0.8px, 0.5px); }
+}
+.li-subway .li-x i {
+  z-index: 1;
+  height: 16%; width: 55%;
+  left: -60%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  filter: blur(1px);
+  border-radius: 3px;
+}
+.li-subway .li-x i:nth-child(1) { top: 30%; }
+.li-subway .li-x i:nth-child(2) { top: 54%; }
+.li-subway:is(:hover, .li-play) .li-x i { animation: li-kf-headlight 1s ease-in-out both; }
+.li-subway:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.35s; }
+@keyframes li-kf-headlight {
+  0% { opacity: 0; transform: translateX(0); }
+  20% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * 1.9)); }
+}
+
+/* ============ BOS — the two-step; pipe smoke curls off the corner ============ */
+.li-jig:is(:hover, .li-play) .li-img { animation: li-kf-jig 2.2s ease-in-out both; }
 .li-jig { --li-shine-c: rgba(186, 150, 83, 0.95); }
 @keyframes li-kf-jig {
-  20% { transform: rotate(-7deg) translateY(-1px); }
-  40% { transform: rotate(6deg); }
-  60% { transform: rotate(-3deg) translateY(-1px); }
-  80% { transform: rotate(1.5deg); }
+  15% { transform: rotate(-7deg) translateY(-1.5px); }
+  32% { transform: rotate(6deg); }
+  50% { transform: rotate(-4deg) translateY(-1px); }
+  68% { transform: rotate(2.5deg); }
+  84% { transform: rotate(-1deg); }
 }
-.li-buzz:is(:hover, .li-play) .li-img { animation: li-kf-buzz 0.5s linear both; }
+.li-jig .li-x i {
+  width: 15%; height: 15%; min-width: 4px; min-height: 4px;
+  border-radius: 50%;
+  right: 14%; top: 16%;
+  background: rgba(190, 190, 190, 0.55);
+  filter: blur(1px);
+}
+.li-jig:is(:hover, .li-play) .li-x i { animation: li-kf-pipesmoke 1.5s ease-out both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.55s; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 1.1s; }
+@keyframes li-kf-pipesmoke {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  20% { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.22), calc(var(--li-size) * -0.45)) scale(1.9); }
+}
+
+/* ============ CHA — wing-buzz; a hornet orbits the nest once ============ */
+.li-buzz:is(:hover, .li-play) .li-img { animation: li-kf-buzz 1.4s ease-in-out both; }
 @keyframes li-kf-buzz {
-  10%, 50%, 90% { transform: translateX(-1px) rotate(-1deg); }
-  30%, 70% { transform: translateX(1px) rotate(1deg); }
+  6%, 18%, 30% { transform: translateX(-1px) rotate(-1deg); }
+  12%, 24%, 36% { transform: translateX(1px) rotate(1deg); }
+  55%, 67%, 79% { transform: translateX(-0.8px); }
+  61%, 73%, 85% { transform: translateX(0.8px); }
 }
-.li-charge:is(:hover, .li-play) .li-img { animation: li-kf-charge 0.7s cubic-bezier(0.3, 1.1, 0.5, 1) both; }
+.li-buzz .li-x i {
+  width: 4.5px; height: 4.5px;
+  border-radius: 50%;
+  left: 50%; top: 50%;
+  margin: -2px;
+  background: var(--li-a);
+  box-shadow: 0 0 5px var(--li-a);
+}
+.li-buzz:is(:hover, .li-play) .li-x i { animation: li-kf-orbit 1.9s ease-in-out both; }
+@keyframes li-kf-orbit {
+  0% { opacity: 0; transform: rotate(0deg) translateX(calc(var(--li-size) * 0.66)); }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(360deg) translateX(calc(var(--li-size) * 0.66)); }
+}
+
+/* ============ CHI — steam snorts… then the charge ============ */
+.li-charge:is(:hover, .li-play) .li-img { animation: li-kf-charge 1.1s 0.55s cubic-bezier(0.3, 1.1, 0.5, 1) both; }
 @keyframes li-kf-charge {
-  22% { transform: translateX(-2.5px) rotate(-4deg); }
-  55% { transform: translateX(3.5px) rotate(2deg) scale(1.07); }
+  25% { transform: translateX(-3px) rotate(-4deg); }
+  60% { transform: translateX(4px) rotate(2deg) scale(1.08); }
 }
-.li-glint:is(:hover, .li-play) .li-img { animation: li-kf-glint 0.8s ease both; }
-.li-glint { --li-shine-c: rgba(253, 187, 48, 0.95); }
-@keyframes li-kf-glint {
-  35% { transform: scale(1.05); }
+.li-charge .li-x i {
+  width: 13%; height: 10%; min-width: 4px; min-height: 3px;
+  border-radius: 50%;
+  background: rgba(235, 235, 235, 0.8);
+  filter: blur(1px);
 }
-.li-rear:is(:hover, .li-play) .li-img { transform-origin: 50% 88%; animation: li-kf-rear 0.85s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
+.li-charge .li-x i:nth-child(1) { left: 10%; bottom: 32%; }
+.li-charge .li-x i:nth-child(2) { left: 16%; bottom: 24%; }
+.li-charge:is(:hover, .li-play) .li-x i { animation: li-kf-snort 0.8s ease-out both; }
+.li-charge:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.16s; }
+@keyframes li-kf-snort {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.3), calc(var(--li-size) * 0.06)) scale(1.5); }
+}
+
+/* ============ CLE — the chalk toss ============ */
+.li-chalk:is(:hover, .li-play) .li-img { animation: li-kf-chalkrise 1.8s ease both; }
+.li-chalk { --li-shine-c: rgba(253, 187, 48, 0.95); }
+@keyframes li-kf-chalkrise {
+  30% { transform: translateY(-2.5px); }
+  60% { transform: translateY(-1px); }
+}
+.li-chalk .li-x i {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(1.2px);
+  left: 46%; bottom: -6%;
+}
+.li-chalk .li-x i:nth-child(1) { width: 17%; height: 17%; min-width: 5px; min-height: 5px; }
+.li-chalk .li-x i:nth-child(2) { width: 13%; height: 13%; min-width: 4px; min-height: 4px; }
+.li-chalk .li-x i:nth-child(3) { width: 11%; height: 11%; min-width: 3px; min-height: 3px; }
+.li-chalk .li-x i:nth-child(4) { width: 12%; height: 12%; min-width: 4px; min-height: 4px; }
+.li-chalk .li-x i:nth-child(5) { width: 9%; height: 9%; min-width: 3px; min-height: 3px; }
+.li-chalk:is(:hover, .li-play) .li-x i { animation: li-kf-chalk 1.6s 0.15s ease-out both; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(2) { animation-name: li-kf-chalk2; animation-delay: 0.22s; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(3) { animation-name: li-kf-chalk3; animation-delay: 0.3s; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(4) { animation-name: li-kf-chalk4; animation-delay: 0.26s; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(5) { animation-name: li-kf-chalk5; animation-delay: 0.34s; }
+@keyframes li-kf-chalk {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  18% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(0, calc(var(--li-size) * -0.75)) scale(1.7); }
+}
+@keyframes li-kf-chalk2 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  18% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.32), calc(var(--li-size) * -0.6)) scale(1.5); }
+}
+@keyframes li-kf-chalk3 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  18% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.34), calc(var(--li-size) * -0.58)) scale(1.5); }
+}
+@keyframes li-kf-chalk4 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  18% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.16), calc(var(--li-size) * -0.8)) scale(1.6); }
+}
+@keyframes li-kf-chalk5 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  18% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.18), calc(var(--li-size) * -0.85)) scale(1.6); }
+}
+
+/* ============ DAL — the horse rears in dust; a lone star winks ============ */
+.li-rear:is(:hover, .li-play) .li-img { transform-origin: 50% 88%; animation: li-kf-rear 2s cubic-bezier(0.34, 1.25, 0.5, 1) both; }
 @keyframes li-kf-rear {
-  32% { transform: rotate(-11deg) translateY(-1px); }
-  62% { transform: rotate(3deg); }
+  28% { transform: rotate(-12deg) translateY(-1.5px); }
+  55% { transform: rotate(3deg); }
+  75% { transform: rotate(-1deg); }
 }
+.li-rear .li-x i {
+  width: 14%; height: 9%; min-width: 4px; min-height: 3px;
+  border-radius: 50%;
+  bottom: -2%;
+  background: rgba(184, 196, 202, 0.7);
+  filter: blur(1px);
+}
+.li-rear .li-x i:nth-child(1) { left: 18%; }
+.li-rear .li-x i:nth-child(2) { left: 44%; }
+.li-rear .li-x i:nth-child(3) { left: 68%; }
+.li-rear:is(:hover, .li-play) .li-x i { animation: li-kf-dust 1s ease-out both; }
+.li-rear:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.18s; }
+.li-rear:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.32s; }
+@keyframes li-kf-dust {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  25% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(calc(var(--li-size) * -0.14)) scale(1.7); }
+}
+.li-rear .li-x b {
+  width: 14%; height: 14%; min-width: 5px; min-height: 5px;
+  right: 6%; top: 6%;
+  background: #fff;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
+}
+.li-rear:is(:hover, .li-play) .li-x b { animation: li-kf-lonestar 0.9s 1.15s ease both; }
+@keyframes li-kf-lonestar {
+  0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  45% { opacity: 1; transform: scale(1.15) rotate(20deg); }
+  100% { opacity: 0; transform: scale(0.4) rotate(40deg); }
+}
+
+/* ============ DEN — sunrise up the peak; snow glints; a cloud drifts ============ */
 .li-summit { --li-shine-c: rgba(254, 197, 36, 0.95); }
 .li-summit .li-shine {
   background: linear-gradient(0deg, transparent 26%, var(--li-shine-c) 50%, transparent 74%) no-repeat;
   background-size: 100% 260%;
   background-position: 0 140%;
 }
-.li-summit:is(:hover, .li-play) .li-shine { animation: li-sweep-v 1s ease-out both; }
-.li-summit:is(:hover, .li-play) .li-img { animation: li-kf-summit 1s ease both; }
+.li-summit:is(:hover, .li-play) .li-shine { animation: li-sweep-v 2s ease-in-out both; }
+.li-summit:is(:hover, .li-play) .li-img { animation: li-kf-summit 2.6s ease both; }
 @keyframes li-kf-summit {
-  40% { transform: translateY(-2px); }
+  40% { transform: translateY(-2.5px); }
+  70% { transform: translateY(-1px); }
 }
-.li-rev:is(:hover, .li-play) .li-img { animation: li-kf-rev 0.7s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
+.li-summit .li-x i {
+  width: 9%; height: 9%; min-width: 3px; min-height: 3px;
+  background: #fff;
+  transform: rotate(45deg);
+  filter: drop-shadow(0 0 3px #fff);
+}
+.li-summit .li-x i:nth-child(1) { left: 44%; top: 10%; }
+.li-summit .li-x i:nth-child(2) { left: 58%; top: 17%; }
+.li-summit:is(:hover, .li-play) .li-x i { animation: li-kf-snowglint 0.7s 1.3s ease both; }
+.li-summit:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 1.6s; }
+@keyframes li-kf-snowglint {
+  0% { opacity: 0; transform: rotate(45deg) scale(0.3); }
+  50% { opacity: 1; transform: rotate(45deg) scale(1.2); }
+  100% { opacity: 0; transform: rotate(45deg) scale(0.3); }
+}
+.li-summit .li-x b {
+  z-index: 1;
+  width: 55%; height: 16%;
+  left: 80%; top: 10%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.65);
+  filter: blur(2px);
+}
+.li-summit:is(:hover, .li-play) .li-x b { animation: li-kf-cloud 2.6s ease-in-out both; }
+@keyframes li-kf-cloud {
+  0% { opacity: 0; transform: translateX(0); }
+  25% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * -1.1)); }
+}
+
+/* ============ DET — Motor City rev; exhaust out the back ============ */
+.li-rev:is(:hover, .li-play) .li-img { animation: li-kf-rev 1.9s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
 @keyframes li-kf-rev {
-  18% { transform: rotate(-9deg); }
-  42% { transform: rotate(10deg); }
-  68% { transform: rotate(-4deg); }
+  14% { transform: rotate(-10deg) skewX(2deg); }
+  38% { transform: rotate(11deg); }
+  62% { transform: rotate(-5deg); }
+  82% { transform: rotate(2deg); }
 }
-.li-lightyears:is(:hover, .li-play) .li-img { animation: li-kf-lightyears 0.9s ease both; }
-.li-lightyears { --li-shine-c: rgba(255, 199, 44, 0.9); }
-@keyframes li-kf-lightyears {
-  35% { transform: scale(1.06); }
+.li-rev .li-x i {
+  width: 13%; height: 13%; min-width: 4px; min-height: 4px;
+  border-radius: 50%;
+  left: -8%; bottom: 30%;
+  background: rgba(150, 150, 150, 0.65);
+  filter: blur(1px);
 }
-.li-liftoff:is(:hover, .li-play) .li-img { animation: li-kf-liftoff 1.05s cubic-bezier(0.34, 1.1, 0.5, 1) both; }
+.li-rev:is(:hover, .li-play) .li-x i { animation: li-kf-exhaust 1s ease-out both; }
+.li-rev:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.28s; }
+.li-rev:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.56s; }
+@keyframes li-kf-exhaust {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  22% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.4), calc(var(--li-size) * -0.1)) scale(1.8); }
+}
+
+/* ============ GSW — a headlight crosses the ACTUAL bridge span ============ */
+.li-bridge:is(:hover, .li-play) .li-img { animation: li-kf-bridgepop 2.4s ease both; }
+.li-bridge { --li-shine-c: rgba(255, 199, 44, 0.9); }
+@keyframes li-kf-bridgepop {
+  45% { transform: scale(1.04); }
+}
+/* the stage itself is masked by the logo, so the light only exists on the art */
+.li-bridge .li-x {
+  -webkit-mask-image: var(--li-mask);
+  mask-image: var(--li-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.li-bridge .li-x i {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  left: -12%; top: 46%;
+  background: #fff;
+  box-shadow: 0 0 9px 3px rgba(255, 199, 44, 0.95);
+}
+.li-bridge:is(:hover, .li-play) .li-x i { animation: li-kf-crossing 2s 0.2s ease-in-out both; }
+@keyframes li-kf-crossing {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * 1.24)); }
+}
+
+/* ============ HOU — full launch: slow climb, cone, smoke ============ */
+.li-liftoff:is(:hover, .li-play) .li-img { animation: li-kf-liftoff 2.3s cubic-bezier(0.34, 1.1, 0.5, 1) both; }
 @keyframes li-kf-liftoff {
-  30% { transform: translateY(-5px) rotate(-2deg); }
-  70% { transform: translateY(-4px); }
+  20% { transform: translateY(-3px) rotate(-1.5deg); }
+  45% { transform: translateY(-8px) rotate(1deg); }
+  60% { transform: translateY(-7px) rotate(-1deg); }
+  80% { transform: translateY(-7.5px); }
 }
-.li-dash:is(:hover, .li-play) .li-img { animation: li-kf-dash 0.6s ease-out both; }
+.li-liftoff .li-x b {
+  bottom: -15%; left: 50%;
+  width: 24%; height: 38%; min-width: 6px;
+  transform: translateX(-50%) scaleY(0.3);
+  transform-origin: top center;
+  border-radius: 46% 46% 60% 60% / 30% 30% 70% 70%;
+  background: linear-gradient(to bottom, #ffffff, #ffd166 35%, #ef3b24 72%, transparent);
+  filter: blur(0.6px);
+}
+.li-liftoff:is(:hover, .li-play) .li-x b { animation: li-kf-thrust 2.1s 0.1s ease-out both; }
+@keyframes li-kf-thrust {
+  0% { opacity: 0; transform: translateX(-50%) scaleY(0.25); }
+  15% { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
+  35% { transform: translateX(-50%) scaleY(0.85); }
+  55% { opacity: 1; transform: translateX(-50%) scaleY(1.05); }
+  75% { opacity: 0.9; transform: translateX(-50%) scaleY(0.9); }
+  100% { opacity: 0; transform: translateX(-50%) scaleY(0.35); }
+}
+.li-liftoff .li-x i {
+  width: 12%; height: 12%; min-width: 4px; min-height: 4px;
+  border-radius: 50%;
+  left: 46%; bottom: -12%;
+  background: rgba(170, 170, 170, 0.6);
+  filter: blur(1px);
+}
+.li-liftoff:is(:hover, .li-play) .li-x i { animation: li-kf-launchsmoke 1.3s 0.35s ease-out both; }
+.li-liftoff:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.75s; }
+.li-liftoff:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 1.15s; }
+@keyframes li-kf-launchsmoke {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  20% { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.3), calc(var(--li-size) * 0.22)) scale(1.9); }
+}
+
+/* ============ IND — the Brickyard: checkered flag at the line ============ */
+.li-dash:is(:hover, .li-play) .li-img { animation: li-kf-dash 1.7s ease both; }
 @keyframes li-kf-dash {
-  30% { transform: translateX(2.5px) skewX(-8deg); }
-  60% { transform: translateX(3px) skewX(-4deg); }
+  22% { transform: translateX(-1.5px); }
+  50% { transform: translateX(3.5px) skewX(-7deg); }
+  75% { transform: translateX(2px) skewX(-3deg); }
 }
-.li-ballmer:is(:hover, .li-play) .li-img { animation: li-kf-ballmer 0.95s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
+.li-dash .li-x b {
+  width: 24%; height: 17%; min-width: 8px; min-height: 6px;
+  right: -16%; top: 4%;
+  background: repeating-conic-gradient(#1c1a15 0% 25%, #f4f1e9 25% 50%) 0 0 / 4px 4px;
+  border-left: 1.5px solid #746c57;
+  transform-origin: left center;
+}
+.li-dash:is(:hover, .li-play) .li-x b { animation: li-kf-flagwave 1.7s ease-in-out both; }
+@keyframes li-kf-flagwave {
+  0% { opacity: 0; transform: skewY(0deg); }
+  12% { opacity: 1; }
+  25% { transform: skewY(9deg); }
+  45% { transform: skewY(-8deg); }
+  65% { transform: skewY(6deg); }
+  85% { opacity: 1; transform: skewY(-4deg); }
+  100% { opacity: 0; transform: skewY(0deg); }
+}
+.li-dash .li-x i {
+  left: -36%;
+  height: 8%; min-height: 2px; width: 40%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--li-b));
+}
+.li-dash .li-x i:nth-child(2) { top: 34%; }
+.li-dash .li-x i:nth-child(3) { top: 60%; }
+.li-dash:is(:hover, .li-play) .li-x i { animation: li-kf-line 0.9s 0.45s ease-out both; }
+.li-dash:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.6s; }
+@keyframes li-kf-line {
+  0% { opacity: 0; transform: translateX(0); }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * 1.7)); }
+}
+
+/* ============ LAC — the Ballmer, sweat included ============ */
+.li-ballmer:is(:hover, .li-play) .li-img { animation: li-kf-ballmer 1.5s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
 @keyframes li-kf-ballmer {
-  12% { transform: scale(1.06, 0.9); }
-  26% { transform: translateY(-6px) scale(0.95, 1.08); }
-  40% { transform: translateY(0) scale(1.12, 0.86); }
-  54% { transform: translateY(-3.5px) scale(0.97, 1.05); }
-  68% { transform: translateY(0) scale(1.05, 0.94); }
+  10% { transform: scale(1.06, 0.9); }
+  24% { transform: translateY(-6px) scale(0.95, 1.08); }
+  38% { transform: translateY(0) scale(1.12, 0.86); }
+  52% { transform: translateY(-4px) scale(0.97, 1.05); }
+  66% { transform: translateY(0) scale(1.05, 0.94); }
   82% { transform: scale(0.99, 1.02); }
 }
-.li-showtime:is(:hover, .li-play) .li-img { animation: li-kf-showtime 1.3s ease-in-out both; }
+.li-ballmer .li-x i {
+  width: 3.5px; height: 3.5px;
+  border-radius: 50% 50% 50% 0;
+  background: #7ab8e8;
+}
+.li-ballmer .li-x i:nth-child(1) { left: 16%; top: 12%; }
+.li-ballmer .li-x i:nth-child(2) { right: 14%; top: 10%; }
+.li-ballmer .li-x i:nth-child(3) { left: 22%; top: 6%; }
+.li-ballmer .li-x i:nth-child(4) { right: 20%; top: 4%; }
+.li-ballmer:is(:hover, .li-play) .li-x i { animation: li-kf-sweat 0.7s ease-out both; }
+.li-ballmer:is(:hover, .li-play) .li-x i:nth-child(1) { animation-delay: 0.34s; }
+.li-ballmer:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.42s; }
+.li-ballmer:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.9s; }
+.li-ballmer:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.98s; }
+@keyframes li-kf-sweat {
+  0% { opacity: 0; transform: translate(0, 0) rotate(-40deg); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.22), calc(var(--li-size) * -0.3)) rotate(-40deg); }
+}
+.li-ballmer:is(:hover, .li-play) .li-x i:nth-child(1),
+.li-ballmer:is(:hover, .li-play) .li-x i:nth-child(3) { animation-name: li-kf-sweatl; }
+@keyframes li-kf-sweatl {
+  0% { opacity: 0; transform: translate(0, 0) rotate(40deg); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.22), calc(var(--li-size) * -0.3)) rotate(40deg); }
+}
+
+/* ============ LAL — premiere night: crossing searchlights ============ */
+.li-showtime:is(:hover, .li-play) .li-img { animation: li-kf-showtime 2.5s ease-in-out both; }
 .li-showtime { --li-shine-c: rgba(253, 185, 39, 0.95); }
-.li-showtime:is(:hover, .li-play) .li-shine { animation-duration: 1.3s; }
+.li-showtime:is(:hover, .li-play) .li-shine { animation-duration: 1.9s; }
 @keyframes li-kf-showtime {
-  45% { transform: scale(1.06); }
+  45% { transform: scale(1.07); }
 }
-.li-grit:is(:hover, .li-play) .li-img { animation: li-kf-grit 0.9s ease-in-out both; }
+.li-showtime .li-x b {
+  z-index: 1;
+  bottom: -8%; left: 50%;
+  width: 34%; height: 150%; min-width: 10px;
+  transform-origin: bottom center;
+  background: linear-gradient(to top, rgba(253, 185, 39, 0.4), transparent 85%);
+  clip-path: polygon(42% 100%, 58% 100%, 100% 0, 0 0);
+}
+.li-showtime:is(:hover, .li-play) .li-x b:nth-of-type(1) { animation: li-kf-spot1 2.5s ease-in-out both; }
+.li-showtime:is(:hover, .li-play) .li-x b:nth-of-type(2) { animation: li-kf-spot2 2.5s ease-in-out both; }
+@keyframes li-kf-spot1 {
+  0% { opacity: 0; transform: translateX(-50%) rotate(-30deg); }
+  18% { opacity: 0.9; }
+  82% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(-50%) rotate(22deg); }
+}
+@keyframes li-kf-spot2 {
+  0% { opacity: 0; transform: translateX(-50%) rotate(30deg); }
+  18% { opacity: 0.9; }
+  82% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(-50%) rotate(-22deg); }
+}
+
+/* ============ MEM — grit-grind: grinder sparks off the bottom edge ============ */
+.li-grit:is(:hover, .li-play) .li-img { animation: li-kf-grit 1.8s ease-in-out both; }
 @keyframes li-kf-grit {
-  16%, 48%, 80% { transform: translateX(-1.5px); }
-  32%, 64% { transform: translateX(1.5px); }
+  12%, 44%, 76% { transform: translateX(-1.5px) rotate(-0.5deg); }
+  28%, 60%, 92% { transform: translateX(1.5px) rotate(0.5deg); }
 }
-/* MIA — the flame stays alive as long as you hover */
-.li-gutter:is(:hover, .li-play) .li-img { animation: li-kf-gutter 0.9s ease-in-out infinite; }
+.li-grit .li-x i {
+  width: 16%; height: 5%; min-width: 5px; min-height: 1.5px;
+  border-radius: 2px;
+  left: 48%; bottom: 2%;
+  background: linear-gradient(90deg, #ffd166, #ef8b24);
+  box-shadow: 0 0 4px rgba(255, 209, 102, 0.9);
+}
+.li-grit:is(:hover, .li-play) .li-x i { animation: li-kf-spark 0.7s ease-out both; }
+.li-grit:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.22s; }
+.li-grit:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.44s; }
+.li-grit:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.66s; }
+.li-grit:is(:hover, .li-play) .li-x i:nth-child(5) { animation-delay: 0.88s; }
+@keyframes li-kf-spark {
+  0% { opacity: 0; transform: translate(0, 0) rotate(18deg) scaleX(0.4); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.55), calc(var(--li-size) * 0.3)) rotate(30deg) scaleX(1); }
+}
+
+/* ============ MIA — the flame is alive; heat-haze rises ============ */
+.li-gutter:is(:hover, .li-play) .li-img { animation: li-kf-gutter 1.3s ease-in-out infinite; }
 .li-gutter { --li-shine-c: rgba(249, 160, 27, 0.9); }
 @keyframes li-kf-gutter {
   0%, 100% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.12) rgba(249, 160, 27, 0.55)) brightness(1); transform: rotate(0deg); }
@@ -968,55 +1357,301 @@ button:active { transform: translateY(0.5px); }
   55% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.1) rgba(249, 160, 27, 0.45)) brightness(0.97); transform: rotate(-1deg); }
   78% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.17) rgba(249, 160, 27, 0.7)) brightness(1.08); transform: rotate(0.6deg); }
 }
-.li-toss:is(:hover, .li-play) .li-img { transform-origin: 50% 85%; animation: li-kf-toss 0.85s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
+.li-gutter .li-x i {
+  width: 7%; height: 28%; min-width: 2px;
+  border-radius: 50%;
+  top: -20%;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.5), transparent);
+  filter: blur(1.5px);
+}
+.li-gutter .li-x i:nth-child(1) { left: 32%; }
+.li-gutter .li-x i:nth-child(2) { left: 50%; }
+.li-gutter .li-x i:nth-child(3) { left: 66%; }
+.li-gutter:is(:hover, .li-play) .li-x i { animation: li-kf-haze 1.6s ease-in-out infinite; }
+.li-gutter:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.5s; }
+.li-gutter:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 1s; }
+@keyframes li-kf-haze {
+  0% { opacity: 0; transform: translateY(calc(var(--li-size) * 0.1)) skewX(0deg); }
+  30% { opacity: 0.5; }
+  60% { transform: translateY(calc(var(--li-size) * -0.12)) skewX(6deg); }
+  100% { opacity: 0; transform: translateY(calc(var(--li-size) * -0.3)) skewX(-5deg); }
+}
+
+/* ============ MIL — antlers grow in behind the deer ============ */
+.li-toss:is(:hover, .li-play) .li-img { transform-origin: 50% 85%; animation: li-kf-toss 2.2s cubic-bezier(0.34, 1.25, 0.5, 1) both; }
 @keyframes li-kf-toss {
-  30% { transform: rotate(-9deg) translateY(-3px); }
-  55% { transform: rotate(2deg); }
-  75% { transform: rotate(-1deg); }
+  25% { transform: rotate(-9deg) translateY(-3px); }
+  48% { transform: rotate(2deg); }
+  68% { transform: rotate(-1deg); }
 }
-.li-howl:is(:hover, .li-play) .li-img { animation: li-kf-howl 1s ease both; }
+.li-toss .li-x .li-svg {
+  z-index: 1;
+  top: -32%; left: 50%;
+  width: 115%; height: 60%;
+  transform: translateX(-50%);
+  color: var(--li-b);
+}
+.li-toss .li-svg path { stroke-dasharray: 62; stroke-dashoffset: 62; }
+.li-toss:is(:hover, .li-play) .li-svg { animation: li-kf-antlerhold 2.2s both; }
+.li-toss:is(:hover, .li-play) .li-svg path { animation: li-kf-antlerdraw 0.9s 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes li-kf-antlerdraw { to { stroke-dashoffset: 0; } }
+@keyframes li-kf-antlerhold {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  78% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ============ MIN — the howl, under northern lights ============ */
+.li-howl:is(:hover, .li-play) .li-img { animation: li-kf-howl 2.4s ease both; }
 @keyframes li-kf-howl {
-  35%, 60% { transform: rotate(-7deg) translateY(-1px); }
+  30%, 65% { transform: rotate(-7deg) translateY(-1px); }
 }
-.li-wing:is(:hover, .li-play) .li-img { animation: li-kf-wing 0.8s ease both; }
+.li-howl .li-x i {
+  inset: -16%;
+  border: 2px solid var(--li-b);
+  border-radius: 50%;
+}
+.li-howl:is(:hover, .li-play) .li-x i { animation: li-kf-ring 1.3s 0.35s ease-out both; }
+.li-howl:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.9s; }
+@keyframes li-kf-ring {
+  0% { opacity: 0.85; transform: scale(0.62); }
+  100% { opacity: 0; transform: scale(1.34); }
+}
+.li-howl .li-x b {
+  z-index: 1;
+  width: 135%; height: 26%;
+  left: -18%; top: -22%;
+  border-radius: 50%;
+  background: linear-gradient(90deg, rgba(120, 190, 32, 0) 0%, rgba(120, 190, 32, 0.55) 30%, rgba(80, 100, 220, 0.5) 65%, rgba(120, 190, 32, 0) 100%);
+  filter: blur(2px);
+}
+.li-howl:is(:hover, .li-play) .li-x b { animation: li-kf-aurora 2.4s ease-in-out both; }
+@keyframes li-kf-aurora {
+  0% { opacity: 0; transform: translateX(calc(var(--li-size) * -0.08)) scaleY(0.7); }
+  25% { opacity: 0.95; }
+  55% { transform: translateX(calc(var(--li-size) * 0.06)) scaleY(1.15); }
+  80% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * -0.04)) scaleY(0.8); }
+}
+
+/* ============ NOP — a Mardi Gras throw over the bird ============ */
+.li-wing:is(:hover, .li-play) .li-img { animation: li-kf-wing 2s ease both; }
 @keyframes li-kf-wing {
-  35% { transform: scaleY(1.09) translateY(-1px); }
-  65% { transform: scaleY(0.97); }
+  30% { transform: scaleY(1.09) translateY(-1.5px); }
+  60% { transform: scaleY(0.97); }
 }
-.li-marquee:is(:hover, .li-play) .li-img { animation: li-kf-marquee 0.8s ease both; }
-.li-marquee:is(:hover, .li-play) .li-shine { animation: li-sweep 0.55s ease-out 2 both; }
+.li-wing .li-x i {
+  width: 4.5px; height: 4.5px;
+  border-radius: 50%;
+  left: -8%; top: 55%;
+}
+.li-wing .li-x i:nth-child(3n + 1) { background: #5a2d81; box-shadow: 0 0 4px rgba(90, 45, 129, 0.8); }
+.li-wing .li-x i:nth-child(3n + 2) { background: #007a33; box-shadow: 0 0 4px rgba(0, 122, 51, 0.8); }
+.li-wing .li-x i:nth-child(3n) { background: #f9a01b; box-shadow: 0 0 4px rgba(249, 160, 27, 0.8); }
+.li-wing:is(:hover, .li-play) .li-x i { animation: li-kf-bead 1.6s ease-in-out both; }
+.li-wing:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.12s; }
+.li-wing:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.24s; }
+.li-wing:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.36s; }
+.li-wing:is(:hover, .li-play) .li-x i:nth-child(5) { animation-delay: 0.48s; }
+.li-wing:is(:hover, .li-play) .li-x i:nth-child(6) { animation-delay: 0.6s; }
+@keyframes li-kf-bead {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 1; }
+  50% { transform: translate(calc(var(--li-size) * 0.55), calc(var(--li-size) * -0.72)); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 1.05), calc(var(--li-size) * 0.12)); }
+}
+
+/* ============ NYK — marquee bulbs chase the ball, two laps ============ */
+.li-marquee:is(:hover, .li-play) .li-img { animation: li-kf-marquee 2.2s ease both; }
 @keyframes li-kf-marquee {
-  30% { transform: scale(1.07); }
+  35% { transform: scale(1.07); }
 }
-.li-thunder:is(:hover, .li-play) .li-img { animation: li-kf-thunder 0.7s ease-out both; }
+.li-marquee .li-x i {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+}
+.li-marquee .li-x i:nth-child(odd) { background: #f58426; box-shadow: 0 0 5px rgba(245, 132, 38, 0.95); }
+.li-marquee .li-x i:nth-child(even) { background: #7db6e8; box-shadow: 0 0 5px rgba(0, 107, 182, 0.85); }
+.li-marquee .li-x i:nth-child(1) { left: 48%; top: -14%; }
+.li-marquee .li-x i:nth-child(2) { left: 82%; top: -4%; }
+.li-marquee .li-x i:nth-child(3) { left: 104%; top: 48%; }
+.li-marquee .li-x i:nth-child(4) { left: 82%; top: 96%; }
+.li-marquee .li-x i:nth-child(5) { left: 48%; top: 108%; }
+.li-marquee .li-x i:nth-child(6) { left: 12%; top: 96%; }
+.li-marquee .li-x i:nth-child(7) { left: -10%; top: 48%; }
+.li-marquee .li-x i:nth-child(8) { left: 12%; top: -4%; }
+.li-marquee:is(:hover, .li-play) .li-x i { animation: li-kf-bulb 1.04s ease 2 both; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.13s; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.26s; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.39s; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(5) { animation-delay: 0.52s; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(6) { animation-delay: 0.65s; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(7) { animation-delay: 0.78s; }
+.li-marquee:is(:hover, .li-play) .li-x i:nth-child(8) { animation-delay: 0.91s; }
+@keyframes li-kf-bulb {
+  0% { opacity: 0; transform: scale(0.5); }
+  12% { opacity: 1; transform: scale(1.25); }
+  30% { opacity: 0.35; transform: scale(0.8); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+
+/* ============ OKC — the strike: bolt, flash, long rumble ============ */
+.li-thunder:is(:hover, .li-play) .li-img { animation: li-kf-thunder 1.8s 0.22s ease-out both; }
 @keyframes li-kf-thunder {
-  12% { filter: brightness(2.3) drop-shadow(0 0 8px rgba(126, 200, 255, 0.9)); transform: translateX(1px); }
-  22% { filter: brightness(1); }
-  32% { transform: translateX(-1.5px); }
-  44% { transform: translateX(1px); }
+  8% { filter: brightness(2.3) drop-shadow(0 0 8px rgba(126, 200, 255, 0.9)); transform: translateX(1px); }
+  16% { filter: brightness(1); }
+  26% { transform: translateX(-2px); }
+  38% { transform: translateX(1.5px); }
+  52% { transform: translateX(-1px); }
+  68% { transform: translateX(0.5px); }
 }
-.li-pixie:is(:hover, .li-play) .li-img { animation: li-kf-pixie 0.9s ease both; }
-.li-pixie .li-sparks i { background: #e8ecf1; box-shadow: 0 0 6px #c4ced4; }
+.li-thunder .li-x .li-svg {
+  top: -58%; left: 50%;
+  width: 45%; height: 62%;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top center;
+  color: #ffe9a8;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.95));
+}
+.li-thunder:is(:hover, .li-play) .li-svg { animation: li-kf-boltin 0.9s 0.08s ease-out both; }
+@keyframes li-kf-boltin {
+  0% { opacity: 0; transform: translateX(-50%) scaleY(0); }
+  10% { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  45% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) scaleY(1); }
+}
+.li-thunder .li-x b {
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.9), transparent 60%);
+}
+.li-thunder:is(:hover, .li-play) .li-x b { animation: li-kf-boltflash 0.5s 0.14s ease-out both; }
+@keyframes li-kf-boltflash {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ============ ORL — a pixie streaks over, dust settles ============ */
+.li-pixie:is(:hover, .li-play) .li-img { animation: li-kf-pixie 2.2s ease both; }
 @keyframes li-kf-pixie {
-  35% { transform: translateY(-2.5px); }
+  40% { transform: translateY(-2.5px); }
 }
-.li-bell:is(:hover, .li-play) .li-img { transform-origin: 50% 8%; animation: li-kf-bell 1.1s ease-in-out both; }
+.li-pixie .li-x i:nth-child(1) {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  left: -10%; top: 46%;
+  background: #fff;
+  box-shadow: 0 0 8px 3px rgba(196, 206, 212, 0.95);
+}
+.li-pixie:is(:hover, .li-play) .li-x i:nth-child(1) { animation: li-kf-pixiefly 1.7s 0.15s ease-in-out both; }
+@keyframes li-kf-pixiefly {
+  0% { opacity: 0; transform: translate(0, 0); }
+  10% { opacity: 1; }
+  50% { transform: translate(calc(var(--li-size) * 0.58), calc(var(--li-size) * -0.62)); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 1.16), calc(var(--li-size) * -0.06)); }
+}
+.li-pixie .li-x i:nth-child(n + 2) {
+  width: 3px; height: 3px;
+  background: #dfe6ec;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+.li-pixie .li-x i:nth-child(2) { left: 16%; top: 18%; }
+.li-pixie .li-x i:nth-child(3) { left: 40%; top: 2%; }
+.li-pixie .li-x i:nth-child(4) { left: 66%; top: 12%; }
+.li-pixie .li-x i:nth-child(5) { left: 88%; top: 34%; }
+.li-pixie:is(:hover, .li-play) .li-x i:nth-child(n + 2) { animation: li-kf-glitter 0.9s both; }
+.li-pixie:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.45s; }
+.li-pixie:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.7s; }
+.li-pixie:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.95s; }
+.li-pixie:is(:hover, .li-play) .li-x i:nth-child(5) { animation-delay: 1.2s; }
+@keyframes li-kf-glitter {
+  0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  40% { opacity: 1; transform: scale(1.3) rotate(30deg); }
+  100% { opacity: 0; transform: scale(0.3) rotate(60deg) translateY(2px); }
+}
+
+/* ============ PHI — the bell tolls, ripples ring off the crown ============ */
+.li-bell:is(:hover, .li-play) .li-img { transform-origin: 50% 8%; animation: li-kf-bell 2.3s ease-in-out both; }
 @keyframes li-kf-bell {
-  20% { transform: rotate(7deg); }
-  40% { transform: rotate(-5.5deg); }
-  60% { transform: rotate(3.5deg); }
-  78% { transform: rotate(-1.5deg); }
+  16% { transform: rotate(7deg); }
+  34% { transform: rotate(-5.5deg); }
+  52% { transform: rotate(3.5deg); }
+  70% { transform: rotate(-2deg); }
+  86% { transform: rotate(1deg); }
 }
-.li-flare:is(:hover, .li-play) .li-img { animation: li-kf-flare 1s ease both; }
+.li-bell .li-x i {
+  width: 40%; height: 40%;
+  left: 30%; top: -22%;
+  border: 1.5px solid color-mix(in srgb, var(--li-a) 65%, transparent);
+  border-radius: 50%;
+}
+.li-bell:is(:hover, .li-play) .li-x i { animation: li-kf-toll 1.1s 0.3s ease-out both; }
+.li-bell:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 1.05s; }
+@keyframes li-kf-toll {
+  0% { opacity: 0.9; transform: scale(0.4); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+/* ============ PHX — corona bloom, embers off the sun ============ */
+.li-flare:is(:hover, .li-play) .li-img { animation: li-kf-flare 2.4s ease both; }
 .li-flare { --li-shine-c: rgba(249, 160, 27, 0.9); }
 @keyframes li-kf-flare {
-  40% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.22) rgba(229, 96, 32, 0.85)) brightness(1.12); transform: scale(1.05); }
+  35% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.24) rgba(229, 96, 32, 0.9)) brightness(1.13); transform: scale(1.05); }
+  70% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.14) rgba(229, 96, 32, 0.6)) brightness(1.05); }
 }
-.li-pinwheel:is(:hover, .li-play) .li-img { animation: li-kf-pinwheel 0.9s cubic-bezier(0.3, 1.25, 0.45, 1) both; }
+.li-flare .li-x i {
+  width: 3.5px; height: 3.5px;
+  border-radius: 50%;
+  background: #ffb347;
+  box-shadow: 0 0 5px rgba(255, 179, 71, 0.95);
+}
+.li-flare .li-x i:nth-child(1) { left: 28%; top: 40%; }
+.li-flare .li-x i:nth-child(2) { left: 52%; top: 30%; }
+.li-flare .li-x i:nth-child(3) { left: 70%; top: 44%; }
+.li-flare .li-x i:nth-child(4) { left: 42%; top: 52%; }
+.li-flare:is(:hover, .li-play) .li-x i { animation: li-kf-ember 1.7s ease-out both; }
+.li-flare:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.3s; }
+.li-flare:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.6s; }
+.li-flare:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.9s; }
+@keyframes li-kf-ember {
+  0% { opacity: 0; transform: translate(0, 0); }
+  18% { opacity: 1; }
+  60% { transform: translate(calc(var(--li-size) * 0.06), calc(var(--li-size) * -0.3)); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.05), calc(var(--li-size) * -0.55)); }
+}
+
+/* ============ POR — the pinwheel turns through Portland drizzle ============ */
+.li-pinwheel:is(:hover, .li-play) .li-img { animation: li-kf-pinwheel 2.1s cubic-bezier(0.3, 1.15, 0.45, 1) both; }
 @keyframes li-kf-pinwheel {
   to { transform: rotate(180deg); }
 }
-.li-gleam:is(:hover, .li-play) .li-img { animation: li-kf-gleam 0.8s ease both; }
+.li-pinwheel .li-x i {
+  z-index: 1;
+  width: 1.5px; height: 26%;
+  top: -32%;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(141, 144, 147, 0.75));
+}
+.li-pinwheel .li-x i:nth-child(1) { left: 14%; }
+.li-pinwheel .li-x i:nth-child(2) { left: 38%; }
+.li-pinwheel .li-x i:nth-child(3) { left: 62%; }
+.li-pinwheel .li-x i:nth-child(4) { left: 86%; }
+.li-pinwheel:is(:hover, .li-play) .li-x i { animation: li-kf-rain 0.85s linear 2 both; }
+.li-pinwheel:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.24s; }
+.li-pinwheel:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.48s; }
+.li-pinwheel:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.12s; }
+@keyframes li-kf-rain {
+  0% { opacity: 0; transform: translateY(0); }
+  18% { opacity: 0.65; }
+  100% { opacity: 0; transform: translateY(calc(var(--li-size) * 1.55)); }
+}
+
+/* ============ SAC — a miniature Golden 1 beam off the crown ============ */
+.li-gleam:is(:hover, .li-play) .li-img { animation: li-kf-gleam 2s ease both; }
 .li-gleam .li-shine {
   background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.98) 50%, transparent 58%) no-repeat;
   background-size: 260% 100%;
@@ -1025,31 +1660,127 @@ button:active { transform: translateY(0.5px); }
 @keyframes li-kf-gleam {
   30% { transform: scale(1.04); }
 }
-.li-rowel:is(:hover, .li-play) .li-img { animation: li-kf-rowel 0.8s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
-@keyframes li-kf-rowel {
-  15% { transform: rotate(-12deg); }
-  35% { transform: rotate(9deg); }
-  55% { transform: rotate(-5deg); }
-  72% { transform: rotate(2.5deg); }
+.li-gleam .li-x b:nth-of-type(1) {
+  left: 50%; bottom: 96%;
+  width: 8px; height: calc(var(--li-size) * 0.85);
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom center;
+  border-radius: 3px;
+  background: linear-gradient(to top, rgba(139, 92, 246, 0.8), transparent 92%);
+  filter: blur(2px);
 }
-.li-claw:is(:hover, .li-play) .li-img { animation: li-kf-claw 0.7s ease both; }
+.li-gleam .li-x b:nth-of-type(2) {
+  left: 50%; bottom: 96%;
+  width: 2.5px; height: calc(var(--li-size) * 0.8);
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom center;
+  border-radius: 2px;
+  background: linear-gradient(to top, #ffffff, rgba(239, 227, 255, 0.2));
+  box-shadow: 0 0 7px 2px rgba(167, 122, 255, 0.8);
+}
+.li-gleam:is(:hover, .li-play) .li-x b { animation: li-kf-minibeam 2s 0.35s ease both; }
+.li-gleam:is(:hover, .li-play) .li-x b:nth-of-type(2) { animation-delay: 0.42s; }
+@keyframes li-kf-minibeam {
+  0% { opacity: 0; transform: translateX(-50%) scaleY(0); }
+  14% { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  75% { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  100% { opacity: 0; transform: translateX(-50%) scaleY(1); }
+}
+
+/* ============ SAS — the rowel spins at the heel ============ */
+.li-rowel:is(:hover, .li-play) .li-img { animation: li-kf-rowel 1.9s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
+@keyframes li-kf-rowel {
+  12% { transform: rotate(-12deg); }
+  32% { transform: rotate(9deg); }
+  52% { transform: rotate(-5deg); }
+  70% { transform: rotate(2.5deg); }
+}
+.li-rowel .li-x i:nth-child(1) {
+  right: 2%; bottom: 4%;
+  font-size: calc(var(--li-size) * 0.36);
+  line-height: 1;
+  color: #dfe3e6;
+  text-shadow: 0 0 5px rgba(196, 206, 212, 0.9);
+}
+.li-rowel:is(:hover, .li-play) .li-x i:nth-child(1) { animation: li-kf-rowelspin 1.5s 0.15s ease-in-out both; }
+@keyframes li-kf-rowelspin {
+  0% { opacity: 0; transform: rotate(0deg) scale(0.5); }
+  15% { opacity: 1; transform: rotate(120deg) scale(1); }
+  85% { opacity: 1; transform: rotate(660deg) scale(1); }
+  100% { opacity: 0; transform: rotate(720deg) scale(0.6); }
+}
+.li-rowel .li-x i:nth-child(n + 2) {
+  width: 2.5px; height: 2.5px;
+  border-radius: 50%;
+  right: 6%; bottom: 4%;
+  background: #a9a9ad;
+}
+.li-rowel:is(:hover, .li-play) .li-x i:nth-child(2) { animation: li-kf-tick 0.6s 0.5s ease-out both; }
+.li-rowel:is(:hover, .li-play) .li-x i:nth-child(3) { animation: li-kf-tick 0.6s 0.75s ease-out both; }
+@keyframes li-kf-tick {
+  0% { opacity: 0; transform: translate(0, 0); }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.22), calc(var(--li-size) * 0.12)); }
+}
+
+/* ============ TOR — the claw rakes through; a maple leaf falls ============ */
+.li-claw:is(:hover, .li-play) .li-img { animation: li-kf-claw 1.6s ease both; }
 .li-claw .li-shine {
   background: linear-gradient(115deg, transparent 30%, rgba(206, 17, 65, 0.9) 34%, transparent 38%, rgba(206, 17, 65, 0.9) 43%, transparent 47%, rgba(206, 17, 65, 0.9) 52%, transparent 56%) no-repeat;
   background-size: 260% 100%;
   background-position: 140% 0;
 }
 @keyframes li-kf-claw {
-  25% { transform: rotate(-5deg) translateX(1px); }
+  22% { transform: rotate(-5deg) translateX(1.5px); }
+  50% { transform: rotate(2deg); }
 }
-.li-bob:is(:hover, .li-play) .li-img { animation: li-kf-bob 1s ease-in-out both; }
+.li-claw .li-x i {
+  width: 22%; height: 22%; min-width: 7px; min-height: 7px;
+  right: 4%; top: -18%;
+  background: #ce1141;
+  clip-path: polygon(50% 0, 61% 22%, 82% 12%, 73% 36%, 98% 42%, 72% 55%, 78% 80%, 55% 64%, 50% 100%, 45% 64%, 22% 80%, 28% 55%, 2% 42%, 27% 36%, 18% 12%, 39% 22%);
+}
+.li-claw:is(:hover, .li-play) .li-x i { animation: li-kf-leaf 1.9s 0.7s ease-in both; }
+@keyframes li-kf-leaf {
+  0% { opacity: 0; transform: translate(0, 0) rotate(-20deg); }
+  12% { opacity: 0.95; }
+  40% { transform: translate(calc(var(--li-size) * -0.14), calc(var(--li-size) * 0.42)) rotate(30deg); }
+  70% { transform: translate(calc(var(--li-size) * 0.08), calc(var(--li-size) * 0.85)) rotate(-25deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.06), calc(var(--li-size) * 1.2)) rotate(15deg); }
+}
+
+/* ============ UTA — a two-beat swing riff, three notes rising ============ */
+.li-bob:is(:hover, .li-play) .li-img { animation: li-kf-bob 2s ease-in-out both; }
 .li-bob { --li-shine-c: rgba(249, 160, 27, 0.95); }
 @keyframes li-kf-bob {
-  18% { transform: translateY(-3px) rotate(-2deg); }
-  36% { transform: translateY(0); }
-  52% { transform: translateY(-1.5px) rotate(1.5deg); }
-  68% { transform: translateY(0); }
+  14% { transform: translateY(-3px) rotate(-2deg); }
+  28% { transform: translateY(0); }
+  42% { transform: translateY(-2px) rotate(1.5deg); }
+  56% { transform: translateY(0); }
+  74% { transform: translateY(-1px) rotate(-1deg); }
 }
-.li-oath:is(:hover, .li-play) .li-img { animation: li-kf-oath 0.9s ease both; }
+.li-bob .li-x i {
+  line-height: 1;
+  font-weight: 700;
+  color: var(--li-b);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--li-b) 60%, transparent);
+}
+.li-bob .li-x i:nth-child(1) { right: -14%; top: 4%; font-size: calc(var(--li-size) * 0.42); }
+.li-bob .li-x i:nth-child(2) { right: 14%; top: -14%; font-size: calc(var(--li-size) * 0.36); }
+.li-bob .li-x i:nth-child(3) { right: 42%; top: -4%; font-size: calc(var(--li-size) * 0.4); }
+.li-bob:is(:hover, .li-play) .li-x i { animation: li-kf-note 1.5s ease-out both; }
+.li-bob:is(:hover, .li-play) .li-x i:nth-child(1) { animation-delay: 0.15s; }
+.li-bob:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.6s; }
+.li-bob:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 1.05s; }
+@keyframes li-kf-note {
+  0% { opacity: 0; transform: translateY(4px) rotate(-8deg); }
+  20% { opacity: 1; }
+  60% { transform: translateY(calc(var(--li-size) * -0.3)) rotate(6deg); }
+  100% { opacity: 0; transform: translateY(calc(var(--li-size) * -0.55)) rotate(-4deg); }
+}
+
+/* ============ WAS — D.C. in April: cherry blossoms drift past ============ */
+.li-oath:is(:hover, .li-play) .li-img { animation: li-kf-oath 2.4s ease both; }
 .li-oath .li-shine {
   background: linear-gradient(115deg, transparent 30%, rgba(227, 24, 55, 0.9) 40%, rgba(255, 255, 255, 0.95) 47%, rgba(0, 43, 92, 0.9) 54%, transparent 64%) no-repeat;
   background-size: 260% 100%;
@@ -1058,105 +1789,41 @@ button:active { transform: translateY(0.5px); }
 @keyframes li-kf-oath {
   35% { transform: scale(1.05); }
 }
-
-/* --- grace notes --- */
-.li-thruster {
-  bottom: -16%;
-  left: 50%;
-  width: 26%;
-  height: 40%;
-  transform: translateX(-50%) scaleY(0.3);
-  transform-origin: top center;
-  border-radius: 46% 46% 60% 60% / 30% 30% 70% 70%;
-  background: linear-gradient(to bottom, #ffffff, #ffd166 35%, #ef3b24 72%, transparent);
-  filter: blur(0.6px);
+.li-oath .li-x i {
+  width: 12%; height: 12%; min-width: 4px; min-height: 4px;
+  border-radius: 75% 0 75% 0;
+  background: #f4b6c2;
+  box-shadow: 0 0 3px rgba(244, 182, 194, 0.8);
+  top: -14%;
 }
-.li-liftoff:is(:hover, .li-play) .li-thruster { animation: li-kf-thrust 1s 0.05s ease-out both; }
-@keyframes li-kf-thrust {
-  0% { opacity: 0; transform: translateX(-50%) scaleY(0.25); }
-  22% { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
-  45% { transform: translateX(-50%) scaleY(0.85); }
-  65% { opacity: 0.95; transform: translateX(-50%) scaleY(1.05); }
-  100% { opacity: 0; transform: translateX(-50%) scaleY(0.4); }
-}
-.li-note {
-  top: -28%;
-  right: -16%;
-  font-size: calc(var(--li-size) * 0.48);
-  line-height: 1;
-  font-weight: 700;
-  color: var(--li-b);
-  text-shadow: 0 0 5px color-mix(in srgb, var(--li-b) 60%, transparent);
-}
-.li-bob:is(:hover, .li-play) .li-note { animation: li-kf-note 1s 0.1s ease-out both; }
-@keyframes li-kf-note {
-  0% { opacity: 0; transform: translateY(3px) rotate(-8deg); }
-  25% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(calc(var(--li-size) * -0.45)) rotate(9deg); }
-}
-.li-sparks { inset: -12%; }
-.li-sparks i {
-  position: absolute;
-  width: 10%;
-  height: 10%;
-  min-width: 3px;
-  min-height: 3px;
-  border-radius: 50%;
-  background: var(--li-b);
-  box-shadow: 0 0 6px var(--li-b);
-  opacity: 0;
-}
-.li-sparks i:nth-child(1) { top: 6%; left: 12%; }
-.li-sparks i:nth-child(2) { top: 22%; right: 4%; }
-.li-sparks i:nth-child(3) { bottom: 8%; left: 24%; }
-.logo-idle:is(:hover, .li-play) .li-sparks i { animation: li-kf-twinkle 0.55s both; }
-.logo-idle:is(:hover, .li-play) .li-sparks i:nth-child(2) { animation-delay: 0.18s; }
-.logo-idle:is(:hover, .li-play) .li-sparks i:nth-child(3) { animation-delay: 0.34s; }
-@keyframes li-kf-twinkle {
-  0% { opacity: 0; transform: scale(0.3); }
-  50% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 0; transform: scale(0.4); }
-}
-.li-ring {
-  inset: -16%;
-  border: 2px solid var(--li-b);
-  border-radius: 50%;
-}
-.li-howl:is(:hover, .li-play) .li-ring { animation: li-kf-ring 0.8s 0.15s ease-out both; }
-@keyframes li-kf-ring {
-  0% { opacity: 0.85; transform: scale(0.62); }
-  100% { opacity: 0; transform: scale(1.3); }
-}
-.li-lines { inset: 0; }
-.li-lines i {
-  position: absolute;
-  left: -36%;
-  height: 8%;
-  min-height: 2px;
-  width: 40%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--li-b));
-}
-.li-lines i:nth-child(1) { top: 30%; }
-.li-lines i:nth-child(2) { top: 58%; }
-.li-dash:is(:hover, .li-play) .li-lines i { animation: li-kf-line 0.5s ease-out both; }
-.li-dash:is(:hover, .li-play) .li-lines i:nth-child(2) { animation-delay: 0.08s; }
-@keyframes li-kf-line {
-  0% { opacity: 0; transform: translateX(0); }
-  30% { opacity: 0.9; }
-  100% { opacity: 0; transform: translateX(calc(var(--li-size) * 1.6)); }
+.li-oath .li-x i:nth-child(1) { left: 12%; }
+.li-oath .li-x i:nth-child(2) { left: 38%; }
+.li-oath .li-x i:nth-child(3) { left: 62%; }
+.li-oath .li-x i:nth-child(4) { left: 84%; }
+.li-oath:is(:hover, .li-play) .li-x i { animation: li-kf-petal 2s ease-in both; }
+.li-oath:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.35s; }
+.li-oath:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.6s; }
+.li-oath:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.9s; }
+@keyframes li-kf-petal {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  12% { opacity: 0.9; }
+  35% { transform: translate(calc(var(--li-size) * 0.12), calc(var(--li-size) * 0.35)) rotate(60deg); }
+  65% { transform: translate(calc(var(--li-size) * -0.08), calc(var(--li-size) * 0.75)) rotate(120deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.1), calc(var(--li-size) * 1.15)) rotate(200deg); }
 }
 
 /* card exports must never carry idle chrome */
 .capture .li-shine,
-.capture .li-fx { display: none !important; }
+.capture .li-x { display: none !important; }
 .capture .li-img { animation: none !important; filter: none !important; transform: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .logo-idle .li-img,
   .li-shine,
-  .li-fx,
-  .li-sparks i,
-  .li-lines i { animation: none !important; }
+  .li-x i,
+  .li-x b,
+  .li-x .li-svg,
+  .li-toss .li-svg path { animation: none !important; }
+  .li-x { display: none; }
   .logo-idle:is(:hover, .li-play) .li-img { filter: none; }
 }
