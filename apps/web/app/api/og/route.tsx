@@ -89,8 +89,17 @@ function Wordmark() {
   );
 }
 
+const DIMS = {
+  feed: { width: 1200, height: 630 },
+  square: { width: 1080, height: 1080 },
+  story: { width: 1080, height: 1920 },
+} as const;
+
 export async function GET(req: Request) {
-  const t = new URL(req.url).searchParams.get("t") || "";
+  const url = new URL(req.url);
+  const t = url.searchParams.get("t") || "";
+  const fmtParam = url.searchParams.get("fmt");
+  const dims = DIMS[(fmtParam as keyof typeof DIMS) in DIMS ? (fmtParam as keyof typeof DIMS) : "feed"];
   const s = summarizeTrade(t);
 
   if (!s) {
@@ -136,7 +145,7 @@ export async function GET(req: Request) {
           </div>
         </div>
       ),
-      { width: 1200, height: 630 },
+      dims,
     );
   }
 
