@@ -46,18 +46,33 @@ export function moveTouches(m: Move, team: string): boolean {
   }
 }
 
-/** SAC — a violet beam rises from the Kings' board card. Only on improvement,
- * because that is the entire point of the beam. */
+/** SAC — THE beam. A white-hot core inside a wide violet bloom fires from the
+ * Kings' board card to the top of the screen: ignition flash at the base, a
+ * pool of light where it meets the sky, motes rising inside the column, the
+ * room glowing faintly violet, then a power-down collapse. Only on
+ * improvement, because that is the entire point of the beam. */
 export function lightTheBeam() {
   leagueToast("Beam lit", "Victory-grade improvement detected in Sacramento.");
   if (reducedMotion()) return;
   const card = document.querySelector<HTMLElement>('[data-egg-team="SAC"]');
-  if (!card || document.querySelector(".egg-beam")) return;
+  if (!card || document.querySelector(".egg-beam2")) return;
   const r = card.getBoundingClientRect();
-  const beam = document.createElement("div");
-  beam.className = "egg-beam";
-  beam.style.left = `${r.left + r.width / 2 - 7}px`;
-  beam.style.height = `${Math.max(r.top + 12, 140)}px`;
-  document.body.appendChild(beam);
-  setTimeout(() => beam.remove(), 2500);
+  const x = r.left + r.width / 2;
+  const h = Math.max(r.top + 14, 180);
+  const wrap = document.createElement("div");
+  wrap.className = "egg-beam2";
+  wrap.style.left = `${x}px`;
+  wrap.style.height = `${h}px`;
+  wrap.style.setProperty("--bx", `${x}px`);
+  wrap.style.setProperty("--by", `${h}px`);
+  wrap.innerHTML =
+    '<i class="b2-ambience"></i>' +
+    '<i class="b2-glow"></i>' +
+    '<i class="b2-beam"></i>' +
+    '<i class="b2-core"></i>' +
+    '<i class="b2-sky"></i>' +
+    '<i class="b2-flash"></i>' +
+    [0, 1, 2, 3, 4].map((m) => `<i class="b2-mote" style="--m:${m}"></i>`).join("");
+  document.body.appendChild(wrap);
+  setTimeout(() => wrap.remove(), 4300);
 }

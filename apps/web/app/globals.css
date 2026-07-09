@@ -614,44 +614,147 @@ button:active { transform: translateY(0.5px); }
 
 /* ---------- Team easter eggs (design-preview branch) ---------- */
 
-/* SAC · Light the Beam — a violet column rises from the Kings' card top.
-   The div's bottom edge sits on the card, so scaleY from the bottom origin
-   reads as the beam firing upward. */
-.egg-beam {
+/* SAC · Light the Beam v2 — an ACTUAL beam. Layered column anchored to the
+   Kings' card top: wide violet bloom, mid column, white-hot core, ignition
+   flash at the base, a pool of light where it meets the top of the screen,
+   motes rising inside, and a faint violet cast over the whole room. Column
+   layers scale up from the base (ignition), shimmer on hold, and the wrapper
+   powers everything down at the end. */
+.egg-beam2 {
   position: fixed;
   top: 0;
-  width: 14px;
+  width: 0;
   z-index: 60;
   pointer-events: none;
-  border-radius: 3px;
-  background: linear-gradient(
-    to top,
-    rgba(90, 45, 129, 0.95),
-    rgba(122, 63, 197, 0.55) 55%,
-    rgba(122, 63, 197, 0) 96%
-  );
-  box-shadow: 0 0 26px 7px rgba(90, 45, 129, 0.3);
-  transform-origin: bottom center;
-  animation: beam-up 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: b2-out 0.7s 3.5s ease both;
 }
-/* Landing flare where the beam meets the card. */
-.egg-beam::after {
-  content: "";
+.egg-beam2 > i {
   position: absolute;
-  left: 50%;
-  bottom: -5px;
-  width: 46px;
-  height: 12px;
+  bottom: 0;
+  left: 0;
+  display: block;
+}
+/* the room notices */
+.b2-ambience {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    58vw 46vh at var(--bx) calc(var(--by) - 20px),
+    rgba(139, 92, 246, 0.2),
+    rgba(139, 92, 246, 0.06) 48%,
+    transparent 72%
+  );
+  animation: b2-ambient 3.6s ease both;
+}
+/* wide soft bloom */
+.b2-glow {
+  width: 84px;
+  height: 100%;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom center;
+  background: linear-gradient(to top, rgba(139, 92, 246, 0.42), rgba(139, 92, 246, 0.16) 62%, transparent);
+  filter: blur(12px);
+  animation:
+    b2-rise 0.34s cubic-bezier(0.16, 1, 0.3, 1) both,
+    b2-shimmer 1.5s 0.4s ease-in-out infinite alternate;
+}
+/* mid column */
+.b2-beam {
+  width: 30px;
+  height: 100%;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom center;
+  border-radius: 6px;
+  background: linear-gradient(to top, rgba(122, 63, 197, 0.85), rgba(139, 92, 246, 0.5) 55%, rgba(139, 92, 246, 0.08) 94%);
+  filter: blur(3px);
+  animation:
+    b2-rise 0.3s 0.03s cubic-bezier(0.16, 1, 0.3, 1) both,
+    b2-shimmer 1.1s 0.35s ease-in-out infinite alternate;
+}
+/* white-hot core */
+.b2-core {
+  width: 7px;
+  height: 100%;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom center;
+  border-radius: 4px;
+  background: linear-gradient(to top, #ffffff, #efe3ff 55%, rgba(239, 227, 255, 0.25) 96%);
+  box-shadow: 0 0 22px 5px rgba(167, 122, 255, 0.75);
+  animation:
+    b2-rise 0.26s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both,
+    b2-flicker 0.9s 0.34s ease-in-out infinite alternate;
+}
+/* light pooling where the column meets the top of the screen */
+.b2-sky {
+  bottom: auto;
+  top: -16px;
+  width: 220px;
+  height: 54px;
   transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(122, 63, 197, 0.55), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(226, 205, 255, 0.75), rgba(139, 92, 246, 0.28) 55%, transparent 75%);
+  filter: blur(6px);
+  opacity: 0;
+  animation:
+    b2-skyin 0.5s 0.3s ease-out forwards,
+    b2-shimmer 1.3s 0.8s ease-in-out infinite alternate;
 }
-@keyframes beam-up {
-  0% { transform: scaleY(0); opacity: 0; }
-  12% { opacity: 1; }
-  30% { transform: scaleY(1); }
-  72% { opacity: 1; transform: scaleY(1); }
-  100% { opacity: 0; transform: scaleY(1); }
+/* ignition burst at the base */
+.b2-flash {
+  bottom: -18px;
+  width: 150px;
+  height: 60px;
+  transform: translateX(-50%) scale(0.3);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95), rgba(167, 122, 255, 0.5) 45%, transparent 72%);
+  animation: b2-burst 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* motes drifting up inside the column */
+.b2-mote {
+  bottom: 10px;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: #efe3ff;
+  box-shadow: 0 0 8px 2px rgba(196, 160, 255, 0.9);
+  opacity: 0;
+  transform: translateX(calc(-50% + (var(--m) - 2) * 9px));
+  animation: b2-mote 2s calc(0.45s + var(--m) * 0.28s) ease-out both;
+}
+@keyframes b2-rise {
+  from { transform: translateX(-50%) scaleY(0); }
+  to { transform: translateX(-50%) scaleY(1); }
+}
+@keyframes b2-shimmer {
+  from { opacity: 0.9; }
+  to { opacity: 1; }
+}
+@keyframes b2-flicker {
+  from { opacity: 0.94; box-shadow: 0 0 18px 4px rgba(167, 122, 255, 0.65); }
+  to { opacity: 1; box-shadow: 0 0 26px 7px rgba(167, 122, 255, 0.85); }
+}
+@keyframes b2-skyin {
+  from { opacity: 0; transform: translateX(-50%) scale(0.6); }
+  to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+@keyframes b2-burst {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.25); }
+  22% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.6); }
+}
+@keyframes b2-mote {
+  0% { opacity: 0; transform: translateX(calc(-50% + (var(--m) - 2) * 9px)) translateY(0); }
+  14% { opacity: 0.95; }
+  100% { opacity: 0; transform: translateX(calc(-50% + (var(--m) - 2) * 7px)) translateY(calc(-1 * var(--by) + 44px)); }
+}
+@keyframes b2-ambient {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  75% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+@keyframes b2-out {
+  to { opacity: 0; }
 }
 
 /* PHX · Tumbleweed — rolls the width of the own-firsts shelf (runway measured
@@ -706,10 +809,354 @@ button:active { transform: translateY(0.5px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .egg-beam { display: none; }
+  .egg-beam2 { display: none; }
   .egg-toast.egg-heat .stamp { animation: none; }
   /* The tumbleweed skips the ride and sits parked at the end of the shelf. */
   .egg-tumbleweed,
   .egg-tumbleweed.egg-rolling { animation: none; opacity: 0.5; left: auto; right: 4px; }
   .egg-tumbleweed.egg-rolling svg { animation: none; }
+}
+
+/* ---------- Logo micro-idles (design-preview branch) ----------
+   The real logo art, augmented — never redrawn. Motion runs on the actual
+   <img>; light runs on an overlay MASKED BY THE LOGO FILE ITSELF
+   (mask-image: url(/logos/ID.png)), so sweeps and glints live strictly
+   inside the logo's own silhouette. Plays on hover / tap / .li-play. */
+.logo-idle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.logo-idle .li-img { display: block; }
+/* every team gets a soft glow in its own color while playing */
+.logo-idle:is(:hover, .li-play) .li-img {
+  filter: drop-shadow(0 0 calc(var(--li-size) * 0.12) color-mix(in srgb, var(--li-a) 55%, transparent));
+}
+/* the masked light sweep — clipped to the logo's alpha channel */
+.li-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-mask-image: var(--li-mask);
+  mask-image: var(--li-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: linear-gradient(115deg, transparent 32%, var(--li-shine-c, rgba(255, 255, 255, 0.95)) 47%, transparent 62%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 140% 0;
+}
+.logo-idle:is(:hover, .li-play) .li-shine { animation: li-sweep 0.85s ease-out both; }
+@keyframes li-sweep {
+  0% { opacity: 0; background-position: 140% 0; }
+  15% { opacity: 1; }
+  100% { opacity: 0; background-position: -60% 0; }
+}
+/* vertical variant (DEN sunrise) */
+@keyframes li-sweep-v {
+  0% { opacity: 0; background-position: 0 140%; }
+  15% { opacity: 1; }
+  100% { opacity: 0; background-position: 0 -60%; }
+}
+/* physical grace notes around the art */
+.li-fx { position: absolute; pointer-events: none; opacity: 0; }
+
+/* --- the thirty motions --- */
+.li-hawk:is(:hover, .li-play) .li-img { animation: li-kf-hawk 0.8s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
+@keyframes li-kf-hawk {
+  28% { transform: translateY(-3px) rotate(-9deg); }
+  62% { transform: translateY(1px) rotate(4deg); }
+}
+.li-swish:is(:hover, .li-play) .li-img { animation: li-kf-swish 0.75s ease-out both; }
+@keyframes li-kf-swish {
+  30% { transform: translateY(-4px); }
+  55% { transform: translateY(1.5px) scale(1.04, 0.92); }
+  75% { transform: scale(0.98, 1.03); }
+}
+.li-jig:is(:hover, .li-play) .li-img { animation: li-kf-jig 0.9s ease-in-out both; }
+.li-jig { --li-shine-c: rgba(186, 150, 83, 0.95); }
+@keyframes li-kf-jig {
+  20% { transform: rotate(-7deg) translateY(-1px); }
+  40% { transform: rotate(6deg); }
+  60% { transform: rotate(-3deg) translateY(-1px); }
+  80% { transform: rotate(1.5deg); }
+}
+.li-buzz:is(:hover, .li-play) .li-img { animation: li-kf-buzz 0.5s linear both; }
+@keyframes li-kf-buzz {
+  10%, 50%, 90% { transform: translateX(-1px) rotate(-1deg); }
+  30%, 70% { transform: translateX(1px) rotate(1deg); }
+}
+.li-charge:is(:hover, .li-play) .li-img { animation: li-kf-charge 0.7s cubic-bezier(0.3, 1.1, 0.5, 1) both; }
+@keyframes li-kf-charge {
+  22% { transform: translateX(-2.5px) rotate(-4deg); }
+  55% { transform: translateX(3.5px) rotate(2deg) scale(1.07); }
+}
+.li-glint:is(:hover, .li-play) .li-img { animation: li-kf-glint 0.8s ease both; }
+.li-glint { --li-shine-c: rgba(253, 187, 48, 0.95); }
+@keyframes li-kf-glint {
+  35% { transform: scale(1.05); }
+}
+.li-rear:is(:hover, .li-play) .li-img { transform-origin: 50% 88%; animation: li-kf-rear 0.85s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
+@keyframes li-kf-rear {
+  32% { transform: rotate(-11deg) translateY(-1px); }
+  62% { transform: rotate(3deg); }
+}
+.li-summit { --li-shine-c: rgba(254, 197, 36, 0.95); }
+.li-summit .li-shine {
+  background: linear-gradient(0deg, transparent 26%, var(--li-shine-c) 50%, transparent 74%) no-repeat;
+  background-size: 100% 260%;
+  background-position: 0 140%;
+}
+.li-summit:is(:hover, .li-play) .li-shine { animation: li-sweep-v 1s ease-out both; }
+.li-summit:is(:hover, .li-play) .li-img { animation: li-kf-summit 1s ease both; }
+@keyframes li-kf-summit {
+  40% { transform: translateY(-2px); }
+}
+.li-rev:is(:hover, .li-play) .li-img { animation: li-kf-rev 0.7s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
+@keyframes li-kf-rev {
+  18% { transform: rotate(-9deg); }
+  42% { transform: rotate(10deg); }
+  68% { transform: rotate(-4deg); }
+}
+.li-lightyears:is(:hover, .li-play) .li-img { animation: li-kf-lightyears 0.9s ease both; }
+.li-lightyears { --li-shine-c: rgba(255, 199, 44, 0.9); }
+@keyframes li-kf-lightyears {
+  35% { transform: scale(1.06); }
+}
+.li-liftoff:is(:hover, .li-play) .li-img { animation: li-kf-liftoff 1.05s cubic-bezier(0.34, 1.1, 0.5, 1) both; }
+@keyframes li-kf-liftoff {
+  30% { transform: translateY(-5px) rotate(-2deg); }
+  70% { transform: translateY(-4px); }
+}
+.li-dash:is(:hover, .li-play) .li-img { animation: li-kf-dash 0.6s ease-out both; }
+@keyframes li-kf-dash {
+  30% { transform: translateX(2.5px) skewX(-8deg); }
+  60% { transform: translateX(3px) skewX(-4deg); }
+}
+.li-ballmer:is(:hover, .li-play) .li-img { animation: li-kf-ballmer 0.95s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
+@keyframes li-kf-ballmer {
+  12% { transform: scale(1.06, 0.9); }
+  26% { transform: translateY(-6px) scale(0.95, 1.08); }
+  40% { transform: translateY(0) scale(1.12, 0.86); }
+  54% { transform: translateY(-3.5px) scale(0.97, 1.05); }
+  68% { transform: translateY(0) scale(1.05, 0.94); }
+  82% { transform: scale(0.99, 1.02); }
+}
+.li-showtime:is(:hover, .li-play) .li-img { animation: li-kf-showtime 1.3s ease-in-out both; }
+.li-showtime { --li-shine-c: rgba(253, 185, 39, 0.95); }
+.li-showtime:is(:hover, .li-play) .li-shine { animation-duration: 1.3s; }
+@keyframes li-kf-showtime {
+  45% { transform: scale(1.06); }
+}
+.li-grit:is(:hover, .li-play) .li-img { animation: li-kf-grit 0.9s ease-in-out both; }
+@keyframes li-kf-grit {
+  16%, 48%, 80% { transform: translateX(-1.5px); }
+  32%, 64% { transform: translateX(1.5px); }
+}
+/* MIA — the flame stays alive as long as you hover */
+.li-gutter:is(:hover, .li-play) .li-img { animation: li-kf-gutter 0.9s ease-in-out infinite; }
+.li-gutter { --li-shine-c: rgba(249, 160, 27, 0.9); }
+@keyframes li-kf-gutter {
+  0%, 100% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.12) rgba(249, 160, 27, 0.55)) brightness(1); transform: rotate(0deg); }
+  30% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.2) rgba(249, 160, 27, 0.8)) brightness(1.14); transform: rotate(1.2deg); }
+  55% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.1) rgba(249, 160, 27, 0.45)) brightness(0.97); transform: rotate(-1deg); }
+  78% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.17) rgba(249, 160, 27, 0.7)) brightness(1.08); transform: rotate(0.6deg); }
+}
+.li-toss:is(:hover, .li-play) .li-img { transform-origin: 50% 85%; animation: li-kf-toss 0.85s cubic-bezier(0.34, 1.3, 0.5, 1) both; }
+@keyframes li-kf-toss {
+  30% { transform: rotate(-9deg) translateY(-3px); }
+  55% { transform: rotate(2deg); }
+  75% { transform: rotate(-1deg); }
+}
+.li-howl:is(:hover, .li-play) .li-img { animation: li-kf-howl 1s ease both; }
+@keyframes li-kf-howl {
+  35%, 60% { transform: rotate(-7deg) translateY(-1px); }
+}
+.li-wing:is(:hover, .li-play) .li-img { animation: li-kf-wing 0.8s ease both; }
+@keyframes li-kf-wing {
+  35% { transform: scaleY(1.09) translateY(-1px); }
+  65% { transform: scaleY(0.97); }
+}
+.li-marquee:is(:hover, .li-play) .li-img { animation: li-kf-marquee 0.8s ease both; }
+.li-marquee:is(:hover, .li-play) .li-shine { animation: li-sweep 0.55s ease-out 2 both; }
+@keyframes li-kf-marquee {
+  30% { transform: scale(1.07); }
+}
+.li-thunder:is(:hover, .li-play) .li-img { animation: li-kf-thunder 0.7s ease-out both; }
+@keyframes li-kf-thunder {
+  12% { filter: brightness(2.3) drop-shadow(0 0 8px rgba(126, 200, 255, 0.9)); transform: translateX(1px); }
+  22% { filter: brightness(1); }
+  32% { transform: translateX(-1.5px); }
+  44% { transform: translateX(1px); }
+}
+.li-pixie:is(:hover, .li-play) .li-img { animation: li-kf-pixie 0.9s ease both; }
+.li-pixie .li-sparks i { background: #e8ecf1; box-shadow: 0 0 6px #c4ced4; }
+@keyframes li-kf-pixie {
+  35% { transform: translateY(-2.5px); }
+}
+.li-bell:is(:hover, .li-play) .li-img { transform-origin: 50% 8%; animation: li-kf-bell 1.1s ease-in-out both; }
+@keyframes li-kf-bell {
+  20% { transform: rotate(7deg); }
+  40% { transform: rotate(-5.5deg); }
+  60% { transform: rotate(3.5deg); }
+  78% { transform: rotate(-1.5deg); }
+}
+.li-flare:is(:hover, .li-play) .li-img { animation: li-kf-flare 1s ease both; }
+.li-flare { --li-shine-c: rgba(249, 160, 27, 0.9); }
+@keyframes li-kf-flare {
+  40% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.22) rgba(229, 96, 32, 0.85)) brightness(1.12); transform: scale(1.05); }
+}
+.li-pinwheel:is(:hover, .li-play) .li-img { animation: li-kf-pinwheel 0.9s cubic-bezier(0.3, 1.25, 0.45, 1) both; }
+@keyframes li-kf-pinwheel {
+  to { transform: rotate(180deg); }
+}
+.li-gleam:is(:hover, .li-play) .li-img { animation: li-kf-gleam 0.8s ease both; }
+.li-gleam .li-shine {
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.98) 50%, transparent 58%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 140% 0;
+}
+@keyframes li-kf-gleam {
+  30% { transform: scale(1.04); }
+}
+.li-rowel:is(:hover, .li-play) .li-img { animation: li-kf-rowel 0.8s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
+@keyframes li-kf-rowel {
+  15% { transform: rotate(-12deg); }
+  35% { transform: rotate(9deg); }
+  55% { transform: rotate(-5deg); }
+  72% { transform: rotate(2.5deg); }
+}
+.li-claw:is(:hover, .li-play) .li-img { animation: li-kf-claw 0.7s ease both; }
+.li-claw .li-shine {
+  background: linear-gradient(115deg, transparent 30%, rgba(206, 17, 65, 0.9) 34%, transparent 38%, rgba(206, 17, 65, 0.9) 43%, transparent 47%, rgba(206, 17, 65, 0.9) 52%, transparent 56%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 140% 0;
+}
+@keyframes li-kf-claw {
+  25% { transform: rotate(-5deg) translateX(1px); }
+}
+.li-bob:is(:hover, .li-play) .li-img { animation: li-kf-bob 1s ease-in-out both; }
+.li-bob { --li-shine-c: rgba(249, 160, 27, 0.95); }
+@keyframes li-kf-bob {
+  18% { transform: translateY(-3px) rotate(-2deg); }
+  36% { transform: translateY(0); }
+  52% { transform: translateY(-1.5px) rotate(1.5deg); }
+  68% { transform: translateY(0); }
+}
+.li-oath:is(:hover, .li-play) .li-img { animation: li-kf-oath 0.9s ease both; }
+.li-oath .li-shine {
+  background: linear-gradient(115deg, transparent 30%, rgba(227, 24, 55, 0.9) 40%, rgba(255, 255, 255, 0.95) 47%, rgba(0, 43, 92, 0.9) 54%, transparent 64%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 140% 0;
+}
+@keyframes li-kf-oath {
+  35% { transform: scale(1.05); }
+}
+
+/* --- grace notes --- */
+.li-thruster {
+  bottom: -16%;
+  left: 50%;
+  width: 26%;
+  height: 40%;
+  transform: translateX(-50%) scaleY(0.3);
+  transform-origin: top center;
+  border-radius: 46% 46% 60% 60% / 30% 30% 70% 70%;
+  background: linear-gradient(to bottom, #ffffff, #ffd166 35%, #ef3b24 72%, transparent);
+  filter: blur(0.6px);
+}
+.li-liftoff:is(:hover, .li-play) .li-thruster { animation: li-kf-thrust 1s 0.05s ease-out both; }
+@keyframes li-kf-thrust {
+  0% { opacity: 0; transform: translateX(-50%) scaleY(0.25); }
+  22% { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
+  45% { transform: translateX(-50%) scaleY(0.85); }
+  65% { opacity: 0.95; transform: translateX(-50%) scaleY(1.05); }
+  100% { opacity: 0; transform: translateX(-50%) scaleY(0.4); }
+}
+.li-note {
+  top: -28%;
+  right: -16%;
+  font-size: calc(var(--li-size) * 0.48);
+  line-height: 1;
+  font-weight: 700;
+  color: var(--li-b);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--li-b) 60%, transparent);
+}
+.li-bob:is(:hover, .li-play) .li-note { animation: li-kf-note 1s 0.1s ease-out both; }
+@keyframes li-kf-note {
+  0% { opacity: 0; transform: translateY(3px) rotate(-8deg); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(calc(var(--li-size) * -0.45)) rotate(9deg); }
+}
+.li-sparks { inset: -12%; }
+.li-sparks i {
+  position: absolute;
+  width: 10%;
+  height: 10%;
+  min-width: 3px;
+  min-height: 3px;
+  border-radius: 50%;
+  background: var(--li-b);
+  box-shadow: 0 0 6px var(--li-b);
+  opacity: 0;
+}
+.li-sparks i:nth-child(1) { top: 6%; left: 12%; }
+.li-sparks i:nth-child(2) { top: 22%; right: 4%; }
+.li-sparks i:nth-child(3) { bottom: 8%; left: 24%; }
+.logo-idle:is(:hover, .li-play) .li-sparks i { animation: li-kf-twinkle 0.55s both; }
+.logo-idle:is(:hover, .li-play) .li-sparks i:nth-child(2) { animation-delay: 0.18s; }
+.logo-idle:is(:hover, .li-play) .li-sparks i:nth-child(3) { animation-delay: 0.34s; }
+@keyframes li-kf-twinkle {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(0.4); }
+}
+.li-ring {
+  inset: -16%;
+  border: 2px solid var(--li-b);
+  border-radius: 50%;
+}
+.li-howl:is(:hover, .li-play) .li-ring { animation: li-kf-ring 0.8s 0.15s ease-out both; }
+@keyframes li-kf-ring {
+  0% { opacity: 0.85; transform: scale(0.62); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+.li-lines { inset: 0; }
+.li-lines i {
+  position: absolute;
+  left: -36%;
+  height: 8%;
+  min-height: 2px;
+  width: 40%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--li-b));
+}
+.li-lines i:nth-child(1) { top: 30%; }
+.li-lines i:nth-child(2) { top: 58%; }
+.li-dash:is(:hover, .li-play) .li-lines i { animation: li-kf-line 0.5s ease-out both; }
+.li-dash:is(:hover, .li-play) .li-lines i:nth-child(2) { animation-delay: 0.08s; }
+@keyframes li-kf-line {
+  0% { opacity: 0; transform: translateX(0); }
+  30% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * 1.6)); }
+}
+
+/* card exports must never carry idle chrome */
+.capture .li-shine,
+.capture .li-fx { display: none !important; }
+.capture .li-img { animation: none !important; filter: none !important; transform: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-idle .li-img,
+  .li-shine,
+  .li-fx,
+  .li-sparks i,
+  .li-lines i { animation: none !important; }
+  .logo-idle:is(:hover, .li-play) .li-img { filter: none; }
 }
