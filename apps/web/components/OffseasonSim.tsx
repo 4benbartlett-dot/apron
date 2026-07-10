@@ -93,7 +93,7 @@ export default function OffseasonSim() {
   // User-created pick swaps: favoredTo takes the more favorable of the two
   // teams' same-year/round firsts. A right, not a concrete transfer.
   const [swapSel, setSwapSel] = useState<PickSwap[]>([]);
-  const [signFor, setSignFor] = useState<{ team: string; faId?: string } | null>(null);
+  const [signFor, setSignFor] = useState<{ team: string; faId?: string; st?: boolean } | null>(null);
   const [extendFor, setExtendFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
   const [finderOpen, setFinderOpen] = useState(false);
 
@@ -559,7 +559,11 @@ export default function OffseasonSim() {
   if (board.length === 0) {
     return (
       <div className="pb-24 pt-2">
-        <TeamPicker onPick={(id) => setBoard([id])} />
+        {/* Picking a front office lands on ITS war room first — cap sheet,
+            rotation, draft capital — whose Trade→ / Sign FAs→ CTAs deep-link
+            back here with the team staged. Returning sessions skip the picker
+            entirely (the board restores), so only fresh starts route away. */}
+        <TeamPicker onPick={(id) => router.push(`/team/${id}`)} />
       </div>
     );
   }
@@ -651,7 +655,7 @@ export default function OffseasonSim() {
             pickSel={pickSel}
             onTogglePick={togglePick}
             onPickDest={setPickDest}
-            onSign={(faId) => setSignFor({ team: id, faId })}
+            onSign={(faId, st) => setSignFor({ team: id, faId, st })}
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
           />
           </div>
@@ -705,7 +709,7 @@ export default function OffseasonSim() {
           }}
         />
       )}
-      {signFor && <SignDrawer team={signFor.team} initialId={signFor.faId} lg={lg} onClose={() => setSignFor(null)} />}
+      {signFor && <SignDrawer team={signFor.team} initialId={signFor.faId} initialSt={signFor.st} lg={lg} onClose={() => setSignFor(null)} />}
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
       {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
     </div>
@@ -1061,7 +1065,7 @@ function TeamColumn({
   pickSel: Record<string, Sel>;
   onTogglePick: (id: string, from: string) => void;
   onPickDest: (id: string, to: string) => void;
-  onSign: (faId?: string) => void;
+  onSign: (faId?: string, st?: boolean) => void;
   onExtend: (playerId: string, playerName: string) => void;
 }) {
   const meta = teamMeta(teamId);
@@ -1328,6 +1332,15 @@ function TeamColumn({
                 >
                   Sign
                 </button>
+                {!fa.renounced && !fa.renouncedInWorld && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") && (
+                  <button
+                    onClick={() => onSign(fa.playerId, true)}
+                    title={`Sign-and-trade ${fa.playerName} away — pick a destination, take a return package back`}
+                    className="shrink-0 rounded-[4px] border border-[var(--accent)] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.05em] text-[var(--accent-ink)] hover:bg-[color-mix(in_srgb,var(--accent)_10%,transparent)]"
+                  >
+                    S&T
+                  </button>
+                )}
                 {fa.renouncedInWorld ? (
                   // The real July spent this hold — nothing to restore.
                   <Term k="committed_salary">
@@ -1410,7 +1423,7 @@ function TeamColumn({
 const isOwnKept = (fa: FreeAgent, team: string) =>
   fa.priorTeam === team && !fa.renounced;
 
-function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?: string; lg: LG; onClose: () => void }) {
+function SignDrawer({ team, initialId, initialSt, lg, onClose }: { team: string; initialId?: string; initialSt?: boolean; lg: LG; onClose: () => void }) {
   const committed = lg.teamSalary(team);
   const holds = lg.teamHolds(team);
   const fas = lg.freeAgents();
@@ -1504,6 +1517,7 @@ function SignDrawer({ team, initialId, lg, onClose }: { team: string; initialId?
 
       {selected ? (
         <SignEditor
+          initialSt={initialSt}
           fa={selected}
           team={team}
           committed={committed}
@@ -1566,6 +1580,7 @@ function SignEditor({
   lg,
   onBack,
   onDone,
+  initialSt,
 }: {
   fa: FreeAgent;
   team: string;
@@ -1574,6 +1589,8 @@ function SignEditor({
   lg: LG;
   onBack: () => void;
   onDone: () => void;
+  /** Open straight into sign-and-trade mode (the holds-row S&T button). */
+  initialSt?: boolean;
 }) {
   // Bird rights apply only to your own FA whose hold you've kept. Re-signing him
   // converts HIS hold to salary, so it drops out of the signing base.
@@ -1683,7 +1700,11 @@ function SignEditor({
   // sign-and-trades ITS OWN free agent to a destination of Ben's choosing.
   // Sender is always the FA's old team; the acquirer is the drawer team
   // (inbound) or the picked destination (outbound).
-  const [stMode, setStMode] = useState(false);
+  const [stMode, setStMode] = useState(!!initialSt);
+  useEffect(() => {
+    if (initialSt) setYears((y) => Math.max(3, y));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [stDest, setStDest] = useState<string | null>(null);
   const [returnIds, setReturnIds] = useState<Set<string>>(new Set());
   const [stPickIds, setStPickIds] = useState<Set<string>>(new Set());

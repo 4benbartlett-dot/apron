@@ -552,7 +552,7 @@ button:active { transform: translateY(0.5px); }
 /* Paper slip toasts: FILED receipts and league-office replies. */
 @keyframes toast-in {
   0% { opacity: 0; transform: translate(-50%, 14px); }
-  10%, 84% { opacity: 1; transform: translate(-50%, 0); }
+  5%, 92% { opacity: 1; transform: translate(-50%, 0); }
   100% { opacity: 0; transform: translate(-50%, 0); }
 }
 .egg-toast {
@@ -572,7 +572,7 @@ button:active { transform: translateY(0.5px); }
   font-size: 12.5px;
   line-height: 1.45;
   pointer-events: none;
-  animation: toast-in 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: toast-in 5.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .egg-toast .stamp { font-size: 10px; flex-shrink: 0; }
 
@@ -605,7 +605,7 @@ button:active { transform: translateY(0.5px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .egg-toast { animation: veto-cycle 2.8s both; transform: translate(-50%, 0); }
+  .egg-toast { animation: veto-cycle 5.6s both; transform: translate(-50%, 0); }
 }
 
 /* Hide the scrollbar on tight horizontal strips (the trade tray). */
