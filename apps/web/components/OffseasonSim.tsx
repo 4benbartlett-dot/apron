@@ -16,7 +16,7 @@ import {
   type MechanismId,
 } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
-import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg } from "@/components/teamEggs";
+import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg, cigarEgg, bingBongEgg, whiteHotEgg, chalkTossEgg, antlersEgg, assemblyLineEgg, northernLightsEgg, lightYearsEgg, beadThrowEgg, blossomsEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -221,20 +221,48 @@ export default function OffseasonSim() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lg.moves.length, sacOnBoard]);
 
-  // Board showpieces: five team eggs fired by the move that just landed
-  // (never by undo or session restore — only a single fresh addition).
+  // Board showpieces: team eggs fired by the move that just landed (never by
+  // undo or session restore — only a single fresh addition). Projection and
+  // apron-tier baselines are snapshotted on EVERY run so hydration and undo
+  // update them silently; only a fresh move may fire from them. At most one
+  // showpiece per move, ordered by narrative weight.
   const prevMoveCount = useRef<number | null>(null);
+  const projPrev = useRef<Record<string, { wins: number; nrtg: number; delta: number }>>({});
+  const minTierPrev = useRef<string | null>(null);
   useEffect(() => {
     const n = lg.moves.length;
     const prev = prevMoveCount.current;
     prevMoveCount.current = n;
+    // improvement-triggered eggs: BOS cigar (+3 wins), NYK bing bong (+1 win),
+    // GSW light-years (crossing +10 vs base), NOP throw / WAS blossoms (any gain)
+    const gains: Record<string, { wins: number; nrtg: number; crossed10: boolean }> = {};
+    for (const t of ["BOS", "NYK", "NOP", "WAS", "GSW"]) {
+      if (!board.includes(t)) {
+        delete projPrev.current[t];
+        continue;
+      }
+      const p = teamProjection(t, lg.contracts);
+      if (!p) continue;
+      const old = projPrev.current[t];
+      projPrev.current[t] = { wins: p.projWins, nrtg: p.projNrtg, delta: p.deltaWins };
+      if (old) gains[t] = { wins: p.projWins - old.wins, nrtg: p.projNrtg - old.nrtg, crossed10: old.delta < 10 && p.deltaWins >= 10 };
+    }
+    // MIN aurora: the Wolves crossing DOWN below the second apron
+    let minDucked = false;
+    if (board.includes("MIN")) {
+      const tier = lg.capSheet("MIN").tier;
+      if (minTierPrev.current === "second_apron" && tier !== "second_apron") minDucked = true;
+      minTierPrev.current = tier;
+    } else {
+      minTierPrev.current = null;
+    }
     if (!freshMove(prev, n)) return;
     const mv = lg.moves[n - 1]!;
     const impactOf = (pid: string) => {
       const c = lg.contracts.find((x) => x.playerId === pid);
       return c ? impactScoreOf(c) : 0;
     };
-    // who just received a star? (CHI intro / LAL confetti share this shape)
+    // who just received a star? (CHI intro / LAL confetti / CLE chalk share this)
     const arrival = (team: string, minImpact: number, minSalary = 0) => {
       if (mv.kind === "trade")
         return mv.players.find(
@@ -245,8 +273,11 @@ export default function OffseasonSim() {
       if (mv.kind === "sign_trade" && mv.toTeam === team && impactOf(mv.playerId) >= minImpact) return mv.playerId;
       return undefined;
     };
+    const touches = (t: string) => board.includes(t) && moveTouches(mv, t);
     const chiStar = board.includes("CHI") ? arrival("CHI", 60) : undefined;
     const lalMax = board.includes("LAL") ? arrival("LAL", 0, 0.28 * C.salaryCap) : undefined;
+    const cleStar = board.includes("CLE") ? arrival("CLE", 60) : undefined;
+    const miaMins = lg.moves.filter((m) => m.kind === "sign" && m.teamId === "MIA" && m.mechanism === "minimum").length;
     if (chiStar) {
       introEgg(lg.playerName(chiStar));
     } else if (lalMax && mv.kind === "trade") {
@@ -257,6 +288,20 @@ export default function OffseasonSim() {
       (mv.picks ?? []).some((p) => p.to === "OKC" && p.id.endsWith("|1"))
     ) {
       strikeEgg(lg.picksOf("OKC").filter((p) => p.round === 1).length);
+    } else if (cleStar) {
+      chalkTossEgg(lg.playerName(cleStar));
+    } else if (
+      mv.kind === "extend" &&
+      board.includes("MIL") &&
+      lg.contracts.find((c) => c.playerId === mv.playerId)?.teamId === "MIL"
+    ) {
+      antlersEgg(mv.playerName);
+    } else if (minDucked && touches("MIN")) {
+      northernLightsEgg();
+    } else if (mv.kind === "sign" && mv.teamId === "MIA" && mv.mechanism === "minimum" && miaMins === 2 && board.includes("MIA")) {
+      whiteHotEgg();
+    } else if (mv.kind === "sign" && mv.teamId === "DET" && board.includes("DET")) {
+      assemblyLineEgg();
     } else if (board.includes("SAS") && moveTouches(mv, "SAS") && lg.moves.filter((m) => moveTouches(m, "SAS")).length === 5) {
       rockCrackEgg();
     } else if (
@@ -267,6 +312,16 @@ export default function OffseasonSim() {
         (mv.pickSwaps ?? []).some((s) => s.favoredTo === "BKN" || s.otherTeam === "BKN"))
     ) {
       subwayEgg();
+    } else if (gains.GSW?.crossed10 && touches("GSW")) {
+      lightYearsEgg();
+    } else if ((gains.BOS?.wins ?? 0) >= 3 && touches("BOS")) {
+      cigarEgg();
+    } else if ((gains.NYK?.wins ?? 0) >= 1 && touches("NYK")) {
+      bingBongEgg();
+    } else if (gains.NOP && (gains.NOP.wins > 0 || gains.NOP.nrtg > 0.1) && touches("NOP")) {
+      beadThrowEgg();
+    } else if (gains.WAS && (gains.WAS.wins > 0 || gains.WAS.nrtg > 0.1) && touches("WAS")) {
+      blossomsEgg();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lg.moves.length]);

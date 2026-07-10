@@ -2139,3 +2139,1784 @@ button:active { transform: translateY(0.5px); }
   .egg-shudder,
   .egg-rumble { animation: none !important; }
 }
+
+
+/* ---------- Board eggs, tranche 3: ten more showpieces ---------- */
+
+/* BOS · The Cigar — Red's victory smoke. A parquet-angle light sweep crosses
+   the Garden floor (the card face) and CLEARS; then the cigar settles onto the
+   card's REAL bottom-right corner (pinned at the sprite's bottom-centre,
+   measured in JS), the ember ignites — the toast waits for that first glow —
+   and three smoke curls rise on staggered S-curves. Celtics gold for the light
+   and the band, green on the band medallion; leaf and ash are prop colors. */
+.egg-cigar {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  animation: cg-out 0.7s 5.85s ease both;
+}
+@keyframes cg-out {
+  to { opacity: 0; }
+}
+
+/* the floor — clipped to the card so the sweep lives on its face */
+.cg-floor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+/* soft leading bloom of the sweep */
+.cg-sweep {
+  position: absolute;
+  top: -35%;
+  left: -38%;
+  width: 36%;
+  height: 170%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 226, 158, 0.4) 42%,
+    rgba(255, 241, 205, 0.55) 50%,
+    rgba(255, 226, 158, 0.4) 58%,
+    transparent
+  );
+  filter: blur(7px);
+  opacity: 0;
+  transform: rotate(13deg) translateX(0);
+  animation: cg-sweep-kf 1.6s 0.05s cubic-bezier(0.45, 0.05, 0.4, 0.95) both;
+}
+/* herringbone: ONE band layering opposing 45° stripe grids offset by half a
+   period, moving together under one mask — a single pass of light reveals the
+   interlocked parquet laid at the Garden angle */
+.cg-grain {
+  position: absolute;
+  top: -35%;
+  left: -38%;
+  width: 36%;
+  height: 170%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 216, 148, 0.3) 0 8px,
+      transparent 8px 16px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 216, 148, 0.24) 0 8px,
+      transparent 8px 16px
+    );
+  background-position: 0 0, 8px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 38%, #000 62%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 38%, #000 62%, transparent);
+  filter: blur(1px);
+  opacity: 0;
+  transform: rotate(13deg) translateX(0);
+  animation: cg-sweep-kf 1.6s 0.12s cubic-bezier(0.45, 0.05, 0.4, 0.95) both;
+}
+@keyframes cg-sweep-kf {
+  0% { opacity: 0; transform: rotate(13deg) translateX(0); }
+  12% { opacity: 1; }
+  84% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(13deg) translateX(480%); }
+}
+
+/* the room warms from the lower-right as the cigar arrives */
+.cg-warm {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: radial-gradient(
+    60% 55% at 88% 96%,
+    rgba(224, 112, 48, 0.16),
+    rgba(186, 150, 83, 0.07) 55%,
+    transparent 75%
+  );
+  opacity: 0;
+  animation: cg-warm-kf 3.9s 2.2s ease both;
+}
+@keyframes cg-warm-kf {
+  0% { opacity: 0; }
+  22% { opacity: 1; }
+  78% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+/* THE cigar. Sprite is 96×20; its bottom-centre is pinned to the card's
+   bottom-right corner (left/top 100% + these margins), and transform-origin
+   sits on that same point so the settle rotation never slides the contact.
+   At the final 21° tilt the drawn underside sits 0.4px off the true corner.
+   Enters at 1.7s — only after the parquet sweep has cleared the face. */
+.cg-cigar {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  width: 96px;
+  height: 20px;
+  margin-left: -48px;
+  margin-top: -20px;
+  transform-origin: 50% 100%;
+  opacity: 0;
+  filter: drop-shadow(-2px 3px 4px rgba(12, 9, 4, 0.35));
+  animation: cg-rest 1.05s 1.7s both;
+}
+/* falls, lands tip-first with a touch of over-rotation, relaxes to rest */
+@keyframes cg-rest {
+  0% { opacity: 0; transform: translateY(-16px) rotate(9deg); animation-timing-function: cubic-bezier(0.3, 0, 0.55, 1); }
+  30% { opacity: 1; }
+  55% { transform: translateY(0) rotate(23.5deg); animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+  78% { transform: translateY(0) rotate(20.2deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(21deg); }
+}
+
+/* ember + flare + smoke share one origin: the ash-tip centre after the 21°
+   settle — the rotated image of sprite point (4.6, 11.5) about the pinned
+   corner = (−38px, −24px) from the corner. Keep in sync with cg-rest. */
+.cg-flare {
+  position: absolute;
+  left: calc(100% - 38px);
+  top: calc(100% - 24px);
+  width: 70px;
+  height: 44px;
+  margin: -22px 0 0 -35px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 214, 150, 0.9), rgba(240, 122, 46, 0.4) 45%, transparent 72%);
+  opacity: 0;
+  scale: 0.3;
+  animation: cg-flare-kf 0.6s 2.8s ease-out both;
+}
+@keyframes cg-flare-kf {
+  0% { opacity: 0; scale: 0.3; }
+  18% { opacity: 1; }
+  100% { opacity: 0; scale: 1.5; }
+}
+.cg-ember {
+  position: absolute;
+  left: calc(100% - 38px);
+  top: calc(100% - 24px);
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd9a0, #f07a2e 55%, rgba(200, 70, 20, 0.6));
+  opacity: 0;
+  scale: 0.3;
+  animation:
+    cg-ignite 0.55s 2.8s cubic-bezier(0.2, 1, 0.4, 1) both,
+    cg-ember-pulse 1.15s 3.35s ease-in-out infinite alternate;
+}
+/* ignite ends exactly on the pulse's opening frame — no handoff pop */
+@keyframes cg-ignite {
+  0% { opacity: 0; scale: 0.3; box-shadow: 0 0 0 0 rgba(255, 158, 74, 0), 0 0 0 0 rgba(240, 122, 46, 0); }
+  40% { opacity: 1; scale: 1.35; }
+  100% { opacity: 1; scale: 1; box-shadow: 0 0 11px 3px rgba(255, 158, 74, 0.85), 0 0 24px 8px rgba(240, 122, 46, 0.38); }
+}
+/* the draw: a slow breathing glow, like someone is actually smoking it */
+@keyframes cg-ember-pulse {
+  from { opacity: 1; box-shadow: 0 0 11px 3px rgba(255, 158, 74, 0.85), 0 0 24px 8px rgba(240, 122, 46, 0.38); }
+  to { opacity: 0.85; box-shadow: 0 0 7px 2px rgba(240, 122, 46, 0.55), 0 0 16px 5px rgba(240, 122, 46, 0.22); }
+}
+
+/* smoke — three wisps on staggered S-curves; each leg re-eases so the drift
+   coasts rather than metronomes, and the finals diverge (--cx) so the curls
+   pull apart as they thin out. The silhouette is a tall asymmetric comma
+   (skewed corners + off-centre hotspot) so the slow rotation and S-curve
+   actually read as curling smoke, not a drifting blob. */
+.cg-curl {
+  position: absolute;
+  left: calc(100% - 38px);
+  top: calc(100% - 24px);
+  width: 8px;
+  height: 26px;
+  margin: -18px 0 0 -4px;
+  border-radius: 50% 50% 62% 38%;
+  background: radial-gradient(ellipse at 36% 30%, rgba(170, 164, 155, 0.65), rgba(170, 164, 155, 0.18) 55%, transparent 78%);
+  filter: blur(2px);
+  opacity: 0;
+  translate: 0 0;
+  scale: 0.45;
+  animation:
+    cg-curl-kf 2.85s calc(3s + var(--c) * 0.32s) both,
+    cg-curlturn 2.85s calc(3s + var(--c) * 0.32s) linear both;
+}
+@keyframes cg-curl-kf {
+  0% { opacity: 0; translate: 0 0; scale: 0.45; animation-timing-function: cubic-bezier(0.3, 0.2, 0.5, 1); }
+  14% { opacity: 0.75; }
+  32% { translate: calc(var(--cd) * 13px) -36px; scale: 0.9; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  60% { translate: calc(var(--cd) * -11px) -74px; scale: 1.3; animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+  82% { opacity: 0.42; }
+  100% { opacity: 0; translate: var(--cx) -122px; scale: 2; }
+}
+@keyframes cg-curlturn {
+  to { transform: rotate(calc(var(--cd) * 150deg)); }
+}
+
+/* reduced motion mid-flight: freeze to a static tableau the toast can still
+   refer to — cigar at rest on the corner, ember at a steady glow; the sweep,
+   flare, warmth, and smoke simply don't happen. */
+@media (prefers-reduced-motion: reduce) {
+  .egg-cigar,
+  .egg-cigar .cg-sweep,
+  .egg-cigar .cg-grain,
+  .egg-cigar .cg-warm,
+  .egg-cigar .cg-flare,
+  .egg-cigar .cg-cigar,
+  .egg-cigar .cg-ember,
+  .egg-cigar .cg-curl {
+    animation: none;
+  }
+  .egg-cigar .cg-sweep,
+  .egg-cigar .cg-grain,
+  .egg-cigar .cg-warm,
+  .egg-cigar .cg-flare,
+  .egg-cigar .cg-curl {
+    display: none;
+  }
+  .egg-cigar .cg-cigar {
+    opacity: 1;
+    transform: translateY(0) rotate(21deg);
+  }
+  .egg-cigar .cg-ember {
+    opacity: 1;
+    scale: 1;
+    box-shadow: 0 0 9px 2px rgba(255, 158, 74, 0.7), 0 0 20px 6px rgba(240, 122, 46, 0.3);
+  }
+}
+
+/* NYK · Bing Bong — MSG marquee night. The house lights drop, warm bulbs
+   screw in one by one clockwise around the card's actual rounded border
+   (crown bulb dead center on the top edge, corner bulbs riding the real
+   corner arcs), chase two Broadway laps, go fully dark for one held breath —
+   then every bulb flashes twice in unison: the bing (4025ms), the bong
+   (4325ms). Ember afterglow, and the house lights come back up. Runtime
+   geometry arrives as inline left/top plus --in (install delay), --ch (chase
+   delay), and an inline border-radius on the frame read from the card's
+   computed .panel radius. Everything card-anchored lives inside .bb-anchor,
+   which JS translates on scroll so the marquee never detaches from the card. */
+.egg-bingbong {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+}
+/* the house lights go down — warm dark, not black; deepest during the breath */
+.bb-night {
+  position: fixed;
+  inset: 0;
+  background: #0c0904;
+  animation: bb-night-kf 6.3s ease both;
+}
+@keyframes bb-night-kf {
+  0% { opacity: 0; }
+  6% { opacity: 0.5; }
+  56% { opacity: 0.44; }
+  62% { opacity: 0.55; }
+  70% { opacity: 0.42; }
+  82% { opacity: 0.3; }
+  100% { opacity: 0; }
+}
+/* scroll-follow group: frame, bloom and bulbs are absolute inside this, so
+   one JS transform keeps the whole marquee glued to the card mid-scroll */
+.bb-anchor {
+  position: fixed;
+  inset: 0;
+}
+/* the marquee frame hugging the measured card rect — warms in, breathes
+   through the chase, dies for the dark breath, then spikes one frame BEFORE
+   each unison bulb peak: 63.7% = 4013ms (bing 4025), 68.5% = 4316ms (bong
+   4325) of the 6.3s track, so the frame reads as striking the hit, not
+   smearing after it */
+.bb-frame {
+  position: absolute;
+  border: 1px solid rgba(255, 196, 124, 0.5);
+  box-shadow:
+    0 0 18px 2px rgba(255, 171, 87, 0.4),
+    inset 0 0 22px rgba(255, 171, 87, 0.14);
+  animation: bb-frame-kf 6.3s ease both;
+}
+@keyframes bb-frame-kf {
+  0% { opacity: 0; }
+  5% { opacity: 0.5; }
+  21% { opacity: 0.36; }
+  53% { opacity: 0.45; }
+  56.5% { opacity: 0.12; }
+  62.6% { opacity: 0.12; }
+  63.7% { opacity: 1; }
+  66% { opacity: 0.35; }
+  68.5% { opacity: 1; }
+  73% { opacity: 0.5; }
+  88% { opacity: 0.22; }
+  100% { opacity: 0; }
+}
+/* warm bloom behind the card — silent until the unison beat, then flares
+   with each hit: 9.3% = 4025ms (bing), 31.5% = 4325ms (bong) */
+.bb-bloom {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(0.7);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 214, 160, 0.5), rgba(245, 132, 38, 0.18) 48%, transparent 72%);
+  filter: blur(10px);
+  opacity: 0;
+  animation: bb-bloom-kf 1.35s 3.9s ease-out both;
+}
+@keyframes bb-bloom-kf {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  9.3% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+  21% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+  31.5% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+  48% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.09); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.12); }
+}
+/* one bulb: dim glass sitting ON the border line. Screws in at --in
+   (delays span 120–820ms — the whole first beat belongs to the install)
+   with a little overshoot; fades on a fixed house-lights-up cue at 5.15s
+   (forwards fill only, so the pop-in owns opacity until then). */
+.bb-bulb {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation:
+    bb-in 0.5s var(--in) cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    bb-fade 0.85s 5.15s ease forwards;
+}
+.bb-bulb.bb-o {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 236, 210, 0.55), rgba(255, 236, 210, 0) 45%), #6e3c10;
+  box-shadow: 0 0 5px rgba(245, 132, 38, 0.4);
+}
+.bb-bulb.bb-b {
+  background: radial-gradient(circle at 35% 30%, rgba(214, 236, 255, 0.55), rgba(214, 236, 255, 0) 45%), #0d3357;
+  box-shadow: 0 0 5px rgba(61, 155, 233, 0.4);
+}
+@keyframes bb-in {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  62% { opacity: 1; transform: translate(-50%, -50%) scale(1.28); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes bb-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+/* the lit state: chase pulse (two laps via iteration-count, staggered by
+   --ch, no fill — last tail clears ~3550ms, buying a true ~400ms black
+   breath), then the fixed-cue unison keyframes take over at 3.95s: bing at
+   6% (4025ms), bong at 30% (4325ms), ember tail to 5200ms. */
+.bb-bulb > b {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  opacity: 0;
+  animation:
+    bb-chase 950ms var(--ch) linear 2,
+    bb-unison 1.25s 3.95s linear forwards;
+}
+.bb-o > b {
+  background: radial-gradient(circle, #fff3dd 0%, #ffb45f 40%, rgba(245, 132, 38, 0) 74%);
+  box-shadow: 0 0 10px 3px rgba(255, 170, 80, 0.9), 0 0 26px 9px rgba(245, 132, 38, 0.45);
+}
+.bb-b > b {
+  background: radial-gradient(circle, #eaf5ff 0%, #7fc1f2 40%, rgba(0, 107, 182, 0) 74%);
+  box-shadow: 0 0 10px 3px rgba(96, 178, 240, 0.9), 0 0 26px 9px rgba(0, 107, 182, 0.5);
+}
+/* fast attack, slow decay — a comet tail of ~4 lit bulbs runs the border */
+@keyframes bb-chase {
+  0% { opacity: 0; transform: scale(1); animation-timing-function: cubic-bezier(0.1, 0.7, 0.3, 1); }
+  5% { opacity: 1; transform: scale(1.35); animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.6); }
+  26% { opacity: 0; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+/* the BING (6–14%), a dip, the BONG (30–40%), then the ember afterglow */
+@keyframes bb-unison {
+  0% { opacity: 0; transform: scale(1); animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1); }
+  6% { opacity: 1; transform: scale(1.45); animation-timing-function: linear; }
+  14% { opacity: 1; transform: scale(1.3); animation-timing-function: cubic-bezier(0.6, 0, 0.8, 1); }
+  23% { opacity: 0.1; transform: scale(1); animation-timing-function: cubic-bezier(0.1, 0.8, 0.3, 1); }
+  30% { opacity: 1; transform: scale(1.5); animation-timing-function: linear; }
+  40% { opacity: 1; transform: scale(1.32); animation-timing-function: cubic-bezier(0.55, 0, 0.6, 1); }
+  58% { opacity: 0.32; transform: scale(1.05); animation-timing-function: ease-out; }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-bingbong { display: none; }
+}
+
+/* MIA · White Hot — the culture compounds. The air above the card bends
+   first (heat shimmer), then flame catches up both MEASURED edges: five
+   tongues a side straddling the card's real left/right edge, deep-red core /
+   orange mid / white tips, each guttering on its own finite flicker clock
+   while the card's own border glows ember (chasing ignition, never leading
+   it) and embers lift off the top through a looping haze. Burns ~2.5s at
+   full height, then dies down to wisps. Wrapper is absolute in page coords
+   so the fire rides the card through scroll. */
+.egg-whitehot {
+  position: absolute;
+  z-index: 60;
+  pointer-events: none;
+}
+.egg-whitehot > i,
+.egg-whitehot > b {
+  position: absolute;
+  display: block;
+}
+
+/* heat shimmer — the air above the card wavers before anything catches.
+   Stagger comes from --sd set per-streak in JS (0–640ms). */
+.wh-shimmer {
+  bottom: calc(100% - 12px);
+  width: 9px;
+  height: var(--sh, 60px);
+  border-radius: 50%;
+  background: linear-gradient(to top, rgba(249, 160, 27, 0.24), rgba(255, 224, 168, 0.11) 55%, transparent);
+  filter: blur(5px);
+  opacity: 0;
+  animation: wh-shimmer-kf 1.5s var(--sd, 0s) ease-in-out both;
+}
+@keyframes wh-shimmer-kf {
+  0% { opacity: 0; transform: translateY(14px) scaleY(0.35) skewX(0deg); }
+  25% { opacity: 0.9; transform: translateY(-6px) scaleY(0.8) skewX(4deg); }
+  55% { opacity: 0.65; transform: translateY(-28px) scaleY(1) skewX(-5deg); }
+  100% { opacity: 0; transform: translateY(-50px) scaleY(1.12) skewX(3deg); }
+}
+
+/* persistent haze — while the fire burns, the air above it keeps moving.
+   Opacity envelope and transform loop are separate animations so they
+   compose; the loop is finite (4 cycles) and dies with the wisps. */
+.wh-haze {
+  bottom: calc(100% - 10px);
+  width: 26px;
+  height: 74px;
+  border-radius: 50%;
+  background: linear-gradient(to top, rgba(249, 160, 27, 0.16), rgba(255, 224, 168, 0.07) 60%, transparent);
+  filter: blur(8px);
+  opacity: 0;
+  animation:
+    wh-haze-env 4s var(--hd, 1.5s) ease-in-out both,
+    wh-haze-loop 1.15s var(--hd, 1.5s) ease-in-out 4 both;
+}
+@keyframes wh-haze-env {
+  0% { opacity: 0; }
+  18% { opacity: 0.55; }
+  70% { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+@keyframes wh-haze-loop {
+  0%, 100% { transform: translateY(0) skewX(0deg) scaleY(1); }
+  50% { transform: translateY(-10px) skewX(6deg) scaleY(1.12); }
+}
+
+/* the card's own border goes ember — radius read from the card at runtime,
+   height from the card's FULL rect (--ch) so the rounded bottom corners
+   trace the real edge even when the wrapper clamps. Delayed 1.05s: the
+   frame glow is a CONSEQUENCE of ignition, so it starts as the flames
+   touch the edges (~1.1s) and peaks as the tongues finish catching. */
+.wh-frame {
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: calc(var(--ch, 100%) + 2px);
+  border-radius: var(--wr, 10px);
+  animation: wh-frame-kf 4.75s 1.05s ease-in-out both;
+}
+@keyframes wh-frame-kf {
+  0% { box-shadow: 0 0 0 1.5px rgba(249, 160, 27, 0), 0 0 0 0 rgba(249, 160, 27, 0), inset 0 0 0 rgba(152, 0, 46, 0); }
+  12% { box-shadow: 0 0 0 1.5px rgba(249, 160, 27, 0.9), 0 0 18px 3px rgba(249, 160, 27, 0.5), inset 0 0 30px rgba(152, 0, 46, 0.24); }
+  24% { box-shadow: 0 0 0 1.5px rgba(249, 160, 27, 0.7), 0 0 12px 2px rgba(249, 160, 27, 0.38), inset 0 0 22px rgba(152, 0, 46, 0.18); }
+  44% { box-shadow: 0 0 0 1.5px rgba(255, 214, 150, 0.95), 0 0 22px 4px rgba(249, 160, 27, 0.55), inset 0 0 34px rgba(152, 0, 46, 0.26); }
+  70% { box-shadow: 0 0 0 1.5px rgba(249, 160, 27, 0.75), 0 0 16px 3px rgba(249, 160, 27, 0.42), inset 0 0 26px rgba(152, 0, 46, 0.2); }
+  100% { box-shadow: 0 0 0 1.5px rgba(249, 160, 27, 0), 0 0 0 0 rgba(249, 160, 27, 0), inset 0 0 0 rgba(152, 0, 46, 0); }
+}
+
+/* soft base fire unifying each side's tongues, hugging the measured edge */
+.wh-edge {
+  bottom: -4px;
+  width: 30px;
+  height: 96%;
+  transform: scaleY(0.05);
+  transform-origin: bottom center;
+  background: linear-gradient(to top, rgba(152, 0, 46, 0.55), rgba(249, 160, 27, 0.28) 52%, rgba(255, 236, 200, 0.08) 78%, transparent);
+  filter: blur(11px);
+  opacity: 0;
+  animation: wh-edge-kf 4.9s 1.05s both;
+}
+.wh-edge.wh-left { left: -15px; }
+.wh-edge.wh-right { right: -15px; }
+@keyframes wh-edge-kf {
+  0% { opacity: 0; transform: scaleY(0.05); animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1); }
+  10% { opacity: 1; transform: scaleY(1); }
+  62% { opacity: 1; transform: scaleY(1); animation-timing-function: cubic-bezier(0.55, 0, 0.75, 0.4); }
+  88% { opacity: 0.45; transform: scaleY(0.3); }
+  100% { opacity: 0; transform: scaleY(0.12); }
+}
+
+/* flame tongues. Outer <i> = life envelope (catch → hold → collapse) on
+   transform+opacity; inner <b class=wh-flame> = visual body + gutter
+   flicker on TRANSFORM (composes with the parent envelope, no standalone
+   `scale` property needed). --tb places each tongue at an explicit height
+   along the edge; the flicker runs a FINITE, even iteration count (--tn,
+   set in JS to end at the 4.1s collapse on the identity pose) so dying
+   wisps don't pulse at full-burn energy — the envelope owns the death. */
+.wh-tongue {
+  bottom: var(--tb, 0px);
+  width: var(--tw, 18px);
+  height: var(--th, 70px);
+  transform: scaleY(0.03);
+  transform-origin: bottom center;
+  opacity: 0;
+  animation: wh-tongue-life 4.8s var(--td, 1.1s) both;
+}
+.wh-tongue.wh-left { left: 0; margin-left: calc(var(--tw, 18px) / -2); }
+.wh-tongue.wh-right { right: 0; margin-right: calc(var(--tw, 18px) / -2); }
+.wh-flame {
+  position: absolute;
+  display: block;
+  inset: 0;
+  transform-origin: bottom center;
+  border-radius: 50% 50% 42% 42% / 78% 78% 22% 22%;
+  background: linear-gradient(to top, rgba(249, 160, 27, 0.96), #ffce7a 58%, #fff 84%, rgba(255, 255, 255, 0.92));
+  box-shadow: 0 0 12px rgba(249, 160, 27, 0.35);
+  filter: blur(1.4px);
+  animation: wh-gutter var(--tf, 0.32s) var(--td, 1.1s) ease-in-out var(--tn, 8) alternate both;
+}
+.wh-flame::before {
+  content: "";
+  position: absolute;
+  left: 26%;
+  right: 26%;
+  bottom: 0;
+  height: 55%;
+  border-radius: inherit;
+  background: linear-gradient(to top, #98002e, rgba(152, 0, 46, 0.6) 68%, transparent);
+  filter: blur(1px);
+}
+@keyframes wh-tongue-life {
+  0% { transform: scaleY(0.03); opacity: 0; animation-timing-function: cubic-bezier(0.18, 0.9, 0.32, 1.28); }
+  9% { transform: scaleY(1.12); opacity: 1; animation-timing-function: ease-out; }
+  14% { transform: scaleY(0.96); }
+  20% { transform: scaleY(1); }
+  63% { transform: scaleY(1); opacity: 1; animation-timing-function: cubic-bezier(0.55, 0, 0.75, 0.4); }
+  84% { transform: scaleY(0.32) scaleX(0.7); opacity: 0.6; }
+  100% { transform: scaleY(0.08) scaleX(0.45); opacity: 0; }
+}
+@keyframes wh-gutter {
+  0% { transform: scale(1, 1); }
+  45% { transform: scale(0.94, 0.86); }
+  100% { transform: scale(1.05, 1.1); }
+}
+
+/* embers detaching from the top edge once the burn is established —
+   delays via --ed (1.7–3.6s), never before the fire exists */
+.wh-ember {
+  top: -2px;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: #ffd9a0;
+  box-shadow: 0 0 7px 2px rgba(249, 160, 27, 0.8);
+  opacity: 0;
+  animation: wh-ember-kf 1.9s var(--ed, 1.7s) ease-out both;
+}
+@keyframes wh-ember-kf {
+  0% { opacity: 0; transform: translate(0, 4px) scale(0.5); }
+  12% { opacity: 1; transform: translate(calc(var(--edx, 12px) * 0.25), -18px) scale(1); }
+  55% { opacity: 0.9; transform: translate(calc(var(--edx, 12px) * 0.7), -66px) scale(0.85); }
+  100% { opacity: 0; transform: translate(var(--edx, 12px), -118px) scale(0.4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-whitehot { display: none; }
+}
+
+/* CLE · The Chalk Toss — the lights dip, a beat of stillness, then the chalk
+   goes UP from the card's bottom edge: three blooming puffs and a fan of fine
+   matte grains decelerating into a hang at the apex while flashbulbs pop in
+   the dark, then drifting off on the arena draft and settling back onto the
+   ledger. Runtime contract: JS sets, inline, the origin (wrapper left/top),
+   per-element animation-delay (BURST + stagger), per-grain animation-duration
+   (4.6s ±6%), sizes, and the vars --ax/--ay (apex), --jx/--jy (signed
+   per-element hang micro-drift), --sx/--sy (settle), --pb/--po (blur/opacity).
+   The clap's delay is also inline (BURST − 150ms) so tuning BURST in TS can
+   never desync it. */
+.egg-chalktoss {
+  position: fixed;
+  z-index: 70;
+  pointer-events: none;
+}
+.ct-dim {
+  position: fixed;
+  inset: 0;
+  background: #0c0904;
+  opacity: 0;
+  animation: ct-dim-kf 6s ease-in-out both;
+}
+@keyframes ct-dim-kf {
+  0% { opacity: 0; }
+  12% { opacity: 0.52; }
+  58% { opacity: 0.52; }
+  100% { opacity: 0; }
+}
+/* the clap — a soft pop at the origin, right before the toss (delay from JS) */
+.ct-clap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 46px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9), rgba(247, 243, 234, 0.4) 50%, transparent 75%);
+  filter: blur(2px);
+  opacity: 0;
+  animation: ct-clap-kf 0.55s ease-out both;
+}
+@keyframes ct-clap-kf {
+  0% { opacity: 0; transform: translate(-50%, -60%) scale(0.25); }
+  28% { opacity: 0.85; transform: translate(-50%, -60%) scale(0.9); }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1.4); }
+}
+/* big soft puffs — explosive rise, linear near-still hang (own drift vars),
+   then drift-and-thin on the shared draft */
+.ct-puff {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(247, 243, 234, 0.95) 0%, rgba(240, 235, 222, 0.5) 52%, transparent 74%);
+  filter: blur(var(--pb, 15px));
+  opacity: 0;
+  animation: ct-puff-kf 4.6s both;
+}
+@keyframes ct-puff-kf {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 8px) scale(0.22);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.1, 0.82, 0.24, 1);
+  }
+  5% { opacity: var(--po, 0.6); }
+  28% {
+    transform: translate(-50%, -50%) translate(var(--ax), var(--ay)) scale(1);
+    animation-timing-function: linear;
+  }
+  46% {
+    transform: translate(-50%, -50%) translate(calc(var(--ax) + var(--jx, 2px)), calc(var(--ay) + var(--jy, -4px))) scale(1.12);
+    opacity: var(--po, 0.6);
+    animation-timing-function: cubic-bezier(0.43, 0.06, 0.55, 0.92);
+  }
+  80% { opacity: calc(var(--po, 0.6) * 0.5); }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) scale(1.55);
+    opacity: 0;
+  }
+}
+/* fine grains — matte chalk, no glow (only the flashbulbs are emissive).
+   Same three-act arc; per-grain duration/delay/drift come from JS. */
+.ct-bit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: #f7f3ea;
+  opacity: 0;
+  animation: ct-bit-kf 4.6s both;
+}
+@keyframes ct-bit-kf {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.12, 0.8, 0.26, 1);
+  }
+  4% { opacity: var(--po, 0.8); }
+  28% {
+    transform: translate(-50%, -50%) translate(var(--ax), var(--ay)) scale(1);
+    animation-timing-function: linear;
+  }
+  46% {
+    transform: translate(-50%, -50%) translate(calc(var(--ax) + var(--jx, 2px)), calc(var(--ay) + var(--jy, -2px))) scale(1);
+    opacity: var(--po, 0.8);
+    animation-timing-function: cubic-bezier(0.4, 0.08, 0.58, 0.9);
+  }
+  82% { opacity: calc(var(--po, 0.8) * 0.35); }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) scale(0.8);
+    opacity: 0;
+  }
+}
+/* flashbulbs — hot pinpricks with a real double-pop flicker; the only
+   emissive elements in the scene */
+.ct-flash {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ffffff 0%, rgba(255, 255, 255, 0.75) 35%, transparent 72%);
+  box-shadow: 0 0 16px 5px rgba(255, 255, 255, 0.38);
+  opacity: 0;
+  animation: ct-flash-kf 0.5s ease-out both;
+}
+@keyframes ct-flash-kf {
+  0% { opacity: 0; transform: scale(0.3); }
+  12% { opacity: 1; transform: scale(1.7); }
+  34% { opacity: 0.35; transform: scale(1); }
+  46% { opacity: 0.85; transform: scale(1.35); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+/* the dust settles back onto the ledger's bottom edge — only after the
+   cloud has drifted off it */
+.ct-residue {
+  position: absolute;
+  top: -4px;
+  height: 7px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, rgba(247, 243, 234, 0.55) 22%, rgba(247, 243, 234, 0.75) 50%, rgba(247, 243, 234, 0.55) 78%, transparent);
+  filter: blur(2px);
+  opacity: 0;
+  animation: ct-residue-kf 2s 4s ease both;
+}
+@keyframes ct-residue-kf {
+  0% { opacity: 0; }
+  22% { opacity: 0.6; }
+  70% { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-chalktoss { display: none; }
+}
+
+/* MIL · Fear the Deer — antler racks draw themselves in from the card's two
+   top corners (roots anchored to the measured rect corners), hold proud while
+   a forest dapple crosses the card face, then fade like breath on glass.
+   Card-scoped (z 60): the hush tints only the card + headroom box. */
+.egg-antlers {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+}
+/* the forest notices — hunter-green light gathers at the two measured top
+   corners of the card (the exact points the racks will root), not one
+   spotlight. --aw = card width, --ay = card-top in wrapper-local px. */
+.an-hush {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(240px 190px at 0 var(--ay), rgba(0, 71, 27, 0.2), rgba(0, 71, 27, 0.06) 55%, transparent 76%),
+    radial-gradient(240px 190px at var(--aw) var(--ay), rgba(0, 71, 27, 0.2), rgba(0, 71, 27, 0.06) 55%, transparent 76%);
+  animation: an-hush-kf 5.1s ease both;
+}
+@keyframes an-hush-kf {
+  0% { opacity: 0; }
+  14% { opacity: 1; }
+  68% { opacity: 0.82; }
+  100% { opacity: 0; }
+}
+/* the rack — cream strokes on a hunter-green glow; exits as vapor at 3.6s,
+   fully gone at 5.1s alongside roots and hush */
+.an-rack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  filter: drop-shadow(0 0 5px rgba(0, 91, 36, 0.9)) drop-shadow(0 0 14px rgba(0, 71, 27, 0.55));
+  animation: an-breath-kf 1.5s 3.6s cubic-bezier(0.4, 0.05, 0.6, 0.95) both;
+}
+@keyframes an-breath-kf {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: drop-shadow(0 0 5px rgba(0, 91, 36, 0.9)) drop-shadow(0 0 14px rgba(0, 71, 27, 0.55)) blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+    filter: drop-shadow(0 0 2px rgba(0, 91, 36, 0)) drop-shadow(0 0 6px rgba(0, 71, 27, 0)) blur(7px);
+  }
+}
+/* a proud double-shimmer while the rack holds — 0.75s x2 from 2.05s ends at
+   3.55s, so the rack is at rest before the 3.6s breath-fade begins */
+.an-all {
+  animation: an-proud-kf 0.75s 2.05s ease-in-out 2 alternate both;
+}
+@keyframes an-proud-kf {
+  from { opacity: 1; }
+  to { opacity: 0.88; }
+}
+/* each beam/tine draws root-to-tip; delay + duration set inline per stroke.
+   Growth easing: a true ease-out — ink leaves the burr immediately and
+   decelerates into the tip. The 0% opacity frame hides the round-cap dot
+   before a stroke's turn arrives. */
+.an-t {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: an-draw-kf 0.9s cubic-bezier(0.16, 0.84, 0.3, 1) both;
+}
+@keyframes an-draw-kf {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  2% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+/* root burrs — small blooms sitting exactly on the card's top corners;
+   fade-out runs 3.65s -> 5.1s, in step with rack and hush */
+.an-root {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #eee1c6 0%, rgba(238, 225, 198, 0.5) 40%, transparent 70%);
+  box-shadow: 0 0 10px 3px rgba(0, 91, 36, 0.7);
+  opacity: 0;
+  animation:
+    an-root-in 0.55s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both,
+    an-root-out 1.45s 3.65s ease both;
+}
+@keyframes an-root-in {
+  0% { opacity: 0; transform: scale(0.3); }
+  60% { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 0.9; transform: scale(1); }
+}
+@keyframes an-root-out {
+  to { opacity: 0; }
+}
+/* the card face — clips the passing dapple to the card's rounded rect.
+   8px matches the board-card clip convention (.egg-subway); JS overrides it
+   inline with the card's measured computed border-radius at mount. */
+.an-face {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+/* leaf-light: mottled cream/green blobs on a soft diagonal sheen, drifting
+   across the face while the rack holds; the pass ends at exactly 3.6s so the
+   light leaves the clearing just as the rack starts to vaporize */
+.an-dapple {
+  position: absolute;
+  top: -8%;
+  left: 0;
+  width: 72%;
+  height: 116%;
+  opacity: 0;
+  transform: translateX(-105%);
+  filter: blur(7px);
+  background:
+    radial-gradient(38% 30% at 30% 22%, rgba(238, 225, 198, 0.28), transparent 70%),
+    radial-gradient(30% 26% at 68% 46%, rgba(0, 91, 36, 0.2), transparent 70%),
+    radial-gradient(34% 30% at 40% 72%, rgba(238, 225, 198, 0.18), transparent 70%),
+    radial-gradient(26% 22% at 76% 84%, rgba(0, 71, 27, 0.16), transparent 70%),
+    linear-gradient(100deg, transparent 8%, rgba(0, 91, 36, 0.12) 38%, rgba(238, 225, 198, 0.14) 55%, rgba(0, 91, 36, 0.1) 72%, transparent 92%);
+  animation: an-dapple-kf 1.7s 1.9s cubic-bezier(0.42, 0.05, 0.4, 0.95) both;
+}
+@keyframes an-dapple-kf {
+  0% { opacity: 0; transform: translateX(-105%); }
+  16% { opacity: 1; }
+  84% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(245%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-antlers { display: none; }
+}
+
+/* DET · The Assembly Line — another shift. A press slab exactly as wide as
+   the card descends on a hydraulic rod, CLUNKS the card into a squash,
+   sparks fly from the die–card seam, and a crooked ink stamp brands the
+   card face before the machine lifts away.
+   TIMING CONTRACT: contact is 42% of the 4.2s press cycle + the 0.1s delay
+   = 1864ms. TS owns this as CONTACT and passes animation-delay inline to
+   .al-jolt, .al-stamp and each .al-spark; the delays baked below are
+   fallbacks that MUST track al-press-kf's 42% keyframe if the cycle is
+   ever retuned. --al-crush (die follow-through depth) is set inline from
+   JS as 4.2% of the card's measured height, matching egg-clunk-kf's
+   scaleY(0.958) about a bottom origin — keep the two in sync. */
+.egg-assembly-line {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* the card's one-shot squash under the press (applied like shake(), to the
+   card itself). Hard down at contact, HELD while the press dwells on it,
+   one readable breath of release as it lifts. scaleY(0.958) ↔ --al-crush:
+   both encode a 4.2%-of-height compression. */
+.egg-clunk {
+  transform-origin: 50% 100% !important;
+  animation: egg-clunk-kf 1.5s both !important;
+}
+@keyframes egg-clunk-kf {
+  0% { transform: none; animation-timing-function: cubic-bezier(0.85, 0, 1, 1); }
+  8% { transform: scaleY(0.958) scaleX(1.014); animation-timing-function: linear; }
+  60% { transform: scaleY(0.962) scaleX(1.012); animation-timing-function: cubic-bezier(0.34, 1.42, 0.44, 1); }
+  78% { transform: scaleY(1.015) scaleX(0.994); }
+  90% { transform: scaleY(0.997) scaleX(1.001); }
+  100% { transform: none; }
+}
+
+/* the press slab — width + --al-crush set from the card's measured rect in
+   JS. Iron above ink: keeps the stamp's slam-in under the hardware. */
+.al-press {
+  position: fixed;
+  z-index: 3;
+  background: linear-gradient(180deg, #262019, #14100a 55%, #0c0904 82%, #060402);
+  border-radius: 3px 3px 2px 2px;
+  border-bottom: 4px solid #060402;
+  box-shadow: 0 6px 18px rgba(12, 9, 4, 0.4), inset 0 1px 0 rgba(244, 241, 233, 0.08);
+  animation: al-press-kf 4.2s 0.1s both;
+}
+/* Pistons pinstripe on the die face */
+.al-press::after {
+  content: "";
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 12px;
+  height: 2px;
+  background: linear-gradient(90deg, #c8102e, #1d42ba);
+  opacity: 0.75;
+}
+/* engage-JERK (126ms, steep-out) → mechanical breath (672ms) → committed
+   heavy descent → contact at 42% → follow-through onto the compressed card
+   (exactly --al-crush deep, so the die RESTS on the squashed top edge) →
+   dwell → smooth lift */
+@keyframes al-press-kf {
+  0% { transform: translateY(calc(var(--drop) * -1)); animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1); }
+  3% { transform: translateY(calc(var(--drop) * -0.9)); animation-timing-function: linear; }
+  19% { transform: translateY(calc(var(--drop) * -0.9)); animation-timing-function: cubic-bezier(0.6, 0, 0.92, 0.5); }
+  42% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0.6, 0.4, 1); }
+  44% { transform: translateY(var(--al-crush)); animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1); }
+  50% { transform: translateY(calc(var(--al-crush) - 2px)); animation-timing-function: linear; }
+  62% { transform: translateY(calc(var(--al-crush) - 2px)); animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); }
+  100% { transform: translateY(calc(var(--drop) * -1)); }
+}
+/* hydraulic rod trailing up off the top of the screen */
+.al-rod {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 22%;
+  min-width: 54px;
+  height: 120vh;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #0a0805, #2a231a 50%, #0a0805);
+  border-left: 1px solid rgba(244, 241, 233, 0.06);
+  border-right: 1px solid rgba(244, 241, 233, 0.06);
+}
+/* die label — 313, obviously */
+.al-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: rgba(244, 241, 233, 0.38);
+}
+
+/* the slab's CAST SHADOW: a clip box over the card whose inner gradient
+   physically sweeps down the face, keyed to the press's own 19%/42%/62%
+   beats — the dark edge descends WITH the die, holds during the dwell,
+   and retreats upward as the machine lifts. */
+.al-shadow {
+  position: fixed;
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.al-shadow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(12, 9, 4, 0.55), rgba(12, 9, 4, 0.14) 55%, transparent 85%);
+  animation: al-shadow-kf 4.2s 0.1s both;
+}
+@keyframes al-shadow-kf {
+  0% { transform: translateY(-104%); opacity: 0.9; animation-timing-function: linear; }
+  19% { transform: translateY(-104%); opacity: 0.9; animation-timing-function: cubic-bezier(0.6, 0, 0.92, 0.5); }
+  42% { transform: translateY(0); opacity: 1; animation-timing-function: linear; }
+  62% { transform: translateY(0); opacity: 1; animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); }
+  100% { transform: translateY(-104%); opacity: 0.85; }
+}
+
+/* the CLUNK — a hot line along the exact die–card seam (JS positions it at
+   r.top + crush). Delay is passed inline from TS (CONTACT); the 1.864s
+   here is only a fallback and must match al-press-kf's 42% keyframe. */
+.al-jolt {
+  position: fixed;
+  z-index: 4;
+  height: 3px;
+  margin-top: -1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 176, 90, 0.95) 18%, rgba(255, 234, 204, 1) 50%, rgba(255, 176, 90, 0.95) 82%, transparent);
+  filter: blur(0.4px);
+  opacity: 0;
+  animation: al-jolt-kf 0.5s 1.864s ease-out both;
+}
+@keyframes al-jolt-kf {
+  0% { opacity: 0; transform: scaleX(0.85); }
+  14% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(1.04); }
+}
+
+/* exactly three sparks off the seam — ease-out rise, gravity fall.
+   REQUIRES an inline animation-delay from TS (contact + 45ms stagger per
+   spark); the 1.864s here is a contact-time fallback so a missing inline
+   delay can never fire a spark during the anticipation breath. */
+.al-spark {
+  position: fixed;
+  z-index: 4;
+  width: 5px;
+  height: 5px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #ffb347;
+  box-shadow: 0 0 6px 1px rgba(255, 122, 26, 0.9);
+  opacity: 0;
+  animation: al-spark-kf 0.9s 1.864s both;
+}
+@keyframes al-spark-kf {
+  0% { opacity: 0; transform: translate(0, 2px) scale(0.6); animation-timing-function: cubic-bezier(0.1, 0.6, 0.3, 1); }
+  8% { opacity: 1; }
+  48% { transform: translate(calc(var(--sx) * 0.72), var(--sy)) scale(1); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4); }
+  100% { opacity: 0; transform: translate(var(--sx), calc(var(--sy) * -0.5)) scale(0.4); }
+}
+
+/* the brand — reuses the site .stamp ink mask; slams, overshoots, settles
+   crooked, holds ~1.5s, fades. Sits UNDER the press (z 2 < 3): ink lives
+   on the card, not on the machine. Delay passed inline from TS
+   (CONTACT + 10ms); 1.874s here is the matching fallback. */
+.al-stamp {
+  position: fixed;
+  z-index: 2;
+  color: #c8102e;
+  font-size: 15px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: al-stamp-kf 2.55s 1.874s both;
+}
+@keyframes al-stamp-kf {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(1.9) rotate(-19deg); animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1); }
+  6% { opacity: 1; transform: translate(-50%, -50%) scale(0.94) rotate(-10.5deg); animation-timing-function: cubic-bezier(0.34, 1.42, 0.5, 1); }
+  11% { transform: translate(-50%, -50%) scale(1.05) rotate(-13.5deg); }
+  16% { transform: translate(-50%, -50%) scale(1) rotate(-12deg); animation-timing-function: linear; }
+  76% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-12deg); animation-timing-function: ease; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1) rotate(-12deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-assembly-line { display: none; }
+  .egg-clunk { animation: none !important; }
+}
+
+/* MIN · Northern Lights — out from under the apron. The slowest egg on the
+   board, on purpose (7.5s master; the reviewers asked the sky to take its
+   time). Night settles over the card's column, three aurora ribbons (svg
+   strokes, heavy blur) fade in across the EXACT measured card width — each
+   gradient dying to transparent at the card's edges — while fine snow loops
+   down the column for the whole scene. Lateral drift lives on the svg and
+   scaleY breathing on the inner <g>, on non-commensurate periods with
+   independent negative phase delays, so the two motions never phase-lock and
+   no two ribbons ever move together. At the aurora's brightest beat a single
+   wolf-howl ring — sized from the measured card width — expands from the
+   card's center. Then the sky clears and takes the snow with it. */
+.egg-northernlights {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  animation: nl-master 7.5s ease both;
+}
+@keyframes nl-master {
+  0% { opacity: 0; }
+  7% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; }
+}
+/* the cold settles in — an arctic cast confined to the card's column
+   (absolute, wrapper-local --nx/--ny), with a faint green promise inside */
+.nl-night {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 46% at var(--nx) var(--ny), rgba(120, 190, 32, 0.08), transparent 66%),
+    radial-gradient(150% 110% at var(--nx) var(--ny), rgba(11, 16, 28, 0.3), rgba(11, 16, 28, 0.1) 52%, transparent 78%);
+  animation: nl-night-kf 7.5s ease-in-out both;
+}
+@keyframes nl-night-kf {
+  0% { opacity: 0; }
+  14% { opacity: 1; }
+  62% { opacity: 1; }
+  100% { opacity: 0; }
+}
+/* aurora ribbons — life-cycle on the wrapper: a long fade up, a held crest
+   (per-ribbon --peak), a slower die-off. Staggered --d delays roll the crest
+   across the sky in time; the 6s lifetime outlives at least one full drift
+   sweep on every ribbon. */
+.nl-rib {
+  position: absolute;
+  left: 0;
+  display: block;
+  opacity: 0;
+  animation: nl-rib-life 6s var(--d) both;
+}
+@keyframes nl-rib-life {
+  0% { opacity: 0; animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+  30% { opacity: calc(var(--peak, 0.95) * 0.6); animation-timing-function: ease-in-out; }
+  48% { opacity: var(--peak, 0.95); animation-timing-function: linear; }
+  62% { opacity: var(--peak, 0.95); animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.6); }
+  100% { opacity: 0; }
+}
+/* lateral drift on the svg — its own period (--ddur) and phase (--dd)... */
+.nl-rib svg {
+  display: block;
+  overflow: visible;
+  filter: blur(7px) saturate(1.15);
+  animation: nl-drift var(--ddur) var(--dd) ease-in-out infinite alternate;
+}
+/* ...scaleY breathing on the inner <g> — a different, non-commensurate
+   period (--bdur) and its own phase (--bd), so drift and breath never lock */
+.nl-rib .nl-bre {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: nl-breathe var(--bdur) var(--bd) ease-in-out infinite alternate;
+}
+@keyframes nl-drift {
+  from { transform: translateX(calc(var(--amp) * -1)); }
+  to { transform: translateX(var(--amp)); }
+}
+@keyframes nl-breathe {
+  from { transform: scaleY(0.86); }
+  to { transform: scaleY(1.12); }
+}
+/* sparse fine snow, confined to the card's column — flakes loop infinitely
+   on staggered per-flake delays/durations; the wrapper master-fade is what
+   finally tapers the snowfall out with the clearing sky */
+.nl-snow {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+.nl-flake {
+  position: absolute;
+  top: -6px;
+  display: block;
+  border-radius: 50%;
+  background: #eef6ff;
+  box-shadow: 0 0 2px rgba(200, 228, 255, 0.35);
+  opacity: 0;
+  animation: nl-fall var(--fdur) var(--fd) cubic-bezier(0.35, 0.1, 0.65, 0.9) infinite;
+}
+@keyframes nl-fall {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: var(--fo, 0.6); }
+  55% { transform: translate(var(--sw), calc(var(--fh) * 0.55)); }
+  84% { opacity: calc(var(--fo, 0.6) * 0.85); }
+  100% { opacity: 0; transform: translate(calc(var(--sw) * 0.3), var(--fh)); }
+}
+/* the howl — a glint at the card's measured center, then one clean ring and
+   a fainter echo, both sized from the measured card width (--w) so the
+   expansion is proportionally identical at any card size. Timed to the
+   collective aurora crest (~4.1–4.6s). */
+.nl-glint {
+  position: absolute;
+  left: 50%;
+  width: calc(var(--w) * 0.13);
+  height: calc(var(--w) * 0.13);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.3);
+  background: radial-gradient(circle, rgba(240, 250, 255, 0.85), rgba(158, 216, 255, 0.3) 50%, transparent 72%);
+  opacity: 0;
+  animation: nl-glint-kf 0.9s 4s ease-out both;
+}
+@keyframes nl-glint-kf {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.15); }
+}
+.nl-howl {
+  position: absolute;
+  left: 50%;
+  width: calc(var(--w) * 0.62);
+  height: calc(var(--w) * 0.62);
+  border-radius: 50%;
+  border: 2px solid rgba(222, 242, 255, 0.9);
+  box-shadow:
+    0 0 16px rgba(120, 190, 32, 0.35),
+    inset 0 0 12px rgba(158, 216, 255, 0.35);
+  transform: translate(-50%, -50%) scale(0.08);
+  opacity: 0;
+  animation: nl-howl-kf 1.5s 4.1s cubic-bezier(0.18, 0.7, 0.35, 1) both;
+}
+.nl-howl.nl-echo {
+  border-width: 1.5px;
+  animation-delay: 4.35s;
+  animation-duration: 1.6s;
+}
+@keyframes nl-howl-kf {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.08); }
+  10% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* static fallback instead of deleting the moment: the night cast and one
+     pre-crested ribbon hold at fixed opacity (TS removes the wrapper after
+     ~4s and fires the toast immediately); snow, wave, and howl are gone */
+  .egg-northernlights,
+  .egg-northernlights * { animation: none !important; }
+  .egg-northernlights { opacity: 1; }
+  .nl-night { opacity: 1; }
+  .nl-rib { opacity: 0; }
+  .nl-rib.nl-r0 { opacity: calc(var(--peak, 0.95) * 0.85); }
+  .nl-rib svg,
+  .nl-rib .nl-bre { transform: none; }
+  .nl-snow,
+  .nl-glint,
+  .nl-howl { display: none; }
+}
+
+/* GSW · Light-Years — the jump. The card's own corners ignite clockwise, a
+   star field gathers in an annulus around the card and twinkles (a long
+   anticipation hold); at T+2.35s every star coils inward a beat, then streaks
+   radially OUT from the card's measured center in strict unison, elongating
+   into hyperspace lines while a blue-gold nebula donut blooms AROUND the card
+   (its transparent core clears the rect — it never paints over the ship). The
+   dim layer carries a feathered mask hole at the card rect, so the card stays
+   the brightest object in the scene throughout. A rect-sized warm flash —
+   last in the DOM, so it composites above the streaks — masks the exit; a new
+   constellation snaps in, holds genuinely still, and only then twinkles. All
+   geometry (streak vectors, corner igniters, halo, mask hole, flash, marker)
+   is computed from the card's real rect and fed in as CSS vars. */
+.egg-lightyears {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  overflow: hidden;
+  animation: ly-wrapout 0.6s 5.6s ease both;
+}
+@keyframes ly-wrapout {
+  to { opacity: 0; }
+}
+/* the room goes to space — but a feathered hole at the measured card rect
+   keeps the ship itself full-bright while everything around it dims */
+.ly-dim {
+  position: fixed;
+  inset: 0;
+  background: #0c0904;
+  -webkit-mask-image: radial-gradient(
+    ellipse var(--hw) var(--hh) at var(--cx) var(--cy),
+    transparent 0,
+    transparent calc(100% - 26px),
+    #000 100%
+  );
+  mask-image: radial-gradient(
+    ellipse var(--hw) var(--hh) at var(--cx) var(--cy),
+    transparent 0,
+    transparent calc(100% - 26px),
+    #000 100%
+  );
+  animation: ly-dim-kf 5.6s ease-in-out both;
+}
+@keyframes ly-dim-kf {
+  0% { opacity: 0; }
+  11% { opacity: 0.3; }
+  41% { opacity: 0.3; }
+  47% { opacity: 0.42; }
+  60% { opacity: 0.42; }
+  76% { opacity: 0.24; }
+  100% { opacity: 0; }
+}
+/* blue-gold nebula DONUT blooming around the card during the jump — the
+   gradient stays transparent past the card's own edges (64% of the 2.2x/1.7x
+   ellipse clears the rect on both axes), so it reads as behind the ship */
+.ly-halo {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 199, 44, 0) 64%,
+    rgba(255, 199, 44, 0.18) 74%,
+    rgba(29, 66, 138, 0.26) 86%,
+    rgba(29, 66, 138, 0) 97%
+  );
+  filter: blur(9px);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.68);
+  animation: ly-halo-kf 2.1s 2.2s both;
+}
+@keyframes ly-halo-kf {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.68); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  24% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); animation-timing-function: ease-in-out; }
+  55% { opacity: 0.55; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.14); }
+}
+/* hyperspace-exit flash, sized from the card rect (--fw/--fh) like every
+   other element in the scene; sits LAST in the DOM so it paints above the
+   streaks it is masking */
+.ly-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    var(--fw) var(--fh) at var(--cx) var(--cy),
+    rgba(255, 246, 224, 0.92),
+    rgba(255, 199, 44, 0.3) 45%,
+    transparent 72%
+  );
+  opacity: 0;
+  animation: ly-flash-kf 0.8s 3.18s ease-out both;
+}
+@keyframes ly-flash-kf {
+  0% { opacity: 0; }
+  30% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+/* departure stars — parked on a radial vector from the card center via
+   rotate(--a) translateX(--r0); origin at the inner (left) edge so scaleX
+   elongation extends OUTWARD only and never smears back across the card */
+.ly-star {
+  position: absolute;
+  left: var(--cx);
+  top: var(--cy);
+  width: var(--s, 4px);
+  height: var(--s, 4px);
+  margin: calc(var(--s, 4px) / -2) 0 0 calc(var(--s, 4px) / -2);
+  border-radius: 50%;
+  opacity: 0;
+  transform: rotate(var(--a)) translateX(var(--r0));
+  transform-origin: left center;
+  animation:
+    ly-in 0.5s var(--d) ease-out both,
+    ly-twinkle 0.6s calc(var(--d) + 0.55s) ease-in-out 2 alternate,
+    ly-arm 0.34s 2s ease-out forwards,
+    ly-streak 1.15s 2.35s forwards;
+}
+.ly-w { background: #fff6e2; box-shadow: 0 0 6px 1px rgba(255, 243, 214, 0.85); }
+.ly-g { background: #ffc72c; box-shadow: 0 0 7px 1.5px rgba(255, 199, 44, 0.8); }
+.ly-b { background: #8fb2ea; box-shadow: 0 0 7px 1.5px rgba(93, 138, 209, 0.85); }
+/* the four stars pinned to the card's own measured corners IGNITE — a hot
+   scale-and-brightness pop, staggered clockwise 0/70/140/210ms via --d —
+   then join the field for the same twinkle → arm → streak */
+.ly-c {
+  box-shadow: 0 0 9px 2px rgba(255, 199, 44, 0.85);
+  animation:
+    ly-ignite 0.42s var(--d) cubic-bezier(0.2, 0.9, 0.3, 1.2) both,
+    ly-twinkle 0.6s calc(var(--d) + 0.6s) ease-in-out 2 alternate,
+    ly-arm 0.34s 2s ease-out forwards,
+    ly-streak 1.15s 2.35s forwards;
+}
+@keyframes ly-ignite {
+  0% { opacity: 0; transform: rotate(var(--a)) translateX(var(--r0)) scale(0.2); filter: brightness(2.6); }
+  45% { opacity: 1; transform: rotate(var(--a)) translateX(var(--r0)) scale(2.1); filter: brightness(2.2); }
+  100% { opacity: 0.78; transform: rotate(var(--a)) translateX(var(--r0)) scale(1); filter: brightness(1); }
+}
+@keyframes ly-in {
+  0% { opacity: 0; filter: brightness(0.6); }
+  55% { opacity: 1; filter: brightness(1.7); }
+  100% { opacity: 0.78; filter: brightness(1); }
+}
+@keyframes ly-twinkle {
+  from { opacity: 0.78; }
+  to { opacity: 1; }
+}
+/* unison arm — a held breath. Filter ONLY: opacity keeps riding the twinkle,
+   so there is no luminance snap when the field arms together */
+@keyframes ly-arm {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.55); }
+}
+/* coil 10px toward the card, then slingshot out along the measured vector;
+   with transform-origin at the inner edge the 34x stretch trails outward,
+   and the tail-end opacity fade keeps glows from bleeding back on-screen */
+@keyframes ly-streak {
+  0% { transform: rotate(var(--a)) translateX(var(--r0)) scaleX(1); opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+  16% { transform: rotate(var(--a)) translateX(calc(var(--r0) - 10px)) scaleX(3.2); animation-timing-function: cubic-bezier(0.76, 0, 0.9, 0.6); }
+  80% { opacity: 1; animation-timing-function: linear; }
+  100% { transform: rotate(var(--a)) translateX(var(--r1)) scaleX(34); opacity: 0; }
+}
+/* arrival constellation — snaps into focus, holds genuinely STILL through
+   the toast at 4.4s, and only twinkles from ~4.6s: the world exhaling */
+.ly-arr {
+  position: absolute;
+  width: var(--s, 4px);
+  height: var(--s, 4px);
+  margin: calc(var(--s, 4px) / -2) 0 0 calc(var(--s, 4px) / -2);
+  border-radius: 50%;
+  opacity: 0;
+  animation:
+    ar-snap 0.3s var(--d) cubic-bezier(0.19, 1.25, 0.35, 1) both,
+    ar-twinkle 0.75s calc(var(--d) + 1s) ease-in-out 2 alternate,
+    ar-out 0.55s 5.55s ease forwards;
+}
+@keyframes ar-snap {
+  0% { opacity: 0; transform: scale(2.4); filter: brightness(1.9); }
+  100% { opacity: 0.9; transform: scale(1); filter: brightness(1); }
+}
+@keyframes ar-twinkle {
+  from { opacity: 0.9; }
+  to { opacity: 1; }
+}
+@keyframes ar-out {
+  to { opacity: 0; }
+}
+/* the "you are here" marker on the card's top-right corner */
+.ly-mark { box-shadow: 0 0 14px 3px rgba(255, 199, 44, 0.9); }
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-lightyears { display: none; }
+}
+
+/* NOP · The Throw — Mardi Gras on the parade route. Three bead strands arc
+   over the board as three DISTINCT throws (green 120ms, gold 1300ms as green
+   exits, purple 2050ms), each strand a string of dots sharing one flight
+   path with per-bead delay. Two sail clean past; the third terminates
+   EXACTLY on the Pelicans card's measured top-left corner (inline left/top
+   from JS), sparks, whips around the pivot — fastest frame exactly at the
+   hang line — pendulums twice with a lagging lower half so the rope flexes,
+   and settles hanging dead straight down the card edge before fading.
+   Doubloons shake loose at the catch with timed glints. The catch instant
+   lives in ONE place: --catch (set inline by JS, 3200ms); every downstream
+   delay is var(--catch) or a calc() off it, so a restage is a one-line
+   change. Full-viewport wrapper → z-index 70, per house convention. */
+.egg-beadthrow {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  overflow: hidden;
+}
+.egg-beadthrow .bt-str { position: absolute; inset: 0; }
+/* one krewe color per strand */
+.bt-s1 { color: #007a33; }
+.bt-s2 { color: #f9a01b; }
+.bt-s3,
+.bt-hang { color: #5a2d81; }
+/* a bead: specular highlight + faint glow, colored by the strand */
+.bt-d,
+.bt-hd {
+  position: absolute;
+  left: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, color-mix(in srgb, currentColor 45%, #fff6e4), currentColor 62%);
+  box-shadow: 0 0 6px color-mix(in srgb, currentColor 50%, transparent);
+}
+/* flight beads ride the shared path; duration/delay set per bead from JS */
+.bt-d {
+  top: 0;
+  opacity: 0;
+  offset-rotate: 0deg;
+  animation-name: bt-fly;
+  animation-timing-function: cubic-bezier(0.33, 0.1, 0.68, 0.9);
+  animation-fill-mode: both;
+}
+/* the caught strand's beads fall a touch harder and melt into the corner
+   as their hung twins take over */
+.bt-dc {
+  animation-name: bt-flycatch;
+  animation-timing-function: cubic-bezier(0.42, 0.08, 0.74, 0.94);
+}
+@keyframes bt-fly {
+  0% { offset-distance: 0%; opacity: 0; }
+  5% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 1; }
+}
+@keyframes bt-flycatch {
+  0% { offset-distance: 0%; opacity: 0; }
+  6% { opacity: 1; }
+  86% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+/* catch flash, centered on the corner — compact, so the whip stays legible */
+.bt-spark {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.92), rgba(249, 160, 27, 0.45) 42%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.25);
+  animation: bt-spark-kf 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--catch, 3200ms);
+}
+@keyframes bt-spark-kf {
+  0% { opacity: 0; transform: scale(0.25); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+/* the caught strand, re-hung from the corner. The wrapper only handles the
+   letting-go fade; each bead fades ITSELF in (delay set inline from JS,
+   matched to its flight twin's arrival) so the string is never doubled
+   while trailing flight beads are still airborne. */
+.bt-hang {
+  position: absolute;
+  width: 0;
+  height: 0;
+  animation: bt-hangfade 0.6s ease forwards;
+  animation-delay: calc(var(--catch, 3200ms) + 2800ms);
+}
+@keyframes bt-hangfade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+/* hung beads: invisible until their flight twin melts into the corner */
+.bt-hd {
+  opacity: 0;
+  animation: bt-hdin 0.12s ease-out forwards;
+}
+@keyframes bt-hdin {
+  to { opacity: 1; }
+}
+/* upper arm pivots exactly at the corner; the lower half lags counter-phase
+   so the string flexes like rope instead of swinging like a rod */
+.bt-swing {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  animation: bt-swing-kf 1.7s both;
+  animation-delay: var(--catch, 3200ms);
+}
+.bt-tail {
+  position: absolute;
+  left: 0;
+  top: 58px;
+  transform-origin: 0 0;
+  animation: bt-tail-kf 1.7s both;
+  animation-delay: var(--catch, 3200ms);
+}
+/* 0deg hangs straight down the card edge; positive is back along the
+   incoming path, negative overshoots across the card face. The first fall
+   is split at the hang line: ease-in TO 0deg so the fastest frame is
+   exactly at the card edge (falls-and-catches, not swings), ease-out into
+   the overshoot — capped at -40deg so it grazes the roster rows. */
+@keyframes bt-swing-kf {
+  0% { transform: rotate(128deg); animation-timing-function: cubic-bezier(0.55, 0.06, 0.68, 0.19); }
+  20% { transform: rotate(0deg); animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1); }
+  28% { transform: rotate(-40deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  52% { transform: rotate(24deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  72% { transform: rotate(-13deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  87% { transform: rotate(6deg); animation-timing-function: cubic-bezier(0.33, 0.55, 0.45, 1); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes bt-tail-kf {
+  0% { transform: rotate(-34deg); animation-timing-function: cubic-bezier(0.55, 0.06, 0.68, 0.19); }
+  20% { transform: rotate(10deg); animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1); }
+  28% { transform: rotate(18deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  52% { transform: rotate(-12deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  72% { transform: rotate(7deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  87% { transform: rotate(-3deg); animation-timing-function: cubic-bezier(0.33, 0.55, 0.45, 1); }
+  100% { transform: rotate(0deg); }
+}
+/* doubloons shaken loose at the catch: gravity fall + drift on translate,
+   rotateX tumble on transform so the two motions compose */
+.bt-coin {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffd875, #f9a01b 55%, #b06e0c);
+  box-shadow: inset 0 0 0 1px rgba(122, 77, 8, 0.5), 0 0 5px rgba(249, 160, 27, 0.45);
+  opacity: 0;
+  animation-name: bt-coindrop, bt-coinspin;
+  animation-duration: 1.35s;
+  animation-timing-function: cubic-bezier(0.34, 0.04, 0.7, 0.5), linear;
+  animation-fill-mode: both;
+}
+@keyframes bt-coindrop {
+  0% { opacity: 0; translate: 0 -4px; }
+  7% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; translate: var(--cd, 0px) var(--cfall, 260px); }
+}
+@keyframes bt-coinspin {
+  to { transform: rotateX(calc(360deg * var(--cs, 2.5))); }
+}
+/* the face catches the sun twice per fall */
+.bt-glint {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.95) 48%, transparent 64%);
+  opacity: 0;
+  animation: bt-glint-kf 1.35s linear both;
+  animation-delay: inherit;
+}
+@keyframes bt-glint-kf {
+  0%, 19% { opacity: 0; }
+  25% { opacity: 1; }
+  32% { opacity: 0; }
+  57% { opacity: 0; }
+  64% { opacity: 0.9; }
+  71%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-beadthrow { display: none; }
+}
+
+/* WAS · The Blossoms — D.C. in April. Petals spill from the upper-right on a
+   lazy S-wind (two bows: left, then the breeze eases back right), each on its
+   own phase, speed, flutter, and tip — every petal's delay+duration is capped
+   at 4.6s so the flock has thinned by touchdown and cleared before the rest
+   beat ends. One deeper-pink petal breaks from the flock at the flock's own
+   lazy pace, hovers, and sets down exactly ON the committed-salary figure
+   (measured at fire time), rests 1.26s under its own tiny shadow — one
+   sub-pixel stir midway so it still reads as a petal in a breeze — while the
+   card blushes the faintest pink, then the wind reclaims it off the card's
+   left edge (its shadow collapses within ~105ms of liftoff). Geometry from
+   JS: --dx/--dy per ambient petal (spawned inside the sky band, no clipping);
+   --fi/--ti finite flutter/tip iteration counts; --hsx/--hsy (start offset,
+   inside the box) and --hex/--hey (edge exit) for the hero, which is
+   positioned AT the landing point so touchdown is translate 0 0 — precision
+   by construction; --wbr is the card's own computed border-radius. */
+.egg-blossoms {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+}
+.egg-blossoms > i,
+.egg-blossoms > b {
+  position: absolute;
+  display: block;
+}
+/* the flock — drift (translate), flutter (rotate), and tip (scale) compose
+   on individual transform properties, all phased per petal via custom props;
+   flutter and tip run finite counts (--fi/--ti = drift ÷ their period) so
+   each petal's motion ends when its drift does */
+.bl-petal {
+  border-radius: 62% 38% 64% 36% / 48% 64% 36% 52%;
+  background: radial-gradient(circle at 32% 28%, #fbd9e2, #f4b6c2 58%, #eca6b6);
+  box-shadow: 0 1px 2px rgba(120, 40, 60, 0.08);
+  opacity: 0;
+  animation:
+    bl-drift var(--dur, 4.4s) var(--del, 0s) both,
+    bl-flutter var(--fd, 1.2s) var(--del, 0s) ease-in-out var(--fi, 3) alternate both,
+    bl-tip calc(var(--fd, 1.2s) * 1.7) var(--del, 0s) ease-in-out var(--ti, 2) alternate both;
+}
+/* the S-wind: bow left, ease back right, release down-left */
+@keyframes bl-drift {
+  0% { translate: 0 0; opacity: 0; animation-timing-function: cubic-bezier(0.4, 0.1, 0.6, 0.9); }
+  7% { opacity: var(--po, 0.9); }
+  32% { translate: calc(var(--dx) * 0.46 - 14px) calc(var(--dy) * 0.3); animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); }
+  58% { translate: calc(var(--dx) * 0.52 + 18px) calc(var(--dy) * 0.58); animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+  86% { translate: calc(var(--dx) * 0.88 - 8px) calc(var(--dy) * 0.86); opacity: var(--po, 0.9); }
+  100% { translate: var(--dx) var(--dy); opacity: 0; }
+}
+@keyframes bl-flutter {
+  from { rotate: calc(var(--r0, 0deg) - 26deg); }
+  to { rotate: calc(var(--r0, 0deg) + 38deg); }
+}
+/* the petal turning edge-on and back as it falls */
+@keyframes bl-tip {
+  from { scale: 1 1; }
+  to { scale: 1 0.6; }
+}
+/* the one that breaks from the pattern — a different path, not a hurried
+   one: 3.85s of flight sits inside the flock's 3.3–4.6s drift band */
+.bl-hero {
+  width: 15px;
+  height: 12px;
+  border-radius: 62% 38% 64% 36% / 48% 64% 36% 52%;
+  background: radial-gradient(circle at 32% 28%, #f9cdd8, #f2a9b8 55%, #e793a6);
+  filter: drop-shadow(0 1px 1.5px rgba(120, 40, 60, 0.2));
+  animation: bl-hero-kf 7s both;
+}
+/* flight 0–55% (touchdown at 3.85s), settle wobble, ON THE NUMBER 55–73%
+   (a 1.26s rest with one sub-pixel stir at 64%), liftoff at 73%, then the
+   wind takes it along the salary line and off the card's left edge */
+@keyframes bl-hero-kf {
+  0% { translate: var(--hsx) var(--hsy); rotate: -34deg; opacity: 0; animation-timing-function: cubic-bezier(0.4, 0.1, 0.6, 0.9); }
+  4.5% { opacity: 0.98; }
+  22% { translate: calc(var(--hsx) * 0.6 - 24px) calc(var(--hsy) * 0.56); rotate: 44deg; animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95); }
+  38% { translate: calc(var(--hsx) * 0.28 + 18px) calc(var(--hsy) * 0.24); rotate: -28deg; animation-timing-function: cubic-bezier(0.3, 0.1, 0.25, 1); }
+  50% { translate: calc(var(--hsx) * 0.05) calc(var(--hsy) * 0.04 - 9px); rotate: 12deg; animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+  55% { translate: 0 1px; rotate: -4deg; }
+  57% { translate: 0 0; rotate: 2deg; }
+  59% { translate: 0 0; rotate: -2deg; }
+  64% { translate: 0 -0.5px; rotate: -1deg; }
+  73% { translate: 0 0; rotate: -2deg; opacity: 0.98; animation-timing-function: cubic-bezier(0.4, 0, 0.8, 0.6); }
+  79% { translate: calc(var(--hex) * 0.2) calc(var(--hey) * 0.15); rotate: 16deg; }
+  92% { opacity: 0.9; }
+  100% { translate: var(--hex) var(--hey); rotate: 92deg; opacity: 0; }
+}
+/* the shadow it casts on the figure while it rests — blooms at touchdown
+   (55%), holds through the rest, and collapses by 74.5% (~105ms after the
+   73% liftoff) so it never sits under a petal that has already left */
+.bl-shadow {
+  width: 17px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(122, 44, 62, 0.3), transparent 70%);
+  filter: blur(1px);
+  opacity: 0;
+  animation: bl-shadow-kf 7s linear both;
+}
+@keyframes bl-shadow-kf {
+  0%, 52.5% { opacity: 0; scale: 0.4 1; }
+  56% { opacity: 0.55; scale: 1 1; }
+  73% { opacity: 0.55; scale: 1 1; }
+  74.5% { opacity: 0; scale: 0.9 1; }
+  100% { opacity: 0; }
+}
+/* a barely-there blush over the card — corners follow the card's own
+   measured border-radius; peaks with the landing, recedes */
+.bl-wash {
+  border-radius: var(--wbr, 8px);
+  background: #f4b6c2;
+  opacity: 0;
+  animation: bl-wash-kf 7.2s ease-in-out both;
+}
+@keyframes bl-wash-kf {
+  0% { opacity: 0; }
+  28% { opacity: 0.035; }
+  53.5% { opacity: 0.1; }
+  74% { opacity: 0.07; }
+  100% { opacity: 0; }
+}
+/* reduced-motion keepsake — no translation, no rotation: the blush breathes
+   in and out and one petal is simply already at rest on the salary figure */
+.egg-blossoms-still {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+}
+.egg-blossoms-still > i,
+.egg-blossoms-still > b {
+  position: absolute;
+  display: block;
+}
+.bl-still-wash {
+  inset: 0;
+  border-radius: var(--wbr, 8px);
+  background: #f4b6c2;
+  --so: 0.1;
+}
+.bl-still-petal {
+  width: 15px;
+  height: 12px;
+  border-radius: 62% 38% 64% 36% / 48% 64% 36% 52%;
+  background: radial-gradient(circle at 32% 28%, #f9cdd8, #f2a9b8 55%, #e793a6);
+  rotate: -2deg;
+  filter: drop-shadow(0 1px 1.5px rgba(120, 40, 60, 0.2));
+  --so: 0.95;
+}
+.bl-still-wash,
+.bl-still-petal {
+  opacity: 0;
+  animation: bl-still-kf 3.2s ease-in-out both;
+}
+@keyframes bl-still-kf {
+  0%, 100% { opacity: 0; }
+  22%, 72% { opacity: var(--so, 0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-blossoms { display: none; }
+}
