@@ -153,26 +153,62 @@ export function TeamLogo({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flourish]);
-  // Widen the hover target: inside a [data-li-scope] container (team-picker
-  // boxes, league-page cards) the whole box plays the scene, not just the
-  // 38px logo. Mirrors :hover exactly — enter plays, leave resets.
+  // Pointer ergonomics, one effect for both worlds. The target is the
+  // [data-li-scope] container when one wraps us (team-picker boxes,
+  // league-page cards) so the whole box is the stage — else the logo itself.
+  //
+  //  - Desktop: mouseenter/mouseleave on the scope mirror :hover exactly.
+  //    (Bound only on hover-capable devices — touch browsers fire synthetic
+  //    mouse events after taps, which would strand looping scenes "on".)
+  //  - Touch: press-equals-hover. A finger that lands and SETTLES for 120ms
+  //    plays the full scene — the same beat the box highlight appears, so a
+  //    light half-press reads as hover, exactly like desktop. A finger that
+  //    immediately moves is a scroll and never triggers. A completed tap
+  //    still selects the team; the settle timer isn't cancelled by lift, so
+  //    quick taps play too (moot on navigation, delightful everywhere else).
   useEffect(() => {
-    const scope = wrap.current?.closest("[data-li-scope]");
-    if (!scope) return;
-    const on = () => {
+    const el = wrap.current;
+    if (!el) return;
+    const target = el.closest("[data-li-scope]") ?? el;
+    const canHover = typeof matchMedia !== "undefined" && matchMedia("(hover: hover)").matches;
+    const enter = () => {
       if (timer.current) clearTimeout(timer.current);
       setPlay(true);
     };
-    const off = () => {
+    const leave = () => {
       if (timer.current) clearTimeout(timer.current);
       setPlay(false);
     };
-    scope.addEventListener("mouseenter", on);
-    scope.addEventListener("mouseleave", off);
-    return () => {
-      scope.removeEventListener("mouseenter", on);
-      scope.removeEventListener("mouseleave", off);
+    const bindMouse = canHover && target !== el; // the bare logo already has CSS :hover
+    if (bindMouse) {
+      target.addEventListener("mouseenter", enter);
+      target.addEventListener("mouseleave", leave);
+    }
+    let settle: ReturnType<typeof setTimeout> | null = null;
+    const cancelSettle = () => {
+      if (settle) {
+        clearTimeout(settle);
+        settle = null;
+      }
     };
+    const touchStart = () => {
+      cancelSettle();
+      settle = setTimeout(() => playOnce(0, 2600), 120);
+    };
+    target.addEventListener("touchstart", touchStart, { passive: true });
+    target.addEventListener("touchmove", cancelSettle, { passive: true });
+    target.addEventListener("touchcancel", cancelSettle, { passive: true });
+    return () => {
+      if (bindMouse) {
+        target.removeEventListener("mouseenter", enter);
+        target.removeEventListener("mouseleave", leave);
+      }
+      target.removeEventListener("touchstart", touchStart);
+      target.removeEventListener("touchmove", cancelSettle);
+      target.removeEventListener("touchcancel", cancelSettle);
+      cancelSettle();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // No hover on this device? Play the scene once as the logo scrolls into
   // view, staggered by screen position so a grid cascades instead of firing
@@ -221,7 +257,6 @@ export function TeamLogo({
       ref={wrap}
       className={`logo-idle li-${r.fx}${play ? " li-play" : ""}`}
       data-team={id}
-      onTouchStart={() => playOnce(0, 2200)}
       style={
         {
           width: size,
