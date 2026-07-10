@@ -51,6 +51,20 @@ describe("sign-and-trade, fully functioning", () => {
     expect(y2[1]!.salary).toBe(Math.round(20_000_000 * 1.05));
   });
 
+  it("carries extra deal legs: a third player moves like a trade leg", () => {
+    const out = applyMove(BASE_CONTRACTS, {
+      ...ST,
+      returnPlayers: ["strusma01"],
+      players: [
+        { playerId: "strusma01", to: "GSW" },
+        { playerId: "mobleev01", to: "GSW" }, // extra leg, not the return
+      ],
+    } as Move);
+    expect(out.find((c) => c.playerId === "greendr01")!.teamId).toBe("CLE");
+    expect(out.find((c) => c.playerId === "strusma01")!.teamId).toBe("GSW");
+    expect(out.find((c) => c.playerId === "mobleev01")!.teamId).toBe("GSW");
+  });
+
   it("Draymond exists in the FA pool as a GSW Bird free agent (scenario precondition)", () => {
     // he's a free agent, so no live contract row is required — the FA feed
     // drives the drawer; this guards the test IDs used above

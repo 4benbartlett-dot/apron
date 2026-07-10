@@ -24,6 +24,7 @@ import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam } from "@/lib/store";
+import { leagueData, YEAR } from "@/lib/league";
 import { fmtM, fmtFull } from "@/lib/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -42,6 +43,20 @@ import { TeamLogo } from "@/components/TeamLogo";
 interface Sel {
   from: string;
   to: string;
+}
+/** A sign-and-trade staged onto the board: the re-sign terms + the facts the
+ * execute step needs (rights, prior salary, BYC, the sender's ceiling). */
+interface StStage {
+  playerId: string;
+  playerName: string;
+  fromTeam: string;
+  salary: number;
+  years: number;
+  birdStatus?: "bird" | "early_bird" | "non_bird";
+  priorSalary: number;
+  hold: number;
+  byc: boolean;
+  ceiling: number;
 }
 interface PickSwap {
   year: number;
@@ -94,6 +109,11 @@ export default function OffseasonSim() {
   // teams' same-year/round firsts. A right, not a concrete transfer.
   const [swapSel, setSwapSel] = useState<PickSwap[]>([]);
   const [signFor, setSignFor] = useState<{ team: string; faId?: string; st?: boolean } | null>(null);
+  // A STAGED sign-and-trade: the free agent re-signs on his old team's ledger
+  // at the chosen rate (a temp contract every surface can see), and the deal
+  // itself is built on the board like any trade. Executing dispatches the
+  // real sign_trade move with all the legs.
+  const [stStage, setStStage] = useState<StStage | null>(null);
   const [extendFor, setExtendFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
   const [finderOpen, setFinderOpen] = useState(false);
 
@@ -234,8 +254,10 @@ export default function OffseasonSim() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lg.moves.length, sacOnBoard]);
 
-  // Board showpieces: five team eggs fired by the move that just landed
-  // (never by undo or session restore — only a single fresh addition).
+  // Board showpieces: every team the move set off reacts. Each egg self-
+  // queues (teamEggs.ts), so if a blockbuster lights up two cards at once
+  // they play in sequence rather than on top of each other. Fires only on a
+  // single fresh move — never on undo or session restore.
   const prevMoveCount = useRef<number | null>(null);
   useEffect(() => {
     const n = lg.moves.length;
@@ -268,21 +290,22 @@ export default function OffseasonSim() {
       ((mv.kind === "trade" && mv.players.some((p) => p.playerId === LEBRON && p.to === "CLE")) ||
         (mv.kind === "sign" && mv.teamId === "CLE" && mv.playerId === LEBRON) ||
         (mv.kind === "sign_trade" && mv.toTeam === "CLE" && mv.playerId === LEBRON));
-    if (chiStar) {
-      introEgg(lg.playerName(chiStar));
-    } else if (lalMax && mv.kind === "trade") {
-      confettiEgg();
-    } else if (
+    // Independent checks (not else-if): a multi-team deal can trip several,
+    // and the queue serializes them. Ordered here by billing.
+    if (chiStar) introEgg(lg.playerName(chiStar));
+    if (cleLeBron) chalkTossEgg("LeBron James");
+    if (lalMax && mv.kind === "trade") confettiEgg();
+    if (
       board.includes("OKC") &&
       mv.kind === "trade" &&
       (mv.picks ?? []).some((p) => p.to === "OKC" && p.id.endsWith("|1"))
     ) {
       strikeEgg(lg.picksOf("OKC").filter((p) => p.round === 1).length);
-    } else if (cleLeBron) {
-      chalkTossEgg("LeBron James");
-    } else if (board.includes("SAS") && moveTouches(mv, "SAS") && lg.moves.filter((m) => moveTouches(m, "SAS")).length === 5) {
+    }
+    if (board.includes("SAS") && moveTouches(mv, "SAS") && lg.moves.filter((m) => moveTouches(m, "SAS")).length === 5) {
       rockCrackEgg();
-    } else if (
+    }
+    if (
       board.includes("BKN") &&
       mv.kind === "trade" &&
       (mv.players.some((p) => p.to === "BKN") ||
@@ -377,30 +400,68 @@ export default function OffseasonSim() {
   const removeSwap = (key: string) =>
     setSwapSel((sw) => sw.filter((s) => swapKey(s) !== key));
 
+  // The staged S&T player's TEMP contract, sitting on his old team's books
+  // exactly the way the executed move would write it (raises by rights, BYC
+  // tag when it applies) — so validateTrade prices him correctly for free.
+  const stContract = useMemo(() => {
+    if (!stStage) return null;
+    const n = Math.max(3, Math.min(stStage.years, 4));
+    const start = Number(YEAR.slice(0, 4));
+    const raise = stStage.birdStatus === "non_bird" ? 0.05 : 0.08;
+    const yrs = Array.from({ length: n }, (_, k) => ({
+      leagueYear: `${start + k}-${String((start + 1 + k) % 100).padStart(2, "0")}`,
+      salary: Math.round(stStage.salary * (1 + raise * k)),
+      guarantee: "full" as const,
+    }));
+    const existing = lg.contracts.find((c) => c.playerId === stStage.playerId);
+    return {
+      playerId: stStage.playerId,
+      playerName: stStage.playerName,
+      teamId: stStage.fromTeam,
+      years: [...(existing?.years.filter((y) => y.leagueYear < YEAR) ?? []), ...yrs],
+      bycPriorSalary: stStage.byc ? stStage.priorSalary : undefined,
+      signedUsing: "Sign-and-trade",
+    } as Contract;
+  }, [stStage, lg.contracts]);
+  const boardContracts = useMemo(
+    () =>
+      stContract
+        ? [...lg.contracts.filter((c) => c.playerId !== stContract.playerId), stContract]
+        : lg.contracts,
+    [lg.contracts, stContract],
+  );
+  const boardData = useMemo(
+    () => (stContract ? leagueData(boardContracts) : lg.data),
+    [boardContracts, stContract, lg.data],
+  );
+
   const { trade, verdict, byTeam } = useMemo(() => {
     const players = Object.entries(sel)
       .filter(([, mv]) => board.includes(mv.from) && board.includes(mv.to))
       .map(([pid, mv]) => ({ playerId: pid, from: mv.from, to: mv.to }));
-    // Kept holds consume below-cap absorption room (not apron status).
-    const capHolds = Object.fromEntries(board.map((t) => [t, lg.teamHolds(t)]));
+    // Kept holds consume below-cap absorption room (not apron status). A
+    // staged S&T converts HIS hold into the temp salary, so it drops out.
+    const capHolds = Object.fromEntries(
+      board.map((t) => [t, Math.max(0, lg.teamHolds(t) - (stStage?.fromTeam === t ? stStage.hold : 0))]),
+    );
     let tr: Trade = { teams: board, players, capHolds };
-    let v = validateTrade(lg.data, tr, C);
+    let v = validateTrade(boardData, tr, C);
     // If matching fails, try absorbing incoming players into standing TPEs
     // (largest exception, whole players) and re-judge.
     if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {
       const incomingByTeam: Record<string, { playerId: string; salary: number }[]> = {};
       for (const p of players) {
-        const c = lg.contracts.find((x) => x.playerId === p.playerId);
+        const c = boardContracts.find((x) => x.playerId === p.playerId);
         (incomingByTeam[p.to] ??= []).push({ playerId: p.playerId, salary: c ? currentSalary(c) : 0 });
       }
       const plan = fitTpePlan(v.teams, incomingByTeam, tpeLedger(lg.moves));
       if (plan) {
         tr = { ...tr, tpeUse: plan };
-        v = validateTrade(lg.data, tr, C);
+        v = validateTrade(boardData, tr, C);
       }
     }
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
-  }, [board, sel, lg]);
+  }, [board, sel, lg, boardData, boardContracts, stStage]);
 
   const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0 || swapSel.length > 0;
 
@@ -408,11 +469,20 @@ export default function OffseasonSim() {
   const verdictRef = useRef<HTMLDivElement>(null);
   const trayVisible = useTrayVisible(verdictRef, hasTrade);
   const salaryOf = (id: string) => {
-    const c = lg.contracts.find((x) => x.playerId === id);
+    const c = boardContracts.find((x) => x.playerId === id);
     return c ? currentSalary(c) : 0;
   };
   const docketTeams = useMemo(
-    () => buildDocket(trade.players, pickSel, verdict.teams, lg.playerName, salaryOf, trade.tpeUse, swapSel),
+    () =>
+      buildDocket(
+        trade.players,
+        pickSel,
+        verdict.teams,
+        (id) => (stStage && id === stStage.playerId ? `${lg.playerName(id)} · S&T` : lg.playerName(id)),
+        salaryOf,
+        trade.tpeUse,
+        swapSel,
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [trade, pickSel, swapSel, verdict, lg],
   );
@@ -494,7 +564,39 @@ export default function OffseasonSim() {
     return out;
   }, [verdict, lg]);
 
-  const docketLegal = verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0;
+  // Sign-and-trade rules the board must speak while an S&T is staged.
+  const stViolations = useMemo<string[]>(() => {
+    if (!stStage) return [];
+    const out: string[] = [];
+    const mv = sel[stStage.playerId];
+    if (!mv || mv.to === mv.from || mv.from !== stStage.fromTeam) {
+      out.push(
+        `${stStage.playerName}'s sign-and-trade is staged — he has to be dealt away from ${teamMeta(stStage.fromTeam).name} for the re-sign to be legal (Art. VII §8(e)).`,
+      );
+      return out;
+    }
+    const dest = mv.to;
+    const t = byTeam.get(dest);
+    if (lg.capSheet(dest).tier === "second_apron")
+      out.push(
+        `${teamMeta(dest).name} is over the second apron — a second-apron team may not acquire a player by sign-and-trade (§2(e) row C).`,
+      );
+    const post = lg.teamSalary(dest) + (t?.incomingSalary ?? stStage.salary) - (t?.outgoingSalary ?? 0);
+    if (post > C.firstApron + 1)
+      out.push(
+        `A sign-and-trade hard-caps ${teamMeta(dest).name} at the first apron — this deal leaves them at ${fmtM(post)}, over ${fmtM(C.firstApron)} (§2(e) row C). Send out more salary.`,
+      );
+    if (stStage.salary > stStage.ceiling + 1)
+      out.push(
+        `${teamMeta(stStage.fromTeam).name} can re-sign ${stStage.playerName} for at most ${fmtM(stStage.ceiling)} with his rights — lower the S&T salary.`,
+      );
+    if (swapSel.length)
+      out.push("Pick swaps can't ride a sign-and-trade yet — clear the swap or run it as a separate deal.");
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stStage, sel, byTeam, swapSel, lg]);
+  const docketLegal =
+    verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0 && stViolations.length === 0;
   const docketChecks = useMemo(
     () =>
       buildChecks({
@@ -502,22 +604,62 @@ export default function OffseasonSim() {
         involved: verdict.teams.filter((t) => docketTeams.some((d) => d.teamId === t.teamId)),
         tpeUse: trade.tpeUse,
         violationReasons: verdict.violations.map((v) => v.reason),
-        extraViolations: [...stepienViolations, ...hardCapTradeViolations],
+        extraViolations: [...stepienViolations, ...hardCapTradeViolations, ...stViolations],
         hasFirsts: Object.keys(pickSel).some((id) => id.endsWith("|1")),
       }),
-    [docketLegal, verdict, docketTeams, trade, pickSel, stepienViolations, hardCapTradeViolations],
+    [docketLegal, verdict, docketTeams, trade, pickSel, stepienViolations, hardCapTradeViolations, stViolations],
   );
   const docketFix = useMemo(
     () =>
       docketLegal
         ? null
-        : explainBlocked(verdict, [...stepienViolations, ...hardCapTradeViolations], C, lg.teamHolds).fixes[0] ?? null,
-    [docketLegal, verdict, stepienViolations, hardCapTradeViolations, lg],
+        : explainBlocked(verdict, [...stepienViolations, ...hardCapTradeViolations, ...stViolations], C, lg.teamHolds).fixes[0] ?? null,
+    [docketLegal, verdict, stepienViolations, hardCapTradeViolations, stViolations, lg],
   );
 
   const executeTrade = () => {
     const names = trade.players.map((p) => shortPlayerName(lg.playerName(p.playerId)));
     const pickMoves = Object.entries(pickSel).map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
+    // A staged sign-and-trade executes as ONE sign_trade move carrying every
+    // leg of the deal the board built.
+    if (stStage && sel[stStage.playerId] && sel[stStage.playerId]!.to !== stStage.fromTeam) {
+      const dest = sel[stStage.playerId]!.to;
+      const others = trade.players
+        .filter((p) => p.playerId !== stStage.playerId)
+        .map((p) => ({ playerId: p.playerId, to: p.to }));
+      const returnSalary = others
+        .filter((p) => p.to === stStage.fromTeam)
+        .reduce((sum, p) => sum + salaryOf(p.playerId), 0);
+      const senderOutgoing = stStage.byc
+        ? Math.max(stStage.salary * 0.5, Math.min(stStage.salary, stStage.priorSalary))
+        : stStage.salary;
+      dispatchMove({
+        kind: "sign_trade",
+        label: `S&T: ${stStage.playerName} → ${dest} (${fmtM(stStage.salary)} × ${stStage.years}y${others.length ? ` +${others.length}` : ""}${pickMoves.length ? ` +${pickMoves.length} pk` : ""})`,
+        playerId: stStage.playerId,
+        playerName: stStage.playerName,
+        toTeam: dest,
+        salary: stStage.salary,
+        years: stStage.years,
+        fromTeam: stStage.fromTeam,
+        returnPlayers: others.filter((p) => p.to === stStage.fromTeam).map((p) => p.playerId),
+        players: others,
+        picks: pickMoves,
+        birdStatus: stStage.birdStatus,
+        priorSalary: stStage.priorSalary,
+        byc: stStage.byc,
+        senderHardCapped: returnSalary > senderOutgoing + 1,
+      });
+      leagueToast(
+        "Filed",
+        `Sign-and-trade executed — ${stStage.playerName} re-signs and reports to ${teamMeta(dest).name}. Both front offices know what it cost.`,
+      );
+      setStStage(null);
+      setSel({});
+      setPickSel({});
+      setSwapSel([]);
+      return;
+    }
     const swaps = swapSel.map((s) => ({ year: s.year, round: s.round, favoredTo: s.favoredTo, otherTeam: s.otherTeam }));
     const extras = [
       pickMoves.length ? `${pickMoves.length} pick${pickMoves.length > 1 ? "s" : ""}` : "",
@@ -619,7 +761,7 @@ export default function OffseasonSim() {
           while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
         <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
-          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} />
+          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
           <div className="mt-2">
             <TradeDocket teams={docketTeams} />
           </div>
@@ -631,11 +773,36 @@ export default function OffseasonSim() {
       {hasTrade && (
         <TradeTray
           hauls={trayHauls}
-          legal={verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0}
+          legal={docketLegal}
           visible={trayVisible}
           onReview={() => verdictRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
           onShare={() => setShareOpen(true)}
         />
+      )}
+
+      {/* staged sign-and-trade strip */}
+      {stStage && (
+        <div className="mt-4 flex flex-wrap items-center gap-2 rounded-md border border-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_6%,transparent)] px-3 py-2 text-xs">
+          <span className="rounded-[3px] bg-[var(--accent)] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.06em] text-white">S&T staged</span>
+          <span className="min-w-0 flex-1">
+            <strong>{stStage.playerName}</strong> re-signs with {teamMeta(stStage.fromTeam).name} at{" "}
+            <span className="tabular">{fmtM(stStage.salary)} × {stStage.years}y</span> and must be dealt away — build the trade below.
+            {stStage.byc ? " Base-year comp applies to his outgoing value." : ""}
+          </span>
+          <button
+            onClick={() => {
+              setStStage(null);
+              setSel((cur) => {
+                const n = { ...cur };
+                delete n[stStage.playerId];
+                return n;
+              });
+            }}
+            className="shrink-0 rounded-md border border-[var(--border)] px-2 py-1 font-semibold text-[var(--muted)] hover:text-[var(--text)]"
+          >
+            Cancel S&T
+          </button>
+        </div>
       )}
 
       {/* board */}
@@ -657,6 +824,7 @@ export default function OffseasonSim() {
             onPickDest={setPickDest}
             onSign={(faId, st) => setSignFor({ team: id, faId, st })}
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
+            stagedSt={stContract}
           />
           </div>
         ))}
@@ -692,7 +860,7 @@ export default function OffseasonSim() {
           picks={sharePicks}
           swaps={swapSel}
           verdict={verdict}
-          extraViolations={[...stepienViolations, ...hardCapTradeViolations]}
+          extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]}
           holdsOf={lg.teamHolds}
           nameOf={lg.playerName}
           salaryOf={salaryOf}
@@ -709,7 +877,24 @@ export default function OffseasonSim() {
           }}
         />
       )}
-      {signFor && <SignDrawer team={signFor.team} initialId={signFor.faId} initialSt={signFor.st} lg={lg} onClose={() => setSignFor(null)} />}
+      {signFor && (
+        <SignDrawer
+          team={signFor.team}
+          initialId={signFor.faId}
+          initialSt={signFor.st}
+          lg={lg}
+          onClose={() => setSignFor(null)}
+          onStageSt={(st) => {
+            setStStage(st);
+            // his old team must be on the board; preselect him outbound if a
+            // destination already exists, otherwise the GM picks one
+            setBoard((b) => (b.includes(st.fromTeam) ? b : [...b, st.fromTeam].slice(0, 8)));
+            const dest = board.find((t) => t !== st.fromTeam);
+            setSel((cur) => ({ ...cur, [st.playerId]: { from: st.fromTeam, to: dest ?? st.fromTeam } }));
+            setSignFor(null);
+          }}
+        />
+      )}
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
       {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
     </div>
@@ -888,6 +1073,7 @@ function TradeVerdict({
   onExecute,
   onShare,
   lg,
+  executeLabel,
 }: {
   verdict: ReturnType<typeof validateTrade>;
   extraViolations?: string[];
@@ -896,6 +1082,7 @@ function TradeVerdict({
   onExecute: () => void;
   onShare: () => void;
   lg: LG;
+  executeLabel?: string;
 }) {
   const legal = verdict.legal && extraViolations.length === 0;
   const firstReason = verdict.violations[0]?.reason ?? extraViolations[0];
@@ -984,7 +1171,7 @@ function TradeVerdict({
               className="rounded-md px-3.5 py-1.5 text-sm font-semibold text-white hover:brightness-95"
               style={{ background: color }}
             >
-              Execute trade
+              {executeLabel ?? "Execute trade"}
             </button>
           )}
         </div>
@@ -1051,6 +1238,7 @@ function TeamColumn({
   onPickDest,
   onSign,
   onExtend,
+  stagedSt,
 }: {
   teamId: string;
   board: string[];
@@ -1067,6 +1255,8 @@ function TeamColumn({
   onPickDest: (id: string, to: string) => void;
   onSign: (faId?: string, st?: boolean) => void;
   onExtend: (playerId: string, playerName: string) => void;
+  /** A staged sign-and-trade contract that belongs on THIS team's ledger. */
+  stagedSt?: Contract | null;
 }) {
   const meta = teamMeta(teamId);
   const committed = lg.teamSalary(teamId);
@@ -1079,7 +1269,13 @@ function TeamColumn({
     roomTeam: feedStateOf(teamId).roomTeam,
     consumed: consumedFor(lg.moves, teamId),
   });
-  const roster = lg.roster(teamId);
+  const baseRoster = lg.roster(teamId);
+  // The staged S&T player sits on his old team's books like anyone else —
+  // selectable, priced at the staged rate, wearing the S&T tag below.
+  const roster =
+    stagedSt && stagedSt.teamId === teamId && !baseRoster.some((c) => c.playerId === stagedSt.playerId)
+      ? [...baseRoster, stagedSt]
+      : baseRoster;
   const others = board.filter((t) => t !== teamId);
   const pre = summary?.preTradeSalary ?? committed;
   const post = summary?.postTradeSalary ?? pre;
@@ -1284,6 +1480,9 @@ function TeamColumn({
                     <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>NO-TRADE</span>
                   </Term>
                 )}
+                {stagedSt && c.playerId === stagedSt.playerId && (
+                  <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--accent-ink)", background: "color-mix(in srgb, var(--accent) 14%, transparent)" }} title="Staged sign-and-trade — re-signs at this rate and must be dealt away">S&T</span>
+                )}
               </button>
               <div className="flex shrink-0 items-center gap-2">
                 {out && others.length > 1 ? (
@@ -1423,7 +1622,7 @@ function TeamColumn({
 const isOwnKept = (fa: FreeAgent, team: string) =>
   fa.priorTeam === team && !fa.renounced;
 
-function SignDrawer({ team, initialId, initialSt, lg, onClose }: { team: string; initialId?: string; initialSt?: boolean; lg: LG; onClose: () => void }) {
+function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { team: string; initialId?: string; initialSt?: boolean; lg: LG; onClose: () => void; onStageSt: (st: StStage) => void }) {
   const committed = lg.teamSalary(team);
   const holds = lg.teamHolds(team);
   const fas = lg.freeAgents();
@@ -1518,6 +1717,7 @@ function SignDrawer({ team, initialId, initialSt, lg, onClose }: { team: string;
       {selected ? (
         <SignEditor
           initialSt={initialSt}
+          onStageSt={onStageSt}
           fa={selected}
           team={team}
           committed={committed}
@@ -1580,6 +1780,7 @@ function SignEditor({
   lg,
   onBack,
   onDone,
+  onStageSt,
   initialSt,
 }: {
   fa: FreeAgent;
@@ -1589,6 +1790,7 @@ function SignEditor({
   lg: LG;
   onBack: () => void;
   onDone: () => void;
+  onStageSt: (st: StStage) => void;
   /** Open straight into sign-and-trade mode (the holds-row S&T button). */
   initialSt?: boolean;
 }) {
@@ -1695,32 +1897,19 @@ function SignEditor({
   const rosterFull = rosterCount >= 21;
   const legalSign = v.legal && !exceedsHardCap && !rosterFull;
 
-  // Sign-and-trade — both directions. Inbound: the drawer team acquires
-  // another team's FA it can't sign outright. Outbound: the drawer team
-  // sign-and-trades ITS OWN free agent to a destination of Ben's choosing.
-  // Sender is always the FA's old team; the acquirer is the drawer team
-  // (inbound) or the picked destination (outbound).
+  // Sign-and-trade — staged onto the BOARD. The drawer only sets the
+  // re-sign terms; the deal itself (destination, return package, picks,
+  // extra teams) is built on the board like any trade, judged by the same
+  // docket with the S&T rules layered in.
   const [stMode, setStMode] = useState(!!initialSt);
   useEffect(() => {
     if (initialSt) setYears((y) => Math.max(3, y));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [stDest, setStDest] = useState<string | null>(null);
-  const [returnIds, setReturnIds] = useState<Set<string>>(new Set());
-  const [stPickIds, setStPickIds] = useState<Set<string>>(new Set());
-  const stAcquirer = isOwn ? stDest : team;
-  const canOfferSt = isOwn
-    ? fa.birdStatus === "bird" || fa.birdStatus === "early_bird"
-    : !v.legal && classifyTier(committed, C) !== "second_apron";
-  const acquirerRoster = stAcquirer ? lg.roster(stAcquirer) : [];
-  const acqCommitted = stAcquirer ? lg.teamSalary(stAcquirer) : 0;
-  const acqHolds = stAcquirer ? lg.teamHolds(stAcquirer) : 0;
-  const returnSalary = acquirerRoster
-    .filter((c) => returnIds.has(c.playerId))
-    .reduce((s, c) => s + currentSalary(c), 0);
+  const canOfferSt =
+    (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") && (isOwn || !v.legal);
   // The S&T salary is bounded by what the SENDER could re-sign him for with
-  // his actual rights (Bird/Early-Bird/Non-Bird max), not by the acquirer's
-  // exceptions — the re-sign leg happens on the old team's books.
+  // his actual rights — the re-sign leg happens on the old team's books.
   const sendCommitted = lg.teamSalary(fa.priorTeam);
   const sendHolds = Math.max(0, lg.teamHolds(fa.priorTeam) - (isOwnKept(fa, fa.priorTeam) ? fa.hold : 0));
   const stCeiling = Math.max(
@@ -1736,68 +1925,27 @@ function SignEditor({
     }).maxOffer,
   );
   // Base-year compensation (Art. VII §8(d)): an over-cap re-sign at a >20%
-  // raise makes him a base-year player — the sender's OUTGOING value for
-  // matching is only max(50% of the new salary, his prior salary).
+  // raise makes him a base-year player for the trade leg.
   const stByc =
     (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") &&
     salary > fa.lastSalary * 1.2 &&
     sendCommitted + salary > C.salaryCap;
-  const senderOutgoing = stByc ? Math.max(salary * 0.5, Math.min(salary, fa.lastSalary)) : salary;
-  // The FA's old team must salary-match the return package it takes back.
-  // Room args are holds-aware: kept holds consume below-cap absorption (the
-  // departing FA's own hold vanishes with the sign-and-trade itself).
-  const sendMatch = maxIncomingSalary(
-    senderOutgoing,
-    classifyTier(sendCommitted, C),
-    C.salaryCap - sendCommitted - sendHolds,
-    C,
-  );
-  const senderOk = returnSalary <= sendMatch.maxIncoming + 1;
-  // Taking back more than the (BYC-reduced) outgoing = expanded matching —
-  // the SENDER gets a first-apron hard cap too (restriction table row E).
-  const senderTakesExcess = senderOk && returnSalary > senderOutgoing + 1;
-  // Acquirer stays under the first-apron hard cap after sending the return out…
-  const acquirerSt = validateSignAndTrade(acqCommitted - returnSalary, salary, C, {
-    seasons: Math.max(3, years),
-    optionYears: 0,
-    firstSeasonFullyProtected: true,
-    beforeRegularSeason: true,
-    finishedPriorSeasonWithPriorTeam: true,
-    veteranFreeAgent: true,
-    signedUsing: fa.birdStatus === "early_bird" ? "early_bird" : "bird",
-  });
-  // …AND (CBA §8(e)(1)(vii)) must have Room for the new salary or match it with
-  // the outgoing return package — free absorption into an over-cap sheet is out.
-  const acquirerMatch = maxIncomingSalary(
-    returnSalary,
-    classifyTier(acqCommitted, C),
-    C.salaryCap - acqCommitted - acqHolds,
-    C,
-  );
-  const acquirerOk = salary <= acquirerMatch.maxIncoming + 1;
   const stSalaryOk = salary <= stCeiling + 1;
-  const stFullLegal = !!stAcquirer && acquirerSt.legal && senderOk && acquirerOk && stSalaryOk;
-  const acquirerPicks = stAcquirer ? lg.picksOf(stAcquirer) : [];
-  const toggleReturn = (id: string) =>
-    setReturnIds((s) => {
-      const n = new Set(s);
-      if (n.has(id)) n.delete(id);
-      else n.add(id);
-      return n;
+  const stageSt = () => {
+    if (!stSalaryOk) return;
+    onStageSt({
+      playerId: fa.playerId,
+      playerName: fa.playerName,
+      fromTeam: fa.priorTeam,
+      salary,
+      years: Math.max(3, years),
+      birdStatus: fa.birdStatus === "none" ? undefined : fa.birdStatus,
+      priorSalary: fa.lastSalary,
+      hold: fa.hold,
+      byc: stByc,
+      ceiling: stCeiling,
     });
-  const toggleStPick = (id: string) =>
-    setStPickIds((s) => {
-      const n = new Set(s);
-      if (n.has(id)) n.delete(id);
-      else n.add(id);
-      return n;
-    });
-  // Switching destinations resets the package — it belonged to the old one.
-  useEffect(() => {
-    setReturnIds(new Set());
-    setStPickIds(new Set());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stAcquirer]);
+  };
 
   const sign = () => {
     dispatchMove({
@@ -1828,27 +1976,6 @@ function SignEditor({
       // Art. XI §5(j): a matched RFA can't be traded for one year (and never
       // to the offering team).
       restrictionText: "matched offer sheet (not trade-eligible for one year)",
-    });
-    onDone();
-  };
-  const signTrade = () => {
-    if (!stFullLegal || !stAcquirer) return;
-    const stYears = Math.max(3, years); // S&T contracts must run 3+ seasons
-    dispatchMove({
-      kind: "sign_trade",
-      label: `S&T: ${fa.playerName} → ${stAcquirer} (${fmtM(salary)} × ${stYears}y${returnIds.size ? ` for ${returnIds.size}` : ""}${stPickIds.size ? ` +${stPickIds.size} pk` : ""})`,
-      playerId: fa.playerId,
-      playerName: fa.playerName,
-      toTeam: stAcquirer,
-      salary,
-      years: stYears,
-      fromTeam: fa.priorTeam,
-      returnPlayers: [...returnIds],
-      picks: [...stPickIds].map((id) => ({ id, from: stAcquirer, to: fa.priorTeam })),
-      birdStatus: fa.birdStatus === "none" ? undefined : fa.birdStatus,
-      priorSalary: fa.lastSalary,
-      byc: stByc,
-      senderHardCapped: senderTakesExcess,
     });
     onDone();
   };
@@ -2046,108 +2173,26 @@ function SignEditor({
         )}
       </div>
 
-      {/* Sign-and-trade builder */}
+      {/* Sign-and-trade: set the terms here, build the deal on the board */}
       {stMode && (
         <div className="mb-4 rounded-md border border-[var(--accent)] p-3 text-xs">
           <div className="mb-2 font-semibold text-[var(--accent)]">
-            Sign &amp; trade {isOwn ? `${fa.playerName} away` : `from ${teamMeta(fa.priorTeam).name}`}
+            Sign &amp; trade {fa.playerName} away
             <span className="ml-2 font-normal text-[var(--muted)]">({Math.max(3, years)}yr — S&amp;T contracts must run 3+ seasons)</span>
           </div>
-          {isOwn && (
-            <div className="mb-2 flex items-center gap-2">
-              <span className="text-[var(--muted)]">Destination</span>
-              <select
-                value={stDest ?? ""}
-                onChange={(e) => setStDest(e.target.value || null)}
-                className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-2 py-1 text-xs"
-              >
-                <option value="">Pick a team…</option>
-                {TEAM_IDS.filter((t) => t !== fa.priorTeam)
-                  .sort(byNickname)
-                  .map((t) => (
-                    <option key={t} value={t}>
-                      {teamMeta(t).name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-          )}
-          {salary > stCeiling + 1 && (
+          {!stSalaryOk && (
             <div className="mb-2 font-semibold text-[var(--tier-second_apron)]">
               {teamMeta(fa.priorTeam).name} can re-sign him for at most {fmtM(stCeiling)} with his {BIRD_LABEL[fa.birdStatus] ?? "Bird"} rights — lower the salary.
             </div>
           )}
           {stByc && (
             <div className="mb-2 text-[var(--tier-taxpayer)]">
-              Base-year comp (Art. VII §8(d)): over-cap re-sign at a &gt;20% raise — {teamMeta(fa.priorTeam).name}&rsquo;s outgoing value for matching is only {fmtM(senderOutgoing)}, not {fmtM(salary)}.
+              Base-year comp (Art. VII §8(d)): over-cap re-sign at a &gt;20% raise — his outgoing value for {teamMeta(fa.priorTeam).name}&rsquo;s matching will be {fmtM(Math.max(salary * 0.5, Math.min(salary, fa.lastSalary)))}, not {fmtM(salary)}.
             </div>
           )}
-          {stAcquirer ? (
-            <>
-              <div className="mb-2 text-[var(--muted)]">
-                Send {teamMeta(stAcquirer).name} players to {teamMeta(fa.priorTeam).name} to match (they can take back ≤ {fmtM(sendMatch.maxIncoming)}):
-              </div>
-              <div className="mb-2 max-h-40 space-y-1 overflow-y-auto">
-                {acquirerRoster
-                  .filter((c) => currentSalary(c) > 0 && !c.restriction)
-                  .map((c) => {
-                    const on = returnIds.has(c.playerId);
-                    return (
-                      <button
-                        key={c.playerId}
-                        onClick={() => toggleReturn(c.playerId)}
-                        className="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1 text-left"
-                        style={{ background: on ? "color-mix(in srgb, var(--accent) 20%, transparent)" : "var(--panel-2)" }}
-                      >
-                        <span className="truncate">{on ? "✓ " : ""}{c.playerName}</span>
-                        <span className="tabular text-[var(--muted)]">{fmtM(currentSalary(c))}</span>
-                      </button>
-                    );
-                  })}
-              </div>
-              {acquirerPicks.length > 0 && (
-                <div className="mb-2">
-                  <div className="mb-1 text-[var(--muted)]">Sweeten with {teamMeta(stAcquirer).name} picks (optional):</div>
-                  <div className="flex flex-wrap gap-1">
-                    {acquirerPicks.map((pk) => {
-                      const on = stPickIds.has(pk.id);
-                      return (
-                        <button
-                          key={pk.id}
-                          onClick={() => toggleStPick(pk.id)}
-                          className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
-                          style={{
-                            borderColor: on ? "var(--accent)" : "var(--border)",
-                            color: on ? "var(--accent-ink)" : "var(--muted)",
-                            background: on ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "transparent",
-                          }}
-                        >
-                          {on ? "✓ " : ""}{pk.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              <div className="flex justify-between border-t border-[var(--border)] pt-1">
-                <span className="text-[var(--muted)]">Return salary</span>
-                <span className="tabular font-semibold" style={{ color: senderOk ? "var(--text)" : "var(--tier-second_apron)" }}>{fmtM(returnSalary)}</span>
-              </div>
-              <div className="mt-1" style={{ color: stFullLegal ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
-                {stFullLegal
-                  ? `Legal sign-and-trade — ${teamMeta(stAcquirer).name} hard-capped at the first apron${senderTakesExcess ? `; ${teamMeta(fa.priorTeam).name} too (took back more than it sent, row E)` : ""}.`
-                  : !stSalaryOk
-                    ? `Salary exceeds the sender's re-sign max (${fmtM(stCeiling)}).`
-                    : !acquirerSt.legal
-                      ? acquirerSt.reason
-                      : !acquirerOk
-                        ? `${teamMeta(stAcquirer).name} can only take in ${fmtM(acquirerMatch.maxIncoming)} for ${fmtM(returnSalary)} out (${acquirerMatch.ruleLabel}) — add salary to the return package or open cap room.`
-                        : `${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(senderOutgoing)} out (max ${fmtM(sendMatch.maxIncoming)}).`}
-              </div>
-            </>
-          ) : (
-            <div className="text-[var(--muted)]">Pick a destination to build the return package.</div>
-          )}
+          <div className="text-[var(--muted)]">
+            Staging puts his new contract on {teamMeta(fa.priorTeam).name}&rsquo;s ledger at this rate and drops him onto the trade board with an S&amp;T tag. Build the deal there — any destination, return players, picks, extra teams — and the docket judges it as a sign-and-trade (acquirer hard-capped at the first apron, second-apron teams barred).
+          </div>
         </div>
       )}
 
@@ -2158,11 +2203,11 @@ function SignEditor({
               Cancel
             </button>
             <button
-              onClick={signTrade}
-              disabled={!stFullLegal}
+              onClick={stageSt}
+              disabled={!stSalaryOk}
               className="flex-1 rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-30"
             >
-              Execute S&amp;T{returnIds.size ? ` (${returnIds.size} back)` : ""}
+              Stage on the board →
             </button>
           </>
         ) : (
