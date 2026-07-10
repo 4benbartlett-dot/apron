@@ -204,7 +204,7 @@ function confettiEggRun() {
   wrap.style.width = `${r.width}px`;
   wrap.style.height = `${Math.min(r.height, 460) + 30}px`;
   wrap.style.setProperty("--fall", `${Math.min(r.height, 460)}px`);
-  const colors = ["#552583", "#fdb927", "#f4f1e9"];
+  const colors = ["color-mix(in srgb, #552583 72%, var(--text))", "#fdb927", "color-mix(in srgb, #f4f1e9 58%, var(--text))"];
   let pieces = "";
   for (let i = 0; i < 60; i++) {
     const left = (i * 61) % 100;
