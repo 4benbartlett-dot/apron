@@ -692,7 +692,7 @@ button:active { transform: translateY(0.5px); }
   height: 54px;
   transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(226, 205, 255, 0.75), rgba(139, 92, 246, 0.28) 55%, transparent 75%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, color-mix(in srgb, #e2cdff 78%, var(--text)) 80%, transparent), rgba(139, 92, 246, 0.34) 55%, transparent 75%);
   filter: blur(6px);
   opacity: 0;
   animation:
@@ -706,7 +706,7 @@ button:active { transform: translateY(0.5px); }
   height: 60px;
   transform: translateX(-50%) scale(0.3);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95), rgba(167, 122, 255, 0.5) 45%, transparent 72%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, color-mix(in srgb, #ffffff 82%, var(--text)) 95%, transparent), rgba(167, 122, 255, 0.5) 45%, transparent 72%);
   animation: b2-burst 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 /* motes drifting up inside the column */
@@ -1010,7 +1010,7 @@ button:active { transform: translateY(0.5px); }
 }
 .li-chalk .li-x i {
   border-radius: 50%;
-  background: color-mix(in srgb, var(--muted) 25%, rgba(255, 255, 255, 0.85));
+  background: color-mix(in srgb, var(--muted) 48%, rgba(255, 255, 255, 0.9));
   filter: blur(1.2px);
   left: 46%; bottom: -6%;
 }
@@ -1149,7 +1149,7 @@ button:active { transform: translateY(0.5px); }
   width: 55%; height: 16%;
   left: 80%; top: 10%;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--muted) 30%, rgba(255, 255, 255, 0.65));
+  background: color-mix(in srgb, var(--muted) 45%, rgba(255, 255, 255, 0.75));
   filter: blur(2px);
 }
 .li-summit:is(:hover, .li-play) .li-x b { animation: li-kf-cloud 2.6s ease-in-out both; }
@@ -1296,7 +1296,7 @@ button:active { transform: translateY(0.5px); }
   left: -36%;
   height: 8%; min-height: 2px; width: 40%;
   border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--li-b));
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--li-b) 80%, var(--text)));
 }
 .li-dash .li-x i:nth-child(2) { top: 34%; }
 .li-dash .li-x i:nth-child(3) { top: 60%; }
@@ -1451,7 +1451,8 @@ button:active { transform: translateY(0.5px); }
   top: -32%; left: 50%;
   width: 115%; height: 60%;
   transform: translateX(-50%);
-  color: var(--li-b);
+  color: color-mix(in srgb, var(--li-b) 70%, var(--text));
+  filter: drop-shadow(0 0 1px color-mix(in srgb, var(--text) 45%, transparent));
   filter: drop-shadow(0 0 1px color-mix(in srgb, var(--text) 45%, transparent));
 }
 .li-toss .li-svg path { stroke-dasharray: 62; stroke-dashoffset: 62; }
@@ -1869,7 +1870,7 @@ button:active { transform: translateY(0.5px); }
 .li-bob .li-x i {
   line-height: 1;
   font-weight: 700;
-  color: var(--li-b);
+  color: color-mix(in srgb, var(--li-b) 82%, var(--text));
   text-shadow: 0 0 5px color-mix(in srgb, var(--li-b) 60%, transparent);
 }
 .li-bob .li-x i:nth-child(1) { right: -14%; top: 4%; font-size: calc(var(--li-size) * 0.42); }
@@ -2056,6 +2057,9 @@ button:active { transform: translateY(0.5px); }
   position: absolute;
   top: -14px;
   border-radius: 1px;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 22%, transparent);
+  /* hairline theme-flipping ring: cream pieces vanish on paper, purple on night */
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 25%, transparent);
   /* hairline theme-flipping ring: cream pieces vanish on paper, purple on night */
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 25%, transparent);
   opacity: 0;
@@ -2100,6 +2104,7 @@ button:active { transform: translateY(0.5px); }
 /* SAS · The 101st Blow — hairline draws, pauses, splits, heals */
 .egg-crack { position: fixed; z-index: 60; pointer-events: none; }
 .ck-line {
+  stroke: color-mix(in srgb, var(--text) 78%, var(--bg));
   stroke: color-mix(in srgb, var(--text) 78%, var(--bg));
   stroke-dasharray: 1200;
   stroke-dashoffset: 1200;
@@ -2152,7 +2157,8 @@ button:active { transform: translateY(0.5px); }
   width: 50%;
   height: 17%;
   border-radius: 6px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, color-mix(in srgb, #fff 62%, var(--muted)) 85%, transparent), transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--text) 30%, transparent);
   box-shadow: 0 0 12px color-mix(in srgb, var(--text) 30%, transparent);
   filter: blur(4px);
   opacity: 0;
@@ -2370,7 +2376,7 @@ button:active { transform: translateY(0.5px); }
 }
 @media (prefers-color-scheme: dark) {
   .li-bridge::before,
-  .li-bridge::after { background: rgba(200, 205, 214, 0.55); }
+  .li-bridge::after { background: color-mix(in srgb, var(--muted) 42%, rgba(210, 213, 220, 0.6)); }
 }
 
 /* CLE — three more chalk puffs for the full cloud (i:6-8) */
@@ -2531,9 +2537,10 @@ button:active { transform: translateY(0.5px); }
   top: -4px;
   height: 7px;
   border-radius: 3px;
-  background: linear-gradient(90deg, transparent, rgba(247, 243, 234, 0.55) 22%, rgba(247, 243, 234, 0.75) 50%, rgba(247, 243, 234, 0.55) 78%, transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, color-mix(in srgb, #f7f3ea 68%, var(--muted)) 55%, transparent) 22%, color-mix(in srgb, color-mix(in srgb, #f7f3ea 68%, var(--muted)) 75%, transparent) 50%, color-mix(in srgb, color-mix(in srgb, #f7f3ea 68%, var(--muted)) 55%, transparent) 78%, transparent);
   filter: blur(2px);
   opacity: 0;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--text) 28%, transparent);
   box-shadow: 0 0 6px color-mix(in srgb, var(--text) 28%, transparent);
   animation: ct-residue-kf 2s 4s ease both;
 }
