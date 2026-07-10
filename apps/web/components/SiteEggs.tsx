@@ -14,7 +14,8 @@ export function leagueToast(stamp: string, text: string, tone: "green" | "red" |
   const safe = (t: string) => t.replace(/[<>&]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[ch]!);
   el.innerHTML = `<span class="stamp" style="color:${color}">${safe(stamp)}</span><span>${safe(text)}</span>`;
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 2900);
+  // Slips linger long enough to actually READ — ~5.6s with a slow exit.
+  setTimeout(() => el.remove(), 5700);
 }
 
 /** Type a name, get a reply — anywhere, including search boxes. Matched
