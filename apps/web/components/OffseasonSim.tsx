@@ -1678,47 +1678,85 @@ function SignEditor({
   const rosterFull = rosterCount >= 21;
   const legalSign = v.legal && !exceedsHardCap && !rosterFull;
 
-  // Sign-and-trade: offered for another team's FA the acquirer can't sign
-  // outright, as long as the acquirer isn't over the second apron.
-  const canOfferSt = !isOwn && !v.legal && classifyTier(committed, C) !== "second_apron";
+  // Sign-and-trade — both directions. Inbound: the drawer team acquires
+  // another team's FA it can't sign outright. Outbound: the drawer team
+  // sign-and-trades ITS OWN free agent to a destination of Ben's choosing.
+  // Sender is always the FA's old team; the acquirer is the drawer team
+  // (inbound) or the picked destination (outbound).
   const [stMode, setStMode] = useState(false);
+  const [stDest, setStDest] = useState<string | null>(null);
   const [returnIds, setReturnIds] = useState<Set<string>>(new Set());
-  const acquirerRoster = lg.roster(team);
+  const [stPickIds, setStPickIds] = useState<Set<string>>(new Set());
+  const stAcquirer = isOwn ? stDest : team;
+  const canOfferSt = isOwn
+    ? fa.birdStatus === "bird" || fa.birdStatus === "early_bird"
+    : !v.legal && classifyTier(committed, C) !== "second_apron";
+  const acquirerRoster = stAcquirer ? lg.roster(stAcquirer) : [];
+  const acqCommitted = stAcquirer ? lg.teamSalary(stAcquirer) : 0;
+  const acqHolds = stAcquirer ? lg.teamHolds(stAcquirer) : 0;
   const returnSalary = acquirerRoster
     .filter((c) => returnIds.has(c.playerId))
     .reduce((s, c) => s + currentSalary(c), 0);
+  // The S&T salary is bounded by what the SENDER could re-sign him for with
+  // his actual rights (Bird/Early-Bird/Non-Bird max), not by the acquirer's
+  // exceptions — the re-sign leg happens on the old team's books.
+  const sendCommitted = lg.teamSalary(fa.priorTeam);
+  const sendHolds = Math.max(0, lg.teamHolds(fa.priorTeam) - (isOwnKept(fa, fa.priorTeam) ? fa.hold : 0));
+  const stCeiling = Math.max(
+    floor,
+    validateSigning(sendCommitted + sendHolds, fa.lastSalary, C, {
+      isOwnFreeAgent: true,
+      yearsOfService: fa.yearsOfService,
+      priorSalary: fa.lastSalary,
+      birdStatus: fa.birdStatus,
+      apronSalary: sendCommitted,
+      roomTeam: feedStateOf(fa.priorTeam).roomTeam,
+      consumed: consumedFor(lg.moves, fa.priorTeam),
+    }).maxOffer,
+  );
+  // Base-year compensation (Art. VII §8(d)): an over-cap re-sign at a >20%
+  // raise makes him a base-year player — the sender's OUTGOING value for
+  // matching is only max(50% of the new salary, his prior salary).
+  const stByc =
+    (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") &&
+    salary > fa.lastSalary * 1.2 &&
+    sendCommitted + salary > C.salaryCap;
+  const senderOutgoing = stByc ? Math.max(salary * 0.5, Math.min(salary, fa.lastSalary)) : salary;
   // The FA's old team must salary-match the return package it takes back.
   // Room args are holds-aware: kept holds consume below-cap absorption (the
   // departing FA's own hold vanishes with the sign-and-trade itself).
-  const sendCommitted = lg.teamSalary(fa.priorTeam);
-  const sendHolds = Math.max(0, lg.teamHolds(fa.priorTeam) - (isOwnKept(fa, fa.priorTeam) ? fa.hold : 0));
   const sendMatch = maxIncomingSalary(
-    salary,
+    senderOutgoing,
     classifyTier(sendCommitted, C),
     C.salaryCap - sendCommitted - sendHolds,
     C,
   );
   const senderOk = returnSalary <= sendMatch.maxIncoming + 1;
+  // Taking back more than the (BYC-reduced) outgoing = expanded matching —
+  // the SENDER gets a first-apron hard cap too (restriction table row E).
+  const senderTakesExcess = senderOk && returnSalary > senderOutgoing + 1;
   // Acquirer stays under the first-apron hard cap after sending the return out…
-  const acquirerSt = validateSignAndTrade(committed - returnSalary, salary, C, {
+  const acquirerSt = validateSignAndTrade(acqCommitted - returnSalary, salary, C, {
     seasons: Math.max(3, years),
     optionYears: 0,
     firstSeasonFullyProtected: true,
     beforeRegularSeason: true,
     finishedPriorSeasonWithPriorTeam: true,
     veteranFreeAgent: true,
-    signedUsing: "bird",
+    signedUsing: fa.birdStatus === "early_bird" ? "early_bird" : "bird",
   });
   // …AND (CBA §8(e)(1)(vii)) must have Room for the new salary or match it with
   // the outgoing return package — free absorption into an over-cap sheet is out.
   const acquirerMatch = maxIncomingSalary(
     returnSalary,
-    classifyTier(committed, C),
-    C.salaryCap - committed - holds,
+    classifyTier(acqCommitted, C),
+    C.salaryCap - acqCommitted - acqHolds,
     C,
   );
   const acquirerOk = salary <= acquirerMatch.maxIncoming + 1;
-  const stFullLegal = acquirerSt.legal && senderOk && acquirerOk;
+  const stSalaryOk = salary <= stCeiling + 1;
+  const stFullLegal = !!stAcquirer && acquirerSt.legal && senderOk && acquirerOk && stSalaryOk;
+  const acquirerPicks = stAcquirer ? lg.picksOf(stAcquirer) : [];
   const toggleReturn = (id: string) =>
     setReturnIds((s) => {
       const n = new Set(s);
@@ -1726,6 +1764,19 @@ function SignEditor({
       else n.add(id);
       return n;
     });
+  const toggleStPick = (id: string) =>
+    setStPickIds((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
+      return n;
+    });
+  // Switching destinations resets the package — it belonged to the old one.
+  useEffect(() => {
+    setReturnIds(new Set());
+    setStPickIds(new Set());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stAcquirer]);
 
   const sign = () => {
     dispatchMove({
@@ -1760,18 +1811,23 @@ function SignEditor({
     onDone();
   };
   const signTrade = () => {
-    if (!stFullLegal) return;
+    if (!stFullLegal || !stAcquirer) return;
     const stYears = Math.max(3, years); // S&T contracts must run 3+ seasons
     dispatchMove({
       kind: "sign_trade",
-      label: `S&T: ${fa.playerName} → ${team} (${fmtM(salary)} × ${stYears}y${returnIds.size ? ` for ${returnIds.size}` : ""})`,
+      label: `S&T: ${fa.playerName} → ${stAcquirer} (${fmtM(salary)} × ${stYears}y${returnIds.size ? ` for ${returnIds.size}` : ""}${stPickIds.size ? ` +${stPickIds.size} pk` : ""})`,
       playerId: fa.playerId,
       playerName: fa.playerName,
-      toTeam: team,
+      toTeam: stAcquirer,
       salary,
       years: stYears,
       fromTeam: fa.priorTeam,
       returnPlayers: [...returnIds],
+      picks: [...stPickIds].map((id) => ({ id, from: stAcquirer, to: fa.priorTeam })),
+      birdStatus: fa.birdStatus === "none" ? undefined : fa.birdStatus,
+      priorSalary: fa.lastSalary,
+      byc: stByc,
+      senderHardCapped: senderTakesExcess,
     });
     onDone();
   };
@@ -1969,47 +2025,108 @@ function SignEditor({
         )}
       </div>
 
-      {/* Sign-and-trade return package */}
+      {/* Sign-and-trade builder */}
       {stMode && (
         <div className="mb-4 rounded-md border border-[var(--accent)] p-3 text-xs">
           <div className="mb-2 font-semibold text-[var(--accent)]">
-            Sign &amp; trade from {teamMeta(fa.priorTeam).name}
+            Sign &amp; trade {isOwn ? `${fa.playerName} away` : `from ${teamMeta(fa.priorTeam).name}`}
             <span className="ml-2 font-normal text-[var(--muted)]">({Math.max(3, years)}yr — S&amp;T contracts must run 3+ seasons)</span>
           </div>
-          <div className="mb-2 text-[var(--muted)]">
-            Send {teamMeta(team).name} players to {teamMeta(fa.priorTeam).name} to match {fmtM(salary)} (they can take back ≤ {fmtM(sendMatch.maxIncoming)}):
-          </div>
-          <div className="mb-2 max-h-40 space-y-1 overflow-y-auto">
-            {acquirerRoster
-              .filter((c) => currentSalary(c) > 0 && !c.restriction)
-              .map((c) => {
-                const on = returnIds.has(c.playerId);
-                return (
-                  <button
-                    key={c.playerId}
-                    onClick={() => toggleReturn(c.playerId)}
-                    className="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1 text-left"
-                    style={{ background: on ? "color-mix(in srgb, var(--accent) 20%, transparent)" : "var(--panel-2)" }}
-                  >
-                    <span className="truncate">{on ? "✓ " : ""}{c.playerName}</span>
-                    <span className="tabular text-[var(--muted)]">{fmtM(currentSalary(c))}</span>
-                  </button>
-                );
-              })}
-          </div>
-          <div className="flex justify-between border-t border-[var(--border)] pt-1">
-            <span className="text-[var(--muted)]">Return salary</span>
-            <span className="tabular font-semibold" style={{ color: senderOk ? "var(--text)" : "var(--tier-second_apron)" }}>{fmtM(returnSalary)}</span>
-          </div>
-          <div className="mt-1" style={{ color: stFullLegal ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
-            {stFullLegal
-              ? "Legal sign-and-trade — acquirer hard-capped at the first apron."
-              : !acquirerSt.legal
-                ? acquirerSt.reason
-                : !acquirerOk
-                  ? `${teamMeta(team).name} can only take in ${fmtM(acquirerMatch.maxIncoming)} for ${fmtM(returnSalary)} out (${acquirerMatch.ruleLabel}) — add salary to the return package or open cap room.`
-                  : `${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(salary)} (max ${fmtM(sendMatch.maxIncoming)}).`}
-          </div>
+          {isOwn && (
+            <div className="mb-2 flex items-center gap-2">
+              <span className="text-[var(--muted)]">Destination</span>
+              <select
+                value={stDest ?? ""}
+                onChange={(e) => setStDest(e.target.value || null)}
+                className="rounded-md border border-[var(--border-strong)] bg-[var(--panel)] px-2 py-1 text-xs"
+              >
+                <option value="">Pick a team…</option>
+                {TEAM_IDS.filter((t) => t !== fa.priorTeam)
+                  .sort(byNickname)
+                  .map((t) => (
+                    <option key={t} value={t}>
+                      {teamMeta(t).name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          )}
+          {salary > stCeiling + 1 && (
+            <div className="mb-2 font-semibold text-[var(--tier-second_apron)]">
+              {teamMeta(fa.priorTeam).name} can re-sign him for at most {fmtM(stCeiling)} with his {BIRD_LABEL[fa.birdStatus] ?? "Bird"} rights — lower the salary.
+            </div>
+          )}
+          {stByc && (
+            <div className="mb-2 text-[var(--tier-taxpayer)]">
+              Base-year comp (Art. VII §8(d)): over-cap re-sign at a &gt;20% raise — {teamMeta(fa.priorTeam).name}&rsquo;s outgoing value for matching is only {fmtM(senderOutgoing)}, not {fmtM(salary)}.
+            </div>
+          )}
+          {stAcquirer ? (
+            <>
+              <div className="mb-2 text-[var(--muted)]">
+                Send {teamMeta(stAcquirer).name} players to {teamMeta(fa.priorTeam).name} to match (they can take back ≤ {fmtM(sendMatch.maxIncoming)}):
+              </div>
+              <div className="mb-2 max-h-40 space-y-1 overflow-y-auto">
+                {acquirerRoster
+                  .filter((c) => currentSalary(c) > 0 && !c.restriction)
+                  .map((c) => {
+                    const on = returnIds.has(c.playerId);
+                    return (
+                      <button
+                        key={c.playerId}
+                        onClick={() => toggleReturn(c.playerId)}
+                        className="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1 text-left"
+                        style={{ background: on ? "color-mix(in srgb, var(--accent) 20%, transparent)" : "var(--panel-2)" }}
+                      >
+                        <span className="truncate">{on ? "✓ " : ""}{c.playerName}</span>
+                        <span className="tabular text-[var(--muted)]">{fmtM(currentSalary(c))}</span>
+                      </button>
+                    );
+                  })}
+              </div>
+              {acquirerPicks.length > 0 && (
+                <div className="mb-2">
+                  <div className="mb-1 text-[var(--muted)]">Sweeten with {teamMeta(stAcquirer).name} picks (optional):</div>
+                  <div className="flex flex-wrap gap-1">
+                    {acquirerPicks.map((pk) => {
+                      const on = stPickIds.has(pk.id);
+                      return (
+                        <button
+                          key={pk.id}
+                          onClick={() => toggleStPick(pk.id)}
+                          className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
+                          style={{
+                            borderColor: on ? "var(--accent)" : "var(--border)",
+                            color: on ? "var(--accent-ink)" : "var(--muted)",
+                            background: on ? "color-mix(in srgb, var(--accent) 12%, transparent)" : "transparent",
+                          }}
+                        >
+                          {on ? "✓ " : ""}{pk.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              <div className="flex justify-between border-t border-[var(--border)] pt-1">
+                <span className="text-[var(--muted)]">Return salary</span>
+                <span className="tabular font-semibold" style={{ color: senderOk ? "var(--text)" : "var(--tier-second_apron)" }}>{fmtM(returnSalary)}</span>
+              </div>
+              <div className="mt-1" style={{ color: stFullLegal ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}>
+                {stFullLegal
+                  ? `Legal sign-and-trade — ${teamMeta(stAcquirer).name} hard-capped at the first apron${senderTakesExcess ? `; ${teamMeta(fa.priorTeam).name} too (took back more than it sent, row E)` : ""}.`
+                  : !stSalaryOk
+                    ? `Salary exceeds the sender's re-sign max (${fmtM(stCeiling)}).`
+                    : !acquirerSt.legal
+                      ? acquirerSt.reason
+                      : !acquirerOk
+                        ? `${teamMeta(stAcquirer).name} can only take in ${fmtM(acquirerMatch.maxIncoming)} for ${fmtM(returnSalary)} out (${acquirerMatch.ruleLabel}) — add salary to the return package or open cap room.`
+                        : `${teamMeta(fa.priorTeam).name} can't take back ${fmtM(returnSalary)} for ${fmtM(senderOutgoing)} out (max ${fmtM(sendMatch.maxIncoming)}).`}
+              </div>
+            </>
+          ) : (
+            <div className="text-[var(--muted)]">Pick a destination to build the return package.</div>
+          )}
         </div>
       )}
 
@@ -2048,7 +2165,7 @@ function SignEditor({
             )}
             {canOfferSt && (
               <button onClick={() => { setStMode(true); setYears((y) => Math.max(3, y)); }} className="rounded-md border border-[var(--accent)] px-3 py-2.5 text-sm font-bold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white">
-                Sign &amp; Trade
+                {isOwn ? "Sign & trade away" : "Sign & Trade"}
               </button>
             )}
           </>

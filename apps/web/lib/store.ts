@@ -216,7 +216,7 @@ export function useLeague() {
     // inventory (and leaves the origin's). Swaps/conditionals are excluded.
     for (const ap of ACQUIRED_PICKS) if (pickOwner.has(ap.id)) pickOwner.set(ap.id, ap.team);
     for (const m of moveList) {
-      if (m.kind === "trade" && m.picks) {
+      if ((m.kind === "trade" || m.kind === "sign_trade") && m.picks) {
         for (const p of m.picks) if (pickOwner.has(p.id)) pickOwner.set(p.id, p.to);
       }
     }
