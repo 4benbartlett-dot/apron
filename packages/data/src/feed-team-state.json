@@ -74,17 +74,17 @@
    "hardCapSource": "De'Anthony Melton BAE"
   },
   "HOU": {
-   "consumedNtmle": 6368000,
-   "inWorldHardCap": "first_apron",
+   "consumedTpmle": 6064000,
+   "inWorldHardCap": "second_apron",
    "confidence": "high",
-   "rationale": "Tari Eason 5yr/$81.5M (y1 14,818,182, prior HOU, RFA off HOU qualifying offer) \u2014 own re-sign, Bird, consumes nothing. Marcus Smart 2yr/$13,054,400 (y1 = 6,368,000 exactly, prior LAL \u2014 declined $5.39M PO) \u2014 outside deal above TP-MLE ($6,064,000) and BAE ($5,477,000) but under NT-MLE \u21d2 partial NT-MLE for $6,368,000 \u21d2 hard-capped at first apron. Bogdan Bogdanovic 1yr $3,876,529 (y1 = min scale top exactly, prior LAC \u2014 option declined) \u2014 minimum exception, consumes nothing. Not near Room MLE; aggregate fits comfortably in one NT-MLE \u21d2 no under-cap inference.",
-   "hardCapSource": "Marcus Smart NT-MLE (partial)"
+   "rationale": "Tari Eason 5yr/$81.5M (y1 14,818,182, prior HOU, RFA off HOU qualifying offer) \u2014 own re-sign, Bird, consumes nothing. Marcus Smart 2yr with a year-2 player option (prior LAL \u2014 declined $5.39M PO): Hoops Rumors (Jul 1) is explicit \u2014 Houston wanted three years but that \u201cwould need \u2026 the non-taxpayer mid-level exception \u2026 a hard cap at the first tax apron,\u201d so the team \u201cis instead poised to add Smart using the taxpayer mid-level exception, resulting in a second-apron hard cap instead,\u201d and \u201ca two-year taxpayer MLE deal technically caps out at about $12.43MM\u201d vs Charania\u2019s rounded $13MM. Booked at the FULL TP-MLE: y1 = 6,064,000 exactly, y2 (PO) = 6,367,200, total $12,431,200 \u2014 the earlier 6,368,000/$13,054,400 was the same source-estimate rounding as Kennard\u2019s (PHX). TP-MLE use \u21d2 hard-capped at the SECOND apron, not the first. Bogdan Bogdanovic 1yr $3,876,529 (y1 = min scale top exactly, prior LAC \u2014 option declined) \u2014 minimum exception, consumes nothing. Not near Room MLE; no under-cap inference.",
+   "hardCapSource": "Marcus Smart Taxpayer MLE (full)"
   },
   "IND": {
-   "consumedNtmle": 8292683,
+   "consumedNtmle": 8048780,
    "inWorldHardCap": "first_apron",
    "confidence": "high",
-   "rationale": "Kelly Oubre Jr. 2yr/$17M (y1 = 8,292,683, prior PHI) \u2014 outside deal; above TP-MLE, not within \u00b1$60k of Room MLE ($9,366,000, off by ~$1.07M), fits under NT-MLE \u21d2 partial NT-MLE \u21d2 hard-capped at first apron. Only feed signing for IND; single deal well within one NT-MLE, no under-cap evidence.",
+   "rationale": "Kelly Oubre Jr. 2yr/$16.5M OFFICIAL (Spotrac; y1 = 8,048,780 with the standard 5% raise \u2014 the \u201c$17M\u201d headline was rounded; prior PHI) \u2014 outside deal; above TP-MLE, not within \u00b1$60k of Room MLE ($9,366,000), fits under NT-MLE \u21d2 partial NT-MLE \u21d2 hard-capped at first apron. Hoops Rumors (Jul 1) confirms both the mechanism (\u201ca portion of their non-taxpayer mid-level exception\u201d) and the cap state (\u201cjust $1.6MM below a first-apron hard cap with 14 players under contract\u201d \u2014 our reconciled sheet shows the same 14 players $1.60M below). Jul 8: Micah Potter\u2019s non-guaranteed $2.8M was waived to ZERO dead money (Hoops Rumors), and Larry Nance Jr.\u2019s agreed vet-min is held as PENDING \u2014 the ~$2.45M charge would sit ~$0.85M over this very hard cap on our sheet and his guarantee structure is unresolved (see roster-corrections-2026.json pendingSignings).",
    "hardCapSource": "Kelly Oubre Jr. NT-MLE (partial)"
   },
   "LAC": {
@@ -150,11 +150,11 @@
    "hardCapSource": "Wade + Simons NT-MLE (split)"
   },
   "PHX": {
-   "consumedNtmle": 6368000,
-   "inWorldHardCap": "first_apron",
+   "consumedTpmle": 6064000,
+   "inWorldHardCap": "second_apron",
    "confidence": "high",
-   "rationale": "Collin Gillespie 4/48M y1 11,162,791, Mark Williams 3/38M y1 12,063,492 (RFA, QO tendered), Jordan Goodwin 3/19M y1 6,031,746 \u2014 all prior team PHX, own re-signs via Bird rights, consume nothing (and confirm PHX operated over the cap). Luke Kennard 2/13.0544M y1 exactly 6,368,000 with a clean 5% raise (prior LAL, outside deal): above TP-MLE (6,064,000) and BAE (5,477,000), not Room-MLE-shaped, fits only as a partial NT-MLE use \u2014 hard cap at the first apron. Pat Spencer is a Two-Way (skipped). No room usage, so Coffey/Brea/Livers holds untouched.",
-   "hardCapSource": "Luke Kennard NT-MLE (partial)"
+   "rationale": "Collin Gillespie 4/48M y1 11,162,791, Mark Williams 3/38M y1 12,063,492 (RFA, QO tendered), Jordan Goodwin 3/19M y1 6,031,746 \u2014 all prior team PHX, own re-signs via Bird rights, consume nothing (and confirm PHX operated over the cap). Luke Kennard 2yr with a year-2 player option (prior LAL, outside deal): PHX sat OVER the first apron before this deal (~$209.5M on our sheet), so even $1 of NT-MLE was illegal \u2014 Gozlan (Jun 30): \u201ctwo years, $12.4 million with the taxpayer mid-level exception\u2026 they can give him this with the non-tax mid-level if they get under the first apron,\u201d which they never did. Booked at the FULL TP-MLE: y1 = 6,064,000 exactly, y2 (PO) = 6,367,200, total $12,431,200 \u2014 the \u201c$13M\u201d headline and the earlier 6,368,000/$13,054,400 estimate were the source rounding hot. TP-MLE use \u21d2 hard-capped at the SECOND apron, not the first. Pat Spencer is a Two-Way (skipped). No room usage, so Coffey/Brea/Livers holds untouched.",
+   "hardCapSource": "Luke Kennard Taxpayer MLE (full)"
   },
   "POR": {
    "confidence": "high",
@@ -189,7 +189,7 @@
    "inWorldHardCap": "first_apron",
    "hardCapSource": "Khris Middleton sign-and-trade",
    "confidence": "high",
-   "rationale": "Trae Young 4yr/$212,799,690 (y1 = 49,488,300): prior team WAS per contracts-2025-26 ($46.39M) and he declined a $48.97M WAS player option on Jun 17 -> own Bird (max) re-sign, consumes nothing at any amount. Jamir Watkins signed a two-way (skipped despite the $678,882 feed row). Deandre Ayton arrived by trade for Jaden Hardy (not a signing; no S&T marker). WAS committed = $190.4M (over cap). Jul 8 2026: acquired Khris Middleton (3yr/$17.61M, signed by DAL) via the 6-team sign-and-trade, sending out D'Angelo Russell + 2nd-round picks — WAS is the sign-and-trade ACQUIRER, so it is hard-capped at the first apron ($209.015M) for the season (Art. VII). That is the only new cap consequence."
+   "rationale": "Trae Young 4yr/$212,799,690 (y1 = 49,488,300): prior team WAS per contracts-2025-26 ($46.39M) and he declined a $48.97M WAS player option on Jun 17 -> own Bird (max) re-sign, consumes nothing at any amount. Jamir Watkins signed a two-way (skipped despite the $678,882 feed row). Deandre Ayton arrived by trade for Jaden Hardy (not a signing; no S&T marker). WAS committed = $190.4M (over cap). Jul 8 2026: acquired Khris Middleton (3yr/$17.61M, signed by DAL) via the 6-team sign-and-trade, sending out D'Angelo Russell + 2nd-round picks \u2014 WAS is the sign-and-trade ACQUIRER, so it is hard-capped at the first apron ($209.015M) for the season (Art. VII). That is the only new cap consequence."
   }
  }
 }
