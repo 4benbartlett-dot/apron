@@ -18,6 +18,44 @@ import type { Move } from "@/lib/league";
 const reducedMotion = () =>
   typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* ---- The league-office queue -------------------------------------------
+ * One move can set off several teams at once (a blockbuster that sends a star
+ * to one board card and a first-rounder to another). Rather than dogpile the
+ * screen, their reactions PLAY IN SEQUENCE — each gets its own moment, like
+ * the league office stamping one consequence, then the next. The first runs
+ * immediately; the rest wait their turn behind a short breath. A card that
+ * has since left the board just no-ops when its turn comes. */
+type QueuedEgg = { key: string; ms: number; run: () => void };
+let eggQueue: QueuedEgg[] = [];
+let eggDraining = false;
+const EGG_GAP = 480;
+const EGG_QUEUE_MAX = 4;
+
+function queueEgg(key: string, ms: number, run: () => void) {
+  // De-dupe within a batch; cap the parade so a wild multi-team deal can't
+  // hold the screen hostage (extra reactions are all good news — losing the
+  // 5th is fine).
+  if (eggQueue.some((e) => e.key === key) || eggQueue.length >= EGG_QUEUE_MAX) return;
+  eggQueue.push({ key, ms, run });
+  if (!eggDraining) drainEggQueue();
+}
+function drainEggQueue() {
+  const next = eggQueue.shift();
+  if (!next) {
+    eggDraining = false;
+    return;
+  }
+  eggDraining = true;
+  try {
+    next.run();
+  } catch {
+    /* a dead card / torn-down view just no-ops */
+  }
+  // Reduced motion collapses each egg to its toast — sequence those at a
+  // readable clip instead of waiting out an animation that never plays.
+  setTimeout(drainEggQueue, (reducedMotion() ? 2400 : next.ms) + EGG_GAP);
+}
+
 /** MIA — signing anyone to the MINIMUM is the most Miami transaction there is. */
 export function heatCultureEgg(teamId: string, mechanismId: string | undefined | null) {
   if (teamId !== "MIA" || mechanismId !== "minimum") return;
@@ -60,6 +98,9 @@ function shake(card: HTMLElement, cls: "egg-shudder" | "egg-rumble", ms: number)
  * a white flash, and the card shudders while the thunder rolls off. Instant
  * and violent where the beam is sustained and serene. */
 export function strikeEgg(firstCount: number) {
+  queueEgg("strike", 2000, () => strikeEggRun(firstCount));
+}
+function strikeEggRun(firstCount: number) {
   leagueToast("Filed", `That's ${firstCount} future first${firstCount === 1 ? "" : "s"}. Sam says thank you for calling.`);
   if (reducedMotion()) return;
   const card = cardOf("OKC");
@@ -93,6 +134,9 @@ export function strikeEgg(firstCount: number) {
  * real arena spotlight does — before finding and tightening on the player's
  * own roster row. The toast waits for the light to land. */
 export function introEgg(playerName: string) {
+  queueEgg("intro", 5200, () => introEggRun(playerName));
+}
+function introEggRun(playerName: string) {
   if (reducedMotion()) {
     leagueToast("And now…", `${playerName}. From parts elsewhere. Your newest Bull.`);
     return;
@@ -145,6 +189,9 @@ export function introEgg(playerName: string) {
  * gold confetti pours over the Lakers card only, and a small pennant rises
  * to the rafters (the card's top edge). */
 export function confettiEgg() {
+  queueEgg("confetti", 3400, () => confettiEggRun());
+}
+function confettiEggRun() {
   leagueToast("As foretold", "The Lakers always get their guy. It's in the CBA somewhere. (It isn't.)");
   if (reducedMotion()) return;
   const card = cardOf("LAL");
@@ -177,6 +224,9 @@ export function confettiEgg() {
  * crack draws across the card, pauses… then splits with a flash and dust
  * before healing. Persistence, rewarded — per the stonecutter. */
 export function rockCrackEgg() {
+  queueEgg("crack", 3000, () => rockCrackEggRun());
+}
+function rockCrackEggRun() {
   leagueToast("Pound the rock", "That was the hundred-and-first blow.");
   if (reducedMotion()) return;
   const card = cardOf("SAS");
@@ -214,6 +264,9 @@ export function rockCrackEgg() {
 /** BKN — Stand clear of the closing doors. Any Nets trade: a passing train —
  * low rumble through the card, twin headlights sweeping across it. */
 export function subwayEgg() {
+  queueEgg("subway", 2200, () => subwayEggRun());
+}
+function subwayEggRun() {
   leagueToast("Stand clear", "This is a Manhattan-bound B train. The next stop is: a rebuild.");
   if (reducedMotion()) return;
   const card = cardOf("BKN");
@@ -238,6 +291,9 @@ export function subwayEgg() {
  * around the dark, then drifting off on the arena draft and settling back
  * onto the ledger's bottom edge. */
 export function chalkTossEgg(playerName: string) {
+  queueEgg("chalk", 4600, () => chalkTossEggRun(playerName));
+}
+function chalkTossEggRun(playerName: string) {
   const stamp = "Ritual observed";
   const text = `${playerName}. The chalk goes up. The King is home.`;
   // leagueToast renders in the site toast layer (outside .egg-chalktoss), so
@@ -358,6 +414,9 @@ if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
  * room glowing faintly violet, then a power-down collapse. Only on
  * improvement, because that is the entire point of the beam. */
 export function lightTheBeam() {
+  queueEgg("beam", 3600, () => lightTheBeamRun());
+}
+function lightTheBeamRun() {
   leagueToast("Beam lit", "Victory-grade improvement detected in Sacramento.");
   if (reducedMotion()) return;
   const card = document.querySelector<HTMLElement>('[data-egg-team="SAC"]');

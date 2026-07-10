@@ -1660,6 +1660,9 @@ export type Move =
       fromTeam?: string;
       /** Players the acquirer sends back to fromTeam to match. */
       returnPlayers?: string[];
+      /** Every OTHER player moving in the same deal (board-built S&Ts can be
+       * full multi-team trades — these legs move exactly like a trade's). */
+      players?: { playerId: string; to: string }[];
       /** Draft picks the acquirer sends back with the return package. */
       picks?: { id: string; from?: string; to: string }[];
       /** The sender's rights used for the re-sign leg — drives raises (8%
@@ -1809,13 +1812,17 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
       // outgoing value in any further trade is max(50% of new salary, prior).
       bycPriorSalary: m.byc && m.priorSalary ? m.priorSalary : undefined,
     };
-    // Return package: players the acquirer sends back to the FA's old team.
+    // Return package + any other legs of the deal: everyone else moves the
+    // way a trade moves them (2-month aggregation freeze, BYC cleared).
     const ret = new Set(m.returnPlayers ?? []);
-    let out = contracts.map((c) =>
-      ret.has(c.playerId) && m.fromTeam
-        ? { ...c, teamId: m.fromTeam, noAggregate: true, bycPriorSalary: undefined }
-        : c,
-    );
+    const legs = new Map((m.players ?? []).map((p) => [p.playerId, p.to]));
+    let out = contracts.map((c) => {
+      if (ret.has(c.playerId) && m.fromTeam)
+        return { ...c, teamId: m.fromTeam, noAggregate: true, bycPriorSalary: undefined };
+      if (legs.has(c.playerId) && c.playerId !== m.playerId)
+        return { ...c, teamId: legs.get(c.playerId)!, noAggregate: true, bycPriorSalary: undefined };
+      return c;
+    });
     const i = out.findIndex((c) => c.playerId === m.playerId);
     if (i >= 0) {
       const c = out[i]!;
