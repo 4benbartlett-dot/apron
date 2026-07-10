@@ -190,11 +190,20 @@ export default function OffseasonSim() {
     }
   }, [board, ready]);
 
+  // Restoring a saved session (localStorage / a shared link) replays the
+  // whole move list through the store shortly after mount — the eggs must
+  // never mistake that for a fresh move, or every reload re-fires the last
+  // move's effect. Anything inside the boot window, or arriving as a
+  // multi-move jump, is hydration.
+  const eggBoot = useRef(Date.now());
+  const freshMove = (prev: number | null, n: number) =>
+    prev !== null && n === prev + 1 && Date.now() - eggBoot.current > 2500;
+
   // SAC easter egg: any move of yours that IMPROVES the Kings' projection
   // lights the beam off their board card. The baseline resets whenever SAC
   // joins the board, so only real gains fire it — undo never does.
   const sacOnBoard = board.includes("SAC");
-  const sacProj = useRef<{ wins: number; nrtg: number } | null>(null);
+  const sacProj = useRef<{ n: number; wins: number; nrtg: number } | null>(null);
   useEffect(() => {
     if (!sacOnBoard) {
       sacProj.current = null;
@@ -203,9 +212,9 @@ export default function OffseasonSim() {
     const p = teamProjection("SAC", lg.contracts);
     if (!p) return;
     const prev = sacProj.current;
-    sacProj.current = { wins: p.projWins, nrtg: p.projNrtg };
+    sacProj.current = { n: lg.moves.length, wins: p.projWins, nrtg: p.projNrtg };
     const last = lg.moves[lg.moves.length - 1];
-    if (!prev || !last || !moveTouches(last, "SAC")) return;
+    if (!prev || !freshMove(prev.n, lg.moves.length) || !last || !moveTouches(last, "SAC")) return;
     // A full projected win always beams; short of that, a clear net-rating
     // gain does too (small wins-conserving moves can round to +0).
     if (p.projWins > prev.wins || p.projNrtg > prev.nrtg + 0.1) lightTheBeam();
@@ -213,13 +222,13 @@ export default function OffseasonSim() {
   }, [lg.moves.length, sacOnBoard]);
 
   // Board showpieces: five team eggs fired by the move that just landed
-  // (never by undo — only when the ledger GROWS). One per move, by priority.
-  const prevMoveCount = useRef(0);
+  // (never by undo or session restore — only a single fresh addition).
+  const prevMoveCount = useRef<number | null>(null);
   useEffect(() => {
     const n = lg.moves.length;
-    const grew = n > prevMoveCount.current;
+    const prev = prevMoveCount.current;
     prevMoveCount.current = n;
-    if (!grew) return;
+    if (!freshMove(prev, n)) return;
     const mv = lg.moves[n - 1]!;
     const impactOf = (pid: string) => {
       const c = lg.contracts.find((x) => x.playerId === pid);
