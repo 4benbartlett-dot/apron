@@ -840,13 +840,18 @@ export function injuryOf(playerId: string): PlayerInjury | undefined {
  * player out for the year projects to zero and a mid-recovery star to a partial
  * one. No probabilistic "injury-prone" haircut — just role × real games.
  */
-function projectedMinutes(playerId: string, priorMp: number): number {
+function projectedMinutes(playerId: string, priorMp: number, fallbackAv = 0): number {
   const bio = PLAYER_BIO_2026[playerId];
   // A rookie has no bio playing-time row, so fall back to his projected
   // draft-slot minutes/game — otherwise he'd project to zero and never appear
   // in the rotation. He still competes for those minutes in allocateRotation.
   const rkMpg = PROJECTED_PLAYERS_2026[playerId]?.mpg;
-  const mpg = bio && bio.mpg && bio.mpg > 0 ? bio.mpg : rkMpg != null ? rkMpg : priorMp / Math.max(1, bio?.g ?? 60);
+  let mpg = bio && bio.mpg && bio.mpg > 0 ? bio.mpg : rkMpg != null ? rkMpg : priorMp / Math.max(1, bio?.g ?? 60);
+  // A veteran who sat out the entire prior season (no bio row, no measured
+  // minutes — the Kyrie/Lillard/Haliburton class) projects to zero here and
+  // silently vanishes from the rotation while wearing a starter-grade impact
+  // pill. Give him a role consistent with his adjusted value instead.
+  if (mpg <= 0 && fallbackAv >= 42) mpg = Math.min(36, 8 + (fallbackAv - 40) * 1.3);
   const inj = PLAYER_INJURIES_2026[playerId];
   const games = inj && inj.gamesOut >= 5 ? Math.max(0, 82 - inj.gamesOut) : HEALTHY_GAMES;
   return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * games));
@@ -912,6 +917,7 @@ export function allocateRotation(roster: Contract[]): Rotation {
     .filter((c) => currentSalary(c) > 0 && !c.deadMoney)
     .map((c) => {
       const e = impactEntry(c);
+      const av = adjustedAv(c);
       const elig = eligiblePositions(c.playerId);
       // How he actually split his minutes across those spots (play-by-play
       // shares), so a real combo guard plays some 1 and some 2 rather than being
@@ -922,10 +928,10 @@ export function allocateRotation(roster: Contract[]): Rotation {
       return {
         id: c.playerId,
         name: c.playerName,
-        pts: adjustedPts(c),
-        av: adjustedAv(c),
+        pts: (av - 50) * 0.268,
+        av,
         age: ageOf(c.playerId),
-        mp: projectedMinutes(c.playerId, e.mp ?? 0),
+        mp: projectedMinutes(c.playerId, e.mp ?? 0, av),
         elig,
         weights: shares.map((s) => s / shareSum),
       };
@@ -936,7 +942,7 @@ export function allocateRotation(roster: Contract[]): Rotation {
   const cap: Record<string, number> = {};
   const byPos: Record<string, RotationSlot[]> = {};
   for (const pos of ROTATION_POSITIONS) { cap[pos] = POS_MINUTES; byPos[pos] = []; }
-  const benched: { playerId: string; playerName: string; av: number }[] = [];
+  const lockedOut: (typeof players)[number][] = [];
   let weighted = 0;
 
   for (const p of players) {
@@ -977,12 +983,59 @@ export function allocateRotation(roster: Contract[]): Rotation {
       if (!bestPos || bestTake <= 0.5) break;
       put(bestPos, bestTake);
     }
-    if (!placed) benched.push({ playerId: p.id, playerName: p.name, av: p.av });
+    if (!placed) lockedOut.push(p);
   }
-  for (const pos of ROTATION_POSITIONS) byPos[pos]!.sort((a, b) => b.minutes - a.minutes);
+  // Fairness pass — nobody sits at zero while a strictly worse player holds
+  // minutes at a spot he can play. Locked-out players (best first) reclaim a
+  // rotation role from the lowest-value holders at their eligible spots; a
+  // holder squeezed to nothing takes the bench seat instead.
+  for (const b of lockedOut) {
+    let need = Math.min(b.mp, 30 * HEALTHY_GAMES);
+    while (need > 0.5) {
+      let victimPos: string | null = null;
+      let victim: RotationSlot | null = null;
+      for (const pos of b.elig) {
+        for (const s of byPos[pos] ?? []) {
+          if (s.playerId === b.id || s.pts + 0.05 >= b.pts || s.minutes <= 0.5) continue;
+          if (!victim || s.pts < victim.pts) {
+            victim = s;
+            victimPos = pos;
+          }
+        }
+      }
+      if (!victim || !victimPos) break;
+      const take = Math.min(need, victim.minutes);
+      victim.minutes -= take;
+      need -= take;
+      weighted += (b.pts - victim.pts) * take;
+      const existing = byPos[victimPos]!.find((s) => s.playerId === b.id);
+      if (existing) existing.minutes += take;
+      else
+        byPos[victimPos]!.push({
+          playerId: b.id,
+          playerName: b.name,
+          minutes: take,
+          pts: b.pts,
+          av: b.av,
+          age: b.age,
+          pos: victimPos,
+          secondary: victimPos !== b.elig[0],
+        });
+    }
+  }
+  for (const pos of ROTATION_POSITIONS) {
+    byPos[pos] = byPos[pos]!.filter((s) => s.minutes > 0.5);
+    byPos[pos]!.sort((a, b) => b.minutes - a.minutes);
+  }
+  // The bench is whoever ended up holding nothing anywhere.
+  const held = new Set<string>();
+  for (const pos of ROTATION_POSITIONS) for (const s of byPos[pos]!) held.add(s.playerId);
+  const benchedOut = players
+    .filter((p) => !held.has(p.id))
+    .map((p) => ({ playerId: p.id, playerName: p.name, av: p.av }));
   // Minutes-weighted average impact/100 over the full team budget; any spot left
   // unfilled counts as replacement-level (0), so positional holes drag the team.
-  return { byPos, benched, score: weighted / TEAM_MINUTES };
+  return { byPos, benched: benchedOut, score: weighted / TEAM_MINUTES };
 }
 
 /** The team's rotation "score" in impact points/100 — see {@link allocateRotation}. */
@@ -1607,6 +1660,18 @@ export type Move =
       fromTeam?: string;
       /** Players the acquirer sends back to fromTeam to match. */
       returnPlayers?: string[];
+      /** Draft picks the acquirer sends back with the return package. */
+      picks?: { id: string; from?: string; to: string }[];
+      /** The sender's rights used for the re-sign leg — drives raises (8%
+       * Bird/Early-Bird, 5% Non-Bird) and the engine's structure checks. */
+      birdStatus?: "bird" | "early_bird" | "non_bird";
+      /** Prior salary — recorded so base-year compensation can attach. */
+      priorSalary?: number;
+      /** Base-year comp applies (over-cap re-sign at a >20% raise). */
+      byc?: boolean;
+      /** The sender took back more than its (BYC-reduced) outgoing under
+       * expanded matching — first-apron hard cap on the sender (row E). */
+      senderHardCapped?: boolean;
     }
   | {
       // Give up a free agent's cap hold (and Bird rights) to free up room.
@@ -1723,12 +1788,14 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
   }
   if (m.kind === "sign_trade") {
     // A sign-and-trade contract must run at least 3 seasons (year 1 guaranteed).
-    // The re-sign leg uses Bird rights, so 8% raises.
+    // Raises follow the rights used on the re-sign leg: 8% Bird/Early-Bird,
+    // 5% Non-Bird.
     const n = Math.max(3, Math.min(m.years ?? 3, 4));
     const start = Number(YEAR.slice(0, 4));
+    const stRaise = m.birdStatus === "non_bird" ? 0.05 : 0.08;
     const yrs: ContractYear[] = Array.from({ length: n }, (_, k) => ({
       leagueYear: `${start + k}-${String((start + 1 + k) % 100).padStart(2, "0")}`,
-      salary: Math.round(m.salary * (1 + 0.08 * k)),
+      salary: Math.round(m.salary * (1 + stRaise * k)),
       guarantee: "full",
     }));
     const base = {
@@ -1738,6 +1805,9 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
       // restricted (can't be re-traded until Dec. 15), same as a plain signing.
       restriction: FA_RESTRICTION,
       signedUsing: "Sign-and-trade",
+      // An over-cap re-sign at a >20% raise makes him a base-year player: his
+      // outgoing value in any further trade is max(50% of new salary, prior).
+      bycPriorSalary: m.byc && m.priorSalary ? m.priorSalary : undefined,
     };
     // Return package: players the acquirer sends back to the FA's old team.
     const ret = new Set(m.returnPlayers ?? []);
@@ -1839,6 +1909,9 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
       else if (m.mechanism === "tpmle") capAt(m.teamId, C.secondApron);
     } else if (m.kind === "sign_trade") {
       if (m.toTeam) capAt(m.toTeam, C.firstApron);
+      // Row E for the SENDER: taking back more than its (BYC-reduced)
+      // outgoing means it used expanded matching — first-apron hard cap.
+      if (m.senderHardCapped && m.fromTeam) capAt(m.fromTeam, C.firstApron);
     } else if (m.kind === "trade") {
       const teamOf = new Map(cs.filter((c) => !c.deadMoney).map((c) => [c.playerId, c.teamId]));
       const players = m.players

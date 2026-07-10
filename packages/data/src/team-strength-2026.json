@@ -1,6 +1,6 @@
 {
-  "source": "apron-impact-model-hardened team_strength_2026",
-  "asOf": "2026-07-09",
+  "source": "apron-impact-model-hardened team_strength_2026 (rebaselined after rotation fairness + sat-out-veteran minutes fixes)",
+  "asOf": "2026-07-10",
   "calibration": {
     "intercept": -7.35,
     "rosterCoef": 3.353,
@@ -14,37 +14,37 @@
       "av": 62.7,
       "projNrtg": 12.7,
       "nrtg": 11.1,
-      "w": 67
+      "w": 65
     },
     "SAS": {
       "av": 59.9,
       "projNrtg": 5.7,
       "nrtg": 8.3,
-      "w": 53
+      "w": 52
     },
     "BOS": {
       "av": 59.4,
-      "projNrtg": 7.6,
+      "projNrtg": 7.7,
       "nrtg": 8.2,
-      "w": 57
+      "w": 55
     },
     "DET": {
       "av": 58.6,
       "projNrtg": 2.7,
       "nrtg": 8.2,
-      "w": 47
+      "w": 46
     },
     "NYK": {
       "av": 58.4,
       "projNrtg": 4.8,
       "nrtg": 6.5,
-      "w": 52
+      "w": 50
     },
     "HOU": {
       "av": 58.3,
-      "projNrtg": 4,
+      "projNrtg": 5.2,
       "nrtg": 5.4,
-      "w": 49
+      "w": 50
     },
     "MIN": {
       "av": 57.7,
@@ -56,43 +56,43 @@
       "av": 56.7,
       "projNrtg": 2.8,
       "nrtg": 4,
-      "w": 47
+      "w": 46
     },
     "CHA": {
       "av": 56.6,
       "projNrtg": 0.1,
       "nrtg": 5,
-      "w": 41
+      "w": 40
     },
     "DEN": {
       "av": 56.6,
       "projNrtg": 5,
       "nrtg": 5.2,
-      "w": 51
+      "w": 50
     },
     "LAC": {
       "av": 56.3,
       "projNrtg": -6,
       "nrtg": 1.1,
-      "w": 30
+      "w": 28
     },
     "ATL": {
       "av": 55.9,
       "projNrtg": 1,
       "nrtg": 2.4,
-      "w": 43
+      "w": 42
     },
     "TOR": {
       "av": 55.8,
       "projNrtg": 4.9,
       "nrtg": 2.6,
-      "w": 51
+      "w": 50
     },
     "MIA": {
       "av": 55.8,
       "projNrtg": 4.2,
       "nrtg": 2.2,
-      "w": 50
+      "w": 49
     },
     "PHX": {
       "av": 55.5,
@@ -104,13 +104,13 @@
       "av": 55.3,
       "projNrtg": 4.7,
       "nrtg": 1.7,
-      "w": 51
+      "w": 50
     },
     "GSW": {
       "av": 55.2,
       "projNrtg": 1,
       "nrtg": -0.6,
-      "w": 43
+      "w": 42
     },
     "ORL": {
       "av": 54.8,
@@ -122,61 +122,61 @@
       "av": 54,
       "projNrtg": 2.1,
       "nrtg": -0.2,
-      "w": 45
+      "w": 44
     },
     "POR": {
       "av": 53.9,
-      "projNrtg": -3.2,
+      "projNrtg": -1.2,
       "nrtg": -0.2,
-      "w": 34
+      "w": 38
     },
     "DAL": {
       "av": 51.3,
-      "projNrtg": -4.6,
+      "projNrtg": -3.2,
       "nrtg": -5.4,
-      "w": 32
+      "w": 34
     },
     "NOP": {
       "av": 51.3,
       "projNrtg": -6.1,
       "nrtg": -4.7,
-      "w": 29
+      "w": 28
     },
     "MEM": {
       "av": 51.2,
       "projNrtg": -1.9,
       "nrtg": -5.9,
-      "w": 36
+      "w": 37
     },
     "CHI": {
       "av": 50.6,
       "projNrtg": -5,
       "nrtg": -5.1,
-      "w": 27
+      "w": 30
     },
     "MIL": {
       "av": 50.5,
       "projNrtg": -4.5,
       "nrtg": -6.5,
-      "w": 30
+      "w": 31
     },
     "IND": {
       "av": 49.4,
-      "projNrtg": -4.3,
+      "projNrtg": -2.5,
       "nrtg": -8,
-      "w": 32
+      "w": 35
     },
     "SAC": {
       "av": 48.3,
       "projNrtg": -11.2,
       "nrtg": -10.1,
-      "w": 19
+      "w": 18
     },
     "UTA": {
       "av": 47.8,
       "projNrtg": -2.3,
       "nrtg": -8.2,
-      "w": 33
+      "w": 36
     },
     "BKN": {
       "av": 46.6,
@@ -188,7 +188,7 @@
       "av": 45.4,
       "projNrtg": -4.9,
       "nrtg": -11.8,
-      "w": 28
+      "w": 31
     }
   }
 }
