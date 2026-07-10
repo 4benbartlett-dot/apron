@@ -211,35 +211,10 @@ export function TeamLogo({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // No hover on this device? Play the scene once as the logo scrolls into
-  // view, staggered by screen position so a grid cascades instead of firing
-  // all thirty at once. (Scroll/resize check, not IntersectionObserver —
-  // some embedded webviews never deliver it. Tap still replays any time.)
-  useEffect(() => {
-    if (typeof matchMedia === "undefined" || !matchMedia("(hover: none)").matches) return;
-    const el = wrap.current;
-    if (!el) return;
-    let done = false;
-    const check = () => {
-      if (done) return;
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      if (!vh) return;
-      const r = el.getBoundingClientRect();
-      if (r.top >= vh - 24 || r.bottom <= 0) return;
-      done = true;
-      stop();
-      playOnce(120 + ((r.left * 5 + r.top) % 700), 2600);
-    };
-    const stop = () => {
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
-    };
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check, { passive: true });
-    check();
-    return stop;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // NOTE deliberately no scroll-into-view autoplay: thirty scenes cascading on
+  // a phone's first paint was laggy (Ben, on device). Scenes on mobile play at
+  // ARRIVAL moments instead — the team-page header flourish, a team joining
+  // the board (flourish prop), and the press-settle/tap gestures below.
 
   const img = (
     <img

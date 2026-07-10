@@ -199,6 +199,19 @@ export default function OffseasonSim() {
   const freshMove = (prev: number | null, n: number) =>
     prev !== null && n === prev + 1 && Date.now() - eggBoot.current > 2500;
 
+  // A team ARRIVING on the board gets a one-time logo flourish on its new
+  // card — the mobile-friendly replacement for ambient autoplay (a restored
+  // session inside the boot window stays quiet; scenes play on arrival).
+  const prevBoard = useRef<string[] | null>(null);
+  const [flourishTeam, setFlourishTeam] = useState<string | null>(null);
+  useEffect(() => {
+    const prev = prevBoard.current;
+    prevBoard.current = board;
+    if (!prev || Date.now() - eggBoot.current < 2500) return;
+    const added = board.find((t) => !prev.includes(t));
+    if (added) setFlourishTeam(added);
+  }, [board]);
+
   // SAC easter egg: any move of yours that IMPROVES the Kings' projection
   // lights the beam off their board card. The baseline resets whenever SAC
   // joins the board, so only real gains fire it — undo never does.
@@ -619,6 +632,7 @@ export default function OffseasonSim() {
             teamId={id}
             board={board}
             lg={lg}
+            flourish={flourishTeam === id}
             summary={byTeam.get(id)}
             sel={sel}
             onTogglePlayer={togglePlayer}
@@ -1012,6 +1026,7 @@ function TeamColumn({
   teamId,
   board,
   lg,
+  flourish = false,
   summary,
   sel,
   onTogglePlayer,
@@ -1026,6 +1041,8 @@ function TeamColumn({
   teamId: string;
   board: string[];
   lg: LG;
+  /** Play the logo scene once — set when this team just joined the board. */
+  flourish?: boolean;
   summary?: TeamTradeSummary;
   sel: Record<string, Sel>;
   onTogglePlayer: (id: string, from: string) => void;
@@ -1086,7 +1103,7 @@ function TeamColumn({
       {/* header */}
       <div className="flex items-start justify-between gap-2 px-4 pt-3.5">
         <div className="flex min-w-0 items-center gap-2.5">
-          <TeamLogo id={teamId} size={30} />
+          <TeamLogo id={teamId} size={30} flourish={flourish} />
           <div className="min-w-0">
             <div className="truncate text-[15px] font-semibold leading-tight">
               <Link href={`/team/${teamId}`} className="hover:underline decoration-[var(--border-strong)] underline-offset-2" title={`${meta.name} team page`}>
