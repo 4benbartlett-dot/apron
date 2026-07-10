@@ -38,30 +38,31 @@ interface Recipe {
 }
 
 const RECIPES: Record<string, Recipe> = {
-  // hawk banks into a turn, two feathers flutter down in its wake
-  ATL: { fx: "hawk", a: "#e03a3e", b: "#c1d32f", extra: { i: 2 } },
-  // a passing B train: twin headlight streaks behind the mark, low rumble
+  // the hawk DIVE-BOMBS — banks up, screams down through wind streaks, recovers
+  ATL: { fx: "hawk", a: "#e03a3e", b: "#c1d32f", extra: { i: 4 } },
+  // a killer crossover — left, right, snap back — while a B train passes behind
   BKN: { fx: "subway", a: "#4a4a4a", b: "#ffffff", extra: { i: 2 } },
-  // the leprechaun's two-step; pipe smoke curls off the upper corner
-  BOS: { fx: "jig", a: "#007a33", b: "#ba9653", extra: { i: 3 } },
+  // a proper céilí: high-kick jig, pipe smoke, and a burst from the pot of gold
+  BOS: { fx: "jig", a: "#007a33", b: "#ba9653", extra: { i: 7 } },
   // wing-buzz vibration while a lone hornet orbits the nest once
   CHA: { fx: "buzz", a: "#00788c", b: "#1d1160", extra: { i: 1 } },
   // steam snorts from the nostrils… then the charge
   CHI: { fx: "charge", a: "#ce1141", b: "#414042", extra: { i: 2 } },
-  // the chalk toss: a white cloud bursts under the C and hangs in the air
-  CLE: { fx: "chalk", a: "#860038", b: "#fdbb30", extra: { i: 5 } },
-  // the horse rears in kicked-up dust; one lone star winks after it settles
+  // the full pre-game ritual: dip, RISE, and a chalk cloud that hangs in the air
+  CLE: { fx: "chalk", a: "#860038", b: "#fdbb30", extra: { i: 8 } },
+  // the horse REARS then BUCKS, dust on both beats; the lone star flares after
   DAL: { fx: "rear", a: "#00538c", b: "#b8c4ca", extra: { i: 3, b: 1 } },
   // the pickaxe SWINGS — chips fly on impact, sunrise climbs, a cloud drifts
   DEN: { fx: "summit", a: "#0e2240", b: "#fec524", extra: { i: 4, b: 1 } },
-  // Motor City rev: torque twist with three exhaust puffs out the back
-  DET: { fx: "rev", a: "#c8102e", b: "#1d42ba", extra: { i: 3 } },
-  // a headlight crosses the ACTUAL bridge span — the moving light is clipped
-  // by the logo's own alpha, so it only exists on the bridge art
+  // Motor City: three escalating revs, then the BURNOUT — exhaust and skid marks
+  DET: { fx: "rev", a: "#c8102e", b: "#1d42ba", extra: { i: 5 } },
+  // Karl the Fog rolls through, the cables flex, and a headlight crosses the
+  // ACTUAL bridge span — the light is clipped by the logo's own alpha
   GSW: { fx: "bridge", a: "#1d428a", b: "#ffc72c", extra: { i: 1 } },
   // full launch: slow 8px climb on a burning cone, smoke drifting below
   HOU: { fx: "liftoff", a: "#ce1141", b: "#c4ced4", extra: { i: 3, b: 1 } },
-  // Brickyard: checkered flag waves at the line while speed lines trail
+  // Brickyard: crouch on the grid, LAUNCH off the right edge, lap back in from
+  // the left to take the checkered flag
   IND: { fx: "dash", a: "#002d62", b: "#fdbb30", extra: { i: 2, b: 1 } },
   // the over-caffeinated double bounce, sweat flying off both corners
   LAC: { fx: "ballmer", a: "#c8102e", b: "#1d428a", extra: { i: 4 } },
@@ -69,7 +70,7 @@ const RECIPES: Record<string, Recipe> = {
   LAL: { fx: "showtime", a: "#552583", b: "#fdb927", extra: { b: 2 } },
   // heavy growl-shake; grinder sparks spray off the bottom edge
   MEM: { fx: "grit", a: "#5d76a9", b: "#12173f", extra: { i: 5 } },
-  // the flame is ALIVE while hovered — gutter, glow, heat-haze rising
+  // the flame FLARES while hovered — heat haze rising, Vice-pink-and-blue sweep
   MIA: { fx: "gutter", a: "#98002e", b: "#f9a01b", extra: { i: 3 } },
   // antlers grow in behind the deer head, hold proud, fade
   MIL: { fx: "toss", a: "#00471b", b: "#eee1c6", extra: { svg: "antlers" } },
@@ -79,8 +80,8 @@ const RECIPES: Record<string, Recipe> = {
   NOP: { fx: "wing", a: "#0c2340", b: "#85714d", extra: { i: 6 } },
   // marquee bulbs chase around the ball, Broadway style, two laps
   NYK: { fx: "marquee", a: "#f58426", b: "#006bb6", extra: { i: 8 } },
-  // a bolt strikes from above — flash, clap, long rumble decay
-  OKC: { fx: "thunder", a: "#007ac1", b: "#ef3b24", extra: { svg: "bolt", b: 1 } },
+  // a full storm cell: rain sheets in, the bolt strikes, flash, long rumble
+  OKC: { fx: "thunder", a: "#007ac1", b: "#ef3b24", extra: { svg: "bolt", b: 1, i: 6 } },
   // Tinker Bell pass: a pixie streaks over the mark leaving settling dust
   ORL: { fx: "pixie", a: "#0077c0", b: "#c4ced4", extra: { i: 5 } },
   // the bell tolls: slow pendulum with ring-ripples off the crown
@@ -93,8 +94,8 @@ const RECIPES: Record<string, Recipe> = {
   SAC: { fx: "gleam", a: "#5a2d81", b: "#c0c4c8", extra: { b: 2 } },
   // the rowel spins at the heel — and the FIESTA streamers make an appearance
   SAS: { fx: "rowel", a: "#c4ced4", b: "#8a8d90", extra: { i: 6, text: ["✦", "", ""] } },
-  // three claw streaks rake THROUGH the art; a maple leaf flutters down after
-  TOR: { fx: "claw", a: "#ce1141", b: "#a1a1a4", extra: { i: 1 } },
+  // stomp… stomp… SLASH — three raking claw marks, then the maple leaf falls
+  TOR: { fx: "claw", a: "#ce1141", b: "#a1a1a4", extra: { i: 4 } },
   // a two-beat swing riff — three notes rise off the mark in rhythm
   UTA: { fx: "bob", a: "#002b5c", b: "#f9a01b", extra: { i: 3, text: ["♪", "♫", "♪"] } },
   // D.C. in April: cherry-blossom petals drift across the monument mark

@@ -873,8 +873,11 @@ button:active { transform: translateY(0.5px); }
 /* ============ ATL — the hawk banks; two feathers flutter down ============ */
 .li-hawk:is(:hover, .li-play) .li-img { animation: li-kf-hawk 1.7s cubic-bezier(0.34, 1.15, 0.5, 1) both; }
 @keyframes li-kf-hawk {
-  22% { transform: translateY(-4px) rotate(-10deg); }
-  55% { transform: translateY(1.5px) rotate(5deg); }
+  16% { transform: translate(-3px, -6px) rotate(-14deg); }
+  30% { transform: translate(2px, -7px) rotate(-6deg); }
+  48% { transform: translate(6px, 5px) rotate(24deg) scale(0.96); }
+  62% { transform: translate(2px, 6px) rotate(10deg); }
+  80% { transform: translate(-1px, -1px) rotate(-4deg); }
 }
 .li-hawk .li-x i {
   width: 16%; height: 8%; min-width: 5px; min-height: 2.5px;
@@ -895,13 +898,13 @@ button:active { transform: translateY(0.5px); }
 /* ============ BKN — a passing B train: headlights + rumble ============ */
 .li-subway:is(:hover, .li-play) .li-img { animation: li-kf-subway 1.6s ease-in-out both; }
 @keyframes li-kf-subway {
-  10% { transform: translateY(-22%) scale(0.98, 1.04); }
-  26% { transform: translateY(0) scale(1.12, 0.84); }
-  38% { transform: translateY(-12%) scale(0.99, 1.03); }
-  52% { transform: translateY(0) scale(1.08, 0.9); }
-  64% { transform: translateY(-5%); }
-  74% { transform: translateY(0) scale(1.04, 0.96); }
-  86% { transform: scale(0.99, 1.01); }
+  10% { transform: translate(-3px, -18%) rotate(-6deg) scale(0.98, 1.03); }
+  22% { transform: translate(-5px, 0) rotate(-3deg) scale(1.1, 0.86); }
+  36% { transform: translate(3px, -20%) rotate(7deg) scale(0.97, 1.04); }
+  48% { transform: translate(6px, 0) rotate(3deg) scale(1.1, 0.85); }
+  62% { transform: translate(-1px, -12%) rotate(-2deg); }
+  74% { transform: translate(0, 0) scale(1.05, 0.94); }
+  88% { transform: scale(0.99, 1.01); }
 }
 .li-subway .li-x i {
   z-index: 1;
@@ -925,11 +928,13 @@ button:active { transform: translateY(0.5px); }
 .li-jig:is(:hover, .li-play) .li-img { animation: li-kf-jig 2.2s ease-in-out both; }
 .li-jig { --li-shine-c: rgba(186, 150, 83, 0.95); }
 @keyframes li-kf-jig {
-  15% { transform: rotate(-7deg) translateY(-1.5px); }
-  32% { transform: rotate(6deg); }
-  50% { transform: rotate(-4deg) translateY(-1px); }
-  68% { transform: rotate(2.5deg); }
-  84% { transform: rotate(-1deg); }
+  12% { transform: rotate(-9deg) translateY(-3px) scale(0.98, 1.03); }
+  24% { transform: rotate(7deg) translateY(0) scale(1.04, 0.95); }
+  38% { transform: rotate(-8deg) translateY(-3.5px); }
+  50% { transform: rotate(6deg) translateY(0) scale(1.04, 0.95); }
+  64% { transform: rotate(-5deg) translateY(-2px); }
+  78% { transform: rotate(3deg); }
+  90% { transform: rotate(-1deg); }
 }
 .li-jig .li-x i {
   width: 15%; height: 15%; min-width: 4px; min-height: 4px;
@@ -997,8 +1002,11 @@ button:active { transform: translateY(0.5px); }
 .li-chalk:is(:hover, .li-play) .li-img { animation: li-kf-chalkrise 1.8s ease both; }
 .li-chalk { --li-shine-c: rgba(253, 187, 48, 0.95); }
 @keyframes li-kf-chalkrise {
-  30% { transform: translateY(-2.5px); }
-  60% { transform: translateY(-1px); }
+  14% { transform: translateY(2.5px) scale(0.96); }
+  26% { transform: translateY(2.5px) scale(0.96); }
+  42% { transform: translateY(-3.5px) scale(1.05); }
+  64% { transform: translateY(-3px) scale(1.04); }
+  84% { transform: translateY(-1px); }
 }
 .li-chalk .li-x i {
   border-radius: 50%;
@@ -1045,9 +1053,11 @@ button:active { transform: translateY(0.5px); }
 /* ============ DAL — the horse rears in dust; a lone star winks ============ */
 .li-rear:is(:hover, .li-play) .li-img { transform-origin: 50% 88%; animation: li-kf-rear 2s cubic-bezier(0.34, 1.25, 0.5, 1) both; }
 @keyframes li-kf-rear {
-  28% { transform: rotate(-12deg) translateY(-1.5px); }
-  55% { transform: rotate(3deg); }
-  75% { transform: rotate(-1deg); }
+  22% { transform: rotate(-14deg) translateY(-2px); }
+  40% { transform: rotate(-10deg) translateY(-1.5px); }
+  56% { transform: rotate(9deg) translateY(-3px) scale(1.03); }
+  68% { transform: rotate(6deg) translateY(-1px); }
+  84% { transform: rotate(-2deg); }
 }
 .li-rear .li-x i {
   width: 14%; height: 9%; min-width: 4px; min-height: 3px;
@@ -1076,9 +1086,10 @@ button:active { transform: translateY(0.5px); }
 }
 .li-rear:is(:hover, .li-play) .li-x b { animation: li-kf-lonestar 0.9s 1.15s ease both; }
 @keyframes li-kf-lonestar {
-  0% { opacity: 0; transform: scale(0.3) rotate(0deg); }
-  45% { opacity: 1; transform: scale(1.15) rotate(20deg); }
-  100% { opacity: 0; transform: scale(0.4) rotate(40deg); }
+  0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+  35% { opacity: 1; transform: scale(1.6) rotate(30deg); }
+  60% { opacity: 1; transform: scale(1.25) rotate(45deg); }
+  100% { opacity: 0; transform: scale(0.5) rotate(70deg); }
 }
 
 /* ============ DEN — sunrise up the peak; snow glints; a cloud drifts ============ */
@@ -1151,10 +1162,14 @@ button:active { transform: translateY(0.5px); }
 /* ============ DET — Motor City rev; exhaust out the back ============ */
 .li-rev:is(:hover, .li-play) .li-img { animation: li-kf-rev 1.9s cubic-bezier(0.34, 1.2, 0.5, 1) both; }
 @keyframes li-kf-rev {
-  14% { transform: rotate(-10deg) skewX(2deg); }
-  38% { transform: rotate(11deg); }
-  62% { transform: rotate(-5deg); }
-  82% { transform: rotate(2deg); }
+  8% { transform: rotate(-5deg); }
+  16% { transform: rotate(4deg); }
+  28% { transform: rotate(-9deg); }
+  38% { transform: rotate(8deg); }
+  50% { transform: rotate(-14deg) skewX(2deg); }
+  60% { transform: rotate(10deg); }
+  70% { transform: translateX(4px) skewX(-10deg) rotate(2deg); }
+  82% { transform: translateX(2px) skewX(-4deg); }
 }
 .li-rev .li-x i {
   width: 13%; height: 13%; min-width: 4px; min-height: 4px;
@@ -1252,9 +1267,13 @@ button:active { transform: translateY(0.5px); }
 /* ============ IND — the Brickyard: checkered flag at the line ============ */
 .li-dash:is(:hover, .li-play) .li-img { animation: li-kf-dash 1.7s ease both; }
 @keyframes li-kf-dash {
-  22% { transform: translateX(-1.5px); }
-  50% { transform: translateX(3.5px) skewX(-7deg); }
-  75% { transform: translateX(2px) skewX(-3deg); }
+  0%, 12% { transform: translateX(0) scale(1); opacity: 1; }
+  20% { transform: translateX(-2px) scale(1.04, 0.94); opacity: 1; }
+  38% { transform: translateX(calc(var(--li-size) * 1.3)) skewX(-12deg); opacity: 0; }
+  39% { transform: translateX(calc(var(--li-size) * -1.3)) skewX(-12deg); opacity: 0; }
+  58% { transform: translateX(calc(var(--li-size) * -0.5)) skewX(-8deg); opacity: 1; }
+  78% { transform: translateX(1px) skewX(-2deg); }
+  100% { transform: translateX(0); }
 }
 .li-dash .li-x b {
   width: 24%; height: 17%; min-width: 8px; min-height: 6px;
@@ -1389,12 +1408,16 @@ button:active { transform: translateY(0.5px); }
 
 /* ============ MIA — the flame is alive; heat-haze rises ============ */
 .li-gutter:is(:hover, .li-play) .li-img { animation: li-kf-gutter 1.3s ease-in-out infinite; }
-.li-gutter { --li-shine-c: rgba(249, 160, 27, 0.9); }
+.li-gutter .li-shine {
+  background: linear-gradient(115deg, transparent 28%, rgba(249, 67, 154, 0.9) 40%, rgba(255, 255, 255, 0.85) 47%, rgba(65, 226, 186, 0.9) 54%, transparent 66%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 140% 0;
+}
 @keyframes li-kf-gutter {
-  0%, 100% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.12) rgba(249, 160, 27, 0.55)) brightness(1); transform: rotate(0deg); }
-  30% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.2) rgba(249, 160, 27, 0.8)) brightness(1.14); transform: rotate(1.2deg); }
-  55% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.1) rgba(249, 160, 27, 0.45)) brightness(0.97); transform: rotate(-1deg); }
-  78% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.17) rgba(249, 160, 27, 0.7)) brightness(1.08); transform: rotate(0.6deg); }
+  0%, 100% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.12) rgba(249, 160, 27, 0.55)) brightness(1); transform: rotate(0deg) scale(1); }
+  28% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.28) rgba(249, 67, 154, 0.75)) brightness(1.24); transform: rotate(1.4deg) scale(1.06); }
+  52% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.1) rgba(249, 160, 27, 0.45)) brightness(0.96); transform: rotate(-1.2deg) scale(0.99); }
+  76% { filter: drop-shadow(0 0 calc(var(--li-size) * 0.22) rgba(65, 226, 186, 0.6)) brightness(1.14); transform: rotate(0.8deg) scale(1.03); }
 }
 .li-gutter .li-x i {
   width: 7%; height: 28%; min-width: 2px;
@@ -1801,15 +1824,21 @@ button:active { transform: translateY(0.5px); }
 }
 
 /* ============ TOR — the claw rakes through; a maple leaf falls ============ */
-.li-claw:is(:hover, .li-play) .li-img { animation: li-kf-claw 1.6s ease both; }
+.li-claw:is(:hover, .li-play) .li-img { animation: li-kf-claw 1.9s ease both; }
+.li-claw:is(:hover, .li-play) .li-shine { animation-delay: 0.8s; }
 .li-claw .li-shine {
   background: linear-gradient(115deg, transparent 30%, rgba(206, 17, 65, 0.9) 34%, transparent 38%, rgba(206, 17, 65, 0.9) 43%, transparent 47%, rgba(206, 17, 65, 0.9) 52%, transparent 56%) no-repeat;
   background-size: 260% 100%;
   background-position: 140% 0;
 }
 @keyframes li-kf-claw {
-  22% { transform: rotate(-5deg) translateX(1.5px); }
-  50% { transform: rotate(2deg); }
+  10% { transform: translateY(2px) scale(1.05, 0.93); }
+  16% { transform: translateY(0); }
+  28% { transform: translateY(2.5px) scale(1.06, 0.92); }
+  34% { transform: translateY(0); }
+  46% { transform: rotate(-7deg) translateX(2px); }
+  60% { transform: rotate(3deg); }
+  76% { transform: rotate(-1deg); }
 }
 .li-claw .li-x i {
   width: 22%; height: 22%; min-width: 7px; min-height: 7px;
@@ -2138,4 +2167,173 @@ button:active { transform: translateY(0.5px); }
   .egg-subway { display: none; }
   .egg-shudder,
   .egg-rumble { animation: none !important; }
+}
+
+/* ---------- Logo idles v3: fan-service props for the upgraded scenes ---------- */
+
+/* BOS — the pot of gold: four coins burst out under the jig (i:4-7) */
+.li-jig .li-x i:nth-child(n + 4) {
+  width: 13%; height: 13%; min-width: 4px; min-height: 4px;
+  border-radius: 50%;
+  left: 46%; bottom: -4%;
+  right: auto; top: auto;
+  filter: none;
+  background: radial-gradient(circle at 35% 32%, #ffe08a, #d4a017 68%, #9c7510);
+  box-shadow: 0 0 4px rgba(255, 224, 138, 0.8);
+}
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-coin1 1.1s 0.45s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(5) { animation: li-kf-coin2 1.1s 0.55s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(6) { animation: li-kf-coin3 1s 0.68s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(7) { animation: li-kf-coin4 1s 0.78s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
+@keyframes li-kf-coin1 {
+  0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
+  18% { opacity: 1; }
+  45% { transform: translate(calc(var(--li-size) * -0.32), calc(var(--li-size) * -0.42)) rotateY(360deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.44), calc(var(--li-size) * 0.25)) rotateY(540deg); }
+}
+@keyframes li-kf-coin2 {
+  0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
+  18% { opacity: 1; }
+  45% { transform: translate(calc(var(--li-size) * 0.34), calc(var(--li-size) * -0.5)) rotateY(360deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.48), calc(var(--li-size) * 0.22)) rotateY(540deg); }
+}
+@keyframes li-kf-coin3 {
+  0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
+  18% { opacity: 1; }
+  45% { transform: translate(calc(var(--li-size) * -0.12), calc(var(--li-size) * -0.6)) rotateY(300deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.16), calc(var(--li-size) * 0.2)) rotateY(480deg); }
+}
+@keyframes li-kf-coin4 {
+  0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
+  18% { opacity: 1; }
+  45% { transform: translate(calc(var(--li-size) * 0.16), calc(var(--li-size) * -0.34)) rotateY(300deg); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.24), calc(var(--li-size) * 0.26)) rotateY(480deg); }
+}
+
+/* ATL — wind streaks scream past during the dive (i:3-4) */
+.li-hawk .li-x i:nth-child(n + 3) {
+  width: 55%; height: 5%; min-height: 2px;
+  border-radius: 2px;
+  left: 60%; top: 20%;
+  background: linear-gradient(90deg, transparent, rgba(224, 58, 62, 0.65));
+}
+.li-hawk .li-x i:nth-child(4) { top: 38%; left: 70%; }
+.li-hawk:is(:hover, .li-play) .li-x i:nth-child(3) { animation: li-kf-wind 0.55s 0.55s ease-out both; }
+.li-hawk:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-wind 0.55s 0.68s ease-out both; }
+@keyframes li-kf-wind {
+  0% { opacity: 0; transform: translate(0, 0) rotate(38deg); }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.9), calc(var(--li-size) * -0.9)) rotate(38deg); }
+}
+
+/* TOR — three raking slash marks across the art (i:2-4; i:1 is the leaf) */
+.li-claw .li-x i:nth-child(n + 2) {
+  width: 120%; height: 6%; min-height: 2.5px;
+  left: -10%; top: 30%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent 4%, rgba(206, 17, 65, 0.95) 22%, rgba(255, 255, 255, 0.9) 50%, rgba(206, 17, 65, 0.95) 78%, transparent 96%);
+  transform: rotate(-24deg);
+  clip-path: none;
+}
+.li-claw .li-x i:nth-child(3) { top: 46%; }
+.li-claw .li-x i:nth-child(4) { top: 62%; }
+.li-claw:is(:hover, .li-play) .li-x i:nth-child(2) { animation: li-kf-slash 0.75s 0.82s ease-out both; }
+.li-claw:is(:hover, .li-play) .li-x i:nth-child(3) { animation: li-kf-slash 0.75s 0.9s ease-out both; }
+.li-claw:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-slash 0.75s 0.98s ease-out both; }
+@keyframes li-kf-slash {
+  0% { opacity: 0; transform: rotate(-24deg) translateX(calc(var(--li-size) * 0.5)) scaleX(0.2); }
+  16% { opacity: 1; transform: rotate(-24deg) translateX(0) scaleX(1); }
+  55% { opacity: 0.85; }
+  100% { opacity: 0; transform: rotate(-24deg) translateX(calc(var(--li-size) * -0.18)) scaleX(1); }
+}
+
+/* OKC — rain sheets in with the storm (i:1-6) */
+.li-thunder .li-x i {
+  width: 1.5px; height: 26%;
+  top: -30%;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(126, 200, 255, 0.75));
+}
+.li-thunder .li-x i:nth-child(1) { left: 8%; }
+.li-thunder .li-x i:nth-child(2) { left: 24%; }
+.li-thunder .li-x i:nth-child(3) { left: 42%; }
+.li-thunder .li-x i:nth-child(4) { left: 58%; }
+.li-thunder .li-x i:nth-child(5) { left: 74%; }
+.li-thunder .li-x i:nth-child(6) { left: 90%; }
+.li-thunder:is(:hover, .li-play) .li-x i { animation: li-kf-sheet 0.7s linear 2 both; }
+.li-thunder:is(:hover, .li-play) .li-x i:nth-child(2) { animation-delay: 0.12s; }
+.li-thunder:is(:hover, .li-play) .li-x i:nth-child(3) { animation-delay: 0.04s; }
+.li-thunder:is(:hover, .li-play) .li-x i:nth-child(4) { animation-delay: 0.18s; }
+.li-thunder:is(:hover, .li-play) .li-x i:nth-child(5) { animation-delay: 0.08s; }
+.li-thunder:is(:hover, .li-play) .li-x i:nth-child(6) { animation-delay: 0.22s; }
+@keyframes li-kf-sheet {
+  0% { opacity: 0; transform: translate(0, 0) rotate(8deg); }
+  20% { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.14), calc(var(--li-size) * 1.5)) rotate(8deg); }
+}
+
+/* DET — skid marks under the burnout (i:4-5; i:1-3 are exhaust) */
+.li-rev .li-x i:nth-child(n + 4) {
+  width: 34%; height: 6%; min-height: 2px;
+  left: 18%; bottom: -6%;
+  top: auto;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(60, 56, 48, 0.7) 40%, rgba(60, 56, 48, 0.35));
+  filter: none;
+}
+.li-rev .li-x i:nth-child(5) { left: 40%; bottom: -10%; }
+.li-rev:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-skid 0.9s 1.28s ease-out both; }
+.li-rev:is(:hover, .li-play) .li-x i:nth-child(5) { animation: li-kf-skid 0.9s 1.36s ease-out both; }
+@keyframes li-kf-skid {
+  0% { opacity: 0; transform: scaleX(0.2); transform-origin: left center; }
+  25% { opacity: 0.85; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(1); }
+}
+
+/* GSW — Karl the Fog rolls through (pseudo-elements: unmasked, so the fog
+   crosses the whole mark while the masked headlight stays on the bridge) */
+.li-bridge::before,
+.li-bridge::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(244, 241, 233, 0.75);
+  filter: blur(4px);
+  opacity: 0;
+}
+.li-bridge::before { width: 90%; height: 34%; left: -30%; top: 16%; }
+.li-bridge::after { width: 70%; height: 28%; left: 40%; top: 52%; }
+.li-bridge:is(:hover, .li-play)::before { animation: li-kf-fog1 2.4s ease-in-out both; }
+.li-bridge:is(:hover, .li-play)::after { animation: li-kf-fog2 2.4s 0.2s ease-in-out both; }
+@keyframes li-kf-fog1 {
+  0% { opacity: 0; transform: translateX(0); }
+  20% { opacity: 0.85; }
+  60% { opacity: 0.55; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * 1.1)); }
+}
+@keyframes li-kf-fog2 {
+  0% { opacity: 0; transform: translateX(0); }
+  22% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateX(calc(var(--li-size) * -0.95)); }
+}
+@media (prefers-color-scheme: dark) {
+  .li-bridge::before,
+  .li-bridge::after { background: rgba(200, 205, 214, 0.55); }
+}
+
+/* CLE — three more chalk puffs for the full cloud (i:6-8) */
+.li-chalk .li-x i:nth-child(6) { width: 10%; height: 10%; min-width: 3px; min-height: 3px; }
+.li-chalk .li-x i:nth-child(7) { width: 14%; height: 14%; min-width: 4px; min-height: 4px; }
+.li-chalk .li-x i:nth-child(8) { width: 8%; height: 8%; min-width: 3px; min-height: 3px; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(6) { animation: li-kf-chalk2 1.9s 0.42s ease-out both; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(7) { animation: li-kf-chalk3 1.9s 0.5s ease-out both; }
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(8) { animation: li-kf-chalk4 1.9s 0.58s ease-out both; }
+/* the cloud hangs longer for the full ritual */
+.li-chalk:is(:hover, .li-play) .li-x i:nth-child(-n + 5) { animation-duration: 1.9s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .li-bridge::before,
+  .li-bridge::after { animation: none !important; opacity: 0 !important; }
 }
