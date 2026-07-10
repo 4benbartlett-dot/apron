@@ -16,7 +16,7 @@ import {
   type MechanismId,
 } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
-import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg } from "@/components/teamEggs";
+import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg, chalkTossEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -260,6 +260,7 @@ export default function OffseasonSim() {
     };
     const chiStar = board.includes("CHI") ? arrival("CHI", 60) : undefined;
     const lalMax = board.includes("LAL") ? arrival("LAL", 0, 0.28 * C.salaryCap) : undefined;
+    const cleStar = board.includes("CLE") ? arrival("CLE", 60) : undefined;
     if (chiStar) {
       introEgg(lg.playerName(chiStar));
     } else if (lalMax && mv.kind === "trade") {
@@ -270,6 +271,8 @@ export default function OffseasonSim() {
       (mv.picks ?? []).some((p) => p.to === "OKC" && p.id.endsWith("|1"))
     ) {
       strikeEgg(lg.picksOf("OKC").filter((p) => p.round === 1).length);
+    } else if (cleStar) {
+      chalkTossEgg(lg.playerName(cleStar));
     } else if (board.includes("SAS") && moveTouches(mv, "SAS") && lg.moves.filter((m) => moveTouches(m, "SAS")).length === 5) {
       rockCrackEgg();
     } else if (

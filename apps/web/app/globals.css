@@ -2337,3 +2337,162 @@ button:active { transform: translateY(0.5px); }
   .li-bridge::before,
   .li-bridge::after { animation: none !important; opacity: 0 !important; }
 }
+
+
+/* ---------- Board eggs: CLE · The Chalk Toss ---------- */
+
+/* CLE · The Chalk Toss — the lights dip, a beat of stillness, then the chalk
+   goes UP from the card's bottom edge: three blooming puffs and a fan of fine
+   matte grains decelerating into a hang at the apex while flashbulbs pop in
+   the dark, then drifting off on the arena draft and settling back onto the
+   ledger. Runtime contract: JS sets, inline, the origin (wrapper left/top),
+   per-element animation-delay (BURST + stagger), per-grain animation-duration
+   (4.6s ±6%), sizes, and the vars --ax/--ay (apex), --jx/--jy (signed
+   per-element hang micro-drift), --sx/--sy (settle), --pb/--po (blur/opacity).
+   The clap's delay is also inline (BURST − 150ms) so tuning BURST in TS can
+   never desync it. */
+.egg-chalktoss {
+  position: fixed;
+  z-index: 70;
+  pointer-events: none;
+}
+.ct-dim {
+  position: fixed;
+  inset: 0;
+  background: #0c0904;
+  opacity: 0;
+  animation: ct-dim-kf 6s ease-in-out both;
+}
+@keyframes ct-dim-kf {
+  0% { opacity: 0; }
+  12% { opacity: 0.52; }
+  58% { opacity: 0.52; }
+  100% { opacity: 0; }
+}
+/* the clap — a soft pop at the origin, right before the toss (delay from JS) */
+.ct-clap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 46px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9), rgba(247, 243, 234, 0.4) 50%, transparent 75%);
+  filter: blur(2px);
+  opacity: 0;
+  animation: ct-clap-kf 0.55s ease-out both;
+}
+@keyframes ct-clap-kf {
+  0% { opacity: 0; transform: translate(-50%, -60%) scale(0.25); }
+  28% { opacity: 0.85; transform: translate(-50%, -60%) scale(0.9); }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1.4); }
+}
+/* big soft puffs — explosive rise, linear near-still hang (own drift vars),
+   then drift-and-thin on the shared draft */
+.ct-puff {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(247, 243, 234, 0.95) 0%, rgba(240, 235, 222, 0.5) 52%, transparent 74%);
+  filter: blur(var(--pb, 15px));
+  opacity: 0;
+  animation: ct-puff-kf 4.6s both;
+}
+@keyframes ct-puff-kf {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 8px) scale(0.22);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.1, 0.82, 0.24, 1);
+  }
+  5% { opacity: var(--po, 0.6); }
+  28% {
+    transform: translate(-50%, -50%) translate(var(--ax), var(--ay)) scale(1);
+    animation-timing-function: linear;
+  }
+  46% {
+    transform: translate(-50%, -50%) translate(calc(var(--ax) + var(--jx, 2px)), calc(var(--ay) + var(--jy, -4px))) scale(1.12);
+    opacity: var(--po, 0.6);
+    animation-timing-function: cubic-bezier(0.43, 0.06, 0.55, 0.92);
+  }
+  80% { opacity: calc(var(--po, 0.6) * 0.5); }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) scale(1.55);
+    opacity: 0;
+  }
+}
+/* fine grains — matte chalk, no glow (only the flashbulbs are emissive).
+   Same three-act arc; per-grain duration/delay/drift come from JS. */
+.ct-bit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: #f7f3ea;
+  opacity: 0;
+  animation: ct-bit-kf 4.6s both;
+}
+@keyframes ct-bit-kf {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.12, 0.8, 0.26, 1);
+  }
+  4% { opacity: var(--po, 0.8); }
+  28% {
+    transform: translate(-50%, -50%) translate(var(--ax), var(--ay)) scale(1);
+    animation-timing-function: linear;
+  }
+  46% {
+    transform: translate(-50%, -50%) translate(calc(var(--ax) + var(--jx, 2px)), calc(var(--ay) + var(--jy, -2px))) scale(1);
+    opacity: var(--po, 0.8);
+    animation-timing-function: cubic-bezier(0.4, 0.08, 0.58, 0.9);
+  }
+  82% { opacity: calc(var(--po, 0.8) * 0.35); }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) scale(0.8);
+    opacity: 0;
+  }
+}
+/* flashbulbs — hot pinpricks with a real double-pop flicker; the only
+   emissive elements in the scene */
+.ct-flash {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ffffff 0%, rgba(255, 255, 255, 0.75) 35%, transparent 72%);
+  box-shadow: 0 0 16px 5px rgba(255, 255, 255, 0.38);
+  opacity: 0;
+  animation: ct-flash-kf 0.5s ease-out both;
+}
+@keyframes ct-flash-kf {
+  0% { opacity: 0; transform: scale(0.3); }
+  12% { opacity: 1; transform: scale(1.7); }
+  34% { opacity: 0.35; transform: scale(1); }
+  46% { opacity: 0.85; transform: scale(1.35); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+/* the dust settles back onto the ledger's bottom edge — only after the
+   cloud has drifted off it */
+.ct-residue {
+  position: absolute;
+  top: -4px;
+  height: 7px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, rgba(247, 243, 234, 0.55) 22%, rgba(247, 243, 234, 0.75) 50%, rgba(247, 243, 234, 0.55) 78%, transparent);
+  filter: blur(2px);
+  opacity: 0;
+  animation: ct-residue-kf 2s 4s ease both;
+}
+@keyframes ct-residue-kf {
+  0% { opacity: 0; }
+  22% { opacity: 0.6; }
+  70% { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-chalktoss { display: none; }
+}
