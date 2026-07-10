@@ -31,11 +31,45 @@ let eggDraining = false;
 const EGG_GAP = 480;
 const EGG_QUEUE_MAX = 4;
 
+/* Cooldowns keep the surprises surprising: the narrative one-timers play
+ * once per session, the repeatable spectacles rest ten minutes between
+ * shows. (The 101st Blow throttles itself — it IS the 5th move.) */
+const EGG_POLICY: Record<string, "once" | number> = {
+  intro: "once",
+  chalk: "once",
+  confetti: "once",
+  beam: 10 * 60_000,
+  strike: 10 * 60_000,
+  subway: 10 * 60_000,
+};
+function eggAllowed(key: string): boolean {
+  const policy = EGG_POLICY[key];
+  if (!policy) return true;
+  try {
+    const k = `apron_egg_seen:${key}`;
+    const raw = sessionStorage.getItem(k);
+    if (policy === "once") return !raw;
+    return !raw || Date.now() - Number(raw) >= policy;
+  } catch {
+    return true;
+  }
+}
+function markEggSeen(key: string) {
+  if (!EGG_POLICY[key]) return;
+  try {
+    sessionStorage.setItem(`apron_egg_seen:${key}`, String(Date.now()));
+  } catch {
+    /* ignore */
+  }
+}
+
 function queueEgg(key: string, ms: number, run: () => void) {
   // De-dupe within a batch; cap the parade so a wild multi-team deal can't
   // hold the screen hostage (extra reactions are all good news — losing the
-  // 5th is fine).
+  // 5th is fine). Cooldowns apply before anything is queued.
+  if (!eggAllowed(key)) return;
   if (eggQueue.some((e) => e.key === key) || eggQueue.length >= EGG_QUEUE_MAX) return;
+  markEggSeen(key);
   eggQueue.push({ key, ms, run });
   if (!eggDraining) drainEggQueue();
 }
@@ -397,47 +431,69 @@ function chalkTossEggRun(playerName: string) {
 // Design-preview convenience: lets the branch demo each board effect from the
 // console without staging the exact trigger move. Dev builds only.
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+  const demo = <A extends unknown[]>(key: string, fn: (...a: A) => void) =>
+    (...a: A) => {
+      try {
+        sessionStorage.removeItem(`apron_egg_seen:${key}`);
+      } catch {
+        /* ignore */
+      }
+      fn(...a);
+    };
   (window as unknown as Record<string, unknown>).__apronEggs = {
-    strikeEgg,
-    introEgg,
-    confettiEgg,
-    rockCrackEgg,
-    subwayEgg,
-    chalkTossEgg,
-    lightTheBeam,
+    strikeEgg: demo("strike", strikeEgg),
+    introEgg: demo("intro", introEgg),
+    confettiEgg: demo("confetti", confettiEgg),
+    rockCrackEgg: demo("crack", rockCrackEgg),
+    subwayEgg: demo("subway", subwayEgg),
+    chalkTossEgg: demo("chalk", chalkTossEgg),
+    lightTheBeam: demo("beam", lightTheBeam),
   };
 }
 
-/** SAC — THE beam. A white-hot core inside a wide violet bloom fires from the
- * Kings' board card to the top of the screen: ignition flash at the base, a
- * pool of light where it meets the sky, motes rising inside the column, the
- * room glowing faintly violet, then a power-down collapse. Only on
- * improvement, because that is the entire point of the beam. */
+/** SAC — THE beam, v3. The Kings card is Golden 1 Center: a glowing roof
+ * aperture opens on the card's top edge, the white-hot column erupts through
+ * it into the sky (anchored to the card, so it scrolls WITH the building),
+ * the arena's skin pulses violet while it burns, and a skyline glow answers
+ * at the top of the screen. Only on improvement — that is the entire point
+ * of the beam. */
 export function lightTheBeam() {
-  queueEgg("beam", 3600, () => lightTheBeamRun());
+  queueEgg("beam", 3800, () => lightTheBeamRun());
 }
 function lightTheBeamRun() {
   leagueToast("Beam lit", "Victory-grade improvement detected in Sacramento.");
   if (reducedMotion()) return;
-  const card = document.querySelector<HTMLElement>('[data-egg-team="SAC"]');
-  if (!card || document.querySelector(".egg-beam2")) return;
+  const card = cardOf("SAC");
+  if (!card || card.querySelector(".egg-beam3")) return;
   const r = card.getBoundingClientRect();
-  const x = r.left + r.width / 2;
-  const h = Math.max(r.top + 14, 180);
-  const wrap = document.createElement("div");
-  wrap.className = "egg-beam2";
-  wrap.style.left = `${x}px`;
-  wrap.style.height = `${h}px`;
-  wrap.style.setProperty("--bx", `${x}px`);
-  wrap.style.setProperty("--by", `${h}px`);
-  wrap.innerHTML =
-    '<i class="b2-ambience"></i>' +
-    '<i class="b2-glow"></i>' +
-    '<i class="b2-beam"></i>' +
-    '<i class="b2-core"></i>' +
-    '<i class="b2-sky"></i>' +
-    '<i class="b2-flash"></i>' +
-    [0, 1, 2, 3, 4].map((m) => `<i class="b2-mote" style="--m:${m}"></i>`).join("");
-  document.body.appendChild(wrap);
-  setTimeout(() => wrap.remove(), 4300);
+  // The card IS Golden 1 Center. The column is anchored INSIDE the card
+  // wrapper, so scrolling mid-animation carries the beam with the building —
+  // and it's tall enough to run off the top of the screen from any scroll
+  // position it could occupy while it burns.
+  if (!card.style.position) card.style.position = "relative";
+  const beamH = Math.round(Math.max(r.top, window.innerHeight) + 260);
+  const beam = document.createElement("div");
+  beam.className = "egg-beam3";
+  beam.style.height = `${beamH}px`;
+  beam.style.setProperty("--bh", `${beamH}px`);
+  beam.innerHTML =
+    '<i class="b3-glow"></i>' +
+    '<i class="b3-col"></i>' +
+    '<i class="b3-core"></i>' +
+    [0, 1, 2, 3, 4].map((m) => `<i class="b3-mote" style="--m:${m}"></i>`).join("") +
+    '<i class="b3-aperture"></i>' +
+    '<i class="b3-rim"></i>';
+  card.appendChild(beam);
+  // the sky answers at the top of the SCREEN, centered over the arena
+  const sky = document.createElement("div");
+  sky.className = "b3-skyline";
+  sky.style.setProperty("--bx", `${r.left + r.width / 2}px`);
+  document.body.appendChild(sky);
+  // the arena's skin pulses while the beam burns
+  card.classList.add("egg-arena");
+  setTimeout(() => {
+    beam.remove();
+    sky.remove();
+    card.classList.remove("egg-arena");
+  }, 4600);
 }

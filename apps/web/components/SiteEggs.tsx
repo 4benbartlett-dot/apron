@@ -9,6 +9,9 @@ export function leagueToast(stamp: string, text: string, tone: "green" | "red" |
   document.querySelector(".egg-toast")?.remove();
   const el = document.createElement("div");
   el.className = tone === "heat" ? "egg-toast egg-heat" : "egg-toast";
+  // League-office slips announce themselves to assistive tech too.
+  el.setAttribute("role", "status");
+  el.setAttribute("aria-live", "polite");
   const color =
     tone === "green" ? "var(--tier-below_cap)" : tone === "heat" ? "var(--accent)" : "var(--tier-second_apron)";
   const safe = (t: string) => t.replace(/[<>&]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[ch]!);
@@ -81,6 +84,7 @@ export function SiteEggs() {
       if (document.querySelector(".veto-overlay")) return;
       const el = document.createElement("div");
       el.className = "veto-overlay";
+      el.setAttribute("role", "status");
       el.innerHTML =
         '<div class="veto-inner"><span class="stamp veto-stamp">Vetoed</span>' +
         '<div class="veto-sub">basketball reasons · office of the commissioner</div></div>';

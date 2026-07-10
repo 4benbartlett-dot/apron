@@ -806,7 +806,17 @@ export default function OffseasonSim() {
       )}
 
       {/* board */}
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {/* One card gets a wide centered stage, two split the width — a fixed
+          three-track grid made early boards look like abandoned desk space. */}
+      <div
+        className={`mt-4 grid grid-cols-1 gap-4 ${
+          board.length === 1
+            ? "mx-auto w-full max-w-2xl"
+            : board.length === 2
+              ? "mx-auto w-full max-w-6xl md:grid-cols-2"
+              : "md:grid-cols-2 xl:grid-cols-3"
+        }`}
+      >
         {board.map((id, i) => (
           <div key={id} data-egg-team={id} className="fade-up" style={{ animationDelay: `${i * 70}ms` }}>
           <TeamColumn
@@ -1207,13 +1217,14 @@ function TradeVerdict({
         <div className="rule flex flex-wrap items-center gap-x-5 gap-y-1 bg-[var(--panel-2)]/50 px-4 py-2 text-xs">
           <Term k="trade_value" underline className="label">{fairLabel}</Term>
           {valTeams.map(([t, v]) => {
-            const net = v.in - v.out;
+            const f1 = (x: number) => (Math.round(x * 10) / 10).toFixed(1);
+            const net = Math.round((v.in - v.out) * 10) / 10;
             const c = net > 0 ? "var(--tier-below_cap)" : net < 0 ? "var(--tier-second_apron)" : "var(--muted)";
             return (
               <span key={t} className="tabular text-[11.5px]">
                 <span className="font-semibold">{t}</span>{" "}
-                <span style={{ color: c }}>{net > 0 ? "+" : ""}{net}</span>
-                <span className="text-[var(--muted)]"> · in {v.in} / out {v.out}</span>
+                <span style={{ color: c }}>{net > 0 ? "+" : ""}{f1(net)}</span>
+                <span className="text-[var(--muted)]"> · in {f1(v.in)} / out {f1(v.out)}</span>
               </span>
             );
           })}
