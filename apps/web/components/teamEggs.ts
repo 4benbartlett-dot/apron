@@ -239,7 +239,7 @@ export function subwayEgg() {
  * onto the ledger's bottom edge. */
 export function chalkTossEgg(playerName: string) {
   const stamp = "Ritual observed";
-  const text = `${playerName}. The Land has its headliner.`;
+  const text = `${playerName}. The chalk goes up. The King is home.`;
   // leagueToast renders in the site toast layer (outside .egg-chalktoss), so
   // reduced-motion users still get the headline, statically.
   if (reducedMotion()) {

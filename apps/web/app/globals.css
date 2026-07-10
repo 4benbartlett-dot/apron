@@ -2171,43 +2171,88 @@ button:active { transform: translateY(0.5px); }
 
 /* ---------- Logo idles v3: fan-service props for the upgraded scenes ---------- */
 
-/* BOS — the pot of gold: four coins burst out under the jig (i:4-7) */
+/* BOS — the pot of gold: five coins burst out under the jig (i:4-8), flip in
+   the air catching light, then LAND around the logo's feet and rest there,
+   glinting, for a full beat before they fade. Unmistakably gold coins: bright
+   gold face, darker milled rim, edge-on flash at each half-flip. */
 .li-jig .li-x i:nth-child(n + 4) {
-  width: 13%; height: 13%; min-width: 4px; min-height: 4px;
+  width: 16%; height: 16%; min-width: 6px; min-height: 6px;
   border-radius: 50%;
   left: 46%; bottom: -4%;
   right: auto; top: auto;
   filter: none;
-  background: radial-gradient(circle at 35% 32%, #ffe08a, #d4a017 68%, #9c7510);
-  box-shadow: 0 0 4px rgba(255, 224, 138, 0.8);
+  background: radial-gradient(circle at 35% 30%, #fff3b0 0%, #ffd700 38%, #e2ac1b 70%, #a87c10 100%);
+  border: 1px solid rgba(138, 106, 14, 0.9);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 240, 170, 0.55),
+    0 0 6px rgba(255, 215, 0, 0.85);
 }
-.li-jig:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-coin1 1.1s 0.45s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
-.li-jig:is(:hover, .li-play) .li-x i:nth-child(5) { animation: li-kf-coin2 1.1s 0.55s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
-.li-jig:is(:hover, .li-play) .li-x i:nth-child(6) { animation: li-kf-coin3 1s 0.68s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
-.li-jig:is(:hover, .li-play) .li-x i:nth-child(7) { animation: li-kf-coin4 1s 0.78s cubic-bezier(0.3, 0.6, 0.6, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(4) { animation: li-kf-coin1 2.7s 0.45s cubic-bezier(0.3, 0.55, 0.55, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(5) { animation: li-kf-coin2 2.7s 0.58s cubic-bezier(0.3, 0.55, 0.55, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(6) { animation: li-kf-coin3 2.6s 0.72s cubic-bezier(0.3, 0.55, 0.55, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(7) { animation: li-kf-coin4 2.6s 0.84s cubic-bezier(0.3, 0.55, 0.55, 1) both; }
+.li-jig:is(:hover, .li-play) .li-x i:nth-child(8) { animation: li-kf-coin5 2.5s 0.96s cubic-bezier(0.3, 0.55, 0.55, 1) both; }
+/* shared shape: pop (0-22%), apex hang (22-32%), tumble down (32-50%),
+   land with one small bounce (50-60%), REST glinting (60-90%), fade (90-100%) */
 @keyframes li-kf-coin1 {
   0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
-  18% { opacity: 1; }
-  45% { transform: translate(calc(var(--li-size) * -0.32), calc(var(--li-size) * -0.42)) rotateY(360deg); }
-  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.44), calc(var(--li-size) * 0.25)) rotateY(540deg); }
+  10% { opacity: 1; filter: brightness(1); }
+  22% { transform: translate(calc(var(--li-size) * -0.3), calc(var(--li-size) * -0.44)) rotateY(180deg); filter: brightness(1.5); }
+  32% { transform: translate(calc(var(--li-size) * -0.36), calc(var(--li-size) * -0.46)) rotateY(270deg); }
+  50% { transform: translate(calc(var(--li-size) * -0.46), calc(var(--li-size) * 0.3)) rotateY(540deg); filter: brightness(1.4); }
+  56% { transform: translate(calc(var(--li-size) * -0.47), calc(var(--li-size) * 0.24)) rotateY(560deg); }
+  60% { transform: translate(calc(var(--li-size) * -0.48), calc(var(--li-size) * 0.3)) rotateY(570deg); }
+  74% { filter: brightness(1.35); }
+  90% { opacity: 1; transform: translate(calc(var(--li-size) * -0.48), calc(var(--li-size) * 0.3)) rotateY(570deg); filter: brightness(1); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.48), calc(var(--li-size) * 0.3)) rotateY(570deg); }
 }
 @keyframes li-kf-coin2 {
   0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
-  18% { opacity: 1; }
-  45% { transform: translate(calc(var(--li-size) * 0.34), calc(var(--li-size) * -0.5)) rotateY(360deg); }
-  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.48), calc(var(--li-size) * 0.22)) rotateY(540deg); }
+  10% { opacity: 1; filter: brightness(1); }
+  22% { transform: translate(calc(var(--li-size) * 0.32), calc(var(--li-size) * -0.52)) rotateY(180deg); filter: brightness(1.5); }
+  32% { transform: translate(calc(var(--li-size) * 0.38), calc(var(--li-size) * -0.54)) rotateY(270deg); }
+  50% { transform: translate(calc(var(--li-size) * 0.5), calc(var(--li-size) * 0.28)) rotateY(540deg); filter: brightness(1.4); }
+  56% { transform: translate(calc(var(--li-size) * 0.51), calc(var(--li-size) * 0.22)) rotateY(560deg); }
+  60% { transform: translate(calc(var(--li-size) * 0.52), calc(var(--li-size) * 0.28)) rotateY(570deg); }
+  74% { filter: brightness(1.35); }
+  90% { opacity: 1; transform: translate(calc(var(--li-size) * 0.52), calc(var(--li-size) * 0.28)) rotateY(570deg); filter: brightness(1); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.52), calc(var(--li-size) * 0.28)) rotateY(570deg); }
 }
 @keyframes li-kf-coin3 {
   0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
-  18% { opacity: 1; }
-  45% { transform: translate(calc(var(--li-size) * -0.12), calc(var(--li-size) * -0.6)) rotateY(300deg); }
-  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.16), calc(var(--li-size) * 0.2)) rotateY(480deg); }
+  10% { opacity: 1; filter: brightness(1); }
+  22% { transform: translate(calc(var(--li-size) * -0.1), calc(var(--li-size) * -0.62)) rotateY(160deg); filter: brightness(1.5); }
+  32% { transform: translate(calc(var(--li-size) * -0.12), calc(var(--li-size) * -0.64)) rotateY(220deg); }
+  50% { transform: translate(calc(var(--li-size) * -0.18), calc(var(--li-size) * 0.32)) rotateY(480deg); filter: brightness(1.4); }
+  56% { transform: translate(calc(var(--li-size) * -0.19), calc(var(--li-size) * 0.27)) rotateY(500deg); }
+  60% { transform: translate(calc(var(--li-size) * -0.2), calc(var(--li-size) * 0.32)) rotateY(510deg); }
+  74% { filter: brightness(1.35); }
+  90% { opacity: 1; transform: translate(calc(var(--li-size) * -0.2), calc(var(--li-size) * 0.32)) rotateY(510deg); filter: brightness(1); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * -0.2), calc(var(--li-size) * 0.32)) rotateY(510deg); }
 }
 @keyframes li-kf-coin4 {
   0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
-  18% { opacity: 1; }
-  45% { transform: translate(calc(var(--li-size) * 0.16), calc(var(--li-size) * -0.34)) rotateY(300deg); }
-  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.24), calc(var(--li-size) * 0.26)) rotateY(480deg); }
+  10% { opacity: 1; filter: brightness(1); }
+  22% { transform: translate(calc(var(--li-size) * 0.14), calc(var(--li-size) * -0.36)) rotateY(160deg); filter: brightness(1.5); }
+  32% { transform: translate(calc(var(--li-size) * 0.17), calc(var(--li-size) * -0.38)) rotateY(220deg); }
+  50% { transform: translate(calc(var(--li-size) * 0.24), calc(var(--li-size) * 0.34)) rotateY(480deg); filter: brightness(1.4); }
+  56% { transform: translate(calc(var(--li-size) * 0.25), calc(var(--li-size) * 0.29)) rotateY(500deg); }
+  60% { transform: translate(calc(var(--li-size) * 0.26), calc(var(--li-size) * 0.34)) rotateY(510deg); }
+  74% { filter: brightness(1.35); }
+  90% { opacity: 1; transform: translate(calc(var(--li-size) * 0.26), calc(var(--li-size) * 0.34)) rotateY(510deg); filter: brightness(1); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.26), calc(var(--li-size) * 0.34)) rotateY(510deg); }
+}
+@keyframes li-kf-coin5 {
+  0% { opacity: 0; transform: translate(0, 0) rotateY(0deg); }
+  10% { opacity: 1; filter: brightness(1); }
+  22% { transform: translate(calc(var(--li-size) * 0.02), calc(var(--li-size) * -0.28)) rotateY(140deg); filter: brightness(1.5); }
+  32% { transform: translate(calc(var(--li-size) * 0.03), calc(var(--li-size) * -0.3)) rotateY(200deg); }
+  50% { transform: translate(calc(var(--li-size) * 0.05), calc(var(--li-size) * 0.36)) rotateY(440deg); filter: brightness(1.4); }
+  56% { transform: translate(calc(var(--li-size) * 0.05), calc(var(--li-size) * 0.31)) rotateY(460deg); }
+  60% { transform: translate(calc(var(--li-size) * 0.06), calc(var(--li-size) * 0.36)) rotateY(470deg); }
+  74% { filter: brightness(1.35); }
+  90% { opacity: 1; transform: translate(calc(var(--li-size) * 0.06), calc(var(--li-size) * 0.36)) rotateY(470deg); filter: brightness(1); }
+  100% { opacity: 0; transform: translate(calc(var(--li-size) * 0.06), calc(var(--li-size) * 0.36)) rotateY(470deg); }
 }
 
 /* ATL — wind streaks scream past during the dive (i:3-4) */

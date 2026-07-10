@@ -43,7 +43,7 @@ const RECIPES: Record<string, Recipe> = {
   // a killer crossover — left, right, snap back — while a B train passes behind
   BKN: { fx: "subway", a: "#4a4a4a", b: "#ffffff", extra: { i: 2 } },
   // a proper céilí: high-kick jig, pipe smoke, and a burst from the pot of gold
-  BOS: { fx: "jig", a: "#007a33", b: "#ba9653", extra: { i: 7 } },
+  BOS: { fx: "jig", a: "#007a33", b: "#ba9653", extra: { i: 8 } },
   // wing-buzz vibration while a lone hornet orbits the nest once
   CHA: { fx: "buzz", a: "#00788c", b: "#1d1160", extra: { i: 1 } },
   // steam snorts from the nostrils… then the charge
