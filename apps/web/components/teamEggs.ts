@@ -231,6 +231,113 @@ export function subwayEgg() {
   setTimeout(() => wrap.remove(), 2400);
 }
 
+/** CLE — The Chalk Toss. A star arrives in Cleveland: the lights dip and the
+ * building goes still; a soft clap at the card's bottom edge, then the chalk
+ * goes UP — three big blooming puffs and a fan of fine matte grains — each on
+ * its own clock, decelerating into a hang at the apex while flashbulbs pop
+ * around the dark, then drifting off on the arena draft and settling back
+ * onto the ledger's bottom edge. */
+export function chalkTossEgg(playerName: string) {
+  const stamp = "Ritual observed";
+  const text = `${playerName}. The Land has its headliner.`;
+  // leagueToast renders in the site toast layer (outside .egg-chalktoss), so
+  // reduced-motion users still get the headline, statically.
+  if (reducedMotion()) {
+    leagueToast(stamp, text);
+    return;
+  }
+  const card = cardOf("CLE");
+  if (!card || document.querySelector(".egg-chalktoss")) return;
+  const r = card.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  // burst origin: the exact bottom-center of the measured card, clamped
+  // on-screen whether the card runs past the fold OR is scrolled above it
+  const x = r.left + r.width / 2;
+  const y = Math.max(Math.min(r.bottom, vh - 20), 20);
+  const ch = Math.min(r.height, 460); // card scale drives rise height
+  const dir = Math.random() < 0.5 ? -1 : 1; // one shared draft direction
+  const BURST = 1200; // ms of dark stillness before the toss
+
+  const wrap = document.createElement("div");
+  wrap.className = "egg-chalktoss";
+  wrap.style.left = `${x}px`;
+  wrap.style.top = `${y}px`;
+
+  // clap delay derives from BURST so tuning one can't desync the other
+  let html = `<i class="ct-dim"></i><i class="ct-clap" style="animation-delay:${BURST - 150}ms"></i>`;
+
+  // three large soft puffs — the body of the cloud, each with its own signed
+  // hang micro-drift so the near-stillness shimmers instead of sliding
+  const puffs = [
+    { ax: -26, ay: -ch * 0.34, s: 92, b: 15, o: 0.62, d: 0 },
+    { ax: 4, ay: -ch * 0.45, s: 118, b: 18, o: 0.55, d: 70 },
+    { ax: 30, ay: -ch * 0.29, s: 82, b: 13, o: 0.66, d: 130 },
+  ];
+  for (const p of puffs) {
+    const sx = p.ax + dir * (66 + Math.random() * 54);
+    const sy = p.ay + 34 + Math.random() * 26;
+    const jx = (Math.random() * 8 - 4).toFixed(1);
+    const jy = (Math.random() * 10 - 5).toFixed(1);
+    html +=
+      `<i class="ct-puff" style="width:${p.s}px;height:${p.s}px;--pb:${p.b}px;--po:${p.o};` +
+      `--jx:${jx}px;--jy:${jy}px;` +
+      `--ax:${p.ax}px;--ay:${p.ay.toFixed(0)}px;--sx:${sx.toFixed(0)}px;--sy:${sy.toFixed(0)}px;` +
+      `animation-delay:${BURST + p.d}ms"></i>`;
+  }
+
+  // fine grains — a fan of individual trajectories, tallest in the middle.
+  // Per-grain duration jitter (±6%) smears apex arrival ~250ms so the fan
+  // never peaks in lockstep; per-grain signed (--jx,--jy), some near zero,
+  // keep the hang reading as suspended dust rather than a drifting lattice.
+  const N = 15;
+  for (let i = 0; i < N; i++) {
+    const t = (i / (N - 1)) * 2 - 1; // -1..1 across the fan
+    const ax = t * (26 + Math.random() * 58);
+    const ay = -(ch * (0.3 + Math.random() * 0.2) + (1 - Math.abs(t)) * ch * 0.16);
+    const sx = ax + dir * (58 + Math.random() * 84);
+    const sy = ay + 30 + Math.random() * 56;
+    const sz = 1.5 + Math.random() * 1.5; // fine: 1.5–3px at card scale
+    const o = 0.55 + Math.random() * 0.4;
+    const jx = (Math.random() * 10 - 5).toFixed(1);
+    const jy = (Math.random() * 8 - 4).toFixed(1);
+    const dur = 4600 * (0.94 + Math.random() * 0.12);
+    const d = BURST + Math.random() * 120;
+    html +=
+      `<i class="ct-bit" style="width:${sz.toFixed(1)}px;height:${sz.toFixed(1)}px;--po:${o.toFixed(2)};` +
+      `--jx:${jx}px;--jy:${jy}px;--ax:${ax.toFixed(0)}px;--ay:${ay.toFixed(0)}px;` +
+      `--sx:${sx.toFixed(0)}px;--sy:${sy.toFixed(0)}px;` +
+      `animation-duration:${dur.toFixed(0)}ms;animation-delay:${d.toFixed(0)}ms"></i>`;
+  }
+
+  // flashbulbs in the dark around the card — all six pops land inside the
+  // 2490–3320ms hang (last starts ~3200ms, peaks ~3260ms)
+  const bulbs = [
+    { x: -r.width * 0.46, y: -ch * 0.82 },
+    { x: r.width * 0.42, y: -ch * 0.6 },
+    { x: -r.width * 0.28, y: -ch * 1.04 },
+    { x: r.width * 0.5, y: -ch * 0.92 },
+    { x: -r.width * 0.52, y: -ch * 0.38 },
+    { x: r.width * 0.18, y: -ch * 1.14 },
+  ];
+  bulbs.forEach((p, i) => {
+    const fx = Math.min(Math.max(p.x + (Math.random() * 24 - 12), 16 - x), vw - 16 - x);
+    const fy = Math.max(p.y + (Math.random() * 20 - 10), 16 - y);
+    const d = 2460 + i * 140 + Math.random() * 40;
+    html += `<b class="ct-flash" style="left:${fx.toFixed(0)}px;top:${fy.toFixed(0)}px;animation-delay:${d.toFixed(0)}ms"></b>`;
+  });
+
+  // chalk residue settling back onto the card's bottom edge — its 4s delay
+  // lands after the cloud has visibly drifted off the ledger
+  html += `<i class="ct-residue" style="left:${(-r.width * 0.24).toFixed(0)}px;width:${(r.width * 0.48).toFixed(0)}px"></i>`;
+
+  wrap.innerHTML = html;
+  document.body.appendChild(wrap);
+  // the PA speaks at the top of the hang, between the first two flashes
+  setTimeout(() => leagueToast(stamp, text), 2650);
+  setTimeout(() => wrap.remove(), 6400);
+}
+
 // Design-preview convenience: lets the branch demo each board effect from the
 // console without staging the exact trigger move. Dev builds only.
 if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
@@ -240,6 +347,7 @@ if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
     confettiEgg,
     rockCrackEgg,
     subwayEgg,
+    chalkTossEgg,
     lightTheBeam,
   };
 }
