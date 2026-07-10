@@ -273,6 +273,10 @@ export interface WaivedFreeAgent { playerId: string; name: string; priorTeam: st
 export const WAIVED_FREE_AGENTS: WaivedFreeAgent[] = (rosterCorrectionsRaw as { waivedFreeAgents: WaivedFreeAgent[] }).waivedFreeAgents;
 export const SUPPRESS_DEAD_CAP: string[] = (rosterCorrectionsRaw as { suppressDeadCap: string[] }).suppressDeadCap;
 export const RESOLVED_OFFER_SHEETS: string[] = (rosterCorrectionsRaw as { resolvedOfferSheets: string[] }).resolvedOfferSheets;
+/** Agreed signings a team can't legally execute yet on the reconciled sheet —
+ * held out of the cap books (player keeps his old-team hold) until the feed
+ * shows the cap-clearing move or corrected terms. */
+export const PENDING_SIGNINGS: string[] = (rosterCorrectionsRaw as { pendingSignings?: string[] }).pendingSignings ?? [];
 /** Curated free-agent feed corrections, keyed by normalized name. */
 export const FA_OVERRIDES: Record<string, { birdStatus?: string }> = (faOverridesRaw as { byName: Record<string, { birdStatus?: string }> }).byName;
 

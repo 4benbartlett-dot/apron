@@ -14,6 +14,12 @@ const TICK_TERM: Record<string, TermKey> = {
 interface Props {
   salary: number;
   c: LeagueConstants;
+  /** Free-agent cap holds, drawn as a hatched extension of the bar. Holds
+   * consume cap room (they sit in Team Salary, Art. VII §4(a)(2)) but NOT
+   * tax/apron standing (Apron Team Salary subtracts them, §2(e)(1)(iv)) —
+   * so the SOLID bar is what the Tax/1A/2A ticks judge, and solid + hatch
+   * is what the Cap tick judges. One bar, both truths. */
+  holds?: number;
   /** Optional second marker (e.g. projected post-trade salary). */
   ghost?: number;
   showLabels?: boolean;
@@ -23,12 +29,14 @@ interface Props {
 export function Thermometer({
   salary,
   c,
+  holds = 0,
   ghost,
   showLabels = true,
   height = 10,
 }: Props) {
   const maxScale = c.secondApron * 1.07;
-  const pct = (v: number) => `${Math.max(0, Math.min(100, (v / maxScale) * 100))}%`;
+  const pctN = (v: number) => Math.max(0, Math.min(100, (v / maxScale) * 100));
+  const pct = (v: number) => `${pctN(v)}%`;
   const tier: ApronTier = classifyTier(salary, c);
 
   const ticks: { v: number; label: string }[] = [
@@ -48,6 +56,19 @@ export function Thermometer({
           className="absolute left-0 top-0 h-full transition-all"
           style={{ width: pct(salary), background: tierColor(tier), opacity: 0.85 }}
         />
+        {holds > 0 && (
+          <div
+            className="absolute top-0 h-full transition-all"
+            style={{
+              left: pct(salary),
+              width: `${Math.max(0, pctN(salary + holds) - pctN(salary))}%`,
+              background:
+                "repeating-linear-gradient(135deg, var(--border-strong) 0 3px, transparent 3px 6px)",
+              opacity: 0.75,
+            }}
+            title="Free-agent cap holds — they consume cap room, but not tax or apron standing"
+          />
+        )}
         {ghost !== undefined && ghost !== salary && (
           <div
             className="absolute top-0 h-full w-[2px]"

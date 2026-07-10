@@ -33,7 +33,7 @@ const APPROXIMATE = [
   "Positions come from where a player actually logged his minutes; a real second position is any spot he played at least ~12% of the time. Players without enough tracked minutes fall back to their listed position.",
   "Draft-pick trade value is projected from each team's strength, discounted for risk and how far out the pick is — the fairness meter just adds it up per side.",
   "Some traded-player-exception details are simplified: one exception per team per trade, whole players only.",
-  "Any use of the non-taxpayer mid-level hard-caps the team at the first apron here; the real rule only applies that cap when a team spends past the taxpayer portion.",
+  "Any use of the non-taxpayer mid-level hard-caps the team at the first apron here. The real rule is softer in one narrow case: a use within the taxpayer MLE's size and 2-year length can later be re-characterized as the taxpayer MLE (Art. VII §6(f)(5)), trading the first-apron cap for a second-apron one.",
   "A matched offer sheet freezes the player from trades outright for a year here; the real rule is no trade without the player's consent — and never to the team that made the offer.",
   "A few fine adjustments to a team's apron salary need per-player bonus data that public feeds don't carry. When it isn't public, those small adjustments are left out rather than guessed.",
 ];
