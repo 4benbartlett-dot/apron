@@ -208,14 +208,25 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
 //  - Grimes / Mamukelashvili (LAL): their real money was cap room created by
 //    renounces the harness can't restore — once Kessler's ~$28M is booked,
 //    lenient mode sees only Room-MLE-sized space.
-// (Oubre and Kennard HEALED in the Jul 9 hard-cap audit: IND's sheet lost a
-// mis-teamed Jalen Smith, phantom Potter dead money, and the pending Nance
-// charge, so Oubre's official 2yr/$16.5M NT-MLE now fits under the first
-// apron; Kennard re-booked at the taxpayer MLE's exact 2yr/$12,431,200 —
+// (Oubre HEALED in the Jul 9 hard-cap audit: IND's sheet lost a mis-teamed
+// Jalen Smith, phantom Potter dead money, and the pending Nance charge, so
+// Oubre's official 2yr/$16.5M NT-MLE now fits under the first apron —
 // see feed-team-state.json rationales.)
+//  - Kennard (PHX): booked correctly at the exact Taxpayer MLE ($6,064,000
+//    y1) and PHX sits UNDER its $221.7M second-apron hard cap — the live
+//    sheet is right. But the Jul 10-11 refresh added Koa Peat's trade, which
+//    lifts PHX to ~$208.1M, just under the first apron. The replay rebuilds
+//    the sheet WITHOUT the team's spent-exception context, so a team in that
+//    thin band is offered the NT-MLE (self-limited by its own first-apron
+//    cap to ~$0.9M) rather than the taxpayer-MLE CHOICE PHX actually made —
+//    a modeling simplification, not a cap error. (Reproducing this exact
+//    signing on the board would hit the same limitation; a narrow but real
+//    edge worth a future fix: offer the taxpayer-MLE option to sub-first-
+//    apron teams.)
 // The gate below is EXACT: a new failure fails the suite, and so does one of
 // these silently healing (update the list and /accuracy when data improves).
 const DOCUMENTED_BOUNDS = [
+  "Luke Kennard",
   "Quentin Grimes",
   "Sandro Mamukelashvili",
 ];

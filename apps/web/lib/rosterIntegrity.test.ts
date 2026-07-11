@@ -13,11 +13,12 @@ const teamOf = (name: string) => {
   return rows[0]!.teamId;
 };
 
-describe("the Randle–Claxton–Gueye three-teamer (Jun 22)", () => {
+describe("Randle–Claxton multi-team + the later Gueye trade", () => {
   it("lands every leg", () => {
     expect(teamOf("Julius Randle")).toBe("BKN");
     expect(teamOf("Nic Claxton")).toBe("CHI"); // prose calls him "Nicolas"
-    expect(teamOf("Mouhamadou Gueye")).toBe("MIN");
+    // Mouhamadou Gueye then moved on: a Jul 10 four-teamer sent him CHI → CHA.
+    expect(teamOf("Mouhamadou Gueye")).toBe("CHA");
     // The OTHER Gueye stays put — the surname fallback must not cross-match.
     expect(teamOf("Mouhamed Gueye")).toBe("ATL");
   });
