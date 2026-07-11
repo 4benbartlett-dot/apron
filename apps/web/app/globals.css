@@ -2592,8 +2592,8 @@ button:active { transform: translateY(0.5px); }
   will-change: transform;
 }
 .team-pick:is(:hover, :focus-visible) .logo-idle {
-  transform: scale(2.15) translateY(-3px);
-  filter: drop-shadow(0 10px 22px rgba(33, 29, 19, 0.28));
+  transform: scale(1.6) translateY(-2px);
+  filter: drop-shadow(0 7px 16px rgba(33, 29, 19, 0.24));
 }
 @media (prefers-reduced-motion: reduce) {
   .team-pick .logo-idle { transition: none; }
