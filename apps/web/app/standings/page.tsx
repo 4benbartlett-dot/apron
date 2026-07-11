@@ -28,6 +28,7 @@ function ConferenceTable({ title, rows }: { title: string; rows: Row[] }) {
         return (
           <Link
             key={r.id}
+            data-li-scope
             href={`/team/${r.id}`}
             className={`grid grid-cols-[1.5rem_1fr_4.5rem_3.5rem_3rem] items-center gap-2 px-3 py-2 text-[13px] hover:bg-[var(--panel-2)] ${i > 0 ? "border-t border-[var(--border)]" : ""}`}
             style={i === 6 ? { borderTop: "2px solid var(--border-strong)" } : undefined}

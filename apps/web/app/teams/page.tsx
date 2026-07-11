@@ -27,6 +27,7 @@ export default function TeamsIndex() {
           return (
             <Link
               key={id}
+              data-li-scope
               href={`/teams/${teamSlug(id)}/trade-machine`}
               className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--panel)] px-3.5 py-2.5 hover:border-[var(--text)]"
             >
