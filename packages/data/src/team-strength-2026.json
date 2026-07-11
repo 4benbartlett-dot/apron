@@ -1,6 +1,6 @@
 {
-  "source": "apron-impact-model-hardened team_strength_2026 (rebaselined after rotation fairness + sat-out-veteran minutes fixes)",
-  "asOf": "2026-07-10",
+  "source": "apron-impact-model-hardened team_strength_2026 (rebaselined after Jul 10-11 transaction refresh)",
+  "asOf": "2026-07-11",
   "calibration": {
     "intercept": -7.35,
     "rosterCoef": 3.353,
@@ -20,7 +20,7 @@
       "av": 59.9,
       "projNrtg": 5.7,
       "nrtg": 8.3,
-      "w": 52
+      "w": 51
     },
     "BOS": {
       "av": 59.4,
@@ -48,9 +48,9 @@
     },
     "MIN": {
       "av": 57.7,
-      "projNrtg": 1.4,
+      "projNrtg": 3.1,
       "nrtg": 3.1,
-      "w": 43
+      "w": 46
     },
     "CLE": {
       "av": 56.7,
@@ -98,7 +98,7 @@
       "av": 55.5,
       "projNrtg": 0.6,
       "nrtg": 1.4,
-      "w": 42
+      "w": 41
     },
     "LAL": {
       "av": 55.3,
@@ -108,7 +108,7 @@
     },
     "GSW": {
       "av": 55.2,
-      "projNrtg": 1,
+      "projNrtg": 0.8,
       "nrtg": -0.6,
       "w": 42
     },
@@ -146,7 +146,7 @@
       "av": 51.2,
       "projNrtg": -1.9,
       "nrtg": -5.9,
-      "w": 37
+      "w": 36
     },
     "CHI": {
       "av": 50.6,
