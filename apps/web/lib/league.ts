@@ -765,29 +765,51 @@ function impactEntry(c: Contract): {
 }
 
 export interface ImpactComponents {
-  source: string;
+  /** The DISPLAYED Apron Value (0-100) — identical to impactScoreOf/adjustedAv. */
   apronValue: number;
+  /** Impact points/100 for the DISPLAYED value (adjustedPts), not the raw read. */
   impactPts: number;
+  /** ± band around the displayed value, in Apron-Value units: this season's
+   *  sampling error widened by half the gap to the 3-yr history read — two
+   *  estimates disagreeing is itself uncertainty the old band never carried. */
   uncertainty: number;
-  tier: string;
+  /** This season's raw read (35% of the blend) and ITS OWN tier — always
+   *  labeled "this season", never presented as the headline's tier. */
+  seasonAv: number;
+  seasonTier: string;
+  source: string;
   confidence: string;
   rapmp?: number;
   bpm?: number;
+  /** The 3-yr recency-weighted-BPM history read (65% of the blend). */
+  historyAv: number;
+  /** Age multiplier on the blended base (1 = no discount). */
+  ageMult: number;
+  /** Flat accolade credit added after aging (0-18 Apron-Value points). */
+  accoladeBonus: number;
 }
 
-/** Provenance for the Apron Value tooltip — tier, ± band, and the impact/box
- * components behind the number. */
+/** Provenance for the Apron Value tooltip — describes the DISPLAYED (adjusted)
+ * number's own makeup: this season's read (35%), the 3-yr BPM history read
+ * (65%), the age multiplier, and the accolade bonus. So the tooltip's headline,
+ * ± band and impact-pts match the pill, instead of the lower raw input. */
 export function impactComponents(c: Contract): ImpactComponents {
   const e = impactEntry(c);
+  const historyAv = 50 + BPM_TO_AV * multiYearBpm(c.playerId);
   return {
+    apronValue: adjustedAv(c),
+    impactPts: adjustedPts(c),
+    // e.unc is in impact-point units (×3.73 → av); plus half the season/history gap.
+    uncertainty: e.unc * 3.73 + Math.abs(historyAv - e.av) * 0.5,
+    seasonAv: e.av,
+    seasonTier: e.tier,
     source: e.src,
-    apronValue: e.av,
-    impactPts: e.pts,
-    uncertainty: e.unc,
-    tier: e.tier,
     confidence: e.conf,
     rapmp: e.rapmp,
     bpm: e.bpm,
+    historyAv,
+    ageMult: ageMult(ageOf(c.playerId)),
+    accoladeBonus: accoladeBonus(c.playerId),
   };
 }
 

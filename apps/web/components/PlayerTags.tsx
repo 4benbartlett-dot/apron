@@ -44,16 +44,23 @@ export function ImpactPill({ c }: { c?: Contract }) {
   const v = impactScoreOf(c);
   const col = impactColor(v);
   const comp = impactComponents(c);
-  const prov =
+  // Describe THIS SEASON'S read (35% of the blend) with its provenance, then
+  // the history read (65%), age and accolades — so the whole tooltip explains
+  // the displayed number rather than the lower raw input.
+  const seasonProv =
     comp.source === "hybrid"
-      ? ` Built from box score + real on-court impact (3-yr RAPM${comp.rapmp != null ? ` ${sign(comp.rapmp)}/100` : ""}${comp.bpm != null ? `, box BPM ${sign(comp.bpm, 0)}` : ""}).`
+      ? `box + on-court impact${comp.rapmp != null ? `, 3-yr RAPM ${sign(comp.rapmp)}/100` : ""}${comp.bpm != null ? `, box BPM ${sign(comp.bpm, 0)}` : ""}`
       : comp.source === "box"
-        ? ` Box-based estimate${comp.bpm != null ? ` (BPM ${sign(comp.bpm, 0)})` : ""} — below the minutes cutoff for the on-court-impact half, so read it as approximate.`
-        : " Projected from limited data — approximate.";
+        ? `box-based${comp.bpm != null ? ` (BPM ${sign(comp.bpm, 0)})` : ""}, below the minutes cutoff — approximate`
+        : "a limited-data projection";
+  const blend =
+    ` Blend of this season's ${Math.round(comp.seasonAv)} read (${seasonProv}, grades ${comp.seasonTier}) at 35% and a 3-yr BPM history read of ${Math.round(comp.historyAv)} at 65%` +
+    `${comp.ageMult < 1 ? `, aged ×${comp.ageMult.toFixed(2)}` : ""}` +
+    `${comp.accoladeBonus > 0.05 ? `, +${comp.accoladeBonus.toFixed(1)} for All-NBA/All-Defensive/ring credit` : ""}.`;
   return (
     <Term
       k="trade_value"
-      extra={`Apron Value ${v} ± ${Math.round(comp.uncertainty * 3.73)} · ${comp.tier} · impact ${sign(comp.impactPts)} pts/100 (50 = replacement).${prov}`}
+      extra={`Apron Value ${v} ± ${Math.round(comp.uncertainty)} · impact ${sign(comp.impactPts)} pts/100 (50 = replacement).${blend}`}
       className="tabular shrink-0"
     >
       <span

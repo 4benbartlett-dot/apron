@@ -29,7 +29,7 @@ describe("Apron Value scale (hardened model)", () => {
 
   it("carries a ± band and a tier for every player", () => {
     const jokic = impactComponents(named("Nikola Jokić"));
-    expect(jokic.tier).toBe("MVP");
+    expect(jokic.seasonTier).toBe("MVP");
     expect(jokic.uncertainty).toBeGreaterThan(0);
     expect(jokic.source).toBe("hybrid");
     expect(jokic.rapmp).toBeGreaterThan(5);
@@ -39,7 +39,7 @@ describe("Apron Value scale (hardened model)", () => {
     // +7.7 BPM in 339 minutes — box-half, minutes-shrunk.
     const tj = named("Ty Jerome");
     expect(impactScoreOf(tj)).toBeLessThan(impactScoreOf(named("Stephen Curry")));
-    expect(["MVP", "All-NBA"]).not.toContain(impactComponents(tj).tier);
+    expect(["MVP", "All-NBA"]).not.toContain(impactComponents(tj).seasonTier);
     expect(impactComponents(tj).source).toBe("box");
   });
 

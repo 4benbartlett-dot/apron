@@ -14,14 +14,14 @@ export const metadata: Metadata = {
 const COVERED = [
   "Every 2026-27 money line — the cap, luxury tax, both aprons, the mid-level and bi-annual exceptions, minimum salaries, and the max tiers — set from the CBA's own percentage-of-cap formulas, not typed in by hand.",
   `Trade matching with the real expanded math — including the middle band that grows with the cap to ${fmtFull(C.tradeMatch.escalatedFlatAddOn)} for 2026-27, not the flat $7.5M from 2023-24.`,
-  "What each apron actually costs you: over the first apron you lose expanded matching and can't bring a player in by sign-and-trade; over the second you also can't combine salaries or send cash, and a future first-rounder can be frozen.",
+  "What each apron actually costs you: over the first apron you lose expanded matching and can't bring a player in by sign-and-trade; over the second you also can't combine salaries or send cash.",
   "Every move that hard-caps a team, enforced for the rest of the season. Using the mid-level or bi-annual, taking a player by sign-and-trade, or taking back extra salary caps you at the first apron; the taxpayer mid-level, combining salaries in a trade, or sending cash caps you at the second.",
   "Traded-player exceptions — the real league-wide ledger, plus any your own lopsided trades create — applied for you to absorb an incoming salary.",
   "Sign-and-trades end to end: the acquiring team's hard cap, the contract length and structure limits, base-year compensation when you re-sign then trade a player, and poison-pill rookie extensions.",
   "Re-signing your own free agents at their real Bird, Early-Bird, or Non-Bird ceilings — and the cap holds those rights keep on your books until you re-sign or renounce them.",
-  "Extensions, renegotiations, and the stretch provision, each with its own year limits, raise limits, and blackout windows.",
+  "Extensions, each with their own year limits, raise limits, and the extend-and-trade freeze window.",
   "Draft picks that behave like the real thing: a pick you already owe is off your board, the Stepien rule stops you trading away first-rounders two years running, and every trade updates who owns what for the moves that follow.",
-  "Dead money from a waived or stretched contract rides your cap sheet — counting against the cap, tax, and apron — but stays off the roster, and it follows the real guarantee, not the listed salary.",
+  "Dead money from the real 2025-26 waives and stretches already on the books rides your cap sheet — counting against the cap, tax, and apron, and following the reported guarantee, not the listed salary. (Waiving or stretching a contract yourself isn't a board move yet, so this covers moves that already happened before the snapshot.)",
   "Your actual July 2026 starting point: which teams already spent an exception, who is hard-capped and why, and which cap-room teams gave up their mid-level and bi-annual for the year.",
 ];
 
@@ -43,7 +43,7 @@ const NOT_INCLUDED = [
   "Incentive bonuses. Public contracts don't reliably say which bonuses count as likely or unlikely, so bonus money stays out of the live totals.",
   "Signing second-round-pick exceptions and two-way contracts — you can't do those from the offseason drawer yet.",
   "Designated “supermax” extensions — you can't build one from the board yet.",
-  "Automatically projecting a team into a future second apron to freeze that far-out first for you.",
+  "Freezing a future first-round pick for a second-apron team at all — the rule is modeled in the rules engine, but the board doesn't apply it to any pick yet, so a frozen first can still be traded here.",
 ];
 
 // The rule-by-rule specifics, grouped. Collapsed by default — transparency for
@@ -75,7 +75,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     group: "Aprons, hard caps & apron salary",
     items: [
       "“Apron Team Salary” is a separate number — signed salary plus the CBA's add-backs (excluded performance bonuses, 0-and-1-year free-agent minimums) and team-level adjustments — kept separate from the cap-and-tax number that cap holds count against (Art. VII §2(e)).",
-      "Hard-cap triggers, first apron: the non-taxpayer mid-level, the bi-annual, a sign-and-trade acquisition, expanded matching, using a pre-existing traded-player exception, and a regular-season waiver signing of a player whose old contract topped the mid-level (restriction-table row D).",
+      "Hard-cap triggers, first apron: the non-taxpayer mid-level, the bi-annual, a sign-and-trade acquisition, expanded matching, using a pre-existing traded-player exception, and a regular-season waiver signing of a player whose old contract topped the mid-level (restriction-table row D — modeled in the rules engine; the live hard-cap tracker doesn't check it yet).",
       "Hard-cap triggers, second apron: the taxpayer mid-level, combining salaries in a trade, and sending cash.",
       "Every hard cap persists across your whole session and is tested against apron salary, with cap holds excluded.",
     ],
@@ -86,7 +86,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
       "Bird, Early-Bird, and Non-Bird re-signing ceilings (175% / 120%-of-prior-or-minimum), using each free agent's real Bird status and restricted/unrestricted designation where it's sourced.",
       "Cap holds by Bird status (Non-Bird 120%, Early-Bird 130%, Bird 150–190%, rookie-scale restricted 250/300%). Renounce a hold to open space; keep it and it converts to salary on re-sign with no double-count; renouncing forfeits Bird rights.",
       "Veteran extensions at their first-year ceiling (140% of the prior or estimated-average salary) with 8% raises on added years; extend-and-trades at the tighter 120% ceiling with 5% raises.",
-      "Renegotiations (under-cap teams only, raise limited to cap room) and the stretch provision (spread over 2N+1 years, with the 15%-of-cap guardrail).",
+      "Renegotiation and stretch math — renegotiation limited to a team's room, stretch spread over 2N+1 years under the 15%-of-cap guardrail — is implemented in the rules engine for reference, but neither is a move you can make on the board yet.",
       "Restricted free agency: the Gilbert Arenas first-year cap for 1–2 year players, and a real match flow where the original team can match your offer sheet and keep the player at your terms.",
     ],
   },
@@ -102,7 +102,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     items: [
       "A first-rounder you already owe (or that's protected out) is locked from your board, and its year counts as uncovered for the Stepien rule.",
       "Trades move picks as they execute, so later proposals see the real inventory, and Stepien counts picks you moved in earlier deals — not just the current one.",
-      "A second-apron season freezes the team's own first seven drafts out; two repeat second-apron seasons in the next four move that pick to the end of the round.",
+      "A second-apron season is meant to freeze the team's own first seven drafts out (two repeat seasons in the next four drops that pick to the end of the round) — that penalty is modeled in the rules engine but not yet applied to any team's picks on the board, so a frozen first can still be traded here.",
     ],
   },
   {
