@@ -657,12 +657,36 @@ const rookiesAfterTrades = applyTrades(rookieContracts);
 // a team in 2026-27 (see roster-corrections-2026.json).
 const SUPPRESSED_DEAD = new Set(SUPPRESS_DEAD_CAP.map(normName));
 
+// CBA Art. VII §3(f) safety net: a 1-year minimum contract for a 3+ YOS veteran
+// counts against the cap at the TWO-year minimum (the league reimburses the
+// team the difference), even though the player is PAID his full minimum. The
+// feed-reconciliation passes (applyTransactions, applySignedFA) already deem
+// the vet mins they see; this final pass guarantees the invariant for ANY
+// 1-year vet min that lands on the working sheet — including one sourced
+// straight from the contracts scrape that never flowed through a feed. It is
+// idempotent: an already-deemed row sits on the 2-YOS floor, which is off the
+// 3+ YOS scale, so deemedMinSalary returns it unchanged.
+function deemVetMinimums(contracts: Contract[]): Contract[] {
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const fwd = c.years.filter((y) => y.leagueYear >= YEAR);
+    if (fwd.length !== 1) return c;
+    const yr = fwd[0]!;
+    const deemed = deemedMinSalary(c.playerId, yr.salary, 1);
+    if (deemed === yr.salary) return c;
+    return {
+      ...c,
+      years: c.years.map((y) => (y.leagueYear === yr.leagueYear ? { ...y, salary: deemed } : y)),
+    };
+  });
+}
+
 /** Base working roster set: trades + signings applied, rookies added. */
-export const BASE_CONTRACTS: Contract[] = [
-  ...afterReleases,
-  ...rookiesAfterTrades.contracts,
-  ...STATED_DEAD_CAP,
-].filter((c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))));
+export const BASE_CONTRACTS: Contract[] = deemVetMinimums(
+  [...afterReleases, ...rookiesAfterTrades.contracts, ...STATED_DEAD_CAP].filter(
+    (c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))),
+  ),
+);
 export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];
 export const SIGNINGS_APPLIED = [...afterSignings.signed, ...afterSignedFA.signed];
 
@@ -1562,6 +1586,31 @@ export function deadMoneyOf(contracts: Contract[], teamId: string): Contract[] {
     .sort((a, b) => currentSalary(b) - currentSalary(a));
 }
 
+/** What waiving a player does to the cap. Only GUARANTEED money becomes dead
+ * money — non-guaranteed years and unexercised options wash out to a clean cut.
+ * `straightYears` is the dead-money schedule if you DON'T stretch (the
+ * guaranteed years, charged as they were scheduled); `stretch` is the Art. VII
+ * §7 spread — the remaining guaranteed salary over 2×seasons+1 years, legal
+ * only if the per-year hit stays under 15% of that year's cap. This is the
+ * single source of truth for both the Waive drawer preview and applyMove, so
+ * the number you see is exactly the number that books. */
+export interface WaiveComputation {
+  guaranteedTotal: number;
+  remainingSeasons: number;
+  straightYears: ContractYear[];
+  stretch: { years: number; perYear: number; legal: boolean };
+}
+export function computeWaive(c: Contract): WaiveComputation {
+  const fwd = c.years.filter((y) => y.leagueYear >= YEAR);
+  const straightYears: ContractYear[] = fwd
+    .filter((y) => (y.guarantee === "full" || y.guarantee === "partial") && y.salary > 0)
+    .map((y) => ({ leagueYear: y.leagueYear, salary: y.salary, guarantee: "full" as const }));
+  const guaranteedTotal = straightYears.reduce((s, y) => s + y.salary, 0);
+  const remainingSeasons = fwd.length || 1;
+  const stretch = stretchProvision(guaranteedTotal, remainingSeasons, C);
+  return { guaranteedTotal, remainingSeasons, straightYears, stretch };
+}
+
 export interface FreeAgent {
   playerId: string;
   playerName: string;
@@ -1722,7 +1771,7 @@ export type Move =
       salary: number;
       years: number;
     }
-  | { kind: "waive"; label: string; playerId: string };
+  | { kind: "waive"; label: string; playerId: string; stretch?: boolean };
 
 
 /** Build the season rows for a new deal: first-year `salary` plus standard
@@ -1903,18 +1952,37 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     };
     return copy;
   }
-  // waive — drops this year's salary and clears any trade-derived flags, since
-  // a waived player's acquisition history no longer governs a future contract.
+  // waive — convert the contract to a dead-money charge (Art. VII §7). Only the
+  // GUARANTEED money sticks to the team; with `stretch` it spreads over
+  // 2×seasons+1 years, otherwise it books as it was scheduled. A fully
+  // non-guaranteed contract washes out to a clean cut with no cap hit. The math
+  // is computeWaive() so the drawer preview and the booked result never drift.
   const idx = contracts.findIndex((c) => c.playerId === m.playerId);
   if (idx < 0) return contracts;
   const c = contracts[idx]!;
   const copy = [...contracts];
+  const { guaranteedTotal, straightYears, stretch } = computeWaive(c);
+  if (guaranteedTotal <= 0) {
+    copy.splice(idx, 1);
+    return copy;
+  }
   copy[idx] = {
     ...c,
-    years: c.years.filter((y) => y.leagueYear !== YEAR),
+    deadMoney: true,
+    birdStatus: "none",
     noAggregate: undefined,
     restriction: undefined,
     bycPriorSalary: undefined,
+    tradeKickerPct: undefined,
+    noTradeClause: undefined,
+    poisonPillExtensionSalaries: undefined,
+    years: m.stretch
+      ? Array.from({ length: stretch.years }, (_, k) => ({
+          leagueYear: `${2026 + k}-${String(27 + k).padStart(2, "0")}`,
+          salary: Math.round(stretch.perYear),
+          guarantee: "full" as const,
+        }))
+      : straightYears,
   };
   return copy;
 }
