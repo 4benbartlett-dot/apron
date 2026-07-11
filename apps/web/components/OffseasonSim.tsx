@@ -15,7 +15,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, computeWaive, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
 import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg, chalkTossEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
@@ -115,6 +115,7 @@ export default function OffseasonSim() {
   // real sign_trade move with all the legs.
   const [stStage, setStStage] = useState<StStage | null>(null);
   const [extendFor, setExtendFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
+  const [waiveFor, setWaiveFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
   const [finderOpen, setFinderOpen] = useState(false);
 
   // Stage a found trade package onto the board (adds both teams + selects moves).
@@ -834,6 +835,7 @@ export default function OffseasonSim() {
             onPickDest={setPickDest}
             onSign={(faId, st) => setSignFor({ team: id, faId, st })}
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
+            onWaive={(playerId, playerName) => setWaiveFor({ playerId, playerName, team: id })}
             stagedSt={stContract}
           />
           </div>
@@ -906,6 +908,7 @@ export default function OffseasonSim() {
         />
       )}
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
+      {waiveFor && <WaiveDrawer {...waiveFor} lg={lg} onClose={() => setWaiveFor(null)} />}
       {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
     </div>
   );
@@ -1249,6 +1252,7 @@ function TeamColumn({
   onPickDest,
   onSign,
   onExtend,
+  onWaive,
   stagedSt,
 }: {
   teamId: string;
@@ -1266,6 +1270,7 @@ function TeamColumn({
   onPickDest: (id: string, to: string) => void;
   onSign: (faId?: string, st?: boolean) => void;
   onExtend: (playerId: string, playerName: string) => void;
+  onWaive: (playerId: string, playerName: string) => void;
   /** A staged sign-and-trade contract that belongs on THIS team's ledger. */
   stagedSt?: Contract | null;
 }) {
@@ -1506,6 +1511,11 @@ function TeamColumn({
                 {!out && currentSalary(c) > 0 && isExtensionEligible(c.playerName) && (
                   <button onClick={() => onExtend(c.playerId, c.playerName)} title="Extend this contract" className="rounded-[3px] border border-[var(--border)] px-1 py-px text-[8.5px] font-bold tracking-[0.05em] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent-ink)]">
                     EXT
+                  </button>
+                )}
+                {!out && currentSalary(c) > 0 && !(stagedSt && c.playerId === stagedSt.playerId) && (
+                  <button onClick={() => onWaive(c.playerId, c.playerName)} title="Waive this player (creates dead money)" className="rounded-[3px] border border-[var(--border)] px-1 py-px text-[8.5px] font-bold tracking-[0.05em] text-[var(--muted)] hover:border-[var(--tier-second_apron)] hover:text-[var(--tier-second_apron)]">
+                    WV
                   </button>
                 )}
                 <span className="tabular w-14 text-right text-xs text-[var(--muted)]">{currentSalary(c) > 0 ? fmtM(currentSalary(c)) : "—"}</span>
@@ -2408,6 +2418,145 @@ function ExtendDrawer({
           className="rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95"
         >
           Extend · {fmtM(clamped)} × {years}yr
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** Waive a player: convert a guaranteed contract into dead money, with an
+ * optional stretch (Art. VII §7) spreading the money over 2×seasons+1 years.
+ * A non-guaranteed contract is a clean cut. computeWaive() is the shared source
+ * of truth, so this preview is exactly what applyMove books. */
+function WaiveDrawer({
+  playerId,
+  playerName,
+  team,
+  lg,
+  onClose,
+}: {
+  playerId: string;
+  playerName: string;
+  team: string;
+  lg: LG;
+  onClose: () => void;
+}) {
+  const [stretch, setStretch] = useState(false);
+  const contract = lg.contracts.find((c) => c.playerId === playerId);
+  const w = contract ? computeWaive(contract) : null;
+  if (!contract || !w) return null;
+
+  const current = currentSalary(contract);
+  const noDead = w.guaranteedTotal <= 0;
+  const schedule = stretch
+    ? Array.from({ length: w.stretch.years }, (_, k) => ({
+        leagueYear: `${2026 + k}-${String(27 + k).padStart(2, "0")}`,
+        salary: Math.round(w.stretch.perYear),
+      }))
+    : w.straightYears.map((y) => ({ leagueYear: y.leagueYear, salary: y.salary }));
+  const thisYear = schedule.find((y) => y.leagueYear === YEAR_STR)?.salary ?? 0;
+  const scheduleTotal = schedule.reduce((s, y) => s + y.salary, 0);
+  const stretchIllegal = stretch && !w.stretch.legal;
+
+  const doWaive = () => {
+    dispatchMove({
+      kind: "waive",
+      label: noDead
+        ? `Waive: ${playerName} — non-guaranteed, no dead money`
+        : stretch
+          ? `Waive: ${playerName} · stretched — ${fmtM(w.stretch.perYear)}/yr × ${w.stretch.years}y`
+          : `Waive: ${playerName} — ${fmtM(w.guaranteedTotal)} dead`,
+      playerId,
+      stretch,
+    });
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col border-l border-[var(--border)] bg-[var(--panel)] shadow-[-8px_0_24px_rgba(33,29,19,0.08)]">
+      <div className="flex items-center justify-between border-b border-[var(--border)] p-4">
+        <div className="flex items-center gap-2">
+          <TeamLogo id={team} size={24} />
+          <div className="text-sm font-semibold">Waive player — {teamMeta(team).name}</div>
+        </div>
+        <button onClick={onClose} className="text-[var(--muted)] hover:text-[var(--text)]">✕</button>
+      </div>
+      <div className="flex flex-1 flex-col overflow-y-auto p-4">
+        <div className="mb-1 text-base font-semibold">{playerName}</div>
+        <div className="mb-4 text-xs text-[var(--muted)]">
+          current {fmtM(current)} · {w.remainingSeasons}yr left · guaranteed {fmtM(w.guaranteedTotal)}
+        </div>
+
+        {noDead ? (
+          <div className="mb-4 rounded-md border border-[var(--border)] bg-[var(--panel-2)] p-3 text-[12.5px] leading-snug text-[var(--muted)]">
+            This contract isn&apos;t guaranteed, so waiving {playerName} is a clean cut — no dead money, and the roster spot and cap room come free.
+          </div>
+        ) : (
+          <>
+            <div className="mb-3 flex gap-1">
+              <button
+                onClick={() => setStretch(false)}
+                className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${!stretch ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
+              >
+                Waive
+              </button>
+              <button
+                onClick={() => setStretch(true)}
+                className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold ${stretch ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--border)] text-[var(--muted)] hover:brightness-150"}`}
+              >
+                Waive &amp; stretch
+              </button>
+            </div>
+            <div className="mb-2 text-[11px] leading-snug text-[var(--muted)]">
+              {stretch
+                ? `Art. VII §7: the ${fmtM(w.guaranteedTotal)} guaranteed spreads evenly over ${w.stretch.years} years (2 × ${w.remainingSeasons} + 1).`
+                : `The ${fmtM(w.guaranteedTotal)} guaranteed stays on the books as it was scheduled.`}
+            </div>
+
+            <div className="mb-3 rounded-md border border-[var(--border)] bg-[var(--panel-2)] p-2 text-xs">
+              {schedule.map((y) => (
+                <div key={y.leagueYear} className="flex justify-between py-0.5">
+                  <span className="text-[var(--muted)]">{y.leagueYear}</span>
+                  <span className="tabular">{fmtFull(y.salary)}</span>
+                </div>
+              ))}
+              <div className="mt-1 flex justify-between border-t border-[var(--border)] pt-1 font-semibold">
+                <span>Dead money</span>
+                <span className="tabular">{fmtFull(scheduleTotal)}</span>
+              </div>
+            </div>
+
+            <div
+              className="mb-4 flex items-baseline justify-between rounded-md border border-[var(--border)] px-2.5 py-2"
+              style={{ background: "color-mix(in srgb, var(--tier-second_apron) 7%, transparent)" }}
+            >
+              <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[var(--muted)]">{YEAR_STR} dead cap</span>
+              <span className="tabular text-sm font-bold text-[var(--tier-second_apron)]">{fmtM(thisYear)}</span>
+            </div>
+
+            {stretchIllegal && (
+              <div
+                className="mb-4 rounded-md border px-2.5 py-1.5 text-[11.5px] leading-snug"
+                style={{ borderColor: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 8%, transparent)" }}
+              >
+                <span className="mr-1 font-bold text-[var(--tier-second_apron)]">⚠</span>
+                A stretch can&apos;t push more than 15% of the cap ({fmtM(C.salaryCap * 0.15)}) into any one year — {fmtM(w.stretch.perYear)}/yr is over the line, so this stretch isn&apos;t legal.
+              </div>
+            )}
+          </>
+        )}
+
+        <button
+          onClick={doWaive}
+          disabled={stretchIllegal}
+          className="rounded-md px-3 py-2.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
+          style={{ background: "var(--tier-second_apron)" }}
+        >
+          {noDead
+            ? `Waive ${playerName}`
+            : stretch
+              ? `Waive & stretch · ${fmtM(thisYear)}/yr`
+              : `Waive · ${fmtM(w.guaranteedTotal)} dead`}
         </button>
       </div>
     </div>

@@ -21,7 +21,7 @@ const COVERED = [
   "Re-signing your own free agents at their real Bird, Early-Bird, or Non-Bird ceilings — and the cap holds those rights keep on your books until you re-sign or renounce them.",
   "Extensions, each with their own year limits, raise limits, and the extend-and-trade freeze window.",
   "Draft picks that behave like the real thing: a pick you already owe is off your board, the Stepien rule stops you trading away first-rounders two years running, and every trade updates who owns what for the moves that follow.",
-  "Dead money from the real 2025-26 waives and stretches already on the books rides your cap sheet — counting against the cap, tax, and apron, and following the reported guarantee, not the listed salary. (Waiving or stretching a contract yourself isn't a board move yet, so this covers moves that already happened before the snapshot.)",
+  "Waive a player yourself and the guaranteed money sticks to your books as dead money — counting against the cap, tax, and apron — following the real guarantee, not the listed salary. Choose to stretch it and it spreads evenly over 2N+1 years under the 15%-of-cap guardrail, right alongside the real 2025-26 waives and stretches already on the sheet.",
   "Your actual July 2026 starting point: which teams already spent an exception, who is hard-capped and why, and which cap-room teams gave up their mid-level and bi-annual for the year.",
 ];
 
@@ -86,7 +86,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
       "Bird, Early-Bird, and Non-Bird re-signing ceilings (175% / 120%-of-prior-or-minimum), using each free agent's real Bird status and restricted/unrestricted designation where it's sourced.",
       "Cap holds by Bird status (Non-Bird 120%, Early-Bird 130%, Bird 150–190%, rookie-scale restricted 250/300%). Renounce a hold to open space; keep it and it converts to salary on re-sign with no double-count; renouncing forfeits Bird rights.",
       "Veteran extensions at their first-year ceiling (140% of the prior or estimated-average salary) with 8% raises on added years; extend-and-trades at the tighter 120% ceiling with 5% raises.",
-      "Renegotiation and stretch math — renegotiation limited to a team's room, stretch spread over 2N+1 years under the 15%-of-cap guardrail — is implemented in the rules engine for reference, but neither is a move you can make on the board yet.",
+      "Renegotiation math — a veteran's raise capped at the team's cap room, in the renegotiation window only — is implemented in the rules engine for reference, but isn't a move you can make on the board yet. (Stretching a waived contract now is — see the Waive action.)",
       "Restricted free agency: the Gilbert Arenas first-year cap for 1–2 year players, and a real match flow where the original team can match your offer sheet and keep the player at your terms.",
     ],
   },

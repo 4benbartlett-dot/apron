@@ -84,14 +84,27 @@ describe("applyMove: renounce is a no-op on contracts (never waives)", () => {
   });
 });
 
-describe("applyMove: waive clears trade-derived flags", () => {
-  it("drops the year and clears noAggregate / restriction / byc", () => {
+describe("applyMove: waive creates dead money and clears trade-derived flags", () => {
+  it("keeps guaranteed money on the books as dead money, flags cleared", () => {
     const p: Contract = { ...c("z", "BOS", 5_000_000, YEAR), noAggregate: true, restriction: "x", bycPriorSalary: 3_000_000 };
     const out = applyMove([p], { kind: "waive", label: "", playerId: "z" });
-    expect(yr(out, "z", YEAR)).toBeUndefined();
+    // Still owed — the charge just moves from the roster to dead money.
+    expect(out[0]!.deadMoney).toBe(true);
+    expect(yr(out, "z", YEAR)?.salary).toBe(5_000_000);
     expect(out[0]!.noAggregate).toBeUndefined();
     expect(out[0]!.restriction).toBeUndefined();
     expect(out[0]!.bycPriorSalary).toBeUndefined();
+  });
+  it("stretches the guaranteed money over 2N+1 years when asked (Art. VII §7)", () => {
+    const out = applyMove([c("z", "BOS", 6_000_000, YEAR)], { kind: "waive", label: "", playerId: "z", stretch: true });
+    expect(out[0]!.deadMoney).toBe(true);
+    expect(out[0]!.years).toHaveLength(3); // 2 × 1 + 1
+    expect(yr(out, "z", YEAR)?.salary).toBe(2_000_000); // $6M / 3
+  });
+  it("a fully non-guaranteed contract is a clean cut — no dead money", () => {
+    const ng: Contract = { playerId: "n", playerName: "n", teamId: "BOS", years: [{ leagueYear: YEAR, salary: 2_000_000, guarantee: "non_guaranteed" }] };
+    const out = applyMove([ng], { kind: "waive", label: "", playerId: "n" });
+    expect(out).toHaveLength(0);
   });
 });
 
