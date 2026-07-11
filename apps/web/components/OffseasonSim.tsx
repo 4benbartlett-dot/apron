@@ -1542,7 +1542,7 @@ function TeamColumn({
                 >
                   Sign
                 </button>
-                {!fa.renounced && !fa.renouncedInWorld && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") && (
+                {!fa.renounced && !fa.renouncedInWorld && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird") && (
                   <button
                     onClick={() => onSign(fa.playerId, true)}
                     title={`Sign-and-trade ${fa.playerName} away — pick a destination, take a return package back`}
@@ -1917,8 +1917,12 @@ function SignEditor({
     if (initialSt) setYears((y) => Math.max(3, y));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const canOfferSt =
-    (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") && (isOwn || !v.legal);
+  // Any veteran free agent can be signed-and-traded (CBA Art. VII §8(e)) — not
+  // only Bird/Early-Bird. A Non-Bird re-sign (up to 120% of prior) is a valid
+  // S&T leg; the engine handles the 5% raises and the ceiling already.
+  const stEligibleRights =
+    fa.birdStatus === "bird" || fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird";
+  const canOfferSt = stEligibleRights && (isOwn || !v.legal);
   // The S&T salary is bounded by what the SENDER could re-sign him for with
   // his actual rights — the re-sign leg happens on the old team's books.
   const sendCommitted = lg.teamSalary(fa.priorTeam);
