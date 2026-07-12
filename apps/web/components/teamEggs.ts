@@ -98,6 +98,22 @@ function markEggSeen(key: string) {
   }
 }
 
+/** Is this egg off cooldown right now? The move-watcher's league chain uses
+ * this so a rung whose show is already spent doesn't swallow the move —
+ * exclusivity belongs to the rarest egg that will actually PLAY. */
+export function eggReady(key: string): boolean {
+  return eggAllowed(key);
+}
+/** A run that bails before showing anything hands its once-per-session slot
+ * back — the gag wasn't seen, so it isn't spent. */
+function reopenEgg(key: string) {
+  try {
+    sessionStorage.removeItem(`apron_egg_seen:${key}`);
+  } catch {
+    /* ignore */
+  }
+}
+
 function queueEgg(key: string, ms: number, run: () => void) {
   // De-dupe within a batch; cap the parade so a wild multi-team deal can't
   // hold the screen hostage (extra reactions are all good news — losing the
@@ -1692,8 +1708,12 @@ function premiereEggRun() {
     leagueToast(stamp, text, undefined, "A max-money star arriving by trade gets the searchlights.");
     return;
   }
+  if (document.querySelector(".egg-premiere")) return;
   const card = cardOf("LAL");
-  if (!card || document.querySelector(".egg-premiere")) return;
+  if (!card) {
+    reopenEgg("premiere");
+    return;
+  }
   const r = card.getBoundingClientRect();
   const edges: Array<[number, number]> = [[6, 14], [92, 20], [16, 84], [84, 88], [-2, 48], [100, 42], [50, -4]];
   const flashes = edges
@@ -3547,6 +3567,7 @@ function lotteryEggRun(team: string) {
   if (!card) {
     // card off the board — the season is still zero and eighty-two
     leagueToast(stamp, text, undefined, "A roster projecting under the '12 Bobcats (eight wins) does this.");
+    reopenEgg("lottery");
     return;
   }
   const r = card.getBoundingClientRect();
@@ -3558,6 +3579,7 @@ function lotteryEggRun(team: string) {
   // of playing to an empty room.
   if (r.top < 70 || r.bottom > vh - 16 || r.height < 200 || w < 290) {
     leagueToast(stamp, text, undefined, "A roster projecting under the '12 Bobcats (eight wins) does this.");
+    reopenEgg("lottery");
     return;
   }
   const drop = Math.min(160, r.top - 10); // sky above the card

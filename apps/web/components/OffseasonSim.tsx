@@ -16,7 +16,7 @@ import {
   type MechanismId,
 } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, computeWaive, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
-import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, rockCrackEgg, subwayEgg, chalkTossEgg, hawkDiveEgg, cigarEgg, swarmEgg, stampedeEgg, summitEgg, assemblyLineEgg, lightYearsEgg, launchEgg, brickyardEgg, theWallEgg, premiereEgg, gritGrindEgg, whiteHotEgg, antlersEgg, northernLightsEgg, beadThrowEgg, bingBongEgg, finaleEgg, bellTollEgg, valleySunriseEgg, dameTimeEgg, theNorthEgg, theRiffEgg, blossomsEgg, perfectionEgg, lotteryEgg, freezeEgg, auditEgg, commissionerEgg, heistEgg } from "@/components/teamEggs";
+import { eggReady, heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, rockCrackEgg, subwayEgg, chalkTossEgg, hawkDiveEgg, cigarEgg, swarmEgg, stampedeEgg, summitEgg, assemblyLineEgg, lightYearsEgg, launchEgg, brickyardEgg, theWallEgg, premiereEgg, gritGrindEgg, whiteHotEgg, antlersEgg, northernLightsEgg, beadThrowEgg, bingBongEgg, finaleEgg, bellTollEgg, valleySunriseEgg, dameTimeEgg, theNorthEgg, theRiffEgg, blossomsEgg, perfectionEgg, lotteryEgg, freezeEgg, auditEgg, commissionerEgg, heistEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -335,13 +335,11 @@ export default function OffseasonSim() {
     const wasTeamOf = (pid: string) => before?.find((c) => c.playerId === pid)?.teamId;
     const gainOf = (t: string) => !!gains[t] && (gains[t]!.wins > 0 || gains[t]!.nrtg > 0.1);
     // league jackpots
-    const perfectTeam = board.find((t) => gains[t] && gains[t]!.projWins === 82 && gains[t]!.prevWins < 82 && touches(t));
-    const lotteryTeam = board.find((t) => gains[t] && gains[t]!.projWins <= 8 && gains[t]!.prevWins > 8 && touches(t));
+    const perfectTeam = board.find((t) => gains[t] && gains[t]!.projWins >= 82 && touches(t));
+    const lotteryTeam = board.find((t) => gains[t] && gains[t]!.projWins <= 8 && touches(t));
     const touchedAll = TEAM_IDS.every((t) => lg.moves.some((m) => moveTouches(m, t)));
-    const touchedAllBefore = TEAM_IDS.every((t) => lg.moves.slice(0, -1).some((m) => moveTouches(m, t)));
-    const spendOf = (m: Move) => (m.kind === "sign" || m.kind === "sign_trade" || m.kind === "extend" ? m.salary : 0);
+    const spendOf = (m: Move) => (m.kind === "sign" || m.kind === "sign_trade" || m.kind === "extend" ? m.salary * (m.years ?? 1) : 0);
     const spentNow = lg.moves.reduce((s2, m) => s2 + spendOf(m), 0);
-    const spentBefore = spentNow - spendOf(mv);
     // team pieces
     const dalOut = mv.kind === "trade" ? mv.players.filter((p) => wasTeamOf(p.playerId) === "DAL" && p.to !== "DAL").length : 0;
     const chaAssets =
@@ -374,7 +372,7 @@ export default function OffseasonSim() {
       mv.players.some((p) => {
         if (p.to !== "TOR") return false;
         const c = lg.contracts.find((x) => x.playerId === p.playerId);
-        return !!c && c.years.filter((y) => y.salary > 0).length === 1;
+        return !!c && c.years.filter((y) => y.leagueYear >= YEAR && y.salary > 0).length === 1;
       });
     const utaPicksOf = (m: Move) => (m.kind === "trade" ? (m.picks ?? []).filter((p) => p.to === "UTA").length : 0);
     const utaPicksNow = lg.moves.reduce((s2, m) => s2 + utaPicksOf(m), 0);
@@ -404,15 +402,17 @@ export default function OffseasonSim() {
       });
       if (!(heistWinner && bestNet >= 25 && bestRecv >= bestGiven * 2 && board.includes(heistWinner))) heistWinner = undefined;
     }
-    // League jackpots — one takeover per move, rarest first. Each also rests
-    // on its policy cooldown (once per session, or once a day for the loud
-    // trade-shaped ones), so back-to-back blockbusters don't wallpaper.
-    if (perfectTeam) perfectionEgg(teamMeta(perfectTeam).name);
-    else if (lotteryTeam) lotteryEgg(lotteryTeam);
-    else if (touchedAll && !touchedAllBefore) commissionerEgg();
-    else if (frozeOver && touches(frozeOver)) freezeEgg(frozeOver);
-    else if (spentNow >= 1_000_000_000 && spentBefore < 1_000_000_000) auditEgg(`$${spentNow.toLocaleString("en-US")}`);
-    else if (heistWinner) heistEgg(teamMeta(heistWinner).name);
+    // League jackpots — one takeover per move, rarest first, and each rung
+    // checks its cooldown so a spent show doesn't swallow the move for the
+    // rungs below it. Perfection/Lottery/Commissioner/Audit fire from the
+    // STATE (not a crossing): a session restored already at 82-0 still gets
+    // its show, and the once-per-session policy is what stops repeats.
+    if (perfectTeam && eggReady("perfection")) perfectionEgg(teamMeta(perfectTeam).name);
+    else if (lotteryTeam && eggReady("lottery")) lotteryEgg(lotteryTeam);
+    else if (touchedAll && eggReady("commish")) commissionerEgg();
+    else if (frozeOver && touches(frozeOver) && eggReady(`freeze:${frozeOver}`)) freezeEgg(frozeOver);
+    else if (spentNow >= 1_000_000_000 && eggReady("audit")) auditEgg(`${spentNow.toLocaleString("en-US")}`);
+    else if (heistWinner && eggReady("heist")) heistEgg(teamMeta(heistWinner).name);
 
     // Team reactions — independent checks (not else-if): a multi-team deal
     // can trip several, and the queue serializes them. Ordered by billing.
