@@ -4,21 +4,23 @@ import { useEffect } from "react";
 
 /** A paper-slip toast from the league office. The "heat" tone burns in the
  * site accent with a guttering stamp — reserved for Miami. */
-export function leagueToast(stamp: string, text: string, tone: "green" | "red" | "heat" = "green") {
+export function leagueToast(stamp: string, text: string, tone: "green" | "red" | "heat" = "green", why?: string) {
   if (typeof document === "undefined") return;
   document.querySelector(".egg-toast")?.remove();
   const el = document.createElement("div");
-  el.className = tone === "heat" ? "egg-toast egg-heat" : "egg-toast";
+  el.className = (tone === "heat" ? "egg-toast egg-heat" : "egg-toast") + (why ? " egg-receipt" : "");
   // League-office slips announce themselves to assistive tech too.
   el.setAttribute("role", "status");
   el.setAttribute("aria-live", "polite");
   const color =
     tone === "green" ? "var(--tier-below_cap)" : tone === "heat" ? "var(--accent)" : "var(--tier-second_apron)";
   const safe = (t: string) => t.replace(/[<>&]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[ch]!);
-  el.innerHTML = `<span class="stamp" style="color:${color}">${safe(stamp)}</span><span>${safe(text)}</span>`;
+  // A slip with a "why" footnote is an easter-egg receipt: it names the
+  // trigger in small print and outlives the animation so it can be read.
+  el.innerHTML = `<span class="stamp" style="color:${color}">${safe(stamp)}</span><span>${safe(text)}${why ? `<i class="toast-why">${safe(why)}</i>` : ""}</span>`;
   document.body.appendChild(el);
-  // Slips linger long enough to actually READ — ~5.6s with a slow exit.
-  setTimeout(() => el.remove(), 5700);
+  // Slips linger long enough to actually READ — ~5.6s, or ~11s for receipts.
+  setTimeout(() => el.remove(), why ? 11_600 : 5700);
 }
 
 /** Type a name, get a reply — anywhere, including search boxes. Matched
