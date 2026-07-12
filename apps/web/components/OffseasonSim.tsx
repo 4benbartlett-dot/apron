@@ -16,7 +16,7 @@ import {
   type MechanismId,
 } from "@apron/cba-engine";
 import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, computeWaive, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
-import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, confettiEgg, rockCrackEgg, subwayEgg, chalkTossEgg } from "@/components/teamEggs";
+import { heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, rockCrackEgg, subwayEgg, chalkTossEgg, hawkDiveEgg, cigarEgg, swarmEgg, stampedeEgg, summitEgg, assemblyLineEgg, lightYearsEgg, launchEgg, brickyardEgg, theWallEgg, premiereEgg, gritGrindEgg, whiteHotEgg, antlersEgg, northernLightsEgg, beadThrowEgg, bingBongEgg, finaleEgg, bellTollEgg, valleySunriseEgg, dameTimeEgg, theNorthEgg, theRiffEgg, blossomsEgg, perfectionEgg, lotteryEgg, freezeEgg, auditEgg, commissionerEgg, heistEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Term } from "@/components/Term";
@@ -255,34 +255,74 @@ export default function OffseasonSim() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lg.moves.length, sacOnBoard]);
 
-  // Board showpieces: every team the move set off reacts. Each egg self-
-  // queues (teamEggs.ts), so if a blockbuster lights up two cards at once
-  // they play in sequence rather than on top of each other. Fires only on a
-  // single fresh move — never on undo or session restore.
+  // Board showpieces: every team the move set off reacts — each egg self-
+  // queues (teamEggs.ts) so co-fires play in sequence, and the cooldown
+  // policy keeps a repeated trigger from replaying the same show. League-
+  // scale jackpots are mutually exclusive (one takeover per move, rarest
+  // first); team reactions fire independently alongside them. Projection and
+  // apron-tier baselines are snapshotted on EVERY run so hydration and undo
+  // update them silently — only a single fresh move may fire from them.
   const prevMoveCount = useRef<number | null>(null);
+  const projPrev = useRef<Record<string, { wins: number; nrtg: number; delta: number }>>({});
+  const tierPrev = useRef<Record<string, string>>({});
+  const contractsPrev = useRef<Contract[] | null>(null);
   useEffect(() => {
     const n = lg.moves.length;
     const prev = prevMoveCount.current;
     prevMoveCount.current = n;
+    const before = contractsPrev.current;
+    contractsPrev.current = lg.contracts;
+    // Projection baselines for EVERY board team — improvement eggs, Denver's
+    // paydirt (#1 overall), and the league jackpots (82-0 / 0 wins) read here.
+    const gains: Record<string, { wins: number; nrtg: number; crossed10: boolean; projWins: number; prevWins: number }> = {};
+    for (const t of Object.keys(projPrev.current)) if (!board.includes(t)) delete projPrev.current[t];
+    for (const t of board) {
+      const p = teamProjection(t, lg.contracts);
+      if (!p) continue;
+      const old = projPrev.current[t];
+      projPrev.current[t] = { wins: p.projWins, nrtg: p.projNrtg, delta: p.deltaWins };
+      if (old)
+        gains[t] = {
+          wins: p.projWins - old.wins,
+          nrtg: p.projNrtg - old.nrtg,
+          crossed10: old.delta < 10 && p.deltaWins >= 10,
+          projWins: p.projWins,
+          prevWins: old.wins,
+        };
+    }
+    // Apron-tier crossings, both directions: MIN ducking under (aurora),
+    // anyone crossing UP into the second apron (the freeze).
+    let minDucked = false;
+    let frozeOver: string | null = null;
+    for (const t of Object.keys(tierPrev.current)) if (!board.includes(t)) delete tierPrev.current[t];
+    for (const t of board) {
+      const tier = lg.capSheet(t).tier;
+      const old = tierPrev.current[t];
+      tierPrev.current[t] = tier;
+      if (t === "MIN" && old === "second_apron" && tier !== "second_apron") minDucked = true;
+      if (old && old !== "second_apron" && tier === "second_apron" && frozeOver === null) frozeOver = t;
+    }
     if (!freshMove(prev, n)) return;
     const mv = lg.moves[n - 1]!;
     const impactOf = (pid: string) => {
       const c = lg.contracts.find((x) => x.playerId === pid);
       return c ? impactScoreOf(c) : 0;
     };
-    // who just received a star? (CHI intro / LAL confetti share this shape)
+    // who just received a star? (CHI intro / LAL premiere share this shape)
     const arrival = (team: string, minImpact: number, minSalary = 0) => {
       if (mv.kind === "trade")
         return mv.players.find(
           (p) => p.to === team && impactOf(p.playerId) >= minImpact && salaryOf(p.playerId) >= minSalary,
         )?.playerId;
-      if (minSalary > 0) return undefined; // confetti is trade-only, per the lore
+      if (minSalary > 0) return undefined; // the premiere is trade-only, per the lore
       if (mv.kind === "sign" && mv.teamId === team && impactOf(mv.playerId) >= minImpact) return mv.playerId;
       if (mv.kind === "sign_trade" && mv.toTeam === team && impactOf(mv.playerId) >= minImpact) return mv.playerId;
       return undefined;
     };
+    const touches = (t: string) => board.includes(t) && moveTouches(mv, t);
     const chiStar = board.includes("CHI") ? arrival("CHI", 60) : undefined;
     const lalMax = board.includes("LAL") ? arrival("LAL", 0, 0.28 * C.salaryCap) : undefined;
+    const miaMins = lg.moves.filter((m) => m.kind === "sign" && m.teamId === "MIA" && m.mechanism === "minimum").length;
     // The chalk toss is HIS pregame ritual — it fires only if Cleveland
     // brings LeBron James himself home, by any route.
     const LEBRON = "jamesle01";
@@ -291,11 +331,94 @@ export default function OffseasonSim() {
       ((mv.kind === "trade" && mv.players.some((p) => p.playerId === LEBRON && p.to === "CLE")) ||
         (mv.kind === "sign" && mv.teamId === "CLE" && mv.playerId === LEBRON) ||
         (mv.kind === "sign_trade" && mv.toTeam === "CLE" && mv.playerId === LEBRON));
-    // Independent checks (not else-if): a multi-team deal can trip several,
-    // and the queue serializes them. Ordered here by billing.
+    // ---- ported tranche-4/5 detections ----
+    const wasTeamOf = (pid: string) => before?.find((c) => c.playerId === pid)?.teamId;
+    const gainOf = (t: string) => !!gains[t] && (gains[t]!.wins > 0 || gains[t]!.nrtg > 0.1);
+    // league jackpots
+    const perfectTeam = board.find((t) => gains[t] && gains[t]!.projWins === 82 && gains[t]!.prevWins < 82 && touches(t));
+    const lotteryTeam = board.find((t) => gains[t] && gains[t]!.projWins <= 8 && gains[t]!.prevWins > 8 && touches(t));
+    const touchedAll = TEAM_IDS.every((t) => lg.moves.some((m) => moveTouches(m, t)));
+    const touchedAllBefore = TEAM_IDS.every((t) => lg.moves.slice(0, -1).some((m) => moveTouches(m, t)));
+    const spendOf = (m: Move) => (m.kind === "sign" || m.kind === "sign_trade" || m.kind === "extend" ? m.salary : 0);
+    const spentNow = lg.moves.reduce((s2, m) => s2 + spendOf(m), 0);
+    const spentBefore = spentNow - spendOf(mv);
+    // team pieces
+    const dalOut = mv.kind === "trade" ? mv.players.filter((p) => wasTeamOf(p.playerId) === "DAL" && p.to !== "DAL").length : 0;
+    const chaAssets =
+      mv.kind === "trade" ? mv.players.filter((p) => p.to === "CHA").length + (mv.picks ?? []).filter((p) => p.to === "CHA").length : 0;
+    const memIn = mv.kind === "trade" ? mv.players.filter((p) => p.to === "MEM").reduce((s2, p) => s2 + salaryOf(p.playerId), 0) : 0;
+    const memOut =
+      mv.kind === "trade"
+        ? mv.players.filter((p) => wasTeamOf(p.playerId) === "MEM" && p.to !== "MEM").reduce((s2, p) => s2 + salaryOf(p.playerId), 0)
+        : 0;
+    const pickVal = (id: string) => {
+      const [o, y, r2] = id.split("|");
+      return pickValue(Number(y), r2 === "1" ? 1 : 2, o!);
+    };
+    const meterOf = (pid: string) => {
+      const c = lg.contracts.find((x) => x.playerId === pid);
+      return c ? assetMeterValue(c) : 0;
+    };
+    const indIn =
+      mv.kind === "trade"
+        ? mv.players.filter((p) => p.to === "IND").reduce((s2, p) => s2 + meterOf(p.playerId), 0) +
+          (mv.picks ?? []).filter((p) => p.to === "IND").reduce((s2, p) => s2 + pickVal(p.id), 0)
+        : 0;
+    const indOut =
+      mv.kind === "trade"
+        ? mv.players.filter((p) => wasTeamOf(p.playerId) === "IND" && p.to !== "IND").reduce((s2, p) => s2 + meterOf(p.playerId), 0) +
+          (mv.picks ?? []).filter((p) => p.from === "IND" && p.to !== "IND").reduce((s2, p) => s2 + pickVal(p.id), 0)
+        : 0;
+    const torExpiring =
+      mv.kind === "trade" &&
+      mv.players.some((p) => {
+        if (p.to !== "TOR") return false;
+        const c = lg.contracts.find((x) => x.playerId === p.playerId);
+        return !!c && c.years.filter((y) => y.salary > 0).length === 1;
+      });
+    const utaPicksOf = (m: Move) => (m.kind === "trade" ? (m.picks ?? []).filter((p) => p.to === "UTA").length : 0);
+    const utaPicksNow = lg.moves.reduce((s2, m) => s2 + utaPicksOf(m), 0);
+    const utaPicksThis = utaPicksOf(mv);
+    const denFirst =
+      !!gains.DEN &&
+      gains.DEN.wins > 0 &&
+      touches("DEN") &&
+      TEAM_IDS.every((t) => t === "DEN" || (teamProjection(t, lg.contracts)?.projWins ?? 0) < (gains.DEN?.projWins ?? 0));
+    const porStar = board.includes("POR") ? arrival("POR", 75) : undefined;
+    const porMidnight = new Date().getHours() === 0 && touches("POR");
+    // THE HEIST: a trade where one side robs the other on the value meter
+    let heistWinner: string | undefined;
+    if (mv.kind === "trade") {
+      const teamsIn = new Set<string>();
+      mv.players.forEach((p) => { teamsIn.add(p.to); const f = wasTeamOf(p.playerId); if (f) teamsIn.add(f); });
+      (mv.picks ?? []).forEach((p) => { teamsIn.add(p.to); if (p.from) teamsIn.add(p.from); });
+      let bestNet = -Infinity, bestRecv = 0, bestGiven = 0;
+      teamsIn.forEach((t) => {
+        const recv =
+          mv.players.filter((p) => p.to === t).reduce((a, p) => a + meterOf(p.playerId), 0) +
+          (mv.picks ?? []).filter((p) => p.to === t).reduce((a, p) => a + pickVal(p.id), 0);
+        const given =
+          mv.players.filter((p) => wasTeamOf(p.playerId) === t && p.to !== t).reduce((a, p) => a + meterOf(p.playerId), 0) +
+          (mv.picks ?? []).filter((p) => p.from === t && p.to !== t).reduce((a, p) => a + pickVal(p.id), 0);
+        if (recv - given > bestNet) { bestNet = recv - given; bestRecv = recv; bestGiven = given; heistWinner = t; }
+      });
+      if (!(heistWinner && bestNet >= 25 && bestRecv >= bestGiven * 2 && board.includes(heistWinner))) heistWinner = undefined;
+    }
+    // League jackpots — one takeover per move, rarest first. Each also rests
+    // on its policy cooldown (once per session, or once a day for the loud
+    // trade-shaped ones), so back-to-back blockbusters don't wallpaper.
+    if (perfectTeam) perfectionEgg(teamMeta(perfectTeam).name);
+    else if (lotteryTeam) lotteryEgg(lotteryTeam);
+    else if (touchedAll && !touchedAllBefore) commissionerEgg();
+    else if (frozeOver && touches(frozeOver)) freezeEgg(frozeOver);
+    else if (spentNow >= 1_000_000_000 && spentBefore < 1_000_000_000) auditEgg(`$${spentNow.toLocaleString("en-US")}`);
+    else if (heistWinner) heistEgg(teamMeta(heistWinner).name);
+
+    // Team reactions — independent checks (not else-if): a multi-team deal
+    // can trip several, and the queue serializes them. Ordered by billing.
     if (chiStar) introEgg(lg.playerName(chiStar));
     if (cleLeBron) chalkTossEgg("LeBron James");
-    if (lalMax && mv.kind === "trade") confettiEgg();
+    if (lalMax && mv.kind === "trade") premiereEgg();
     if (
       board.includes("OKC") &&
       mv.kind === "trade" &&
@@ -315,6 +438,30 @@ export default function OffseasonSim() {
     ) {
       subwayEgg();
     }
+    if (mv.kind === "extend" && board.includes("MIL") && lg.contracts.find((c) => c.playerId === mv.playerId)?.teamId === "MIL")
+      antlersEgg(mv.playerName);
+    if (minDucked && touches("MIN")) northernLightsEgg();
+    if (mv.kind === "sign" && mv.teamId === "MIA" && mv.mechanism === "minimum" && miaMins === 2 && board.includes("MIA")) whiteHotEgg();
+    if (mv.kind === "sign" && mv.teamId === "DET" && board.includes("DET") && gainOf("DET")) assemblyLineEgg();
+    if (gains.GSW?.crossed10 && touches("GSW")) lightYearsEgg();
+    if ((gains.BOS?.wins ?? 0) >= 3 && touches("BOS")) cigarEgg();
+    if ((gains.NYK?.wins ?? 0) >= 1 && touches("NYK")) bingBongEgg();
+    if (mv.kind === "trade" && gainOf("NOP") && touches("NOP")) beadThrowEgg();
+    if (gainOf("WAS") && touches("WAS")) blossomsEgg();
+    if (porStar || porMidnight) dameTimeEgg();
+    if (denFirst) summitEgg();
+    if (torExpiring && board.includes("TOR")) theNorthEgg();
+    if (chaAssets >= 3 && board.includes("CHA")) swarmEgg();
+    if (dalOut >= 3 && board.includes("DAL")) stampedeEgg();
+    if (mv.kind === "trade" && board.includes("MEM") && memIn > 0 && memIn > memOut) gritGrindEgg();
+    if (mv.kind === "trade" && board.includes("IND") && indOut > 0 && indIn >= indOut + 5) brickyardEgg();
+    if (utaPicksThis > 0 && utaPicksNow >= 3 && utaPicksNow - utaPicksThis < 3 && board.includes("UTA")) theRiffEgg();
+    if ((gains.HOU?.wins ?? 0) >= 2 && touches("HOU")) launchEgg();
+    if ((gains.PHI?.wins ?? 0) >= 2 && touches("PHI")) bellTollEgg();
+    if (gainOf("ATL") && touches("ATL")) hawkDiveEgg();
+    if ((gains.LAC?.wins ?? 0) >= 2 && touches("LAC")) theWallEgg();
+    if ((gains.ORL?.wins ?? 0) >= 2 && touches("ORL")) finaleEgg();
+    if (gainOf("PHX") && touches("PHX")) valleySunriseEgg();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lg.moves.length]);
 

@@ -65,11 +65,14 @@ const RECIPES: Record<string, Recipe> = {
   // the left to take the checkered flag
   IND: { fx: "dash", a: "#002d62", b: "#fdbb30", extra: { i: 2, b: 1 } },
   // the over-caffeinated double bounce, sweat flying off both corners
-  LAC: { fx: "ballmer", a: "#c8102e", b: "#1d428a", extra: { i: 4 } },
+  // The Odyssey: the mark rides ocean swells; compass swings, ripples, spray
+  LAC: { fx: "voyage", a: "#c8102e", b: "#1d428a", extra: { b: 2, i: 4 } },
   // premiere night: two searchlights cross behind the mark, gold sweep inside
-  LAL: { fx: "showtime", a: "#552583", b: "#fdb927", extra: { b: 2 } },
+  // Hollywood premiere: crossing kliegs, a Walk-of-Fame star, paparazzi flashes
+  LAL: { fx: "showtime", a: "#552583", b: "#fdb927", extra: { b: 3, i: 6 } },
   // heavy growl-shake; grinder sparks spray off the bottom edge
-  MEM: { fx: "grit", a: "#5d76a9", b: "#12173f", extra: { i: 5 } },
+  // Beale Street neon: the sign stutters on inside the bear's own silhouette
+  MEM: { fx: "grit", a: "#5d76a9", b: "#12173f", extra: { i: 2, b: 1 } },
   // the flame FLARES while hovered — heat haze rising, Vice-pink-and-blue sweep
   MIA: { fx: "gutter", a: "#98002e", b: "#f9a01b", extra: { i: 3 } },
   // antlers grow in behind the deer head, hold proud, fade
