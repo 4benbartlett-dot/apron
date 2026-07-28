@@ -284,7 +284,7 @@ export default function TeamWarRoom() {
                   {!visibleHoldings.length && !acquired.length && !swapsForTeam.length && <span className="text-[10px] text-[var(--muted)]">None</span>}
                 </div>
                 <details className="text-[11px]">
-                  <summary className="cursor-pointer text-[var(--muted)]">Full ledger (RealGM) — {picks.incoming.length} in, {picks.outgoing.length} out</summary>
+                  <summary className="cursor-pointer text-[var(--muted)]">Full ledger — {picks.incoming.length} in, {picks.outgoing.length} out</summary>
                   <div className="mt-1.5 max-h-[22vh] space-y-1 overflow-y-auto">
                     {picks.incoming.map((p, i) => (<div key={`in${i}`} className="text-[var(--muted)]"><span className="text-[var(--tier-below_cap)]">in</span> <span className="text-[var(--text)]">{p.year}</span> — {p.headline.replace(/^\d{4}\s+/i, "")}</div>))}
                     {picks.outgoing.map((p, i) => (<div key={`out${i}`} className="text-[var(--muted)]"><span className="text-[var(--tier-second_apron)]">out</span> <span className="text-[var(--text)]">{p.year}</span> — {p.headline.replace(/^\d{4}\s+/i, "")}</div>))}
