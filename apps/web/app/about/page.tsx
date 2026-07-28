@@ -35,40 +35,26 @@ export default function AboutPage() {
       </header>
 
       <div className="rule mt-7 pt-7">
-        <div className="space-y-4 text-[14.5px] leading-[1.75]">
-          <p>
-            Most trade machines stop at salary matching. That was the easy part
-            even before 2023. What decides deals now is the apron system — who
-            can aggregate salaries, who can absorb one by sign-and-trade, whose
-            mid-level is already gone, and which move quietly hard-caps a team
-            for the rest of the year. This site is an attempt to get that part
-            right, and to show its work: block a move and it names the rule, with
-            the provision cited where one applies.
-          </p>
-          <p className="text-[var(--muted)]">
-            The rules engine is kept apart from the interface, so the thresholds,
-            matching bands, exceptions, and hard caps are one shared body of CBA
-            math rather than logic scattered through the screens — and that math
-            is replayed against every real transaction of the offseason to check
-            it still agrees with what actually happened. Where the public record
-            forces an estimate, the estimate is{" "}
-            <Link href="/accuracy" className={link}>
-              published rather than hidden
-            </Link>
-            .
-          </p>
-        </div>
+        <p className="text-[15px] leading-[1.8]">
+          Most trade machines stop at salary matching. That was the easy part
+          even before 2023. What decides deals now is the apron system — who can
+          aggregate salaries, who can absorb one by sign-and-trade, whose
+          mid-level is already gone, and which move quietly hard-caps a team for
+          the rest of the year. This site is an attempt to get that part right,
+          and to show its work: block a move and it names the rule, with the
+          provision cited where one applies.
+        </p>
       </div>
 
-      <div className="rule mt-8 pt-7">
-        <p className="label">Built by</p>
+      <div className="rule mt-9 pt-7">
+        <p className="label">Contact</p>
         <p className="mt-2.5 text-[14.5px] leading-relaxed">
-          Ben Bartlett. Corrections, missed rules, and bug reports are all
-          genuinely welcome — a screenshot, or the move you were trying to make,
-          helps most.
+          Built by Ben Bartlett. Corrections, missed rules, and bug reports are
+          all genuinely welcome — a screenshot, or the move you were trying to
+          make, helps most.
         </p>
 
-        <ul className="mt-5 space-y-2.5">
+        <ul className="mt-6 space-y-3">
           {LINES.map((l) => (
             <li key={l.href} className="leader text-[13.5px]">
               <span className="order-first shrink-0 text-[var(--muted)]">{l.label}</span>
@@ -85,7 +71,7 @@ export default function AboutPage() {
         </ul>
       </div>
 
-      <div className="rule mt-8 pt-7">
+      <div className="rule mt-9 pt-7">
         <p className="label">Press &amp; media</p>
         <p className="mt-2.5 text-[14.5px] leading-relaxed">
           The methodology is public.{" "}
@@ -93,23 +79,27 @@ export default function AboutPage() {
             Rules coverage &amp; accuracy
           </Link>{" "}
           sets out what the engine enforces, where the public record forces an
-          approximation, and which rules aren&rsquo;t on the board yet. Worth
-          reading before citing a verdict.
+          approximation, and which rules aren&rsquo;t on the board yet.
         </p>
       </div>
 
-      <p className="mt-9 text-xs leading-relaxed text-[var(--muted)]">
+      <div className="rule mt-9 flex flex-wrap items-center justify-between gap-4 pt-7">
+        <Link
+          href="/"
+          className="rounded-md border border-[var(--border-strong)] px-4 py-2 text-sm font-semibold text-[var(--accent-ink)] transition-colors hover:bg-[var(--panel)]"
+        >
+          Start your offseason →
+        </Link>
+        <p className="tabular text-[11px] text-[var(--muted)]">
+          rosters as of {DATA_AS_OF}
+        </p>
+      </div>
+
+      <p className="mt-6 text-xs leading-relaxed text-[var(--muted)]">
         An independent project, not affiliated with or endorsed by the NBA or the
         NBPA. Player names, contracts, and transactions are compiled from public
-        sources; rosters current to <span className="tabular">{DATA_AS_OF}</span>.
+        sources.
       </p>
-
-      <Link
-        href="/"
-        className="mt-7 inline-block text-sm font-semibold text-[var(--accent-ink)] hover:underline"
-      >
-        Start your offseason →
-      </Link>
     </div>
   );
 }
