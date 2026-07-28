@@ -80,6 +80,15 @@ async function main() {
   }
 
   const count = Object.keys(byName).length;
+  // An upstream markup change makes every regex miss, which would otherwise
+  // blank the file. A real offseason always has hundreds of signed FAs.
+  if (count < 50) {
+    const had = Object.keys(JSON.parse(readFileSync(OUT, "utf8")).byName ?? {}).length;
+    throw new Error(
+      `Parsed only ${count} signings (expected 50+). Spotrac's markup likely changed — ` +
+        `fix ROW/ROW2 before rerunning. ${OUT} left untouched (${had} rows).`,
+    );
+  }
   writeFileSync(OUT, JSON.stringify({ source: "Spotrac signed free agents (via Firecrawl)", byName }, null, 2));
   console.log(`Wrote ${count} signings -> ${OUT}`);
   const top = Object.values(byName).sort((a, b) => b.aav - a.aav).slice(0, 8);

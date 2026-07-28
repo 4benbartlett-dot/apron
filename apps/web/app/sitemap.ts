@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/transactions", 0.6, "daily"),
     page("/draft", 0.5),
     page("/deadlines", 0.5),
+    page("/about", 0.5),
     ...SEO_TERMS.map((t) => page(`/terms/${t.slug}`, 0.7)),
     ...TEAM_IDS.map((id) => page(`/teams/${teamSlug(id)}/trade-machine`, 0.7, "daily")),
   ];

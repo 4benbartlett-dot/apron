@@ -1,5 +1,5 @@
 {
- "asOf": "2026-07-07",
+ "asOf": "2026-07-28",
  "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player.",
  "players": [
   {
@@ -7,7 +7,86 @@
    "playerName": "Ron Harper Jr.",
    "teamId": "BOS",
    "years": [],
-   "why": "Official Jul 6: 4y/$13,548,235 with BOS (y1 3,150,752, Non-Bird-of-minimum, consumes nothing). No bref contracts row \u2014 he spent 2025-26 off an NBA standard deal."
+   "why": "Official Jul 6: 4y/$13,548,235 with BOS (y1 3,150,752, Non-Bird-of-minimum, consumes nothing). No bref contracts row — he spent 2025-26 off an NBA standard deal."
+  },
+  {
+   "playerId": "curated-ryan-nembhard",
+   "playerName": "Ryan Nembhard",
+   "teamId": "DAL",
+   "years": [
+    { "leagueYear": "2026-27", "salary": 2150000, "guarantee": "full" }
+   ],
+   "why": "Jun 29 feed: 'Dallas (DAL) exercised $2.15 million option for 2026-27'. Traded to ATL Jul 19 in the three-team Dort/Risacher deal — stubbed on DAL so applyTrades moves him. No 2025-26 bref contracts row (he was on a two-way)."
+  },
+  {
+   "playerId": "curated-mario-hezonja",
+   "playerName": "Mario Hezonja",
+   "teamId": "CLE",
+   "years": [],
+   "why": "Agreed Jul 26 to a 1y/$2.8M deal with CLE (ESPN, RealGM) — first NBA deal since 2019-20, so no 2025-26 sheet row. Booked through manual-moves until Spotrac's feed carries it."
+  },
+  {
+   "playerId": "curated-trey-lyles",
+   "playerName": "Trey Lyles",
+   "teamId": "MIN",
+   "years": [],
+   "why": "Feed Jul 10: 'Signed a 1 year $3.88 million contract with Minnesota (MIN)' (agreed Jul 3). Spent 2025-26 with Real Madrid, so no NBA sheet row."
+  },
+  {
+   "playerId": "curated-alpha-diallo",
+   "playerName": "Alpha Diallo",
+   "teamId": "DEN",
+   "years": [],
+   "why": "Feed Jul 15: 'Signed 1 year $1.36 million contract with Denver (DEN)'. Arrived from Monaco (France) — no 2025-26 NBA sheet row."
+  },
+  {
+   "playerId": "curated-moussa-cisse",
+   "playerName": "Moussa Cisse",
+   "teamId": "DAL",
+   "years": [],
+   "why": "Feed Jul 22: DAL matched New York's 2y/$4.76M offer sheet on the two-way RFA. Signings feed carries the terms; no 2025-26 standard-contract row."
+  },
+  {
+   "playerId": "curated-isaiah-crawford",
+   "playerName": "Isaiah Crawford",
+   "teamId": "HOU",
+   "years": [],
+   "why": "Feed Jul 22: 'Signed a 4 year $11.27 million contract with Houston (HOU) - includes 2029-30 Club Option', converting off his two-way QO."
+  },
+  {
+   "playerId": "curated-oscar-tshiebwe",
+   "playerName": "Oscar Tshiebwe",
+   "teamId": "HOU",
+   "years": [],
+   "why": "Feed Jul 24: signed with HOU on an Exhibit 10 after UTA declined his qualifying offer. Signings feed carries 1y/$2,537,526."
+  },
+  {
+   "playerId": "curated-jalen-slawson",
+   "playerName": "Jalen Slawson",
+   "teamId": "IND",
+   "years": [],
+   "why": "Feed Jul 22: 'Signed a Two-Way contract with Indiana (IND)' off his two-way QO. Two-ways carry no cap salary."
+  },
+  {
+   "playerId": "curated-caleb-love",
+   "playerName": "Caleb Love",
+   "teamId": "PHI",
+   "years": [],
+   "why": "Feed Jul 5: 'Signed a Two-Way contract with Philadelphia (PHI)' after POR declined his qualifying offer."
+  },
+  {
+   "playerId": "curated-arthur-kaluma",
+   "playerName": "Arthur Kaluma",
+   "teamId": "LAL",
+   "years": [],
+   "why": "Feed Jul 22: 'Signed a Two-Way contract with Los Angeles (LAL)'."
+  },
+  {
+   "playerId": "curated-jamir-watkins",
+   "playerName": "Jamir Watkins",
+   "teamId": "WAS",
+   "years": [],
+   "why": "Feed Jul 1: 'Signed a Two-Way contract with Washington (WAS)' off his qualifying offer."
   }
  ]
 }

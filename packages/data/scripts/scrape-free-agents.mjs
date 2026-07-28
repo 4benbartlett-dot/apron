@@ -62,6 +62,14 @@ async function main() {
   }
 
   const count = Object.keys(byName).length;
+  // Guard against an upstream markup change silently blanking the pool.
+  if (count < 50) {
+    const had = Object.keys(JSON.parse(readFileSync(OUT, "utf8")).byName ?? {}).length;
+    throw new Error(
+      `Parsed only ${count} free agents (expected 50+). Spotrac's markup likely changed — ` +
+        `fix ROW before rerunning. ${OUT} left untouched (${had} rows).`,
+    );
+  }
   writeFileSync(
     OUT,
     JSON.stringify({ source: "Spotrac free agents (via Firecrawl)", byName }, null, 2),

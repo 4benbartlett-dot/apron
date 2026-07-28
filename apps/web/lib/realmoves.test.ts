@@ -205,9 +205,17 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
 // Documented sheet-reconstruction bounds — NOT rule failures. The harness
 // rebuilds each team's pre-move sheet by un-signing new deals, which can't
 // recover everything reality had at signing time:
-//  - Grimes / Mamukelashvili (LAL): their real money was cap room created by
-//    renounces the harness can't restore — once Kessler's ~$28M is booked,
-//    lenient mode sees only Room-MLE-sized space.
+//  - Grimes / Mamukelashvili (LAL) fail ONLY in lenient mode, and pass in
+//    strict via the NT-MLE — which is the exception the Lakers actually used.
+//    Lenient strips every other LAL July signing, and that is enough to drop
+//    their reconstructed sheet BELOW the cap, at which point the team loses the
+//    NT-MLE entirely and is offered cap room plus the $9,366,000 Room MLE. Once
+//    Kessler's ~$29M sign-and-trade eats the room, the Room MLE can't reach
+//    $14M. So the lenient verdict swings on which side of the cap line the
+//    stripped sheet lands, which is an artifact of the reconstruction rather
+//    than a fact about the signing. (These two briefly passed mid-refresh and
+//    then failed again when the unsigned-second-rounder fix removed $1.36M from
+//    the Lakers' books — a knife-edge worth naming, not chasing.)
 // (Oubre HEALED in the Jul 9 hard-cap audit: IND's sheet lost a mis-teamed
 // Jalen Smith, phantom Potter dead money, and the pending Nance charge, so
 // Oubre's official 2yr/$16.5M NT-MLE now fits under the first apron —
@@ -225,11 +233,7 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
 //    apron teams.)
 // The gate below is EXACT: a new failure fails the suite, and so does one of
 // these silently healing (update the list and /accuracy when data improves).
-const DOCUMENTED_BOUNDS = [
-  "Luke Kennard",
-  "Quentin Grimes",
-  "Sandro Mamukelashvili",
-];
+const DOCUMENTED_BOUNDS = ["Luke Kennard", "Quentin Grimes", "Sandro Mamukelashvili"];
 
 describe("July 1 real veteran signings validate as legal", () => {
   it("replays each signing (strict = team's LAST move; lenient = team's FIRST move)", () => {

@@ -227,15 +227,6 @@
     },
     {
       "date": "10/1/2026",
-      "player": "Deni Avdija",
-      "team": "POR",
-      "pos": "SF",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "10/1/2026",
       "player": "Devin Vassell",
       "team": "SAS",
       "pos": "SG",
@@ -318,7 +309,7 @@
     {
       "date": "4/16/2027",
       "player": "Grayson Allen",
-      "team": "PHX",
+      "team": "CHA",
       "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
@@ -336,7 +327,7 @@
     {
       "date": "7/1/2027",
       "player": "Zaccharie Risacher",
-      "team": "ATL",
+      "team": "DAL",
       "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
@@ -842,6 +833,78 @@
       "player": "Immanuel Quickley",
       "team": "TOR",
       "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/10/2027",
+      "player": "Cade Cunningham",
+      "team": "DET",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/11/2027",
+      "player": "Isaiah Jackson",
+      "team": "LAC",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/12/2027",
+      "player": "Jalen Brunson",
+      "team": "NYK",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/14/2027",
+      "player": "Cam Spencer",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/15/2027",
+      "player": "Santi Aldama",
+      "team": "DAL",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/19/2027",
+      "player": "Damian Lillard",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/22/2027",
+      "player": "Evan Mobley",
+      "team": "CLE",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/23/2027",
+      "player": "Sam Hauser",
+      "team": "BOS",
+      "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

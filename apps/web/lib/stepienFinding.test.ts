@@ -37,8 +37,17 @@ describe("stepienFindingFor", () => {
 
 describe("hardCapDetailFor (session vs real-July provenance)", () => {
   it("a feed-capped team reports source=real with the named move", () => {
+    const d = hardCapDetailFor("IND", Infinity);
+    expect(d).toEqual({ line: C.firstApron, source: "real", label: feedStateOf("IND").hardCapSource });
+    expect(d!.label).toContain("Oubre");
+  });
+
+  // GSW's cap was re-read on Jul 28: Melton's deal is the taxpayer MLE, not the
+  // BAE, so the line is the SECOND apron rather than the first (see
+  // feedState.test.ts). Still a real, named, feed-derived cap.
+  it("GSW's Melton cap is the second apron, not the first", () => {
     const d = hardCapDetailFor("GSW", Infinity);
-    expect(d).toEqual({ line: C.firstApron, source: "real", label: feedStateOf("GSW").hardCapSource });
+    expect(d).toEqual({ line: C.secondApron, source: "real", label: feedStateOf("GSW").hardCapSource });
     expect(d!.label).toContain("Melton");
   });
 

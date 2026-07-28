@@ -7,6 +7,7 @@ import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { GmBar } from "@/components/GmBar";
 import { BrandLink } from "@/components/BrandLink";
 import { NavLinks } from "@/components/NavLinks";
+import { FooterX } from "@/components/FooterX";
 import { SiteEggs } from "@/components/SiteEggs";
 import { SeasonTicker } from "@/components/SeasonTicker";
 import { DATA_AS_OF } from "@apron/data";
@@ -99,30 +100,36 @@ export default function RootLayout({
         </main>
         <GmBar />
         <footer className="ledger-rule mx-auto max-w-7xl px-4 pb-8 pt-6 text-xs text-[var(--muted)] sm:px-6" style={{ borderTop: "1px solid var(--border)" }}>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <span className="flex items-center gap-1.5 font-semibold text-[var(--text)]">
-              <svg width="15" height="15" viewBox="0 0 64 64" aria-hidden>
-                <rect width="64" height="64" rx="14" fill="var(--text)" />
-                <line x1="11" y1="41" x2="53" y2="41" stroke="var(--accent)" strokeWidth="4.5" strokeDasharray="7.5 6" strokeLinecap="round" />
-                <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--bg)" strokeWidth="5" strokeLinecap="round" />
-                <circle cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
-              </svg>
-              Over the Apron
-            </span>
-            <span>Verdicts cite the rule when one applies.</span>
-            <Link href="/accuracy" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-              Rules coverage &amp; accuracy
-            </Link>
-            <Link href="/guide" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-              How to play
-            </Link>
-            <Link href="/teams" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-              Team trade machines
-            </Link>
-            <Link href="/terms" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-              CBA terms
-            </Link>
-            <span className="tabular ml-auto">{`rosters as of ${DATA_AS_OF} · 2026–27 · independent; not affiliated with the NBA or NBPA`}</span>
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-10">
+            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-2">
+              <span className="flex items-center gap-1.5 font-semibold text-[var(--text)]">
+                <svg width="15" height="15" viewBox="0 0 64 64" aria-hidden>
+                  <rect width="64" height="64" rx="14" fill="var(--text)" />
+                  <line x1="11" y1="41" x2="53" y2="41" stroke="var(--accent)" strokeWidth="4.5" strokeDasharray="7.5 6" strokeLinecap="round" />
+                  <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--bg)" strokeWidth="5" strokeLinecap="round" />
+                  <circle cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
+                </svg>
+                Over the Apron
+              </span>
+              <span>Verdicts cite the rule when one applies.</span>
+              <Link href="/accuracy" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+                Rules coverage &amp; accuracy
+              </Link>
+              <Link href="/guide" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+                How to play
+              </Link>
+              <Link href="/teams" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+                Team trade machines
+              </Link>
+              <Link href="/terms" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+                CBA terms
+              </Link>
+              <Link href="/about" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+                About
+              </Link>
+              <span className="tabular ml-auto">{`rosters as of ${DATA_AS_OF} · 2026–27 · independent; not affiliated with the NBA or NBPA`}</span>
+            </div>
+            <FooterX />
           </div>
         </footer>
       </body>

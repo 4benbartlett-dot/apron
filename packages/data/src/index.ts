@@ -262,9 +262,19 @@ export const PLAYER_HISTORY: Record<string, Record<string, SeasonLine>> =
 export interface RecentAccolades { nba: number; def: number; }
 export const PLAYER_RECENT_ACCOLADES: Record<string, RecentAccolades> =
   (recentAccoladesRaw as { byId: Record<string, RecentAccolades> }).byId;
-/** Sheet stubs for real signings with no scraped 2025-26 row (see file note). */
-export const EXTRA_CONTRACTS: { playerId: string; playerName: string; teamId: string; years: never[] }[] =
-  (extraContractsRaw as { players: { playerId: string; playerName: string; teamId: string; years: never[] }[] }).players;
+/** Sheet stubs for real signings with no scraped 2025-26 row (see file note).
+ * `years` is usually empty — the signings feed books the new deal onto the stub
+ * — but a stub for a player who was TRADED rather than signed carries his real
+ * salary rows, since no signing row will ever supply them. */
+export interface ExtraContract {
+  playerId: string;
+  playerName: string;
+  teamId: string;
+  years: { leagueYear: string; salary: number; guarantee: string }[];
+  why?: string;
+}
+export const EXTRA_CONTRACTS: ExtraContract[] =
+  (extraContractsRaw as { players: ExtraContract[] }).players;
 /** Waived DURING 2025-26 (before the transactions window) — no FA hold. */
 export const WAIVED_2025_26: string[] = (waivedRaw as { players: { name: string }[] }).players.map((p) => p.name);
 /** Audited roster corrections (Jul 2026). Waived players who are unsigned UFAs,
