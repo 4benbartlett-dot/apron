@@ -1003,6 +1003,62 @@ export function injuryOf(playerId: string): PlayerInjury | undefined {
   return PLAYER_INJURIES_2026[playerId];
 }
 
+/** Roughly when the 2026-27 regular season tips. */
+const SEASON_START = new Date(2026, 9, 21);
+/**
+ * Injuries whose recovery is long enough to cross an offseason, with the months
+ * a player is realistically unavailable from the date of injury.
+ *
+ * Twelve months is the honest number for all four. The medical literature
+ * quotes 9-12 for an ACL and 9-12 for an Achilles, but NBA teams sit players
+ * past the clinical window — and a torn patellar tendon routinely costs a full
+ * year. Using the optimistic end put Jimmy Butler (ACL, January) back for 67 of
+ * 82 games, which nobody who follows the sport would believe.
+ */
+const LONG_RECOVERY: [RegExp, number][] = [
+  [/achilles/i, 12],
+  [/\bacl\b|anterior cruciate/i, 12],
+  [/patell?ar tendon|quad(riceps)? tendon/i, 12],
+  [/microfracture/i, 12],
+];
+
+/**
+ * Games a player is projected to be AVAILABLE for in 2026-27.
+ *
+ * The injury feed is a snapshot of last season's report, so every row is an
+ * injury that ended a 2025-26 season. Subtracting those `gamesOut` from 82 —
+ * which is what this used to do — charges next season for time missed last
+ * season: Jimmy Butler's January knee and Moses Moody's March knee both ended
+ * 2025-26 and both are long healed by camp, but they were being projected at
+ * 54 and 52 games.
+ *
+ * What actually carries across an offseason is the injury TYPE. An Achilles or
+ * ACL tear has a recovery measured in months, so one suffered late enough in
+ * 2025-26 genuinely eats into 2026-27 — and the right estimate is the recovery
+ * window from the injury DATE, not last season's games missed. Everything else
+ * resolves over the summer.
+ */
+function projectedGames(playerId: string): number {
+  const inj = PLAYER_INJURIES_2026[playerId];
+  if (!inj?.date) return HEALTHY_GAMES;
+  // Match on TYPE as well as prose: Butler's row reads "Out For Season (Knee)"
+  // and only names the torn ACL mid-sentence, while `type` says it outright.
+  const text = `${inj.type ?? ""} ${inj.desc ?? ""}`;
+  const months = LONG_RECOVERY.find(([re]) => re.test(text))?.[1];
+  if (months == null) return HEALTHY_GAMES; // heals over the offseason
+  const hurt = new Date(inj.date);
+  if (Number.isNaN(hurt.getTime())) return HEALTHY_GAMES;
+  const back = new Date(hurt);
+  back.setMonth(back.getMonth() + months);
+  if (back <= SEASON_START) return HEALTHY_GAMES; // cleared before opening night
+  // Season runs ~5.5 months; pro-rate the games he's still rehabbing through.
+  const missedShare = Math.min(
+    1,
+    (back.getTime() - SEASON_START.getTime()) / (5.5 * 30.44 * 864e5),
+  );
+  return Math.max(0, Math.round(HEALTHY_GAMES * (1 - missedShare)));
+}
+
 /**
  * A player's projected 2026-27 rotation minutes, built from his established
  * per-game ROLE, not his depressed season total. A star who rested or missed a
@@ -1025,9 +1081,7 @@ function projectedMinutes(playerId: string, priorMp: number, fallbackAv = 0): nu
   // silently vanishes from the rotation while wearing a starter-grade impact
   // pill. Give him a role consistent with his adjusted value instead.
   if (mpg <= 0 && fallbackAv >= 42) mpg = Math.min(36, 8 + (fallbackAv - 40) * 1.3);
-  const inj = PLAYER_INJURIES_2026[playerId];
-  const games = inj && inj.gamesOut >= 5 ? Math.max(0, 82 - inj.gamesOut) : HEALTHY_GAMES;
-  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * games));
+  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * projectedGames(playerId)));
 }
 
 /** Measured secondary positions (spots a player logged ≥12% of his minutes at). */

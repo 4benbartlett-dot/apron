@@ -399,12 +399,36 @@ describe("real injury facts (not injury-prone tags)", () => {
     }
   });
 
-  it("a season-ending injury projects the player to zero rotation minutes", () => {
-    const outAll = Object.entries(PLAYER_INJURIES_2026).find(([, i]) => i.gamesOut >= 82);
-    if (outAll) {
-      const c = BASE_CONTRACTS.find((x) => x.playerId === outAll[0]);
-      if (c) expect(teamRotationMinutes(c.playerId, c.teamId)).toBe(0);
-    }
+  // The feed is a snapshot of LAST season's injury report, so `gamesOut` is time
+  // missed in 2025-26 — it says nothing on its own about 2026-27. Charging next
+  // season for it projected Jimmy Butler (January knee) and Moses Moody (March
+  // knee) at 54 and 52 games when both are long healed by camp. What actually
+  // crosses an offseason is the injury TYPE, so these two assert the split.
+  // What carries across an offseason is the injury TYPE and DATE, never last
+  // season's games-missed count. These three pin the whole rule.
+  const minutesOf = (name: string) => {
+    const c = BASE_CONTRACTS.find((x) => x.playerName === name && !x.deadMoney)!;
+    expect(c, name).toBeTruthy();
+    return teamRotationMinutes(c.playerId, c.teamId);
+  };
+
+  it("a tear from LAST season still eats into next season", () => {
+    // Butler tore an ACL on Jan 20, 2026 and Moody a patellar tendon on Mar 23 —
+    // both are rehabbing well past opening night, so neither gets a full year.
+    expect(minutesOf("Jimmy Butler")).toBeLessThan(1800);
+    expect(minutesOf("Moses Moody")).toBeLessThan(1200);
+  });
+
+  it("a tear far enough in the past does NOT", () => {
+    // Lillard's Achilles is from Sep 25, 2025 — thirteen months out by opening
+    // night. The old model still charged him for it.
+    expect(minutesOf("Damian Lillard")).toBeGreaterThan(1500);
+  });
+
+  it("an April Achilles wipes out essentially the whole season", () => {
+    // DiVincenzo tore his on Apr 25, 2026; a twelve-month window returns him
+    // after the 2026-27 season is over.
+    expect(minutesOf("Donte DiVincenzo")).toBeLessThan(200);
   });
 
   it("injuryOf reflects the reported facts (a torn ACL reads as one)", () => {
