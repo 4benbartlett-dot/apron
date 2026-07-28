@@ -26,6 +26,8 @@ const COVERED = [
 ];
 
 const APPROXIMATE = [
+  "Two 2026 moves are on the board as done deals while the league is still reviewing them, and either could be unwound. Kawhi Leonard is a Raptor here — Toronto and the Clippers agreed that trade on June 30, but it was put on hold pending the NBA's investigation into whether the Clippers circumvented the cap, with no timetable. Gary Trent Jr.'s four-year deal with Milwaukee is under a circumvention review of its own. Both are booked the way every public roster page books them, because the reporting expects both to stand — but a verdict either way is a thing this board would have to be told about.",
+  "Injury availability is projected from the injury's TYPE and DATE, not from games missed last season. A torn Achilles, ACL, patellar tendon, or a microfracture is assumed to cost twelve months from the day it happened, so one suffered late in a season eats into the next one; everything else is treated as healed by opening night. That is a rule of thumb, not a medical opinion, and it can't know about a setback or an early return.",
   "Apron Value — the 0–100 number on every player — is a rough read on impact from box scores and lineup data. It leans on BPM and carries an uncertainty band; it isn't trying to outdo the big public metrics like EPM or DARKO.",
   "A team's projected record is a read on the roster as it stands today — not a full-season forecast. There's no coaching, chemistry, or playoff translation baked in.",
   "A rookie has no NBA minutes yet, so his value, fit, and playing time are projected from draft slot, college production, and scouting consensus — a read on his rookie year, not a ceiling. Most rookies grade out below average, top picks near it.",
