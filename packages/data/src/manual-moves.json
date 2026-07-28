@@ -1,4 +1,29 @@
 {
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
-  "transactions": []
+  "transactions": [
+    {
+      "player": "Kentavious Caldwell-Pope",
+      "pos": "SG",
+      "date": "Jul 25, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis (MEM) via Buyout - leaves behind $17.744971 million in dead cap",
+      "why": "He exercised a $21,621,500 player option Jun 19, then gave back exactly $3,876,529 in the Jul 25 buyout — the 10+ YOS veteran minimum, i.e. precisely what Philadelphia then paid him, making the move net-neutral to the dollar. Memphis carries $17,744,971. The Spotrac row states the buyout but not the amount, so this row supplies the dead-cap figure STATED_DEAD_CAP needs."
+    },
+    {
+      "player": "Kentavious Caldwell-Pope",
+      "pos": "SG",
+      "date": "Jul 27, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.876529 million contract with Philadelphia (PHI)",
+      "why": "Reported by ESPN/Shams Jul 25 and finalized after he cleared waivers — the 10+ YOS veteran minimum, the same figure he forfeited in Memphis. A ONE-year minimum, so Art. VII §3(f) charges Philadelphia only the 2-YOS minimum ($2,449,421) against the cap and their first-apron hard cap. Not yet in Spotrac's signed-FA feed as of the Jul 28 pull."
+    },
+    {
+      "player": "Mario Hezonja",
+      "pos": "SF",
+      "date": "Jul 26, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.845883 million contract with Cleveland (CLE)",
+      "why": "ESPN/RealGM Jul 26: first NBA deal since 2019-20 after five EuroLeague seasons. The reported '$2.8M' is the 5-YOS veteran minimum ($2,845,883) — his five NBA seasons were 2015-16 through 2019-20 — NOT the taxpayer MLE, which is more than double at $6,064,000. Booked at the exact minimum so Art. VII §3(f) charges Cleveland the 2-YOS figure. Agreed but not yet in Spotrac's feed as of the Jul 28 pull."
+    }
+  ]
 }

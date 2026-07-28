@@ -49,10 +49,21 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     expect(ids).toContain("bae"); // BAE still live for BOS
   });
 
-  it("GSW: the Melton BAE fingerprint hard-caps them in-world", () => {
+  // CORRECTED Jul 28. The July audit read De'Anthony Melton's y1 landing on the
+  // Bi-Annual Exception to the dollar ($5,477,000 = the 2026-27 BAE exactly) as
+  // proof GSW spent the BAE, and pinned a FIRST-apron cap. Two things broke it:
+  // Draymond re-signed for the $27,678,571 he opted out of and put Golden State
+  // ~$213.5M — past the first apron, which a first-apron hard cap makes
+  // impossible — and Bobby Marks named the exception outright ("The tax ML is
+  // designated to De'Anthony Melton"). So the cap is real but it's the SECOND
+  // apron, which is why Marks frames Golden State's room as "$8.3M below the
+  // 2nd apron". The exact-dollar BAE coincidence was a trap.
+  it("GSW: Melton's taxpayer MLE hard-caps them at the SECOND apron", () => {
     const s = feedStateOf("GSW");
-    expect(s.consumed.bae).toBe(C.biAnnualException);
-    expect(s.hardCap).toBe(C.firstApron);
+    expect(s.hardCap).toBe(C.secondApron);
+    expect(s.consumed.tpmle).toBe(5_477_000); // partial — $587k of the TP-MLE unused
+    expect(s.consumed.bae ?? 0).toBe(0);
+    expect(s.hardCapSource).toContain("Melton");
   });
 
   it("UTA: NT-MLE legally split across two signings, remainder available", () => {
@@ -107,18 +118,25 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
   });
 
   it("every in-world hard cap names its source move", () => {
-    for (const t of ["ATL", "BOS", "DET", "GSW", "IND", "LAC", "LAL", "MIA", "PHI", "SAS", "UTA"]) {
+    // GSW dropped off this list on Jul 28 — see the Draymond falsification above.
+    for (const t of ["ATL", "BOS", "DET", "IND", "LAC", "LAL", "MIA", "PHI", "SAS", "UTA"]) {
       const s = feedStateOf(t);
       expect(s.hardCap, t).toBe(C.firstApron);
       expect(s.hardCapSource, t).toBeTruthy();
     }
     // Taxpayer-MLE users are capped at the SECOND apron, not the first (HR on
     // Smart: "resulting in a second-apron hard cap"; Gozlan on Kennard: TP-MLE
-    // unless PHX ducked the first apron, which it never did).
-    for (const t of ["HOU", "PHX"]) {
+    // unless PHX ducked the first apron, which it never did; Marks on Melton:
+    // "The tax ML is designated to De'Anthony Melton"). GSW spent only PART of
+    // the exception, so assert consumption per team rather than the full amount.
+    for (const [t, consumed] of [
+      ["HOU", C.taxpayerMLE],
+      ["PHX", C.taxpayerMLE],
+      ["GSW", 5_477_000],
+    ] as const) {
       const s = feedStateOf(t);
       expect(s.hardCap, t).toBe(C.secondApron);
-      expect(s.consumed.tpmle, t).toBe(C.taxpayerMLE);
+      expect(s.consumed.tpmle, t).toBe(consumed);
       expect(s.hardCapSource, t).toContain("Taxpayer MLE");
     }
   });
@@ -151,8 +169,15 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(currentSalary(oubre)).toBe(8_048_780); // 16.5M/2.05, NOT the $17M headline's 8,292,683
       expect(feedStateOf("IND").consumed.ntmle).toBe(8_048_780);
       // Hoops Rumors printed "just $1.6MM below a first-apron hard cap with 14
-      // players under contract" — our sheet lands $1,600,035 below on 14.
-      expect(bookedSalary("IND")).toBe(C.firstApron - 1_600_035);
+      // players under contract" on Jul 1, and our sheet landed exactly
+      // $1,600,035 below on 14 — the check that originally proved the audit.
+      // That literal is a POINT-IN-TIME fact, not an invariant: Indiana has
+      // since waived Taelon Peter (Jul 20) and added Jalen Slawson on a two-way
+      // (Jul 22), so the headroom legitimately moved. What must stay true is
+      // the relationship the audit was really about — the NT-MLE hard cap binds
+      // and Indiana is under it.
+      expect(bookedSalary("IND")).toBeLessThan(C.firstApron);
+      expect(feedStateOf("IND").hardCap).toBe(C.firstApron);
     });
 
     it("IND books exclude Jalen Smith (CHI's), Potter dead money, and the pending Nance minimum", () => {

@@ -3,11 +3,11 @@
   "byName": {
     "trae young": {
       "name": "Trae Young",
-      "team": "WAS",
+      "team": "WSH",
       "years": 4,
       "total": 212799690,
       "aav": 53199923,
-      "status": "Official"
+      "status": "Signed"
     },
     "austin reaves": {
       "name": "Austin Reaves",
@@ -15,15 +15,15 @@
       "years": 4,
       "total": 184756320,
       "aav": 46189080,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "walker kessler": {
       "name": "Walker Kessler",
       "team": "LAL",
       "years": 4,
-      "total": 130000000,
-      "aav": 32500000,
-      "status": "Agreed"
+      "total": 129467930,
+      "aav": 32366983,
+      "status": "Signed"
     },
     "ayo dosunmu": {
       "name": "Ayo Dosunmu",
@@ -31,15 +31,15 @@
       "years": 5,
       "total": 112000000,
       "aav": 22400000,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "tari eason": {
       "name": "Tari Eason",
       "team": "HOU",
       "years": 5,
-      "total": 81500000,
-      "aav": 16300000,
-      "status": "Agreed"
+      "total": 81449460,
+      "aav": 16289892,
+      "status": "Signed"
     },
     "isaiah hartenstein": {
       "name": "Isaiah Hartenstein",
@@ -47,7 +47,7 @@
       "years": 3,
       "total": 75000000,
       "aav": 25000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "coby white": {
       "name": "Coby White",
@@ -55,7 +55,15 @@
       "years": 3,
       "total": 74000000,
       "aav": 24666667,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "gary trent": {
+      "name": "Gary Trent Jr.",
+      "team": "MIL",
+      "years": 4,
+      "total": 64000000,
+      "aav": 16000000,
+      "status": "Signed"
     },
     "quentin grimes": {
       "name": "Quentin Grimes",
@@ -63,7 +71,7 @@
       "years": 4,
       "total": 60000000,
       "aav": 15000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "sandro mamukelashvili": {
       "name": "Sandro Mamukelashvili",
@@ -71,7 +79,7 @@
       "years": 4,
       "total": 52000000,
       "aav": 13000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "john collins": {
       "name": "John Collins",
@@ -79,7 +87,7 @@
       "years": 3,
       "total": 51000000,
       "aav": 17000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "collin gillespie": {
       "name": "Collin Gillespie",
@@ -87,7 +95,7 @@
       "years": 4,
       "total": 48000000,
       "aav": 12000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "mitchell robinson": {
       "name": "Mitchell Robinson",
@@ -95,15 +103,15 @@
       "years": 3,
       "total": 47388600,
       "aav": 15796200,
-      "status": "Official"
+      "status": "Signed"
     },
     "norman powell": {
       "name": "Norman Powell",
       "team": "CHI",
       "years": 2,
-      "total": 45000000,
-      "aav": 22500000,
-      "status": "Agreed"
+      "total": 44075000,
+      "aav": 22037500,
+      "status": "Signed"
     },
     "dean wade": {
       "name": "Dean Wade",
@@ -111,7 +119,7 @@
       "years": 4,
       "total": 38700000,
       "aav": 9675000,
-      "status": "Official"
+      "status": "Signed"
     },
     "mark williams": {
       "name": "Mark Williams",
@@ -119,23 +127,15 @@
       "years": 3,
       "total": 38000000,
       "aav": 12666667,
-      "status": "Official"
+      "status": "Signed"
     },
     "tobias harris": {
       "name": "Tobias Harris",
-      "team": "SAS",
+      "team": "SA",
       "years": 2,
       "total": 30840200,
       "aav": 15420100,
-      "status": "Official"
-    },
-    "quinten post": {
-      "name": "Quinten Post",
-      "team": "MEM",
-      "years": 3,
-      "total": 30000000,
-      "aav": 10000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "rui hachimura": {
       "name": "Rui Hachimura",
@@ -143,7 +143,15 @@
       "years": 2,
       "total": 28000000,
       "aav": 14000000,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "draymond green": {
+      "name": "Draymond Green",
+      "team": "GS",
+      "years": 1,
+      "total": 27678571,
+      "aav": 27678571,
+      "status": "Signed"
     },
     "kevin huerter": {
       "name": "Kevin Huerter",
@@ -151,15 +159,23 @@
       "years": 3,
       "total": 27000000,
       "aav": 9000000,
-      "status": "Agreed"
+      "status": "Signed"
+    },
+    "quinten post": {
+      "name": "Quinten Post",
+      "team": "MEM",
+      "years": 3,
+      "total": 26100000,
+      "aav": 8700000,
+      "status": "Signed"
     },
     "landry shamet": {
       "name": "Landry Shamet",
-      "team": "NYK",
+      "team": "NY",
       "years": 4,
       "total": 23978467,
       "aav": 5994617,
-      "status": "Official"
+      "status": "Signed"
     },
     "jusuf nurkic": {
       "name": "Jusuf Nurkic",
@@ -167,7 +183,7 @@
       "years": 2,
       "total": 22000000,
       "aav": 11000000,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "dayron sharpe": {
       "name": "Day'Ron Sharpe",
@@ -175,7 +191,7 @@
       "years": 2,
       "total": 20000000,
       "aav": 10000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "collin sexton": {
       "name": "Collin Sexton",
@@ -183,15 +199,7 @@
       "years": 2,
       "total": 19200300,
       "aav": 9600150,
-      "status": "Agreed"
-    },
-    "jordan goodwin": {
-      "name": "Jordan Goodwin",
-      "team": "PHX",
-      "years": 3,
-      "total": 19000000,
-      "aav": 6333333,
-      "status": "Official"
+      "status": "Signed"
     },
     "moritz wagner": {
       "name": "Moritz Wagner",
@@ -199,7 +207,15 @@
       "years": 2,
       "total": 19000000,
       "aav": 9500000,
-      "status": "Agreed"
+      "status": "Signed"
+    },
+    "jordan goodwin": {
+      "name": "Jordan Goodwin",
+      "team": "PHX",
+      "years": 3,
+      "total": 19000000,
+      "aav": 6333333,
+      "status": "Signed"
     },
     "keon ellis": {
       "name": "Keon Ellis",
@@ -207,23 +223,23 @@
       "years": 2,
       "total": 18000000,
       "aav": 9000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "khris middleton": {
       "name": "Khris Middleton",
-      "team": "WAS",
+      "team": "WSH",
       "years": 3,
       "total": 17612034,
       "aav": 5870678,
-      "status": "Official"
+      "status": "Signed"
     },
     "ousmane dieng": {
       "name": "Ousmane Dieng",
       "team": "MIL",
       "years": 3,
-      "total": 17500000,
-      "aav": 5833333,
-      "status": "Agreed"
+      "total": 17250000,
+      "aav": 5750000,
+      "status": "Signed"
     },
     "kelly oubre": {
       "name": "Kelly Oubre Jr.",
@@ -231,7 +247,7 @@
       "years": 2,
       "total": 16500000,
       "aav": 8250000,
-      "status": "Official"
+      "status": "Signed"
     },
     "jordan miller": {
       "name": "Jordan Miller",
@@ -239,31 +255,31 @@
       "years": 3,
       "total": 15300000,
       "aav": 5100000,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "jose alvarado": {
       "name": "Jose Alvarado",
-      "team": "NYK",
+      "team": "NY",
       "years": 3,
       "total": 14384484,
       "aav": 4794828,
-      "status": "Official"
+      "status": "Signed"
     },
     "jock landale": {
       "name": "Jock Landale",
       "team": "ATL",
       "years": 1,
-      "total": 14000000,
-      "aav": 14000000,
-      "status": "Agreed"
+      "total": 14100000,
+      "aav": 14100000,
+      "status": "Signed"
     },
     "al horford": {
       "name": "Al Horford",
-      "team": "GSW",
+      "team": "GS",
       "years": 2,
       "total": 13985100,
       "aav": 6992550,
-      "status": "Official"
+      "status": "Signed"
     },
     "ron harper": {
       "name": "Ron Harper Jr.",
@@ -271,15 +287,7 @@
       "years": 4,
       "total": 13704229,
       "aav": 3426057,
-      "status": "Official"
-    },
-    "marcus smart": {
-      "name": "Marcus Smart",
-      "team": "HOU",
-      "years": 2,
-      "total": 12431200,
-      "aav": 6215600,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "luke kennard": {
       "name": "Luke Kennard",
@@ -287,15 +295,15 @@
       "years": 2,
       "total": 12431200,
       "aav": 6215600,
-      "status": "Agreed"
+      "status": "Signed"
     },
-    "jaxson hayes": {
-      "name": "Jaxson Hayes",
-      "team": "UTA",
+    "marcus smart": {
+      "name": "Marcus Smart",
+      "team": "HOU",
       "years": 2,
       "total": 12431200,
       "aav": 6215600,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "anfernee simons": {
       "name": "Anfernee Simons",
@@ -303,7 +311,23 @@
       "years": 2,
       "total": 12300000,
       "aav": 6150000,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "spencer jones": {
+      "name": "Spencer Jones",
+      "team": "DEN",
+      "years": 2,
+      "total": 12000000,
+      "aav": 6000000,
+      "status": "Signed"
+    },
+    "jaxson hayes": {
+      "name": "Jaxson Hayes",
+      "team": "UTA",
+      "years": 2,
+      "total": 12000000,
+      "aav": 6000000,
+      "status": "Signed"
     },
     "josh okogie": {
       "name": "Josh Okogie",
@@ -311,7 +335,7 @@
       "years": 2,
       "total": 12000000,
       "aav": 6000000,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "kobe sanders": {
       "name": "Kobe Sanders",
@@ -319,15 +343,31 @@
       "years": 4,
       "total": 11279212,
       "aav": 2819803,
-      "status": "Official"
+      "status": "Signed"
     },
     "mohamed diawara": {
       "name": "Mohamed Diawara",
-      "team": "NYK",
+      "team": "NY",
       "years": 4,
       "total": 11278738,
       "aav": 2819685,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "isaiah crawford": {
+      "name": "Isaiah Crawford",
+      "team": "HOU",
+      "years": 4,
+      "total": 11274781,
+      "aav": 2818695,
+      "status": "Signed"
+    },
+    "deanthony melton": {
+      "name": "De'Anthony Melton",
+      "team": "GS",
+      "years": 2,
+      "total": 11227850,
+      "aav": 5613925,
+      "status": "Signed"
     },
     "precious achiuwa": {
       "name": "Precious Achiuwa",
@@ -335,15 +375,7 @@
       "years": 2,
       "total": 11227850,
       "aav": 5613925,
-      "status": "Official"
-    },
-    "deanthony melton": {
-      "name": "De'Anthony Melton",
-      "team": "GSW",
-      "years": 2,
-      "total": 11227850,
-      "aav": 5613925,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "jaylen clark": {
       "name": "Jaylen Clark",
@@ -351,7 +383,7 @@
       "years": 3,
       "total": 10000000,
       "aav": 3333333,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "josh minott": {
       "name": "Josh Minott",
@@ -359,15 +391,23 @@
       "years": 2,
       "total": 9000000,
       "aav": 4500000,
-      "status": "Official"
+      "status": "Signed"
     },
     "harrison barnes": {
       "name": "Harrison Barnes",
-      "team": "SAS",
+      "team": "SA",
       "years": 1,
       "total": 8000000,
       "aav": 8000000,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "deandre jordan": {
+      "name": "DeAndre Jordan",
+      "team": "NO",
+      "years": 2,
+      "total": 7946884,
+      "aav": 3973442,
+      "status": "Signed"
     },
     "tim hardaway": {
       "name": "Tim Hardaway Jr.",
@@ -375,7 +415,7 @@
       "years": 1,
       "total": 6065000,
       "aav": 6065000,
-      "status": "Official"
+      "status": "Signed"
     },
     "daeqwon plowden": {
       "name": "Daeqwon Plowden",
@@ -383,7 +423,7 @@
       "years": 2,
       "total": 5113822,
       "aav": 2556911,
-      "status": "Agreed"
+      "status": "Signed"
     },
     "kenrich williams": {
       "name": "Kenrich Williams",
@@ -391,7 +431,7 @@
       "years": 1,
       "total": 5000000,
       "aav": 5000000,
-      "status": "Official"
+      "status": "Signed"
     },
     "alijah martin": {
       "name": "Alijah Martin",
@@ -399,7 +439,15 @@
       "years": 2,
       "total": 4757011,
       "aav": 2378506,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "moussa cisse": {
+      "name": "Moussa Cisse",
+      "team": "DAL",
+      "years": 2,
+      "total": 4756989,
+      "aav": 2378495,
+      "status": "Signed"
     },
     "javonte green": {
       "name": "Javonte Green",
@@ -407,63 +455,15 @@
       "years": 1,
       "total": 3943679,
       "aav": 3943679,
-      "status": "Agreed"
+      "status": "Signed"
     },
-    "tyus jones": {
-      "name": "Tyus Jones",
-      "team": "DEN",
+    "jordan clarkson": {
+      "name": "Jordan Clarkson",
+      "team": "NY",
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
-      "status": "Agreed"
-    },
-    "mike conley": {
-      "name": "Mike Conley",
-      "team": "BOS",
-      "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Official"
-    },
-    "deandre jordan": {
-      "name": "DeAndre Jordan",
-      "team": "NOP",
-      "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Agreed"
-    },
-    "larry nance": {
-      "name": "Larry Nance Jr.",
-      "team": "IND",
-      "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Agreed"
-    },
-    "kevon looney": {
-      "name": "Kevon Looney",
-      "team": "LAL",
-      "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Agreed"
-    },
-    "kyle anderson": {
-      "name": "Kyle Anderson",
-      "team": "TOR",
-      "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Official"
-    },
-    "andre drummond": {
-      "name": "Andre Drummond",
-      "team": "NYK",
-      "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Official"
+      "status": "Signed"
     },
     "nikola vucevic": {
       "name": "Nikola Vucevic",
@@ -471,15 +471,63 @@
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "andre drummond": {
+      "name": "Andre Drummond",
+      "team": "NY",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "kyle anderson": {
+      "name": "Kyle Anderson",
+      "team": "TOR",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "kevon looney": {
+      "name": "Kevon Looney",
+      "team": "LAL",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "larry nance": {
+      "name": "Larry Nance Jr.",
+      "team": "IND",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "mike conley": {
+      "name": "Mike Conley",
+      "team": "BOS",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
+    },
+    "tyus jones": {
+      "name": "Tyus Jones",
+      "team": "DEN",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Signed"
     },
     "bogdan bogdanovic": {
       "name": "Bogdan Bogdanovic",
       "team": "HOU",
       "years": 1,
-      "total": 3876529,
-      "aav": 3876529,
-      "status": "Agreed"
+      "total": 3524115,
+      "aav": 3524115,
+      "status": "Signed"
     },
     "thomas bryant": {
       "name": "Thomas Bryant",
@@ -487,15 +535,7 @@
       "years": 1,
       "total": 3524115,
       "aav": 3524115,
-      "status": "Official"
-    },
-    "jevon carter": {
-      "name": "Jevon Carter",
-      "team": "ORL",
-      "years": 1,
-      "total": 3506659,
-      "aav": 3506659,
-      "status": "Official"
+      "status": "Signed"
     },
     "marvin bagley": {
       "name": "Marvin Bagley III",
@@ -503,7 +543,15 @@
       "years": 1,
       "total": 3506659,
       "aav": 3506659,
-      "status": "Agreed"
+      "status": "Signed"
+    },
+    "jevon carter": {
+      "name": "Jevon Carter",
+      "team": "ORL",
+      "years": 1,
+      "total": 3506659,
+      "aav": 3506659,
+      "status": "Signed"
     },
     "ariel hukporti": {
       "name": "Ariel Hukporti",
@@ -511,7 +559,39 @@
       "years": 1,
       "total": 3400000,
       "aav": 3400000,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "matisse thybulle": {
+      "name": "Matisse Thybulle",
+      "team": "LAL",
+      "years": 1,
+      "total": 3286399,
+      "aav": 3286399,
+      "status": "Signed"
+    },
+    "jordan mclaughlin": {
+      "name": "Jordan McLaughlin",
+      "team": "SA",
+      "years": 1,
+      "total": 3286399,
+      "aav": 3286399,
+      "status": "Signed"
+    },
+    "jaesean tate": {
+      "name": "Jae’Sean Tate",
+      "team": "HOU",
+      "years": 1,
+      "total": 3066143,
+      "aav": 3066143,
+      "status": "Signed"
+    },
+    "ziaire williams": {
+      "name": "Ziaire Williams",
+      "team": "LAL",
+      "years": 1,
+      "total": 2845883,
+      "aav": 2845883,
+      "status": "Signed"
     },
     "nahshon hyland": {
       "name": "Nah'Shon Hyland",
@@ -519,7 +599,15 @@
       "years": 1,
       "total": 2845883,
       "aav": 2845883,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "charles bassey": {
+      "name": "Charles Bassey",
+      "team": "GS",
+      "years": 1,
+      "total": 2845883,
+      "aav": 2845883,
+      "status": "Signed"
     },
     "simone fontecchio": {
       "name": "Simone Fontecchio",
@@ -527,7 +615,23 @@
       "years": 1,
       "total": 2625627,
       "aav": 2625627,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "julian phillips": {
+      "name": "Julian Phillips",
+      "team": "HOU",
+      "years": 1,
+      "total": 2537526,
+      "aav": 2537526,
+      "status": "Signed"
+    },
+    "oscar tshiebwe": {
+      "name": "Oscar Tshiebwe",
+      "team": "HOU",
+      "years": 1,
+      "total": 2537526,
+      "aav": 2537526,
+      "status": "Signed"
     },
     "branden carlson": {
       "name": "Branden Carlson",
@@ -535,7 +639,15 @@
       "years": 1,
       "total": 2449421,
       "aav": 2449421,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "harrison ingram": {
+      "name": "Harrison Ingram",
+      "team": "UTA",
+      "years": 1,
+      "total": 2449421,
+      "aav": 2449421,
+      "status": "Signed"
     },
     "amari williams": {
       "name": "Amari Williams",
@@ -543,71 +655,23 @@
       "years": 1,
       "total": 679042,
       "aav": 679042,
-      "status": "Official"
+      "status": "Signed"
     },
-    "brooks barnhizer": {
-      "name": "Brooks Barnhizer",
-      "team": "OKC",
+    "kobe brown": {
+      "name": "Kobe Brown",
+      "team": "IND",
       "years": 1,
       "total": 678882,
       "aav": 678882,
-      "status": "Official"
+      "status": "Signed"
     },
-    "colin castleton": {
-      "name": "Colin Castleton",
-      "team": "ORL",
+    "jalen wilson": {
+      "name": "Jalen Wilson",
+      "team": "ATL",
       "years": 1,
       "total": 678882,
       "aav": 678882,
-      "status": "Official"
-    },
-    "chris manon": {
-      "name": "Chris Manon",
-      "team": "LAL",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
-    },
-    "koby brea": {
-      "name": "Koby Brea",
-      "team": "PHX",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
-    },
-    "jamir watkins": {
-      "name": "Jamir Watkins",
-      "team": "WAS",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
-    },
-    "hunter dickinson": {
-      "name": "Hunter Dickinson",
-      "team": "NOP",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
-    },
-    "trey alexander": {
-      "name": "Trey Alexander",
-      "team": "UTA",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
-    },
-    "caleb love": {
-      "name": "Caleb Love",
-      "team": "PHI",
-      "years": 1,
-      "total": 678882,
-      "aav": 678882,
-      "status": "Official"
+      "status": "Signed"
     },
     "rayan rupert": {
       "name": "Rayan Rupert",
@@ -615,39 +679,95 @@
       "years": 1,
       "total": 678882,
       "aav": 678882,
-      "status": "Agreed"
+      "status": "Signed"
     },
-    "chaney johnson": {
-      "name": "Chaney Johnson",
-      "team": "BKN",
+    "elijah harkless": {
+      "name": "Elijah Harkless",
+      "team": "DET",
       "years": 1,
-      "total": 0,
-      "aav": 0,
-      "status": "Agreed"
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
     },
-    "pat spencer": {
-      "name": "Pat Spencer",
+    "caleb love": {
+      "name": "Caleb Love",
+      "team": "PHI",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "trey alexander": {
+      "name": "Trey Alexander",
+      "team": "UTA",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "hunter dickinson": {
+      "name": "Hunter Dickinson",
+      "team": "NO",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "jamir watkins": {
+      "name": "Jamir Watkins",
+      "team": "WSH",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "koby brea": {
+      "name": "Koby Brea",
       "team": "PHX",
       "years": 1,
-      "total": 0,
-      "aav": 0,
-      "status": "Official"
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
     },
-    "enrique freeman": {
-      "name": "Enrique Freeman",
-      "team": "MIN",
+    "david jonesgarcia": {
+      "name": "David Jones-Garcia",
+      "team": "SA",
       "years": 1,
-      "total": 0,
-      "aav": 0,
-      "status": "Official"
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
     },
-    "chucky hepburn": {
-      "name": "Chucky Hepburn",
-      "team": "TOR",
+    "chris manon": {
+      "name": "Chris Manon",
+      "team": "LAL",
       "years": 1,
-      "total": 0,
-      "aav": 0,
-      "status": "Official"
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "colin castleton": {
+      "name": "Colin Castleton",
+      "team": "ORL",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "jalen slawson": {
+      "name": "Jalen Slawson",
+      "team": "IND",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
+    },
+    "brooks barnhizer": {
+      "name": "Brooks Barnhizer",
+      "team": "OKC",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Signed"
     },
     "jonathan mogbo": {
       "name": "Jonathan Mogbo",
@@ -655,7 +775,47 @@
       "years": 2,
       "total": 0,
       "aav": 0,
-      "status": "Official"
+      "status": "Signed"
+    },
+    "chucky hepburn": {
+      "name": "Chucky Hepburn",
+      "team": "TOR",
+      "years": 1,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
+    },
+    "enrique freeman": {
+      "name": "Enrique Freeman",
+      "team": "MIN",
+      "years": 1,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
+    },
+    "john tonje": {
+      "name": "John Tonje",
+      "team": "POR",
+      "years": 2,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
+    },
+    "pat spencer": {
+      "name": "Pat Spencer",
+      "team": "PHX",
+      "years": 1,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
+    },
+    "chaney johnson": {
+      "name": "Chaney Johnson",
+      "team": "BKN",
+      "years": 1,
+      "total": 0,
+      "aav": 0,
+      "status": "Signed"
     }
   }
 }

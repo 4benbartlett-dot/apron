@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { validateSigning, validateTrade, teamSalary, type Contract } from "@apron/cba-engine";
-import { BASE_CONTRACTS, C, sessionHardCaps, leagueData, type Move } from "@/lib/league";
+import { BASE_CONTRACTS, C, sessionHardCaps, leagueData, TEAM_IDS, type Move } from "@/lib/league";
 
 // Reported by @SF_DavidGio on launch day: a trade taking back more than 100%
 // (expanded matching) hard-caps the team at the first apron for the YEAR, but
@@ -12,32 +12,69 @@ import { BASE_CONTRACTS, C, sessionHardCaps, leagueData, type Move } from "@/lib
 const salary = (name: string) =>
   BASE_CONTRACTS.find((c) => c.playerName.toLowerCase().includes(name) && !c.deadMoney)!;
 
+const salaryIn = (c: Contract) =>
+  c.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0;
+
 describe("sessionHardCaps — trade-triggered", () => {
-  // GSW (sub-apron, ~$184M) takes back more than it sends: Gui Santos out
-  // (~$4.6M), Tre Johnson in (~$8.6M) — 187%, expanded matching, row E.
-  const santos = salary("gui santos");
-  const johnson = salary("tre johnson");
+  // The acquirer is CHOSEN FROM THE DATA, not named. This test used to hardcode
+  // GSW as the sub-apron team; the Jul 28 Draymond re-signing put Golden State
+  // over the first apron, expanded matching stopped applying, and the fixture's
+  // premise silently evaporated. Expanded matching is only available BELOW the
+  // first apron, so we pick a team that is comfortably there and build the
+  // uneven trade out of real contracts.
+  const teams = TEAM_IDS.map((t) => ({
+    t,
+    sal: teamSalary(leagueData(BASE_CONTRACTS), t, "2026-27"),
+  }));
+  // The highest team still comfortably under the line: expanded matching is
+  // available to it, and the post-trade sheet sits near enough to the apron
+  // that a big Bird re-sign genuinely crosses it.
+  const ACQ = teams
+    .filter((x) => x.sal < C.firstApron - 8_000_000)
+    .sort((a, b) => b.sal - a.sal)[0]!.t;
+
+  // Send a mid-size salary out, take back more than 125% + $250k of it.
+  const out = BASE_CONTRACTS.filter(
+    (c) => c.teamId === ACQ && !c.deadMoney && salaryIn(c) > 2_000_000 && salaryIn(c) < 9_000_000,
+  ).sort((a, b) => salaryIn(b) - salaryIn(a))[0]!;
+  const incoming = BASE_CONTRACTS.filter(
+    (c) =>
+      c.teamId !== ACQ &&
+      !c.deadMoney &&
+      salaryIn(c) > salaryIn(out) * 1.6 &&
+      salaryIn(c) < salaryIn(out) * 2.6,
+  ).sort((a, b) => salaryIn(a) - salaryIn(b))[0]!;
+
   const uneven: Move = {
     kind: "trade",
     label: "test",
     players: [
-      { playerId: santos.playerId, to: johnson.teamId },
-      { playerId: johnson.playerId, to: "GSW" },
+      { playerId: out.playerId, to: incoming.teamId },
+      { playerId: incoming.playerId, to: ACQ },
     ],
   } as Move;
 
   it("an expanded-matching trade freezes a first-apron cap", () => {
+    expect(salaryIn(incoming)).toBeGreaterThan(salaryIn(out) * 1.25 + 250_000); // really expanded
     const caps = sessionHardCaps([uneven]);
-    expect(caps.GSW).toBe(C.firstApron);
+    expect(caps[ACQ]).toBe(C.firstApron);
   });
 
   it("the frozen cap blocks a later over-the-line Bird re-sign (apron basis)", () => {
-    // Post-trade GSW apron salary ≈ $188.1M; a $30M Bird re-sign lands
-    // ≈ $218.1M — $9.1M past the 1A. The sign is mechanism-legal (Bird has no
-    // ceiling) so the SESSION hard cap is the only thing that can stop it.
+    // The sign is mechanism-legal (Bird has no ceiling), so the SESSION hard cap
+    // is the only thing that can stop it landing past the first apron.
     const caps = sessionHardCaps([uneven]);
-    const post = 188_104_138;
-    expect(post + 30_000_000).toBeGreaterThan(caps.GSW!);
+    const post =
+      teamSalary(leagueData(BASE_CONTRACTS), ACQ, "2026-27") -
+      salaryIn(out) +
+      salaryIn(incoming);
+    const headroom = caps[ACQ]! - post;
+    // A real, finite ceiling — not the absent cap that let the launch-day bug
+    // sail $18M past the line.
+    expect(Number.isFinite(headroom)).toBe(true);
+    expect(headroom).toBeLessThan(C.nonTaxpayerMLE * 4);
+    // Anything above the remaining headroom now crosses the remembered cap.
+    expect(post + headroom + 1_000_000).toBeGreaterThan(caps[ACQ]!);
   });
 
   it("signing-triggered caps still register (NT-MLE → 1A, TP-MLE → 2A)", () => {
@@ -53,9 +90,9 @@ describe("sessionHardCaps — trade-triggered", () => {
     const even: Move = {
       kind: "trade",
       label: "even",
-      players: [{ playerId: santos.playerId, to: johnson.teamId }],
+      players: [{ playerId: out.playerId, to: incoming.teamId }],
     } as Move;
-    expect(sessionHardCaps([even]).GSW).toBeUndefined();
+    expect(sessionHardCaps([even])[ACQ]).toBeUndefined();
   });
 
   it("aggregating down through the second apron freezes a second-apron cap for the session", () => {

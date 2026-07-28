@@ -36,6 +36,8 @@ const APPROXIMATE = [
   "Any use of the non-taxpayer mid-level hard-caps the team at the first apron here. The real rule is softer in one narrow case: a use within the taxpayer MLE's size and 2-year length can later be re-characterized as the taxpayer MLE (Art. VII §6(f)(5)), trading the first-apron cap for a second-apron one.",
   "A matched offer sheet freezes the player from trades outright for a year here; the real rule is no trade without the player's consent — and never to the team that made the offer.",
   "A few fine adjustments to a team's apron salary need per-player bonus data that public feeds don't carry. When it isn't public, those small adjustments are left out rather than guessed.",
+  "Which apron tier a team sits in is measured on salary actually signed. Cap holds for free agents you haven't re-signed or renounced still count against your room to sign and absorb, but they don't move you up an apron tier here. Denver is the live example: after matching Spencer Jones' offer sheet they read as a first-apron team on signed salary, while reporting places them in the second — the difference is Peyton Watson's unrenounced hold, which they're keeping on purpose while they try to bring him back.",
+  "Reported deals are public as a term and a total, so the first-year salary is back-solved from the raise the deal is entitled to — 8% re-signing with your own team on Bird or Early Bird rights, 5% otherwise, including matched offer sheets and anything paid with an exception. That lands the big ones exactly (Austin Reaves' 4-year max back-solves to the 25% figure to the dollar), but a deal with unusual year-to-year structure — flat, declining, or front-loaded — is smoothed into standard raises.",
 ];
 
 const NOT_INCLUDED = [

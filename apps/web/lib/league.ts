@@ -372,9 +372,10 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     const total = totalM ? Number(totalM[1]) * 1_000_000 : 0;
     const aav =
       total > 0 ? Math.round(total / yrs) : (C.minimumSalaries[5] ?? 2_800_000);
+    const raise = raiseFor(c.playerName, c.teamId, team, aav, yrs);
     c.teamId = team;
     const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
-    const rows = dealFromAav(aav, yrs);
+    const rows = dealFromAav(aav, yrs, raise);
     if (rows.length === 1)
       rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...rows];
@@ -392,13 +393,55 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
 }
 
 /**
- * Season rows for a new deal from its AAV + term, back-solving the first-year
- * salary from standard 5% raises (so the multi-year cap sheet is real and the
- * year-1 hit isn't overstated by using the flat average).
+ * Annual-raise cap for a signing (Art. II §5(a)): 8% of the first-year salary
+ * on a Bird or Early-Bird re-signing with the player's own team, 5% on
+ * everything else (cap room, the exceptions, Non-Bird). Reported deals are
+ * quoted as term + total, so the raise rate is what back-solves year one —
+ * assuming 5% on an 8% deal overstates the first-year cap hit by ~4%. Austin
+ * Reaves' 4yr/$184,756,320 Bird max is the clean case: at 8% year one is
+ * exactly $41,240,250, the 25% max, and at 5% it reads $42,966,586 — $1.73M of
+ * phantom salary on the Lakers' sheet.
  */
-function dealFromAav(aav: number, term: number): ContractYear[] {
+function raiseFor(
+  playerName: string,
+  priorTeam: string,
+  newTeam: string,
+  aav: number,
+  term: number,
+): number {
+  if (priorTeam !== newTeam) return 0.05; // outside signing — never 8%
+  const k = normName(playerName);
+  // Matching an offer sheet copies the other team's terms, which are capped at
+  // 5% raises however big the sheet is — check BEFORE the size heuristic below,
+  // which would otherwise read a large sheet as a Bird re-sign.
+  if (OFFER_SHEET_DEALS.has(k)) return 0.05;
+  const bird =
+    (FA_OVERRIDES[k]?.birdStatus as BirdStatus | undefined) ??
+    FREE_AGENT_INFO[k]?.birdStatus ??
+    "bird";
+  if (bird === "non_bird") return 0.05;
+  // Own free agents are not automatically Bird signings: a team can re-sign its
+  // own player with an EXCEPTION, and exception deals raise at 5%. The feed
+  // gives us term + total, never the mechanism, so we infer it from size —
+  // above the Non-Taxpayer MLE no exception can pay the deal, so it has to be
+  // Bird rights (or room, which also raises at 5%, but a team with room isn't
+  // re-signing its own star at a premium). At or below the MLE we stay at 5%,
+  // which is what keeps Kelly Oubre's partial NT-MLE booking at its exact
+  // $8,048,780 and Luke Kennard's taxpayer MLE at exactly $6,064,000 — and
+  // what keeps a MATCHED OFFER SHEET (signed by the other team with room or an
+  // exception, e.g. Spencer Jones) off the 8% path.
   const n = Math.max(1, Math.min(term || 1, 5));
-  const raise = 0.05;
+  const y1At5 = (aav * n) / (n + (0.05 * n * (n - 1)) / 2);
+  return y1At5 > C.nonTaxpayerMLE ? 0.08 : 0.05;
+}
+
+/**
+ * Season rows for a new deal from its AAV + term, back-solving the first-year
+ * salary from the deal's raise rate (so the multi-year cap sheet is real and
+ * the year-1 hit isn't overstated by using the flat average).
+ */
+function dealFromAav(aav: number, term: number, raise = 0.05): ContractYear[] {
+  const n = Math.max(1, Math.min(term || 1, 5));
   const y1 = (aav * n) / (n + (raise * n * (n - 1)) / 2);
   const start = Number(YEAR.slice(0, 4));
   return Array.from({ length: n }, (_, k) => ({
@@ -426,6 +469,20 @@ const RESOLVED_OFFERS = new Set(RESOLVED_OFFER_SHEETS.map(normName));
 // charge — until the feed shows the cap-clearing move or corrected terms.
 // Curated in roster-corrections-2026.json (pendingSignings).
 const PENDING_SIGNING = new Set(PENDING_SIGNINGS.map(normName));
+/**
+ * Players whose 2026-27 deal came out of an OFFER SHEET — matched or not.
+ *
+ * An offer sheet is written by the OTHER team, out of its room or an exception,
+ * so its annual raises are capped at 5% no matter how large the sheet is; the
+ * incumbent that matches takes those terms verbatim (Art. XI §5). Matching
+ * therefore never produces an 8% Bird deal, even though the player ends up
+ * re-signed with his own team. raiseFor's size heuristic would otherwise read a
+ * sheet above the Non-Taxpayer MLE as "too big to be an exception, must be
+ * Bird" and book 8%. No such sheet exists in the 2026 window — Spencer Jones'
+ * $6M and Moussa Cissé's $2.4M both sit far below the line — so this is a guard
+ * against the next one, not a fix for a live mis-booking.
+ */
+const OFFER_SHEET_DEALS = new Set<string>();
 {
   const decided = new Set<string>();
   for (const t of TRANSACTIONS) {
@@ -433,6 +490,10 @@ const PENDING_SIGNING = new Set(PENDING_SIGNINGS.map(normName));
     const k = normName(t.player);
     if (decided.has(k)) continue;
     decided.add(k);
+    // Either phrasing of a sheet: the pending one ("… via Offer Sheet. DEN has
+    // the right to match") or its resolution ("… by matching Offer Sheet from
+    // OKC" / "via matched Offer Sheet from NYK").
+    if (/offer sheet/i.test(t.detail)) OFFER_SHEET_DEALS.add(k);
     // A resolved offer sheet (old team declined to match) lets the new deal
     // apply, so the player leaves his old team's cap hold — e.g. Quinten Post.
     if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail) && !RESOLVED_OFFERS.has(k)) PENDING_OFFER_SHEET.add(k);
@@ -454,7 +515,11 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     const team = stdTeam(s.team);
     if (!VALID_TEAMS.has(team)) return c;
     signed.push(`${c.playerName} → ${team}`);
-    const rows = dealFromAav(s.aav, s.years);
+    const rows = dealFromAav(
+      s.aav,
+      s.years,
+      raiseFor(c.playerName, c.teamId, team, s.aav, s.years),
+    );
     if (rows.length === 1)
       rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
@@ -616,13 +681,31 @@ const ROOKIE_DEALS = new Map(
   }),
 );
 // CBA Art. VII §8(d)(i): a drafted rookie who signs can't be traded for 30
-// days — every 2026 draftee just signed, so the freeze is live in-sim.
+// days — every 2026 draftee who SIGNED is inside that freeze in-sim.
+//
+// A FIRST-rounder is booked on sight: his rookie-scale amount is a required
+// cap charge from draft night whether or not the contract is filed yet. A
+// SECOND-rounder is not — he carries no automatic hold, and until he actually
+// signs (standard deal, two-way, or Exhibit 10) his team owes nothing and he
+// is draft rights, not salary. Booking every draftee alike put 11 unsigned
+// second-rounders and $14,939,672 of salary onto ten teams' sheets that no
+// public cap page carries, and Spotrac's GSW page is the clean check: Lajae
+// Jones (#54) is absent there and was present here.
+const SIGNED_ROOKIES = new Set<string>();
+for (const t of TRANSACTIONS) {
+  if (t.type === "Signing" || t.type === "Re-sign") SIGNED_ROOKIES.add(normName(t.player));
+}
+const rookieHasDeal = (r: { playerName: string; round?: number }) =>
+  r.round !== 2 || SIGNED_ROOKIES.has(normName(r.playerName)) || !!SIGNINGS[normName(r.playerName)];
 const existingNames = new Set(afterReleases.filter((c) => !c.deadMoney).map((c) => normName(c.playerName)));
 // Guard on BOTH id and name: the two scrapers use divergent fallback-id
 // schemes, and an officially-filed rookie deal appearing on the contracts
 // sheet under a different id must not create a second active row.
 const rookieContracts = ROOKIES_2026.filter(
-  (r) => !existingIds.has(r.playerId) && !existingNames.has(normName(r.playerName)),
+  (r) =>
+    !existingIds.has(r.playerId) &&
+    !existingNames.has(normName(r.playerName)) &&
+    rookieHasDeal(r as unknown as { playerName: string; round?: number }),
 ).map(
   (r) => {
     const deal = ROOKIE_DEALS.get(normName(r.playerName));
@@ -681,10 +764,48 @@ function deemVetMinimums(contracts: Contract[]): Contract[] {
   });
 }
 
+/**
+ * The feed sometimes STATES a player's 2026-27 salary outright — "Golden State
+ * (GSW) fully guaranteed $20 million salary for 2026-27". That is a filed
+ * figure, and it beats anything back-solved from a reported term + total, which
+ * has to assume a raise shape the press release never gives. Porziņģis is the
+ * case that exposed it: his 2yr/$40M extension is FLAT $20M/$20M, but split
+ * with standard raises it books $19,230,769 — $769,231 light, and the only
+ * per-player disagreement left between our Golden State sheet and Spotrac's.
+ *
+ * Requires the word "fully": "UTA guaranteed $200k for 2026-27" is a PARTIAL
+ * guarantee on a bigger salary, not the salary itself.
+ */
+const STATED_SALARY = new Map<string, number>();
+for (const t of TRANSACTIONS) {
+  const m = t.detail.match(/fully guaranteed \$([\d.]+)\s*(million|k)\b[^.]*for 2026-27/i);
+  if (!m) continue;
+  const amount = Number(m[1]) * (m[2]!.toLowerCase() === "k" ? 1_000 : 1_000_000);
+  const k = normName(t.player);
+  if (!STATED_SALARY.has(k)) STATED_SALARY.set(k, amount); // newest row wins
+}
+function applyStatedSalaries(contracts: Contract[]): Contract[] {
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const stated = STATED_SALARY.get(normName(c.playerName));
+    if (stated == null) return c;
+    const cur = c.years.find((y) => y.leagueYear === YEAR);
+    if (!cur || cur.salary === stated) return c;
+    return {
+      ...c,
+      years: c.years.map((y) =>
+        y.leagueYear === YEAR ? { ...y, salary: stated, guarantee: "full" as const } : y,
+      ),
+    };
+  });
+}
+
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = deemVetMinimums(
-  [...afterReleases, ...rookiesAfterTrades.contracts, ...STATED_DEAD_CAP].filter(
-    (c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))),
+  applyStatedSalaries(
+    [...afterReleases, ...rookiesAfterTrades.contracts, ...STATED_DEAD_CAP].filter(
+      (c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))),
+    ),
   ),
 );
 export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];

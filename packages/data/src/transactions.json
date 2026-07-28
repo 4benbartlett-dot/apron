@@ -2,6 +2,398 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Johni Broome",
+      "pos": "C",
+      "date": "Jul 28, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Philadelphia (PHI) with a 2027 2nd round pick [second-most favorable of three picks] for $1,000,000"
+    },
+    {
+      "player": "Draymond Green",
+      "pos": "PF",
+      "date": "Jul 28, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $27.7 million contract with Golden State (GSW)"
+    },
+    {
+      "player": "Matisse Thybulle",
+      "pos": "SG",
+      "date": "Jul 28, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.29 million contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Isaiah Stevens",
+      "pos": "PG",
+      "date": "Jul 27, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento (SAC)"
+    },
+    {
+      "player": "Spencer Jones",
+      "pos": "SF",
+      "date": "Jul 27, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12 million contract with Denver (DEN) by matching Offer Sheet from Oklahoma City (OKC)"
+    },
+    {
+      "player": "LeBron James",
+      "pos": "PF",
+      "date": "Jul 26, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $7.94 million contract with Philadelphia (PHI) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Kentavious Caldwell-Pope",
+      "pos": "SG",
+      "date": "Jul 25, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis (MEM) via Buyout"
+    },
+    {
+      "player": "Dalen Terry",
+      "pos": "SG",
+      "date": "Jul 25, 2026",
+      "type": "Release",
+      "detail": "Waived by Philadelphia (PHI)"
+    },
+    {
+      "player": "Harrison Ingram",
+      "pos": "SF",
+      "date": "Jul 25, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Utah (UTA) - Exhibit 10"
+    },
+    {
+      "player": "Kobe Bufkin",
+      "pos": "PG",
+      "date": "Jul 25, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans (NOP) - Exhibit 9"
+    },
+    {
+      "player": "Julian Phillips",
+      "pos": "SF",
+      "date": "Jul 25, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Houston (HOU) - Exhibit 10"
+    },
+    {
+      "player": "Spencer Jones",
+      "pos": "SF",
+      "date": "Jul 25, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12 million contract with Oklahoma City (OKC) via Offer Sheet. Denver (DEN) has the right to match."
+    },
+    {
+      "player": "John Tonje",
+      "pos": "G",
+      "date": "Jul 24, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year Two-Way contract with Portland (POR)"
+    },
+    {
+      "player": "Oscar Tshiebwe",
+      "pos": "PF",
+      "date": "Jul 24, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Houston (HOU) - Exhibit 10"
+    },
+    {
+      "player": "Jaron Pierre Jr.",
+      "pos": "F",
+      "date": "Jul 24, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with New Orleans (NOP)"
+    },
+    {
+      "player": "Jae’Sean Tate",
+      "pos": "SF",
+      "date": "Jul 23, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $ 3.07 million contract with Houston (HOU)"
+    },
+    {
+      "player": "Jordan Walsh",
+      "pos": "SF",
+      "date": "Jul 23, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $15 million contract extension with Boston (BOS) - includes 2029-30 Club Option"
+    },
+    {
+      "player": "Emanuel Miller",
+      "pos": "SF",
+      "date": "Jul 22, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio (SAS)"
+    },
+    {
+      "player": "Jalen Slawson",
+      "pos": "PF",
+      "date": "Jul 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Indiana (IND)"
+    },
+    {
+      "player": "David Jones-Garcia",
+      "pos": "SF",
+      "date": "Jul 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Isaiah Crawford",
+      "pos": "G",
+      "date": "Jul 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $11.27 million contract with Houston (HOU) - includes 2029-30 Club Option"
+    },
+    {
+      "player": "Arthur Kaluma",
+      "pos": "F",
+      "date": "Jul 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Jalen Wilson",
+      "pos": "PF",
+      "date": "Jul 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Atlanta (ATL)"
+    },
+    {
+      "player": "Moussa Cisse",
+      "pos": "F",
+      "date": "Jul 22, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $4.76 million contract with Dallas (DAL) via matched Offer Sheet from New York (NYK)"
+    },
+    {
+      "player": "Peter Suder",
+      "pos": "G",
+      "date": "Jul 21, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles (LAL)"
+    },
+    {
+      "player": "Jordan Walsh",
+      "pos": "SF",
+      "date": "Jul 20, 2026",
+      "type": "Other",
+      "detail": "Boston (BOS) fully guaranteed $2.41 million salary for 2026-27"
+    },
+    {
+      "player": "Jett Howard",
+      "pos": "SG",
+      "date": "Jul 20, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Dallas (DAL)"
+    },
+    {
+      "player": "Taelon Peter",
+      "pos": "G",
+      "date": "Jul 20, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana (IND)"
+    },
+    {
+      "player": "Tyler Smith",
+      "pos": "SF",
+      "date": "Jul 20, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas (DAL)"
+    },
+    {
+      "player": "Cameron Christie",
+      "pos": "SG",
+      "date": "Jul 20, 2026",
+      "type": "Other",
+      "detail": "LA Clippers (LAC) push back guaranteed date to October 15, 2026"
+    },
+    {
+      "player": "Ryan Nembhard",
+      "pos": "PG",
+      "date": "Jul 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Atlanta (ATL) from Dallas (DAL) as part of a 3-team trade: Atlanta (ATL) traded Zaccharie Risacher to Dallas (DAL); Atlanta (ATL) traded a 2031 2nd round pick [most favorable] and a 2032 2nd round pick [most favorable] to Oklahoma City (OKC); Dallas (DAL) traded a 2027 2nd round pick [CHI pick] to Oklahoma City (OKC); Oklahoma City (OKC) traded Luguentz Dort to Atlanta (ATL)"
+    },
+    {
+      "player": "Zaccharie Risacher",
+      "pos": "SF",
+      "date": "Jul 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Dallas (DAL) from Atlanta (ATL) as part of a 3-team trade: Atlanta (ATL) traded a 2031 2nd round pick [most favorable] and a 2032 2nd round pick [most favorable] to Oklahoma City (OKC); Dallas (DAL) traded Ryan Nembhard to Atlanta (ATL); Dallas (DAL) traded a 2027 2nd round pick [CHI pick] to Oklahoma City (OKC); Oklahoma City (OKC) traded Luguentz Dort to Atlanta (ATL)"
+    },
+    {
+      "player": "Luguentz Dort",
+      "pos": "SG",
+      "date": "Jul 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Atlanta (ATL) from Oklahoma City (OKC) as part of a 3-team trade: Atlanta (ATL) traded Zaccharie Risacher to Dallas (DAL); Atlanta (ATL) traded a 2031 2nd round pick [most favorable] and a 2032 2nd round pick [most favorable] to Oklahoma City (OKC); Dallas (DAL) traded Ryan Nembhard to Atlanta (ATL); Dallas (DAL) traded a 2027 2nd round pick [CHI pick] to Oklahoma City (OKC)"
+    },
+    {
+      "player": "Ziaire Williams",
+      "pos": "SF",
+      "date": "Jul 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.85 million contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Moussa Cisse",
+      "pos": "F",
+      "date": "Jul 18, 2026",
+      "type": "Signing",
+      "detail": "Agreed a 2 year $4.76 million contract with New York (NYK) via Offer Sheet. Dallas (DAL) has the right to match."
+    },
+    {
+      "player": "Vladislav Goldin",
+      "pos": "C",
+      "date": "Jul 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Miami (MIA)"
+    },
+    {
+      "player": "Gary Trent Jr.",
+      "pos": "SG",
+      "date": "Jul 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $64 million contract with Milwaukee (MIL)"
+    },
+    {
+      "player": "Quenton Jackson",
+      "pos": "G",
+      "date": "Jul 15, 2026",
+      "type": "Other",
+      "detail": "Indiana (IND) fully guaranteed $2.58 million salary for 2026-27"
+    },
+    {
+      "player": "Mohamed Bamba",
+      "pos": "C",
+      "date": "Jul 15, 2026",
+      "type": "Other",
+      "detail": "Utah (UTA) guaranteed $200k for 2026-27"
+    },
+    {
+      "player": "Sidy Cissoko",
+      "pos": "SG",
+      "date": "Jul 15, 2026",
+      "type": "Other",
+      "detail": "Portland (POR) fully guaranteed $2.50 million for 2026-27"
+    },
+    {
+      "player": "Tucker DeVries",
+      "pos": "F",
+      "date": "Jul 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Boston (BOS) - Exhibit 10"
+    },
+    {
+      "player": "Milos Uzan",
+      "pos": "PG",
+      "date": "Jul 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Boston (BOS) - Exhibit 10"
+    },
+    {
+      "player": "Alpha Diallo",
+      "pos": "SF",
+      "date": "Jul 15, 2026",
+      "type": "Signing",
+      "detail": "Signed 1 year $1.36 million contract with Denver (DEN)"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "pos": "PF",
+      "date": "Jul 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.5 million contract with Denver (DEN)"
+    },
+    {
+      "player": "Harrison Ingram",
+      "pos": "SF",
+      "date": "Jul 14, 2026",
+      "type": "Qualifying Offer",
+      "detail": "San Antonio (SAS) withdrew Qualifying Offer; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "Tyus Jones",
+      "pos": "PG",
+      "date": "Jul 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Denver (DEN)"
+    },
+    {
+      "player": "Luke Kennard",
+      "pos": "SG",
+      "date": "Jul 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12.43 million contract with Phoenix (PHX) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Jordan McLaughlin",
+      "pos": "PG",
+      "date": "Jul 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.29 million contract with San Antonio (SAS)"
+    },
+    {
+      "player": "Cameron Boozer",
+      "pos": "PF",
+      "date": "Jul 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $53.8 million Rookie Scale contract with Memphis (MEM)"
+    },
+    {
+      "player": "Royce O'Neale",
+      "pos": "SF",
+      "date": "Jul 13, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Grayson Allen and a 2033 1st round pick [unprotected] for Miles Bridges, a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick]"
+    },
+    {
+      "player": "Grayson Allen",
+      "pos": "SG",
+      "date": "Jul 13, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Royce O'Neale and a 2033 1st round pick [unprotected] for Miles Bridges, a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick]"
+    },
+    {
+      "player": "Miles Bridges",
+      "pos": "SF",
+      "date": "Jul 13, 2026",
+      "type": "Trade",
+      "detail": "Traded to Phoenix (PHX) from Charlotte (CHA) with a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick] for Grayson Allen, Royce O'Neale and a 2033 1st round pick [unprotected]"
+    },
+    {
+      "player": "Kevon Looney",
+      "pos": "C",
+      "date": "Jul 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Los Angeles (LAL)"
+    },
+    {
+      "player": "Austin Reaves",
+      "pos": "SG",
+      "date": "Jul 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $184.76 million maximum contract with Los Angeles (LAL) - includes 2029-30 Player Option"
+    },
+    {
+      "player": "Isaiah Evans",
+      "pos": "SG",
+      "date": "Jul 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $9.26 million contract with Minnesota (MIN) via 2nd-round exception - includes 2029-30 Team Option"
+    },
+    {
+      "player": "Collin Sexton",
+      "pos": "PG",
+      "date": "Jul 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $19.2 million contract with Los Angeles (LAL) - includes 2027-28 Player Option"
+    },
+    {
       "player": "Malachi Smith",
       "pos": "G",
       "date": "Jul 10, 2026",
@@ -121,6 +513,153 @@
       "detail": "Traded to Chicago (CHI) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick \\[CHA right to swap\\] , a 2029 1st round pick \\[CHA right to swap; 6-30 protected\\] , a 2030 1st round pick \\[CHA right to swap\\] , a 2033 1st round pick, a 2029 2nd round pick \\[MIN pick\\] , a 2032 2nd round pick \\[MIN pick\\] and a 2033 2nd round pick \\[MIN pick\\] to Charlotte (CHA); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
+      "player": "Collin Sexton",
+      "pos": "PG",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Nick Richards",
+      "pos": "C",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Matt Thomas",
+      "pos": "SG",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Guerschon Yabusele",
+      "pos": "PF",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Mac McClung",
+      "pos": "PG",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Yuki Kawamura",
+      "pos": "G",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Talen Horton-Tucker",
+      "pos": "SG",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Lachlan Olbrich",
+      "pos": "C",
+      "date": "Jul 10, 2026",
+      "type": "Renounce",
+      "detail": "Chicago (CHI) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Isaiah Evans",
+      "pos": "SG",
+      "date": "Jul 10, 2026",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+    },
+    {
+      "player": "Trevon Brazile",
+      "pos": "PF",
+      "date": "Jul 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $9.26 million contract with Denver (DEN) via 2nd-round exception"
+    },
+    {
+      "player": "Joshua Jefferson",
+      "pos": "PF",
+      "date": "Jul 10, 2026",
+      "type": "Trade",
+      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+    },
+    {
+      "player": "Trey Lyles",
+      "pos": "PF",
+      "date": "Jul 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Minnesota (MIN)"
+    },
+    {
+      "player": "Norman Powell",
+      "pos": "SG",
+      "date": "Jul 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $44.08 million contract with Chicago (CHI) - includes 2027-28 Team Option"
+    },
+    {
+      "player": "Marcus Smart",
+      "pos": "PG",
+      "date": "Jul 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12.43 million contract with Houston (HOU) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "DeAndre Jordan",
+      "pos": "C",
+      "date": "Jul 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $7.95 million contract with New Orleans (NOP)"
+    },
+    {
+      "player": "Jock Landale",
+      "pos": "C",
+      "date": "Jul 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $14.1 million contract with Atlanta (ATL)"
+    },
+    {
+      "player": "Josh Green",
+      "pos": "SG",
+      "date": "Jul 10, 2026",
+      "type": "Other",
+      "detail": ""
+    },
+    {
+      "player": "LaMelo Ball",
+      "pos": "PG",
+      "date": "Jul 10, 2026",
+      "type": "Other",
+      "detail": ""
+    },
+    {
+      "player": "Mouhamadou Gueye",
+      "pos": "F",
+      "date": "Jul 10, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Chicago (CHI) as part of a 4-team trade: Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+    },
+    {
+      "player": "Nicolas Claxton",
+      "pos": "C",
+      "date": "Jul 10, 2026",
+      "type": "Trade",
+      "detail": "Traded to Chicago (CHI) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+    },
+    {
+      "player": "Julius Randle",
+      "pos": "PF",
+      "date": "Jul 10, 2026",
+      "type": "Trade",
+      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+    },
+    {
       "player": "Nate Bittle",
       "pos": "C",
       "date": "Jul 09, 2026",
@@ -196,6 +735,48 @@
       "date": "Jul 09, 2026",
       "type": "Signing",
       "detail": "Signed a 2 year $22 million contract with Utah (UTA)"
+    },
+    {
+      "player": "Baba Miller",
+      "pos": "C",
+      "date": "Jul 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $9.26 million contract with LA Clipper (LAC) via 2nd-round exception - includes 2029-30 Team Option"
+    },
+    {
+      "player": "Josh Okogie",
+      "pos": "SG",
+      "date": "Jul 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12 million contract with Utah (UTA) - includes 2027-28 Team Option"
+    },
+    {
+      "player": "Jordan Miller",
+      "pos": "SF",
+      "date": "Jul 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $15.3 million contract with LA Clippers (LAC) - includes 2028-29 Team Option"
+    },
+    {
+      "player": "Tari Eason",
+      "pos": "PF",
+      "date": "Jul 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a 5 year $81.45 million contract with Houston (HOU) - includes 2030-31 Player Option"
+    },
+    {
+      "player": "Ousmane Dieng",
+      "pos": "SF",
+      "date": "Jul 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $17.5 million contract with Milwaukee (MIL) - includes 2028-29 Team Option"
+    },
+    {
+      "player": "Kevin Huerter",
+      "pos": "SG",
+      "date": "Jul 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $27 million contract with Detroit (DET) - includes 2028-29 Team Option"
     },
     {
       "player": "Donovan Mitchell",
@@ -392,6 +973,13 @@
       "date": "Jul 08, 2026",
       "type": "Trade",
       "detail": "Traded to Memphis (MEM) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+    },
+    {
+      "player": "Mohamed Bamba",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $7.21 million contract with Utah (UTA)"
     },
     {
       "player": "Quadir Copeland",
@@ -2765,13 +3353,6 @@
       "date": "Jun 24, 2026",
       "type": "Trade",
       "detail": "Traded to Miami (MIA) from Oklahoma City (OKC) for Otega Oweh and cash considerations"
-    },
-    {
-      "player": "Vsevolod Ishchenko",
-      "pos": "SG",
-      "date": "Jun 24, 2026",
-      "type": "Trade",
-      "detail": "Traded to Los Angeles (LAL) from Chicago (CHI) Traded to Los Angeles (LAL) from Chicago (CHI) for cash considerations"
     },
     {
       "player": "Vsevolod Ishchenko",

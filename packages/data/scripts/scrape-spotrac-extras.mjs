@@ -52,13 +52,52 @@ function parseRows(md) {
 
 const key = getKey();
 
-const upcoming = parseRows(await scrape("https://www.spotrac.com/nba/transactions/upcoming", key));
-writeFileSync(join(SRC, "upcoming-deadlines.json"), JSON.stringify({ rows: upcoming }, null, 2));
-console.log(`upcoming-deadlines: ${upcoming.length} rows`);
+/** Never let an upstream markup change blank a file that currently has rows. */
+function writeGuarded(file, rows, label) {
+  const path = join(SRC, file);
+  const had = (() => {
+    try {
+      return (JSON.parse(readFileSync(path, "utf8")).rows ?? []).length;
+    } catch {
+      return 0;
+    }
+  })();
+  if (!rows.length && had) {
+    throw new Error(
+      `${label}: parsed 0 rows but ${file} currently has ${had}. Spotrac's markup likely ` +
+        `changed — fix parseRows before rerunning. ${file} left untouched.`,
+    );
+  }
+  writeFileSync(path, JSON.stringify({ rows }, null, 2));
+  console.log(`${label}: ${rows.length} rows`);
+}
 
+const upcoming = parseRows(await scrape("https://www.spotrac.com/nba/transactions/upcoming", key));
+writeGuarded("upcoming-deadlines.json", upcoming, "upcoming-deadlines");
+
+// Spotrac's extension-eligible page lists UPCOMING windows only — a player
+// drops off it the moment his window opens. Replacing the file therefore
+// deletes exactly the players who ARE eligible right now, and
+// isExtensionEligible() (which needs date <= today) goes false league-wide.
+// An extension window that has opened does not close, so MERGE by player and
+// let the fresh row win on collision.
 const extEligible = parseRows(
   await scrape("https://www.spotrac.com/nba/transactions/upcoming/_/type/extension-eligible", key),
 );
-writeFileSync(join(SRC, "extension-eligible.json"), JSON.stringify({ rows: extEligible }, null, 2));
-console.log(`extension-eligible: ${extEligible.length} rows`);
+const mergedExt = (() => {
+  const path = join(SRC, "extension-eligible.json");
+  let prior = [];
+  try {
+    prior = JSON.parse(readFileSync(path, "utf8")).rows ?? [];
+  } catch {
+    /* first run */
+  }
+  const byPlayer = new Map(prior.map((r) => [r.player, r]));
+  for (const r of extEligible) byPlayer.set(r.player, r);
+  return [...byPlayer.values()];
+})();
+console.log(
+  `extension-eligible: ${extEligible.length} scraped, ${mergedExt.length - extEligible.length} retained from prior pulls`,
+);
+writeGuarded("extension-eligible.json", mergedExt, "extension-eligible");
 for (const r of extEligible.slice(0, 5)) console.log(`  ${r.player} (${r.team}) — ${r.kind}`);
