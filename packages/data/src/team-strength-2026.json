@@ -2,191 +2,192 @@
   "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-07-28.",
   "asOf": "2026-07-28",
   "calibration": {
-    "intercept": -7.35,
-    "rosterCoef": 3.353,
-    "fitCoef": 0.769,
+    "talentZ": 2.561,
+    "perdZ": 1.496,
+    "nrtgSpread": 1.37,
     "winsIntercept": 40.77,
     "winsPerNrtg": 1.972,
-    "note": "MODEL-NATIVE projection: projNrtg = intercept + rosterCoef*rosterScore + fitCoef*teamFit, fit to actual 2025-26 net ratings (R2=0.75, n=30). rosterScore = position-aware rotation of role-based minutes x pedigree-floored talent (current impact floored at age-decayed star pedigree + two-way defensive credit); teamFit = bounded dimensional fit. wins = 40.77 + 1.972*projNrtg (clamped 12-73)."
+    "cvRmseNrtg": 3.512,
+    "note": "projNrtg = nrtgSpread x (talentZ x z(rotation talent) + perdZ x z(perimeter defense)), z-scored against the REAL 30-team league so a staged trade moves the team that made it rather than shifting everyone. Selected AND fitted on 240 team-seasons (2018-19 through 2025-26) by leave-one-SEASON-out CV, with production features computed through the same allocateRotation/teamDimensions the board runs, via SeasonCtx. CV-RMSE 3.512 net rating (about 7 wins); R2 0.55 out of sample. REPLACES intercept + rosterCoef x talent + fitCoef x fit: the team-fit term measured as pure noise (+0.003 CV-RMSE vs talent alone, 95% CI -0.012 to 0.017, and its own slope swung 120% across held-out seasons). Perimeter defense survives where spacing, defense and defensive core do not. Roster continuity tested better historically but is measured differently on a July roster than on a played season, so it is deliberately excluded. Re-derive with lib/projectionCalibration.test.ts."
   },
   "byTeam": {
     "ATL": {
       "av": 56.2,
-      "projNrtg": 1.6,
+      "projNrtg": 0.5,
       "nrtg": 2.4,
       "w": 42
     },
     "BKN": {
       "av": 49.6,
-      "projNrtg": -6.7,
+      "projNrtg": -5.5,
       "nrtg": -10.3,
       "w": 27
     },
     "BOS": {
       "av": 61.6,
-      "projNrtg": 7.7,
+      "projNrtg": 6.2,
       "nrtg": 8.2,
       "w": 55
     },
     "CHA": {
       "av": 54.2,
-      "projNrtg": 0.1,
+      "projNrtg": -1.5,
       "nrtg": 5,
       "w": 40
     },
     "CHI": {
       "av": 51.8,
-      "projNrtg": -5,
+      "projNrtg": -4.9,
       "nrtg": -5.1,
       "w": 30
     },
     "CLE": {
       "av": 58.8,
-      "projNrtg": 3.5,
+      "projNrtg": 1.2,
       "nrtg": 4,
       "w": 46
     },
     "DAL": {
       "av": 53.1,
-      "projNrtg": -2.9,
+      "projNrtg": -3.6,
       "nrtg": -5.4,
       "w": 34
     },
     "DEN": {
       "av": 60.8,
-      "projNrtg": 5.7,
+      "projNrtg": 2.1,
       "nrtg": 5.2,
       "w": 50
     },
     "DET": {
       "av": 56.6,
-      "projNrtg": 2.7,
+      "projNrtg": 4.4,
       "nrtg": 8.2,
       "w": 46
     },
     "GSW": {
       "av": 56.6,
-      "projNrtg": 1.6,
+      "projNrtg": 1.4,
       "nrtg": -0.6,
       "w": 42
     },
     "HOU": {
       "av": 60.1,
-      "projNrtg": 5,
+      "projNrtg": 3.6,
       "nrtg": 5.4,
       "w": 50
     },
     "IND": {
       "av": 53.4,
-      "projNrtg": -2,
+      "projNrtg": -5.1,
       "nrtg": -8,
       "w": 35
     },
     "LAC": {
       "av": 49.6,
-      "projNrtg": -6,
+      "projNrtg": -7.2,
       "nrtg": 1.1,
       "w": 28
     },
     "LAL": {
       "av": 59,
-      "projNrtg": 5.3,
+      "projNrtg": 5.7,
       "nrtg": 1.7,
       "w": 50
     },
     "MEM": {
       "av": 51.7,
-      "projNrtg": -2.1,
+      "projNrtg": -4.9,
       "nrtg": -5.9,
       "w": 36
     },
     "MIA": {
       "av": 58.7,
-      "projNrtg": 4.2,
+      "projNrtg": 3,
       "nrtg": 2.2,
       "w": 49
     },
     "MIL": {
       "av": 51,
-      "projNrtg": -4.5,
+      "projNrtg": -4.2,
       "nrtg": -6.5,
       "w": 31
     },
     "MIN": {
       "av": 59.1,
-      "projNrtg": 3.2,
+      "projNrtg": 2.3,
       "nrtg": 3.1,
       "w": 46
     },
     "NOP": {
       "av": 51.7,
-      "projNrtg": -6.1,
+      "projNrtg": -4.3,
       "nrtg": -4.7,
       "w": 28
     },
     "NYK": {
       "av": 59.4,
-      "projNrtg": 4.8,
+      "projNrtg": 4.4,
       "nrtg": 6.5,
       "w": 50
     },
     "OKC": {
       "av": 67.1,
-      "projNrtg": 12.6,
+      "projNrtg": 14.1,
       "nrtg": 11.1,
       "w": 65
     },
     "ORL": {
       "av": 55.2,
-      "projNrtg": 0.2,
+      "projNrtg": 0.3,
       "nrtg": 0.6,
       "w": 41
     },
     "PHI": {
       "av": 61,
-      "projNrtg": 4.4,
+      "projNrtg": 4.8,
       "nrtg": -0.2,
       "w": 44
     },
     "PHX": {
       "av": 54.4,
-      "projNrtg": 0.6,
+      "projNrtg": 0.1,
       "nrtg": 1.4,
       "w": 41
     },
     "POR": {
       "av": 54.8,
-      "projNrtg": -1.2,
+      "projNrtg": -2.6,
       "nrtg": -0.2,
       "w": 38
     },
     "SAC": {
       "av": 47.7,
-      "projNrtg": -11.2,
+      "projNrtg": -11,
       "nrtg": -10.1,
       "w": 18
     },
     "SAS": {
       "av": 59.5,
-      "projNrtg": 5.8,
+      "projNrtg": 5.1,
       "nrtg": 8.3,
       "w": 51
     },
     "TOR": {
       "av": 58.5,
-      "projNrtg": 4.9,
+      "projNrtg": 4.7,
       "nrtg": 2.6,
       "w": 50
     },
     "UTA": {
       "av": 52.3,
-      "projNrtg": -2.3,
+      "projNrtg": -4.4,
       "nrtg": -8.2,
       "w": 36
     },
     "WAS": {
       "av": 52.4,
-      "projNrtg": -4.3,
+      "projNrtg": -4.8,
       "nrtg": -11.8,
       "w": 31
     }
