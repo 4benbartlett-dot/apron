@@ -155,11 +155,22 @@ export const TEAM_STRENGTH_2026: Record<string, TeamStrength> =
  * + fitCoef·teamFit, fit to actual net ratings (R²=0.75); wins = winsIntercept +
  * winsPerNrtg·projNrtg. */
 export interface TeamCalibration {
-  intercept: number;
-  rosterCoef: number;
-  fitCoef: number;
+  /** Weight on the rotation's talent score, in standard deviations. */
+  talentZ: number;
+  /** Weight on minutes-weighted perimeter defense, in standard deviations. */
+  perdZ: number;
+  /** Variance match: a conditional-mean fit under-disperses by construction, so
+   * predictions are scaled until the league's spread equals the historical
+   * spread of REAL team net ratings. Preserves ranking and the calibrated mean. */
+  nrtgSpread: number;
   winsIntercept: number;
   winsPerNrtg: number;
+  /** Measured out-of-sample error, for /accuracy to quote honestly. */
+  cvRmseNrtg?: number;
+  /** @deprecated pre-2026-07 shape: intercept + rosterCoef·talent + fitCoef·fit. */
+  intercept?: number;
+  rosterCoef?: number;
+  fitCoef?: number;
 }
 export const TEAM_CALIBRATION: TeamCalibration =
   (teamStrengthRaw as { calibration: TeamCalibration }).calibration;

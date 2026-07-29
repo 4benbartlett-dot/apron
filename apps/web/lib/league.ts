@@ -1127,6 +1127,42 @@ export interface Rotation {
 }
 
 /**
+ * Everything the rotation and dimension math needs to know about a SEASON,
+ * behind one injectable surface.
+ *
+ * These functions used to read the 2026-27 globals directly, which meant they
+ * could only ever describe the current season — and that is why the projection
+ * model could be feature-selected against ten seasons but only ever CALIBRATED
+ * against one. Fitting three coefficients on thirty rows left the continuity
+ * slope swinging 74% of its own size when a single team was held out.
+ *
+ * The default is the live season and is exactly the previous behavior, so
+ * nothing about the shipped board changes. Calibration passes a historical
+ * season built from player-stats-history.json and gets features out of the
+ * SAME code path — not a reimplementation that might quietly disagree.
+ */
+export interface SeasonCtx {
+  salary: (c: Contract) => number;
+  av: (c: Contract) => number;
+  minutes: (c: Contract, av: number) => number;
+  positions: (playerId: string) => string[];
+  shares: (playerId: string) => Record<string, number> | undefined;
+  age: (playerId: string) => number;
+  dims: (c: Contract) => PlayerDims;
+}
+
+/** The live 2026-27 season — the default for every caller in the app. */
+export const CURRENT_SEASON: SeasonCtx = {
+  salary: (c) => currentSalary(c),
+  av: (c) => adjustedAv(c),
+  minutes: (c, av) => projectedMinutes(c.playerId, impactEntry(c).mp ?? 0, av),
+  positions: (id) => eligiblePositions(id),
+  shares: (id) => POSITION_SHARES_2026[id],
+  age: (id) => ageOf(id),
+  dims: (c) => playerDims(c),
+};
+
+/**
  * Position-aware rotation allocation — the team's minutes budget, but split
  * five ways. Each on-court spot has {@link POS_MINUTES} to give; the best
  * players earn them first (each up to his availability-aware projected role) at
@@ -1139,17 +1175,16 @@ export interface Rotation {
  * nudge. Returns the full per-spot allocation (for the depth chart) plus the
  * summed score.
  */
-export function allocateRotation(roster: Contract[]): Rotation {
+export function allocateRotation(roster: Contract[], ctx: SeasonCtx = CURRENT_SEASON): Rotation {
   const players = roster
-    .filter((c) => currentSalary(c) > 0 && !c.deadMoney)
+    .filter((c) => ctx.salary(c) > 0 && !c.deadMoney)
     .map((c) => {
-      const e = impactEntry(c);
-      const av = adjustedAv(c);
-      const elig = eligiblePositions(c.playerId);
+      const av = ctx.av(c);
+      const elig = ctx.positions(c.playerId);
       // How he actually split his minutes across those spots (play-by-play
       // shares), so a real combo guard plays some 1 and some 2 rather than being
       // pinned to one position. Falls back to all-primary when unmeasured.
-      const rawShares = POSITION_SHARES_2026[c.playerId];
+      const rawShares = ctx.shares(c.playerId);
       const shares = elig.map((pos, i) => (rawShares?.[pos] ?? (i === 0 ? 100 : 0)));
       const shareSum = shares.reduce((s, x) => s + x, 0) || 1;
       return {
@@ -1157,8 +1192,8 @@ export function allocateRotation(roster: Contract[]): Rotation {
         name: c.playerName,
         pts: (av - 50) * 0.268,
         av,
-        age: ageOf(c.playerId),
-        mp: projectedMinutes(c.playerId, e.mp ?? 0, av),
+        age: ctx.age(c.playerId),
+        mp: ctx.minutes(c, av),
         elig,
         weights: shares.map((s) => s / shareSum),
       };
@@ -1306,8 +1341,8 @@ export interface TeamDimensions {
 
 /** Minutes-weighted team dimensions from the projected rotation, plus the fit
  * signals (spacers, ball-dominant alphas, glue guys, defensive core). */
-export function teamDimensions(roster: Contract[]): TeamDimensions {
-  const rot = allocateRotation(roster);
+export function teamDimensions(roster: Contract[], ctx: SeasonCtx = CURRENT_SEASON): TeamDimensions {
+  const rot = allocateRotation(roster, ctx);
   const byId = new Map(roster.map((c) => [c.playerId, c]));
   const perPlayer = new Map<string, number>();
   for (const pos of ROTATION_POSITIONS) for (const s of rot.byPos[pos]!) perPlayer.set(s.playerId, (perPlayer.get(s.playerId) ?? 0) + s.minutes);
@@ -1317,7 +1352,7 @@ export function teamDimensions(roster: Contract[]): TeamDimensions {
   const people: { d: PlayerDims; min: number }[] = [];
   for (const [id, min] of perPlayer) {
     const c = byId.get(id);
-    const d = c ? playerDims(c) : LEAGUE_DIMS;
+    const d = c ? ctx.dims(c) : LEAGUE_DIMS;
     total += min;
     people.push({ d, min });
     acc.off += min * d.off; acc.def += min * d.def; acc.play += min * d.play;
@@ -1355,8 +1390,8 @@ export interface TeamFit { nrtg: number; dims: TeamDimensions; notes: { label: s
 
 /** A BOUNDED net-rating fit adjustment (≈ ±6) layered on top of the talent
  * projection: how well a roster's parts complement each other. */
-export function teamFit(roster: Contract[]): TeamFit {
-  const D = teamDimensions(roster);
+export function teamFit(roster: Contract[], ctx: SeasonCtx = CURRENT_SEASON): TeamFit {
+  const D = teamDimensions(roster, ctx);
   const notes: { label: string; nrtg: number }[] = [];
   const add = (label: string, v: number) => { if (Math.abs(v) >= 0.15) notes.push({ label, nrtg: Math.round(v * 10) / 10 }); return v; };
   let fit = 0;
@@ -1419,9 +1454,56 @@ export function dimensionGrade(x: number): string {
 /** The model's own net-rating read on a roster: talent (position-aware rotation
  * of impact + real-age aging + real-injury availability) plus the bounded fit
  * adjustment, calibrated straight to actual net ratings (R²=0.75). */
+/**
+ * League-wide mean and spread of each projection feature, measured on the REAL
+ * rosters and then held fixed.
+ *
+ * Fixed on purpose. If the reference moved with the board, staging one trade
+ * would re-standardize all thirty teams and nudge every projection in the
+ * league — the delta would stop meaning "what this move did".
+ */
+let _featureNorm: { talent: { m: number; sd: number }; perd: { m: number; sd: number } } | null = null;
+function featureNorm() {
+  if (!_featureNorm) {
+    const talent: number[] = [];
+    const perd: number[] = [];
+    for (const t of TEAM_IDS) {
+      const r = BASE_CONTRACTS.filter((c) => c.teamId === t && !c.deadMoney);
+      talent.push(rosterScore(r));
+      perd.push(teamDimensions(r).perd);
+    }
+    const stat = (v: number[]) => {
+      const m = v.reduce((a, b) => a + b, 0) / v.length;
+      return { m, sd: Math.sqrt(v.reduce((s, x) => s + (x - m) ** 2, 0) / v.length) || 1 };
+    };
+    _featureNorm = { talent: stat(talent), perd: stat(perd) };
+  }
+  return _featureNorm;
+}
+
+/**
+ * A roster's projected net rating: talent, plus perimeter defense, in standard
+ * deviations, scaled so the league's spread matches what real net ratings do.
+ *
+ * The team-fit term this replaces was measured as noise across 240 team-seasons
+ * — +0.003 CV-RMSE against talent alone, a 95% interval straddling zero, and a
+ * slope that swung 120% of its own size depending on which season was held out.
+ * It stays in the product as EXPLANATION (the fit notes on the board are a real
+ * read on a roster) and is out of the PREDICTION. Perimeter defense is the one
+ * dimension that survived out-of-sample; spacing, team defense and defensive
+ * core did not, and bundling them together is what hid it.
+ *
+ * Both inputs are smooth functions of the rotation, so a trade always moves the
+ * number in proportion to what it actually changed. The old fit stack was built
+ * from clamps and thresholds, so a real roster change could move it by nothing
+ * — or trip a boundary and jump.
+ */
 function modelNrtg(roster: Contract[]): number {
   const cal = TEAM_CALIBRATION;
-  return cal.intercept + cal.rosterCoef * rosterScore(roster) + cal.fitCoef * teamFit(roster).nrtg;
+  const n = featureNorm();
+  const zTalent = (rosterScore(roster) - n.talent.m) / n.talent.sd;
+  const zPerd = (teamDimensions(roster).perd - n.perd.m) / n.perd.sd;
+  return cal.nrtgSpread * (cal.talentZ * zTalent + cal.perdZ * zPerd);
 }
 export const SEASON_GAMES = 82;
 /** Every game produces exactly one win, so the 30 teams share a fixed 1,230. */
