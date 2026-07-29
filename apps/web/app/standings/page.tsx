@@ -67,10 +67,10 @@ export default function StandingsPage() {
         <Link href="/" className="text-xs font-semibold text-[var(--accent-ink)] hover:underline">Back to the board →</Link>
       </div>
       <p className="mb-5 text-sm leading-relaxed text-[var(--muted)]">
-        Each team&rsquo;s projected 2026-27 record — the model&rsquo;s own read on the current roster (talent + fit), calibrated to real net ratings and ranked within its conference.
+        Each team&rsquo;s projected 2026-27 record — the model&rsquo;s own read on the current roster, calibrated to real net ratings and ranked within its conference. Three things set it: rotation talent, perimeter defense, and a bounded penalty for a structural hole (no rim protection to go with no spacing, too many players who need the ball).
         {moved
-          ? " The Δ column shows how your offseason moves change each team — talent, rotation-minute displacement (a star that benches a good player is worth less than one that displaces a scrub), and fit."
-          : " With no moves staged, this is the current roster — real injuries (a torn ACL cuts a star’s minutes), the position-aware rotation, aging, and fit all baked in. Make trades and signings and it updates live."}
+          ? " The Δ column shows how your offseason moves change each team — talent, rotation-minute displacement (a star that benches a good player is worth less than one that displaces a scrub), and any hole the move opens or fills."
+          : " With no moves staged, this is the current roster — real injuries (a torn ACL cuts a star’s minutes), the position-aware rotation, and aging all baked in. Make trades and signings and it updates live."}
         {" "}A current-roster projection, not a full-season forecast (no coaching or playoff translation).
       </p>
 
@@ -80,7 +80,7 @@ export default function StandingsPage() {
       </div>
 
       <p className="mt-3 text-[11px] text-[var(--muted)]">
-        The line after #6 marks the play-in cut (top 6 clinch, 7&ndash;10 play in). Records come from projected net rating (talent + fit) mapped to wins and calibrated to actual 2025-26 net ratings. Wins are zero-sum: the league always totals exactly 1,230, so improving your team pulls wins from everyone else&rsquo;s column.
+        The line after #6 marks the play-in cut (top 6 clinch, 7&ndash;10 play in). Records come from projected net rating mapped to wins and calibrated to actual 2025-26 net ratings. Wins are zero-sum: the league always totals exactly 1,230, so improving your team pulls wins from everyone else&rsquo;s column.
       </p>
     </div>
   );
