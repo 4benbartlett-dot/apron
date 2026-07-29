@@ -113,6 +113,11 @@ export function explainBlocked(
   /** Kept free-agent holds per team — they consume below-cap absorption
    * room, so "add more outgoing" scans must not assume phantom space. */
   holdsOf: (team: string) => number = () => 0,
+  /** Standing traded-player exceptions per team. When a team is short on
+   * matching and is sitting on an exception that WOULD have covered the gap,
+   * the honest answer isn't "trim the incoming side" — it's that the exception
+   * is real, visible on their cap sheet, and legally out of reach. */
+  tpesOf: (team: string) => { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }[] = () => [],
 ): BlockedExplainer {
   const subject: string[] = [];
   const fixes: string[] = [];
@@ -160,6 +165,20 @@ export function explainBlocked(
       const over = t.incomingSalary - ceiling;
       if (over > 0) {
         push(tid, `Trim the incoming side: ${name} take back ${fmtCeilM(over)} less and this leg clears.`);
+      }
+      // Row F, said out loud. A Regular-Season-arisen exception is unusable by
+      // a team whose post-trade apron salary clears the first apron — so a
+      // Warriors sheet can show a $2.2M exception next to a blocked $2.15M
+      // acquisition, which reads as a bug unless the rule is named.
+      if (over > 0) {
+        const blocked = tpesOf(tid)
+          .filter((s) => (s.firstApronCap ?? s.preExisting) && s.amount + 250_000 >= over)
+          .sort((a, b) => b.amount - a.amount)[0];
+        if (blocked && t.postTradeSalary > c.firstApron + 1) {
+          subject.push(
+            `${name} do hold a ${fmtM(blocked.amount)} traded-player exception${blocked.label ? ` (${blocked.label})` : ""}, and it is big enough to absorb this — but it arose in a prior Regular Season, and an exception of that vintage can't be used by a team whose salary after the trade would sit above the first apron (${fmtM(c.firstApron)}). Theirs would be ${fmtM(t.postTradeSalary)}. Getting under that line first is what unlocks it, and using it would then hard-cap them there for the season.`,
+          );
+        }
       }
       const need = extraOutgoingNeeded(t, c, holdsOf(tid));
       if (need) {

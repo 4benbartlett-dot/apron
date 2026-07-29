@@ -1989,7 +1989,15 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
       yrs = [{ ...yrs[0]!, salary: deemedMinSalary(m.playerId, yrs[0]!.salary, 1, m.mechanism ?? "unspecified") }];
     const restriction =
       m.restricted === false ? undefined : (m.restrictionText ?? FA_RESTRICTION);
-    const idx = contracts.findIndex((c) => c.playerId === m.playerId);
+    // Skip DEAD-MONEY rows. A waived free agent (DeRozan, Cole Anthony, the
+    // whole roster-corrections `waivedFreeAgents` class) exists on the sheet
+    // ONLY as his old team's dead-money charge — he has no live contract row.
+    // Matching that row and rewriting it in place did two wrong things at once:
+    // the old team's dead money vanished, and the signing team got a dead-money
+    // charge instead of a player, because `deadMoney: true` rode along in the
+    // spread. Signing him has to MINT a new row (the fall-through below) and
+    // leave the charge where it belongs.
+    const idx = contracts.findIndex((c) => c.playerId === m.playerId && !c.deadMoney);
     if (idx >= 0) {
       const c = contracts[idx]!;
       const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, currentSalary, deadMoneyOf, freeAgentsOf, normName, C } from "@/lib/league";
+import { BASE_CONTRACTS, currentSalary, deadMoneyOf, freeAgentsOf, normName, C, applyMove, type Move } from "@/lib/league";
 
 // Launch-week community reports, permanent. @tomer_langer: Claxton still on
 // the Nets page after the Randle three-teamer (the trade prose says "Nicolas",
@@ -120,6 +120,39 @@ describe("roster invariants (league-wide)", () => {
       const k = normName(c.playerName);
       expect(seenName.get(k), `${c.playerName} duplicated: ${seenName.get(k)} AND ${c.teamId} (${c.playerId})`).toBeUndefined();
       seenName.set(k, c.teamId);
+    }
+  });
+});
+
+// Reported Jul 28: signing DeMar DeRozan put him on the signing team's books as
+// DEAD MONEY rather than as a player, and Sacramento's real dead-money charge
+// disappeared at the same time. A waived free agent exists on the sheet only as
+// his old team's charge — he has no live contract row — and the sign path was
+// matching that row by id and rewriting it in place, carrying `deadMoney: true`
+// along with it. Whole class of bug: every player in roster-corrections'
+// `waivedFreeAgents`.
+describe("signing a waived free agent (the DeRozan report)", () => {
+  const waived = BASE_CONTRACTS.filter((c) => c.deadMoney && currentSalary(c) > 0);
+
+  it("mints a live contract and leaves the old team's dead money alone", () => {
+    for (const dead of waived) {
+      // Only players who are actually signable free agents — a stretched
+      // charge whose player is rostered elsewhere isn't this case.
+      const fa = freeAgentsOf(BASE_CONTRACTS).find((f) => f.playerId === dead.playerId);
+      if (!fa) continue;
+      const target = dead.teamId === "GSW" ? "BOS" : "GSW";
+      const after = applyMove(BASE_CONTRACTS, {
+        kind: "sign", label: "t", playerId: dead.playerId, playerName: dead.playerName,
+        teamId: target, salary: C.minimumSalaries[10]!, years: 1, mechanism: "minimum",
+      } as unknown as Move);
+      const rows = after.filter((c) => c.playerId === dead.playerId);
+      const live = rows.filter((c) => !c.deadMoney);
+      const charge = rows.filter((c) => c.deadMoney);
+      expect(live, `${dead.playerName}: should have exactly one live row`).toHaveLength(1);
+      expect(live[0]!.teamId, dead.playerName).toBe(target);
+      expect(charge, `${dead.playerName}: old team keeps its charge`).toHaveLength(1);
+      expect(charge[0]!.teamId, dead.playerName).toBe(dead.teamId);
+      expect(currentSalary(charge[0]!), dead.playerName).toBe(currentSalary(dead));
     }
   });
 });

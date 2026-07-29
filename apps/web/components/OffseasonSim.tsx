@@ -761,7 +761,7 @@ export default function OffseasonSim() {
     () =>
       docketLegal
         ? null
-        : explainBlocked(verdict, [...stepienViolations, ...hardCapTradeViolations, ...stViolations], C, lg.teamHolds).fixes[0] ?? null,
+        : explainBlocked(verdict, [...stepienViolations, ...hardCapTradeViolations, ...stViolations], C, lg.teamHolds, (t) => tpeLedger(lg.moves)[t] ?? []).fixes[0] ?? null,
     [docketLegal, verdict, stepienViolations, hardCapTradeViolations, stViolations, lg],
   );
 
@@ -1272,7 +1272,7 @@ function TradeVerdict({
       : null;
   const [showFix, setShowFix] = useState(false);
   const explainer = useMemo(
-    () => (legal ? null : explainBlocked(verdict, extraViolations, C, lg.teamHolds)),
+    () => (legal ? null : explainBlocked(verdict, extraViolations, C, lg.teamHolds, (t) => tpeLedger(lg.moves)[t] ?? [])),
     [legal, verdict, extraViolations, lg],
   );
   const triggers = useMemo(
@@ -2722,9 +2722,11 @@ function TradeFinderDrawer({
   onClose: () => void;
   onLoad: (acquirer: string, seller: string, targetId: string, playerIds: string[], sweetenerIds?: string[]) => void;
 }) {
-  // "reverse" = pick a player, see what the whole league would legally offer for
-  // him. "forward" = pick your team + a target, see what you can send.
-  const [mode, setMode] = useState<"reverse" | "forward">("reverse");
+  // "forward" = pick your team + a target, see what you can send. "reverse" =
+  // pick a player, see what the whole league would legally offer for him.
+  // Forward is the default: you arrive here from your own board, already
+  // holding a team, wanting someone.
+  const [mode, setMode] = useState<"reverse" | "forward">("forward");
   const [acquirer, setAcquirer] = useState<string>(board[0] ?? TEAM_IDS[0]!);
   const [q, setQ] = useState("");
   const [posFilter, setPosFilter] = useState<string | null>(null);
@@ -2822,7 +2824,7 @@ function TradeFinderDrawer({
       </div>
 
       <div className="flex gap-1 border-b border-[var(--border)] p-3">
-        {([["reverse", "Offers for a player"], ["forward", "Trade for a player"]] as const).map(([m, label]) => (
+        {([["forward", "Trade for a player"], ["reverse", "Offers for a player"]] as const).map(([m, label]) => (
           <button
             key={m}
             onClick={() => { setMode(m); setTargetId(null); }}
