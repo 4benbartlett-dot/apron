@@ -51,6 +51,7 @@ function rowsById($, tableId, want, teamStat) {
     const href = $tr.find('[data-stat="name_display"], [data-stat="player"]').first().find("a").attr("href") || "";
     const id = (href.match(/\/players\/\w\/([^.]+)\.html/) || [])[1];
     if (!id) return;
+    const displayName = $tr.find('[data-stat="name_display"], [data-stat="player"]').first().text().trim();
     const num = (stat) => {
       const v = $tr.find(`[data-stat="${stat}"]`).first().text().trim();
       return v === "" ? NaN : Number(v);
@@ -59,6 +60,7 @@ function rowsById($, tableId, want, teamStat) {
     const rec = {};
     for (const [key, stat] of Object.entries(want)) rec[key] = num(stat);
     if (teamStat) rec.team = $tr.find(`[data-stat="${teamStat}"]`).first().text().trim();
+    rec.name = displayName;
     const weight = Number.isFinite(mp) ? mp : (Number.isFinite(rec.g) ? rec.g : 0);
     const prev = best.get(id);
     if (!prev || weight > prev._w) best.set(id, { ...rec, _w: weight });
@@ -110,6 +112,7 @@ async function seasonStats(year) {
     put("fgp", p.fgp); put("tp", p.tp); put("tpa", p.tpa); put("tpp", p.tpp); put("ftp", p.ftp);
     put("ppg", p.ppg); put("rpg", p.rpg); put("apg", p.apg); put("spg", p.spg); put("bpg", p.bpg);
     if (a.team) entry.team = a.team;
+    if (a.name) entry.name = a.name;
     if (Object.keys(entry).length) byId[id] = entry;
   }
   return byId;
