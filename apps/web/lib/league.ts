@@ -1638,12 +1638,13 @@ function leagueStandings(liveContracts: Contract[]): Record<string, { nrtg: numb
 
 /**
  * Projected net rating + record for a team — the MODEL'S OWN read on the current
- * roster (talent + fit, calibrated to real net ratings), not anchored to any
- * outside consensus. The baseline reflects everything the model knows: real
- * injuries (a torn ACL drops a star's minutes), the position-aware rotation,
- * real-age aging, and team fit. With no moves the live roster equals the base
- * roster, so the delta is exactly zero — no drift. A current-roster projection,
- * NOT a full-season forecast (no coaching or playoff translation).
+ * roster (rotation talent + perimeter defense + structural need, calibrated to
+ * real net ratings), not anchored to any outside consensus. The baseline
+ * reflects everything the model knows: real injuries (a torn ACL drops a star's
+ * minutes), the position-aware rotation, real-age aging, and any structural hole
+ * the roster carries. With no moves the live roster equals the base roster, so
+ * the delta is exactly zero — no drift. A current-roster projection, NOT a
+ * full-season forecast (no coaching or playoff translation).
  */
 export function teamProjection(team: string, liveContracts: Contract[]): TeamProjection | undefined {
   if (!TEAM_STRENGTH_2026[team]) return undefined;
