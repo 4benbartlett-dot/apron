@@ -1498,12 +1498,77 @@ function featureNorm() {
  * from clamps and thresholds, so a real roster change could move it by nothing
  * — or trip a boundary and jump.
  */
+/** The most a structural hole may move a team, in net rating (≈2 wins). */
+export const NEED_CAP_NRTG = 1.0;
+
+export interface NeedNote { label: string; nrtg: number }
+
+/**
+ * STRUCTURAL HOLES — the part of roster construction that ten seasons of real
+ * teams cannot teach us.
+ *
+ * Every candidate need/balance feature tested flat against 240 team-seasons
+ * (rim, rim², spacing, imbalance, star concentration: all within ±0.03 CV-RMSE
+ * of talent+perd). That is not evidence that need is fake. It is evidence of
+ * RESTRICTED RANGE: real front offices employ a competent center and do not
+ * roster four ball-dominant scorers, so history contains almost no examples of
+ * the holes this product's users open every time they build a lineup.
+ *
+ * So the term is written to be ~0 for a well-constructed roster and negative
+ * only for a broken one. That keeps it accuracy-neutral where history can grade
+ * it, and lets it speak where history is silent. Thresholds sit at the tail of
+ * the measured live distribution, not at round numbers:
+ *
+ *   ball-dominance   alphas>=3 in 7% of real team-seasons (live: PHI 4, POR 3)
+ *   spacing          nonShooters>=2 in 4% of real team-seasons (live: none)
+ *   rim protection   deliberately narrow — see below
+ *
+ * hasCreator and hasPlaymaker are deliberately NOT used: they are false for 31%
+ * and 87% of real teams, so they describe the league, not a defect.
+ *
+ * RIM PROTECTION IS THE EXCEPTION, and it is worth knowing why. Swept across
+ * every hinge from 52 down to 34, a rim penalty is either harmful (start 52:
+ * fires on 42% of real teams, +0.031 CV-RMSE, and a NEGATIVE fitted coefficient
+ * — history says the teams it punishes did better) or, once tight enough to be
+ * safe, indistinguishable from having no rim term at all. There is no setting
+ * where it earns its keep. The reason is basketball, not noise: modern teams
+ * trade rim protection for spacing ON PURPOSE, and rosterScore already prices
+ * the players who make that trade work. So this fires only where a roster has
+ * essentially nobody to guard the paint, well below any real team's floor.
+ *
+ * Penalties only. leagueStandings re-centers every team by a common offset, so
+ * the league still sums to its fixed total and a clean roster gains exactly what
+ * the broken ones give up — the term is zero-sum by construction, not by fiat.
+ */
+export function rosterNeed(D: TeamDimensions): { nrtg: number; notes: NeedNote[] } {
+  const notes: NeedNote[] = [];
+  const add = (label: string, v: number) => { if (v <= -0.05) notes.push({ label, nrtg: Math.round(v * 100) / 100 }); return v; };
+  let v = 0;
+  // An unguarded paint that bought NOTHING. One competent center covers the rim
+  // for a whole team, which is why teamDimensions takes rim as a MAX and not a
+  // mean. But a bare rim is only a defect when the roster has no spacing to show
+  // for it: New York at rim 33 with 77.9 spacing is running a scheme, Brooklyn at
+  // rim 32 with 55.4 is simply undermanned. Multiplying the two shortfalls is
+  // what makes this survive the historical panel at all — see above.
+  v += add(
+    "Unprotected rim, no spacing for it",
+    -1.4 * fitClamp((46 - D.rim) / 16, 0, 1) * fitClamp((62 - D.space) / 12, 0, 1),
+  );
+  // Shot creation cannot be shared five ways. Two high-usage scorers coexist
+  // routinely; the third and fourth are taking possessions off each other.
+  v += add("Too many high-usage scorers", -0.35 * Math.max(0, D.alphas - 2));
+  // Non-shooters who still need the ball collapse the floor for everyone else.
+  v += add("Floor spacing collapses", -0.4 * Math.max(0, D.nonShooters - 1));
+  return { nrtg: fitClamp(v, -NEED_CAP_NRTG, NEED_CAP_NRTG), notes };
+}
+
 function modelNrtg(roster: Contract[]): number {
   const cal = TEAM_CALIBRATION;
   const n = featureNorm();
+  const D = teamDimensions(roster);
   const zTalent = (rosterScore(roster) - n.talent.m) / n.talent.sd;
-  const zPerd = (teamDimensions(roster).perd - n.perd.m) / n.perd.sd;
-  return cal.nrtgSpread * (cal.talentZ * zTalent + cal.perdZ * zPerd);
+  const zPerd = (D.perd - n.perd.m) / n.perd.sd;
+  return cal.nrtgSpread * (cal.talentZ * zTalent + cal.perdZ * zPerd) + rosterNeed(D).nrtg;
 }
 export const SEASON_GAMES = 82;
 /** Every game produces exactly one win, so the 30 teams share a fixed 1,230. */
