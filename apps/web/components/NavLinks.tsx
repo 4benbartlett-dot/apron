@@ -3,15 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+// Six items, deliberately. Transactions, Draft picks and Deadlines moved to the
+// footer — they're reference pages you go looking for, not places you navigate
+// mid-build, and the header was too crowded to read at a glance.
 const NAV = [
   { href: "/", label: "Offseason" },
   { href: "/guide", label: "How to play" },
   { href: "/glossary", label: "Glossary" },
   { href: "/league", label: "League" },
   { href: "/standings", label: "Standings" },
-  { href: "/transactions", label: "Transactions" },
-  { href: "/draft", label: "Draft picks" },
-  { href: "/deadlines", label: "Deadlines" },
+  { href: "/about", label: "Contact" },
 ] as const;
 
 /** Header nav with a real active state: the accent rule sits fully drawn

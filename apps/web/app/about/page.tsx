@@ -25,7 +25,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[38rem] pb-14">
       <header className="pt-2">
-        <p className="label">Colophon</p>
+        <p className="label">About</p>
         <h1 className="mt-2 text-[2rem] font-bold leading-none tracking-tight">
           Over the Apron
         </h1>
