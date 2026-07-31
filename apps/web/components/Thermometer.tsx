@@ -66,6 +66,31 @@ export function Thermometer({
     { v: c.secondApron, label: "2A" },
   ];
 
+  // Each label is centred on its own tick, but the tax line and the first apron
+  // sit close enough in dollars that at phone width "Tax" and "1A" run into each
+  // other — measured at 375px: 11.2px of clearance where they need 16.6px. Only
+  // the pairs that actually collide are spread, by half the shortfall each, so a
+  // label never drifts more than a couple of px off the line it names. Derived
+  // from the tick values rather than hardcoded, so it still holds when next
+  // season's cap moves the lines around.
+  const labelNudge = (() => {
+    const NARROW = 309; // the constrained case; harmless once there is more room
+    const est = (s: string) => s.length * 5.6 + 1; // ~9px text
+    const off = ticks.map(() => 0);
+    for (let i = 1; i < ticks.length; i++) {
+      const gap =
+        (pctN(ticks[i]!.v) / 100) * NARROW + off[i]! -
+        ((pctN(ticks[i - 1]!.v) / 100) * NARROW + off[i - 1]!);
+      const need = est(ticks[i - 1]!.label) / 2 + est(ticks[i]!.label) / 2 + 4;
+      if (gap < need) {
+        const push = (need - gap) / 2;
+        off[i - 1]! -= push;
+        off[i]! += push;
+      }
+    }
+    return off;
+  })();
+
   const vs = (line: number, v: number) =>
     v >= line ? `${fmtM(v - line)} over` : `${fmtM(line - v)} under`;
   const roomAfterHolds = c.salaryCap - salary - holds;
@@ -117,11 +142,11 @@ export function Thermometer({
       </div>
       {showLabels && (
         <div className="relative mt-1 h-3 w-full">
-          {ticks.map((t) => (
+          {ticks.map((t, i) => (
             <span
               key={t.label}
               className="absolute -translate-x-1/2 text-[9px] text-[var(--muted)]"
-              style={{ left: pct(t.v) }}
+              style={{ left: pct(t.v), marginLeft: labelNudge[i] ? `${labelNudge[i]!.toFixed(1)}px` : undefined }}
             >
               <Term k={TICK_TERM[t.label] ?? "cap"}>{t.label}</Term>
             </span>
