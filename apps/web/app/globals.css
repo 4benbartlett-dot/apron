@@ -405,8 +405,29 @@ body::after {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; transition: none; }
-  .stamp-loop, .stamp-loop-b { animation: none; opacity: 1; transform: rotate(-4deg); }
-  .demo-stage, .demo-stage-tag, .demo-capline { animation: none; opacity: 1; transform: none; }
+  /* The two stamps share ONE grid cell (guide/page.tsx, both col-start-1
+     row-start-1) — the cycle staggers them by half a period precisely so they
+     never coexist. Forcing both to opacity 1 stacked a green "Legal trade" on
+     a red "Blocked": the green-red knot the stamp-cycle comment says it fixed,
+     reintroduced for exactly the readers least able to parse it. Show the
+     first, retire the second. */
+  .stamp-loop { animation: none; opacity: 1; transform: rotate(-4deg); }
+  .stamp-loop-b { animation: none; opacity: 0; }
+  /* stage-row animates BACKGROUND, so dropping the animation leaves the row
+     unhighlighted while the tag beside it is forced visible — a "→ MIA" trade
+     tag sitting on a row that does not look staged.
+     Hold the animation's own frame instead of restating its colour: written out
+     here as a declaration, color-mix() over a var() gets flattened to its solid
+     fallback, which paints the row FULL red rather than the 10% tint. A negative
+     delay plus paused lands on 50% of the cycle — inside the 30-78% highlight —
+     with no motion and no second copy of the colour to drift. */
+  .demo-stage {
+    animation: stage-row 6s infinite;
+    animation-delay: -3s;
+    animation-play-state: paused;
+  }
+  .demo-stage-tag { animation: none; opacity: 1; transform: none; }
+  .demo-capline { animation: none; opacity: 1; transform: scaleX(1); }
   .term-card, .term-card:hover { transform: none; transition: none; }
 }
 
