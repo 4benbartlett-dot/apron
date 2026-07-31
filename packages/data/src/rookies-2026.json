@@ -77,7 +77,7 @@
   {
     "playerId": "brownmi02",
     "playerName": "Mikel Brown Jr.",
-    "teamId": "NJN",
+    "teamId": "BKN",
     "pick": 6,
     "round": 1,
     "years": [
@@ -301,7 +301,7 @@
   },
   {
     "playerId": "lopezka01",
-    "playerName": "Karim L\u00f3pez",
+    "playerName": "Karim López",
     "teamId": "DET",
     "pick": 21,
     "round": 1,
@@ -482,7 +482,7 @@
   {
     "playerId": "evansis01",
     "playerName": "Isaiah Evans",
-    "teamId": "NJN",
+    "teamId": "BKN",
     "pick": 33,
     "round": 2,
     "years": [
@@ -632,7 +632,7 @@
   {
     "playerId": "bilodty01",
     "playerName": "Tyler Bilodeau",
-    "teamId": "NJN",
+    "teamId": "BKN",
     "pick": 43,
     "round": 2,
     "years": [
@@ -857,7 +857,7 @@
   {
     "playerId": "pierrja01",
     "playerName": "Jaron Pierre Jr.",
-    "teamId": "NOH",
+    "teamId": "NOP",
     "pick": 58,
     "round": 2,
     "years": [
