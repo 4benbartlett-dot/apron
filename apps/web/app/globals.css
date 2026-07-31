@@ -149,7 +149,14 @@ input[type="text"] {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: none; }
 }
-.logo-ball { opacity: 0; animation: ball-in 0.3s 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+/* The ball RESTS visible and uses `backwards` to stay hidden through the delay,
+   rather than resting at opacity 0 and relying on `forwards` to fill it in.
+   That distinction is load-bearing: ball-hop below replaces the whole animation
+   shorthand, so a `forwards` resting state took the ball's visibility with it
+   and the hop played at opacity 0 — hovering the wordmark deleted the ball
+   instead of bouncing it, and on touch iOS latches :hover, so it stayed gone
+   until you tapped elsewhere. */
+.logo-ball { opacity: 1; animation: ball-in 0.3s 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
 
 /* Team picker */
 .team-pick {
@@ -173,7 +180,11 @@ input[type="text"] {
 .modal-in { animation: modal-in 0.34s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-up, .stamp-in, .modal-in, .overlay-in, .logo-ball {
+  /* .infobox is listed by NAME, not via .fade-up: it borrows the fade-up
+     keyframes through its own rule without carrying the class, so a selector
+     that only matched .fade-up sailed straight past the popup behind every
+     underlined term — the most-tapped thing on the site. */
+  .fade-up, .stamp-in, .modal-in, .overlay-in, .logo-ball, .infobox {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -298,6 +309,24 @@ body::after {
   transform: none;
 }
 
+/* Cascades INSIDE a reveal have to wait for it. A `fade-up` on the children runs
+   at page load, while the section above it is still opacity 0, so the stagger is
+   spent before the section is ever shown and the cards arrive as one flat block.
+   Tying the children to .reveal/.in-view instead means the cascade starts when
+   the section actually appears. Scoped to .reveal, so a section already on
+   screen at mount (which Reveal deliberately leaves alone) is untouched. */
+.reveal .stagger-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.in-view .stagger-in {
+  opacity: 1;
+  transform: none;
+}
+
 /* Play number: a coach's call chip. */
 .play-chip {
   display: inline-flex;
@@ -405,6 +434,11 @@ body::after {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  .reveal .stagger-in, .reveal.in-view .stagger-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
   /* The two stamps share ONE grid cell (guide/page.tsx, both col-start-1
      row-start-1) — the cycle staggers them by half a period precisely so they
      never coexist. Forcing both to opacity 1 stacked a green "Legal trade" on
@@ -473,7 +507,8 @@ html {
   40% { transform: translateY(-7px); }
   70% { transform: translateY(1.5px); }
 }
-header a[title="Switch team"]:hover .logo-ball { animation: ball-hop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+/* :active as well as :hover, or the hop is mouse-only and no phone ever sees it. */
+header a[title="Switch team"]:is(:hover, :active) .logo-ball { animation: ball-hop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
 /* Count bump (GmBar move counter). */
 @keyframes count-pop {
@@ -527,7 +562,7 @@ button:active { transform: translateY(0.5px); }
   html { scroll-behavior: auto; }
   .route-in, .ledger-row, .count-pop { animation: none !important; }
   .underline-swipe { animation: none; background-size: 100% 3px; }
-  header a[title="Switch team"]:hover .logo-ball { animation: none; }
+  header a[title="Switch team"]:is(:hover, :active) .logo-ball { animation: none; }
 }
 
 /* ------------------------------------------------------------------ */

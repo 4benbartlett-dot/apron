@@ -134,8 +134,8 @@ export function GlossaryExplorer() {
                       <article
                         key={k}
                         id={k}
-                        className="term-card fade-up flex flex-col rounded-lg border border-[var(--border)] bg-[var(--panel)] p-4"
-                        style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}
+                        className="term-card stagger-in flex flex-col rounded-lg border border-[var(--border)] bg-[var(--panel)] p-4"
+                        style={{ transitionDelay: `${Math.min(i, 8) * 45}ms` }}
                       >
                         <div className="flex items-baseline justify-between gap-3">
                           <h3 className="text-[14px] font-bold tracking-tight">{g.title}</h3>
