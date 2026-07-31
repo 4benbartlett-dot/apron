@@ -5,6 +5,7 @@ import { Thermometer } from "@/components/Thermometer";
 import { Term } from "@/components/Term";
 import { TeamLogo } from "@/components/TeamLogo";
 import { Reveal } from "@/components/Reveal";
+import { PlayWhenSeen } from "@/components/PlayWhenSeen";
 
 export const metadata: Metadata = {
   title: "How to play — Over the Apron",
@@ -33,9 +34,9 @@ function Play({
             <h2 className="mt-3 text-[19px] font-bold tracking-tight">{title}</h2>
             <div className="mt-2 space-y-2.5 text-[13.5px] leading-relaxed">{children}</div>
           </div>
-          <div className="relative flex items-center justify-center border-t border-dashed border-[var(--border)] bg-[var(--panel-2)]/35 p-6 md:border-l md:border-t-0">
+          <PlayWhenSeen className="relative flex items-center justify-center border-t border-dashed border-[var(--border)] bg-[var(--panel-2)]/35 p-6 md:border-l md:border-t-0">
             {demo}
-          </div>
+          </PlayWhenSeen>
         </div>
       </section>
     </Reveal>
