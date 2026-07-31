@@ -2,6 +2,55 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Mario Hezonja",
+      "pos": "SG",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.07 million contract with Cleveland (CLE)"
+    },
+    {
+      "player": "Spencer Jones",
+      "pos": "SF",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $11.75 million contract with Denver (DEN) by matching Offer Sheet from Oklahoma City (OKC)"
+    },
+    {
+      "player": "Moritz Wagner",
+      "pos": "C",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $19 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
+    },
+    {
+      "player": "Mouhamadou Gueye",
+      "pos": "F",
+      "date": "Jul 30, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte (CHA)"
+    },
+    {
+      "player": "Karim Lopez",
+      "pos": "PF",
+      "date": "Jul 29, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $18.37 million Rookie Scale contract with Memphis (MEM)"
+    },
+    {
+      "player": "Christian Koloko",
+      "pos": "C",
+      "date": "Jul 29, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Atlanta (ATL) - Exhibit 9"
+    },
+    {
+      "player": "Draymond Green",
+      "pos": "PF",
+      "date": "Jul 29, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $27.7 million contract with Golden State (GSW)"
+    },
+    {
       "player": "Johni Broome",
       "pos": "C",
       "date": "Jul 28, 2026",

@@ -218,6 +218,15 @@
     },
     {
       "date": "10/18/2026",
+      "player": "Jett Howard",
+      "team": "DAL",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/18/2026",
       "player": "Ugonna Onyenso",
       "team": "DET",
       "pos": "C",
@@ -272,6 +281,15 @@
     },
     {
       "date": "10/18/2026",
+      "player": "Arthur Kaluma",
+      "team": "LAL",
+      "pos": "F",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/18/2026",
       "player": "Pete Nance",
       "team": "MIL",
       "pos": "PF",
@@ -284,6 +302,15 @@
       "player": "Enrique Freeman",
       "team": "MIN",
       "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/18/2026",
+      "player": "Jaron Pierre Jr.",
+      "team": "NOP",
+      "pos": "F",
       "kind": "GUARANTEED",
       "amount": 0,
       "note": "Guaranteed — — 50%; first day of Regular Season"
@@ -1100,15 +1127,6 @@
     },
     {
       "date": "1/10/2027",
-      "player": "Mouhamadou Gueye",
-      "team": "CHA",
-      "pos": "F",
-      "kind": "GUARANTEED",
-      "amount": 2411090,
-      "note": "Guaranteed"
-    },
-    {
-      "date": "1/10/2027",
       "player": "Craig Porter Jr.",
       "team": "CLE",
       "pos": "G",
@@ -1556,15 +1574,6 @@
       "kind": "RFA / QO",
       "amount": 0,
       "note": "Qualifying Offer — — TBD - Two-Way"
-    },
-    {
-      "date": "6/29/2027",
-      "player": "Mouhamadou Gueye",
-      "team": "CHA",
-      "pos": "F",
-      "kind": "RFA / QO",
-      "amount": 0,
-      "note": "Qualifying Offer"
     },
     {
       "date": "6/29/2027",
@@ -3134,6 +3143,15 @@
     },
     {
       "date": "7/1/2027",
+      "player": "Johni Broome",
+      "team": "LAC",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2027",
       "player": "Dalton Knecht",
       "team": "LAL",
       "pos": "SF",
@@ -3209,15 +3227,6 @@
       "player": "Tristan Da Silva",
       "team": "ORL",
       "pos": "SF",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "7/1/2027",
-      "player": "Johni Broome",
-      "team": "PHI",
-      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

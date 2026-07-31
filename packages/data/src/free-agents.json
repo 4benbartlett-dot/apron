@@ -1,12 +1,6 @@
 {
   "source": "Spotrac free agents (via Firecrawl)",
   "byName": {
-    "lebron james": {
-      "name": "LeBron James",
-      "team": "LAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "james harden": {
       "name": "James Harden",
       "team": "CLE",
@@ -25,15 +19,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "maxi kleber": {
-      "name": "Maxi Kleber",
-      "team": "LAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "gabe vincent": {
       "name": "Gabe Vincent",
       "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "maxi kleber": {
+      "name": "Maxi Kleber",
+      "team": "LAL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -97,21 +91,27 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "kevin love": {
-      "name": "Kevin Love",
-      "team": "UTA",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "dwight powell": {
       "name": "Dwight Powell",
       "team": "DAL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "doug mcdermott": {
-      "name": "Doug McDermott",
-      "team": "SAC",
+    "kevin love": {
+      "name": "Kevin Love",
+      "team": "UTA",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "bismack biyombo": {
+      "name": "Bismack Biyombo",
+      "team": "SAS",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "kyle lowry": {
+      "name": "Kyle Lowry",
+      "team": "PHI",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
@@ -121,29 +121,23 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
+    "jeff green": {
+      "name": "Jeff Green",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
     "garrett temple": {
       "name": "Garrett Temple",
       "team": "TOR",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "kyle lowry": {
-      "name": "Kyle Lowry",
-      "team": "PHI",
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
       "restriction": "UFA",
       "birdStatus": "early_bird"
-    },
-    "bismack biyombo": {
-      "name": "Bismack Biyombo",
-      "team": "SAS",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
-    "jeff green": {
-      "name": "Jeff Green",
-      "team": "HOU",
-      "restriction": "UFA",
-      "birdStatus": "bird"
     },
     "patrick baldwin": {
       "name": "Patrick Baldwin Jr.",
@@ -382,12 +376,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "christian koloko": {
-      "name": "Christian Koloko",
-      "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "bez mbeng": {
       "name": "Bez Mbeng",
       "team": "UTA",
@@ -466,17 +454,16 @@
       "team": "LAC",
       "restriction": "UFA"
     },
-    "curtis jones": {
-      "name": "Curtis Jones",
-      "team": "DEN",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "sharife cooper": {
       "name": "Sharife Cooper",
       "team": "WAS",
       "restriction": "UFA",
       "birdStatus": "non_bird"
+    },
+    "mac mcclung": {
+      "name": "Mac McClung",
+      "team": "CHI",
+      "restriction": "UFA"
     },
     "tyson etienne": {
       "name": "Tyson Etienne",
@@ -490,10 +477,11 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "mac mcclung": {
-      "name": "Mac McClung",
-      "team": "CHI",
-      "restriction": "UFA"
+    "curtis jones": {
+      "name": "Curtis Jones",
+      "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
     }
   }
 }
