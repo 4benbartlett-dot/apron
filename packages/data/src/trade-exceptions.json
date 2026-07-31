@@ -580,6 +580,16 @@
       ]
     },
     {
+      "team": "PHI",
+      "player": "Johni Broome",
+      "amount": 2150917,
+      "expires": "2027-07-28",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
       "team": "PHX",
       "player": "Nick Richards",
       "amount": 5000000,

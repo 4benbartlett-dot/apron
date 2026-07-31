@@ -1,6 +1,6 @@
 {
-  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-07-28.",
-  "asOf": "2026-07-28",
+  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-07-31.",
+  "asOf": "2026-07-31",
   "calibration": {
     "talentZ": 2.561,
     "perdZ": 1.496,
@@ -97,7 +97,7 @@
     },
     "MEM": {
       "av": 51.7,
-      "projNrtg": -4.9,
+      "projNrtg": -5,
       "nrtg": -5.9,
       "w": 36
     },
@@ -121,7 +121,7 @@
     },
     "NOP": {
       "av": 51.7,
-      "projNrtg": -4.3,
+      "projNrtg": -4.2,
       "nrtg": -4.7,
       "w": 28
     },
@@ -163,7 +163,7 @@
     },
     "SAC": {
       "av": 47.7,
-      "projNrtg": -11,
+      "projNrtg": -11.1,
       "nrtg": -10.1,
       "w": 18
     },
