@@ -18,14 +18,14 @@
       "w": 42
     },
     "BKN": {
-      "av": 49.6,
-      "projNrtg": -6.2,
+      "av": 50.6,
+      "projNrtg": -5.9,
       "nrtg": -10.3,
       "w": 27
     },
     "BOS": {
       "av": 61.6,
-      "projNrtg": 6.2,
+      "projNrtg": 6.3,
       "nrtg": 8.2,
       "w": 55
     },
@@ -37,13 +37,13 @@
     },
     "CHI": {
       "av": 51.8,
-      "projNrtg": -4.9,
+      "projNrtg": -5,
       "nrtg": -5.1,
       "w": 30
     },
     "CLE": {
       "av": 58.8,
-      "projNrtg": 1.2,
+      "projNrtg": 1.3,
       "nrtg": 4,
       "w": 46
     },
@@ -103,13 +103,13 @@
     },
     "MIA": {
       "av": 58.7,
-      "projNrtg": 3,
+      "projNrtg": 3.1,
       "nrtg": 2.2,
       "w": 49
     },
     "MIL": {
       "av": 51,
-      "projNrtg": -4.2,
+      "projNrtg": -4.3,
       "nrtg": -6.5,
       "w": 31
     },
@@ -133,7 +133,7 @@
     },
     "OKC": {
       "av": 67.1,
-      "projNrtg": 14.1,
+      "projNrtg": 14.2,
       "nrtg": 11.1,
       "w": 65
     },

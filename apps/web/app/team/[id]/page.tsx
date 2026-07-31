@@ -155,7 +155,7 @@ export default function TeamWarRoom() {
             <div className="tabular mt-1 text-sm text-[var(--muted)]">{proj.baseWins} wins · {proj.baseNrtg >= 0 ? "+" : ""}{proj.baseNrtg.toFixed(1)} net</div>
           </div>
           <div className="w-full text-[11px] text-[var(--muted)] sm:w-auto sm:flex-1 sm:text-right">
-            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · models the position-aware rotation, a real-age aging curve, and team fit (spacing, playmaking, defensive pairings); a talent-on-hand projection, not a full-season forecast (no coaching or playoff translation).
+            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · models the position-aware rotation, a real-age aging curve, perimeter defense, and a bounded penalty for a structural hole; a talent-on-hand projection, not a full-season forecast (no coaching or playoff translation).
           </div>
         </div>
       )}
