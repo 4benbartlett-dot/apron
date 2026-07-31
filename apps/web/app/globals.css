@@ -353,6 +353,21 @@ body::after {
   animation: capline-in 7s infinite both;
 }
 
+/* HELD UNTIL SEEN (see components/PlayWhenSeen.tsx).
+   These loops start at page load. Beside the text on a wide screen that is
+   fine; stacked underneath it on a phone it means the cycle has already run
+   unwatched for several rotations before the reader arrives, and they are as
+   likely to land in its dead air as in the part that shows anything.
+   Dropping `animation` entirely — rather than pausing it — is what makes the
+   loop restart from its first frame on release, so each element also has to be
+   pinned to that frame by hand or a held stamp would just sit there, visible
+   and motionless, which is the exact bug this is meant to fix. */
+.anim-hold .stamp-loop,
+.anim-hold .stamp-loop-b { animation: none; opacity: 0; }
+.anim-hold .demo-stage { animation: none; background: transparent; }
+.anim-hold .demo-stage-tag { animation: none; opacity: 0; transform: translateX(-4px); }
+.anim-hold .demo-capline { animation: none; transform: scaleX(0); }
+
 /* File-drawer tab (glossary sections). */
 .drawer-tab {
   display: inline-flex;
