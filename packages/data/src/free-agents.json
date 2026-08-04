@@ -19,15 +19,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "gabe vincent": {
-      "name": "Gabe Vincent",
-      "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "maxi kleber": {
       "name": "Maxi Kleber",
       "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "gabe vincent": {
+      "name": "Gabe Vincent",
+      "team": "ATL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -103,21 +103,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "bismack biyombo": {
-      "name": "Bismack Biyombo",
-      "team": "SAS",
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
     "kyle lowry": {
       "name": "Kyle Lowry",
       "team": "PHI",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
-    "joe ingles": {
-      "name": "Joe Ingles",
-      "team": "MIN",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
@@ -133,9 +127,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "doug mcdermott": {
-      "name": "Doug McDermott",
-      "team": "SAC",
+    "joe ingles": {
+      "name": "Joe Ingles",
+      "team": "MIN",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "bismack biyombo": {
+      "name": "Bismack Biyombo",
+      "team": "SAS",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
@@ -150,12 +150,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "gary payton": {
-      "name": "Gary Payton II",
-      "team": "GSW",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "david roddy": {
       "name": "David Roddy",
       "team": "DEN",
@@ -167,15 +161,15 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "drew eubanks": {
-      "name": "Drew Eubanks",
-      "team": "SAC",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "bruce brown": {
       "name": "Bruce Brown Jr.",
       "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "drew eubanks": {
+      "name": "Drew Eubanks",
+      "team": "SAC",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
@@ -322,12 +316,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "jeremy sochan": {
-      "name": "Jeremy Sochan",
-      "team": "NYK",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "jeenathan williams": {
       "name": "Jeenathan Williams",
       "team": "GSW",
@@ -454,16 +442,17 @@
       "team": "LAC",
       "restriction": "UFA"
     },
+    "curtis jones": {
+      "name": "Curtis Jones",
+      "team": "DEN",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
     "sharife cooper": {
       "name": "Sharife Cooper",
       "team": "WAS",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "mac mcclung": {
-      "name": "Mac McClung",
-      "team": "CHI",
-      "restriction": "UFA"
     },
     "tyson etienne": {
       "name": "Tyson Etienne",
@@ -477,11 +466,10 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "curtis jones": {
-      "name": "Curtis Jones",
-      "team": "DEN",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
+    "mac mcclung": {
+      "name": "Mac McClung",
+      "team": "CHI",
+      "restriction": "UFA"
     }
   }
 }

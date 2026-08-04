@@ -105,6 +105,17 @@ const addDays = (isoStr, n) => {
   d.setUTCDate(d.getUTCDate() + n);
   return iso(d);
 };
+/** TODAY where the transactions happen, not in UTC.
+ *
+ * `end` is stamped into meta.json as rostersAsOf and printed in the site footer.
+ * Taking it from toISOString() meant that from 5pm Pacific onward the date had
+ * already rolled over in UTC, so an evening refresh advertised rosters "as of"
+ * a day that had not happened yet. Date-only window arithmetic above stays on
+ * UTC, where it is exact; only the wall-clock "today" needs to be local. */
+const localToday = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 /** "Jul 28, 2026" -> "2026-07-28" (for ordering + window math). */
 function toIso(mdy) {
@@ -144,7 +155,7 @@ const prior = existing.transactions ?? [];
 
 const args = process.argv.slice(2).filter((a) => a !== "--full");
 const full = process.argv.includes("--full");
-const today = iso(new Date());
+const today = localToday();
 let start = args[0];
 let end = args[1] ?? today;
 if (!start) {
