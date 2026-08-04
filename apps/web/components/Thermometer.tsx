@@ -54,6 +54,15 @@ export function Thermometer({
   // Tap a segment and the bar explains itself — what that slice of money IS,
   // which lines it counts against, and what that means for this team.
   const [info, setInfo] = useState<null | "salary" | "holds">(null);
+  // On /league the whole card is a <Link>, so a tap on the bar set the state and
+  // then bubbled to the anchor and navigated — the explainer never survived a
+  // frame, and a touch user got no tooltip either, so the bar was unexplained
+  // and the tap was a surprise route change. Stop the event at the bar.
+  const explain = (fn: () => void) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fn();
+  };
   const maxScale = c.secondApron * 1.07;
   const pctN = (v: number) => Math.max(0, Math.min(100, (v / maxScale) * 100));
   const pct = (v: number) => `${pctN(v)}%`;
@@ -105,7 +114,7 @@ export function Thermometer({
           type="button"
           aria-label={`Signed team salary ${fmtM(salary)} — tap to explain what it counts against`}
           title="Signed salary — tap to explain"
-          onClick={() => setInfo(info === "salary" ? null : "salary")}
+          onClick={explain(() => setInfo(info === "salary" ? null : "salary"))}
           className="absolute left-0 top-0 h-full cursor-pointer transition-all"
           style={{ width: pct(salary), background: tierColor(tier), opacity: 0.85 }}
         />
@@ -114,7 +123,7 @@ export function Thermometer({
             type="button"
             aria-label={`Free-agent cap holds ${fmtM(holds)} — tap to explain what they count against`}
             title="Free-agent cap holds — tap to explain"
-            onClick={() => setInfo(info === "holds" ? null : "holds")}
+            onClick={explain(() => setInfo(info === "holds" ? null : "holds"))}
             className="absolute top-0 h-full cursor-pointer transition-all"
             style={{
               left: pct(salary),

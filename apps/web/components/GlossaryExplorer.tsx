@@ -88,8 +88,14 @@ export function GlossaryExplorer() {
       </Reveal>
 
       {/* drawer nav + search */}
-      <Reveal delay={80}>
-        <div className="sticky top-[57px] z-10 -mx-4 mb-8 flex flex-wrap items-center gap-2 border-b border-[var(--border)] bg-[var(--bg)]/92 px-4 py-2.5 backdrop-blur sm:-mx-6 sm:px-6">
+      {/* Deliberately NOT wrapped in <Reveal>: it injects a div exactly this
+          bar's height, and a sticky box can only travel inside its containing
+          block — so the wrapper left it nowhere to stick and it scrolled away
+          instead of pinning. On a phone this bar is the only way to jump between
+          drawers without scrolling past 27 cards. The entrance it gave up was
+          doing nothing anyway; the bar is above the fold, where Reveal stays
+          static by design. */}
+      <div className="sticky top-[57px] z-10 -mx-4 mb-8 flex flex-wrap items-center gap-2 border-b border-[var(--border)] bg-[var(--bg)]/92 px-4 py-2.5 backdrop-blur sm:-mx-6 sm:px-6">
           {DRAWERS.map((d) => (
             <a
               key={d.id}
@@ -107,8 +113,7 @@ export function GlossaryExplorer() {
             placeholder={`Search ${total} terms…`}
             className="ml-auto w-full max-w-[220px] rounded-full border border-[var(--border)] bg-[var(--panel)] px-3.5 py-1.5 text-[12.5px] focus:border-[var(--border-strong)]"
           />
-        </div>
-      </Reveal>
+      </div>
 
       {query && (
         <div className="mb-5 text-xs text-[var(--muted)]">

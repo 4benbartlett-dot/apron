@@ -19,7 +19,7 @@ export function FooterX() {
         href={PROFILE}
         target="_blank"
         rel="noopener noreferrer"
-        className="panel group flex items-center gap-3 p-3.5 transition-colors hover:bg-[var(--bg)]"
+        className="panel group flex items-center gap-3 p-3.5 transition-colors hover:bg-[var(--bg)] active:bg-[var(--bg)]"
       >
         <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--text)] text-[var(--panel)]">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -32,7 +32,11 @@ export function FooterX() {
             Rule verdicts and cap-sheet oddities.
           </span>
         </span>
-        <span className="ml-auto shrink-0 self-center text-[var(--accent-ink)] transition-transform group-hover:translate-x-0.5">
+        {/* group-active as well as group-hover: Tailwind v4 puts the hover
+            variant behind @media (hover: hover), so on a phone the arrow was
+            inert and the card acknowledged a tap with nothing before handing
+            off to X. */}
+        <span className="ml-auto shrink-0 self-center text-[var(--accent-ink)] transition-transform group-hover:translate-x-0.5 group-active:translate-x-0.5">
           →
         </span>
       </a>

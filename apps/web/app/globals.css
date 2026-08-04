@@ -434,6 +434,9 @@ body::after {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  /* The active-page underline still slid in — a transition, so none of the
+     animation-targeting rules above ever reached it. It should just be there. */
+  .nav-link::after { transition: none; }
   .reveal .stagger-in, .reveal.in-view .stagger-in {
     opacity: 1 !important;
     transform: none !important;
