@@ -1,6 +1,6 @@
 {
-  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-07-31.",
-  "asOf": "2026-07-31",
+  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-08-03.",
+  "asOf": "2026-08-03",
   "calibration": {
     "talentZ": 2.561,
     "perdZ": 1.496,
@@ -19,13 +19,13 @@
     },
     "BKN": {
       "av": 50.6,
-      "projNrtg": -5.9,
+      "projNrtg": -6,
       "nrtg": -10.3,
       "w": 27
     },
     "BOS": {
       "av": 61.6,
-      "projNrtg": 6.3,
+      "projNrtg": 6.2,
       "nrtg": 8.2,
       "w": 55
     },
@@ -43,7 +43,7 @@
     },
     "CLE": {
       "av": 58.8,
-      "projNrtg": 1.3,
+      "projNrtg": 1.2,
       "nrtg": 4,
       "w": 46
     },
@@ -61,13 +61,13 @@
     },
     "DET": {
       "av": 56.6,
-      "projNrtg": 4.4,
+      "projNrtg": 4.3,
       "nrtg": 8.2,
       "w": 46
     },
     "GSW": {
-      "av": 56.6,
-      "projNrtg": 1.4,
+      "av": 56.7,
+      "projNrtg": 1.9,
       "nrtg": -0.6,
       "w": 42
     },
@@ -91,7 +91,7 @@
     },
     "LAL": {
       "av": 59,
-      "projNrtg": 5.7,
+      "projNrtg": 5.6,
       "nrtg": 1.7,
       "w": 50
     },
@@ -103,7 +103,7 @@
     },
     "MIA": {
       "av": 58.7,
-      "projNrtg": 3.1,
+      "projNrtg": 3,
       "nrtg": 2.2,
       "w": 49
     },
@@ -156,8 +156,8 @@
       "w": 41
     },
     "POR": {
-      "av": 54.8,
-      "projNrtg": -2.9,
+      "av": 54.9,
+      "projNrtg": -2.8,
       "nrtg": -0.2,
       "w": 38
     },
@@ -175,7 +175,7 @@
     },
     "TOR": {
       "av": 58.5,
-      "projNrtg": 4.7,
+      "projNrtg": 4.6,
       "nrtg": 2.6,
       "w": 50
     },
@@ -187,7 +187,7 @@
     },
     "WAS": {
       "av": 52.4,
-      "projNrtg": -4.8,
+      "projNrtg": -4.9,
       "nrtg": -11.8,
       "w": 31
     }

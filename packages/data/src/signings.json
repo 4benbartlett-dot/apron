@@ -375,7 +375,7 @@
       "years": 2,
       "total": 11227850,
       "aav": 5613925,
-      "status": "Agreed"
+      "status": "Official"
     },
     "jaylen clark": {
       "name": "Jaylen Clark",
@@ -476,6 +476,14 @@
     "mike conley": {
       "name": "Mike Conley",
       "team": "BOS",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Official"
+    },
+    "gary payton": {
+      "name": "Gary Payton II",
+      "team": "GSW",
       "years": 1,
       "total": 3876529,
       "aav": 3876529,
@@ -615,6 +623,14 @@
       "years": 1,
       "total": 2845883,
       "aav": 2845883,
+      "status": "Official"
+    },
+    "jeremy sochan": {
+      "name": "Jeremy Sochan",
+      "team": "POR",
+      "years": 1,
+      "total": 2625627,
+      "aav": 2625627,
       "status": "Official"
     },
     "simone fontecchio": {

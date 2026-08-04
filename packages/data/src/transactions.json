@@ -2,6 +2,27 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Naji Marshall",
+      "pos": "SF",
+      "date": "Aug 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $51.86 million contract extension with Dallas (DAL)"
+    },
+    {
+      "player": "Jeremy Sochan",
+      "pos": "PF",
+      "date": "Aug 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.63 million a contract with Portland (POR)"
+    },
+    {
+      "player": "Gary Payton II",
+      "pos": "PG",
+      "date": "Aug 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Golden State (GSW)"
+    },
+    {
       "player": "Mario Hezonja",
       "pos": "SG",
       "date": "Jul 31, 2026",
@@ -21,6 +42,27 @@
       "date": "Jul 31, 2026",
       "type": "Signing",
       "detail": "Signed a 2 year $19 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
+    },
+    {
+      "player": "E.J. Liddell",
+      "pos": "PF",
+      "date": "Jul 31, 2026",
+      "type": "Renounce",
+      "detail": "Brooklyn (BKN) renounced their free-agent exception rights"
+    },
+    {
+      "player": "Tyson Etienne",
+      "pos": "G",
+      "date": "Jul 31, 2026",
+      "type": "Renounce",
+      "detail": "Brooklyn (BKN) renounced their free-agent exception rights"
+    },
+    {
+      "player": "De'Anthony Melton",
+      "pos": "SG",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $11 million contract with Golden State (GSW) - includes 2027-28 Player Option"
     },
     {
       "player": "Mouhamadou Gueye",

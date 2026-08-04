@@ -908,6 +908,15 @@
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
+    },
+    {
+      "date": "8/2/2027",
+      "player": "Jarrett Allen",
+      "team": "CLE",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
     }
   ]
 }

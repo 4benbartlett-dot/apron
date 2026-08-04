@@ -1,15 +1,6 @@
 {
   "rows": [
     {
-      "date": "8/1/2026",
-      "player": "Vit Krejci",
-      "team": "POR",
-      "pos": "PG",
-      "kind": "GUARANTEED",
-      "amount": 250000,
-      "note": "Guaranteed"
-    },
-    {
       "date": "8/4/2026",
       "player": "Anthony Davis",
       "team": "WAS",
@@ -1928,6 +1919,15 @@
     },
     {
       "date": "6/29/2027",
+      "player": "De'Anthony Melton",
+      "team": "GSW",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 5750850,
+      "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Amen Thompson",
       "team": "HOU",
       "pos": "PG",
@@ -3722,6 +3722,33 @@
       "player": "Sam Hauser",
       "team": "BOS",
       "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/1/2027",
+      "player": "Izaiyah Nelson",
+      "team": "ORL",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 96005,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "8/1/2027",
+      "player": "Vit Krejci",
+      "team": "POR",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 281592,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "8/2/2027",
+      "player": "Jarrett Allen",
+      "team": "CLE",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
