@@ -240,10 +240,15 @@ export default function GuidePage() {
               Live rosters, real cap sheets, and the core 2023 CBA rules that decide most offseason moves. Anything underlined or badge-shaped can be tapped for a plain-English explainer.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <Link href="/" className="rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white hover:brightness-95">
+              {/* active: as well as hover: — Tailwind v4 emits the hover variant
+                  inside @media (hover: hover), so on a phone these rules are not
+                  merely unreachable, they are never applied, and the global press
+                  rule is button:active, which cannot match a Link. Without this
+                  the primary CTA acknowledges a tap with nothing at all. */}
+              <Link href="/" className="rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white transition-[filter,transform] hover:brightness-95 active:translate-y-px active:brightness-95">
                 Start your offseason
               </Link>
-              <Link href="/glossary" className="rounded-md border border-[var(--border-strong)] px-4 py-2 text-sm font-semibold hover:border-[var(--text)]">
+              <Link href="/glossary" className="rounded-md border border-[var(--border-strong)] px-4 py-2 text-sm font-semibold transition-[border-color,transform] hover:border-[var(--text)] active:translate-y-px active:border-[var(--text)]">
                 Read the glossary
               </Link>
             </div>
