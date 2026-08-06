@@ -1,15 +1,6 @@
 {
   "rows": [
     {
-      "date": "8/4/2026",
-      "player": "Anthony Davis",
-      "team": "WAS",
-      "pos": "C",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
       "date": "8/10/2026",
       "player": "Josh Hart",
       "team": "NYK",
@@ -1081,6 +1072,15 @@
       "note": "Club Option"
     },
     {
+      "date": "11/15/2026",
+      "player": "Mario Hezonja",
+      "team": "CLE",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 2845883,
+      "note": "Guaranteed"
+    },
+    {
       "date": "1/6/2027",
       "player": "Giannis Antetokounmpo",
       "team": "MIA",
@@ -1159,15 +1159,6 @@
       "pos": "C",
       "kind": "GUARANTEED",
       "amount": 2845883,
-      "note": "Guaranteed"
-    },
-    {
-      "date": "1/10/2027",
-      "player": "J.D. Davison",
-      "team": "HOU",
-      "pos": "PG",
-      "kind": "GUARANTEED",
-      "amount": 2584539,
       "note": "Guaranteed"
     },
     {
@@ -1923,7 +1914,7 @@
       "team": "GSW",
       "pos": "SG",
       "kind": "PLAYER",
-      "amount": 5750850,
+      "amount": 6367200,
       "note": "Player Option"
     },
     {

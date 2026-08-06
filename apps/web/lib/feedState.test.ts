@@ -61,7 +61,11 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
   it("GSW: Melton's taxpayer MLE hard-caps them at the SECOND apron", () => {
     const s = feedStateOf("GSW");
     expect(s.hardCap).toBe(C.secondApron);
-    expect(s.consumed.tpmle).toBe(5_477_000); // partial — $587k of the TP-MLE unused
+    // The FULL exception: Melton's y1 is $6,064,000, the 2026-27 taxpayer MLE
+    // to the dollar. It was carried at $5,477,000 on reported terms, which left
+    // Golden State holding a phantom $587k of an exception the signed contract
+    // had already spent — surfacing as an offer the team could not make.
+    expect(s.consumed.tpmle).toBe(C.taxpayerMLE);
     expect(s.consumed.bae ?? 0).toBe(0);
     expect(s.hardCapSource).toContain("Melton");
   });
@@ -127,12 +131,13 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     // Taxpayer-MLE users are capped at the SECOND apron, not the first (HR on
     // Smart: "resulting in a second-apron hard cap"; Gozlan on Kennard: TP-MLE
     // unless PHX ducked the first apron, which it never did; Marks on Melton:
-    // "The tax ML is designated to De'Anthony Melton"). GSW spent only PART of
-    // the exception, so assert consumption per team rather than the full amount.
+    // "The tax ML is designated to De'Anthony Melton"). All three spent the
+    // exception in full — GSW was carried at a partial $5,477,000 while Melton's
+    // terms were still reported rather than signed.
     for (const [t, consumed] of [
       ["HOU", C.taxpayerMLE],
       ["PHX", C.taxpayerMLE],
-      ["GSW", 5_477_000],
+      ["GSW", C.taxpayerMLE],
     ] as const) {
       const s = feedStateOf(t);
       expect(s.hardCap, t).toBe(C.secondApron);
