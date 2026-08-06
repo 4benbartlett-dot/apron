@@ -18,24 +18,23 @@ import { useEffect, useRef, useState } from "react";
  * run exactly as before, and anything already on screen at mount is left alone
  * rather than being restarted under the reader.
  *
- * VERIFYING THIS IN A HEADLESS/BACKGROUNDED TAB. Chrome suspends
- * requestAnimationFrame when a tab is not visible, and both IntersectionObserver
- * delivery and the CSS animation clock ride on it — so this component looks
- * broken under automation while being perfectly fine in a real browser. It is
- * still fully testable; the two techniques are worth knowing before concluding
- * anything is wrong:
+ * VERIFYING THIS. Just record it:
  *
- *   Driving the clock. `el.getAnimations()[0]` hands back a real Animation whose
- *   `currentTime` is settable, and setting it updates computed style
- *   synchronously without any rAF tick. Pause it and scrub to sample any frame —
- *   this is how the stamps were confirmed to slam (opacity 0→1, scale 2.05 →
- *   0.94 → 1.05 → 1.00) and how the two of them were shown never to be visible
- *   in the same frame across a whole 7s cycle.
+ *     python3 apps/web/scripts/record-demos.py /tmp
  *
- *   Forcing delivery. A screenshot forces a rendering update, which flushes
- *   pending intersection observations. Park a held demo on screen, take one, and
- *   the observer fires for exactly that demo — the off-screen ones stay held,
- *   which is a sharper check than a blanket release would be.
+ * Chrome suspends requestAnimationFrame in a tab that is not visible, and BOTH
+ * IntersectionObserver delivery and the CSS animation clock ride on it — so
+ * through an automation pane this component reads as completely broken while
+ * being perfectly fine in a real browser (measured: 0 rAF ticks in 500ms).
+ * Playwright's Chromium is not backgrounded, so everything just runs, and the
+ * script above scrolls a 375x812 viewport and films the result: 5 demos held at
+ * load, 0 by the bottom, released by nothing but the scroll.
+ *
+ * If you are stuck without that, two fallbacks work in a suspended tab:
+ * `el.getAnimations()[0].currentTime` is settable and updates computed style
+ * with no rAF tick, so you can pause and scrub to sample any frame; and a
+ * screenshot forces a rendering update, which flushes pending intersection
+ * observations for whatever is on screen. Both are fiddly. Prefer the recording.
  */
 export function PlayWhenSeen({
   children,
