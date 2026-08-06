@@ -325,9 +325,23 @@ describe("the wave's reported apron consequences hold on our sheet", () => {
     console.log(
       `  GSW ${M(s)} (${classifyTier(s, C)}) — ${M(C.secondApron - s)} below the second apron`,
     );
-    // Bobby Marks (Jul 28): $213.4M projected, "$8.3M below the 2nd apron".
+    // Reported Jul 28: $213.4M projected, "$8.3M below the 2nd apron".
+    //
+    // The TIER is the claim, and it is what this file exists to check: Golden
+    // State re-signs Draymond and lands between the aprons. That still holds.
+    //
+    // The $213.4M itself is deliberately NOT asserted. It described the sheet on
+    // one day, while `sal` reads the live roster, so it started failing the
+    // moment the Warriors signed Gary Payton II and De'Anthony Melton on Aug 1.
+    // Reconstructing that day is not the fix either — it was tried: Draymond
+    // AGREED on Jul 28 and SIGNED on Jul 29, so a date cutoff strips his $27.7M
+    // along with the August deals, and the arithmetic does not close regardless
+    // ($213.4M + $7.9M of new signings ≠ the $215.9M we read, because Golden
+    // State shed salary too, and the reported number was a projection carrying
+    // its own assumptions about holds). A check that needs three assumptions to
+    // reproduce a third party's estimate is not testing our engine — it fails
+    // for reasons that teach nothing. The margin is logged for eyeballing.
     expect(s).toBeGreaterThan(C.firstApron);
     expect(s).toBeLessThan(C.secondApron);
-    expect(Math.abs(s - 213_400_000)).toBeLessThan(2_000_000);
   });
 });

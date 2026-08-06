@@ -2,6 +2,69 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Lonnie Walker IV",
+      "pos": "SG",
+      "date": "Aug 05, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.29 million contract with Denver (DEN)"
+    },
+    {
+      "player": "Dillon Brooks",
+      "pos": "SF",
+      "date": "Aug 05, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $73 million veteran contract extension with Phoenix (PHX)"
+    },
+    {
+      "player": "Dillon Mitchell",
+      "pos": "F",
+      "date": "Aug 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Boston (BOS)"
+    },
+    {
+      "player": "J.D. Davison",
+      "pos": "PG",
+      "date": "Aug 05, 2026",
+      "type": "Release",
+      "detail": "Waived by Houston (HOU)"
+    },
+    {
+      "player": "Jalen Pickett",
+      "pos": "PG",
+      "date": "Aug 05, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a Two-Way contract with LA (LAC)"
+    },
+    {
+      "player": "Kentavious Caldwell-Pope",
+      "pos": "SG",
+      "date": "Aug 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Philadelphia (PHI)"
+    },
+    {
+      "player": "Andre Jackson Jr.",
+      "pos": "SG",
+      "date": "Aug 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Toronto (TOR) - Exhibit 10"
+    },
+    {
+      "player": "Trey Jemison",
+      "pos": "PF",
+      "date": "Aug 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Toronto (TOR)"
+    },
+    {
+      "player": "Caleb Houstan",
+      "pos": "SF",
+      "date": "Aug 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans (NOP) - Exhibit 9"
+    },
+    {
       "player": "Naji Marshall",
       "pos": "SF",
       "date": "Aug 02, 2026",
@@ -16,11 +79,25 @@
       "detail": "Signed a 1 year $2.63 million a contract with Portland (POR)"
     },
     {
+      "player": "Jeremy Sochan",
+      "pos": "PF",
+      "date": "Aug 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Portland (POR) - Exhibit 9"
+    },
+    {
       "player": "Gary Payton II",
       "pos": "PG",
       "date": "Aug 01, 2026",
       "type": "Signing",
       "detail": "Signed a 1 year $3.88 million contract with Golden State (GSW)"
+    },
+    {
+      "player": "Vit Krejci",
+      "pos": "PG",
+      "date": "Aug 01, 2026",
+      "type": "Other",
+      "detail": "Portland (POR) guaranteed $250k salary for 2026-27"
     },
     {
       "player": "Mario Hezonja",
@@ -63,6 +140,27 @@
       "date": "Jul 31, 2026",
       "type": "Signing",
       "detail": "Signed a 2 year $11 million contract with Golden State (GSW) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Mario Hezonja",
+      "pos": "SG",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.85 million contract with Cleveland (CLE)"
+    },
+    {
+      "player": "De'Anthony Melton",
+      "pos": "SG",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12.43 million contract with Golden State (GSW) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Moritz Wagner",
+      "pos": "C",
+      "date": "Jul 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $18.45 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
     },
     {
       "player": "Mouhamadou Gueye",
