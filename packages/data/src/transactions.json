@@ -594,7 +594,7 @@
       "pos": "SG",
       "date": "Jul 10, 2026",
       "type": "Trade",
-      "detail": "Traded to Minnesota (MIN) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick \\[CHA right to swap\\] , a 2029 1st round pick \\[CHA right to swap; 6-30 protected\\] , a 2030 1st round pick \\[CHA right to swap\\] , a 2033 1st round pick, a 2029 2nd round pick \\[MIN pick\\] , a 2032 2nd round pick \\[MIN pick\\] and a 2033 2nd round pick \\[MIN pick\\] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+      "detail": "Traded to Minnesota (MIN) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Joshua Jefferson",
@@ -615,7 +615,7 @@
       "pos": "PF",
       "date": "Jul 10, 2026",
       "type": "Trade",
-      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick \\[CHA right to swap\\] , a 2029 1st round pick \\[CHA right to swap; 6-30 protected\\] , a 2030 1st round pick \\[CHA right to swap\\] , a 2033 1st round pick, a 2029 2nd round pick \\[MIN pick\\] , a 2032 2nd round pick \\[MIN pick\\] and a 2033 2nd round pick \\[MIN pick\\] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Jordan Clarkson",
@@ -664,7 +664,7 @@
       "pos": "SG",
       "date": "Jul 10, 2026",
       "type": "Trade",
-      "detail": "Traded to Minnesota (MIN) from Charlotte (CHA) with LaMelo Ball, a 2028 pick \\[CHA right to swap with MIN\\] , a 2033 pick \\[unprotected\\] , a 2029 1st round pick \\[CHA right to swap with MIN\\] , a 2030 1st round pick \\[CHA right to swap with MIN\\] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick for Naz Reid"
+      "detail": "Traded to Minnesota (MIN) from Charlotte (CHA) with LaMelo Ball, a 2028 pick [CHA right to swap with MIN] , a 2033 pick [unprotected] , a 2029 1st round pick [CHA right to swap with MIN] , a 2030 1st round pick [CHA right to swap with MIN] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick for Naz Reid"
     },
     {
       "player": "Jaylen Clark",
@@ -678,14 +678,14 @@
       "pos": "PG",
       "date": "Jul 10, 2026",
       "type": "Trade",
-      "detail": "Traded to Minnesota (MIN) from Charlotte (CHA) with Josh Green, a 2028 pick \\[CHA right to swap with MIN\\] , a 2033 pick \\[unprotected\\] , a 2029 1st round pick \\[CHA right to swap with MIN\\] , a 2030 1st round pick \\[CHA right to swap with MIN\\] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick for Naz Reid"
+      "detail": "Traded to Minnesota (MIN) from Charlotte (CHA) with Josh Green, a 2028 pick [CHA right to swap with MIN] , a 2033 pick [unprotected] , a 2029 1st round pick [CHA right to swap with MIN] , a 2030 1st round pick [CHA right to swap with MIN] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick for Naz Reid"
     },
     {
       "player": "Mouhamadou Gueye",
       "pos": "F",
       "date": "Jul 10, 2026",
       "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Chicago (CHI) as part of a 4-team trade: Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick \\[CHA right to swap\\] , a 2029 1st round pick \\[CHA right to swap; 6-30 protected\\] , a 2030 1st round pick \\[CHA right to swap\\] , a 2033 1st round pick, a 2029 2nd round pick \\[MIN pick\\] , a 2032 2nd round pick \\[MIN pick\\] and a 2033 2nd round pick \\[MIN pick\\] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+      "detail": "Traded to Charlotte (CHA) from Chicago (CHI) as part of a 4-team trade: Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Ayo Dosunmu",
@@ -699,7 +699,7 @@
       "pos": "C",
       "date": "Jul 10, 2026",
       "type": "Trade",
-      "detail": "Traded to Chicago (CHI) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick \\[CHA right to swap\\] , a 2029 1st round pick \\[CHA right to swap; 6-30 protected\\] , a 2030 1st round pick \\[CHA right to swap\\] , a 2033 1st round pick, a 2029 2nd round pick \\[MIN pick\\] , a 2032 2nd round pick \\[MIN pick\\] and a 2033 2nd round pick \\[MIN pick\\] to Charlotte (CHA); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+      "detail": "Traded to Chicago (CHI) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Collin Sexton",
@@ -758,25 +758,11 @@
       "detail": "Chicago (CHI) renounced their free-agent exception rights"
     },
     {
-      "player": "Isaiah Evans",
-      "pos": "SG",
-      "date": "Jul 10, 2026",
-      "type": "Trade",
-      "detail": "Traded to Minnesota (MIN) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
-    },
-    {
       "player": "Trevon Brazile",
       "pos": "PF",
       "date": "Jul 10, 2026",
       "type": "Signing",
       "detail": "Signed a 4 year $9.26 million contract with Denver (DEN) via 2nd-round exception"
-    },
-    {
-      "player": "Joshua Jefferson",
-      "pos": "PF",
-      "date": "Jul 10, 2026",
-      "type": "Trade",
-      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Trey Lyles",
@@ -826,20 +812,6 @@
       "date": "Jul 10, 2026",
       "type": "Other",
       "detail": ""
-    },
-    {
-      "player": "Mouhamadou Gueye",
-      "pos": "F",
-      "date": "Jul 10, 2026",
-      "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Chicago (CHI) as part of a 4-team trade: Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
-    },
-    {
-      "player": "Nicolas Claxton",
-      "pos": "C",
-      "date": "Jul 10, 2026",
-      "type": "Trade",
-      "detail": "Traded to Chicago (CHI) from Brooklyn (BKN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Julius Randle and Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Julius Randle",
@@ -1028,35 +1000,35 @@
       "pos": "PG",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Washington (WAS) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Memphis (MEM) from Washington (WAS) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "John Collins",
       "pos": "PF",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Detroit (DET) from LA (LAC) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Detroit (DET) from LA (LAC) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Tarik Biberovic",
       "pos": "PF",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Dallas (DAL) from Memphis (MEM) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Dallas (DAL) from Memphis (MEM) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Marcus Sasser",
       "pos": "PG",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Dallas (DAL) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Dallas (DAL) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Khris Middleton",
       "pos": "SF",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Washington (WAS) from Dallas (DAL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Washington (WAS) from Dallas (DAL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Khris Middleton",
@@ -1070,21 +1042,21 @@
       "pos": "SG",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Detroit (DET) from Milwaukee (MIL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Detroit (DET) from Milwaukee (MIL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Taurean Prince",
       "pos": "PF",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Detroit (DET) from Milwaukee (MIL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Detroit (DET) from Milwaukee (MIL) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Caris LeVert",
       "pos": "SG",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Milwaukee (MIL) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Donovan Mitchell",
@@ -1119,21 +1091,21 @@
       "pos": "PG",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Dallas (DAL) as part of a 6-team trade: Dallas (DAL) traded a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Memphis (MEM) from Dallas (DAL) as part of a 6-team trade: Dallas (DAL) traded a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Santi Aldama",
       "pos": "C",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Dallas (DAL) from Memphis (MEM) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Dallas (DAL) from Memphis (MEM) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Isaiah Stewart to Memphis (MEM); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Walker Kessler",
       "pos": "C",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Los Angeles (LAL) from Utah (UTA) for a 2028 1st round pick \\[UTA right to swap\\] , a 2030 1st round pick \\[UTA right to swap\\] , a 2031 1st round pick and a 2033 1st round pick"
+      "detail": "Traded to Los Angeles (LAL) from Utah (UTA) for a 2028 1st round pick [UTA right to swap] , a 2030 1st round pick [UTA right to swap] , a 2031 1st round pick and a 2033 1st round pick"
     },
     {
       "player": "Walker Kessler",
@@ -1161,7 +1133,7 @@
       "pos": "C",
       "date": "Jul 08, 2026",
       "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick \\[HOU pick\\] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick \\[DAL pick\\] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick \\[multiple conditions\\] to LA (LAC); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick \\[least favorable of BKN/DAL pick\\] and a 2027 2nd round pick \\[MIL pick\\] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick \\[2nd most favorable of DET/NYK/MIL\\] , a 2031 2nd round pick \\[DAL pick\\] and a 2032 2nd round pick \\[DET pick\\] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick \\[LAL pick\\] , a 2032 2nd round pick \\[most favorable of MEM/PHI/UTA pick\\] and a 2033 2nd round pick \\[WAS pick\\] to Memphis (MEM)"
+      "detail": "Traded to Memphis (MEM) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
     },
     {
       "player": "Mohamed Bamba",
@@ -1476,7 +1448,7 @@
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
     },
     {
       "player": "Christian Anderson",
@@ -1518,7 +1490,7 @@
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick \\[MEM pick\\] , a 2028 2nd round pick \\[HOU pick\\] and a 2033 2nd round pick \\[HOU pick\\]"
+      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick [MEM pick] , a 2028 2nd round pick [HOU pick] and a 2033 2nd round pick [HOU pick]"
     },
     {
       "player": "Neemias Queta",
@@ -1553,14 +1525,14 @@
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Boston (BOS) from Philadelphia (PHI) with a 2028 1st round pick \\[BOS right to swap\\] , a 2031 1st round pick \\[unprotected PHI pick\\] , a 2028 2nd round pick \\[most favorable of GSW/OKC/MIL\\] and a 2030 2nd round pick \\[most favorable of WAS/PORT/PHX\\] for Jaylen Brown"
+      "detail": "Traded to Boston (BOS) from Philadelphia (PHI) with a 2028 1st round pick [BOS right to swap] , a 2031 1st round pick [unprotected PHI pick] , a 2028 2nd round pick [most favorable of GSW/OKC/MIL] and a 2030 2nd round pick [most favorable of WAS/PORT/PHX] for Jaylen Brown"
     },
     {
       "player": "Jaylen Brown",
       "pos": "SF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Philadelphia (PHI) from Boston (BOS) for Paul George, a 2028 1st round pick \\[BOS right to swap\\] , a 2031 1st round pick \\[unprotected PHI pick\\] , a 2028 2nd round pick \\[most favorable of GSW/OKC/MIL\\] and a 2030 2nd round pick \\[most favorable of WAS/PORT/PHX\\]"
+      "detail": "Traded to Philadelphia (PHI) from Boston (BOS) for Paul George, a 2028 1st round pick [BOS right to swap] , a 2031 1st round pick [unprotected PHI pick] , a 2028 2nd round pick [most favorable of GSW/OKC/MIL] and a 2030 2nd round pick [most favorable of WAS/PORT/PHX]"
     },
     {
       "player": "Mitchell Robinson",
@@ -1644,7 +1616,7 @@
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Detroit (DET) from Oklahoma City (OKC) for a 2030 2nd round pick \\[MIN pick\\] and a 2031 2nd round pick \\[DET pick\\]"
+      "detail": "Traded to Detroit (DET) from Oklahoma City (OKC) for a 2030 2nd round pick [MIN pick] and a 2031 2nd round pick [DET pick]"
     },
     {
       "player": "Coby White",
@@ -1665,42 +1637,42 @@
       "pos": "PG",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Nate Ament, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
     },
     {
       "player": "Kel'el Ware",
       "pos": "C",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Jaime Jaquez Jr., Kasparas Jakucionis, Nate Ament, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
     },
     {
       "player": "Jaime Jaquez Jr.",
       "pos": "SF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Tyler Herro, Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
     },
     {
       "player": "Tyler Herro",
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
+      "detail": "Traded to Milwaukee (MIL) from Miami (MIA) with Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick for Giannis Antetokounmpo and Bobby Portis"
     },
     {
       "player": "Bobby Portis",
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Giannis Antetokounmpo for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
+      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Giannis Antetokounmpo for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick"
     },
     {
       "player": "Giannis Antetokounmpo",
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Bobby Portis for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick \\[MIL right to swap with MIA\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] and a 2033 2nd round pick"
+      "detail": "Traded to Miami (MIA) from Milwaukee (MIL) with Bobby Portis for Tyler Herro, Jaime Jaquez Jr., Kel'el Ware, Kasparas Jakucionis, Nate Ament, a 2030 1st round pick [MIL right to swap with MIA] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] and a 2033 2nd round pick"
     },
     {
       "player": "Mohamed Diawara",
@@ -1721,7 +1693,7 @@
       "pos": "SG",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Atlanta (ATL) from Oklahoma City (OKC) for a 2030 2nd round pick \\[ATL pick\\] and a 2032 2nd round pick \\[least favorable of ATL/LAL pick\\]"
+      "detail": "Traded to Atlanta (ATL) from Oklahoma City (OKC) for a 2030 2nd round pick [ATL pick] and a 2032 2nd round pick [least favorable of ATL/LAL pick]"
     },
     {
       "player": "Nick Martinelli",
@@ -2323,28 +2295,28 @@
       "pos": "SG",
       "date": "Jun 30, 2026",
       "type": "Trade",
-      "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, a 2027 1st round pick \\[TOR right to swap\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
     },
     {
       "player": "Brandon Ingram",
       "pos": "SF",
       "date": "Jun 30, 2026",
       "type": "Trade",
-      "detail": "Traded to LA (LAC) from Toronto (TOR) with Gradey Dick, a 2027 1st round pick \\[TOR right to swap\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
     },
     {
       "player": "Kawhi Leonard",
       "pos": "SF",
       "date": "Jun 30, 2026",
       "type": "Trade",
-      "detail": "Traded to Toronto (TOR) from LA (LAC) for Brandon Ingram, Gradey Dick, a 2027 1st round pick \\[TOR right to swap\\] , a 2031 1st round pick \\[unprotected\\] , a 2033 1st round pick \\[unprotected\\] , a 2030 2nd round pick and a 2033 2nd round pick"
+      "detail": "Traded to Toronto (TOR) from LA (LAC) for Brandon Ingram, Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick"
     },
     {
       "player": "Alpha Kaba",
       "pos": "PF",
       "date": "Jun 30, 2026",
       "type": "Trade",
-      "detail": "Traded to Sacramento (SAC) from Atlanta (ATL) with a 2033 2nd round pick \\[SAC pick\\] for Devin Carter and future 2nd-round pick"
+      "detail": "Traded to Sacramento (SAC) from Atlanta (ATL) with a 2033 2nd round pick [SAC pick] for Devin Carter and future 2nd-round pick"
     },
     {
       "player": "Kris Dunn",
@@ -2379,7 +2351,7 @@
       "pos": "PG",
       "date": "Jun 30, 2026",
       "type": "Trade",
-      "detail": "Traded to Atlanta (ATL) from Sacramento (SAC) with future 2nd-round pick for Alpha Kaba and a 2033 2nd round pick \\[SAC pick\\]"
+      "detail": "Traded to Atlanta (ATL) from Sacramento (SAC) with future 2nd-round pick for Alpha Kaba and a 2033 2nd round pick [SAC pick]"
     },
     {
       "player": "Bronny James",
@@ -3233,21 +3205,21 @@
       "pos": "SF",
       "date": "Jun 28, 2026",
       "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Grayson Allen and a 2033 1st round pick \\[unprotected\\] for Miles Bridges, a 2029 1st round pick \\[least favorable CLE/MIN/UTA pick + top-5 protected\\] and a 2027 2nd round pick \\[least favorable of BOS/ORL pick\\]"
+      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Grayson Allen and a 2033 1st round pick [unprotected] for Miles Bridges, a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick]"
     },
     {
       "player": "Grayson Allen",
       "pos": "SG",
       "date": "Jun 28, 2026",
       "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Royce O'Neale and a 2033 1st round pick \\[unprotected\\] for Miles Bridges, a 2029 1st round pick \\[least favorable CLE/MIN/UTA pick + top-5 protected\\] and a 2027 2nd round pick \\[least favorable of BOS/ORL pick\\]"
+      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Royce O'Neale and a 2033 1st round pick [unprotected] for Miles Bridges, a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick]"
     },
     {
       "player": "Miles Bridges",
       "pos": "SF",
       "date": "Jun 28, 2026",
       "type": "Trade",
-      "detail": "Traded to Phoenix (PHX) from Charlotte (CHA) with a 2029 1st round pick \\[least favorable CLE/MIN/UTA pick + top-5 protected\\] and a 2027 2nd round pick \\[least favorable of BOS/ORL pick\\] for Grayson Allen, Royce O'Neale and a 2033 1st round pick \\[unprotected\\]"
+      "detail": "Traded to Phoenix (PHX) from Charlotte (CHA) with a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick] for Grayson Allen, Royce O'Neale and a 2033 1st round pick [unprotected]"
     },
     {
       "player": "Jaylen Clark",
@@ -3436,7 +3408,7 @@
       "pos": "C",
       "date": "Jun 25, 2026",
       "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Minnesota (MIN) for LaMelo Ball, Josh Green, a 2028 pick \\[CHA right to swap with MIN\\] , a 2033 pick \\[unprotected\\] , a 2029 1st round pick \\[CHA right to swap with MIN\\] , a 2030 1st round pick \\[CHA right to swap with MIN\\] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick"
+      "detail": "Traded to Charlotte (CHA) from Minnesota (MIN) for LaMelo Ball, Josh Green, a 2028 pick [CHA right to swap with MIN] , a 2033 pick [unprotected] , a 2029 1st round pick [CHA right to swap with MIN] , a 2030 1st round pick [CHA right to swap with MIN] , a 2029 2nd round pick, a 2032 2nd round pick and a 2033 2nd round pick"
     },
     {
       "player": "Al Horford",
@@ -3555,35 +3527,35 @@
       "pos": "SG",
       "date": "Jun 24, 2026",
       "type": "Trade",
-      "detail": "Traded to New York (NYK) from Houston (HOU) with Jack Kayil, Ugonna Onyenso and a 2029 2nd round pick \\[SAC pick\\] for Bruce Thornton and Nick Martinelli"
+      "detail": "Traded to New York (NYK) from Houston (HOU) with Jack Kayil, Ugonna Onyenso and a 2029 2nd round pick [SAC pick] for Bruce Thornton and Nick Martinelli"
     },
     {
       "player": "Ugonna Onyenso",
       "pos": "C",
       "date": "Jun 24, 2026",
       "type": "Trade",
-      "detail": "Traded to New York (NYK) from Houston (HOU) with Jack Kayil, Mojave King and a 2029 2nd round pick \\[SAC pick\\] for Bruce Thornton and Nick Martinelli"
+      "detail": "Traded to New York (NYK) from Houston (HOU) with Jack Kayil, Mojave King and a 2029 2nd round pick [SAC pick] for Bruce Thornton and Nick Martinelli"
     },
     {
       "player": "Jack Kayil",
       "pos": "G",
       "date": "Jun 24, 2026",
       "type": "Trade",
-      "detail": "Traded to New York (NYK) from Houston (HOU) with Ugonna Onyenso, Mojave King and a 2029 2nd round pick \\[SAC pick\\] for Bruce Thornton and Nick Martinelli"
+      "detail": "Traded to New York (NYK) from Houston (HOU) with Ugonna Onyenso, Mojave King and a 2029 2nd round pick [SAC pick] for Bruce Thornton and Nick Martinelli"
     },
     {
       "player": "Nick Martinelli",
       "pos": "F",
       "date": "Jun 24, 2026",
       "type": "Trade",
-      "detail": "Traded to Houston (HOU) from New York (NYK) with Bruce Thornton for Jack Kayil, Ugonna Onyenso, Mojave King and a 2029 2nd round pick \\[SAC pick\\]"
+      "detail": "Traded to Houston (HOU) from New York (NYK) with Bruce Thornton for Jack Kayil, Ugonna Onyenso, Mojave King and a 2029 2nd round pick [SAC pick]"
     },
     {
       "player": "Bruce Thornton",
       "pos": "PG",
       "date": "Jun 24, 2026",
       "type": "Trade",
-      "detail": "Traded to Houston (HOU) from New York (NYK) with Nick Martinelli for Jack Kayil, Ugonna Onyenso, Mojave King and a 2029 2nd round pick \\[SAC pick\\]"
+      "detail": "Traded to Houston (HOU) from New York (NYK) with Nick Martinelli for Jack Kayil, Ugonna Onyenso, Mojave King and a 2029 2nd round pick [SAC pick]"
     },
     {
       "player": "Kam Jones",
@@ -3891,14 +3863,14 @@
       "pos": "PG",
       "date": "Jun 23, 2026",
       "type": "Trade",
-      "detail": "Traded to Memphis (MEM) from Oklahoma City (OKC) with a 2033 2nd round pick \\[OKC pick\\] and a 2034 2nd round pick \\[most favorable of DEN/MIA/HOU pick\\] for Bennett Stirtz"
+      "detail": "Traded to Memphis (MEM) from Oklahoma City (OKC) with a 2033 2nd round pick [OKC pick] and a 2034 2nd round pick [most favorable of DEN/MIA/HOU pick] for Bennett Stirtz"
     },
     {
       "player": "Bennett Stirtz",
       "pos": "PG",
       "date": "Jun 23, 2026",
       "type": "Trade",
-      "detail": "Traded to Oklahoma City (OKC) from Memphis (MEM) for Ebuka Okorie, a 2033 2nd round pick \\[OKC pick\\] and a 2034 2nd round pick \\[most favorable of DEN/MIA/HOU pick\\]"
+      "detail": "Traded to Oklahoma City (OKC) from Memphis (MEM) for Ebuka Okorie, a 2033 2nd round pick [OKC pick] and a 2034 2nd round pick [most favorable of DEN/MIA/HOU pick]"
     },
     {
       "player": "Koa Peat",
@@ -4122,7 +4094,7 @@
       "pos": "PF",
       "date": "Jun 22, 2026",
       "type": "Trade",
-      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick \\[CHA right to swap\\] , a 2029 1st round pick \\[CHA right to swap; 6-30 protected\\] , a 2030 1st round pick \\[CHA right to swap\\] , a 2033 1st round pick, a 2029 2nd round pick \\[MIN pick\\] , a 2032 2nd round pick \\[MIN pick\\] and a 2033 2nd round pick \\[MIN pick\\] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
+      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Craig Porter Jr.",
