@@ -2,6 +2,118 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Sean Pedulla",
+      "pos": "G",
+      "date": "Aug 17, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Houston (HOU)"
+    },
+    {
+      "player": "Braden Smith",
+      "pos": "PG",
+      "date": "Aug 17, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Indiana (IND)"
+    },
+    {
+      "player": "Trendon Watford",
+      "pos": "PF",
+      "date": "Aug 17, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $2.85 million contract with New Orleans (NOP)"
+    },
+    {
+      "player": "Haywood Highsmith",
+      "pos": "F",
+      "date": "Aug 17, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.07 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Tre Mann",
+      "pos": "PG",
+      "date": "Aug 14, 2026",
+      "type": "Trade",
+      "detail": "Traded to Cleveland (CLE) from Charlotte (CHA) for Dennis Schröder and cash"
+    },
+    {
+      "player": "Dennis Schröder",
+      "pos": "PG",
+      "date": "Aug 14, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Cleveland (CLE) with cash for Tre Mann"
+    },
+    {
+      "player": "Ethan Thompson",
+      "pos": "SG",
+      "date": "Aug 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana (IND)"
+    },
+    {
+      "player": "Bradley Beal",
+      "pos": "SG",
+      "date": "Aug 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $13.17 million contract with LA Clippers (LAC) - includes 2027-28 Club Option"
+    },
+    {
+      "player": "Haywood Highsmith",
+      "pos": "F",
+      "date": "Aug 12, 2026",
+      "type": "Release",
+      "detail": "Waived by Phoenix (PHX)"
+    },
+    {
+      "player": "Russell Westbrook",
+      "pos": "PG",
+      "date": "Aug 12, 2026",
+      "type": "Other",
+      "detail": "Retired from Professional Basketball"
+    },
+    {
+      "player": "Jalen Pickett",
+      "pos": "PG",
+      "date": "Aug 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with LA Clippers (LAC)"
+    },
+    {
+      "player": "Yuki Kawamura",
+      "pos": "G",
+      "date": "Aug 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with LA (LAC) - Exhibit 10"
+    },
+    {
+      "player": "Taelon Peter",
+      "pos": "G",
+      "date": "Aug 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with San Antonio (SAS) - Exhibit 10"
+    },
+    {
+      "player": "Dillon Brooks",
+      "pos": "SF",
+      "date": "Aug 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $73 million veteran contract extension with Phoenix (PHX)"
+    },
+    {
+      "player": "Sean Pedulla",
+      "pos": "G",
+      "date": "Aug 07, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Jamarion Sharp",
+      "pos": "C",
+      "date": "Aug 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with LA Clippers (LAC)"
+    },
+    {
       "player": "Lonnie Walker IV",
       "pos": "SG",
       "date": "Aug 05, 2026",

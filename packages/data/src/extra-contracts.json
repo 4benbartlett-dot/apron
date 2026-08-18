@@ -1,5 +1,5 @@
 {
- "asOf": "2026-07-28",
+ "asOf": "2026-08-17",
  "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player.",
  "players": [
   {
@@ -14,7 +14,11 @@
    "playerName": "Ryan Nembhard",
    "teamId": "DAL",
    "years": [
-    { "leagueYear": "2026-27", "salary": 2150000, "guarantee": "full" }
+    {
+     "leagueYear": "2026-27",
+     "salary": 2150000,
+     "guarantee": "full"
+    }
    ],
    "why": "Jun 29 feed: 'Dallas (DAL) exercised $2.15 million option for 2026-27'. Traded to ATL Jul 19 in the three-team Dort/Risacher deal — stubbed on DAL so applyTrades moves him. No 2025-26 bref contracts row (he was on a two-way)."
   },
@@ -87,6 +91,55 @@
    "teamId": "WAS",
    "years": [],
    "why": "Feed Jul 1: 'Signed a Two-Way contract with Washington (WAS)' off his qualifying offer."
+  },
+  {
+   "playerId": "curated-lonnie-walker-iv",
+   "playerName": "Lonnie Walker IV",
+   "teamId": "DEN",
+   "years": [],
+   "why": "Feed Aug 5: 'Agreed to a 1 year $3.29 million contract with Denver (DEN)'. $3,286,399 is the 7-YOS minimum to the dollar — he spent 2025-26 overseas, which is why he has no sheet row AND why his years of service stopped at seven. Minimum exception, consumes nothing; Art. VII 3(f) charges DEN the 2-YOS figure."
+  },
+  {
+   "playerId": "curated-tarik-biberovic",
+   "playerName": "Tarik Biberovic",
+   "teamId": "DAL",
+   "years": [],
+   "why": "Feed Jul 10: 'Signed a 2 year $6 million contract with Dallas (DAL) - includes 2027-28 Team Option', two days after the six-team deal sent his rights from MEM to DAL. Stubbed on DAL, the team he signed with, so the trade row is a no-op rather than a second move. No 2025-26 sheet row — he was in Europe."
+  },
+  {
+   "playerId": "curated-pete-nance",
+   "playerName": "Pete Nance",
+   "teamId": "MIL",
+   "years": [],
+   "why": "Feed Jul 8: 'Signed a 2 year $5.29 million contract with Milwaukee (MIL)', five days after MIL waived him off a two-way. A stub and not a surname fallback: league-wide, 'Nance' resolves to Larry Nance Jr. in Cleveland."
+  },
+  {
+   "playerId": "curated-bogoljub-markovic",
+   "playerName": "Bogoljub Marković",
+   "teamId": "MIL",
+   "years": [],
+   "why": "Feed Jul 1: 'Signed a 4 year $9.26 million contract with Milwaukee (MIL) - includes 2029-30 Team Option' — the second-round pick exception shape for a 2025 draft-and-stash. No 2025-26 NBA sheet row."
+  },
+  {
+   "playerId": "curated-alijah-martin",
+   "playerName": "Alijah Martin",
+   "teamId": "TOR",
+   "years": [],
+   "why": "Feed Jul 3: 'Signed a 2 year $4.76 million contract with Toronto (TOR) - includes 2027-28 Player Option' off his two-way qualifying offer — the same standard-minimum shape as Moussa Cisse's matched sheet. A stub and not a surname fallback: 'Martin' resolves league-wide to Tyrese Martin in Brooklyn."
+  },
+  {
+   "playerId": "curated-daeqwon-plowden",
+   "playerName": "Daeqwon Plowden",
+   "teamId": "SAC",
+   "years": [],
+   "why": "Feed Jul 2: 'Agreed to 2 year $5.11 million contract with Sacramento (SAC)' after SAC tendered a two-way qualifying offer Jun 26. Signings feed carries the terms as Official."
+  },
+  {
+   "playerId": "curated-branden-carlson",
+   "playerName": "Branden Carlson",
+   "teamId": "POR",
+   "years": [],
+   "why": "Feed Jul 1: 'Signed a 1 year $2.45 million contract with Portland (POR)' after OKC declined his qualifying offer. $2,449,421 is the 2-YOS minimum exactly. No 2025-26 standard-contract row."
   }
  ]
 }

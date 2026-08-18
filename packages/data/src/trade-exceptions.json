@@ -65,16 +65,6 @@
     },
     {
       "team": "BOS",
-      "player": "Georges Niang",
-      "amount": 8200000,
-      "expires": "2026-08-06",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
-    {
-      "team": "BOS",
       "player": "Jaylen Brown",
       "amount": 2952348,
       "expires": "2027-07-06",
@@ -417,16 +407,6 @@
       "singleSource": true,
       "sources": [
         "spotrac"
-      ]
-    },
-    {
-      "team": "MIA",
-      "player": "Haywood Highsmith",
-      "amount": 5616000,
-      "expires": "2026-08-15",
-      "sources": [
-        "spotrac",
-        "salaryswish"
       ]
     },
     {

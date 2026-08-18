@@ -5,7 +5,8 @@ import {
   BASE_CONTRACTS, TEAM_IDS, C, currentSalary, normName,
   teamProjection, feedStateOf, LEAGUE_WINS,
 } from "@/lib/league";
-import { DATA_AS_OF } from "@apron/data";
+import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS } from "@apron/data";
+import { shortPlayerName } from "@/lib/names";
 
 // ---------------------------------------------------------------------------
 // DATA INTEGRITY — one guard per bug that actually shipped.
@@ -131,5 +132,62 @@ describe("data integrity", () => {
       expect(p.baseWins, t).toBeLessThanOrEqual(82);
       expect(Number.isFinite(p.baseNrtg), t).toBe(true);
     }
+  });
+  // NINE real contracts were silently missing from the sheet at once. A signing
+  // whose player has no 2025-26 contract row — an overseas returnee, a two-way
+  // conversion, a draft-and-stash — is dropped by applySignings ("unmatched
+  // signings skipped to avoid bad duplicates"), and dropping it is invisible:
+  // no error, no duplicate, just a team carrying less salary than it owes and a
+  // roster one player short. Lonnie Walker IV sat off Denver's sheet for twelve
+  // days. Resolution here mirrors the pipeline's, exact name first and then a
+  // unique surname on the signing team, so an alias miss (Nah'Shon/Bones
+  // Hyland, Mohamed/Mo Bamba) fails this too rather than passing on a technicality.
+  it("every signing with real terms lands on the signing team's sheet", () => {
+    const missing: string[] = [];
+    const seen = new Set<string>();
+    for (const t of TRANSACTIONS) {
+      if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+      // Two-ways and Exhibit 10s carry no cap salary; coaches carry no contract.
+      if (/Two-Way|Exhibit|as head coach|as an assistant/i.test(t.detail)) continue;
+      if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail)) continue;
+      // A deal the corrections file deliberately holds back is absent on
+      // purpose, with its reason written down — that is the opposite of silent.
+      if (PENDING_SIGNINGS.some((n) => normName(n) === normName(t.player))) continue;
+      const totalM = t.detail.match(/\$\s*([\d.]+)\s*million/);
+      const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+      if (!totalM || !teamM) continue;
+      const k = normName(t.player);
+      if (seen.has(k)) continue;
+      seen.add(k);
+      const team = teamM[1] === "LA" ? "LAC" : teamM[1]!;
+      if (!TEAM_IDS.includes(team)) continue;
+      // Landing ANYWHERE with 2026-27 salary is the invariant, not landing on
+      // the signing team: a sign-and-trade signs with one team and is traded to
+      // another in the same breath (Kessler signs in Utah, plays in Los
+      // Angeles). The alias probe stays team-scoped, which is where a first-name
+      // variant is safe to resolve.
+      const paid = BASE_CONTRACTS.filter((c) => !c.deadMoney && currentSalary(c) > 0);
+      const exact = paid.some((c) => normName(c.playerName) === k);
+      const surname = normName(shortPlayerName(t.player));
+      const bySurname = paid.filter(
+        (c) => c.teamId === team && normName(shortPlayerName(c.playerName)) === surname,
+      );
+      if (!exact && bySurname.length !== 1)
+        missing.push(`${t.date} ${t.player} → ${team}: ${t.detail.slice(0, 60)}`);
+    }
+    expect(missing).toEqual([]);
+  });
+
+  // Kyle Lowry retired on Jul 2 and stayed a signable free agent for six weeks,
+  // with a $2,985,156 cap hold on Philadelphia's sheet. The feed said so plainly
+  // the whole time — the curated retirement list simply never picked the row up.
+  it("everyone the feed retires is out of the sim", () => {
+    const stillHere: string[] = [];
+    for (const t of TRANSACTIONS) {
+      if (!/Retired from Professional Basketball/i.test(t.detail)) continue;
+      if (!RETIRED_2026.some((r) => normName(r) === normName(t.player)))
+        stillHere.push(`${t.date} ${t.player}`);
+    }
+    expect(stillHere).toEqual([]);
   });
 });
