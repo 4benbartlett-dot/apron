@@ -1,33 +1,6 @@
 {
   "rows": [
     {
-      "date": "8/10/2026",
-      "player": "Josh Hart",
-      "team": "NYK",
-      "pos": "SG",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "8/11/2026",
-      "player": "Sviatoslav Mykhailiuk",
-      "team": "UTA",
-      "pos": "SG",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "8/12/2026",
-      "player": "Kyle Filipowski",
-      "team": "UTA",
-      "pos": "PF",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
       "date": "9/1/2026",
       "player": "Moussa Cisse",
       "team": "DAL",
@@ -503,6 +476,24 @@
       "kind": "GUARANTEED",
       "amount": 2667944,
       "note": "Guaranteed — — Opening Night TBD; guaranteed part of extension"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Dillon Mitchell",
+      "team": "BOS",
+      "pos": "F",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Jamarion Sharp",
+      "team": "LAC",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
     },
     {
       "date": "10/21/2026",
@@ -1235,15 +1226,6 @@
     },
     {
       "date": "1/10/2027",
-      "player": "Haywood Highsmith",
-      "team": "PHX",
-      "pos": "F",
-      "kind": "GUARANTEED",
-      "amount": 3018158,
-      "note": "Guaranteed"
-    },
-    {
-      "date": "1/10/2027",
       "player": "Jamaree Bouyea",
       "team": "PHX",
       "pos": "PG",
@@ -1955,6 +1937,15 @@
     },
     {
       "date": "6/29/2027",
+      "player": "Sean Pedulla",
+      "team": "HOU",
+      "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Jarace Walker",
       "team": "IND",
       "pos": "PF",
@@ -2009,21 +2000,21 @@
     },
     {
       "date": "6/29/2027",
+      "player": "Braden Smith",
+      "team": "IND",
+      "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Cameron Christie",
       "team": "LAC",
       "pos": "SG",
       "kind": "CLUB",
       "amount": 0,
       "note": "Club Option — — non-guaranteed"
-    },
-    {
-      "date": "6/29/2027",
-      "player": "Sean Pedulla",
-      "team": "LAC",
-      "pos": "G",
-      "kind": "RFA / QO",
-      "amount": 0,
-      "note": "Qualifying Offer — — TBD - Two-Way"
     },
     {
       "date": "6/29/2027",
@@ -2042,6 +2033,24 @@
       "kind": "GUARANTEED",
       "amount": 0,
       "note": "Guaranteed — — max protection amount"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jamarion Sharp",
+      "team": "LAC",
+      "pos": "C",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bradley Beal",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 6746040,
+      "note": "Player Option"
     },
     {
       "date": "6/29/2027",
@@ -3740,6 +3749,24 @@
       "player": "Jarrett Allen",
       "team": "CLE",
       "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/7/2027",
+      "player": "Lauri Markkanen",
+      "team": "UTA",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "8/7/2027",
+      "player": "Lauri Markkanen",
+      "team": "UTA",
+      "pos": "PF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

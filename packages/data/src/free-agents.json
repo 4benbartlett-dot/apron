@@ -19,15 +19,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "gabe vincent": {
-      "name": "Gabe Vincent",
-      "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "maxi kleber": {
       "name": "Maxi Kleber",
       "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "gabe vincent": {
+      "name": "Gabe Vincent",
+      "team": "ATL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -58,12 +58,6 @@
     "guerschon yabusele": {
       "name": "Guerschon Yabusele",
       "team": "CHI",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
-    "bradley beal": {
-      "name": "Bradley Beal",
-      "team": "LAC",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
@@ -115,17 +109,11 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "garrett temple": {
-      "name": "Garrett Temple",
-      "team": "TOR",
+    "jeff green": {
+      "name": "Jeff Green",
+      "team": "HOU",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "kyle lowry": {
-      "name": "Kyle Lowry",
-      "team": "PHI",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
     },
     "doug mcdermott": {
       "name": "Doug McDermott",
@@ -133,9 +121,15 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "jeff green": {
-      "name": "Jeff Green",
-      "team": "HOU",
+    "kyle lowry": {
+      "name": "Kyle Lowry",
+      "team": "PHI",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "garrett temple": {
+      "name": "Garrett Temple",
+      "team": "TOR",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -178,16 +172,16 @@
       "team": "DET",
       "restriction": "UFA"
     },
-    "amir coffey": {
-      "name": "Amir Coffey",
-      "team": "PHX",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "thanasis antetokounmpo": {
       "name": "Thanasis Antetokounmpo",
       "team": "MIL",
       "restriction": "RFA",
+      "birdStatus": "non_bird"
+    },
+    "amir coffey": {
+      "name": "Amir Coffey",
+      "team": "PHX",
+      "restriction": "UFA",
       "birdStatus": "non_bird"
     },
     "peyton watson": {
@@ -207,12 +201,6 @@
       "team": "WAS",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "trendon watford": {
-      "name": "Trendon Watford",
-      "team": "PHI",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "lindy waters": {
       "name": "Lindy Waters III",
@@ -358,11 +346,6 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "vladislav goldin": {
-      "name": "Vladislav Goldin",
-      "team": "MIA",
-      "restriction": "RFA"
-    },
     "lachlan olbrich": {
       "name": "Lachlan Olbrich",
       "team": "LAL",
@@ -398,9 +381,9 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "ethan thompson": {
-      "name": "Ethan Thompson",
-      "team": "IND",
+    "vladislav goldin": {
+      "name": "Vladislav Goldin",
+      "team": "MIA",
       "restriction": "RFA"
     },
     "drew timme": {
@@ -435,12 +418,6 @@
       "name": "TyTy Washington Jr.",
       "team": "LAC",
       "restriction": "UFA"
-    },
-    "yuki kawamura": {
-      "name": "Yuki Kawamura",
-      "team": "CHI",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
     },
     "sharife cooper": {
       "name": "Sharife Cooper",

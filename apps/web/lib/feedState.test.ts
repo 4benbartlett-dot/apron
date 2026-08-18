@@ -185,15 +185,23 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(feedStateOf("IND").hardCap).toBe(C.firstApron);
     });
 
-    it("IND books exclude Jalen Smith (CHI's), Potter dead money, and the pending Nance minimum", () => {
+    it("IND books exclude Jalen Smith (CHI's) and Potter dead money, and now carry Nance", () => {
       const smith = BASE_CONTRACTS.filter((c) => c.playerName === "Jalen Smith");
       expect(smith).toHaveLength(1);
       expect(smith[0]!.teamId).toBe("CHI"); // Braden Smith's rights trade must not move him
       const potter = BASE_CONTRACTS.find((c) => c.playerName === "Micah Potter")!;
       expect(potter.deadMoney).toBe(true);
       expect(currentSalary(potter)).toBe(0); // non-guaranteed, waived clean
-      expect(BASE_CONTRACTS.some((c) => c.playerName === "Larry Nance Jr." && c.teamId === "IND")).toBe(false);
-      expect(freeAgentsOf(BASE_CONTRACTS).some((f) => f.playerName === "Larry Nance Jr.")).toBe(true);
+      // Nance was held pending from Jul 8 because his deemed minimum charge did
+      // not FIT under Indiana's Oubre hard cap — a cap objection, not a doubt
+      // about the deal. Indiana's sheet has since fallen far enough that it
+      // does fit, so the hold is released and the charge is real. What the
+      // original test was protecting is the hard cap, and that still binds.
+      const nance = BASE_CONTRACTS.find((c) => c.playerName === "Larry Nance Jr.")!;
+      expect(nance.teamId).toBe("IND");
+      expect(currentSalary(nance)).toBe(C.minimumSalaries[2]);
+      expect(freeAgentsOf(BASE_CONTRACTS).some((f) => f.playerName === "Larry Nance Jr.")).toBe(false);
+      expect(bookedSalary("IND")).toBeLessThan(C.firstApron);
     });
 
     it("PHX + HOU: taxpayer-MLE deals booked at exactly the exception (y1 $6,064,000)", () => {

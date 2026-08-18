@@ -191,6 +191,10 @@ function norm(s: string): string {
     .replace(/[^a-z]/g, "");
 }
 
+/** Normalized name with any generational suffix dropped — matched as a whole
+ * token, so a surname that merely ends in "v" or "ii" is left alone. */
+const dropSuffix = (name: string) => norm(name.replace(/\s+(jr|sr|ii|iii|iv|v)\.?$/i, ""));
+
 function preferred(a: Contract, b: Contract): Contract {
   const a27 = salaryForYear(a, "2026-27");
   const b27 = salaryForYear(b, "2026-27");
@@ -358,7 +362,38 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     if (!teamM) continue;
     const team = stdTeam(teamM[1]);
     if (!VALID_TEAMS.has(team)) continue;
-    const c = byName.get(k);
+    let c = byName.get(k);
+    if (!c && !ROOKIE_CLASS_2026.has(k)) {
+      // Generational suffix: the feed says "Robert Williams III", the contract
+      // sheet says "Robert Williams", and his 3yr/$43.5M extension quietly went
+      // nowhere — Portland short $13.8M and carrying a cap hold for a player
+      // under contract. Match on the name with the suffix dropped, and only
+      // when it is unique: a sheet holding both a Sr. and a Jr. must not guess.
+      const bare = dropSuffix(t.player);
+      const suffixMatches = cloned.filter(
+        (x) => !x.deadMoney && dropSuffix(x.playerName) === bare,
+      );
+      if (suffixMatches.length === 1) c = suffixMatches[0];
+    }
+    if (!c && !ROOKIE_CLASS_2026.has(k)) {
+      // Name-variant fallback, the signing-side twin of the one in applyTrades:
+      // the feed and the contract sheet disagree on the first name, so the deal
+      // silently never lands and the team's sheet is short a real salary. The
+      // two live cases are Nah'Shon/Bones Hyland (MIN) and Mohamed/Mo Bamba
+      // (UTA). Scoped to players ALREADY ON the signing team, and only when
+      // unique there: a league-wide surname match resolves "Pete Nance → MIL"
+      // to Larry Nance Jr. in Cleveland and "Alijah Martin → TOR" to Tyrese
+      // Martin in Brooklyn. Those two need curated stubs, not a guess.
+      const surname = norm(shortPlayerName(t.player));
+      const candidates = cloned.filter(
+        (x) =>
+          !x.deadMoney &&
+          x.teamId === team &&
+          norm(shortPlayerName(x.playerName)) === surname &&
+          !x.years.some((y) => y.leagueYear === YEAR && y.salary > 0),
+      );
+      if (candidates.length === 1) c = candidates[0];
+    }
     if (!c) continue; // unmatched signings skipped to avoid bad duplicates
     // Spotrac labels some re-signings "extension." A true extension of an
     // already-signed player adds FUTURE years — don't overwrite his current
@@ -1630,7 +1665,11 @@ function leagueStandings(liveContracts: Contract[]): Record<string, { nrtg: numb
   const wins = apportionWins(nrtgs.map(rawWins), LEAGUE_WINS);
   const standings: Record<string, { nrtg: number; wins: number }> = {};
   TEAM_IDS.forEach((t, i) => {
-    standings[t] = { nrtg: Math.round(nrtgs[i]! * 10) / 10, wins: wins[i]! };
+    // `+ 0` collapses IEEE negative zero: a team that rounds to -0.04 comes out
+    // of Math.round as -0, which prints as "-0.0" on the team page and, once the
+    // strength snapshot round-trips through JSON (where -0 serializes as 0),
+    // fails the identity check against its own cached baseline.
+    standings[t] = { nrtg: Math.round(nrtgs[i]! * 10) / 10 + 0, wins: wins[i]! };
   });
   _standingsCache = { ref: liveContracts, standings };
   return standings;

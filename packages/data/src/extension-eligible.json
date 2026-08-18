@@ -917,6 +917,15 @@
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
+    },
+    {
+      "date": "8/7/2027",
+      "player": "Lauri Markkanen",
+      "team": "UTA",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
     }
   ]
 }

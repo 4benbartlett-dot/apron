@@ -1,12 +1,23 @@
 {
   "note": "Corrections from a July 2026 data audit (statuses verified against ESPN / Hoops Rumors / SalarySwish / Spotrac). waivedFreeAgents: players a team waived who are unsigned UFAs — surfaced as signable, with no Bird rights and no team cap hold. suppressDeadCap: dead-money charges that are wrong and should not sit on a team's books. resolvedOfferSheets: RFA offer sheets treated as resolved so the player leaves his old team's hold.",
-  "asOf": "2026-07-08",
+  "asOf": "2026-08-17",
   "waivedFreeAgents": [
-    { "playerId": "derozde01", "name": "DeMar DeRozan", "priorTeam": "SAC", "lastSalary": 24570000, "note": "Waived by Sacramento Jul 6 2026; unsigned UFA. SAC keeps his $10M dead-money guarantee." }
+    {
+      "playerId": "derozde01",
+      "name": "DeMar DeRozan",
+      "priorTeam": "SAC",
+      "lastSalary": 24570000,
+      "note": "Waived by Sacramento Jul 6 2026; unsigned UFA. SAC keeps his $10M dead-money guarantee."
+    }
   ],
-  "suppressDeadCap": ["Brandon Clarke", "Vasilije Micic"],
-  "resolvedOfferSheets": ["Quinten Post"],
+  "suppressDeadCap": [
+    "Brandon Clarke",
+    "Vasilije Micic"
+  ],
+  "resolvedOfferSheets": [
+    "Quinten Post"
+  ],
   "resolvedOfferSheetsNote": "Jul 7 2026, 11:50 PM ET (Slater/ESPN, Shams, Fischer): Golden State declined to match Memphis' 3yr/$30M offer sheet (Y1 $9M guaranteed + $1.35M unlikely incentives), so Post joins the Grizzlies. No longer a pending GSW hold.",
-  "pendingSignings": ["Larry Nance Jr."],
-  "pendingSigningsNote": "Jul 8 2026 (Hoops Rumors, Forbes/East): Nance agreed to a 1yr veteran minimum with IND ($3.88M salary, ~$2.45M cap charge), with Micah Potter's non-guaranteed $2.8M waived the same day to make room. Even so, the min charge would sit ~$0.85M OVER Indiana's Oubre NT-MLE first-apron hard cap on our reconciled sheet, and reporting has not resolved his guarantee structure (Hoops Rumors floated a zero-charge Exhibit 10 for exactly this reason). Held as pending — no IND charge, he keeps his CLE free-agent hold — until the feed shows the executing terms or the cap-clearing move."
+  "pendingSignings": [],
+  "pendingSigningsNote": "Larry Nance Jr. was held pending Jul 8 - Aug 17 2026: he agreed to a 1yr veteran minimum with IND ($3.88M salary, ~$2.45M cap charge), but on our reconciled sheet that charge sat ~$0.85M OVER Indiana's Oubre NT-MLE first-apron hard cap, and reporting had not resolved his guarantee structure. Released Aug 17: the feed carries the executing row (Jul 9, \"Signed a 1 year $3.88 million contract\", past tense with terms), and Indiana's sheet has since fallen to $203.981M — $5.034M under the $209.015M hard cap, so the deemed 2-YOS charge of $2,449,421 now fits with $2.585M to spare. The reason for the hold expired; the hold should not outlive it."
 }

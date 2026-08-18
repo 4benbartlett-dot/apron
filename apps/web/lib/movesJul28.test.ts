@@ -154,8 +154,17 @@ describe("Jul 11–28 real trades validate as legal", () => {
     expect(okcPost).toBeLessThanOrEqual(C.secondApron);
   });
 
+  // The Clippers absorbed Broome into CAP ROOM, which means this replay is only
+  // reconstructible if the sheet is rewound past everything they signed AFTER
+  // Jul 28. Beal's Aug 13 Non-Bird deal ($6,424,800) alone puts them $4.6M over
+  // the cap, and an over-cap team taking back $2.15M for nothing has no
+  // matching band that works — the move would read illegal for a reason that
+  // did not exist on the day it happened. Un-sign the August additions and the
+  // room is there again: this is the harness's job, not a rule failure.
   it("Jul 28 — PHI dumps Johni Broome + a 2027 2nd to LAC for cash", () => {
-    const pre = unTrade(clone(BASE_CONTRACTS), { [strip("Johni Broome")]: "PHI" });
+    let pre = unTrade(clone(BASE_CONTRACTS), { [strip("Johni Broome")]: "PHI" });
+    for (const later of ["Bradley Beal", "Jalen Pickett"]) pre = unSign(pre, later);
+    expect(committed(pre, "LAC")).toBeLessThan(C.salaryCap);
     const v = validateTrade(
       leagueData(pre),
       {
