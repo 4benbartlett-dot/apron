@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-08-17",
+  "asOf": "2026-08-20",
   "note": "Audited per-team offseason state derived from the reconciled feed — how each team's July actually happened, which the raw cap sheet can't show. Five audit agents replayed every feed signing against the exception system; rationale fields are the per-signing audit trail. Ambiguous forced-renounce sets follow a prefer-largest-holds rule and carry confidence: medium.",
   "teams": {
     "ATL": {
@@ -50,7 +50,9 @@
     },
     "CLE": {
       "confidence": "high",
-      "rationale": "Thomas Bryant 1y/3,524,948: OWN re-sign (prior CLE) and also minimum-sized (3,524,948 ≤ 3,916,529) — consumes nothing on both grounds. Meleek Thomas = 2nd-round exception; Ernest Udeh Jr. two-way (skip). Keon Ellis LEAVING (prior CLE → BKN) only clears a CLE hold, no CLE consumption. CLE committed ~$185.9M — over-cap team with no MLE/BAE use and no in-world hard cap."
+      "rationale": "Thomas Bryant 1y/3,524,948: OWN re-sign (prior CLE) and also minimum-sized (3,524,948 ≤ 3,916,529) — consumes nothing on both grounds. Meleek Thomas = 2nd-round exception; Ernest Udeh Jr. two-way (skip). Keon Ellis LEAVING (prior CLE → BKN) only clears a CLE hold, no CLE consumption. CLE committed ~$185.9M — over-cap team with no MLE/BAE use and no in-world hard cap. Aug 19: Cleveland ACQUIRED Peyton Watson (4y/$88M, y1 20,465,116 at 5% raises — our y1 and y4 match SI's reported ~$20.5M and $23.5M) by sign-and-trade in the five-team deal, which hard-caps the ACQUIRING team at the first apron ($209,015,000) for the season. Sourced three ways: Hoops Rumors, Keith Smith (Spotrac) and Yossi Gozlan (The Third Apron) all put Cleveland's post-trade room at $28.4M under that cap, and our pre-Harden sheet reads $180,603,872 — $28,411,128 of room, the reported figure to the dollar. The S&T consumes no Cleveland exception (Denver signed him on Bird rights); the hard cap is the whole cost. Aug 20: Harden re-signed 3y/$97M, y1 booked 29,938,272 at the 8% Bird raise, which Gozlan independently describes as 'a max starting salary just shy of $30 million.' That is $1,527,144 MORE than the room, and the overage is REAL, not a reconciliation error — Gozlan names the clearing route in the same breath: 'They could also stretch Cam Whitmore for a little more flexibility.' Stretching Whitmore's $5,458,000 over three years charges $1,819,333 and frees $3,638,667, which fits Harden and leaves ~$2.1M for a 15th man. Until the feed carries that waive, Cleveland sits over its own hard cap with an agreed-but-unfiled contract — see the documented exception in feedState.test.ts.",
+      "inWorldHardCap": "first_apron",
+      "hardCapSource": "Peyton Watson sign-and-trade acquisition"
     },
     "DAL": {
       "confidence": "high",

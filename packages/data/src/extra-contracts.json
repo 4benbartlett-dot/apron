@@ -1,16 +1,16 @@
 {
  "asOf": "2026-08-17",
- "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player.",
+ "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player (dedupe is by NAME, so the id below is free to be the real one). Aug 17 2026: playerId is now the player's REAL Basketball-Reference id wherever one exists, verified against the name-bearing rows in player-stats-history.json — a synthetic curated-* id is keyed to nothing, so ratings/experience/positions/bio/impact all miss and the player enters the model at the age-27, ~22-mpg, av-51 default. Only the four with genuinely no NBA row (Alpha Diallo, Arthur Kaluma, Tarik Biberovic, Bogoljub Markovic) keep a curated-* id.",
  "players": [
   {
-   "playerId": "curated-ron-harper-jr",
+   "playerId": "harpero02",
    "playerName": "Ron Harper Jr.",
    "teamId": "BOS",
    "years": [],
    "why": "Official Jul 6: 4y/$13,548,235 with BOS (y1 3,150,752, Non-Bird-of-minimum, consumes nothing). No bref contracts row — he spent 2025-26 off an NBA standard deal."
   },
   {
-   "playerId": "curated-ryan-nembhard",
+   "playerId": "nembhry01",
    "playerName": "Ryan Nembhard",
    "teamId": "DAL",
    "years": [
@@ -23,14 +23,14 @@
    "why": "Jun 29 feed: 'Dallas (DAL) exercised $2.15 million option for 2026-27'. Traded to ATL Jul 19 in the three-team Dort/Risacher deal — stubbed on DAL so applyTrades moves him. No 2025-26 bref contracts row (he was on a two-way)."
   },
   {
-   "playerId": "curated-mario-hezonja",
+   "playerId": "hezonma01",
    "playerName": "Mario Hezonja",
    "teamId": "CLE",
    "years": [],
    "why": "Agreed Jul 26 to a 1y/$2.8M deal with CLE (ESPN, RealGM) — first NBA deal since 2019-20, so no 2025-26 sheet row. Booked through manual-moves until Spotrac's feed carries it."
   },
   {
-   "playerId": "curated-trey-lyles",
+   "playerId": "lylestr01",
    "playerName": "Trey Lyles",
    "teamId": "MIN",
    "years": [],
@@ -44,35 +44,35 @@
    "why": "Feed Jul 15: 'Signed 1 year $1.36 million contract with Denver (DEN)'. Arrived from Monaco (France) — no 2025-26 NBA sheet row."
   },
   {
-   "playerId": "curated-moussa-cisse",
+   "playerId": "cissemo01",
    "playerName": "Moussa Cisse",
    "teamId": "DAL",
    "years": [],
    "why": "Feed Jul 22: DAL matched New York's 2y/$4.76M offer sheet on the two-way RFA. Signings feed carries the terms; no 2025-26 standard-contract row."
   },
   {
-   "playerId": "curated-isaiah-crawford",
+   "playerId": "crawfis01",
    "playerName": "Isaiah Crawford",
    "teamId": "HOU",
    "years": [],
    "why": "Feed Jul 22: 'Signed a 4 year $11.27 million contract with Houston (HOU) - includes 2029-30 Club Option', converting off his two-way QO."
   },
   {
-   "playerId": "curated-oscar-tshiebwe",
+   "playerId": "tshieos01",
    "playerName": "Oscar Tshiebwe",
    "teamId": "HOU",
    "years": [],
    "why": "Feed Jul 24: signed with HOU on an Exhibit 10 after UTA declined his qualifying offer. Signings feed carries 1y/$2,537,526."
   },
   {
-   "playerId": "curated-jalen-slawson",
+   "playerId": "slawsja01",
    "playerName": "Jalen Slawson",
    "teamId": "IND",
    "years": [],
    "why": "Feed Jul 22: 'Signed a Two-Way contract with Indiana (IND)' off his two-way QO. Two-ways carry no cap salary."
   },
   {
-   "playerId": "curated-caleb-love",
+   "playerId": "loveca01",
    "playerName": "Caleb Love",
    "teamId": "PHI",
    "years": [],
@@ -86,14 +86,14 @@
    "why": "Feed Jul 22: 'Signed a Two-Way contract with Los Angeles (LAL)'."
   },
   {
-   "playerId": "curated-jamir-watkins",
+   "playerId": "watkija01",
    "playerName": "Jamir Watkins",
    "teamId": "WAS",
    "years": [],
    "why": "Feed Jul 1: 'Signed a Two-Way contract with Washington (WAS)' off his qualifying offer."
   },
   {
-   "playerId": "curated-lonnie-walker-iv",
+   "playerId": "walkelo01",
    "playerName": "Lonnie Walker IV",
    "teamId": "DEN",
    "years": [],
@@ -107,7 +107,7 @@
    "why": "Feed Jul 10: 'Signed a 2 year $6 million contract with Dallas (DAL) - includes 2027-28 Team Option', two days after the six-team deal sent his rights from MEM to DAL. Stubbed on DAL, the team he signed with, so the trade row is a no-op rather than a second move. No 2025-26 sheet row — he was in Europe."
   },
   {
-   "playerId": "curated-pete-nance",
+   "playerId": "nancepe01",
    "playerName": "Pete Nance",
    "teamId": "MIL",
    "years": [],
@@ -121,21 +121,21 @@
    "why": "Feed Jul 1: 'Signed a 4 year $9.26 million contract with Milwaukee (MIL) - includes 2029-30 Team Option' — the second-round pick exception shape for a 2025 draft-and-stash. No 2025-26 NBA sheet row."
   },
   {
-   "playerId": "curated-alijah-martin",
+   "playerId": "martial01",
    "playerName": "Alijah Martin",
    "teamId": "TOR",
    "years": [],
    "why": "Feed Jul 3: 'Signed a 2 year $4.76 million contract with Toronto (TOR) - includes 2027-28 Player Option' off his two-way qualifying offer — the same standard-minimum shape as Moussa Cisse's matched sheet. A stub and not a surname fallback: 'Martin' resolves league-wide to Tyrese Martin in Brooklyn."
   },
   {
-   "playerId": "curated-daeqwon-plowden",
+   "playerId": "plowdda01",
    "playerName": "Daeqwon Plowden",
    "teamId": "SAC",
    "years": [],
    "why": "Feed Jul 2: 'Agreed to 2 year $5.11 million contract with Sacramento (SAC)' after SAC tendered a two-way qualifying offer Jun 26. Signings feed carries the terms as Official."
   },
   {
-   "playerId": "curated-branden-carlson",
+   "playerId": "carlsbr01",
    "playerName": "Branden Carlson",
    "teamId": "POR",
    "years": [],

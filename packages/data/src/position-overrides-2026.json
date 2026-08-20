@@ -1,25 +1,25 @@
 {
-  "source": "Curated position overrides — a league-wide role review (30-team agent pass, adversarially verified) layered on top of the Basketball-Reference play-by-play scrape. Fills secondary positions the play-by-play table never measured (only ~230 players qualify) and corrects role-blind adjacency fallbacks (e.g. a small-ball five's second spot is C, not SF). Measured play-by-play primaries stay authoritative; only advanced-page fallback primaries are corrected here. Jul 28 2026: added the curated-* stubs for players with no Basketball-Reference row (overseas returnees, two-way conversions, a traded two-way) — primary from Spotrac's feed position where specific, else the slot they actually play. Aug 17 2026: seven more stubs (the Jul 1 – Aug 5 signings whose sheet row never existed), same rule — feed position where specific, and Plowden's bare \"G\" read as SG.",
+  "source": "Curated position overrides — a league-wide role review (30-team agent pass, adversarially verified) layered on top of the Basketball-Reference play-by-play scrape. Fills secondary positions the play-by-play table never measured (only ~230 players qualify) and corrects role-blind adjacency fallbacks (e.g. a small-ball five's second spot is C, not SF). Measured play-by-play primaries stay authoritative; only advanced-page fallback primaries are corrected here. Jul 28 2026: added the curated-* stubs for players with no Basketball-Reference row (overseas returnees, two-way conversions, a traded two-way) — primary from Spotrac's feed position where specific, else the slot they actually play. Aug 17 2026: seven more stubs (the Jul 1 – Aug 5 signings whose sheet row never existed), same rule — feed position where specific, and Plowden's bare \"G\" read as SG. Aug 17 2026 (later): the fifteen stubs that turned out to have real Basketball-Reference ids were rekeyed from curated-* to those ids. Every one of them is an advanced-page fallback primary in positions-2026.json (none has play-by-play shares), so the curated read still wins under the rule above; Ron Harper Jr. is the exception — harpero02 IS measured (89% SF), so his stub key was dropped from positions-2026.json rather than moved here.",
   "byId": {
-    "curated-alijah-martin": "SG",
+    "carlsbr01": "C",
+    "cissemo01": "C",
+    "crawfis01": "SF",
     "curated-alpha-diallo": "SF",
     "curated-bogoljub-markovic": "PF",
-    "curated-branden-carlson": "C",
-    "curated-caleb-love": "SG",
-    "curated-daeqwon-plowden": "SG",
-    "curated-isaiah-crawford": "SF",
-    "curated-jalen-slawson": "PF",
-    "curated-jamir-watkins": "SF",
-    "curated-lonnie-walker-iv": "SG",
-    "curated-mario-hezonja": "SF",
-    "curated-moussa-cisse": "C",
-    "curated-oscar-tshiebwe": "C",
-    "curated-pete-nance": "PF",
-    "curated-ryan-nembhard": "PG",
     "curated-tarik-biberovic": "PF",
-    "curated-trey-lyles": "PF",
     "derozde01": "SF",
+    "hezonma01": "SF",
+    "loveca01": "SG",
+    "lylestr01": "PF",
+    "martial01": "SG",
+    "nancepe01": "PF",
+    "nembhry01": "PG",
+    "plowdda01": "SG",
+    "slawsja01": "PF",
     "thompkl01": "SG",
+    "tshieos01": "C",
+    "walkelo01": "SG",
+    "watkija01": "SF",
     "wellsja01": "SF"
   },
   "secondaryById": {
@@ -93,6 +93,9 @@
     "chrisma02": [
       "SF"
     ],
+    "cissemo01": [
+      "PF"
+    ],
     "clarkbr01": [
       "C"
     ],
@@ -108,35 +111,11 @@
     "cowarce01": [
       "SF"
     ],
+    "crawfis01": [
+      "PF"
+    ],
     "curated-alpha-diallo": [
       "PF"
-    ],
-    "curated-caleb-love": [
-      "PG"
-    ],
-    "curated-isaiah-crawford": [
-      "PF"
-    ],
-    "curated-jalen-slawson": [
-      "SF"
-    ],
-    "curated-jamir-watkins": [
-      "SG"
-    ],
-    "curated-mario-hezonja": [
-      "PF"
-    ],
-    "curated-moussa-cisse": [
-      "PF"
-    ],
-    "curated-oscar-tshiebwe": [
-      "PF"
-    ],
-    "curated-ryan-nembhard": [
-      "SG"
-    ],
-    "curated-trey-lyles": [
-      "C"
     ],
     "curryst01": [
       "SG"
@@ -212,6 +191,9 @@
     ],
     "herroty01": [
       "PG"
+    ],
+    "hezonma01": [
+      "PF"
     ],
     "holmgch01": [
       "PF"
@@ -289,6 +271,12 @@
     "lillada01": [
       "SG"
     ],
+    "loveca01": [
+      "PG"
+    ],
+    "lylestr01": [
+      "C"
+    ],
     "mannte01": [
       "SF"
     ],
@@ -361,6 +349,9 @@
       "SG"
     ],
     "nembhan01": [
+      "SG"
+    ],
+    "nembhry01": [
       "SG"
     ],
     "nesmiaa01": [
@@ -454,6 +445,9 @@
     "siakapa01": [
       "SF"
     ],
+    "slawsja01": [
+      "SF"
+    ],
     "smithdr01": [
       "PG"
     ],
@@ -484,6 +478,9 @@
     "trentga02": [
       "SF"
     ],
+    "tshieos01": [
+      "PF"
+    ],
     "walkeja01": [
       "PF"
     ],
@@ -496,6 +493,9 @@
     "washipj01": [
       "SF",
       "C"
+    ],
+    "watkija01": [
+      "SG"
     ],
     "wellsja01": [
       "SG"

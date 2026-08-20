@@ -33,6 +33,14 @@
       "aav": 22400000,
       "status": "Official"
     },
+    "peyton watson": {
+      "name": "Peyton Watson",
+      "team": "CLE",
+      "years": 4,
+      "total": 88000000,
+      "aav": 22000000,
+      "status": "Agreed"
+    },
     "tari eason": {
       "name": "Tari Eason",
       "team": "HOU",
@@ -631,7 +639,7 @@
       "years": 1,
       "total": 2845883,
       "aav": 2845883,
-      "status": "Agreed"
+      "status": "Official"
     },
     "ziaire williams": {
       "name": "Ziaire Williams",
@@ -896,6 +904,14 @@
       "total": 0,
       "aav": 0,
       "status": "Official"
+    },
+    "james harden": {
+      "name": "James Harden",
+      "team": "CLE",
+      "years": 3,
+      "total": 0,
+      "aav": 0,
+      "status": "Agreed"
     }
   }
 }
