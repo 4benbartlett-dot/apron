@@ -3,7 +3,7 @@ import { TeamLogo } from "@/components/TeamLogo";
 import type { NewsDay, NewsMove } from "@/lib/newsDay";
 
 /**
- * The wire, collapsed. Each move is one line until you ask for it — a phone
+ * The real moves, collapsed. Each one is a line until you ask for it — a phone
  * opening the board should see the headline and the team picker together, not
  * scroll past a full ruling to reach the thing it came for.
  *
