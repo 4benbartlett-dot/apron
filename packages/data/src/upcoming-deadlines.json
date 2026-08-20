@@ -488,12 +488,48 @@
     },
     {
       "date": "10/20/2026",
+      "player": "Sean Pedulla",
+      "team": "HOU",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — $200,000; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Braden Smith",
+      "team": "IND",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Jalen Pickett",
+      "team": "LAC",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
       "player": "Jamarion Sharp",
       "team": "LAC",
       "pos": "C",
       "kind": "GUARANTEED",
       "amount": 0,
       "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Trendon Watford",
+      "team": "NOP",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 500000,
+      "note": "Guaranteed — — Opening Night"
     },
     {
       "date": "10/21/2026",
@@ -1072,6 +1108,15 @@
       "note": "Guaranteed"
     },
     {
+      "date": "12/30/2026",
+      "player": "Trendon Watford",
+      "team": "NOP",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 2845883,
+      "note": "Guaranteed"
+    },
+    {
       "date": "1/6/2027",
       "player": "Giannis Antetokounmpo",
       "team": "MIA",
@@ -1231,6 +1276,15 @@
       "pos": "PG",
       "kind": "GUARANTEED",
       "amount": 2584539,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Haywood Highsmith",
+      "team": "PHX",
+      "pos": "F",
+      "kind": "GUARANTEED",
+      "amount": 3066143,
       "note": "Guaranteed"
     },
     {
@@ -2049,7 +2103,7 @@
       "team": "LAC",
       "pos": "SG",
       "kind": "PLAYER",
-      "amount": 6746040,
+      "amount": 3373020,
       "note": "Player Option"
     },
     {
@@ -2378,16 +2432,16 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Hunter Dickinson",
+      "player": "Jaron Pierre Jr.",
       "team": "NOP",
-      "pos": "C",
+      "pos": "F",
       "kind": "RFA / QO",
       "amount": 0,
       "note": "Qualifying Offer — — TBD - Two-Way"
     },
     {
       "date": "6/29/2027",
-      "player": "Jaron Pierre Jr.",
+      "player": "Malik Dia",
       "team": "NOP",
       "pos": "F",
       "kind": "RFA / QO",
@@ -3628,6 +3682,15 @@
       "note": "Extension Eligible"
     },
     {
+      "date": "7/10/2027",
+      "player": "Daeqwon Plowden",
+      "team": "SAC",
+      "pos": "G",
+      "kind": "GUARANTEED",
+      "amount": 2664401,
+      "note": "Guaranteed"
+    },
+    {
       "date": "7/11/2027",
       "player": "Isaiah Jackson",
       "team": "LAC",
@@ -3770,6 +3833,15 @@
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
+    },
+    {
+      "date": "8/18/2027",
+      "player": "Bradley Beal",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "GUARANTEED",
+      "amount": 6746040,
+      "note": "Guaranteed"
     }
   ]
 }

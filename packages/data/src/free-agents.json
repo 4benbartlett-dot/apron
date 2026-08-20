@@ -1,12 +1,6 @@
 {
   "source": "Spotrac free agents (via Firecrawl)",
   "byName": {
-    "james harden": {
-      "name": "James Harden",
-      "team": "CLE",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "jonathan kuminga": {
       "name": "Jonathan Kuminga",
       "team": "ATL",
@@ -85,15 +79,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "dwight powell": {
-      "name": "Dwight Powell",
-      "team": "DAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "kevin love": {
       "name": "Kevin Love",
       "team": "UTA",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "dwight powell": {
+      "name": "Dwight Powell",
+      "team": "DAL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -109,18 +103,6 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "jeff green": {
-      "name": "Jeff Green",
-      "team": "HOU",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "doug mcdermott": {
-      "name": "Doug McDermott",
-      "team": "SAC",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
     "kyle lowry": {
       "name": "Kyle Lowry",
       "team": "PHI",
@@ -132,6 +114,18 @@
       "team": "TOR",
       "restriction": "UFA",
       "birdStatus": "bird"
+    },
+    "jeff green": {
+      "name": "Jeff Green",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
     },
     "patrick baldwin": {
       "name": "Patrick Baldwin Jr.",
@@ -183,12 +177,6 @@
       "team": "PHX",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "peyton watson": {
-      "name": "Peyton Watson",
-      "team": "DEN",
-      "restriction": "RFA",
-      "birdStatus": "bird"
     },
     "seth curry": {
       "name": "Seth Curry",

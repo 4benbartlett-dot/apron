@@ -2,6 +2,90 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "James Harden",
+      "pos": "SG",
+      "date": "Aug 20, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $97 million contract with Cleveland Cavaliers (CLE) - includes 2028-29 Player Option"
+    },
+    {
+      "player": "Julian Reese",
+      "pos": "F",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Denver (DEN) from Washington (WAS) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Cam Whitmore",
+      "pos": "SF",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Cleveland (CLE) from Washington (WAS) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Tre Mann",
+      "pos": "PG",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Washington (WAS) from Cleveland (CLE) as part of a 5-team trade: Traded to Washington (WAS) from Charlotte (CHA) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN)"
+    },
+    {
+      "player": "Ismael Kamagate",
+      "pos": "C",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Cleveland (CLE) from LA (LAC) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Max Strus",
+      "pos": "SG",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Cleveland (CLE) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Peyton Watson",
+      "pos": "SG",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Cleveland (CLE) from Denver (DEN) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Peyton Watson",
+      "pos": "SG",
+      "date": "Aug 19, 2026",
+      "type": "Signing",
+      "detail": "Agreed to 4 year $88 million contract with Denver (DEN) as part of a Sign-and-Trade with Cleveland (CLE) - includes 2029-30 Player Option"
+    },
+    {
+      "player": "Dennis Schröder",
+      "pos": "PG",
+      "date": "Aug 19, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Cleveland (CLE) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Malik Dia",
+      "pos": "F",
+      "date": "Aug 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with New Orleans (NOP)"
+    },
+    {
+      "player": "Hunter Dickinson",
+      "pos": "C",
+      "date": "Aug 18, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans (NOP)"
+    },
+    {
+      "player": "Malachi Smith",
+      "pos": "G",
+      "date": "Aug 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Toronto (TOR) - Exhibit 10"
+    },
+    {
       "player": "Sean Pedulla",
       "pos": "G",
       "date": "Aug 17, 2026",
@@ -28,6 +112,20 @@
       "date": "Aug 17, 2026",
       "type": "Signing",
       "detail": "Agreed to a 1 year $3.07 million contract with Phoenix (PHX)"
+    },
+    {
+      "player": "Trendon Watford",
+      "pos": "PF",
+      "date": "Aug 17, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.85 million contract with New Orleans (NOP)"
+    },
+    {
+      "player": "Haywood Highsmith",
+      "pos": "F",
+      "date": "Aug 17, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.07 million contract with Phoenix (PHX)"
     },
     {
       "player": "Tre Mann",

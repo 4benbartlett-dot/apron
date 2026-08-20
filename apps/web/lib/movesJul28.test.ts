@@ -8,6 +8,7 @@ import {
 } from "@apron/cba-engine";
 import { BASE_CONTRACTS, C, YEAR, leagueData, freeAgentsOf, normName } from "@/lib/league";
 import { getLeagueData, TRANSACTIONS } from "@apron/data";
+import { rewind } from "@/lib/replayRewind";
 
 // ---------------------------------------------------------------------------
 // REPLAY HARNESS — the Jul 11 → Jul 28, 2026 wave.
@@ -159,11 +160,11 @@ describe("Jul 11–28 real trades validate as legal", () => {
   // Jul 28. Beal's Aug 13 Non-Bird deal ($6,424,800) alone puts them $4.6M over
   // the cap, and an over-cap team taking back $2.15M for nothing has no
   // matching band that works — the move would read illegal for a reason that
-  // did not exist on the day it happened. Un-sign the August additions and the
+  // did not exist on the day it happened. Rewind the Clippers to Jul 28 and the
   // room is there again: this is the harness's job, not a rule failure.
   it("Jul 28 — PHI dumps Johni Broome + a 2027 2nd to LAC for cash", () => {
     let pre = unTrade(clone(BASE_CONTRACTS), { [strip("Johni Broome")]: "PHI" });
-    for (const later of ["Bradley Beal", "Jalen Pickett"]) pre = unSign(pre, later);
+    pre = rewind(pre, "2026-07-28", ["LAC", "PHI"]);
     expect(committed(pre, "LAC")).toBeLessThan(C.salaryCap);
     const v = validateTrade(
       leagueData(pre),
