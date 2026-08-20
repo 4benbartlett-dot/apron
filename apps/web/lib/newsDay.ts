@@ -6,7 +6,7 @@ import {
   type Contract,
   type TeamTradeSummary,
 } from "@apron/cba-engine";
-import { TRANSACTIONS } from "@apron/data";
+import { TRANSACTIONS, type Transaction } from "@apron/data";
 import {
   BASE_CONTRACTS,
   C,
@@ -101,7 +101,7 @@ const std = (code: string) => TEAM_FIX[code.toUpperCase()] ?? code.toUpperCase()
 const isTeam = (code: string) => TEAM_IDS.includes(std(code));
 
 /** The day before `iso`, which is the sheet a move has to be measured against. */
-function dayBefore(iso: string): string {
+export function dayBefore(iso: string): string {
   const d = new Date(`${iso}T12:00:00Z`);
   d.setUTCDate(d.getUTCDate() - 1);
   return d.toISOString().slice(0, 10);
@@ -118,7 +118,7 @@ function label(iso: string): string {
 
 /** Split a trade clause's asset list without breaking on bracketed notes,
  * which contain their own " and " ("[least favorable of BKN/DAL pick]"). */
-function splitAssets(s: string): string[] {
+export function splitAssets(s: string): string[] {
   const parts: string[] = [];
   let depth = 0;
   let buf = "";
@@ -136,30 +136,56 @@ function splitAssets(s: string): string[] {
   return parts.map((p) => p.trim()).filter(Boolean);
 }
 
-interface Leg { from: string; to: string; asset: string; kind: "player" | "pick" | "cash" }
+export interface Leg { from: string; to: string; asset: string; kind: "player" | "pick" | "cash" }
 
 /** Every leg the prose enumerates. Multi-team rows carry the full ledger after
  * "as part of a N-team trade:", each row omitting only its OWN player leg —
  * so the union across a day's rows is the complete deal. */
-function parseLegs(detail: string): Leg[] {
+export function parseLegs(detail: string): Leg[] {
   const tail = detail.split(/as part of a \d+-team trade:/i)[1];
-  if (!tail) return [];
+  // A two-team row has no ledger — it says "Traded to X from Y for Z and cash".
+  // Skipping it drops the cash, and cash is a row-I trigger that hard-caps the
+  // sender at the SECOND apron. The Aug 14 Schröder deal is exactly this shape.
+  if (!tail) return parseSimple(detail);
   const out: Leg[] = [];
   for (const clause of tail.split(";")) {
     const m = clause.trim().match(/^(.+?)\s*\(([A-Za-z]{2,4})\)\s*traded\s+(.+?)\s+to\s+(.+?)\s*\(([A-Za-z]{2,4})\)\s*$/);
     if (!m || !isTeam(m[2]!) || !isTeam(m[5]!)) continue;
     for (const raw of splitAssets(m[3]!)) {
       const asset = raw.replace(/^(a|an|the)\s+/i, "").trim();
-      const kind = /round pick/i.test(asset)
-        ? "pick"
-        : /^\$?[\d,]+$/.test(asset) || /^cash/i.test(asset)
-          ? "cash"
-          : "player";
-      out.push({ from: std(m[2]!), to: std(m[5]!), asset, kind });
+      out.push({ from: std(m[2]!), to: std(m[5]!), asset, kind: classifyAsset(asset) });
     }
   }
   return out;
 }
+
+/** The return side of a two-team row: "Traded to CLE from CHA for X and cash". */
+function parseSimple(detail: string): Leg[] {
+  const m = detail.match(
+    /Traded to\s+(.+?)\s*\(([A-Za-z]{2,4})\)\s*from\s+(.+?)\s*\(([A-Za-z]{2,4})\)(?:\s*(?:for|with)\s+(.+?))?\s*$/,
+  );
+  if (!m || !isTeam(m[2]!) || !isTeam(m[4]!) || !m[5]) return [];
+  const to = std(m[2]!);
+  const from = std(m[4]!);
+  const out: Leg[] = [];
+  for (const raw of splitAssets(m[5]!)) {
+    const asset = raw.replace(/^(a|an|the)\s+/i, "").trim();
+    const kind = classifyAsset(asset);
+    // The return side flows the OTHER way: he came from `from`, so what was
+    // paid for him went to `from`. Only cash and picks are taken here —
+    // the players on the return side have their own rows.
+    if (kind === "player") continue;
+    out.push({ from: to, to: from, asset, kind });
+  }
+  return out;
+}
+
+const classifyAsset = (asset: string): Leg["kind"] =>
+  /round pick/i.test(asset)
+    ? "pick"
+    : /^\$?[\d,]+$/.test(asset) || /^cash/i.test(asset)
+      ? "cash"
+      : "player";
 
 const contractOf = (name: string): Contract | undefined =>
   BASE_CONTRACTS.find((c) => normName(c.playerName) === normName(name) && !c.deadMoney);
@@ -197,7 +223,7 @@ const holdsOf = (pre: Contract[]) => (team: string) =>
 
 /* -------------------------------- trades --------------------------------- */
 
-function buildTrade(rows: typeof TRANSACTIONS, iso: string): NewsMove | null {
+function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null {
   // Each row's own prefix names the player and both ends of his leg; the
   // clause ledger (multi-team rows only) carries the picks and cash.
   // Every row repeats the same ledger, so the union has to be deduped or a
@@ -381,7 +407,7 @@ function buildTrade(rows: typeof TRANSACTIONS, iso: string): NewsMove | null {
 
 /* ------------------------------- signings -------------------------------- */
 
-function buildSigning(row: (typeof TRANSACTIONS)[number], iso: string): NewsMove | null {
+function buildSigning(row: Transaction, iso: string): NewsMove | null {
   const teamM = row.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
   const yearsM = row.detail.match(/(\d+)\s*year/);
   const totalM = row.detail.match(/\$\s*([\d.]+)\s*million/);
@@ -477,7 +503,7 @@ const tierLabel = (salary: number) => classifyTier(salary, C).replace(/_/g, " ")
 /* -------------------------------- the day -------------------------------- */
 
 /** Rows worth leading with: real trades and contracts with dollar terms. */
-function significant(t: (typeof TRANSACTIONS)[number]): boolean {
+function significant(t: Transaction): boolean {
   if (t.type === "Trade") return true;
   if (t.type !== "Signing" && t.type !== "Re-sign") return false;
   if (/Two-Way|Exhibit|as head coach|as an assistant/i.test(t.detail)) return false;
@@ -487,13 +513,26 @@ function significant(t: (typeof TRANSACTIONS)[number]): boolean {
 
 /**
  * The newest day the feed did something worth reading, with every move on it.
+ *
  * Cached at module scope: it is pure over data that only changes on a rebuild,
  * and the trade replay is not free.
+ *
+ * NEVER THROWS. This runs in the root layout, so an unhandled parse error here
+ * would 500 every page on the site — the trade machine, the cap sheets, all of
+ * it — because a wire feed changed a word. The news is the least important
+ * thing on the page and it does not get to take the rest down: on any failure
+ * the strip simply does not render, and the reason goes to the server log where
+ * the next data refresh will surface it.
  */
 let cached: NewsDay | null | undefined;
 export function latestNewsDay(): NewsDay | null {
   if (cached !== undefined) return cached;
-  cached = compute();
+  try {
+    cached = compute();
+  } catch (err) {
+    console.error("[newsDay] could not build the news card; hiding it:", err);
+    cached = null;
+  }
   return cached;
 }
 
@@ -516,30 +555,26 @@ function compute(): NewsDay | null {
   const rows = dated.filter((x) => window.includes(x.iso)).map((x) => x.t);
   const iso = window[0]!;
 
+  // Per-move isolation: one deal the prose cannot express must not cost the
+  // reader the others that parsed cleanly.
   const moves: NewsMove[] = [];
-  const tradeRows = rows.filter((r) => r.type === "Trade");
-  if (tradeRows.length) {
-    // One deal per set of teams: a five-teamer's seven rows are one move, not
-    // seven, and two unrelated same-day trades stay separate.
-    const groups = new Map<string, typeof tradeRows>();
-    for (const r of tradeRows) {
-      const codes = [...r.detail.matchAll(/\(([A-Za-z]{2,4})\)/g)]
-        .map((m) => std(m[1]!))
-        .filter((c) => TEAM_IDS.includes(c));
-      const key = `${isoDate(r.date)}|${[...new Set(codes)].sort().join("-")}`;
-      groups.set(key, [...(groups.get(key) ?? []), r]);
-    }
-    for (const [key, g] of groups) {
-      const m = buildTrade(g, key.split("|")[0]!);
-      if (m) moves.push(m);
-    }
+  for (const [key, g] of tradeGroups(rows)) {
+    const m = attempt(() => buildTrade(g, key.split("|")[0]!), `trade ${key}`);
+    if (m) moves.push(m);
   }
   // A sign-and-trade's signing row is already told by the trade card.
   const inTrades = new Set(moves.flatMap((m) => m.docket ?? []).flatMap((d) => [...d.gets, ...d.sends]).map((l) => normName(l.label)));
+  // The feed reports a deal twice — "Agreed to…" when it breaks and "Signed a…"
+  // when it is filed — and both can land inside the window. That is one piece
+  // of news, and the newest row is the one that is true. TRANSACTIONS is
+  // newest-first, so the first row per player wins.
+  const toldSigning = new Set<string>();
   for (const r of rows) {
     if (r.type === "Trade") continue;
-    if (/Sign-and-Trade/i.test(r.detail) || inTrades.has(normName(r.player))) continue;
-    const m = buildSigning(r, isoDate(r.date));
+    const k = normName(r.player);
+    if (/Sign-and-Trade/i.test(r.detail) || inTrades.has(k) || toldSigning.has(k)) continue;
+    toldSigning.add(k);
+    const m = attempt(() => buildSigning(r, isoDate(r.date)), `signing ${r.player}`);
     if (m) moves.push(m);
   }
   if (!moves.length) return null;
@@ -549,19 +584,58 @@ function compute(): NewsDay | null {
   return { date: iso, dateLabel: label(iso), moves };
 }
 
-/** How many moves a candidate window would yield, without building them. */
-function countMoves(window: string[]): number {
-  let n = 0;
-  const seenTrade = new Set<string>();
-  for (const t of TRANSACTIONS) {
-    const d = isoDate(t.date);
-    if (!window.includes(d) || !significant(t)) continue;
-    if (t.type !== "Trade") { n++; continue; }
-    const codes = [...t.detail.matchAll(/\(([A-Za-z]{2,4})\)/g)].map((m) => std(m[1]!)).filter((c) => TEAM_IDS.includes(c));
-    const key = `${d}|${[...new Set(codes)].sort().join("-")}`;
-    if (!seenTrade.has(key)) { seenTrade.add(key); n++; }
+/**
+ * One deal per date + set of teams: a five-teamer's seven rows are one move,
+ * not seven, and two unrelated same-day trades stay separate. Used both to
+ * size a candidate window and to build it, so the two can never disagree.
+ */
+export function tradeGroups(rows: readonly Transaction[]): Map<string, Transaction[]> {
+  const groups = new Map<string, Transaction[]>();
+  for (const r of rows) {
+    if (r.type !== "Trade") continue;
+    const codes = [...r.detail.matchAll(/\(([A-Za-z]{2,4})\)/g)]
+      .map((m) => std(m[1]!))
+      .filter((c) => TEAM_IDS.includes(c));
+    const key = `${isoDate(r.date)}|${[...new Set(codes)].sort().join("-")}`;
+    groups.set(key, [...(groups.get(key) ?? []), r]);
   }
-  return n;
+  return groups;
+}
+
+/** How many cards a candidate window would yield, without building them. */
+function countMoves(window: string[]): number {
+  const rows = TRANSACTIONS.filter((t) => window.includes(isoDate(t.date)) && significant(t));
+  const signings = new Set(rows.filter((r) => r.type !== "Trade").map((r) => normName(r.player)));
+  return tradeGroups(rows).size + signings.size;
+}
+
+function attempt<T>(fn: () => T | null, what: string): T | null {
+  try {
+    return fn();
+  } catch (err) {
+    console.error(`[newsDay] skipped ${what}:`, err);
+    return null;
+  }
+}
+
+/** What the strip needs, without shipping the rulings twice. */
+export function newsSummary(): {
+  id: string;
+  headline: string;
+  dateLabel: string;
+  teams: string[];
+  more: number;
+} | null {
+  const day = latestNewsDay();
+  if (!day) return null;
+  const lead = day.moves[0]!;
+  return {
+    id: `${day.date}:${day.moves.length}`,
+    headline: lead.headline,
+    dateLabel: lead.dateLabel,
+    teams: lead.teams,
+    more: day.moves.length - 1,
+  };
 }
 
 const swing = (m: NewsMove) =>

@@ -1,43 +1,64 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NewsCard } from "@/components/NewsCard";
+import { usePathname } from "next/navigation";
 import { TeamLogo } from "@/components/TeamLogo";
 import { track } from "@/lib/analytics";
-import type { NewsDay } from "@/lib/newsDay";
 
 const KEY = "ota:news-dismissed";
+
+export interface NewsSummary {
+  /** Dismissal key — changes when the news does. */
+  id: string;
+  headline: string;
+  dateLabel: string;
+  teams: string[];
+  /** How many other moves are behind the lede. */
+  more: number;
+}
 
 /**
  * The strip under the nav: what the league actually did, most recent first.
  *
  * Dismissal is keyed to the NEWS ITSELF, not to a "seen the bar once" flag —
  * closing it hides today's moves and nothing else, so the next real transaction
- * brings it back on its own. A reader who never dismisses it sees a one-line
- * strip; a reader who opens it gets the full filing without leaving the page.
+ * brings it back on its own.
+ *
+ * The rulings arrive as server-rendered `children`, so the only thing this
+ * client component owns is the open/dismissed state. The cards themselves never
+ * enter the client bundle.
  */
-export function NewsBar({ news }: { news: NewsDay | null }) {
+export function NewsBar({
+  summary,
+  children,
+}: {
+  summary: NewsSummary | null;
+  children: React.ReactNode;
+}) {
+  // The board already leads with the same wire, expanded to the same rows —
+  // a strip above it would be the news twice on the page most likely to be
+  // read on a phone. Everywhere else, the strip is the only way to see it.
+  const onBoard = usePathname() === "/";
+
   // Server and client must agree on the first paint, so the bar starts hidden
   // and appears once localStorage has been read. Anything else flashes.
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(true);
   const [open, setOpen] = useState(false);
 
-  const id = news ? `${news.date}:${news.moves.length}` : "";
+  const id = summary?.id ?? "";
 
   useEffect(() => {
-    if (!news) return;
+    if (!summary) return;
     try {
       setDismissed(localStorage.getItem(KEY) === id);
     } catch {
       setDismissed(false); // private mode — better to show it than to hide it
     }
     setReady(true);
-  }, [news, id]);
+  }, [summary, id]);
 
-  if (!news || !ready || dismissed) return null;
-  const lead = news.moves[0]!;
-  const more = news.moves.length - 1;
+  if (!summary || !ready || dismissed || onBoard) return null;
 
   const close = () => {
     try {
@@ -57,10 +78,13 @@ export function NewsBar({ news }: { news: NewsDay | null }) {
             className="shrink-0 rounded-[3px] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--bg)]"
             style={{ background: "var(--accent-ink)" }}
           >
-            It happened
+            The wire
+          </span>
+          <span className="tabular hidden shrink-0 text-[11px] text-[var(--muted)] sm:block">
+            {summary.dateLabel}
           </span>
           <span className="hidden shrink-0 items-center gap-1 sm:flex">
-            {lead.teams.slice(0, 5).map((t) => (
+            {summary.teams.slice(0, 5).map((t) => (
               <TeamLogo key={t} id={t} size={15} />
             ))}
           </span>
@@ -71,10 +95,11 @@ export function NewsBar({ news }: { news: NewsDay | null }) {
             }}
             className="min-w-0 flex-1 truncate text-left text-[12.5px] font-medium hover:underline"
             aria-expanded={open}
+            aria-controls="wire-panel"
           >
-            {lead.headline}
-            {more > 0 && (
-              <span className="text-[var(--muted)]"> · and {more} more</span>
+            {summary.headline}
+            {summary.more > 0 && (
+              <span className="text-[var(--muted)]"> · and {summary.more} more</span>
             )}
           </button>
           <button
@@ -83,6 +108,8 @@ export function NewsBar({ news }: { news: NewsDay | null }) {
               if (!open) track("news_expand");
             }}
             className="shrink-0 rounded-md border border-[var(--border-strong)] px-2 py-0.5 text-[11.5px] font-semibold text-[var(--accent-ink)] hover:bg-[var(--panel)]"
+            aria-expanded={open}
+            aria-controls="wire-panel"
           >
             {open ? "Hide" : "See the ruling"}
           </button>
@@ -95,13 +122,9 @@ export function NewsBar({ news }: { news: NewsDay | null }) {
           </button>
         </div>
 
-        {open && (
-          <div className="grid gap-3 pb-4 md:grid-cols-2">
-            {news.moves.map((m) => (
-              <NewsCard key={m.id} move={m} compact />
-            ))}
-          </div>
-        )}
+        <div id="wire-panel" hidden={!open} className="pb-3">
+          {children}
+        </div>
       </div>
     </div>
   );
