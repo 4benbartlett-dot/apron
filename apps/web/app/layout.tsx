@@ -11,7 +11,8 @@ import { FooterX } from "@/components/FooterX";
 import { SiteEggs } from "@/components/SiteEggs";
 import { SeasonTicker } from "@/components/SeasonTicker";
 import { NewsBar } from "@/components/NewsBar";
-import { latestNewsDay } from "@/lib/newsDay";
+import { NewsFeed } from "@/components/NewsFeed";
+import { latestNewsDay, newsSummary } from "@/lib/newsDay";
 
 const FOOT_LINK =
   "underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]";
@@ -60,6 +61,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const news = latestNewsDay();
   return (
     <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>
@@ -102,8 +104,11 @@ export default function RootLayout({
         </header>
         {/* Computed on the server: the replay is a few engine runs over data
             that only changes on a rebuild, so the client is handed the finished
-            verdict rather than the machinery. */}
-        <NewsBar news={latestNewsDay()} />
+            verdict rather than the machinery. The strip owns only its own
+            open/dismissed state; the rulings are server-rendered children. */}
+        <NewsBar summary={newsSummary()}>
+          {news ? <NewsFeed day={news} /> : null}
+        </NewsBar>
         <main className="mx-auto max-w-7xl px-4 py-6 pb-20 sm:px-6">
           {children}
         </main>

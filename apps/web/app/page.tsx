@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import OffseasonSim from "@/components/OffseasonSim";
-import { NewsCard } from "@/components/NewsCard";
+import { NewsFeed } from "@/components/NewsFeed";
 import { latestNewsDay } from "@/lib/newsDay";
 import { summarizeTrade, lastName } from "@/lib/trade-share";
 
@@ -46,19 +46,9 @@ export default function Home() {
   return (
     <>
       {news && (
-        <section className="mb-7">
-          <div className="mb-2.5 flex items-baseline justify-between gap-3">
-            <h2 className="text-[15px] font-bold tracking-tight">
-              What the league actually did
-            </h2>
-            <span className="label tabular">{news.dateLabel}</span>
-          </div>
-          <div className="grid gap-3 lg:grid-cols-2">
-            {news.moves.map((m) => (
-              <NewsCard key={m.id} move={m} />
-            ))}
-          </div>
-        </section>
+        <div className="mb-6">
+          <NewsFeed day={news} headed />
+        </div>
       )}
       <OffseasonSim />
     </>

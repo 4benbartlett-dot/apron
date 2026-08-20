@@ -31,9 +31,9 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
             <path d="M13 54 C 20 25, 37 14, 50 22" fill="none" stroke="var(--bg)" strokeWidth="5" strokeLinecap="round" />
             <circle cx="50.5" cy="21.5" r="6.5" fill="var(--bg)" />
           </svg>
-          <span className="text-[12.5px] font-bold tracking-tight">It happened</span>
+          <span className="text-[12.5px] font-bold tracking-tight">Off the wire</span>
         </div>
-        <span className="label tabular">{move.dateLabel}</span>
+        <span className="label tabular">Filed {move.dateLabel}</span>
       </div>
 
       {/* verdict header */}

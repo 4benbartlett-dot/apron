@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { latestNewsDay } from "@/lib/newsDay";
+import { latestNewsDay, splitAssets, parseLegs, dayBefore } from "@/lib/newsDay";
 import { DATA_AS_OF } from "@apron/data";
 
 // ---------------------------------------------------------------------------
@@ -68,5 +68,97 @@ describe("the latest news day", () => {
     const ids = day!.moves.map((m) => m.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(latestNewsDay()!.moves.map((m) => m.id)).toEqual(ids);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// THE PARSERS — the feed's prose is the one input here nobody controls, and a
+// wording change is the likeliest way this whole surface goes quietly wrong.
+// Each case below is a shape the live feed actually produced.
+// ---------------------------------------------------------------------------
+
+describe("reading the feed's prose", () => {
+  it("splits an asset list without breaking inside a bracketed note", () => {
+    // "[least favorable of BKN/DAL pick]" carries its own " and " in other rows,
+    // and a naive split on " and " tears the note in half.
+    expect(
+      splitAssets(
+        "Khris Middleton, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2033 2nd round pick [DAL pick]",
+      ),
+    ).toEqual([
+      "Khris Middleton",
+      "a 2027 2nd round pick [least favorable of BKN/DAL pick]",
+      "a 2033 2nd round pick [DAL pick]",
+    ]);
+  });
+
+  it("reads every leg of a multi-team ledger", () => {
+    const legs = parseLegs(
+      "Traded to Cleveland (CLE) from Denver (DEN) as part of a 5-team trade: " +
+        "Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); " +
+        "Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS)",
+    );
+    expect(legs).toEqual([
+      { from: "CLE", to: "DEN", asset: "2031 1st round pick", kind: "pick" },
+      { from: "CLE", to: "DEN", asset: "2032 2nd round pick [SAC pick]", kind: "pick" },
+      { from: "CLE", to: "WAS", asset: "Tre Mann", kind: "player" },
+      { from: "CLE", to: "WAS", asset: "2027 2nd round pick [LAC pick]", kind: "pick" },
+      { from: "CLE", to: "WAS", asset: "cash", kind: "cash" },
+    ]);
+  });
+
+  it("finds the cash in a TWO-team row, which carries no ledger at all", () => {
+    // Cash is a row-I trigger — it hard-caps the sender at the SECOND apron.
+    // Two-team rows say "…for X and cash" instead of enumerating legs, and
+    // skipping them drops the trigger silently. The Aug 14 Schröder deal is
+    // this exact shape.
+    const legs = parseLegs(
+      "Traded to Cleveland (CLE) from Charlotte (CHA) for Dennis Schröder and cash",
+    );
+    expect(legs).toEqual([{ from: "CLE", to: "CHA", asset: "cash", kind: "cash" }]);
+  });
+
+  it("ignores a team code that is not a team", () => {
+    expect(parseLegs("Traded to Somewhere (XYZ) from Nowhere (QQQ) for a 2027 1st round pick")).toEqual([]);
+  });
+
+  it("steps back a day across a month boundary", () => {
+    expect(dayBefore("2026-08-01")).toBe("2026-07-31");
+    expect(dayBefore("2027-01-01")).toBe("2026-12-31");
+    expect(dayBefore("2026-03-01")).toBe("2026-02-28");
+  });
+});
+
+describe("prose the feed has never produced but might", () => {
+  // This surface renders in the ROOT LAYOUT. A throw here would 500 the trade
+  // machine, the cap sheets and every team page because a wire service changed
+  // a word — so the parsers return nothing rather than raise, and the builders
+  // above them are individually caught.
+  const junk = [
+    "",
+    "Traded",
+    "Traded to (CLE) from (DEN)",
+    "as part of a 5-team trade:",
+    "Traded to Cleveland (CLE) from Denver (DEN) as part of a 5-team trade: ;;;",
+    "Traded to Cleveland (CLE) from Denver (DEN) as part of a 99-team trade: nonsense",
+    "Traded to Cleveland (CLE) from Denver (DEN) for [unclosed bracket",
+    "Traded to Cleveland (CLE) from Cleveland (CLE) for himself",
+  ];
+
+  it("never throws, whatever the row says", () => {
+    for (const d of junk) expect(() => parseLegs(d)).not.toThrow();
+    for (const d of junk) expect(() => splitAssets(d)).not.toThrow();
+  });
+
+  it("returns legs only when both ends are real teams", () => {
+    for (const d of junk)
+      for (const leg of parseLegs(d)) {
+        expect(leg.from).toMatch(/^[A-Z]{3}$/);
+        expect(leg.to).toMatch(/^[A-Z]{3}$/);
+      }
+  });
+
+  it("builds the day without throwing", () => {
+    expect(() => latestNewsDay()).not.toThrow();
   });
 });
