@@ -230,6 +230,24 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(hold.hold).toBe(Math.round(9_187_573 * 3));
     });
 
+    it("what the stretch leaves buys a rookie, not a veteran", () => {
+      // Marks, reported Aug 19: the waive-and-stretch puts Cleveland "~32M
+      // under the 1st Apron to sign Harden + one more player." The room checks
+      // out — $32,050,038 — but "one more player" is tighter than it sounds.
+      // After Harden there is $2,111,767, which clears the rookie minimum and
+      // falls $337,654 short of what Art. VII §3(f) charges for a one-year
+      // veteran minimum. It is the sharpest consequence on this sheet and it
+      // moves the moment any of the three inputs does, so it is pinned here.
+      const sal = (n: string) => currentSalary(BASE_CONTRACTS.find((c) => c.playerName === n)!);
+      const whitmore = sal("Cam Whitmore");
+      const preHarden = bookedSalary("CLE") - sal("James Harden");
+      const room = feedStateOf("CLE").hardCap - (preHarden - whitmore + Math.round(whitmore / 3));
+      const left = room - sal("James Harden");
+      console.log(`  after the stretch and Harden, CLE has $${left.toLocaleString()} for a 15th man`);
+      expect(left).toBeGreaterThanOrEqual(C.minimumSalaries[0]!); // a rookie fits
+      expect(left).toBeLessThan(C.minimumSalaries[2]!); // a veteran does not
+    });
+
     it("the reported stretch reproduces the room the beat writers published", () => {
       // Our $5,458,310 is their "$5.46 million"; our $1,819,437 stretched
       // charge is their "about $1.82 million". If a rescrape moves Whitmore's
