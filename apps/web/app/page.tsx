@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import OffseasonSim from "@/components/OffseasonSim";
+import { NewsCard } from "@/components/NewsCard";
+import { latestNewsDay } from "@/lib/newsDay";
 import { summarizeTrade, lastName } from "@/lib/trade-share";
 
 /** Bump when the OG-card renderer changes in a way X/Facebook should re-fetch.
@@ -40,5 +42,25 @@ export async function generateMetadata({
 }
 
 export default function Home() {
-  return <OffseasonSim />;
+  const news = latestNewsDay();
+  return (
+    <>
+      {news && (
+        <section className="mb-7">
+          <div className="mb-2.5 flex items-baseline justify-between gap-3">
+            <h2 className="text-[15px] font-bold tracking-tight">
+              What the league actually did
+            </h2>
+            <span className="label tabular">{news.dateLabel}</span>
+          </div>
+          <div className="grid gap-3 lg:grid-cols-2">
+            {news.moves.map((m) => (
+              <NewsCard key={m.id} move={m} />
+            ))}
+          </div>
+        </section>
+      )}
+      <OffseasonSim />
+    </>
+  );
 }

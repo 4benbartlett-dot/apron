@@ -10,6 +10,8 @@ import { NavLinks } from "@/components/NavLinks";
 import { FooterX } from "@/components/FooterX";
 import { SiteEggs } from "@/components/SiteEggs";
 import { SeasonTicker } from "@/components/SeasonTicker";
+import { NewsBar } from "@/components/NewsBar";
+import { latestNewsDay } from "@/lib/newsDay";
 
 const FOOT_LINK =
   "underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]";
@@ -98,6 +100,10 @@ export default function RootLayout({
             <SeasonTicker />
           </div>
         </header>
+        {/* Computed on the server: the replay is a few engine runs over data
+            that only changes on a rebuild, so the client is handed the finished
+            verdict rather than the machinery. */}
+        <NewsBar news={latestNewsDay()} />
         <main className="mx-auto max-w-7xl px-4 py-6 pb-20 sm:px-6">
           {children}
         </main>
