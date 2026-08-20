@@ -10,6 +10,7 @@ import {
   freeAgentsOf,
   teamMeta,
 } from "@/lib/league";
+import { getLeagueData } from "@apron/data";
 
 // FEED_TEAM_STATE: how each team's real July actually happened — audited by
 // five agents replaying every feed signing against the exception system
@@ -200,6 +201,33 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
         const relief = feedStateOf(t).pendingRelief;
         expect(relief?.source, `${t} is over its hard cap with no sourced way out`).toBeTruthy();
       }
+    });
+
+    it("Harden's expiring deal reproduces the contract history Marks published", () => {
+      // Bobby Marks' list of Harden's last four contracts has the expiring one
+      // as "7/6/25: 2/$81.5M w/LA Clippers (Player Option)". Our two years sum
+      // to that exactly, and the option year is the $42.3M he declined in June.
+      // This is the cleanest external check there is on a base-data row: a
+      // rescrape that drifts either year breaks the sum here.
+      const harden = getLeagueData().contracts.find((c) => c.playerName === "James Harden")!;
+      const y = (yr: string) => harden.years.find((x) => x.leagueYear === yr)?.salary ?? 0;
+      expect(y("2025-26") + y("2026-27")).toBe(81_500_000);
+      expect(y("2026-27")).toBe(42_317_307);
+    });
+
+    it("Mathurin's cap hold is the 300% prong, not his qualifying offer", () => {
+      // Art. VII §4(d)(1)(ii): a Qualifying Veteran Free Agent following the
+      // second Option Year of his rookie scale is included at 250% of prior
+      // salary, or 300% if that salary was below the Estimated Average. His
+      // $9,187,573 is under the $13.2M average, so 300% it is. Marks counts him
+      // at his $8.7M QUALIFYING OFFER instead — a different quantity, and both
+      // can be true at once. Pinned because the two get conflated constantly,
+      // and because ours is the one the provision actually names.
+      const hold = freeAgentsOf(BASE_CONTRACTS).find((f) => f.playerName === "Bennedict Mathurin")!;
+      expect(hold.priorTeam).toBe("LAC");
+      expect(hold.lastSalary).toBe(9_187_573);
+      expect(hold.lastSalary).toBeLessThan(C.estimatedAverageSalary);
+      expect(hold.hold).toBe(Math.round(9_187_573 * 3));
     });
 
     it("the reported stretch reproduces the room the beat writers published", () => {
