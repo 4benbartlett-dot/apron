@@ -35,7 +35,7 @@ export function NewsBar({
   summary: NewsSummary | null;
   children: React.ReactNode;
 }) {
-  // The board already leads with the same wire, expanded to the same rows —
+  // The board already leads with the same list, expanded to the same rows —
   // a strip above it would be the news twice on the page most likely to be
   // read on a phone. Everywhere else, the strip is the only way to see it.
   const onBoard = usePathname() === "/";
@@ -78,7 +78,7 @@ export function NewsBar({
             className="shrink-0 rounded-[3px] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--bg)]"
             style={{ background: "var(--accent-ink)" }}
           >
-            The wire
+            Real moves
           </span>
           <span className="tabular hidden shrink-0 text-[11px] text-[var(--muted)] sm:block">
             {summary.dateLabel}
@@ -95,7 +95,7 @@ export function NewsBar({
             }}
             className="min-w-0 flex-1 truncate text-left text-[12.5px] font-medium hover:underline"
             aria-expanded={open}
-            aria-controls="wire-panel"
+            aria-controls="real-moves-panel"
           >
             {summary.headline}
             {summary.more > 0 && (
@@ -109,7 +109,7 @@ export function NewsBar({
             }}
             className="shrink-0 rounded-md border border-[var(--border-strong)] px-2 py-0.5 text-[11.5px] font-semibold text-[var(--accent-ink)] hover:bg-[var(--panel)]"
             aria-expanded={open}
-            aria-controls="wire-panel"
+            aria-controls="real-moves-panel"
           >
             {open ? "Hide" : "See the ruling"}
           </button>
@@ -122,7 +122,7 @@ export function NewsBar({
           </button>
         </div>
 
-        <div id="wire-panel" hidden={!open} className="pb-3">
+        <div id="real-moves-panel" hidden={!open} className="pb-3">
           {children}
         </div>
       </div>

@@ -435,6 +435,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   const fs = feedStateOf(team);
   const checks: DocketCheck[] = [];
   const consequences: MoveConsequence[] = [];
+  const reported: string[] = [];
 
   if (v.legal && v.mechanism) {
     checks.push({
@@ -462,12 +463,19 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
           ? `Fits under the ${fmt(fs.hardCap)} hard cap${fs.hardCapSource ? ` from ${fs.hardCapSource}` : ""} with ${fmt(room)} to spare`
           : `${fmt(-room)} OVER the ${fmt(fs.hardCap)} hard cap${fs.hardCapSource ? ` from ${fs.hardCapSource}` : ""} — the deal is agreed, and something has to clear before it can be filed`,
     });
-    if (room < 0)
+    if (room < 0) {
       consequences.push({
         team,
         severity: "cap",
         text: `${team} is ${fmt(-room)} over its own hard cap until it sheds salary. A stretched waive spreads a cut player's money over three years, which is the cheapest room on the board.`,
       });
+      // If reporting already names the specific move, say so WITH the source
+      // and keep it out of the verdict: it is the one forward-looking thing on
+      // the card, and it belongs in the small print with its provenance, not in
+      // the ruling. Nothing applies it — an expected waive is not a waive.
+      if (fs.pendingRelief)
+        reported.push(`Reported next: ${fs.pendingRelief.text} (${fs.pendingRelief.source}) — not in the feed yet, so it is not on the sheet above.`);
+    }
   }
 
   // The verdict is the WHOLE receipt, not just the signing mechanism. Harden's
@@ -492,7 +500,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
     consequences,
     winShifts: winShifts(pre, post, [team]),
     focusTeam: team,
-    caveats: [],
+    caveats: reported,
   };
 }
 

@@ -181,9 +181,13 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(over.sort()).toEqual([...AGREED_NOT_FILED].sort());
     });
 
-    it("the agreed-not-filed overage is only ever the newest deal, and it clears", () => {
-      // Cleveland is over by less than the stretch route frees — i.e. the
-      // overage is a filing lag, not a roster that cannot legally exist.
+    it("the agreed-not-filed overage clears, and the way out is on the record", () => {
+      // Cleveland is over by less than the reported route frees — i.e. the
+      // overage is a filing lag, not a roster that cannot legally exist. The
+      // route is not our invention: Bobby Marks (ESPN) reported the Cavs will
+      // waive and stretch Whitmore, and SI put the resulting room at $31.9M
+      // against our $32,050,038. A team may only sit on AGREED_NOT_FILED while it
+      // carries a sourced explanation of how the books close.
       const over = bookedSalary("CLE") - feedStateOf("CLE").hardCap;
       const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore")!;
       const stretchFrees = currentSalary(whitmore) - Math.round(currentSalary(whitmore) / 3);
@@ -192,6 +196,25 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       );
       expect(over).toBeGreaterThan(0);
       expect(over).toBeLessThan(stretchFrees);
+      for (const t of AGREED_NOT_FILED) {
+        const relief = feedStateOf(t).pendingRelief;
+        expect(relief?.source, `${t} is over its hard cap with no sourced way out`).toBeTruthy();
+      }
+    });
+
+    it("the reported stretch reproduces the room the beat writers published", () => {
+      // Our $5,458,310 is their "$5.46 million"; our $1,819,437 stretched
+      // charge is their "about $1.82 million". If a rescrape moves Whitmore's
+      // salary, that agreement breaks here rather than silently on the card.
+      const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore")!;
+      expect(currentSalary(whitmore)).toBe(5_458_310);
+      const preHarden = bookedSalary("CLE") - currentSalary(
+        BASE_CONTRACTS.find((c) => c.playerName === "James Harden")!,
+      );
+      const roomAfterStretch =
+        feedStateOf("CLE").hardCap - (preHarden - currentSalary(whitmore) + Math.round(currentSalary(whitmore) / 3));
+      // SI: "the Cavs would have $31.9 million in cap space."
+      expect(Math.abs(roomAfterStretch - 31_900_000)).toBeLessThan(250_000);
     });
 
     it("IND: Oubre's official 2yr/$16.5M partial NT-MLE — booked = consumed, $1.6M under the cap (HR, Jul 1)", () => {

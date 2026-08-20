@@ -370,6 +370,15 @@ export interface FeedTeamState {
   hardCapSource?: string;
   /** FA names (lowercase) whose holds the team demonstrably renounced. */
   forcedRenounced?: string[];
+  /**
+   * A cap-clearing move that is REPORTED but not yet in the feed, when the
+   * team's own books cannot close without one. This is the only forward-looking
+   * field in the file and it is deliberately inert: nothing applies it to a
+   * sheet, because an expected waive is not a waive. It exists so a reader
+   * looking at an impossible-looking cap sheet is told what everyone covering
+   * the team already knows, with the source attached.
+   */
+  pendingRelief?: { text: string; source: string; asOf: string };
   confidence?: string;
   rationale?: string;
 }
