@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { SITE } from "@/lib/seo";
 
 export const metadata: Metadata = {
+  alternates: { canonical: `${SITE}/league` },
   title: "NBA Cap Sheets, All 30 Teams — 2026-27 | Over the Apron",
   description:
     "League-wide 2026-27 salary standings: committed salary, tax and apron position, and hard caps for all 30 teams.",
