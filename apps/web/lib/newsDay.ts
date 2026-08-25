@@ -84,8 +84,6 @@ export interface NewsMove {
   winShifts: WinShift[];
   /** The team the move moved most — where "so what" is answered. */
   focusTeam: string;
-  /** Anything in the feed's prose we could not put on the sheet. */
-  caveats: string[];
 }
 
 export interface NewsDay {
@@ -259,16 +257,12 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
     else movesByPlayer.set(k, { name: l.asset, from: l.from, to: l.to });
   }
 
-  const caveats: string[] = [];
   const players: { playerId: string; from: string; to: string }[] = [];
   for (const mv of movesByPlayer.values()) {
     const c = contractOf(mv.name);
-    if (!c) {
-      // Two-ways and draft rights carry no cap salary, so they have no sheet
-      // row to move. Say so rather than quietly dropping them from the deal.
-      caveats.push(`${mv.name} (${mv.from} → ${mv.to}) carries no cap salary — two-way or draft rights, so he is not on either sheet.`);
-      continue;
-    }
+    // Two-ways and draft rights carry no cap salary, so they have no sheet row
+    // to move. They belong to the deal but not to the cap ledger the docket is.
+    if (!c) continue;
     players.push({ playerId: c.playerId, from: mv.from, to: mv.to });
   }
   if (!players.length) return null;
@@ -304,7 +298,6 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
 
   const trade = { teams, players, ...(cash.length ? { cash } : {}) };
   let v = validateTrade(leagueData(pre), trade, C);
-  const tpeNotes: string[] = [];
   type TpeUse = Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }>;
   let appliedTpe: TpeUse | undefined;
 
@@ -328,16 +321,14 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
         firstApronCap: slot.firstApronCap,
         label: slot.label,
       };
-      tpeNotes.push(
-        `${t.teamId}'s ${fmt(t.incomingSalary)} is read as an absorption into the ${slot.label} (${fmt(slot.amount)}) — the feed's prose does not name the mechanism, and no matching band on their sheet reaches it.`,
-      );
+
     }
     if (Object.keys(tpeUse).length) {
       const retry = validateTrade(leagueData(pre), { ...trade, tpeUse }, C);
       if (retry.legal) {
         v = retry;
         appliedTpe = tpeUse;
-      } else tpeNotes.length = 0;
+      }
     }
   }
   const nameOf = (id: string) => pre.find((c) => c.playerId === id)?.playerName ?? id;
@@ -401,7 +392,6 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
     consequences,
     winShifts: winShifts(pre, post, teams),
     focusTeam: best.to,
-    caveats: [...caveats, ...tpeNotes],
   };
 }
 
@@ -435,7 +425,6 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   const fs = feedStateOf(team);
   const checks: DocketCheck[] = [];
   const consequences: MoveConsequence[] = [];
-  const reported: string[] = [];
 
   if (v.legal && v.mechanism) {
     checks.push({
@@ -469,12 +458,10 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
         severity: "cap",
         text: `${team} is ${fmt(-room)} over its own hard cap until it sheds salary. A stretched waive spreads a cut player's money over three years, which is the cheapest room on the board.`,
       });
-      // If reporting already names the specific move, say so WITH the source
-      // and keep it out of the verdict: it is the one forward-looking thing on
-      // the card, and it belongs in the small print with its provenance, not in
-      // the ruling. Nothing applies it — an expected waive is not a waive.
-      if (fs.pendingRelief)
-        reported.push(`Reported next: ${fs.pendingRelief.text} (${fs.pendingRelief.source}) — not in the feed yet, so it is not on the sheet above.`);
+      // What clears it, in one line. The sourcing and the arithmetic live in
+      // feed-team-state.json where they belong; a reader wants the way out.
+      if (fs.pendingRelief?.short)
+        consequences.push({ team, severity: "note", text: fs.pendingRelief.short });
     }
   }
 
@@ -536,7 +523,6 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
     consequences,
     winShifts: winShifts(pre, post, [team]),
     focusTeam: team,
-    caveats: reported,
   };
 }
 

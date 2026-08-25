@@ -149,19 +149,6 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
         </div>
       )}
 
-      {/* what we could not put on the sheet */}
-      {move.caveats.length > 0 && (
-        <div className="px-4 pt-3 sm:px-5">
-          <ul className="space-y-1 border-t border-dashed border-[var(--border)] pt-2">
-            {move.caveats.map((c, i) => (
-              <li key={i} className="text-[11px] leading-snug text-[var(--muted)]">
-                {c}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       {/* the invitation */}
       <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-[var(--border)] bg-[var(--panel-2)]/40 px-4 py-2.5 text-[11.5px] sm:px-5">
         <span className="text-[var(--muted)]">

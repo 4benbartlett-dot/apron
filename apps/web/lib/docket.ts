@@ -142,7 +142,7 @@ export function buildChecks(opts: {
         const fs = feedStateOf(t.teamId);
         return {
           ok: true,
-          text: `${t.teamId} stays ${fmtM(fs.hardCap - t.postTradeSalary)} under the hard cap from its real July moves${fs.hardCapSource ? ` (${fs.hardCapSource})` : ""}`,
+          text: `${t.teamId} stays ${fmtM(fs.hardCap - t.postTradeSalary)} under the hard cap from a real move this offseason${fs.hardCapSource ? ` (${fs.hardCapSource})` : ""}`,
         };
       }),
     ...involved

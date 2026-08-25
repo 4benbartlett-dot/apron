@@ -378,7 +378,14 @@ export interface FeedTeamState {
    * looking at an impossible-looking cap sheet is told what everyone covering
    * the team already knows, with the source attached.
    */
-  pendingRelief?: { text: string; source: string; asOf: string };
+  pendingRelief?: {
+    /** The ONLY public-facing field: one plain line naming the way out. */
+    short: string;
+    /** Provenance — the arithmetic and the sourcing. Never rendered. */
+    text: string;
+    source: string;
+    asOf: string;
+  };
   confidence?: string;
   rationale?: string;
 }

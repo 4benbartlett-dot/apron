@@ -59,10 +59,18 @@ export default function TeamWarRoom() {
   if (spaceAfterHolds > 1_000_000)
     canDo.push(`~${fmtM(spaceAfterHolds)} in cap space (after renouncing/holding its own free agents).`);
   const topExc = power.mechanisms.find((m) => m.id !== "minimum" && m.id !== "cap_room");
-  if (topExc)
-    canDo.push(`Can add an outside free agent up to ${fmtM(Math.min(topExc.maxSalary, line(topExc.maxSalary, topExc.hardCap)))} via the ${topExc.label}.`);
+  // An exception a hard cap has squeezed to nothing is not an exception. A team
+  // sitting on its own line still HOLDS its taxpayer mid-level, but offering a
+  // free agent "up to $0.0M via the Taxpayer MLE" describes a signing nobody
+  // can make. Below a rookie minimum there is no deal to be had, so say the
+  // true thing instead.
+  const topExcRoom = topExc
+    ? Math.min(topExc.maxSalary, line(topExc.maxSalary, topExc.hardCap))
+    : 0;
+  if (topExc && topExcRoom >= C.minimumSalaries[0]!)
+    canDo.push(`Can add an outside free agent up to ${fmtM(topExcRoom)} via the ${topExc.label}.`);
   else
-    canDo.push("Outside free agents can only be added on minimum deals — its cap room and exceptions are already spent or dead for the year.");
+    canDo.push("Outside free agents can only be added on minimum deals — its cap room and exceptions are already spent, dead for the year, or squeezed to nothing by a hard cap.");
 
   // Why it's limited: what the audited July actually did.
   if (feed.roomTeam)
@@ -73,15 +81,14 @@ export default function TeamWarRoom() {
     const sessionTriggered = !Number.isFinite(feed.hardCap) || liveHardCap < feed.hardCap;
     const src = sessionTriggered ? "a move you've staged this session" : feed.hardCapSource ? `the ${feed.hardCapSource}` : "";
     canDo.push(`Hard-capped at the ${liveHardCap === C.firstApron ? "first" : "second"} apron${src ? ` — triggered by ${src}` : ""}, so it can't cross that line the rest of the season.`);
-    // A sheet that is ALREADY past its own hard cap is a state the CBA does not
-    // allow to persist, and the reason is never the roster — it is a deal that
-    // is agreed and not yet filed, with a shed still to come. Cleveland has sat
-    // here since Aug 20. Say so on the page where someone would go looking,
-    // rather than leaving them to wonder whether the number is a bug.
+    // A sheet already past its own hard cap is a state the CBA does not let
+    // persist, so the page has to account for it or the number reads as a bug.
+    // One line: how far over, why, and what clears it. The arithmetic and the
+    // sourcing behind that line live in feed-team-state.json and stay there.
     const over = committed - liveHardCap;
     if (over > 0 && !sessionTriggered && feed.pendingRelief)
       canDo.push(
-        `${fmtM(over)} OVER that cap right now, because a reported deal has not been filed yet. ${feed.pendingRelief.text} (${feed.pendingRelief.source}.)`,
+        `${fmtM(over)} over it today — the reported deal isn't filed yet. ${feed.pendingRelief.short}`,
       );
   }
 
@@ -91,7 +98,10 @@ export default function TeamWarRoom() {
     canDo.push("Over the first apron: capped at 100% salary matching in trades.");
   else if (!feed.roomTeam)
     canDo.push("Below the first apron: full expanded salary-matching is available.");
-  canDo.push(`Draft capital: ${picks.incoming.length} extra incoming picks, owes ${picks.outgoing.length}.`);
+  const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+  canDo.push(
+    `Draft capital: ${plural(picks.incoming.length, "extra incoming pick", "extra incoming picks")}, owes ${picks.outgoing.length}.`,
+  );
 
   return (
     <div>

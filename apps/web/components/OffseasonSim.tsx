@@ -704,7 +704,7 @@ export default function OffseasonSim() {
       if (detail && t.postTradeSalary > detail.line + 1) {
         out.push(
           detail.source === "real"
-            ? `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} all season by its real July moves${detail.label ? ` (${detail.label})` : ""} — this trade would put them at ${fmtM(t.postTradeSalary)}.`
+            ? `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} all season by a real move this offseason${detail.label ? ` (${detail.label})` : ""} — this trade would put them at ${fmtM(t.postTradeSalary)}.`
             : `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} from a move you made this offseason — this trade would put them at ${fmtM(t.postTradeSalary)}.`,
         );
       }
@@ -2319,7 +2319,7 @@ function SignEditor({
         )}
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) {hardCapDetailFor(team, lg.hardCapOf(team))?.source === "real" ? `all season by its real July moves${hardCapDetailFor(team, lg.hardCapOf(team))?.label ? ` (${hardCapDetailFor(team, lg.hardCapOf(team))!.label})` : ""}` : "from a move you made this offseason"} — this would put their apron salary at {fmtM(apronAfter)}.
+            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) {hardCapDetailFor(team, lg.hardCapOf(team))?.source === "real" ? `all season by a real move this offseason${hardCapDetailFor(team, lg.hardCapOf(team))?.label ? ` (${hardCapDetailFor(team, lg.hardCapOf(team))!.label})` : ""}` : "from a move you made this offseason"} — this would put their apron salary at {fmtM(apronAfter)}.
           </div>
         )}
         {fa.faType === "RFA" && !isOwn && (

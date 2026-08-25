@@ -2565,8 +2565,9 @@ export interface TeamFeedState {
   hardCap: number;
   /** What triggered the in-world cap ("Walker Kessler sign-and-trade"). */
   hardCapSource?: string;
-  /** Reported-but-unfiled cap relief, when the team's books need it to close. */
-  pendingRelief?: { text: string; source: string; asOf: string };
+  /** Reported-but-unfiled cap relief, when the team's books need it to close.
+   * `short` is the only part any page shows; the rest is provenance. */
+  pendingRelief?: { short: string; text: string; source: string; asOf: string };
   /** Lowercased FA names whose holds the real offseason forced off the books. */
   forcedRenounced: Set<string>;
 }
