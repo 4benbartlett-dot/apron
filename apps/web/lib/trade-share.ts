@@ -237,7 +237,7 @@ export function summarizeTrade(t: string): TradeSummary | null {
         : feedCapped
           ? `${teamMeta(feedCapped.teamId).name} is hard-capped at ${
               feedStateOf(feedCapped.teamId).hardCap === C.firstApron ? "the first apron" : "the second apron"
-            } by its real July moves${feedStateOf(feedCapped.teamId).hardCapSource ? ` (${feedStateOf(feedCapped.teamId).hardCapSource})` : ""} — this trade would exceed it.`
+            } by a real move this offseason${feedStateOf(feedCapped.teamId).hardCapSource ? ` (${feedStateOf(feedCapped.teamId).hardCapSource})` : ""} — this trade would exceed it.`
           : undefined),
     perTeam,
   };

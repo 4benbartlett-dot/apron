@@ -250,11 +250,11 @@ export function explainBlocked(
   }
 
   for (const ev of extraViolations) {
-    if (/hard-capped .* by its real July moves/i.test(ev)) {
+    if (/hard-capped .* by a real move this offseason/i.test(ev)) {
       // Real-world cap — nothing in the sim to undo.
       push(
         null,
-        "That hard cap comes from the team's real July moves, so there's nothing to undo — send out more salary in this deal, or route the incoming player to a team with room under its line.",
+        "That hard cap comes from a real move the team already made, so there's nothing to undo — send out more salary in this deal, or route the incoming player to a team with room under its line.",
       );
     } else if (/hard-capped .* from a move you made|hard-capped .* from an earlier move/i.test(ev)) {
       push(
