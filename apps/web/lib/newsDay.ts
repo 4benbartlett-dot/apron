@@ -25,6 +25,7 @@ import {
   buildDocket,
   buildChecks,
   tradeConsequences,
+  tierConsequence,
   type DocketTeam,
   type DocketCheck,
   type MoveConsequence,
@@ -186,6 +187,9 @@ const classifyAsset = (asset: string): Leg["kind"] =>
     : /^\$?[\d,]+$/.test(asset) || /^cash/i.test(asset)
       ? "cash"
       : "player";
+
+const currentSalaryOf = (c: Contract) =>
+  c.years.find((y) => y.leagueYear === YEAR)?.salary ?? 0;
 
 const contractOf = (name: string): Contract | undefined =>
   BASE_CONTRACTS.find((c) => normName(c.playerName) === normName(name) && !c.deadMoney);
@@ -484,6 +488,42 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   // stamped that "legal" while printing a red x underneath would be arguing
   // with itself.
   const legal = v.legal && checks.every((k) => k.ok);
+  // Crossing a line is the story. DeRozan's minimum moved Denver from the first
+  // apron to the second, which costs them aggregation, cash, every mid-level
+  // and the freeze on a future first — none of which is visible in "$223.3M".
+  // Only said when the signing is what crossed it.
+  const beforeTier = classifyTier(before, C);
+  const afterTier = classifyTier(after, C);
+  if (afterTier !== beforeTier) {
+    const crossed = tierConsequence(team, afterTier);
+    if (crossed) consequences.push(crossed);
+  }
+
+  // The other side of a buyout. Klay Thompson's Miami deal is only half the
+  // transaction — Dallas is carrying $7.66M of dead money for a player who is
+  // now in the Eastern Conference, and the signing card is the only place that
+  // pairing shows up.
+  const waive = TRANSACTIONS.find(
+    (x) =>
+      x.type === "Release" &&
+      normName(x.player) === normName(row.player) &&
+      isoDate(x.date) <= iso &&
+      isoDate(x.date) >= dayBefore(dayBefore(dayBefore(iso))),
+  );
+  if (waive) {
+    const dead = BASE_CONTRACTS.find(
+      (x) => x.deadMoney && normName(x.playerName) === normName(row.player),
+    );
+    const fromM = waive.detail.match(/(?:Waived|Released) by [^(]*\(([A-Za-z]{2,4})\)/i);
+    const fromTeam = fromM && isTeam(fromM[1]!) ? std(fromM[1]!) : null;
+    if (fromTeam && dead)
+      consequences.push({
+        team: fromTeam,
+        severity: "cap",
+        text: `${teamMeta(fromTeam).name} still carries ${fmt(currentSalaryOf(dead))} of dead money from the ${/buyout/i.test(waive.detail) ? "buyout" : "waive"} that made this possible — it counts against their cap and their apron, and it pays for a player now on another roster.`,
+      });
+  }
+
   const years = yearsM ? Number(yearsM[1]) : c.years.filter((y) => y.leagueYear >= YEAR).length;
   const total = Number(totalM[1]) * 1e6;
   return {
@@ -549,15 +589,23 @@ function compute(): NewsDay | null {
   if (!dated.length) return null;
   const days = [...new Set(dated.map((x) => x.iso))].sort().reverse();
 
-  // The newest day, plus the CONSECUTIVE days behind it while the story is
-  // still thin. An offseason breaks in clusters, and the pieces explain each
-  // other: on Aug 20 the Harden signing is only legible next to the Aug 19
-  // sign-and-trade that hard-capped Cleveland the day before. The walk stops
-  // at the first quiet day, so this can never turn into a rolling digest.
+  // The newest day the feed moved, plus earlier move-days behind it while the
+  // story is still thin, bounded to a week. An offseason breaks in clusters and
+  // the pieces explain each other — the Harden signing is only legible next to
+  // the sign-and-trade that hard-capped Cleveland the day before — but late
+  // August goes quiet for days at a time, and an earlier version of this walk
+  // required CONSECUTIVE dates. One empty Monday and the card fell back to a
+  // single two-way signing while a Klay Thompson buyout sat two days behind it.
+  // Days without moves are skipped; the LOOKBACK is what stops this becoming a
+  // rolling digest.
+  const LOOKBACK_DAYS = 6;
+  const oldest = new Date(`${days[0]!}T12:00:00Z`);
+  oldest.setUTCDate(oldest.getUTCDate() - LOOKBACK_DAYS);
+  const floor = oldest.toISOString().slice(0, 10);
   const window: string[] = [days[0]!];
-  for (let i = 1; i < days.length && i <= 2; i++) {
+  for (let i = 1; i < days.length; i++) {
     if (countMoves(window) >= 3) break;
-    if (days[i] !== dayBefore(days[i - 1]!)) break;
+    if (days[i]! < floor) break;
     window.push(days[i]!);
   }
   const rows = dated.filter((x) => window.includes(x.iso)).map((x) => x.t);
@@ -598,17 +646,49 @@ function compute(): NewsDay | null {
  * size a candidate window and to build it, so the two can never disagree.
  */
 export function tradeGroups(rows: readonly Transaction[]): Map<string, Transaction[]> {
-  const groups = new Map<string, Transaction[]>();
+  // Bucket by the SET OF TEAMS in the prose. That is the deal's fingerprint:
+  // a five-team set belongs to one transaction, and the two-team CLE/CHA swap
+  // that moved Schröder in August is a different set from the five-teamer that
+  // moved him again.
+  const byTeams = new Map<string, Transaction[]>();
   for (const r of rows) {
     if (r.type !== "Trade") continue;
     const codes = [...r.detail.matchAll(/\(([A-Za-z]{2,4})\)/g)]
       .map((m) => std(m[1]!))
       .filter((c) => TEAM_IDS.includes(c));
-    const key = `${isoDate(r.date)}|${[...new Set(codes)].sort().join("-")}`;
-    groups.set(key, [...(groups.get(key) ?? []), r]);
+    const key = [...new Set(codes)].sort().join("-");
+    byTeams.set(key, [...(byTeams.get(key) ?? []), r]);
   }
-  return groups;
+
+  // A deal is reported over DAYS, not on one. Spotrac files the five-teamer
+  // under Aug 19, then republishes most of its legs under Aug 20 — leaving
+  // Whitmore and Strus on the older date and everyone else on the newer one.
+  // Keyed on the date, that is two cards for one transaction. So within a team
+  // set, rows stay together until there is a real gap between them; the same
+  // two clubs trading again weeks later starts a new deal.
+  const MAX_GAP_DAYS = 2;
+  const out = new Map<string, Transaction[]>();
+  for (const [teams, group] of byTeams) {
+    const sorted = [...group].sort((a, b) => isoDate(a.date).localeCompare(isoDate(b.date)));
+    let deal: Transaction[] = [];
+    const flush = () => {
+      if (!deal.length) return;
+      const newest = deal.reduce((m, r) => (isoDate(r.date) > m ? isoDate(r.date) : m), "");
+      out.set(`${newest}|${teams}`, deal);
+      deal = [];
+    };
+    for (const r of sorted) {
+      const prev = deal.length ? isoDate(deal[deal.length - 1]!.date) : null;
+      if (prev && daysBetween(prev, isoDate(r.date)) > MAX_GAP_DAYS) flush();
+      deal.push(r);
+    }
+    flush();
+  }
+  return out;
 }
+
+const daysBetween = (a: string, b: string) =>
+  Math.abs(new Date(`${b}T12:00:00Z`).getTime() - new Date(`${a}T12:00:00Z`).getTime()) / 864e5;
 
 /** How many cards a candidate window would yield, without building them. */
 function countMoves(window: string[]): number {

@@ -2,6 +2,41 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Brandon Williams",
+      "pos": "PG",
+      "date": "Aug 25, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $2.63 million contract with Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Shaedon Sharpe",
+      "pos": "SG",
+      "date": "Aug 24, 2026",
+      "type": "Other",
+      "detail": "Expected to miss six months with Portland (POR) due to knee (torn meniscus) injury"
+    },
+    {
+      "player": "Klay Thompson",
+      "pos": "SG",
+      "date": "Aug 23, 2026",
+      "type": "Signing",
+      "detail": "Signed to a 2 year $11.48 million contract with Miami Heat (MIA) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "DeMar DeRozan",
+      "pos": "SF",
+      "date": "Aug 21, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Klay Thompson",
+      "pos": "SG",
+      "date": "Aug 21, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL) via Buyout"
+    },
+    {
       "player": "James Harden",
       "pos": "SG",
       "date": "Aug 20, 2026",
@@ -11,44 +46,51 @@
     {
       "player": "Julian Reese",
       "pos": "F",
-      "date": "Aug 19, 2026",
+      "date": "Aug 20, 2026",
       "type": "Trade",
-      "detail": "Traded to Denver (DEN) from Washington (WAS) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+      "detail": "Traded to Denver (DEN) from Washington (WAS) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded Dennis Schröder and $4,350,000 to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Tre Mann",
+      "pos": "PG",
+      "date": "Aug 20, 2026",
+      "type": "Trade",
+      "detail": "Traded to Washington (WAS) from Cleveland (CLE) as part of a 5-team trade: Traded to Washington (WAS) from Charlotte (CHA) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded Dennis Schröder and $4,350,000 to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN)"
+    },
+    {
+      "player": "Ismael Kamagate",
+      "pos": "C",
+      "date": "Aug 20, 2026",
+      "type": "Trade",
+      "detail": "Traded to Cleveland (CLE) from LA (LAC) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded Dennis Schröder and $4,350,000 to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Peyton Watson",
+      "pos": "SG",
+      "date": "Aug 20, 2026",
+      "type": "Trade",
+      "detail": "Traded to Cleveland (CLE) from Denver (DEN) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded Dennis Schröder and $4,350,000 to Charlotte (CHA); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+    },
+    {
+      "player": "Dennis Schröder",
+      "pos": "PG",
+      "date": "Aug 20, 2026",
+      "type": "Trade",
+      "detail": "Traded to Charlotte (CHA) from Cleveland (CLE) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded $4,350,000 to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
     },
     {
       "player": "Cam Whitmore",
       "pos": "SF",
       "date": "Aug 19, 2026",
       "type": "Trade",
-      "detail": "Traded to Cleveland (CLE) from Washington (WAS) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
-    },
-    {
-      "player": "Tre Mann",
-      "pos": "PG",
-      "date": "Aug 19, 2026",
-      "type": "Trade",
-      "detail": "Traded to Washington (WAS) from Cleveland (CLE) as part of a 5-team trade: Traded to Washington (WAS) from Charlotte (CHA) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN)"
-    },
-    {
-      "player": "Ismael Kamagate",
-      "pos": "C",
-      "date": "Aug 19, 2026",
-      "type": "Trade",
-      "detail": "Traded to Cleveland (CLE) from LA (LAC) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+      "detail": "Traded to Cleveland (CLE) from Washington (WAS) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded Dennis Schröder and $4,350,000 to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
     },
     {
       "player": "Max Strus",
       "pos": "SG",
       "date": "Aug 19, 2026",
       "type": "Trade",
-      "detail": "Traded to LA (LAC) from Cleveland (CLE) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
-    },
-    {
-      "player": "Peyton Watson",
-      "pos": "SG",
-      "date": "Aug 19, 2026",
-      "type": "Trade",
-      "detail": "Traded to Cleveland (CLE) from Denver (DEN) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Cleveland (CLE) traded Dennis Schröder to Charlotte (CHA); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
+      "detail": "Traded to LA (LAC) from Cleveland (CLE) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and $3,000,000 to Washington (WAS); Cleveland (CLE) traded Dennis Schröder and $4,350,000 to Charlotte (CHA); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
     },
     {
       "player": "Peyton Watson",
@@ -56,13 +98,6 @@
       "date": "Aug 19, 2026",
       "type": "Signing",
       "detail": "Agreed to 4 year $88 million contract with Denver (DEN) as part of a Sign-and-Trade with Cleveland (CLE) - includes 2029-30 Player Option"
-    },
-    {
-      "player": "Dennis Schröder",
-      "pos": "PG",
-      "date": "Aug 19, 2026",
-      "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Cleveland (CLE) as part of a 5-team trade: Cleveland (CLE) traded a 2031 1st round pick and a 2032 2nd round pick [SAC pick] to Denver (DEN); Cleveland (CLE) traded Max Strus to LA (LAC); Cleveland (CLE) traded Tre Mann, a 2027 2nd round pick [LAC pick] and cash to Washington (WAS); Denver (DEN) traded Peyton Watson to Cleveland (CLE); LA (LAC) traded Ismael Kamagate to Cleveland (CLE); LA (LAC) traded a 2027 2nd round pick [PHI pick] to Charlotte (CHA); Washington (WAS) traded Cam Whitmore to Cleveland (CLE); Washington (WAS) traded Julian Reese to Denver (DEN); Charlotte (CHA) traded Tre Mann to Washington (WAS)"
     },
     {
       "player": "Malik Dia",
@@ -112,20 +147,6 @@
       "date": "Aug 17, 2026",
       "type": "Signing",
       "detail": "Agreed to a 1 year $3.07 million contract with Phoenix (PHX)"
-    },
-    {
-      "player": "Trendon Watford",
-      "pos": "PF",
-      "date": "Aug 17, 2026",
-      "type": "Signing",
-      "detail": "Signed a 1 year $2.85 million contract with New Orleans (NOP)"
-    },
-    {
-      "player": "Haywood Highsmith",
-      "pos": "F",
-      "date": "Aug 17, 2026",
-      "type": "Signing",
-      "detail": "Signed a 1 year $3.07 million contract with Phoenix (PHX)"
     },
     {
       "player": "Tre Mann",
@@ -289,13 +310,6 @@
       "detail": "Signed a 1 year $2.63 million a contract with Portland (POR)"
     },
     {
-      "player": "Jeremy Sochan",
-      "pos": "PF",
-      "date": "Aug 02, 2026",
-      "type": "Signing",
-      "detail": "Signed a contract with Portland (POR) - Exhibit 9"
-    },
-    {
       "player": "Gary Payton II",
       "pos": "PG",
       "date": "Aug 01, 2026",
@@ -328,7 +342,7 @@
       "pos": "C",
       "date": "Jul 31, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $19 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
+      "detail": "Signed a 2 year $18.45 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
     },
     {
       "player": "E.J. Liddell",
@@ -349,28 +363,7 @@
       "pos": "SG",
       "date": "Jul 31, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $11 million contract with Golden State (GSW) - includes 2027-28 Player Option"
-    },
-    {
-      "player": "Mario Hezonja",
-      "pos": "SG",
-      "date": "Jul 31, 2026",
-      "type": "Signing",
-      "detail": "Signed a 1 year $2.85 million contract with Cleveland (CLE)"
-    },
-    {
-      "player": "De'Anthony Melton",
-      "pos": "SG",
-      "date": "Jul 31, 2026",
-      "type": "Signing",
       "detail": "Signed a 2 year $12.43 million contract with Golden State (GSW) - includes 2027-28 Player Option"
-    },
-    {
-      "player": "Moritz Wagner",
-      "pos": "C",
-      "date": "Jul 31, 2026",
-      "type": "Signing",
-      "detail": "Signed a 2 year $18.45 million contract with Brooklyn (BKN) - includes 2027-28 Mutual Option"
     },
     {
       "player": "Mouhamadou Gueye",
@@ -818,7 +811,7 @@
       "pos": "PF",
       "date": "Jul 10, 2026",
       "type": "Signing",
-      "detail": "Signed a contract with Denver (DEN)"
+      "detail": "Signed a 4 year $9.26 million contract with Denver (DEN) via 2nd-round exception"
     },
     {
       "player": "Joshua Jefferson",
@@ -867,7 +860,7 @@
       "pos": "PG",
       "date": "Jul 10, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $13 million contract with Houston (HOU)"
+      "detail": "Signed a 2 year $12.43 million contract with Houston (HOU) - includes 2027-28 Player Option"
     },
     {
       "player": "Josh Green",
@@ -968,13 +961,6 @@
       "detail": "Chicago (CHI) renounced their free-agent exception rights"
     },
     {
-      "player": "Trevon Brazile",
-      "pos": "PF",
-      "date": "Jul 10, 2026",
-      "type": "Signing",
-      "detail": "Signed a 4 year $9.26 million contract with Denver (DEN) via 2nd-round exception"
-    },
-    {
       "player": "Trey Lyles",
       "pos": "PF",
       "date": "Jul 10, 2026",
@@ -987,13 +973,6 @@
       "date": "Jul 10, 2026",
       "type": "Signing",
       "detail": "Signed a 2 year $44.08 million contract with Chicago (CHI) - includes 2027-28 Team Option"
-    },
-    {
-      "player": "Marcus Smart",
-      "pos": "PG",
-      "date": "Jul 10, 2026",
-      "type": "Signing",
-      "detail": "Signed a 2 year $12.43 million contract with Houston (HOU) - includes 2027-28 Player Option"
     },
     {
       "player": "DeAndre Jordan",
@@ -1070,14 +1049,14 @@
       "pos": "SF",
       "date": "Jul 09, 2026",
       "type": "Signing",
-      "detail": "Signed a 3 year $15.3 million contract with LA Clippers (LAC)"
+      "detail": "Signed a 3 year $15.3 million contract with LA Clippers (LAC) - includes 2028-29 Team Option"
     },
     {
       "player": "Tari Eason",
       "pos": "PF",
       "date": "Jul 09, 2026",
       "type": "Signing",
-      "detail": "Signed a 5 year $81.5 million contract with Houston (HOU) - includes 2030-31 Player Option"
+      "detail": "Signed a 5 year $81.45 million contract with Houston (HOU) - includes 2030-31 Player Option"
     },
     {
       "player": "Jaxson Hayes",
@@ -1091,14 +1070,14 @@
       "pos": "SF",
       "date": "Jul 09, 2026",
       "type": "Signing",
-      "detail": "Signed a 3 year $17.5 million contract with Milwaukee (MIL)"
+      "detail": "Signed a 3 year $17.5 million contract with Milwaukee (MIL) - includes 2028-29 Team Option"
     },
     {
       "player": "Kevin Huerter",
       "pos": "SG",
       "date": "Jul 09, 2026",
       "type": "Signing",
-      "detail": "Signed a 3 year $27 million contract with Detroit (DET)"
+      "detail": "Signed a 3 year $27 million contract with Detroit (DET) - includes 2028-29 Team Option"
     },
     {
       "player": "Jusuf Nurkic",
@@ -1120,34 +1099,6 @@
       "date": "Jul 09, 2026",
       "type": "Signing",
       "detail": "Signed a 2 year $12 million contract with Utah (UTA) - includes 2027-28 Team Option"
-    },
-    {
-      "player": "Jordan Miller",
-      "pos": "SF",
-      "date": "Jul 09, 2026",
-      "type": "Signing",
-      "detail": "Signed a 3 year $15.3 million contract with LA Clippers (LAC) - includes 2028-29 Team Option"
-    },
-    {
-      "player": "Tari Eason",
-      "pos": "PF",
-      "date": "Jul 09, 2026",
-      "type": "Signing",
-      "detail": "Signed a 5 year $81.45 million contract with Houston (HOU) - includes 2030-31 Player Option"
-    },
-    {
-      "player": "Ousmane Dieng",
-      "pos": "SF",
-      "date": "Jul 09, 2026",
-      "type": "Signing",
-      "detail": "Signed a 3 year $17.5 million contract with Milwaukee (MIL) - includes 2028-29 Team Option"
-    },
-    {
-      "player": "Kevin Huerter",
-      "pos": "SG",
-      "date": "Jul 09, 2026",
-      "type": "Signing",
-      "detail": "Signed a 3 year $27 million contract with Detroit (DET) - includes 2028-29 Team Option"
     },
     {
       "player": "Donovan Mitchell",
@@ -1344,13 +1295,6 @@
       "date": "Jul 08, 2026",
       "type": "Trade",
       "detail": "Traded to Memphis (MEM) from Detroit (DET) as part of a 6-team trade: Dallas (DAL) traded AJ Johnson, a conditional, GSW pick 2030 1st round pick and a 2029 2nd round pick [HOU pick] to Memphis (MEM); Dallas (DAL) traded Khris Middleton and a 2033 2nd round pick [DAL pick] to Washington (WAS); Detroit (DET) traded Marcus Sasser to Dallas (DAL); Detroit (DET) traded a 2028 2nd round pick [multiple conditions] to LA (LAC); Detroit (DET) traded Caris LeVert, a 2027 2nd round pick [least favorable of BKN/DAL pick] and a 2027 2nd round pick [MIL pick] to Milwaukee (MIL); LA (LAC) traded John Collins to Detroit (DET); LA (LAC) traded $1,100,000 to Milwaukee (MIL); Memphis (MEM) traded Santi Aldama and Tarik Biberovic to Dallas (DAL); Memphis (MEM) traded a 2029 2nd round pick [2nd most favorable of DET/NYK/MIL] , a 2031 2nd round pick [DAL pick] and a 2032 2nd round pick [DET pick] to Detroit (DET); Milwaukee (MIL) traded Gary Harris and Taurean Prince to Detroit (DET); Washington (WAS) traded D'Angelo Russell, a 2029 2nd round pick [LAL pick] , a 2032 2nd round pick [most favorable of MEM/PHI/UTA pick] and a 2033 2nd round pick [WAS pick] to Memphis (MEM)"
-    },
-    {
-      "player": "Mohamed Bamba",
-      "pos": "C",
-      "date": "Jul 08, 2026",
-      "type": "Signing",
-      "detail": "Signed a 2 year $7.21 million contract with Utah (UTA)"
     },
     {
       "player": "Quadir Copeland",
@@ -3411,27 +3355,6 @@
       "detail": "Brooklyn (BKN) declined $6.25 million option for 2026-27"
     },
     {
-      "player": "Royce O'Neale",
-      "pos": "SF",
-      "date": "Jun 28, 2026",
-      "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Grayson Allen and a 2033 1st round pick [unprotected] for Miles Bridges, a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick]"
-    },
-    {
-      "player": "Grayson Allen",
-      "pos": "SG",
-      "date": "Jun 28, 2026",
-      "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Phoenix (PHX) with Royce O'Neale and a 2033 1st round pick [unprotected] for Miles Bridges, a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick]"
-    },
-    {
-      "player": "Miles Bridges",
-      "pos": "SF",
-      "date": "Jun 28, 2026",
-      "type": "Trade",
-      "detail": "Traded to Phoenix (PHX) from Charlotte (CHA) with a 2029 1st round pick [least favorable CLE/MIN/UTA pick + top-5 protected] and a 2027 2nd round pick [least favorable of BOS/ORL pick] for Grayson Allen, Royce O'Neale and a 2033 1st round pick [unprotected]"
-    },
-    {
       "player": "Jaylen Clark",
       "pos": "SG",
       "date": "Jun 27, 2026",
@@ -4298,13 +4221,6 @@
       "date": "Jun 23, 2026",
       "type": "Signing",
       "detail": "Signed a 1 year contract with Portland (POR) as head coach - includes 2027-28 and 2028-29 Club Options"
-    },
-    {
-      "player": "Julius Randle",
-      "pos": "PF",
-      "date": "Jun 22, 2026",
-      "type": "Trade",
-      "detail": "Traded to Brooklyn (BKN) from Minnesota (MIN) as part of a 4-team trade: Chicago (CHI) traded Mouhamadou Gueye to Charlotte (CHA); Minnesota (MIN) traded Joshua Jefferson to Brooklyn (BKN); Minnesota (MIN) traded Naz Reid, Matteo Spagnolo, a 2028 1st round pick [CHA right to swap] , a 2029 1st round pick [CHA right to swap; 6-30 protected] , a 2030 1st round pick [CHA right to swap] , a 2033 1st round pick, a 2029 2nd round pick [MIN pick] , a 2032 2nd round pick [MIN pick] and a 2033 2nd round pick [MIN pick] to Charlotte (CHA); Brooklyn (BKN) traded Nicolas Claxton to Chicago (CHI); Brooklyn (BKN) traded Isaiah Evans to Minnesota (MIN); Charlotte (CHA) traded LaMelo Ball and Josh Green to Minnesota (MIN)"
     },
     {
       "player": "Craig Porter Jr.",

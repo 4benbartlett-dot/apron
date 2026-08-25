@@ -1032,10 +1032,73 @@ export function ageOf(playerId: string): number {
 }
 
 
+/**
+ * OFFSEASON injuries, from the transaction feed.
+ *
+ * The Basketball-Reference injury report we scrape is a snapshot of the season
+ * just ended — every row in it is something that finished a 2025-26 campaign.
+ * An injury suffered in AUGUST is invisible to it, which is how Shaedon Sharpe
+ * tore a meniscus on Aug 24 and stayed a healthy 82-game starter on Portland's
+ * projection: $20.1M of rotation minutes the model was still counting on.
+ *
+ * The wire carries these as plain prose ("Expected to miss six months with
+ * Portland (POR) due to knee (torn meniscus) injury"), and a STATED duration is
+ * better evidence than the recovery table below, which infers months from the
+ * injury type. Parsed generally, so the next one lands on its own.
+ */
+const WORD_NUMBERS: Record<string, number> = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+  nine: 9, ten: 10, eleven: 11, twelve: 12,
+};
+export interface StatedAbsence { months: number; date: Date; desc: string; name: string }
+const STATED_ABSENCE: Map<string, StatedAbsence> = (() => {
+  const out = new Map<string, StatedAbsence>();
+  const byName = new Map<string, string>();
+  for (const c of base.contracts) if (!c.deadMoney) byName.set(normName(c.playerName), c.playerId);
+  const label = new Map<string, string>();
+  for (const c of base.contracts) if (!c.deadMoney) label.set(c.playerId, c.playerName);
+  for (const t of TRANSACTIONS) {
+    const m = t.detail.match(
+      /Expected to miss (\d+|[a-z]+)[- ](month|week)s?\b(?:.*?due to (.+?)(?: injury)?)?$/i,
+    );
+    if (!m) continue;
+    const raw = m[1]!.toLowerCase();
+    const n = /^\d+$/.test(raw) ? Number(raw) : WORD_NUMBERS[raw];
+    if (!n) continue;
+    const months = /week/i.test(m[2]!) ? n / 4.345 : n;
+    const id = byName.get(normName(t.player));
+    const when = new Date(t.date);
+    if (!id || Number.isNaN(when.getTime())) continue;
+    // Newest-first feed: the first row for a player is his current status.
+    if (!out.has(id))
+      out.set(id, { months, date: when, desc: m[3]?.trim() ?? t.detail, name: label.get(id) ?? t.player });
+  }
+  return out;
+})();
+
+const teamOfPlayer = (playerId: string) =>
+  BASE_CONTRACTS.find((c) => c.playerId === playerId && !c.deadMoney)?.teamId;
+
 /** The real, current injury (torn ACL, out for season, …) for a player, from
- * the Basketball-Reference injury report — or undefined if healthy. */
+ * the Basketball-Reference injury report, or from the wire when the injury is
+ * newer than that report — undefined if healthy. */
 export function injuryOf(playerId: string): PlayerInjury | undefined {
-  return PLAYER_INJURIES_2026[playerId];
+  const scraped = PLAYER_INJURIES_2026[playerId];
+  const stated = STATED_ABSENCE.get(playerId);
+  // A wire row that POSTDATES the scraped one is the current word on him.
+  if (stated && (!scraped || new Date(scraped.date) < stated.date)) {
+    const months = Math.round(stated.months * 10) / 10;
+    return {
+      name: scraped?.name ?? stated.name,
+      team: scraped?.team ?? teamOfPlayer(playerId) ?? "",
+      date: stated.date.toDateString(),
+      desc: `Expected to miss ~${months} months — ${stated.desc}`,
+      type: stated.desc,
+      status: "out",
+      gamesOut: 0,
+    };
+  }
+  return scraped;
 }
 
 /** Roughly when the 2026-27 regular season tips. */
@@ -1074,6 +1137,9 @@ const LONG_RECOVERY: [RegExp, number][] = [
  * resolves over the summer.
  */
 function projectedGames(playerId: string): number {
+  // A duration the wire STATED beats one inferred from the injury type.
+  const stated = STATED_ABSENCE.get(playerId);
+  if (stated) return gamesAfter(stated.date, stated.months);
   const inj = PLAYER_INJURIES_2026[playerId];
   if (!inj?.date) return HEALTHY_GAMES;
   // Match on TYPE as well as prose: Butler's row reads "Out For Season (Knee)"
@@ -1083,8 +1149,14 @@ function projectedGames(playerId: string): number {
   if (months == null) return HEALTHY_GAMES; // heals over the offseason
   const hurt = new Date(inj.date);
   if (Number.isNaN(hurt.getTime())) return HEALTHY_GAMES;
+  return gamesAfter(hurt, months);
+}
+
+/** Games available once a recovery of `months` from `hurt` is served. */
+function gamesAfter(hurt: Date, months: number): number {
   const back = new Date(hurt);
-  back.setMonth(back.getMonth() + months);
+  back.setMonth(back.getMonth() + Math.floor(months));
+  back.setDate(back.getDate() + Math.round((months % 1) * 30.44));
   if (back <= SEASON_START) return HEALTHY_GAMES; // cleared before opening night
   // Season runs ~5.5 months; pro-rate the games he's still rehabbing through.
   const missedShare = Math.min(

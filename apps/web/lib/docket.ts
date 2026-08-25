@@ -215,19 +215,8 @@ export function tradeConsequences(
         text: `${name(t.teamId)} is now hard-capped at the second apron (${fmtM(C.secondApron)}) for the season — it ${aggCap ? "aggregated salaries to match one incoming player (Art. VII §2(e), row H)" : "sent cash in the trade (row I)"}.`,
       });
     }
-    if (t.postTradeTier === "second_apron") {
-      out.push({
-        team: t.teamId,
-        severity: "restrict",
-        text: `${name(t.teamId)} finishes over the second apron — it can no longer aggregate salaries, send cash in a trade, or use any mid-level, and its future first can be frozen.`,
-      });
-    } else if (t.postTradeTier === "first_apron" && !cappedNew.has(t.teamId)) {
-      out.push({
-        team: t.teamId,
-        severity: "restrict",
-        text: `${name(t.teamId)} finishes over the first apron — limited to strict 100% matching (dollar-for-dollar, no $250k) and the taxpayer mid-level.`,
-      });
-    }
+    const tier = tierConsequence(t.teamId, t.postTradeTier);
+    if (tier && !(t.postTradeTier === "first_apron" && cappedNew.has(t.teamId))) out.push(tier);
     if (t.incomingSalary > 0) {
       out.push({
         team: t.teamId,
@@ -237,6 +226,29 @@ export function tradeConsequences(
     }
   }
   return out;
+}
+
+/**
+ * What a team's finishing tier costs it. Shared so a real signing that crosses
+ * an apron says exactly what a staged trade that crosses it says — DeRozan's
+ * minimum put Denver over the second apron, and a card that showed the new
+ * number without the restrictions it turns on would be burying the story.
+ */
+export function tierConsequence(team: string, tier: ApronTier): MoveConsequence | null {
+  const label = teamMeta(team).name;
+  if (tier === "second_apron")
+    return {
+      team,
+      severity: "restrict",
+      text: `${label} finishes over the second apron — it can no longer aggregate salaries, send cash in a trade, or use any mid-level, and its future first can be frozen.`,
+    };
+  if (tier === "first_apron")
+    return {
+      team,
+      severity: "restrict",
+      text: `${label} finishes over the first apron — limited to strict 100% matching (dollar-for-dollar, no $250k) and the taxpayer mid-level.`,
+    };
+  return null;
 }
 
 /** Severity colours, shared by the consequence strip and the news card. */

@@ -73,6 +73,16 @@ export default function TeamWarRoom() {
     const sessionTriggered = !Number.isFinite(feed.hardCap) || liveHardCap < feed.hardCap;
     const src = sessionTriggered ? "a move you've staged this session" : feed.hardCapSource ? `the ${feed.hardCapSource}` : "";
     canDo.push(`Hard-capped at the ${liveHardCap === C.firstApron ? "first" : "second"} apron${src ? ` — triggered by ${src}` : ""}, so it can't cross that line the rest of the season.`);
+    // A sheet that is ALREADY past its own hard cap is a state the CBA does not
+    // allow to persist, and the reason is never the roster — it is a deal that
+    // is agreed and not yet filed, with a shed still to come. Cleveland has sat
+    // here since Aug 20. Say so on the page where someone would go looking,
+    // rather than leaving them to wonder whether the number is a bug.
+    const over = committed - liveHardCap;
+    if (over > 0 && !sessionTriggered && feed.pendingRelief)
+      canDo.push(
+        `${fmtM(over)} OVER that cap right now, because a reported deal has not been filed yet. ${feed.pendingRelief.text} (${feed.pendingRelief.source}.)`,
+      );
   }
 
   if (sheet.isOverSecondApron)

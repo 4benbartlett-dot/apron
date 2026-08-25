@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-08-20",
+  "asOf": "2026-08-25",
   "note": "Audited per-team offseason state derived from the reconciled feed — how each team's July actually happened, which the raw cap sheet can't show. Five audit agents replayed every feed signing against the exception system; rationale fields are the per-signing audit trail. Ambiguous forced-renounce sets follow a prefer-largest-holds rule and carry confidence: medium.",
   "teams": {
     "ATL": {
@@ -55,8 +55,8 @@
       "hardCapSource": "Peyton Watson sign-and-trade acquisition",
       "pendingRelief": {
         "text": "Cleveland is expected to waive and stretch Cam Whitmore. His $5,458,310 spread over three years charges $1,819,437 a season and frees $3,638,873, which takes the room under the first apron to $32,050,038 — more than double the $1,527,106 the Harden deal is over. What is left after Harden is $2,111,767: enough for a 15th man at the $1,357,763 rookie minimum, but NOT for a veteran, whose one-year minimum charges $2,449,421 under Art. VII §3(f).",
-        "source": "Bobby Marks (ESPN) via SI and RealCavsFans, Aug 19-20 2026 — 'waive-and-stretch Whitmore leaving a $1.8M cap hit over three years and putting them ~32M under the 1st Apron to sign Harden + one more player'; Yossi Gozlan (The Third Apron) named the same route on Aug 19",
-        "asOf": "2026-08-20"
+        "source": "Bobby Marks (ESPN) via SI and RealCavsFans, Aug 19-20 2026 — 'waive-and-stretch Whitmore leaving a $1.8M cap hit over three years and putting them ~32M under the 1st Apron to sign Harden + one more player'; Yossi Gozlan (The Third Apron) named the same route on Aug 19; still unfiled as of Aug 25 — five days on, the feed carries neither the waive nor a 'Signed' row for Harden, only the original 'Agreed'",
+        "asOf": "2026-08-25"
       }
     },
     "DAL": {
@@ -65,7 +65,7 @@
     },
     "DEN": {
       "confidence": "high",
-      "rationale": "Tyus Jones 1yr $3,876,529 (y1 = min scale top exactly, prior DAL) — minimum exception, consumes nothing. Marvin Bagley III 1yr $3,506,659 (y1 below min top, prior DAL) — minimum exception, consumes nothing. No exception usage, no hard cap. OPEN DISCREPANCY (Aug 20), recorded rather than papered over: Bobby Marks puts Denver '1.3M over the 2nd apron' with 'two roster spots open' after sending Peyton Watson out; our sheet reads $220,874,845, which is $811,000 UNDER the $221,686,000 line, on 14 paid players. The two disagree by about $2.1M and one roster spot — roughly one minimum contract — so the likeliest cause is a Denver salary we are missing or one we carry that has moved, not a rule. It matters because the tier is the difference between Denver being able to aggregate salaries and not: we currently show them first-apron, and Marks' figure would make them a second-apron team. Nothing here assumes an answer; the next contracts rescrape should settle it, and until then the badge on Denver's page is the number our own contracts produce."
+      "rationale": "Tyus Jones 1yr $3,876,529 (y1 = min scale top exactly, prior DAL) — minimum exception, consumes nothing. Marvin Bagley III 1yr $3,506,659 (y1 below min top, prior DAL) — minimum exception, consumes nothing. No exception usage, no hard cap. OPEN DISCREPANCY (Aug 20), recorded rather than papered over: Bobby Marks puts Denver '1.3M over the 2nd apron' with 'two roster spots open' after sending Peyton Watson out; our sheet reads $220,874,845, which is $811,000 UNDER the $221,686,000 line, on 14 paid players. The two disagree by about $2.1M and one roster spot — roughly one minimum contract — so the likeliest cause is a Denver salary we are missing or one we carry that has moved, not a rule. It matters because the tier is the difference between Denver being able to aggregate salaries and not: we currently show them first-apron, and Marks' figure would make them a second-apron team. Nothing here assumes an answer; the next contracts rescrape should settle it, and until then the badge on Denver's page is the number our own contracts produce. UPDATE (Aug 25): the gap closed from our side. Denver signed DeMar DeRozan to a one-year minimum on Aug 21, which charges $2,449,421 under Art. VII §3(f) and puts our sheet at $223,323,845 — $1,637,845 OVER the second apron, which is the side of the line Marks had them on all along. A minimum signing is available at any apron, so the move itself is unremarkable; what it does is turn on the second-apron restrictions for the rest of the year. Our figure and his still differ by about $2.1M and the roster count is still one apart, so the original discrepancy is NOT resolved — but the tier now agrees, and the tier is what governs whether Denver can aggregate salaries."
     },
     "DET": {
       "inWorldHardCap": "first_apron",
