@@ -15,6 +15,7 @@ import {
   type Team,
 } from "@apron/cba-engine";
 import { shortPlayerName } from "./names";
+import { feedIso } from "./feedDate";
 
 /** Normalize a player name for joining across data sources. */
 export function normName(name: string): string {
@@ -594,13 +595,35 @@ function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: st
 const RETIRED = new Set(RETIRED_2026.map(normName));
 const MIDSEASON_WAIVED = new Set(WAIVED_2025_26.map(normName));
 
+/** The newest waive/termination on each player's record. */
+const LAST_RELEASE = (() => {
+  const out = new Map<string, string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Release" && !/contract was terminated/i.test(t.detail)) continue;
+    const k = normName(t.player);
+    const d = feedIso(t.date);
+    if (d && (!out.has(k) || d > out.get(k)!)) out.set(k, d);
+  }
+  return out;
+})();
+
 // Waived / terminated contracts: the player comes off the roster but any
 // guaranteed money stays on the books as dead money. Skip anyone the feed
 // later signs or trades — those passes own their current state.
+//
+// LATER is the whole word, and it used to be missing. Any signing or trade on a
+// player's record, at any date, exempted him from his own waive — so a player
+// TRADED and then CUT was never cut. Mouhamadou Gueye went Chicago → Charlotte
+// on Jul 10 and was waived on Jul 30, and the July trade kept him on Charlotte's
+// roster at $2.41M for a month afterwards. Only a move dated on or after the
+// waive means the feed has moved on; same-day is treated as later because
+// applyReleases runs last and would otherwise clobber a waive-and-re-sign.
 const ACTIVE_LATER = new Set(
-  TRANSACTIONS.filter((t) => t.type === "Signing" || t.type === "Re-sign" || t.type === "Trade").map(
-    (t) => normName(t.player),
-  ),
+  TRANSACTIONS.filter((t) => {
+    if (t.type !== "Signing" && t.type !== "Re-sign" && t.type !== "Trade") return false;
+    const waived = LAST_RELEASE.get(normName(t.player));
+    return waived == null || feedIso(t.date) >= waived;
+  }).map((t) => normName(t.player)),
 );
 const RELEASED = new Set(
   TRANSACTIONS.filter(
@@ -1051,6 +1074,34 @@ const WORD_NUMBERS: Record<string, number> = {
   nine: 9, ten: 10, eleven: 11, twelve: 12,
 };
 export interface StatedAbsence { months: number; date: Date; desc: string; name: string }
+
+/**
+ * How long the wire says a player is out, and what for.
+ *
+ * A RANGE takes its upper end. The same argument the recovery table below makes
+ * applies here: teams sit players past the optimistic number, and reading "4-6
+ * weeks" as four is the error that puts a rehabbing starter back on opening
+ * night. An unparseable row returns null and the player stays healthy — a miss,
+ * never a crash, because this runs over prose nobody controls.
+ */
+export function parseAbsence(detail: string): { months: number; desc: string } | null {
+  const why = detail.match(/due to (.+?)(?:\s+injury)?\s*$/i)?.[1]?.trim();
+  // "Expected to miss the [rest of the] season" — the whole thing, no number.
+  if (/(?:expected to miss|out for)\s+(?:the\s+)?(?:rest of the\s+)?season/i.test(detail))
+    return { months: 12, desc: why ?? detail };
+  const m = detail.match(
+    /(?:expected to miss|out(?:\s+for)?)\s+(?:approximately\s+|about\s+|~)?(\d+|[a-z]+)(?:\s*(?:-|–|to)\s*(\d+|[a-z]+))?[-\s](month|week)s?\b/i,
+  );
+  if (!m) return null;
+  const num = (raw?: string) => {
+    if (!raw) return undefined;
+    const v = raw.toLowerCase();
+    return /^\d+$/.test(v) ? Number(v) : WORD_NUMBERS[v];
+  };
+  const n = num(m[2]) ?? num(m[1]); // upper end of a range when there is one
+  if (!n) return null;
+  return { months: /week/i.test(m[3]!) ? n / 4.345 : n, desc: why ?? detail };
+}
 const STATED_ABSENCE: Map<string, StatedAbsence> = (() => {
   const out = new Map<string, StatedAbsence>();
   const byName = new Map<string, string>();
@@ -1058,20 +1109,14 @@ const STATED_ABSENCE: Map<string, StatedAbsence> = (() => {
   const label = new Map<string, string>();
   for (const c of base.contracts) if (!c.deadMoney) label.set(c.playerId, c.playerName);
   for (const t of TRANSACTIONS) {
-    const m = t.detail.match(
-      /Expected to miss (\d+|[a-z]+)[- ](month|week)s?\b(?:.*?due to (.+?)(?: injury)?)?$/i,
-    );
-    if (!m) continue;
-    const raw = m[1]!.toLowerCase();
-    const n = /^\d+$/.test(raw) ? Number(raw) : WORD_NUMBERS[raw];
-    if (!n) continue;
-    const months = /week/i.test(m[2]!) ? n / 4.345 : n;
+    const parsed = parseAbsence(t.detail);
+    if (!parsed) continue;
+    const { months, desc } = parsed;
     const id = byName.get(normName(t.player));
     const when = new Date(t.date);
     if (!id || Number.isNaN(when.getTime())) continue;
     // Newest-first feed: the first row for a player is his current status.
-    if (!out.has(id))
-      out.set(id, { months, date: when, desc: m[3]?.trim() ?? t.detail, name: label.get(id) ?? t.player });
+    if (!out.has(id)) out.set(id, { months, date: when, desc, name: label.get(id) ?? t.player });
   }
   return out;
 })();

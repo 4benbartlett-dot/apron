@@ -21,6 +21,7 @@ import {
   TEAM_IDS,
 } from "@/lib/league";
 import { rewind, isoDate } from "@/lib/replayRewind";
+import { dayBefore, daysBetween } from "@/lib/feedDate";
 import {
   buildDocket,
   buildChecks,
@@ -101,12 +102,7 @@ const TEAM_FIX: Record<string, string> = {
 const std = (code: string) => TEAM_FIX[code.toUpperCase()] ?? code.toUpperCase();
 const isTeam = (code: string) => TEAM_IDS.includes(std(code));
 
-/** The day before `iso`, which is the sheet a move has to be measured against. */
-export function dayBefore(iso: string): string {
-  const d = new Date(`${iso}T12:00:00Z`);
-  d.setUTCDate(d.getUTCDate() - 1);
-  return d.toISOString().slice(0, 10);
-}
+export { dayBefore } from "@/lib/feedDate";
 
 function label(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number);
@@ -686,9 +682,6 @@ export function tradeGroups(rows: readonly Transaction[]): Map<string, Transacti
   }
   return out;
 }
-
-const daysBetween = (a: string, b: string) =>
-  Math.abs(new Date(`${b}T12:00:00Z`).getTime() - new Date(`${a}T12:00:00Z`).getTime()) / 864e5;
 
 /** How many cards a candidate window would yield, without building them. */
 function countMoves(window: string[]): number {

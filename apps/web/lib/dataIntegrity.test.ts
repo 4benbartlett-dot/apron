@@ -3,10 +3,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   BASE_CONTRACTS, TEAM_IDS, C, currentSalary, normName,
-  teamProjection, feedStateOf, LEAGUE_WINS,
+  teamProjection, feedStateOf, freeAgentsOf, LEAGUE_WINS,
 } from "@/lib/league";
-import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS } from "@apron/data";
+import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS, getLeagueData } from "@apron/data";
 import { shortPlayerName } from "@/lib/names";
+import { feedIso } from "@/lib/feedDate";
+
 
 // ---------------------------------------------------------------------------
 // DATA INTEGRITY — one guard per bug that actually shipped.
@@ -189,5 +191,116 @@ describe("data integrity", () => {
         stillHere.push(`${t.date} ${t.player}`);
     }
     expect(stillHere).toEqual([]);
+  });
+
+  // Mouhamadou Gueye was traded to Charlotte on Jul 10 and waived on Jul 30, and
+  // stayed on Charlotte's roster at $2.41M for a month — because ACTIVE_LATER,
+  // the set that exempts a player from his own waive, had no date comparison in
+  // it. Any signing or trade ANYWHERE on his record counted as "later", so a
+  // player traded and then cut was never cut. Nothing complained: the salary
+  // looked like a salary and the roster spot looked like a roster spot.
+  it("a waived player keeps no live salary unless a later move claims him", () => {
+    const stale: string[] = [];
+    const seen = new Set<string>();
+    for (const t of TRANSACTIONS) {
+      if (t.type !== "Release") continue;
+      const k = normName(t.player);
+      if (seen.has(k)) continue;
+      seen.add(k);
+      const waived = feedIso(t.date);
+      // A move dated on or after the waive is the feed's newer word on him.
+      const claimed = TRANSACTIONS.some(
+        (x) =>
+          (x.type === "Signing" || x.type === "Re-sign" || x.type === "Trade") &&
+          normName(x.player) === k &&
+          feedIso(x.date) >= waived,
+      );
+      if (claimed) continue;
+      for (const c of BASE_CONTRACTS)
+        if (normName(c.playerName) === k && !c.deadMoney && currentSalary(c) > 0)
+          stale.push(`${t.player} waived ${t.date} but still live on ${c.teamId} at $${currentSalary(c).toLocaleString()}`);
+    }
+    expect(stale).toEqual([]);
+  });
+
+  // DeRozan's $10M Sacramento guarantee was stored as a "waived, unsigned free
+  // agent", a shape that stops being true the moment he signs. He signed in
+  // Denver and spent four days both under contract and in the free-agent pool,
+  // where any team could have signed him again.
+  it("nobody is under contract and a free agent at the same time", () => {
+    const live = new Map<string, string>();
+    for (const c of BASE_CONTRACTS)
+      if (!c.deadMoney && currentSalary(c) > 0) live.set(normName(c.playerName), c.teamId);
+    const both = freeAgentsOf(BASE_CONTRACTS)
+      .filter((f) => live.has(normName(f.playerName)))
+      .map((f) => `${f.playerName}: hold on ${f.priorTeam}, contract with ${live.get(normName(f.playerName))}`);
+    expect(both).toEqual([]);
+  });
+
+  // Ten contracts went missing at once in August because a signing whose player
+  // had no sheet row was silently dropped. The per-signing guard above catches
+  // that one at a time; this catches the shape of it — a roster that has quietly
+  // emptied out, or one accumulating players who should have left. Offseason
+  // rosters legitimately run past the 15-man regular-season limit, so the band
+  // is wide on purpose: it is here for the catastrophe, not the edge.
+  it("every roster is a plausible size", () => {
+    const odd = TEAM_IDS.map((t) => ({
+      t,
+      n: BASE_CONTRACTS.filter((c) => c.teamId === t && !c.deadMoney && currentSalary(c) > 0).length,
+    }))
+      .filter((x) => x.n < 10 || x.n > 21)
+      .map((x) => `${x.t} carries ${x.n} paid players`);
+    expect(odd).toEqual([]);
+  });
+
+  // Klay Thompson's $17.5M and DeRozan's $10M both left the league's books
+  // entirely when they signed elsewhere — the old team's dead money was never
+  // created. A waived player's guaranteed money does not evaporate; it either
+  // sits on someone's sheet or a curated RELEASE_TERMS entry says it was never
+  // guaranteed in the first place. Anything else is money we lost track of.
+  it("no waived contract leaves the league's books unaccounted for", () => {
+    const raw = getLeagueData().contracts;
+    const lost: string[] = [];
+    const seen = new Set<string>();
+    for (const t of TRANSACTIONS) {
+      if (t.type !== "Release") continue;
+      const k = normName(t.player);
+      if (seen.has(k)) continue;
+      seen.add(k);
+      const owed = raw
+        .filter((c) => normName(c.playerName) === k && !c.deadMoney)
+        .reduce((s, c) => Math.max(s, c.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0), 0);
+      if (owed <= 0) continue;
+      const rows = BASE_CONTRACTS.filter((c) => normName(c.playerName) === k);
+      // Accounted for = a dead row exists (even at $0, which is the explicit
+      // "none of it was guaranteed" answer), or he is playing somewhere on a
+      // NEW deal and the old team's charge was settled by a curated row.
+      const hasDeadRow = rows.some((c) => c.deadMoney);
+      if (!hasDeadRow) lost.push(`${t.player} (waived ${t.date}) was owed $${owed.toLocaleString()} and no team carries a cent of it`);
+    }
+    expect(lost).toEqual([]);
+  });
+  // Spotrac REPUBLISHES a deal — re-dating it and re-wording the ledger as the
+  // legs firm up — and the scraper's merge key included the detail text, so
+  // every rewrite survived as its own row. The five-team Watson trade ended up
+  // filed under both Aug 19 and Aug 20 with two different Aug 19 rows for Cam
+  // Whitmore alone: 24 redundant rows, and one deal rendered twice downstream.
+  // The scraper collapses them now; this guards the file it writes, which also
+  // catches a hand-edit that reintroduces one.
+  it("no two rows describe the same trade twice", () => {
+    const t = rd("transactions.json");
+    const rows: { player?: string; date?: string; type?: string; detail?: string }[] =
+      Array.isArray(t) ? t : (t.transactions ?? []);
+    const seen = new Map<string, string>();
+    const dupes: string[] = [];
+    for (const r of rows) {
+      if (r.type !== "Trade") continue;
+      const codes = [...(r.detail ?? "").matchAll(/\(([A-Z]{2,4})\)/g)].map((m) => m[1]);
+      const key = `${normName(r.player ?? "")}|${[...new Set(codes)].sort().join("-")}`;
+      const prev = seen.get(key);
+      if (prev) dupes.push(`${r.player}: ${prev} and ${r.date} are the same deal`);
+      else seen.set(key, r.date ?? "");
+    }
+    expect(dupes).toEqual([]);
   });
 });

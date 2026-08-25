@@ -15,8 +15,7 @@ const link =
 
 /** Contact rows, set on dotted leaders — the ledger device the cap sheet uses. */
 const LINES: { label: string; text: string; href: string }[] = [
-  { label: "General", text: "overtheapron@gmail.com", href: "mailto:overtheapron@gmail.com" },
-  { label: "Ben", text: "4benbartlett@gmail.com", href: "mailto:4benbartlett@gmail.com" },
+  { label: "Email", text: "4benbartlett@gmail.com", href: "mailto:4benbartlett@gmail.com" },
   { label: "The site on X", text: "@overtheapron", href: "https://x.com/overtheapron" },
   { label: "Ben on X", text: "@benbartlettt", href: "https://x.com/benbartlettt" },
 ];
