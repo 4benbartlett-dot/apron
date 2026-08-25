@@ -2,6 +2,22 @@
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
   "transactions": [
     {
+      "player": "DeMar DeRozan",
+      "pos": "SF",
+      "date": "Jul 06, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento (SAC) - leaves behind $10 million in dead cap",
+      "why": "Sacramento waived him Jul 6 2026 keeping a $10M guarantee, which roster-corrections carried as a waivedFreeAgents entry — a shape that only describes an UNSIGNED waived player. When he signed with Denver on Aug 21 his row moved to DEN with the new minimum and Sacramento's $10M vanished from the league's books entirely. He is now the ACTIVE_LATER case Jonathan Isaac already documents: the old team's charge needs its own dead row beside the new deal, and STATED_DEAD_CAP builds one from a Release row that states the amount. This is that row."
+    },
+    {
+      "player": "Klay Thompson",
+      "pos": "SG",
+      "date": "Aug 21, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas (DAL) via Buyout - leaves behind $7.660317 million in dead cap",
+      "why": "He was owed $17,460,317 by Dallas for 2026-27 and gave back $9.8M to get the buyout (ESPN/RealGM, Aug 21), which leaves $7,660,317 dead on the Mavericks' books. Spotrac's row states the buyout but not the amount, so nothing on the sheet charged Dallas anything at all and $17.5M simply vanished from their cap sheet. This row supplies the figure STATED_DEAD_CAP needs. Cross-check: $7,660,317 from Dallas plus his new Miami salary against the $17,460,317 he walked away from is the ~$3.5M net loss the reporting describes."
+    },
+    {
       "player": "Kentavious Caldwell-Pope",
       "pos": "SG",
       "date": "Jul 25, 2026",

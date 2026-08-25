@@ -1,15 +1,7 @@
 {
   "note": "Corrections from a July 2026 data audit (statuses verified against ESPN / Hoops Rumors / SalarySwish / Spotrac). waivedFreeAgents: players a team waived who are unsigned UFAs — surfaced as signable, with no Bird rights and no team cap hold. suppressDeadCap: dead-money charges that are wrong and should not sit on a team's books. resolvedOfferSheets: RFA offer sheets treated as resolved so the player leaves his old team's hold.",
-  "asOf": "2026-08-17",
-  "waivedFreeAgents": [
-    {
-      "playerId": "derozde01",
-      "name": "DeMar DeRozan",
-      "priorTeam": "SAC",
-      "lastSalary": 24570000,
-      "note": "Waived by Sacramento Jul 6 2026; unsigned UFA. SAC keeps his $10M dead-money guarantee."
-    }
-  ],
+  "asOf": "2026-08-25",
+  "waivedFreeAgents": [],
   "suppressDeadCap": [
     "Brandon Clarke",
     "Vasilije Micic"
@@ -19,5 +11,6 @@
   ],
   "resolvedOfferSheetsNote": "Jul 7 2026, 11:50 PM ET (Slater/ESPN, Shams, Fischer): Golden State declined to match Memphis' 3yr/$30M offer sheet (Y1 $9M guaranteed + $1.35M unlikely incentives), so Post joins the Grizzlies. No longer a pending GSW hold.",
   "pendingSignings": [],
-  "pendingSigningsNote": "Larry Nance Jr. was held pending Jul 8 - Aug 17 2026: he agreed to a 1yr veteran minimum with IND ($3.88M salary, ~$2.45M cap charge), but on our reconciled sheet that charge sat ~$0.85M OVER Indiana's Oubre NT-MLE first-apron hard cap, and reporting had not resolved his guarantee structure. Released Aug 17: the feed carries the executing row (Jul 9, \"Signed a 1 year $3.88 million contract\", past tense with terms), and Indiana's sheet has since fallen to $203.981M — $5.034M under the $209.015M hard cap, so the deemed 2-YOS charge of $2,449,421 now fits with $2.585M to spare. The reason for the hold expired; the hold should not outlive it."
+  "pendingSigningsNote": "Larry Nance Jr. was held pending Jul 8 - Aug 17 2026: he agreed to a 1yr veteran minimum with IND ($3.88M salary, ~$2.45M cap charge), but on our reconciled sheet that charge sat ~$0.85M OVER Indiana's Oubre NT-MLE first-apron hard cap, and reporting had not resolved his guarantee structure. Released Aug 17: the feed carries the executing row (Jul 9, \"Signed a 1 year $3.88 million contract\", past tense with terms), and Indiana's sheet has since fallen to $203.981M — $5.034M under the $209.015M hard cap, so the deemed 2-YOS charge of $2,449,421 now fits with $2.585M to spare. The reason for the hold expired; the hold should not outlive it.",
+  "waivedFreeAgentsNote": "DeMar DeRozan was carried here Jul 8 - Aug 25 2026 as a waived, unsigned UFA. Removed on Aug 25: he signed with Denver on Aug 21, and this list only describes players who are still unsigned — leaving him on it put him in the free-agent pool while he was also under contract in Denver. Sacramento's $10M guarantee did not go away with him; it moved to a manual-moves Release row so STATED_DEAD_CAP keeps it on their books beside his new deal, the way Jonathan Isaac's ORL charge works."
 }

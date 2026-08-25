@@ -189,7 +189,46 @@ for (const t of scraped) {
   if (!merged.has(keyOf(t))) added++;
   merged.set(keyOf(t), t);
 }
-const transactions = [...merged.values()].sort((a, b) => toIso(b.date).localeCompare(toIso(a.date)));
+
+/**
+ * Collapse REPUBLICATIONS of the same event.
+ *
+ * Spotrac rewrites a deal after it lands — re-dating it, and re-wording the
+ * clause ledger as the legs firm up. Because the merge key includes the detail
+ * text, every rewrite used to survive as its own row: the five-team Watson
+ * trade ended up filed under both Aug 19 and Aug 20, with two different Aug 19
+ * rows for Cam Whitmore alone. Downstream that is one deal shown twice.
+ *
+ * A TRADE is identified by its player and the SET of teams in its prose, which
+ * keeps genuinely separate deals apart — Schröder moving CLE→CHA on Aug 14 is
+ * {CHA,CLE}, and the five-teamer that moved him again is a five-team set.
+ * Everything else is identified by player + date + type. The survivor is the
+ * newest row, and among same-date rows the one with the longest detail, which
+ * is the most completely enumerated version the feed has published.
+ */
+function collapse(rows) {
+  const codes = (d) => [...new Set([...d.matchAll(/\(([A-Z]{2,4})\)/g)].map((m) => m[1]))].sort().join("-");
+  const eventOf = (t) =>
+    t.type === "Trade"
+      ? `T|${t.player}|${codes(t.detail)}`
+      : `${t.type}|${t.player}|${t.date}`;
+  const best = new Map();
+  for (const t of rows) {
+    const k = eventOf(t);
+    const prev = best.get(k);
+    if (!prev) { best.set(k, t); continue; }
+    const newer = toIso(t.date).localeCompare(toIso(prev.date));
+    if (newer > 0 || (newer === 0 && t.detail.length > prev.detail.length)) best.set(k, t);
+  }
+  return [...best.values()];
+}
+
+const before = merged.size;
+const transactions = collapse([...merged.values()]).sort((a, b) =>
+  toIso(b.date).localeCompare(toIso(a.date)),
+);
+if (before !== transactions.length)
+  console.log(`Collapsed ${before - transactions.length} republished row(s) of events already held.`);
 
 writeFileSync(OUT, JSON.stringify({ source: "Spotrac (via Firecrawl)", transactions }, null, 2));
 console.log(

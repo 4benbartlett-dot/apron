@@ -13,15 +13,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "maxi kleber": {
-      "name": "Maxi Kleber",
-      "team": "LAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "gabe vincent": {
       "name": "Gabe Vincent",
       "team": "ATL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "maxi kleber": {
+      "name": "Maxi Kleber",
+      "team": "LAL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -91,15 +91,21 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "bismack biyombo": {
-      "name": "Bismack Biyombo",
-      "team": "SAS",
+    "garrett temple": {
+      "name": "Garrett Temple",
+      "team": "TOR",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "joe ingles": {
-      "name": "Joe Ingles",
-      "team": "MIN",
+    "bismack biyombo": {
+      "name": "Bismack Biyombo",
+      "team": "SAS",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
@@ -109,21 +115,15 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "garrett temple": {
-      "name": "Garrett Temple",
-      "team": "TOR",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "jeff green": {
       "name": "Jeff Green",
       "team": "HOU",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "doug mcdermott": {
-      "name": "Doug McDermott",
-      "team": "SAC",
+    "joe ingles": {
+      "name": "Joe Ingles",
+      "team": "MIN",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
@@ -149,15 +149,15 @@
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
-    "bruce brown": {
-      "name": "Bruce Brown Jr.",
-      "team": "DEN",
-      "restriction": "UFA",
-      "birdStatus": "non_bird"
-    },
     "drew eubanks": {
       "name": "Drew Eubanks",
       "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "non_bird"
+    },
+    "bruce brown": {
+      "name": "Bruce Brown Jr.",
+      "team": "DEN",
       "restriction": "UFA",
       "birdStatus": "non_bird"
     },
@@ -261,12 +261,6 @@
       "team": "BOS",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "brandon williams": {
-      "name": "Brandon Williams",
-      "team": "DAL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
     },
     "hayden gray": {
       "name": "Hayden Gray",

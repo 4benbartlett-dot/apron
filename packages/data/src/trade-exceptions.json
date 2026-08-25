@@ -200,6 +200,16 @@
     },
     {
       "team": "CLE",
+      "player": "Max Strus",
+      "amount": 16660836,
+      "expires": "2027-08-20",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CLE",
       "player": "Lonzo Ball",
       "amount": 10000000,
       "expires": "2027-02-05",
@@ -211,8 +221,9 @@
     {
       "team": "CLE",
       "player": "De'Andre Hunter",
-      "amount": 6897984,
+      "amount": 1439674,
       "expires": "2027-02-01",
+      "original": 6897984,
       "sources": [
         "spotrac",
         "salaryswish"
@@ -272,6 +283,26 @@
       "original": 2296274,
       "sources": [
         "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "DEN",
+      "player": "Payton Watson trade with CLE - unusable if over 2nd Apron",
+      "amount": 10232558,
+      "expires": "2027-08-20",
+      "singleSource": true,
+      "sources": [
+        "spotrac"
+      ]
+    },
+    {
+      "team": "DEN",
+      "player": "Peyton Watson",
+      "amount": 10232558,
+      "expires": "2027-08-20",
+      "singleSource": true,
+      "sources": [
         "salaryswish"
       ]
     },
@@ -337,20 +368,6 @@
     },
     {
       "team": "LAC",
-      "player": "John Collins",
-      "amount": 17000000,
-      "expires": "2027-07-08",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ],
-      "amountMismatch": {
-        "spotrac": 17000000,
-        "salaryswish": 15740741
-      }
-    },
-    {
-      "team": "LAC",
       "player": "Kobe Brown",
       "amount": 2654880,
       "expires": "2027-02-05",
@@ -378,6 +395,21 @@
         "spotrac",
         "salaryswish"
       ]
+    },
+    {
+      "team": "LAC",
+      "player": "John Collins",
+      "amount": 339164,
+      "expires": "2027-07-08",
+      "original": 17000000,
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ],
+      "amountMismatch": {
+        "spotrac": 339164,
+        "salaryswish": 0
+      }
     },
     {
       "team": "LAL",

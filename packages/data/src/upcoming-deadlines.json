@@ -1568,12 +1568,12 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Tre Mann",
+      "player": "Dennis Schröder",
       "team": "CHA",
       "pos": "PG",
-      "kind": "CLUB",
-      "amount": 8000000,
-      "note": "Club Option"
+      "kind": "GUARANTEED",
+      "amount": 15514400,
+      "note": "Guaranteed"
     },
     {
       "date": "6/29/2027",
@@ -1667,21 +1667,21 @@
     },
     {
       "date": "6/29/2027",
+      "player": "Cam Whitmore",
+      "team": "CLE",
+      "pos": "SF",
+      "kind": "RFA / QO",
+      "amount": 8367590,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Donovan Mitchell",
       "team": "CLE",
       "pos": "SG",
       "kind": "PLAYER",
       "amount": 53817156,
       "note": "Player Option"
-    },
-    {
-      "date": "6/29/2027",
-      "player": "Dennis Schröder",
-      "team": "CLE",
-      "pos": "PG",
-      "kind": "GUARANTEED",
-      "amount": 15514400,
-      "note": "Guaranteed"
     },
     {
       "date": "6/29/2027",
@@ -1832,6 +1832,15 @@
       "player": "K.J. Simpson",
       "team": "DEN",
       "pos": "PG",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Julian Reese",
+      "team": "DEN",
+      "pos": "F",
       "kind": "RFA / QO",
       "amount": 0,
       "note": "Qualifying Offer — — TBD - Two-Way"
@@ -2303,6 +2312,15 @@
       "kind": "RFA / QO",
       "amount": 0,
       "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Klay Thompson",
+      "team": "MIA",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 6658537,
+      "note": "Player Option"
     },
     {
       "date": "6/29/2027",
@@ -2972,15 +2990,6 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Cam Whitmore",
-      "team": "WAS",
-      "pos": "SF",
-      "kind": "RFA / QO",
-      "amount": 8367590,
-      "note": "Qualifying Offer to be paid on 06/29/2027"
-    },
-    {
-      "date": "6/29/2027",
       "player": "Anthony Davis",
       "team": "WAS",
       "pos": "C",
@@ -3008,21 +3017,21 @@
     },
     {
       "date": "6/29/2027",
+      "player": "Tre Mann",
+      "team": "WAS",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 8000000,
+      "note": "Club Option"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Tristan Vukcevic",
       "team": "WAS",
       "pos": "C",
       "kind": "CLUB",
       "amount": 3000000,
       "note": "Club Option"
-    },
-    {
-      "date": "6/29/2027",
-      "player": "Julian Reese",
-      "team": "WAS",
-      "pos": "F",
-      "kind": "RFA / QO",
-      "amount": 0,
-      "note": "Qualifying Offer — — TBD - Two-Way"
     },
     {
       "date": "6/29/2027",
@@ -3594,7 +3603,7 @@
     {
       "date": "7/7/2027",
       "player": "Dennis Schröder",
-      "team": "CLE",
+      "team": "CHA",
       "pos": "PG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,

@@ -326,9 +326,16 @@ describe("Aug 19-20 — the five-team Watson deal and the Harden re-sign", () =>
     // published $28.4MM of first-apron room once the trade was official. Our
     // sheet reaches it independently, from contracts — the single best external
     // check this project has on a live cap number.
-    const preHarden = rewind(clone(BASE_CONTRACTS), "2026-08-19", ["CLE"]);
-    const room = C.firstApron - committed(preHarden, "CLE");
-    console.log(`  CLE post-trade ${M(committed(preHarden, "CLE"))} → room ${M(room)} vs reported $28.4M`);
+    // Measured as "today's sheet minus Harden" rather than by rewinding to a
+    // date: the feed re-dated the five-teamer across Aug 19 and Aug 20, so no
+    // single cutoff separates "trade done" from "Harden signed" any more. The
+    // quantity the reporting names is the room BEFORE the re-signing, and this
+    // is that quantity however the wire files the trade.
+    const harden = find("James Harden");
+    const preHarden = committed(BASE_CONTRACTS, "CLE") -
+      harden.years.find((y) => y.leagueYear === YEAR)!.salary;
+    const room = C.firstApron - preHarden;
+    console.log(`  CLE post-trade ${M(preHarden)} → room ${M(room)} vs reported $28.4M`);
     expect(Math.abs(room - 28_400_000)).toBeLessThan(100_000);
   });
 
