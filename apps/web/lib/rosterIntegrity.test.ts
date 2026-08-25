@@ -17,10 +17,18 @@ describe("Randle–Claxton multi-team + the later Gueye trade", () => {
   it("lands every leg", () => {
     expect(teamOf("Julius Randle")).toBe("BKN");
     expect(teamOf("Nic Claxton")).toBe("CHI"); // prose calls him "Nicolas"
-    // Mouhamadou Gueye then moved on: a Jul 10 four-teamer sent him CHI → CHA.
-    expect(teamOf("Mouhamadou Gueye")).toBe("CHA");
-    // The OTHER Gueye stays put — the surname fallback must not cross-match.
+    // Mouhamadou Gueye then moved on twice: a Jul 10 four-teamer sent him
+    // CHI → CHA, and Charlotte waived him on Jul 30. He is off the roster
+    // entirely — his $2,411,090 was non-guaranteed (Star Tribune), so Charlotte
+    // owes nothing and carries a $0 dead row rather than a salary. Asserting
+    // the WAIVE is the stronger check: for a month he stayed live on Charlotte
+    // because ACTIVE_LATER had no date in it and his earlier trade counted as
+    // "later" than his own release.
+    expect(BASE_CONTRACTS.filter((c) => c.playerName === "Mouhamadou Gueye" && !c.deadMoney)).toHaveLength(0);
+    // The OTHER Gueye stays put — the surname fallback must not cross-match,
+    // and a bad match here would have waived Atlanta's man instead.
     expect(teamOf("Mouhamed Gueye")).toBe("ATL");
+    expect(currentSalary(BASE_CONTRACTS.find((c) => c.playerName === "Mouhamed Gueye")!)).toBeGreaterThan(0);
   });
 });
 

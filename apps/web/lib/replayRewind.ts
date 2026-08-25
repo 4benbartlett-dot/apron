@@ -24,13 +24,8 @@ import { YEAR, normName } from "@/lib/league";
 // lists are for — but roster and salary go back to where they were.
 // ---------------------------------------------------------------------------
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/** "Aug 14, 2026" → "2026-08-14"; "" when the feed's date is unparseable. */
-export function isoDate(d: string): string {
-  const m = d.match(/([A-Z][a-z]{2})\s+(\d{1,2}),\s*(\d{4})/);
-  return m ? `${m[3]}-${String(MONTHS.indexOf(m[1]!) + 1).padStart(2, "0")}-${m[2]!.padStart(2, "0")}` : "";
-}
+export { feedIso as isoDate } from "@/lib/feedDate";
+import { feedIso as isoDate } from "@/lib/feedDate";
 
 const stdTeam = (code: string) => (code.toUpperCase() === "LA" ? "LAC" : code.toUpperCase());
 
