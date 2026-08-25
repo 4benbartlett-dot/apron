@@ -2,6 +2,14 @@
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
   "transactions": [
     {
+      "player": "Quinten Post",
+      "pos": "C",
+      "date": "Jul 08, 2026",
+      "type": "Other",
+      "detail": "Memphis (MEM) fully guaranteed $9 million salary for 2026-27",
+      "why": "His offer sheet is reported as 3yr/$30M, which is $26.1M of base plus $1.35M a year of unlikely incentives; the signings feed carries the $26.1M base. Back-solved with standard 5% RAISES that gives a 2026-27 of $8,285,714, but the deal DESCENDS — Spotrac's cap table has him at $9,000,000, and 9.0 + 8.7 + 8.4 is $26.1M exactly, the same total from the other direction. A descending shape is legal (Art. II §5(b) allows an 8% decline) and it is what was filed, so the year-one figure is stated here for STATED_SALARY rather than inferred. Our own resolvedOfferSheetsNote already said 'Y1 $9M guaranteed'; nothing was reading it."
+    },
+    {
       "player": "DeMar DeRozan",
       "pos": "SF",
       "date": "Jul 06, 2026",
