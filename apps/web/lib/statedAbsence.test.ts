@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { parseAbsence, injuryOf, BASE_CONTRACTS, normName } from "@/lib/league";
+import { hardCapCause } from "@/lib/format";
 
 // ---------------------------------------------------------------------------
 // OFFSEASON INJURIES, read off the wire.
@@ -60,5 +61,38 @@ describe("reading an absence off the wire", () => {
     expect(inj.status).toBe("out");
     expect(inj.desc).toContain("torn meniscus");
     expect(inj.team).toBe("POR");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// PUBLIC COPY. feed-team-state stores hard-cap causes as compact internal
+// labels, and they were being printed raw onto team pages and search results:
+// "hard cap from De'Anthony Melton Taxpayer MLE" reads like two database
+// columns stuck together, and "NT-MLE" is an acronym a reader cannot expand.
+// ---------------------------------------------------------------------------
+
+describe("naming a hard cap's cause in English", () => {
+  it("expands the acronyms and makes the name possessive", () => {
+    expect(hardCapCause("Rui Hachimura NT-MLE")).toBe("Rui Hachimura’s non-taxpayer mid-level");
+    expect(hardCapCause("De'Anthony Melton Taxpayer MLE")).toBe("De'Anthony Melton’s taxpayer mid-level");
+  });
+
+  it("drops the full/partial bookkeeping, which changes nothing for a reader", () => {
+    expect(hardCapCause("Luke Kennard Taxpayer MLE (full)")).toBe("Luke Kennard’s taxpayer mid-level");
+    expect(hardCapCause("Kelly Oubre Jr. NT-MLE (partial)")).toBe("Kelly Oubre Jr.’s non-taxpayer mid-level");
+  });
+
+  it("does not force a possessive onto two players sharing one exception", () => {
+    expect(hardCapCause("Hayes + Okogie NT-MLE (split)")).toBe("the Hayes + Okogie non-taxpayer mid-level");
+  });
+
+  it("reads a sign-and-trade as the deal, not as a possession", () => {
+    expect(hardCapCause("Peyton Watson sign-and-trade acquisition")).toBe("the Peyton Watson sign-and-trade");
+    expect(hardCapCause("Khris Middleton sign-and-trade")).toBe("the Khris Middleton sign-and-trade");
+  });
+
+  it("passes anything it does not recognise through untouched", () => {
+    expect(hardCapCause("a move you've staged this session")).toBe("a move you've staged this session");
+    expect(hardCapCause(undefined)).toBeUndefined();
   });
 });

@@ -39,7 +39,14 @@ describe("tradeConsequences", () => {
       { DEN: { amount: 8_000_000, preExisting: true, firstApronCap: true } },
       () => 0,
     );
-    expect(items.some((i) => i.severity === "cap" && /Regular-Season-arisen traded-player exception/.test(i.text))).toBe(true);
+    // Matched on the RULE, not the sentence. These assertions used to pin exact
+    // prose and broke the moment the copy was rewritten to read like English,
+    // which is a test failing for the wrong reason.
+    expect(
+      items.some(
+        (i) => i.severity === "cap" && /traded-player exception/i.test(i.text) && /regular season/i.test(i.text),
+      ),
+    ).toBe(true);
   });
 
   it("does NOT flag a hard cap when the TPE arose this offseason (row F(ii))", () => {
@@ -57,7 +64,9 @@ describe("tradeConsequences", () => {
       undefined,
       () => 0,
     );
-    expect(items.some((i) => i.severity === "restrict" && /second apron/.test(i.text) && /aggregate/.test(i.text))).toBe(true);
+    expect(
+      items.some((i) => i.severity === "restrict" && /second apron/i.test(i.text) && /aggregat/i.test(i.text)),
+    ).toBe(true);
   });
 
   it("always notes the 2-month aggregation freeze on incoming players", () => {

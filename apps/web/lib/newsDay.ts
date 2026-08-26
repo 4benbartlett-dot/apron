@@ -21,6 +21,7 @@ import {
   TEAM_IDS,
 } from "@/lib/league";
 import { rewind, isoDate } from "@/lib/replayRewind";
+import { hardCapCause } from "@/lib/format";
 import { dayBefore, daysBetween } from "@/lib/feedDate";
 import {
   buildDocket,
@@ -449,14 +450,14 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
       ok: room >= 0,
       text:
         room >= 0
-          ? `Fits under the ${fmt(fs.hardCap)} hard cap${fs.hardCapSource ? ` from ${fs.hardCapSource}` : ""} with ${fmt(room)} to spare`
-          : `${fmt(-room)} OVER the ${fmt(fs.hardCap)} hard cap${fs.hardCapSource ? ` from ${fs.hardCapSource}` : ""} — the deal is agreed, and something has to clear before it can be filed`,
+          ? `Fits under the ${fmt(fs.hardCap)} hard cap${hardCapCause(fs.hardCapSource) ? ` from ${hardCapCause(fs.hardCapSource)}` : ""} with ${fmt(room)} to spare`
+          : `${fmt(-room)} OVER the ${fmt(fs.hardCap)} hard cap${hardCapCause(fs.hardCapSource) ? ` from ${hardCapCause(fs.hardCapSource)}` : ""} — the deal is agreed, and something has to clear before it can be filed`,
     });
     if (room < 0) {
       consequences.push({
         team,
         severity: "cap",
-        text: `${team} is ${fmt(-room)} over its own hard cap until it sheds salary. A stretched waive spreads a cut player's money over three years, which is the cheapest room on the board.`,
+        text: `${team} are ${fmt(-room)} over their own hard cap. The deal cannot be filed until they clear the room.`,
       });
       // What clears it, in one line. The sourcing and the arithmetic live in
       // feed-team-state.json where they belong; a reader wants the way out.
@@ -503,7 +504,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
       consequences.push({
         team: fromTeam,
         severity: "cap",
-        text: `${teamMeta(fromTeam).name} still carries ${fmt(currentSalaryOf(dead))} of dead money from the ${/buyout/i.test(waive.detail) ? "buyout" : "waive"} that made this possible — it counts against their cap and their apron, and it pays for a player now on another roster.`,
+        text: `${teamMeta(fromTeam).name} still carry ${fmt(currentSalaryOf(dead))} in dead money from the ${/buyout/i.test(waive.detail) ? "buyout" : "waive"}, against both their cap and their apron.`,
       });
   }
 
