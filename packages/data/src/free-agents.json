@@ -31,12 +31,6 @@
       "restriction": "RFA",
       "birdStatus": "bird"
     },
-    "bennedict mathurin": {
-      "name": "Bennedict Mathurin",
-      "team": "LAC",
-      "restriction": "RFA",
-      "birdStatus": "bird"
-    },
     "jett howard": {
       "name": "Jett Howard",
       "team": "ORL",
@@ -91,17 +85,17 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
+    "jeff green": {
+      "name": "Jeff Green",
+      "team": "HOU",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
     "garrett temple": {
       "name": "Garrett Temple",
       "team": "TOR",
       "restriction": "UFA",
       "birdStatus": "bird"
-    },
-    "doug mcdermott": {
-      "name": "Doug McDermott",
-      "team": "SAC",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
     },
     "bismack biyombo": {
       "name": "Bismack Biyombo",
@@ -115,15 +109,15 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "jeff green": {
-      "name": "Jeff Green",
-      "team": "HOU",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "joe ingles": {
       "name": "Joe Ingles",
       "team": "MIN",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
