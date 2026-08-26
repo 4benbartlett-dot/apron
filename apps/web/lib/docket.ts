@@ -1,7 +1,7 @@
 import { matchRuleLabel, classifyTier, type ApronTier, type TeamTradeSummary } from "@apron/cba-engine";
 import { C, teamMeta, feedStateOf, isRowFCapped } from "@/lib/league";
 import { pickShareLabel, swapShareLabel, type DecodedSwap } from "@/lib/trade-share";
-import { fmtM } from "@/lib/format";
+import { fmtM, hardCapCause } from "@/lib/format";
 
 // ---------------------------------------------------------------------------
 // The docket's PURE half: assemble a trade's ledger, its receipt of rules, and
@@ -133,7 +133,7 @@ export function buildChecks(opts: {
       })
       .map((t) => ({
         ok: true,
-        text: `${t.teamId} used a Regular-Season-arisen TPE — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the league year`,
+        text: `${t.teamId} used a traded-player exception that arose in the regular season — hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the league year`,
       })),
     // Real-July hard caps the deal respects — named so readers can check.
     ...involved
@@ -142,14 +142,14 @@ export function buildChecks(opts: {
         const fs = feedStateOf(t.teamId);
         return {
           ok: true,
-          text: `${t.teamId} stays ${fmtM(fs.hardCap - t.postTradeSalary)} under the hard cap from a real move this offseason${fs.hardCapSource ? ` (${fs.hardCapSource})` : ""}`,
+          text: `${t.teamId} stays ${fmtM(fs.hardCap - t.postTradeSalary)} under the hard cap from a real move this offseason${hardCapCause(fs.hardCapSource) ? ` (${hardCapCause(fs.hardCapSource)})` : ""}`,
         };
       }),
     ...involved
       .filter((t) => classifyTier(t.postTradeSalary, C) === "second_apron")
       .map((t) => ({
         ok: true,
-        text: `${t.teamId} finishes over the second apron — no aggregation or cash used, as required`,
+        text: `${t.teamId} finish over the second apron — no aggregating and no cash, as required`,
       })),
     ...(hasFirsts
       ? [{ ok: true, text: "Stepien rule satisfied — no team left without firsts in consecutive future drafts" }]
@@ -190,7 +190,7 @@ export function tradeConsequences(
       out.push({
         team: t.teamId,
         severity: "cap",
-        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season — it used expanded matching (took back more than 100% + $250k of the salary it sent out).`,
+        text: `${name(t.teamId)} are now hard-capped at the first apron (${fmtM(C.firstApron)}) for the rest of the season — they used expanded matching, taking back more than 100% + $250k of what they sent out.`,
       });
     }
     const use = tpeUse?.[t.teamId];
@@ -199,7 +199,7 @@ export function tradeConsequences(
       out.push({
         team: t.teamId,
         severity: "cap",
-        text: `${name(t.teamId)} is now hard-capped at the first apron (${fmtM(C.firstApron)}) — it spent a Regular-Season-arisen traded-player exception (restriction row F).`,
+        text: `${name(t.teamId)} are now hard-capped at the first apron (${fmtM(C.firstApron)}) — they spent a traded-player exception that arose in the regular season (restriction row F).`,
       });
     }
     // Row H / row I: aggregating salaries or sending cash is LEGAL if the team
@@ -212,7 +212,7 @@ export function tradeConsequences(
       out.push({
         team: t.teamId,
         severity: "cap",
-        text: `${name(t.teamId)} is now hard-capped at the second apron (${fmtM(C.secondApron)}) for the season — it ${aggCap ? "aggregated salaries to match one incoming player (Art. VII §2(e), row H)" : "sent cash in the trade (row I)"}.`,
+        text: `${name(t.teamId)} are now hard-capped at the second apron (${fmtM(C.secondApron)}) for the season — they ${aggCap ? "aggregated salaries to match one incoming player (Art. VII §2(e), row H)" : "sent cash in the trade (row I)"}.`,
       });
     }
     const tier = tierConsequence(t.teamId, t.postTradeTier);
@@ -240,13 +240,13 @@ export function tierConsequence(team: string, tier: ApronTier): MoveConsequence 
     return {
       team,
       severity: "restrict",
-      text: `${label} finishes over the second apron — it can no longer aggregate salaries, send cash in a trade, or use any mid-level, and its future first can be frozen.`,
+      text: `${label} are over the second apron — no aggregating salaries, no cash in a trade, no mid-level, and a future first can be frozen.`,
     };
   if (tier === "first_apron")
     return {
       team,
       severity: "restrict",
-      text: `${label} finishes over the first apron — limited to strict 100% matching (dollar-for-dollar, no $250k) and the taxpayer mid-level.`,
+      text: `${label} are over the first apron — trades match dollar-for-dollar with no $250k cushion, and the taxpayer mid-level is the only one left.`,
     };
   return null;
 }

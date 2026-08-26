@@ -6,7 +6,7 @@ import { spendingPower } from "@apron/cba-engine";
 import { DRAFT_PICKS, PICK_RIGHTS, type OwnFirstObligation } from "@apron/data";
 import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor } from "@/lib/league";
 import { useLeague } from "@/lib/store";
-import { fmtM, fmtFull } from "@/lib/format";
+import { fmtM, fmtFull, hardCapCause } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
 import { Thermometer } from "@/components/Thermometer";
@@ -57,7 +57,7 @@ export default function TeamWarRoom() {
   // and says WHY the team is limited.
   const canDo: string[] = [];
   if (spaceAfterHolds > 1_000_000)
-    canDo.push(`~${fmtM(spaceAfterHolds)} in cap space (after renouncing/holding its own free agents).`);
+    canDo.push(`~${fmtM(spaceAfterHolds)} in cap space, depending on which of its own free agents it keeps.`);
   const topExc = power.mechanisms.find((m) => m.id !== "minimum" && m.id !== "cap_room");
   // An exception a hard cap has squeezed to nothing is not an exception. A team
   // sitting on its own line still HOLDS its taxpayer mid-level, but offering a
@@ -70,7 +70,7 @@ export default function TeamWarRoom() {
   if (topExc && topExcRoom >= C.minimumSalaries[0]!)
     canDo.push(`Can add an outside free agent up to ${fmtM(topExcRoom)} via the ${topExc.label}.`);
   else
-    canDo.push("Outside free agents can only be added on minimum deals — its cap room and exceptions are already spent, dead for the year, or squeezed to nothing by a hard cap.");
+    canDo.push("Minimum deals only for outside free agents — no cap room, and no exception left big enough to use.");
 
   // Why it's limited: what the audited July actually did.
   if (feed.roomTeam)
@@ -79,7 +79,7 @@ export default function TeamWarRoom() {
     // A cap tighter than the real-July feed means the user's own staged move
     // triggered it; attribute it so the "why" stays honest.
     const sessionTriggered = !Number.isFinite(feed.hardCap) || liveHardCap < feed.hardCap;
-    const src = sessionTriggered ? "a move you've staged this session" : feed.hardCapSource ? `the ${feed.hardCapSource}` : "";
+    const src = sessionTriggered ? "a move you've staged this session" : hardCapCause(feed.hardCapSource) ?? "";
     canDo.push(`Hard-capped at the ${liveHardCap === C.firstApron ? "first" : "second"} apron${src ? ` — triggered by ${src}` : ""}, so it can't cross that line the rest of the season.`);
     // A sheet already past its own hard cap is a state the CBA does not let
     // persist, so the page has to account for it or the number reads as a bug.

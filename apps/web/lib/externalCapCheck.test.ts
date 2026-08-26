@@ -20,6 +20,13 @@ import ext from "../../../packages/data/src/external-cap-check.json";
 // about: the shape stays the same, the outliers stay the same size, and a NEW
 // team drifting is the thing that breaks the build.
 //
+// A LIKELY source of the residual, from Marks himself: APRON team salary counts
+// unlikely bonuses, and ordinary team salary does not. His Denver graphic is
+// labelled "*Includes bonuses" and he describes New Orleans as "$7.4M (unlikely
+// bonuses count) under the first apron". We do not model incentives at all, so
+// we would read low by whatever a roster carries in them — which is the shape
+// of the gap: small, almost everywhere, and mostly in one direction.
+//
 // Refresh with: node packages/data/scripts/scrape-apron-tracker.mjs
 // ---------------------------------------------------------------------------
 
