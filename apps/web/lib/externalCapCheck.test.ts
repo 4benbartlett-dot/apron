@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { teamSalary as engTeamSalary } from "@apron/cba-engine";
 import { BASE_CONTRACTS, TEAM_IDS, C, YEAR, leagueData, currentSalary, normName } from "@/lib/league";
+import { TRANSACTIONS } from "@apron/data";
+import { feedIso } from "@/lib/feedDate";
 import ext from "../../../packages/data/src/external-cap-check.json";
 
 // ---------------------------------------------------------------------------
@@ -27,6 +29,44 @@ const ours = (t: string) => engTeamSalary(leagueData(BASE_CONTRACTS), t, YEAR);
 const M = (x: number) => `$${(x / 1e6).toFixed(2)}M`;
 
 /**
+ * Salary we have booked that Spotrac has not filed yet.
+ *
+ * They lag a day or two on a fresh signing, so the morning after a deal our
+ * sheet reads high by exactly that contract and their number is not wrong — it
+ * is just older. Hard-coding a bigger ceiling for whoever signed yesterday
+ * would mean editing this file every time the league does something; computing
+ * the allowance from the feed means the check maintains itself and the
+ * tolerance shrinks back on its own once they catch up.
+ *
+ * The window is deliberately short. Cleveland's Harden has been agreed for six
+ * days and is NOT covered by this — a deal nobody has filed after a week is a
+ * fact about the deal, not about Spotrac's refresh cycle, and it belongs in
+ * EXPLAINED with a reason.
+ */
+const FRESH_DAYS = 4;
+const freshlySigned = (team: string): number => {
+  const cutoff = new Date(`${ext.asOf}T12:00:00Z`);
+  cutoff.setUTCDate(cutoff.getUTCDate() - FRESH_DAYS);
+  const floor = cutoff.toISOString().slice(0, 10);
+  let sum = 0;
+  const seen = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    const d = feedIso(t.date);
+    if (!d || d < floor) continue;
+    const k = normName(t.player);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    const c = BASE_CONTRACTS.find((x) => normName(x.playerName) === k && !x.deadMoney && x.teamId === team);
+    if (c) sum += currentSalary(c);
+  }
+  return sum;
+};
+
+/** How far apart we are once their filing lag is taken out. */
+const gap = (t: string) => Math.max(0, Math.abs(ours(t) - theirs(t)) - freshlySigned(t));
+
+/**
  * Teams whose gap is explained, with the explanation and a ceiling on it. A
  * team may only be here while someone can say WHY, and the bound is what makes
  * it a check rather than an exemption: Cleveland is allowed to be one unfiled
@@ -38,11 +78,10 @@ const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
     why: "We book Harden's agreed 3yr/$97M; Spotrac has not filed it. Their $180,603,446 is our sheet minus his $29,938,271 — the two agree to $389 on everything else, which is the tightest external match in the league.",
   },
   MEM: {
-    maxGap: 10_000_000,
+    maxGap: 9_500_000,
     why: "Open. Their table carries a Taj Gibson minimum and an Olivier-Maxence Prosper we have on Dallas, plus a Cole Anthony dead-money row we do not. Leads, not verdicts — their cap page mixes holds and dead money into the same column.",
   },
   WAS: { maxGap: 9_000_000, why: "Open, unattributed. Largest unexplained gap in the league after Memphis." },
-  SAC: { maxGap: 7_000_000, why: "Open, unattributed." },
   HOU: { maxGap: 7_000_000, why: "Open, unattributed — we read HIGHER, unlike most." },
   CHA: { maxGap: 6_000_000, why: "Open, unattributed." },
   DAL: { maxGap: 6_000_000, why: "Open, unattributed — we read higher; Prosper sits here and on their Memphis page." },
@@ -68,22 +107,24 @@ describe("our cap sheet against Spotrac's", () => {
   it("no team drifts further than we have accounted for", () => {
     const over: string[] = [];
     for (const t of TEAM_IDS) {
-      const gap = Math.abs(ours(t) - theirs(t));
+      const g = gap(t);
       const limit = EXPLAINED[t]?.maxGap ?? ROUTINE_GAP;
-      if (gap > limit)
-        over.push(`${t} differs by ${M(gap)} (limit ${M(limit)}${EXPLAINED[t] ? ", explained" : ", routine"})`);
+      if (g > limit)
+        over.push(`${t} differs by ${M(g)} (limit ${M(limit)}${EXPLAINED[t] ? ", explained" : ", routine"})`);
     }
     expect(over).toEqual([]);
   });
 
   it("the league-wide gap has not quietly grown", () => {
     // One number for the whole reconciliation. It was $75.4M excluding
-    // Cleveland when this check was written, and $69.7M once Quinten Post's
-    // descending offer sheet was booked at its filed year one. A jump means
-    // something systemic moved, even if no single team broke its own limit.
-    const total = TEAM_IDS.filter((t) => t !== "CLE").reduce((s, t) => s + Math.abs(ours(t) - theirs(t)), 0);
+    // Cleveland when this check was written, $69.7M once Quinten Post's
+    // descending offer sheet was booked at its filed year one, and $64.6M once
+    // the filing-lag allowance stopped counting deals they simply had not
+    // entered yet. A jump means something systemic moved, even if no single
+    // team broke its own limit.
+    const total = TEAM_IDS.filter((t) => t !== "CLE").reduce((s, t) => s + gap(t), 0);
     console.log(`  league-wide |gap| excluding CLE: ${M(total)}`);
-    expect(total).toBeLessThan(85_000_000);
+    expect(total).toBeLessThan(72_000_000);
   });
 
   it("Cleveland agrees to the dollar once Harden is set aside", () => {

@@ -2,6 +2,20 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Bennedict Mathurin",
+      "pos": "SG",
+      "date": "Aug 26, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $16 million contract with New Orleans Pelicans (NOP) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Georges Niang",
+      "pos": "PF",
+      "date": "Aug 26, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.88 million contract with Golden State Warriors (GSW)"
+    },
+    {
       "player": "Brandon Williams",
       "pos": "PG",
       "date": "Aug 25, 2026",

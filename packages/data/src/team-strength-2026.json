@@ -1,6 +1,6 @@
 {
-  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-08-25.",
-  "asOf": "2026-08-25",
+  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-08-26.",
+  "asOf": "2026-08-26",
   "calibration": {
     "talentZ": 2.561,
     "perdZ": 1.496,

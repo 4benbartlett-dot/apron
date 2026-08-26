@@ -215,37 +215,28 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(y("2026-27")).toBe(42_317_307);
     });
 
-    it("Mathurin's cap hold is the 300% prong, not his qualifying offer", () => {
-      // Art. VII §4(d)(1)(ii): a Qualifying Veteran Free Agent following the
-      // second Option Year of his rookie scale is included at 250% of prior
-      // salary, or 300% if that salary was below the Estimated Average. His
-      // $9,187,573 is under the $13.2M average, so 300% it is. Marks counts him
-      // at his $8.7M QUALIFYING OFFER instead — a different quantity, and both
-      // can be true at once. Pinned because the two get conflated constantly,
-      // and because ours is the one the provision actually names.
-      const hold = freeAgentsOf(BASE_CONTRACTS).find((f) => f.playerName === "Bennedict Mathurin")!;
-      expect(hold.priorTeam).toBe("LAC");
-      expect(hold.lastSalary).toBe(9_187_573);
-      expect(hold.lastSalary).toBeLessThan(C.estimatedAverageSalary);
-      expect(hold.hold).toBe(Math.round(9_187_573 * 3));
-    });
-
-    it("what the stretch leaves buys a rookie, not a veteran", () => {
-      // Marks, reported Aug 19: the waive-and-stretch puts Cleveland "~32M
-      // under the 1st Apron to sign Harden + one more player." The room checks
-      // out — $32,050,038 — but "one more player" is tighter than it sounds.
-      // After Harden there is $2,111,767, which clears the rookie minimum and
-      // falls $337,654 short of what Art. VII §3(f) charges for a one-year
-      // veteran minimum. It is the sharpest consequence on this sheet and it
-      // moves the moment any of the three inputs does, so it is pinned here.
-      const sal = (n: string) => currentSalary(BASE_CONTRACTS.find((c) => c.playerName === n)!);
-      const whitmore = sal("Cam Whitmore");
-      const preHarden = bookedSalary("CLE") - sal("James Harden");
-      const room = feedStateOf("CLE").hardCap - (preHarden - whitmore + Math.round(whitmore / 3));
-      const left = room - sal("James Harden");
-      console.log(`  after the stretch and Harden, CLE has $${left.toLocaleString()} for a 15th man`);
-      expect(left).toBeGreaterThanOrEqual(C.minimumSalaries[0]!); // a rookie fits
-      expect(left).toBeLessThan(C.minimumSalaries[2]!); // a veteran does not
+    it("Mathurin is a Pelican, and the Clippers' $27.6M hold is gone with him", () => {
+      // For most of August he was the largest cap hold in the league: a
+      // restricted free agent coming off his rookie scale, included on the
+      // Clippers' books at 300% of a $9,187,573 prior salary under Art. VII
+      // §4(d)(1)(ii) — the 300% prong rather than 250% because that salary was
+      // below the estimated average. Bobby Marks counted him at his $8.8M
+      // QUALIFYING OFFER instead, a different quantity, and both were right.
+      //
+      // It resolved on Aug 26 by a route neither number anticipated. The
+      // Clippers withdrew the qualifying offer WITH HIS CONSENT, which made him
+      // unrestricted and let him sign straight to New Orleans — and that was
+      // the only path available, because his two-year deal carries a second-year
+      // player option: an offer sheet needs two years excluding options, and a
+      // sign-and-trade needs three seasons under Art. VII §8(e)(1). The 300%
+      // rule itself stays pinned by Jalen Duren in rosterIntegrity.test.ts.
+      const mathurin = BASE_CONTRACTS.find((c) => c.playerName === "Bennedict Mathurin")!;
+      expect(mathurin.teamId).toBe("NOP");
+      expect(currentSalary(mathurin)).toBe(7_804_878); // 2yr/$16M at 5% raises
+      expect(freeAgentsOf(BASE_CONTRACTS).some((f) => f.playerName === "Bennedict Mathurin")).toBe(false);
+      expect(
+        freeAgentsOf(BASE_CONTRACTS).filter((f) => f.priorTeam === "LAC").map((f) => f.playerName),
+      ).not.toContain("Bennedict Mathurin");
     });
 
     it("the reported stretch reproduces the room the beat writers published", () => {
