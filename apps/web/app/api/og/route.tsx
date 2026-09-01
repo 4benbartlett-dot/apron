@@ -75,6 +75,10 @@ interface PTeam {
   st: number;
   g: PLine[];
   s: PLine[];
+  /** Column labels — "GETS"/"SENDS" unless the card is for a signing or a
+   * waive, where the same two columns read "SIGNS"/"VIA" or "WAIVES"/"DEAD". */
+  gl?: string;
+  sl?: string;
 }
 interface Payload {
   v: number;
@@ -86,16 +90,22 @@ interface Payload {
   /** Client's "Filed" date — the server clock may sit past midnight UTC
    * while the user's card on screen still says yesterday. */
   dt?: string;
+  /** Stamp text when the card is not a trade ("LEGAL SIGNING", "STRETCHED").
+   * The verdict color still follows `lg`. */
+  vt?: string;
+  /** "trade" (default) | "sign" | "waive" — only changes the footer wording. */
+  kd?: string;
 }
 
 // Natural (tight) height for the feed card, so it matches the modal's grow.
 function feedHeight(p: Payload): number {
   // Estimated because Satori needs a fixed canvas; erring slightly generous so
   // the footer never clips, tuned so the common card sits close-to-tight.
-  let h = 34 + 36 + 74 + 74 + 28 + 48 + 78; // padT+padB, masthead, logos row, checks label, seal, bar
+  let h = 34 + 36 + 74 + 74 + 28 + 48 + 78 + 30; // padT+padB, masthead, logos row, checks label, seal, bar, margin
   for (const t of p.tm) h += 52 + Math.max(t.g.length, t.s.length, 1) * 40 + 34 + 14;
-  for (const c of p.ck) h += 28 * Math.max(1, Math.ceil(c[1].length / 88)) + 14;
-  if (p.fx) h += 28 * Math.max(1, Math.ceil(p.fx.length / 92)) + 42;
+  // 80 characters a line, not 88: four long checks clipped the footer bar.
+  for (const c of p.ck) h += 28 * Math.max(1, Math.ceil(c[1].length / 80)) + 14;
+  if (p.fx) h += 28 * Math.max(1, Math.ceil(p.fx.length / 84)) + 42;
   return Math.round(h);
 }
 
@@ -145,7 +155,14 @@ function TeamCard({ t, origin }: { t: PTeam; origin: string }) {
     return (
       <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "14px 22px" }}>
         <div style={{ display: "flex", fontSize: 14, fontWeight: 600, letterSpacing: 1, color: muted, marginBottom: 9 }}>
-          {(dir === "g" ? "GETS · " : "SENDS · ") + money(dir === "g" ? t.gt : t.st)}
+          {(() => {
+            // A signing/waive card's second column holds the mechanism or the
+            // player, not a dollar total — a custom label with $0 shows bare.
+            const label = dir === "g" ? t.gl ?? "GETS" : t.sl ?? "SENDS";
+            const amt = dir === "g" ? t.gt : t.st;
+            const custom = dir === "g" ? t.gl : t.sl;
+            return custom && amt === 0 ? label : `${label} · ${money(amt)}`;
+          })()}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
           {lines.length === 0 ? (
@@ -266,7 +283,7 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
             transform: "rotate(-3deg)",
           }}
         >
-          {legal ? "LEGAL TRADE" : "BLOCKED"}
+          {p.vt ?? (legal ? "LEGAL TRADE" : "BLOCKED")}
         </div>
       </div>
 
@@ -343,7 +360,7 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
           color: bg,
         }}
       >
-        FULL TRADE + RULING AT OVERTHEAPRON.COM
+        {p.kd && p.kd !== "trade" ? "FULL RULING AT OVERTHEAPRON.COM" : "FULL TRADE + RULING AT OVERTHEAPRON.COM"}
       </div>
     </div>
   );
