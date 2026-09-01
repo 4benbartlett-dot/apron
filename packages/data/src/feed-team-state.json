@@ -133,7 +133,10 @@
     },
     "NOP": {
       "confidence": "high",
-      "rationale": "One feed signing: DeAndre Jordan 1yr $3,876,529 (y1 = min scale top exactly; prior team NOP per contracts-2025-26) — own re-sign AND minimum-sized, consumes nothing. No exceptions touched, no hard cap. FA holds (Looney, McGowens, Oduro, Dickinson) untouched."
+      "rationale": "One feed signing: DeAndre Jordan 1yr $3,876,529 (y1 = min scale top exactly; prior team NOP per contracts-2025-26) — own re-sign AND minimum-sized, consumes nothing. No exceptions touched, no hard cap. FA holds (Looney, McGowens, Oduro, Dickinson) untouched. CORRECTED Sep 1: Bennedict Mathurin 2yr/$16M (y1 $7,804,878, prior team LAC — an outside signing, Aug 26) was booked without an exception. New Orleans is ~$205M committed, so it cannot be a room signing, and y1 exceeds both the BAE ($5,477,000) and the taxpayer MLE ($6,064,000); the NON-TAXPAYER MLE is the only lawful vehicle, and using it hard-caps New Orleans at the first apron ($209,015,000) for the season — $4.2M of room today. Trendon Watford (Aug 17) is a minimum and consumes nothing. Shams (Aug 26) says the deal 'keeps New Orleans below the luxury tax line this season'; our sheet reads $204.8M against a $200.4M line on 17 standard contracts, and Spotrac's tracker reads $201.1M — both over. The two extra bodies presumably come off before opening night; recorded, not papered over.",
+      "consumedNtmle": 7804878,
+      "inWorldHardCap": "first_apron",
+      "hardCapSource": "Bennedict Mathurin NT-MLE"
     },
     "NYK": {
       "confidence": "high",

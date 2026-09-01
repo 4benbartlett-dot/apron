@@ -256,6 +256,19 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(Math.abs(room - 31_900_000)).toBeLessThan(250_000);
     });
 
+    it("NOP: Mathurin's $7.8M could only be the non-taxpayer MLE, which hard-caps them at the first apron", () => {
+      // Booked Aug 26 with no exception. New Orleans is ~$205M committed, so
+      // it cannot be a room signing; y1 exceeds the BAE ($5,477,000) and the
+      // taxpayer MLE ($6,064,000); the NT-MLE is the only lawful vehicle, and
+      // Art. VII §6(g)(3) freezes the first apron as a hard cap once it is used.
+      const s = feedStateOf("NOP");
+      expect(s.hardCap).toBe(C.firstApron);
+      expect(s.consumed.ntmle).toBe(7_804_878);
+      expect(s.hardCapSource).toContain("Mathurin");
+      const under = C.firstApron - bookedSalary("NOP");
+      expect(under).toBeGreaterThan(0);
+    });
+
     it("MIN: Kuminga's taxpayer MLE hard-caps them at the SECOND apron, and the Green trade made it fit", () => {
       // Aug 26: Jonathan Kuminga, 2yr/$12,431,200 with a 2027-28 player
       // option. Prior team Atlanta, so no Bird rights; y1 is $6,064,000, the
