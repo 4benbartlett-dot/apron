@@ -2,6 +2,90 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Josiah Allick",
+      "pos": "F",
+      "date": "Sep 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Matthew Murrell",
+      "pos": "SG",
+      "date": "Aug 31, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $1.36 million with Utah Jazz (UTA) via Exhibit 10"
+    },
+    {
+      "player": "John Konchar",
+      "pos": "SG",
+      "date": "Aug 30, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN) via Stretch Provision ($4,110,000 cap savings)"
+    },
+    {
+      "player": "Bennedict Mathurin",
+      "pos": "SG",
+      "date": "Aug 29, 2026",
+      "type": "Qualifying Offer",
+      "detail": "LA (LAC) withdrew Qualifying Offer with his consent; becomes an Unrestricted Free Agent"
+    },
+    {
+      "player": "John Konchar",
+      "pos": "SG",
+      "date": "Aug 29, 2026",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Utah (UTA) as part of a 2-team trade: Minnesota (MIN) traded Josh Green and cash to Utah (UTA); Utah (UTA) traded Cody Williams and John Konchar to Minnesota (MIN)"
+    },
+    {
+      "player": "Cody Williams",
+      "pos": "SG",
+      "date": "Aug 29, 2026",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Utah (UTA) as part of a 2-team trade: Minnesota (MIN) traded Josh Green and cash to Utah (UTA); Utah (UTA) traded Cody Williams and John Konchar to Minnesota (MIN)"
+    },
+    {
+      "player": "Josh Green",
+      "pos": "SG",
+      "date": "Aug 29, 2026",
+      "type": "Trade",
+      "detail": "Traded to Utah (UTA) from Minnesota (MIN) as part of a 2-team trade: Minnesota (MIN) traded Josh Green and cash to Utah (UTA); Utah (UTA) traded Cody Williams and John Konchar to Minnesota (MIN)"
+    },
+    {
+      "player": "Julian Reese",
+      "pos": "F",
+      "date": "Aug 28, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Cam Whitmore",
+      "pos": "SF",
+      "date": "Aug 28, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE) via Stretch Provision"
+    },
+    {
+      "player": "J’Vonne Hadley",
+      "pos": "F",
+      "date": "Aug 28, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Miami Heat (MIA) via Exhibit 10"
+    },
+    {
+      "player": "Keshad Johnson",
+      "pos": "PF",
+      "date": "Aug 28, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Miami Heat (MIA)"
+    },
+    {
+      "player": "Nick Richards",
+      "pos": "C",
+      "date": "Aug 27, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.06 million salary contract with Miami Heat (MIA)"
+    },
+    {
       "player": "Bennedict Mathurin",
       "pos": "SG",
       "date": "Aug 26, 2026",
@@ -16,11 +100,53 @@
       "detail": "Agreed to a 1 year $3.88 million contract with Golden State Warriors (GSW)"
     },
     {
+      "player": "Rafael Castro",
+      "pos": "C",
+      "date": "Aug 26, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year Two-Way contract with Houston Rockets (HOU)"
+    },
+    {
+      "player": "Tristen Newton",
+      "pos": "PG",
+      "date": "Aug 26, 2026",
+      "type": "Release",
+      "detail": "Waived by Houston Rockets (HOU)"
+    },
+    {
+      "player": "Bryce Hopkins",
+      "pos": "F",
+      "date": "Aug 26, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Jonathan Kuminga",
+      "pos": "PF",
+      "date": "Aug 26, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12.43 million with Minnesota Timberwolves (MIN) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Brandon Williams",
+      "pos": "PG",
+      "date": "Aug 26, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.63 million contract with Golden State Warriors (GSW)"
+    },
+    {
       "player": "Brandon Williams",
       "pos": "PG",
       "date": "Aug 25, 2026",
       "type": "Signing",
       "detail": "Agreed to a 1 year $2.63 million contract with Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Georges Niang",
+      "pos": "PF",
+      "date": "Aug 25, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Golden State Warriors (GSW)"
     },
     {
       "player": "Shaedon Sharpe",
@@ -1140,7 +1266,7 @@
       "pos": "C",
       "date": "Jul 08, 2026",
       "type": "Signing",
-      "detail": "Signed a 2 year $6.97 million contract with Utah (UTA)"
+      "detail": "Signed a 2 year $7.21 million contract with Utah (UTA)"
     },
     {
       "player": "Nate Ament",
@@ -1154,14 +1280,14 @@
       "pos": "C",
       "date": "Jul 08, 2026",
       "type": "Release",
-      "detail": "Waived by Indiana (IND)"
+      "detail": "Waived by Indiana (IND) ($2,801,346 cap savings)"
     },
     {
       "player": "Jonas Valanciunas",
       "pos": "C",
       "date": "Jul 08, 2026",
       "type": "Release",
-      "detail": "Waived by Denver (DEN); leaves behind $2 million in dead cap"
+      "detail": "Waived by Denver (DEN) via Stretch Provision ($9,333,333 cap savings)"
     },
     {
       "player": "Quinten Post",
@@ -1609,7 +1735,7 @@
       "pos": "SF",
       "date": "Jul 06, 2026",
       "type": "Release",
-      "detail": "Waived by Sacramento (SAC)"
+      "detail": "Waived by Sacramento (SAC) via Stretch Provision ($15,740,000 cap savings)"
     },
     {
       "player": "Nate Ament",
@@ -1658,7 +1784,7 @@
       "pos": "PF",
       "date": "Jul 06, 2026",
       "type": "Trade",
-      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick [MEM pick] , a 2028 2nd round pick [HOU pick] and a 2033 2nd round pick [HOU pick]"
+      "detail": "Traded to Charlotte (CHA) from Houston (HOU) for a 2027 2nd round pick [MEM pick] , a 2028 2nd round pick [HOU pick] , a 2033 2nd round pick [HOU pick] and 110000"
     },
     {
       "player": "Neemias Queta",

@@ -1,6 +1,6 @@
 {
-  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-08-26.",
-  "asOf": "2026-08-26",
+  "source": "team_strength_2026 — projNrtg from the in-repo model baseline (leagueStandings over BASE_CONTRACTS); av = the allocateRotation minutes-weighted mean of player Apron Value; nrtg/w are 2025-26 actuals carried through untouched. Rebaselined 2026-09-01.",
+  "asOf": "2026-09-01",
   "calibration": {
     "talentZ": 2.561,
     "perdZ": 1.496,
@@ -13,13 +13,13 @@
   "byTeam": {
     "ATL": {
       "av": 55.9,
-      "projNrtg": 0.6,
+      "projNrtg": 0.7,
       "nrtg": 2.4,
       "w": 42
     },
     "BKN": {
       "av": 50.6,
-      "projNrtg": -6.1,
+      "projNrtg": -6,
       "nrtg": -10.3,
       "w": 27
     },
@@ -37,7 +37,7 @@
     },
     "CHI": {
       "av": 51.8,
-      "projNrtg": -5.2,
+      "projNrtg": -5.1,
       "nrtg": -5.1,
       "w": 30
     },
@@ -49,25 +49,25 @@
     },
     "DAL": {
       "av": 52.7,
-      "projNrtg": -3.9,
+      "projNrtg": -3.8,
       "nrtg": -5.4,
       "w": 34
     },
     "DEN": {
       "av": 60.9,
-      "projNrtg": 1.5,
+      "projNrtg": 1.6,
       "nrtg": 5.2,
       "w": 50
     },
     "DET": {
-      "av": 56.6,
-      "projNrtg": 4.2,
+      "av": 56.8,
+      "projNrtg": 4.5,
       "nrtg": 8.2,
       "w": 46
     },
     "GSW": {
       "av": 57.2,
-      "projNrtg": 1.7,
+      "projNrtg": 1.8,
       "nrtg": -0.6,
       "w": 42
     },
@@ -79,13 +79,13 @@
     },
     "IND": {
       "av": 53.5,
-      "projNrtg": -4,
+      "projNrtg": -3.9,
       "nrtg": -8,
       "w": 35
     },
     "LAC": {
       "av": 50.1,
-      "projNrtg": -7.1,
+      "projNrtg": -7,
       "nrtg": 1.1,
       "w": 28
     },
@@ -97,7 +97,7 @@
     },
     "MEM": {
       "av": 51.7,
-      "projNrtg": -5.2,
+      "projNrtg": -5.1,
       "nrtg": -5.9,
       "w": 36
     },
@@ -109,19 +109,19 @@
     },
     "MIL": {
       "av": 52.1,
-      "projNrtg": -3.6,
+      "projNrtg": -3.5,
       "nrtg": -6.5,
       "w": 31
     },
     "MIN": {
-      "av": 59.6,
-      "projNrtg": 2.4,
+      "av": 58.4,
+      "projNrtg": 1.7,
       "nrtg": 3.1,
       "w": 46
     },
     "NOP": {
       "av": 51.8,
-      "projNrtg": -4.4,
+      "projNrtg": -4.3,
       "nrtg": -4.7,
       "w": 28
     },
@@ -133,7 +133,7 @@
     },
     "OKC": {
       "av": 67.1,
-      "projNrtg": 13.8,
+      "projNrtg": 13.7,
       "nrtg": 11.1,
       "w": 65
     },
@@ -145,7 +145,7 @@
     },
     "PHI": {
       "av": 61,
-      "projNrtg": 3.7,
+      "projNrtg": 3.8,
       "nrtg": -0.2,
       "w": 44
     },
@@ -157,19 +157,19 @@
     },
     "POR": {
       "av": 56.3,
-      "projNrtg": -1.3,
+      "projNrtg": -1.2,
       "nrtg": -0.2,
       "w": 38
     },
     "SAC": {
       "av": 47.3,
-      "projNrtg": -11.7,
+      "projNrtg": -11.5,
       "nrtg": -10.1,
       "w": 18
     },
     "SAS": {
-      "av": 59.5,
-      "projNrtg": 4.8,
+      "av": 59.8,
+      "projNrtg": 5.1,
       "nrtg": 8.3,
       "w": 51
     },
@@ -180,14 +180,14 @@
       "w": 50
     },
     "UTA": {
-      "av": 52.3,
-      "projNrtg": -4.7,
+      "av": 51.5,
+      "projNrtg": -5.9,
       "nrtg": -8.2,
       "w": 36
     },
     "WAS": {
       "av": 51.4,
-      "projNrtg": -5.2,
+      "projNrtg": -5.1,
       "nrtg": -11.8,
       "w": 31
     }

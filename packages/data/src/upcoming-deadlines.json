@@ -488,12 +488,30 @@
     },
     {
       "date": "10/20/2026",
+      "player": "Brandon Williams",
+      "team": "DAL",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 1400000,
+      "note": "Guaranteed — — Opening Night"
+    },
+    {
+      "date": "10/20/2026",
       "player": "Sean Pedulla",
       "team": "HOU",
       "pos": "G",
       "kind": "GUARANTEED",
       "amount": 0,
       "note": "Guaranteed — — $200,000; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Rafael Castro",
+      "team": "HOU",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
     },
     {
       "date": "10/20/2026",
@@ -518,6 +536,24 @@
       "player": "Jamarion Sharp",
       "team": "LAC",
       "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 0,
+      "note": "Guaranteed — — 50%; first day of Regular Season"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Nick Richards",
+      "team": "MIA",
+      "pos": "C",
+      "kind": "GUARANTEED",
+      "amount": 3066143,
+      "note": "Guaranteed — — Opening Night"
+    },
+    {
+      "date": "10/20/2026",
+      "player": "Keshad Johnson",
+      "team": "MIA",
+      "pos": "PF",
       "kind": "GUARANTEED",
       "amount": 0,
       "note": "Guaranteed — — 50%; first day of Regular Season"
@@ -830,6 +866,15 @@
     },
     {
       "date": "10/31/2026",
+      "player": "Cody Williams",
+      "team": "MIN",
+      "pos": "SG",
+      "kind": "CLUB",
+      "amount": 7669890,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
       "player": "Terrence Shannon Jr.",
       "team": "MIN",
       "pos": "SG",
@@ -1028,15 +1073,6 @@
     },
     {
       "date": "10/31/2026",
-      "player": "Cody Williams",
-      "team": "UTA",
-      "pos": "SG",
-      "kind": "CLUB",
-      "amount": 7669890,
-      "note": "Club Option"
-    },
-    {
-      "date": "10/31/2026",
       "player": "Isaiah Collier",
       "team": "UTA",
       "pos": "PG",
@@ -1163,6 +1199,15 @@
     },
     {
       "date": "1/10/2027",
+      "player": "Brandon Williams",
+      "team": "DAL",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 2625627,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
       "player": "Paul Reed",
       "team": "DET",
       "pos": "C",
@@ -1195,6 +1240,15 @@
       "pos": "C",
       "kind": "GUARANTEED",
       "amount": 2845883,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
+      "player": "Georges Niang",
+      "team": "GSW",
+      "pos": "PF",
+      "kind": "GUARANTEED",
+      "amount": 3876529,
       "note": "Guaranteed"
     },
     {
@@ -1667,15 +1721,6 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Cam Whitmore",
-      "team": "CLE",
-      "pos": "SF",
-      "kind": "RFA / QO",
-      "amount": 8367590,
-      "note": "Qualifying Offer to be paid on 06/29/2027"
-    },
-    {
-      "date": "6/29/2027",
       "player": "Donovan Mitchell",
       "team": "CLE",
       "pos": "SG",
@@ -1838,7 +1883,7 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Julian Reese",
+      "player": "Bryce Hopkins",
       "team": "DEN",
       "pos": "F",
       "kind": "RFA / QO",
@@ -1973,15 +2018,6 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Tristen Newton",
-      "team": "HOU",
-      "pos": "PG",
-      "kind": "RFA / QO",
-      "amount": 0,
-      "note": "Qualifying Offer — — TBD - Two-Way"
-    },
-    {
-      "date": "6/29/2027",
       "player": "Marcus Smart",
       "team": "HOU",
       "pos": "PG",
@@ -2003,6 +2039,15 @@
       "player": "Sean Pedulla",
       "team": "HOU",
       "pos": "G",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Rafael Castro",
+      "team": "HOU",
+      "pos": "C",
       "kind": "RFA / QO",
       "amount": 0,
       "note": "Qualifying Offer — — TBD - Two-Way"
@@ -2321,6 +2366,15 @@
       "kind": "PLAYER",
       "amount": 6658537,
       "note": "Player Option"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Keshad Johnson",
+      "team": "MIA",
+      "pos": "PF",
+      "kind": "RFA / QO",
+      "amount": 0,
+      "note": "Qualifying Offer — — TBD - Two-Way"
     },
     {
       "date": "6/29/2027",
@@ -3251,6 +3305,15 @@
     },
     {
       "date": "7/1/2027",
+      "player": "Cody Williams",
+      "team": "MIN",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2027",
       "player": "Terrence Shannon Jr.",
       "team": "MIN",
       "pos": "SG",
@@ -3338,15 +3401,6 @@
       "kind": "GUARANTEED",
       "amount": 0,
       "note": "Guaranteed — — (i) increase by $5,000,000 per season for each season player plays at least 1,400 minutes (starting with the 2026-27 Season); and (ii) increase by $2,433,333 per season for each season player plays at least 1,400 minutes and team makes the playoffs (starting with the 2026-27 Season)"
-    },
-    {
-      "date": "7/1/2027",
-      "player": "Cody Williams",
-      "team": "UTA",
-      "pos": "SG",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
     },
     {
       "date": "7/1/2027",
