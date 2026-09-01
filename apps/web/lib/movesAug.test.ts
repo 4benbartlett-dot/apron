@@ -328,33 +328,42 @@ describe("Aug 19-20 — the five-team Watson deal and the Harden re-sign", () =>
     // check this project has on a live cap number.
     // Measured as "today's sheet minus Harden" rather than by rewinding to a
     // date: the feed re-dated the five-teamer across Aug 19 and Aug 20, so no
-    // single cutoff separates "trade done" from "Harden signed" any more. The
-    // quantity the reporting names is the room BEFORE the re-signing, and this
-    // is that quantity however the wire files the trade.
+    // single cutoff separates "trade done" from "Harden signed" any more. Since
+    // Aug 28 today's sheet also carries the Whitmore stretch, which the $28.4M
+    // predates, so the stretch's savings are put back to recover the quantity
+    // the reporting names. The post-stretch room is checked on its own below.
     const harden = find("James Harden");
+    const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore" && c.deadMoney)!;
+    const stretchSaved = 5_458_310 - whitmore.years.find((y) => y.leagueYear === YEAR)!.salary;
     const preHarden = committed(BASE_CONTRACTS, "CLE") -
       harden.years.find((y) => y.leagueYear === YEAR)!.salary;
     const room = C.firstApron - preHarden;
-    console.log(`  CLE post-trade ${M(preHarden)} → room ${M(room)} vs reported $28.4M`);
-    expect(Math.abs(room - 28_400_000)).toBeLessThan(100_000);
+    const preStretch = room - stretchSaved;
+    console.log(`  CLE post-trade ${M(preHarden + stretchSaved)} → room ${M(preStretch)} vs reported $28.4M; after the stretch ${M(room)}`);
+    expect(Math.abs(preStretch - 28_400_000)).toBeLessThan(100_000);
+    expect(room).toBe(32_050_038); // SI "$31.9M", Marks "~32M"
   });
 
-  it("Harden's 3yr/$97M is the deal that does not fit yet", () => {
-    // Booked at the 8% Bird raise, y1 is $29,938,272 — which Gozlan describes
+  it("Harden's 3yr/$97M did not fit until Whitmore was stretched", () => {
+    // Booked at the 8% Bird raise, y1 is $29,938,271 — which Gozlan describes
     // from the other direction as "a max starting salary just shy of $30
-    // million." It exceeds the room, and that is the actual state of the
-    // world, not a modeling error: the contract is agreed, not filed, and the
-    // clearing move (stretching Whitmore) has not happened. The engine agrees
-    // the SIGNING mechanism is fine — Bird rights cover it — so what blocks it
-    // is purely the hard cap the Watson trade created a day earlier.
+    // million." For eight days it exceeded the room, and that was the actual
+    // state of the world, not a modeling error: the contract was agreed, not
+    // filed, and the clearing move had not happened. The engine agreed the
+    // SIGNING mechanism was fine — Bird rights cover it — so what blocked it
+    // was purely the hard cap the Watson trade created. On Aug 28 Cleveland
+    // waived and stretched Whitmore, and the same deal fits with $2,111,767
+    // to spare.
     const harden = find("James Harden");
     const y1 = harden.years.find((y) => y.leagueYear === YEAR)!.salary;
     expect(harden.teamId).toBe("CLE");
     expect(y1).toBe(29_938_271); // 97,000,000 / 3.24, rounded
-    const preHarden = rewind(clone(BASE_CONTRACTS), "2026-08-19", ["CLE"]);
-    const room = C.firstApron - committed(preHarden, "CLE");
-    expect(y1).toBeGreaterThan(room);
-    console.log(`  Harden y1 ${M(y1)} vs room ${M(room)} — short by ${M(y1 - room)}`);
+    const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore" && c.deadMoney)!;
+    const stretchSaved = 5_458_310 - whitmore.years.find((y) => y.leagueYear === YEAR)!.salary;
+    const room = C.firstApron - (committed(BASE_CONTRACTS, "CLE") - y1);
+    expect(y1).toBeGreaterThan(room - stretchSaved); // did not fit before
+    expect(y1).toBeLessThanOrEqual(room); // fits now
+    console.log(`  Harden y1 ${M(y1)} vs room ${M(room - stretchSaved)} before the stretch, ${M(room)} after`);
   });
 
   it("the deal moved Cleveland more than any team this offseason", () => {
@@ -363,8 +372,12 @@ describe("Aug 19-20 — the five-team Watson deal and the Harden re-sign", () =>
     // actually for.
     const before = rewind(clone(BASE_CONTRACTS), PRE, ["CLE"]);
     const nowRoster = BASE_CONTRACTS.filter((c) => c.teamId === "CLE" && !c.deadMoney).map((c) => c.playerName);
-    for (const n of ["Peyton Watson", "James Harden", "Cam Whitmore"]) expect(nowRoster).toContain(n);
+    for (const n of ["Peyton Watson", "James Harden"]) expect(nowRoster).toContain(n);
     for (const n of ["Max Strus", "Dennis Schröder"]) expect(nowRoster).not.toContain(n);
+    // Whitmore arrived in the deal and left nine days later, stretched: on the
+    // books, off the roster.
+    expect(nowRoster).not.toContain("Cam Whitmore");
+    expect(BASE_CONTRACTS.some((c) => c.playerName === "Cam Whitmore" && c.deadMoney && c.teamId === "CLE")).toBe(true);
     const wasRoster = before.filter((c) => c.teamId === "CLE" && !c.deadMoney).map((c) => c.playerName);
     expect(wasRoster).toContain("Max Strus");
     expect(wasRoster).not.toContain("Peyton Watson");

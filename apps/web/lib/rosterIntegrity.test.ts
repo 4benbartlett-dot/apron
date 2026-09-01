@@ -69,10 +69,37 @@ describe("phantom holds (@Ianberlin23's Saric report — the mid-season-waive cl
     }
   });
 
-  it("Kuminga's ATL hold is Non-Bird (feed override), not full Bird", () => {
-    const fa = freeAgentsOf(BASE_CONTRACTS).find((f) => f.playerName === "Jonathan Kuminga");
-    expect(fa?.birdStatus).toBe("non_bird");
-    expect(fa!.hold).toBe(Math.round(fa!.lastSalary * 1.2));
+  it("Kuminga's ATL hold is gone: he signed in Minnesota on the taxpayer MLE (Aug 26)", () => {
+    // Until Aug 26 this pinned his Non-Bird hold on Atlanta (120% of prior
+    // salary, per the feed override). He then took 2yr/$12,431,200 from
+    // Minnesota, y1 $6,064,000 — the taxpayer mid-level to the dollar — so
+    // the hold is gone and the contract is on the Wolves.
+    expect(freeAgentsOf(BASE_CONTRACTS).some((f) => f.playerName === "Jonathan Kuminga")).toBe(false);
+    const c = BASE_CONTRACTS.find((x) => x.playerName === "Jonathan Kuminga")!;
+    expect(c.teamId).toBe("MIN");
+    expect(c.years.find((y) => y.leagueYear === "2026-27")?.salary).toBe(C.taxpayerMLE);
+  });
+
+  it("a second-rounder on a two-way carries no cap salary (the Hopkins class)", () => {
+    // Bryce Hopkins (#49, DEN) signed a two-way on Aug 26 and was booked at
+    // the $1,358,152 rookie minimum for six days because any Signing row
+    // counted as "has a deal". Thirteen more from the second round were in
+    // the same state since July — Nick Martinelli, Jaron Pierre Jr., Tobi
+    // Lawal, Izaiyah Nelson among them — none of them on his team's Spotrac
+    // page. A two-way is off the cap and lands on the team it is WITH, which
+    // for a traded pick is not the team that drafted him.
+    for (const [name, team] of [
+      ["Bryce Hopkins", "DEN"],
+      ["Nick Martinelli", "LAC"], // drafted NYK, two-way with the Clippers
+      ["Izaiyah Nelson", "ORL"], // drafted WAS, two-way with the Magic
+      ["Jaron Pierre Jr.", "NOP"],
+    ] as const) {
+      const rows = BASE_CONTRACTS.filter((c) => c.playerName === name);
+      expect(rows, name).toHaveLength(1);
+      expect(rows[0]!.teamId, name).toBe(team);
+      expect(rows[0]!.signedUsing, name).toBe("Two-Way");
+      expect(rows[0]!.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0, name).toBe(0);
+    }
   });
 
   it("rookie-scale RFAs get the Art. VII §4(d)(1)(ii) 300% hold (Duren class)", () => {
@@ -85,11 +112,26 @@ describe("phantom holds (@Ianberlin23's Saric report — the mid-season-waive cl
 });
 
 describe("waive charges match real guarantees", () => {
-  it("DeRozan's SAC dead money is the $10M guarantee, not the $25.74M listed salary", () => {
+  it("DeRozan's SAC dead money is the $10M guarantee, stretched to $3.33M a season", () => {
+    // $10M of the $25.74M was guaranteed (ESPN/Marks), and at the Aug 31
+    // deadline Sacramento stretched it — $3,333,333 in each of 2026-27,
+    // 2027-28 and 2028-29 (Hoops Rumors, Aug 28), which takes them under the
+    // tax line. Spotrac rewrote its Jul 6 waive row to "via Stretch
+    // Provision"; that row supplies the stretch, the curated one the amount.
     const rows = BASE_CONTRACTS.filter((c) => c.playerName === "DeMar DeRozan" && c.deadMoney);
     expect(rows).toHaveLength(1);
-    const y = rows[0]!.years.find((yy) => yy.leagueYear === "2026-27");
-    expect(y?.salary).toBe(10_000_000);
+    expect(rows[0]!.teamId).toBe("SAC");
+    expect(rows[0]!.years.map((y) => y.salary)).toEqual([3_333_333, 3_333_333, 3_333_333]);
+  });
+
+  it("Valanciunas' $2M DEN guarantee is stretched to $667K a season", () => {
+    // Denver stretched the $2,000,000 guarantee at the deadline (Hoops
+    // Rumors, Aug 27): $666,667 a year for three seasons, a $1,333,333 cut
+    // to 2026-27 team salary — and Spotrac's Nuggets figure fell by exactly that.
+    const rows = BASE_CONTRACTS.filter((c) => c.playerName.startsWith("Jonas Valan") && c.deadMoney);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]!.teamId).toBe("DEN");
+    expect(rows[0]!.years.map((y) => y.salary)).toEqual([666_667, 666_667, 666_667]);
   });
 
   it("Isaac's stated $8M ORL dead cap survives his re-signing (ACTIVE_LATER class)", () => {

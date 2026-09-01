@@ -1,7 +1,7 @@
 {
   "source": "Spotrac NBA Team Apron Tracker (via Firecrawl)",
   "url": "https://www.spotrac.com/nba/apron/_/year/2026",
-  "asOf": "2026-08-26",
+  "asOf": "2026-09-01",
   "note": "An INDEPENDENT answer to the same question our sheet computes, for all 30 teams. Nothing in the app reads this; externalCapCheck.test.ts diffs against it so a disagreement is a number rather than a surprise. Their figure is not automatically correct — ours has reproduced beat-writer numbers Spotrac lagged on — but an unexplained gap is a lead.",
   "lines": {
     "firstApron": 209015000,
@@ -28,8 +28,8 @@
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "UTA": {
-      "apronSalary": 178017268,
+    "CLE": {
+      "apronSalary": 176964573,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -38,8 +38,8 @@
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "CLE": {
-      "apronSalary": 180603446,
+    "UTA": {
+      "apronSalary": 180515680,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -48,13 +48,13 @@
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "POR": {
-      "apronSalary": 192092673,
+    "DAL": {
+      "apronSalary": 189674985,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "DAL": {
-      "apronSalary": 192124406,
+    "POR": {
+      "apronSalary": 192092673,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -109,7 +109,7 @@
       "secondApronHardCapped": false
     },
     "MIA": {
-      "apronSalary": 204173457,
+      "apronSalary": 206622878,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -123,6 +123,11 @@
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
+    "MIN": {
+      "apronSalary": 211013416,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
     "OKC": {
       "apronSalary": 214779492,
       "firstApronHardCapped": false,
@@ -130,16 +135,6 @@
     },
     "PHX": {
       "apronSalary": 216225506,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "GSW": {
-      "apronSalary": 216439590,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "MIN": {
-      "apronSalary": 217621828,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -153,8 +148,13 @@
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
+    "GSW": {
+      "apronSalary": 221338432,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
     "DEN": {
-      "apronSalary": 223720249,
+      "apronSalary": 222386916,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     }

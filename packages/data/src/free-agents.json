@@ -1,27 +1,21 @@
 {
   "source": "Spotrac free agents (via Firecrawl)",
   "byName": {
-    "jonathan kuminga": {
-      "name": "Jonathan Kuminga",
-      "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "kelly olynyk": {
       "name": "Kelly Olynyk",
       "team": "SAS",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
-    "gabe vincent": {
-      "name": "Gabe Vincent",
-      "team": "ATL",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
     "maxi kleber": {
       "name": "Maxi Kleber",
       "team": "LAL",
+      "restriction": "UFA",
+      "birdStatus": "bird"
+    },
+    "gabe vincent": {
+      "name": "Gabe Vincent",
+      "team": "ATL",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -48,12 +42,6 @@
       "team": "CHI",
       "restriction": "UFA",
       "birdStatus": "non_bird"
-    },
-    "nick richards": {
-      "name": "Nick Richards",
-      "team": "CHI",
-      "restriction": "UFA",
-      "birdStatus": "bird"
     },
     "jalen duren": {
       "name": "Jalen Duren",
@@ -85,15 +73,15 @@
       "restriction": "UFA",
       "birdStatus": "bird"
     },
+    "doug mcdermott": {
+      "name": "Doug McDermott",
+      "team": "SAC",
+      "restriction": "UFA",
+      "birdStatus": "early_bird"
+    },
     "jeff green": {
       "name": "Jeff Green",
       "team": "HOU",
-      "restriction": "UFA",
-      "birdStatus": "bird"
-    },
-    "garrett temple": {
-      "name": "Garrett Temple",
-      "team": "TOR",
       "restriction": "UFA",
       "birdStatus": "bird"
     },
@@ -103,23 +91,23 @@
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "kyle lowry": {
-      "name": "Kyle Lowry",
-      "team": "PHI",
-      "restriction": "UFA",
-      "birdStatus": "early_bird"
-    },
     "joe ingles": {
       "name": "Joe Ingles",
       "team": "MIN",
       "restriction": "UFA",
       "birdStatus": "early_bird"
     },
-    "doug mcdermott": {
-      "name": "Doug McDermott",
-      "team": "SAC",
+    "kyle lowry": {
+      "name": "Kyle Lowry",
+      "team": "PHI",
       "restriction": "UFA",
       "birdStatus": "early_bird"
+    },
+    "garrett temple": {
+      "name": "Garrett Temple",
+      "team": "TOR",
+      "restriction": "UFA",
+      "birdStatus": "bird"
     },
     "patrick baldwin": {
       "name": "Patrick Baldwin Jr.",

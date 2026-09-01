@@ -15,7 +15,7 @@
       "date": "Jul 06, 2026",
       "type": "Release",
       "detail": "Waived by Sacramento (SAC) - leaves behind $10 million in dead cap",
-      "why": "Sacramento waived him Jul 6 2026 keeping a $10M guarantee, which roster-corrections carried as a waivedFreeAgents entry — a shape that only describes an UNSIGNED waived player. When he signed with Denver on Aug 21 his row moved to DEN with the new minimum and Sacramento's $10M vanished from the league's books entirely. He is now the ACTIVE_LATER case Jonathan Isaac already documents: the old team's charge needs its own dead row beside the new deal, and STATED_DEAD_CAP builds one from a Release row that states the amount. This is that row."
+      "why": "Sacramento waived him Jul 6 2026 keeping a $10M guarantee, which roster-corrections carried as a waivedFreeAgents entry — a shape that only describes an UNSIGNED waived player. When he signed with Denver on Aug 21 his row moved to DEN with the new minimum and Sacramento's $10M vanished from the league's books entirely. He is now the ACTIVE_LATER case Jonathan Isaac already documents: the old team's charge needs its own dead row beside the new deal, and STATED_DEAD_CAP builds one from a Release row that states the amount. This is that row. UPDATED Sep 1: Sacramento stretched the $10M at the Aug 31 deadline (Hoops Rumors, Aug 28), and Spotrac rewrote the Jul 6 feed row to 'via Stretch Provision'. This row still supplies the AMOUNT; the feed's row supplies the stretch flag, and STATED_DEAD_CAP spreads the $10M to $3,333,333 a season through 2028-29."
     },
     {
       "player": "Klay Thompson",

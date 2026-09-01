@@ -1,0 +1,33 @@
+{
+  "note": "Rows Spotrac published wrong, keyed by date|player|type. Applied by scrape-transactions.mjs after every merge, so the feed on disk is right no matter how many times it is re-pulled, and the wrong row never has to be hand-edited twice. Each entry says what Spotrac printed, what the corrected text is, and where the correction comes from. Remove an entry once Spotrac fixes the row.",
+  "corrections": [
+    {
+      "date": "Aug 29, 2026",
+      "player": "John Konchar",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Utah (UTA) as part of a 2-team trade: Minnesota (MIN) traded Josh Green and cash to Utah (UTA); Utah (UTA) traded Cody Williams and John Konchar to Minnesota (MIN)",
+      "why": "Spotrac's row reads 'Traded to Utah (UTA) from Minnesota (MIN) as part of a 1-team trade:' for all three players and lists no legs. Green went to Utah; Williams and Konchar came to Minnesota (ESPN, RealGM, NBA.com, Aug 29). Spotrac's own Jazz apron figure confirms the direction to the dollar: $178,017,268 + Green $14,679,012 − Konchar $6,165,000 − Williams $6,015,600 = $180,515,680, the number their tracker prints."
+    },
+    {
+      "date": "Aug 29, 2026",
+      "player": "Cody Williams",
+      "type": "Trade",
+      "detail": "Traded to Minnesota (MIN) from Utah (UTA) as part of a 2-team trade: Minnesota (MIN) traded Josh Green and cash to Utah (UTA); Utah (UTA) traded Cody Williams and John Konchar to Minnesota (MIN)",
+      "why": "Same row as Konchar's: Spotrac printed the destination backwards."
+    },
+    {
+      "date": "Aug 29, 2026",
+      "player": "Josh Green",
+      "type": "Trade",
+      "detail": "Traded to Utah (UTA) from Minnesota (MIN) as part of a 2-team trade: Minnesota (MIN) traded Josh Green and cash to Utah (UTA); Utah (UTA) traded Cody Williams and John Konchar to Minnesota (MIN)",
+      "why": "Direction was right; the legs were missing."
+    },
+    {
+      "date": "Aug 29, 2026",
+      "player": "Bennedict Mathurin",
+      "type": "Qualifying Offer",
+      "detail": "LA (LAC) withdrew Qualifying Offer with his consent; becomes an Unrestricted Free Agent",
+      "why": "Spotrac attributes the withdrawal to New Orleans, the team he signed with. The Clippers held the qualifying offer and withdrew it with his consent so he could sign in New Orleans (Aug 26)."
+    }
+  ]
+}

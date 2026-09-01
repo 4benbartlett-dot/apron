@@ -630,17 +630,29 @@ const RELEASED = new Set(
     (t) => (t.type === "Release" || /contract was terminated/i.test(t.detail)) && !ACTIVE_LATER.has(normName(t.player)),
   ).map((t) => normName(t.player)),
 );
+// Waives the feed says were STRETCHED — "Waived by … via Stretch Provision".
+// Spotrac writes the phrase onto the original waive row when the team later
+// elects the stretch (DeRozan's Jul 6 row gained it in late August), so the
+// flag is read from the prose rather than curated per player. The guaranteed
+// amount still comes from RELEASE_TERMS where the prose does not state it.
+const STRETCHED = new Set(
+  TRANSACTIONS.filter(
+    (t) => (t.type === "Release" || /contract was terminated/i.test(t.detail)) && /via Stretch Provision/i.test(t.detail),
+  ).map((t) => normName(t.player)),
+);
 // Real guarantee terms for waives the feed prose doesn't carry (web-verified;
 // salaryForYear is guarantee-blind, so without these a plain waive charges the
 // full listed salary — DeRozan's $25.74M when only $10M is guaranteed).
 const RELEASE_TERMS: Record<string, { guaranteed: number; stretched?: boolean }> = {
-  // ESPN/Bobby Marks: $10M of $25.74M guaranteed; SAC may stretch by late Aug —
-  // if they do, flip to { guaranteed: 10_000_000, stretched: true }.
+  // ESPN/Bobby Marks: $10M of $25.74M guaranteed. STRETCHED at the Aug 31
+  // deadline (Hoops Rumors, Aug 28: $3.33M in each of the next three seasons,
+  // which takes Sacramento under the tax line); the feed row now says so.
   "demar derozan": { guaranteed: 10_000_000 },
   // Star Tribune: non-guaranteed $2.41M — pre-staged for the expected MIN waive.
   "mouhamadou gueye": { guaranteed: 0 },
-  // Jul 8 2026 waive by DEN — the feed states "leaves behind $2 million in dead
-  // cap" (of his $10.4M salary), so only $2M is guaranteed and sticks to DEN.
+  // Jul 8 2026 waive by DEN — only $2M of his $10.4M was guaranteed. STRETCHED
+  // at the deadline (Hoops Rumors, Aug 27: $667K a year for three seasons, a
+  // $1.33M cut to 2026-27 team salary); the feed row now says so.
   "jonas valanciunas": { guaranteed: 2_000_000 },
   // Hoops Rumors Jul 8 2026: IND exercised his option Jun 29 but the $2.8M
   // stayed NON-guaranteed, and the Jul 8 waive means "none of Potter's salary
@@ -649,25 +661,37 @@ const RELEASE_TERMS: Record<string, { guaranteed: number; stretched?: boolean }>
   "micah potter": { guaranteed: 0 },
 };
 
+/** Art. VII §7(d)(5): the guaranteed remainder spread over twice the seasons
+ * left plus one. `remaining` is the count of seasons the charge would
+ * otherwise have covered. Whitmore's one year of $5,458,310 becomes three of
+ * $1,819,437; Konchar's $6,165,000 becomes $2,055,000 — Marks' numbers. */
+function stretchedYears(guaranteed: number, remaining: number) {
+  const r = stretchProvision(guaranteed, remaining || 1, C);
+  return Array.from({ length: r.years }, (_, k) => ({
+    leagueYear: `${2026 + k}-${String(27 + k).padStart(2, "0")}`,
+    salary: Math.round(r.perYear),
+    guarantee: "full" as const,
+  }));
+}
+
 function applyReleases(contracts: Contract[]): Contract[] {
   return contracts.map((c) => {
-    if (c.deadMoney || !RELEASED.has(normName(c.playerName)) || salaryForYear(c, YEAR) === 0) return c;
+    const k = normName(c.playerName);
+    if (c.deadMoney || !RELEASED.has(k) || salaryForYear(c, YEAR) === 0) return c;
     const dead = cloneContract(c);
     dead.deadMoney = true;
-    const terms = RELEASE_TERMS[normName(c.playerName)];
-    if (terms) {
-      if (terms.stretched && terms.guaranteed > 0) {
-        const r = stretchProvision(terms.guaranteed, dead.years.filter((y) => y.leagueYear >= YEAR).length || 1, C);
-        dead.years = Array.from({ length: r.years }, (_, k) => ({
-          leagueYear: `${2026 + k}-${String(27 + k).padStart(2, "0")}`,
-          salary: Math.round(r.perYear),
-          guarantee: "full" as const,
-        }));
-      } else {
-        dead.years = terms.guaranteed > 0
-          ? [{ leagueYear: YEAR, salary: terms.guaranteed, guarantee: "full" as const }]
-          : [];
-      }
+    const terms = RELEASE_TERMS[k];
+    const stretched = !!terms?.stretched || STRETCHED.has(k);
+    const remaining = dead.years.filter((y) => y.leagueYear >= YEAR);
+    // Guaranteed total: the curated figure where one exists, else every
+    // remaining season as listed (a stretch of a fully guaranteed deal).
+    const guaranteed = terms ? terms.guaranteed : remaining.reduce((s, y) => s + y.salary, 0);
+    if (stretched && guaranteed > 0) {
+      dead.years = stretchedYears(guaranteed, remaining.length);
+    } else if (terms) {
+      dead.years = terms.guaranteed > 0
+        ? [{ leagueYear: YEAR, salary: terms.guaranteed, guarantee: "full" as const }]
+        : [];
     }
     return dead;
   });
@@ -690,12 +714,19 @@ const STATED_DEAD_CAP: Contract[] = (() => {
     const team = stdTeam(teamM[1]!);
     if (!VALID_TEAMS.has(team)) continue;
     seen.add(k);
+    const amount = Math.round(Number(amtM[1]) * 1_000_000);
+    // A stated one-season charge the team then stretched (DeRozan's $10M on
+    // Sacramento, now $3,333,333 over three) — the stretch flag lives on the
+    // feed's own row for the waive, the amount on the curated one.
+    const years = STRETCHED.has(k)
+      ? stretchedYears(amount, 1)
+      : [{ leagueYear: YEAR, salary: amount, guarantee: "full" as const }];
     out.push({
       playerId: `${k.replace(/\s+/g, "-")}-deadcap`,
       playerName: t.player,
       teamId: team,
       deadMoney: true,
-      years: [{ leagueYear: YEAR, salary: Math.round(Number(amtM[1]) * 1_000_000), guarantee: "full" }],
+      years,
     } as Contract);
   }
   return out;
@@ -750,11 +781,33 @@ const ROOKIE_DEALS = new Map(
 // public cap page carries, and Spotrac's GSW page is the clean check: Lajae
 // Jones (#54) is absent there and was present here.
 const SIGNED_ROOKIES = new Set<string>();
+// …and a second-rounder whose deal is a TWO-WAY carries no cap salary at all.
+// Bryce Hopkins (#49) signed a two-way with Denver on Aug 26 and was booked at
+// the $1,358,152 rookie minimum for six days because any Signing row counted
+// as "has a deal"; Spotrac's Denver page carries no salary for him.
+// It caught thirteen more on the first run — Nick Martinelli, Jaron Pierre
+// Jr., Tobi Lawal, Izaiyah Nelson and the rest of the second round's two-way
+// class — each carried at $1,358,152 on the team that drafted him, none of
+// them on that team's Spotrac page. The signing row also says which team the
+// two-way is WITH, which for a traded pick is not the drafting team.
+const TWO_WAY_ROOKIES = new Map<string, string>();
 for (const t of TRANSACTIONS) {
-  if (t.type === "Signing" || t.type === "Re-sign") SIGNED_ROOKIES.add(normName(t.player));
+  if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+  const k = normName(t.player);
+  if (/two-way contract/i.test(t.detail)) {
+    const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+    const team = teamM ? stdTeam(teamM[1]!) : "";
+    if (!SIGNED_ROOKIES.has(k) && !TWO_WAY_ROOKIES.has(k) && VALID_TEAMS.has(team)) TWO_WAY_ROOKIES.set(k, team);
+  } else {
+    SIGNED_ROOKIES.add(k);
+    TWO_WAY_ROOKIES.delete(k); // a later standard deal supersedes (newest-first, so an earlier row)
+  }
 }
 const rookieHasDeal = (r: { playerName: string; round?: number }) =>
-  r.round !== 2 || SIGNED_ROOKIES.has(normName(r.playerName)) || !!SIGNINGS[normName(r.playerName)];
+  r.round !== 2 ||
+  SIGNED_ROOKIES.has(normName(r.playerName)) ||
+  TWO_WAY_ROOKIES.has(normName(r.playerName)) ||
+  !!SIGNINGS[normName(r.playerName)];
 const existingNames = new Set(afterReleases.filter((c) => !c.deadMoney).map((c) => normName(c.playerName)));
 // Guard on BOTH id and name: the two scrapers use divergent fallback-id
 // schemes, and an officially-filed rookie deal appearing on the contracts
@@ -780,6 +833,9 @@ const rookieContracts = ROOKIES_2026.filter(
         : undefined;
     const years =
       scaleY1 != null ? dealYears.map((y) => (y.leagueYear === YEAR ? { ...y, salary: scaleY1 } : y)) : dealYears;
+    const twoWayTeam = TWO_WAY_ROOKIES.get(normName(r.playerName));
+    if (twoWayTeam && !SIGNED_ROOKIES.has(normName(r.playerName)))
+      return { ...r, teamId: twoWayTeam, years: [], signedUsing: "Two-Way", twoWay: true, restriction: undefined };
     return {
       ...r,
       years,

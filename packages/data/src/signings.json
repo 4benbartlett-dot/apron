@@ -313,6 +313,14 @@
       "aav": 6585420,
       "status": "Official"
     },
+    "jonathan kuminga": {
+      "name": "Jonathan Kuminga",
+      "team": "MIN",
+      "years": 2,
+      "total": 12431200,
+      "aav": 6215600,
+      "status": "Official"
+    },
     "deanthony melton": {
       "name": "De'Anthony Melton",
       "team": "GSW",
@@ -625,6 +633,14 @@
       "aav": 3066143,
       "status": "Official"
     },
+    "nick richards": {
+      "name": "Nick Richards",
+      "team": "MIA",
+      "years": 1,
+      "total": 3066143,
+      "aav": 3066143,
+      "status": "Official"
+    },
     "charles bassey": {
       "name": "Charles Bassey",
       "team": "GSW",
@@ -671,7 +687,7 @@
       "years": 1,
       "total": 2625627,
       "aav": 2625627,
-      "status": "Agreed"
+      "status": "Official"
     },
     "simone fontecchio": {
       "name": "Simone Fontecchio",

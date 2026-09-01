@@ -163,14 +163,14 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
 
     // The ONE state the CBA does allow above a hard cap: a deal that is agreed
     // and reported but not yet filed, on a team that still has a clearing move
-    // to make. Cleveland is there right now — Harden's 3y/$97M lands $1,527,144
-    // over the first-apron cap the Watson sign-and-trade created, and the same
-    // analysts who sourced the $28.4M of room (Gozlan, Keith Smith) name the
-    // route out in the same breath: stretch Cam Whitmore's $5,458,000 over three
-    // years, which charges $1,819,333 and frees $3,638,667. This list is EXACT
-    // and must shrink, not grow: when the feed carries the waive, Cleveland
-    // comes off it. A team appearing here for any other reason is our bug.
-    const AGREED_NOT_FILED: string[] = ["CLE"];
+    // to make. Cleveland sat here from Aug 20 to Aug 28 — Harden's 3y/$97M
+    // landed $1,527,106 over the first-apron cap the Watson sign-and-trade
+    // created, and the analysts who sourced the $28.4M of room (Gozlan, Keith
+    // Smith) named the route out in the same breath: stretch Cam Whitmore. On
+    // Aug 28 the feed carried the waive and Cleveland came off this list, which
+    // is the only direction it may move. A team appearing here for any other
+    // reason is our bug.
+    const AGREED_NOT_FILED: string[] = [];
 
     it("INVARIANT: no team's booked salary exceeds its own in-world hard cap at rest", () => {
       const over: string[] = [];
@@ -182,25 +182,31 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       expect(over.sort()).toEqual([...AGREED_NOT_FILED].sort());
     });
 
-    it("the agreed-not-filed overage clears, and the way out is on the record", () => {
-      // Cleveland is over by less than the reported route frees — i.e. the
-      // overage is a filing lag, not a roster that cannot legally exist. The
-      // route is not our invention: Bobby Marks (ESPN) reported the Cavs will
-      // waive and stretch Whitmore, and SI put the resulting room at $31.9M
-      // against our $32,050,038. A team may only sit on AGREED_NOT_FILED while it
-      // carries a sourced explanation of how the books close.
-      const over = bookedSalary("CLE") - feedStateOf("CLE").hardCap;
-      const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore")!;
-      const stretchFrees = currentSalary(whitmore) - Math.round(currentSalary(whitmore) / 3);
-      console.log(
-        `  CLE over its hard cap by $${over.toLocaleString()}; stretching Whitmore frees $${stretchFrees.toLocaleString()}`,
-      );
-      expect(over).toBeGreaterThan(0);
-      expect(over).toBeLessThan(stretchFrees);
-      for (const t of AGREED_NOT_FILED) {
-        const relief = feedStateOf(t).pendingRelief;
-        expect(relief?.source, `${t} is over its hard cap with no sourced way out`).toBeTruthy();
-      }
+    it("Cleveland's overage cleared the way it was reported to: Whitmore stretched", () => {
+      // Eight days over its own hard cap on an agreed-but-unfiled Harden, and
+      // the filed answer was the one Marks and Gozlan named: waive Whitmore and
+      // stretch his $5,458,310 over three seasons under Art. VII §7(d)(5).
+      // His charge is $1,819,437 in each of 2026-27 through 2028-29 — the
+      // "about $1.82 million" the beat writers printed — and Spotrac's Cleveland
+      // figure fell by exactly the $3,638,873 that frees. The list above is
+      // empty again, and the team page no longer needs a sourced way out.
+      const whitmore = BASE_CONTRACTS.filter((c) => c.playerName === "Cam Whitmore");
+      expect(whitmore).toHaveLength(1);
+      expect(whitmore[0]!.teamId).toBe("CLE");
+      expect(whitmore[0]!.deadMoney).toBe(true);
+      expect(whitmore[0]!.years.map((y) => y.salary)).toEqual([1_819_437, 1_819_437, 1_819_437]);
+      expect(feedStateOf("CLE").pendingRelief).toBeUndefined();
+
+      // What the stretch leaves buys a rookie, not a veteran. Marks: the stretch
+      // puts Cleveland "~32M under the 1st Apron to sign Harden + one more
+      // player." After Harden there is $2,111,767 — over the rookie minimum,
+      // and $337,654 short of what Art. VII §3(f) charges for a one-year
+      // veteran minimum. Cleveland's 15th man is a rookie or a two-way.
+      const under = feedStateOf("CLE").hardCap - bookedSalary("CLE");
+      console.log(`  CLE under its hard cap by $${under.toLocaleString()} with Harden booked`);
+      expect(under).toBe(2_111_767);
+      expect(under).toBeGreaterThanOrEqual(C.minimumSalaries[0]!);
+      expect(under).toBeLessThan(C.minimumSalaries[2]!);
     });
 
     it("Harden's expiring deal reproduces the contract history Marks published", () => {
@@ -239,19 +245,52 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       ).not.toContain("Bennedict Mathurin");
     });
 
-    it("the reported stretch reproduces the room the beat writers published", () => {
-      // Our $5,458,310 is their "$5.46 million"; our $1,819,437 stretched
-      // charge is their "about $1.82 million". If a rescrape moves Whitmore's
-      // salary, that agreement breaks here rather than silently on the card.
-      const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore")!;
-      expect(currentSalary(whitmore)).toBe(5_458_310);
-      const preHarden = bookedSalary("CLE") - currentSalary(
-        BASE_CONTRACTS.find((c) => c.playerName === "James Harden")!,
-      );
-      const roomAfterStretch =
-        feedStateOf("CLE").hardCap - (preHarden - currentSalary(whitmore) + Math.round(currentSalary(whitmore) / 3));
-      // SI: "the Cavs would have $31.9 million in cap space."
-      expect(Math.abs(roomAfterStretch - 31_900_000)).toBeLessThan(250_000);
+    it("the filed stretch reproduces the room the beat writers published", () => {
+      // The room BEFORE Harden, now that the stretch is on the books: $32,050,038.
+      // SI said "$31.9 million"; Marks said "~32M". If a rescrape moves
+      // Whitmore's charge or Harden's year one, that agreement breaks here
+      // rather than silently on the card.
+      const harden = BASE_CONTRACTS.find((c) => c.playerName === "James Harden")!;
+      const room = feedStateOf("CLE").hardCap - (bookedSalary("CLE") - currentSalary(harden));
+      expect(room).toBe(32_050_038);
+      expect(Math.abs(room - 31_900_000)).toBeLessThan(250_000);
+    });
+
+    it("MIN: Kuminga's taxpayer MLE hard-caps them at the SECOND apron, and the Green trade made it fit", () => {
+      // Aug 26: Jonathan Kuminga, 2yr/$12,431,200 with a 2027-28 player
+      // option. Prior team Atlanta, so no Bird rights; y1 is $6,064,000, the
+      // 2026-27 taxpayer mid-level to the dollar, and ESPN/Hoops Rumors say
+      // that is the exception used. Using it freezes the second apron as a
+      // hard cap for the season (Art. VII §6(g)(3)).
+      const s = feedStateOf("MIN");
+      expect(s.hardCap).toBe(C.secondApron);
+      expect(s.consumed.tpmle).toBe(C.taxpayerMLE);
+      expect(s.hardCapSource).toContain("Kuminga");
+      const kuminga = BASE_CONTRACTS.find((c) => c.playerName === "Jonathan Kuminga")!;
+      expect(kuminga.teamId).toBe("MIN");
+      expect(currentSalary(kuminga)).toBe(C.taxpayerMLE);
+
+      // Aug 29: Josh Green ($14,679,012) and cash to Utah for Cody Williams
+      // ($6,015,600) and John Konchar ($6,165,000); Aug 30: Konchar waived and
+      // stretched to $2,055,000 a season — Marks' "$2.05M cap hit over 3
+      // seasons". Spotrac printed all three trade rows backwards, which is why
+      // feed-corrections.json exists; their own Utah figure ($180,515,680)
+      // reproduces the corrected direction to the dollar.
+      const green = BASE_CONTRACTS.find((c) => c.playerName === "Josh Green")!;
+      const williams = BASE_CONTRACTS.find((c) => c.playerName === "Cody Williams")!;
+      const konchar = BASE_CONTRACTS.filter((c) => c.playerName === "John Konchar");
+      expect(green.teamId).toBe("UTA");
+      expect(williams.teamId).toBe("MIN");
+      expect(konchar).toHaveLength(1);
+      expect(konchar[0]!.teamId).toBe("MIN");
+      expect(konchar[0]!.deadMoney).toBe(true);
+      expect(konchar[0]!.years.map((y) => y.salary)).toEqual([2_055_000, 2_055_000, 2_055_000]);
+
+      // Under the cap it created, with room for the 15th man Marks says they can sign.
+      const under = C.secondApron - bookedSalary("MIN");
+      console.log(`  MIN under its second-apron hard cap by $${under.toLocaleString()}`);
+      expect(under).toBeGreaterThan(0);
+      expect(under).toBeGreaterThanOrEqual(C.minimumSalaries[2]!);
     });
 
     it("IND: Oubre's official 2yr/$16.5M partial NT-MLE — booked = consumed, $1.6M under the cap (HR, Jul 1)", () => {

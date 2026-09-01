@@ -26,6 +26,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "..", "src", "transactions.json");
 const META = join(__dirname, "..", "src", "meta.json");
+const CORRECTIONS = join(__dirname, "..", "src", "feed-corrections.json");
 const BASE = "https://www.spotrac.com/nba/transactions";
 
 /** Spotrac renders this many rows per request; a window that hits it is truncated. */
@@ -76,8 +77,12 @@ function classify(detail) {
 // Each row spans two markdown lines:
 //   - Jul 28, 2026  \- Trade![](…/nba_lac1.png)
 //   Trade [Johni Broome (C)](…/johni-broome)Traded to LA (LAC) from Philadelphia (PHI) …
+// Since late Aug 2026 the logo is a LINKED image with alt text:
+//   - Aug 30, 2026  \- Waiver[![MIN](…/nba_min_2026.png)](…/team/109/overview)
+// Both shapes are accepted; a pull that matched neither parsed 0 rows and
+// (correctly) refused to write, which is how the change was noticed.
 const ROW =
-  /^-\s*([A-Z][a-z]{2}\s+\d{1,2},\s*\d{4})\s*\\?-\s*[A-Za-z ]+?!\[\]\([^)]*\)\s*\n\s*[A-Za-z ]+?\s*\[([^\]]+?)\s*\(([^)]*)\)\]\([^)]*\)(.*)$/gm;
+  /^-\s*([A-Z][a-z]{2}\s+\d{1,2},\s*\d{4})\s*\\?-\s*[A-Za-z ]+?\[?!\[[^\]]*\]\([^)]*\)(?:\]\([^)]*\))?\s*\n\s*[A-Za-z ]+?\s*\[([^\]]+?)\s*\(([^)]*)\)\]\([^)]*\)(.*)$/gm;
 
 function parse(md) {
   const txns = [];
@@ -206,25 +211,62 @@ for (const t of scraped) {
  * newest row, and among same-date rows the one with the longest detail, which
  * is the most completely enumerated version the feed has published.
  */
-function collapse(rows) {
+function collapse(rows, fresh) {
   const codes = (d) => [...new Set([...d.matchAll(/\(([A-Z]{2,4})\)/g)].map((m) => m[1]))].sort().join("-");
   const eventOf = (t) =>
     t.type === "Trade"
       ? `T|${t.player}|${codes(t.detail)}`
       : `${t.type}|${t.player}|${t.date}`;
+  // Among same-date versions, one that came back in THIS pull is Spotrac's
+  // current wording and beats one we only hold from an older pull. Spotrac
+  // rewrites a waive in place when the team later stretches it — DeRozan's
+  // Jul 6 row gained "via Stretch Provision" seven weeks after the fact — and
+  // the old "leaves behind $10 million in dead cap" text happened to be one
+  // character longer, so length alone kept the stale version forever.
   const best = new Map();
   for (const t of rows) {
     const k = eventOf(t);
     const prev = best.get(k);
     if (!prev) { best.set(k, t); continue; }
     const newer = toIso(t.date).localeCompare(toIso(prev.date));
-    if (newer > 0 || (newer === 0 && t.detail.length > prev.detail.length)) best.set(k, t);
+    const fresher = (fresh.has(t) ? 1 : 0) - (fresh.has(prev) ? 1 : 0);
+    if (newer > 0 || (newer === 0 && (fresher > 0 || (fresher === 0 && t.detail.length > prev.detail.length))))
+      best.set(k, t);
   }
   return [...best.values()];
 }
 
+/**
+ * Rows Spotrac published WRONG, fixed on every write (feed-corrections.json).
+ *
+ * The Aug 29 Minnesota–Utah trade came through as "Traded to Utah (UTA) from
+ * Minnesota (MIN) as part of a 1-team trade:" for all three players, legs
+ * omitted — which would have sent Cody Williams and John Konchar the wrong way
+ * and parked Konchar's stretched dead money on the Jazz. Correcting the file
+ * by hand lasts until the next pull re-merges the bad row; correcting it here
+ * lasts until Spotrac fixes theirs, at which point the entry comes out.
+ */
+function correct(rows) {
+  let fixes;
+  try {
+    fixes = JSON.parse(readFileSync(CORRECTIONS, "utf8")).corrections ?? [];
+  } catch {
+    return rows;
+  }
+  const byKey = new Map(fixes.map((f) => [`${f.date}|${f.player}|${f.type}`, f]));
+  let applied = 0;
+  const out = rows.map((t) => {
+    const f = byKey.get(`${t.date}|${t.player}|${t.type}`);
+    if (!f || f.detail === t.detail) return t;
+    applied++;
+    return { ...t, detail: f.detail, type: classify(f.detail) };
+  });
+  if (applied) console.log(`Applied ${applied} feed correction(s) from feed-corrections.json.`);
+  return out;
+}
+
 const before = merged.size;
-const transactions = collapse([...merged.values()]).sort((a, b) =>
+const transactions = correct(collapse([...merged.values()], new Set(scraped))).sort((a, b) =>
   toIso(b.date).localeCompare(toIso(a.date)),
 );
 if (before !== transactions.length)
@@ -238,6 +280,19 @@ for (const t of transactions.slice(0, 10)) {
   console.log(`  ${t.date} [${t.type}] ${t.player} — ${t.detail.slice(0, 72)}`);
 }
 
-// Stamp the snapshot date every time the feed is pulled.
-writeFileSync(META, JSON.stringify({ rostersAsOf: end }, null, 2) + "\n");
-console.log(`Stamped meta.json rostersAsOf = ${end}`);
+// Stamp the snapshot date every time the feed is pulled — forward only. An
+// explicit historical window (re-pulling Jul 6 because Spotrac reworded a row)
+// must not turn the footer's "rosters as of" back to July.
+const stamped = (() => {
+  try {
+    return JSON.parse(readFileSync(META, "utf8")).rostersAsOf ?? "";
+  } catch {
+    return "";
+  }
+})();
+if (end >= stamped) {
+  writeFileSync(META, JSON.stringify({ rostersAsOf: end }, null, 2) + "\n");
+  console.log(`Stamped meta.json rostersAsOf = ${end}`);
+} else {
+  console.log(`meta.json rostersAsOf stays ${stamped} (this pull ended ${end})`);
+}
