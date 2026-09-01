@@ -114,10 +114,10 @@
       "rationale": "No 2026 offseason feed signings for MEM (committed $139.0M; FA holds Niang/Gordon et al. untouched). Nothing consumed, no hard cap."
     },
     "MIA": {
-      "consumedNtmle": 6500000,
+      "consumedNtmle": 12100000,
       "inWorldHardCap": "first_apron",
       "confidence": "high",
-      "rationale": "Tim Hardaway Jr. 1y/$6.5M (prior DEN — outside deal). y1=$6,500,000 exceeds both the BAE ($5,477,000) and TP-MLE ($6,064,000) but fits the NT-MLE ($15,044,000); MIA is committed at $203.5M (well over cap, cannot be a room signing) so NT-MLE is the only lawful vehicle ⇒ first-apron hard cap. Simone Fontecchio 1y/$2.63M (y1=$2,625,627; prior MIA and minimum-sized — consumes nothing). MIA's $203.5M sits under the projected first apron, consistent.",
+      "rationale": "Tim Hardaway Jr. 1y/$6.5M (prior DEN — outside deal). y1=$6,500,000 exceeds both the BAE ($5,477,000) and TP-MLE ($6,064,000) but fits the NT-MLE ($15,044,000); MIA is committed at $203.5M (well over cap, cannot be a room signing) so NT-MLE is the only lawful vehicle ⇒ first-apron hard cap. Simone Fontecchio 1y/$2.63M (y1=$2,625,627; prior MIA and minimum-sized — consumes nothing). MIA's $203.5M sits under the projected first apron, consistent. CORRECTED Sep 1: Klay Thompson 2yr/$11,480,000 (y1 $5,600,000, prior DAL — an outside deal signed Aug 23 after he cleared waivers) was booked with no exception consumed. It is not a minimum, and y1 exceeds the BAE ($5,477,000) by $123,000; with the NT-MLE already opened for Hardaway, the remaining $8,544,000 of it is the only lawful vehicle. Consumed NT-MLE is therefore $12,100,000 of $15,044,000, leaving $2,944,000 — and the first-apron hard cap already in force leaves $2,518,194, so the practical ceiling is unchanged: one more veteran minimum ($2,449,421 charge) and $68,773 to spare. Nick Richards (Aug 27) is a one-year minimum and consumes nothing.",
       "hardCapSource": "Tim Hardaway Jr. NT-MLE"
     },
     "MIL": {
