@@ -31,7 +31,7 @@ const stdTeam = (code: string) => (code.toUpperCase() === "LA" ? "LAC" : code.to
 
 /** The team a player landed on, from a Signing/Re-sign row's prose. */
 const signedWith = (detail: string) => {
-  const m = detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+  const m = detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
   return m ? stdTeam(m[1]!) : null;
 };
 

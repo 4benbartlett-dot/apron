@@ -30,5 +30,8 @@ cd apps/web && vercel    # log in via browser, accept the defaults
 - **No runtime secrets.** The app serves committed JSON snapshots, so no env
   vars are required on Vercel. (Data-refresh scripts run locally and read their
   own credentials from your environment.)
+- **`/admin` is dev-only.** The front office writes to the repo's data files
+  and shells out to git, so it 404s in production unless `APRON_ADMIN=1` is
+  set — and a Vercel filesystem is read-only, so leave it unset there.
 - To refresh the data later: `cd packages/data && node scripts/scrape-*.mjs`,
   then commit the updated JSON and push (Vercel redeploys automatically).

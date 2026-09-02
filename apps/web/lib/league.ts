@@ -338,7 +338,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     // (old team keeps no hold) into the new team's two-way slot.
     if (/two-way contract/i.test(t.detail)) {
       const k = norm(t.player);
-      const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+      const teamM = t.detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
       const c = byName.get(k);
       if (seen.has(k) || !teamM || !c) continue;
       const team = stdTeam(teamM[1]!);
@@ -352,6 +352,11 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     }
     // Must be an actual term/dollar contract (skip qualifying offers, options…).
     if (!/\d+\s*year|\$[\d.]+\s*million/i.test(t.detail)) continue;
+    // An Exhibit 10 is a camp invite: non-guaranteed, off every public cap
+    // page until the player makes the team. The feed writes one with a term
+    // and a dollar figure ("1 year $1.36 million … via Exhibit 10"), which is
+    // exactly the shape of a real signing.
+    if (/Exhibit 10/i.test(t.detail)) continue;
     // A pending RFA offer sheet isn't a signing yet — the incumbent can match
     // (Quinten Post: MEM sheet, GSW right to match). He stays an RFA with his
     // hold until the feed reports a resolution.
@@ -359,7 +364,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     const k = norm(t.player);
     if (seen.has(k)) continue;
     seen.add(k);
-    const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+    const teamM = t.detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
     if (!teamM) continue;
     const team = stdTeam(teamM[1]);
     if (!VALID_TEAMS.has(team)) continue;
@@ -438,7 +443,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
  * exactly $41,240,250, the 25% max, and at 5% it reads $42,966,586 — $1.73M of
  * phantom salary on the Lakers' sheet.
  */
-function raiseFor(
+export function raiseFor(
   playerName: string,
   priorTeam: string,
   newTeam: string,
@@ -476,7 +481,7 @@ function raiseFor(
  * salary from the deal's raise rate (so the multi-year cap sheet is real and
  * the year-1 hit isn't overstated by using the flat average).
  */
-function dealFromAav(aav: number, term: number, raise = 0.05): ContractYear[] {
+export function dealFromAav(aav: number, term: number, raise = 0.05): ContractYear[] {
   const n = Math.max(1, Math.min(term || 1, 5));
   const y1 = (aav * n) / (n + (raise * n * (n - 1)) / 2);
   const start = Number(YEAR.slice(0, 4));
@@ -674,13 +679,28 @@ function stretchedYears(guaranteed: number, remaining: number) {
   }));
 }
 
+/** The guaranteed remainder a waive's own prose states — "Waived by X (X) -
+ * leaves behind $8 million in dead cap" — newest row per player. The curated
+ * RELEASE_TERMS above still win where both exist; this is what lets a waive
+ * filed with its guarantee (the admin desk writes them this way) book the
+ * right dead money without a code change. */
+const STATED_RELEASE = new Map<string, number>();
+for (const t of TRANSACTIONS) {
+  if (t.type !== "Release" && !/contract was terminated/i.test(t.detail)) continue;
+  const m = t.detail.match(/leaves behind \$([\d.]+)\s*million in dead cap/i);
+  if (!m) continue;
+  const k = normName(t.player);
+  if (!STATED_RELEASE.has(k)) STATED_RELEASE.set(k, Math.round(Number(m[1]) * 1_000_000));
+}
+
 function applyReleases(contracts: Contract[]): Contract[] {
   return contracts.map((c) => {
     const k = normName(c.playerName);
     if (c.deadMoney || !RELEASED.has(k) || salaryForYear(c, YEAR) === 0) return c;
     const dead = cloneContract(c);
     dead.deadMoney = true;
-    const terms = RELEASE_TERMS[k];
+    const stated = STATED_RELEASE.get(k);
+    const terms = RELEASE_TERMS[k] ?? (stated != null ? { guaranteed: stated } : undefined);
     const stretched = !!terms?.stretched || STRETCHED.has(k);
     const remaining = dead.years.filter((y) => y.leagueYear >= YEAR);
     // Guaranteed total: the curated figure where one exists, else every
@@ -795,7 +815,7 @@ for (const t of TRANSACTIONS) {
   if (t.type !== "Signing" && t.type !== "Re-sign") continue;
   const k = normName(t.player);
   if (/two-way contract/i.test(t.detail)) {
-    const teamM = t.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+    const teamM = t.detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
     const team = teamM ? stdTeam(teamM[1]!) : "";
     if (!SIGNED_ROOKIES.has(k) && !TWO_WAY_ROOKIES.has(k) && VALID_TEAMS.has(team)) TWO_WAY_ROOKIES.set(k, team);
   } else {
@@ -894,7 +914,9 @@ const STATED_SALARY = new Map<string, number>();
 for (const t of TRANSACTIONS) {
   const m = t.detail.match(/fully guaranteed \$([\d.]+)\s*(million|k)\b[^.]*for 2026-27/i);
   if (!m) continue;
-  const amount = Number(m[1]) * (m[2]!.toLowerCase() === "k" ? 1_000 : 1_000_000);
+  // Rounded: "$7.660317 million" × 1e6 is 7660317.000000001 in floating point,
+  // and a cap hit is a whole number of dollars.
+  const amount = Math.round(Number(m[1]) * (m[2]!.toLowerCase() === "k" ? 1_000 : 1_000_000));
   const k = normName(t.player);
   if (!STATED_SALARY.has(k)) STATED_SALARY.set(k, amount); // newest row wins
 }

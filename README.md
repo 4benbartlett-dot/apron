@@ -88,6 +88,21 @@ To refresh the data, the scripts in `packages/data/scripts/` rebuild the JSON
 snapshots from public sources (some need `FIRECRAWL_API_KEY` set for a rendering
 proxy), then you commit the updated JSON.
 
+### The front office (`/admin`)
+
+The scripts cover what the feeds carry. For everything else — a move the feed
+is late on, a salary a press release stated, a pick the league took away — the
+dev server serves an internal front office at `/admin`: every team's books as
+the site computes them, a contract editor that says which file governs each
+number, a transaction desk that has the rules engine rule on a trade, signing,
+waive, option or extension before it is filed, and a review page that shows
+the resulting diff, runs the integrity suites, and commits. Under the hood
+every action writes the same flat files in `packages/data/src`, validated
+against `packages/data/src/schema.ts` before the write, in the feed's own
+prose so the rest of the pipeline reads a filed move exactly as it reads a
+scraped one. It is on in development and off in production unless
+`APRON_ADMIN=1` is set; a deployed site has neither a writable tree nor git.
+
 ## Deploy
 
 See [DEPLOY.md](DEPLOY.md). It's a standard Next.js app; on Vercel, set the

@@ -107,6 +107,8 @@ export interface Transaction {
   date: string;
   type: string;
   detail: string;
+  /** Curated rows carry their evidence: the source and the arithmetic. */
+  why?: string;
 }
 
 /** Recent NBA transactions (Spotrac via Firecrawl). */
@@ -301,12 +303,25 @@ export const PENDING_SIGNINGS: string[] = (rosterCorrectionsRaw as { pendingSign
 /** Curated free-agent feed corrections, keyed by normalized name. */
 export const FA_OVERRIDES: Record<string, { birdStatus?: string }> = (faOverridesRaw as { byName: Record<string, { birdStatus?: string }> }).byName;
 
-// Feed rows first (newest-first); manually curated breaking moves appended so a
-// later feed row for the same player supersedes the manual entry.
-export const TRANSACTIONS = [
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "Sep 02, 2026" → "2026-09-02" ("" when unparseable, which sorts last). */
+export function transactionIso(date: string): string {
+  const m = date.match(/([A-Z][a-z]{2})\s+(\d{1,2}),\s*(\d{4})/);
+  const month = m ? MONTHS.indexOf(m[1]!) : -1;
+  return m && month >= 0 ? `${m[3]}-${String(month + 1).padStart(2, "0")}-${m[2]!.padStart(2, "0")}` : "";
+}
+
+// One feed, newest first. Every consumer that says "the first row per player
+// wins" means the NEWEST row, and the two files this merges are each ordered
+// that way on their own — but a curated move filed after the last scrape
+// used to sit behind July's feed rows regardless of its date, so a player
+// with any earlier feed row could never be moved by a later manual one. The
+// sort is stable, so on the same day a feed row still beats a manual one: the
+// feed carrying a move the curated file anticipated supersedes it.
+export const TRANSACTIONS: Transaction[] = [
   ...(transactionsRaw as { transactions: Transaction[] }).transactions,
   ...(manualMovesRaw as { transactions: Transaction[] }).transactions,
-];
+].sort((a, b) => transactionIso(b.date).localeCompare(transactionIso(a.date)));
 
 export interface DeadlineRow {
   date: string;
@@ -408,6 +423,8 @@ export {
 } from "./pick-encumbrances";
 
 import { withForfeitures } from "./rulings";
+export * from "./schema";
+
 export {
   LEAGUE_RULINGS,
   PICK_FORFEITURES,

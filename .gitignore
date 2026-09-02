@@ -13,3 +13,6 @@ CBA.pdf
 HANDOFF.md
 marketing/
 *.tsbuildinfo
+
+# atomic-write scratch from the front office (packages/data writer)
+*.tmp
