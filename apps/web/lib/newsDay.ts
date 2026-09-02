@@ -421,7 +421,7 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
 /* ------------------------------- signings -------------------------------- */
 
 function buildSigning(row: Transaction, iso: string): NewsMove | null {
-  const teamM = row.detail.match(/with\s+[A-Za-z .'&-]+\(([A-Za-z]{2,4})\)/);
+  const teamM = row.detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
   const yearsM = row.detail.match(/(\d+)\s*year/);
   const totalM = row.detail.match(/\$\s*([\d.]+)\s*million/);
   if (!teamM || !totalM || !isTeam(teamM[1]!)) return null;
@@ -624,7 +624,7 @@ export function buildRulingCard(r: LeagueRuling): NewsMove {
       text: violates
         ? `Years without a first: ${list(uncovered)} — consecutive drafts already uncovered, so under the Stepien rule as this site applies it ${name} cannot trade a first until a covered year is restored.`
         : `Years without a first: ${list(uncovered)} — never two in a row, so the Stepien rule still lets ${name} trade a first${
-            loadBearing.length ? `. ${list(loadBearing)} ${loadBearing.length === 1 ? "is" : "are"} what keeps it that way: trading ${loadBearing.length === 1 ? "it" : "either"} would leave consecutive drafts uncovered` : ""
+            loadBearing.length ? `. ${list(loadBearing)} ${loadBearing.length === 1 ? "is what keeps" : "are what keep"} it that way: trading ${loadBearing.length === 1 ? "it" : "either"} would leave consecutive drafts uncovered` : ""
           }.`,
     });
     if (!loadBearing.length && !violates && uncovered.length)
