@@ -1,0 +1,146 @@
+{
+  "note": "League discipline the transaction feeds never carry — fines, suspensions, forfeited picks. One curated record per ruling. Everything the app shows about a ruling derives from here: the news card, the transactions page, and the pick ledger's forfeitures (pick-rights.ts and pick-encumbrances.ts overlay the pick_forfeiture penalties onto the scraped RealGM ledger, so a scraper re-run cannot lose them). Each entry names its sources; the penalty texts are the league's own words where the league gave them.",
+  "rulings": [
+    {
+      "id": "2026-09-02-lac-circumvention",
+      "date": "2026-09-02",
+      "team": "LAC",
+      "headline": "NBA strips the Clippers of five first-round picks for circumventing the cap",
+      "summary": "After a yearlong investigation into Kawhi Leonard's off-court money, the league found the Clippers steered endorsement income to Leonard through their own business partners and paid personal expenses for his family. Five firsts, a $30 million fine, and a year without the owner.",
+      "findings": [
+        "Endorsement opportunities were funneled to Leonard through corporate partners — Aspiration, Boingo Wireless, Daktronics and Lockton — in exchange for team business.",
+        "The team covered personal expenses incurred by Leonard and his family.",
+        "Improper solicitations by Leonard's former business manager, Dennis Robertson, went unreported to the league.",
+        "Leonard's contract stands: he pays $700,000 in restitution and is not suspended, so the June 30 trade to Toronto proceeds."
+      ],
+      "penalties": [
+        {
+          "kind": "pick_forfeiture",
+          "team": "LAC",
+          "year": 2029,
+          "round": 1,
+          "origin": "IND",
+          "text": "2029 first-round pick — the Indiana pick acquired in the Zubac trade, because the Clippers' own 2029 first already carries Philadelphia's swap right. It does not go back to the Pacers.",
+          "note": "Zach Lowe, Sep 2 2026, 1:52 PM: 'sources say that in 2029 the Clippers will be forfeiting the Indiana Pacers pick obtained via the Zubac trade, but that the pick will not be returned to the Pacers.' Indiana sent the pick unprotected on Feb 5, 2026 with Mathurin, Isaiah Jackson and its 2026 first (which became Keaton Wagler at #5).",
+          "source": "Zach Lowe (@ZachLowe_NBA), Sep 2 2026; IndyStar via Yahoo, Sep 2 2026"
+        },
+        {
+          "kind": "pick_forfeiture",
+          "team": "LAC",
+          "year": 2030,
+          "round": 1,
+          "origin": "LAC",
+          "text": "2030 first-round pick (own).",
+          "source": "NBA ruling, Sep 2 2026"
+        },
+        {
+          "kind": "pick_forfeiture",
+          "team": "LAC",
+          "year": 2031,
+          "round": 1,
+          "origin": "LAC",
+          "text": "2031 first-round pick (own). Toronto's unprotected 2031 first, from the Leonard trade, stays with the Clippers.",
+          "source": "NBA ruling, Sep 2 2026; Yossi Gozlan via ClutchPoints, Sep 2 2026"
+        },
+        {
+          "kind": "pick_forfeiture",
+          "team": "LAC",
+          "year": 2032,
+          "round": 1,
+          "origin": "LAC",
+          "text": "2032 first-round pick (own).",
+          "source": "NBA ruling, Sep 2 2026"
+        },
+        {
+          "kind": "pick_forfeiture",
+          "team": "LAC",
+          "year": 2033,
+          "round": 1,
+          "origin": "LAC",
+          "text": "2033 first-round pick (own). Toronto's unprotected 2033 first stays with the Clippers.",
+          "source": "NBA ruling, Sep 2 2026; Yossi Gozlan via ClutchPoints, Sep 2 2026"
+        },
+        {
+          "kind": "fine",
+          "team": "LAC",
+          "amount": 30000000,
+          "text": "A $30 million fine, levied on owner Steve Ballmer.",
+          "source": "Shams Charania (ESPN), Sep 2 2026"
+        },
+        {
+          "kind": "suspension",
+          "team": "LAC",
+          "person": "Steve Ballmer",
+          "role": "Owner",
+          "length": "one year",
+          "text": "Steve Ballmer, owner: suspended from all league and team activities for one year — for knowingly seeking to help Leonard obtain off-court income, for approving a business deal he knew was a precondition for Aspiration's endorsement agreement with Leonard, and for failing to create conditions under which his organization abided by the circumvention rules.",
+          "source": "NBA ruling, Sep 2 2026"
+        },
+        {
+          "kind": "suspension",
+          "team": "LAC",
+          "person": "Gillian Zucker",
+          "role": "President of Business Operations",
+          "length": "one year",
+          "unpaid": true,
+          "text": "Gillian Zucker, President of Business Operations: suspended without pay for one year — primarily and directly culpable for the impermissible endorsement arrangements, and for providing false and misleading statements to investigators.",
+          "source": "NBA ruling, Sep 2 2026"
+        },
+        {
+          "kind": "suspension",
+          "team": "LAC",
+          "person": "Lawrence Frank",
+          "role": "President of Basketball Operations",
+          "length": "six months",
+          "unpaid": true,
+          "text": "Lawrence Frank, President of Basketball Operations: suspended without pay for six months — for his involvement with the endorsement arrangements and for approving impermissible expenses incurred by Leonard and his family.",
+          "source": "NBA ruling, Sep 2 2026"
+        },
+        {
+          "kind": "monitoring",
+          "team": "LAC",
+          "years": 5,
+          "text": "The organization and its personnel are under a league-office compliance and monitoring program for five years.",
+          "source": "NBA ruling, Sep 2 2026"
+        },
+        {
+          "kind": "restitution",
+          "person": "Kawhi Leonard",
+          "amount": 700000,
+          "text": "Kawhi Leonard pays $700,000 in restitution for the improper benefits; no suspension, and his contract is not voided.",
+          "source": "CNN, Sep 2 2026"
+        }
+      ],
+      "sources": [
+        {
+          "outlet": "NBA statement, as posted by Shams Charania (ESPN)",
+          "note": "The ruling's own language on the picks, the three suspensions and the monitoring program; Shams' BREAKING post carries the $30 million fine.",
+          "date": "2026-09-02"
+        },
+        {
+          "outlet": "Zach Lowe (@ZachLowe_NBA)",
+          "note": "The 2029 forfeiture is the Indiana pick from the Zubac trade, and it is not returned to the Pacers.",
+          "date": "2026-09-02"
+        },
+        {
+          "outlet": "CNN",
+          "url": "https://keyt.com/sports/national-sports/cnn-sports/2026/09/02/clippers-docked-5-first-round-draft-picks-and-fined-30-million-following-kawhi-leonard-probe/",
+          "note": "The findings (Aspiration, Boingo, Daktronics, Lockton; personal expenses; Robertson), the Wachtell Lipton investigation, Leonard's $700,000 restitution.",
+          "date": "2026-09-02"
+        },
+        {
+          "outlet": "IndyStar via Yahoo Sports",
+          "url": "https://sports.yahoo.com/articles/los-angeles-clippers-lose-pacers-214333696.html",
+          "note": "'The Pacers don't get the pick back.'",
+          "date": "2026-09-02"
+        },
+        {
+          "outlet": "ClutchPoints (Yossi Gozlan's breakdown)",
+          "url": "https://clutchpoints.com/nba/los-angeles-clippers/clippers-news-la-1st-round-pick-situation-kawhi-leonard-investigation",
+          "note": "What the Clippers keep: the 2027 nested-swap first, one 2029 first, and Toronto's unprotected 2031 and 2033 firsts. The league has not said whether a forfeited year counts under the Stepien rule; this site counts it as uncovered, the conservative read.",
+          "date": "2026-09-02"
+        }
+      ]
+    }
+  ]
+}

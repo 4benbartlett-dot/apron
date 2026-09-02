@@ -1,5 +1,6 @@
 import draftPicksRaw from "./draft-picks.json";
-import { PICK_RIGHTS } from "./pick-rights";
+import { PICK_RIGHTS, type PickHolding } from "./pick-rights";
+import { PICK_FORFEITURES, rulingDateLabel } from "./rulings";
 
 /**
  * Real-world encumbrances on each team's OWN future first-round picks, parsed
@@ -10,13 +11,17 @@ import { PICK_RIGHTS } from "./pick-rights";
  *                 It may or may not convey, so the year can't be counted on.
  *  - "swap":      another team holds swap rights — the team still ends the
  *                 draft with A first that year, just maybe a worse one.
+ *  - "forfeited": taken by the league under a ruling (league-rulings.json).
+ *                 Gone outright, with no counterparty to ever send it back.
  *
  * Stepien consequence (conservative, matching league-office practice): a year
- * whose own first is owed or protected-out is NOT covered; a swapped year IS.
+ * whose own first is owed, protected-out or forfeited is NOT covered; a swapped
+ * year IS. The league has not said whether a forfeited year is exempt from the
+ * consecutive-years test; until it does, the year counts as uncovered.
  * Parsing is headline/detail regex over scraped prose — entries that resist
  * classification default to the most restrictive read.
  */
-export type FirstEncumbranceStatus = "owed" | "protected" | "swap";
+export type FirstEncumbranceStatus = "owed" | "protected" | "swap" | "forfeited";
 
 export interface FirstEncumbrance {
   team: string;
@@ -38,7 +43,7 @@ const TEAMS_RAW = (draftPicksRaw as { teams: Record<string, { incoming: RawPick[
 /** Teams present in the scraped ledger — absent teams are UNKNOWN, not clean. */
 export const PICK_LEDGER_TEAMS: string[] = Object.keys(TEAMS_RAW);
 
-const RANK: Record<FirstEncumbranceStatus, number> = { owed: 3, protected: 2, swap: 1 };
+const RANK: Record<FirstEncumbranceStatus, number> = { forfeited: 4, owed: 3, protected: 2, swap: 1 };
 
 function classify(p: RawPick): FirstEncumbranceStatus {
   // Swap ONLY on headline markers — "(swap" or "… incoming)" mean THIS team
@@ -76,6 +81,19 @@ function build(): Record<string, Record<number, FirstEncumbrance>> {
       // 2029) — keep the most restrictive classification.
       if (!prev || RANK[status] > RANK[prev.status]) byYear[p.year] = enc;
     }
+  }
+  // The league's own rows. A forfeited own first outranks everything the
+  // scrape can say about the year: there is no obligation left to satisfy.
+  for (const f of PICK_FORFEITURES) {
+    if (f.origin !== f.team || f.round !== 1) continue;
+    const byYear = (out[f.team] ??= {});
+    byYear[f.year] = {
+      team: f.team,
+      year: f.year,
+      status: "forfeited",
+      counterparty: "the league",
+      headline: `${f.year} first round draft pick forfeited to the league (NBA ruling, ${rulingDateLabel(f.date)})`,
+    };
   }
   return out;
 }
@@ -132,16 +150,34 @@ export interface AcquiredPick {
  * pick is guaranteed to convey — counting one as clean inventory would grant
  * its holder phantom Stepien coverage.
  */
+/** A holding that is one identified team's pick, conveying to `team` no matter
+ * what — no protection band, no favorability condition, not a duplicate row,
+ * and not taken away by the league since. */
+function isCleanOutright(h: PickHolding, team: string): boolean {
+  if (h.kind !== "outright" || h.protection || h.favorable || h.overlapsPrior || h.forfeited) return false;
+  const origin = h.origin;
+  // A compound origin ("OKC/HOU/IND/MIA") or a missing one marks a pool
+  // pick with no identified team — never clean inventory.
+  return !!origin && origin in PICK_RIGHTS && origin !== team;
+}
+
+/** Whether `team` holds another team's first for `year` outright — Stepien
+ * coverage for a year its own first is gone. Any year, unlike ACQUIRED_PICKS,
+ * whose window is the board's tradeable one: the Clippers' 2033 is covered by
+ * Toronto's 2033 first even though nothing on the board can trade it. */
+export function hasAcquiredFirst(team: string, year: number): boolean {
+  return (PICK_RIGHTS[team]?.holdings ?? []).some(
+    (h) => h.round === 1 && h.year === year && isCleanOutright(h, team),
+  );
+}
+
 export const ACQUIRED_PICKS: AcquiredPick[] = (() => {
   const out: AcquiredPick[] = [];
   const seen = new Set<string>();
   for (const [team, rights] of Object.entries(PICK_RIGHTS)) {
     for (const h of rights.holdings) {
-      if (h.kind !== "outright" || h.protection || h.favorable || h.overlapsPrior) continue;
-      const origin = h.origin;
-      // A compound origin ("OKC/HOU/IND/MIA") or a missing one marks a pool
-      // pick with no identified team — never clean inventory.
-      if (!origin || !(origin in PICK_RIGHTS) || origin === team) continue;
+      if (!isCleanOutright(h, team)) continue;
+      const origin = h.origin!;
       if (h.year < 2027 || h.year > 2032) continue;
       const id = `${origin}|${h.year}|${h.round}`;
       if (seen.has(id)) continue; // a pick can't be owned twice

@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { TRANSACTIONS } from "@apron/data";
+import { TRANSACTIONS, LEAGUE_RULINGS } from "@apron/data";
+import { feedIso } from "@/lib/feedDate";
 import { useMoves, PICK_YEARS } from "@/lib/store";
 import { BASE_CONTRACTS, TEAM_IDS, applyMove, teamMeta, type Move } from "@/lib/league";
 import { fmtM } from "@/lib/format";
@@ -17,7 +18,38 @@ const TYPE_COLOR: Record<string, string> = {
   Renounce: "var(--muted)",
   "S&T": "var(--tier-taxpayer)",
   Other: "var(--muted)",
+  Ruling: "var(--accent-ink)",
 };
+
+/** "2026-09-02" → "Sep 02, 2026", the feed's own date shape. */
+function feedDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][(m ?? 1) - 1];
+  return `${mon} ${String(d ?? 1).padStart(2, "0")}, ${y}`;
+}
+
+/**
+ * League discipline, one row per penalty, in the feed's own shape. Spotrac's
+ * feed carries player fines and suspensions but never an owner's, a team's, or
+ * a forfeited pick — those come from league-rulings.json. Rulings sort ahead of
+ * feed rows on their own date: the ruling is the day's news, the Exhibit 10s
+ * are not.
+ */
+const RULING_ROWS = LEAGUE_RULINGS.flatMap((r) =>
+  r.penalties.map((p) => ({
+    player: p.kind === "suspension" || p.kind === "restitution" ? p.person : teamMeta(r.team).name,
+    pos: p.kind === "suspension" ? p.role : p.kind === "restitution" ? "player" : "team",
+    date: feedDate(r.date),
+    type: "Ruling",
+    // A pick row's text describes the pick; on its own line it needs the verb.
+    detail: p.kind === "pick_forfeiture" ? `Forfeited to the league: ${p.text}` : p.text,
+    iso: r.date,
+  })),
+);
+const FEED_ROWS = [
+  ...RULING_ROWS.map((r) => ({ ...r, priority: 1 })),
+  ...TRANSACTIONS.map((t) => ({ ...t, iso: feedIso(t.date), priority: 0 })),
+].sort((a, b) => b.iso.localeCompare(a.iso) || b.priority - a.priority);
 
 const KIND_TYPE: Record<string, string> = {
   trade: "Trade",
@@ -121,7 +153,7 @@ function describeMoves(moves: Move[]): MoveRow[] {
 export default function TransactionsPage() {
   const moves = useMoves();
   const [includeMine, setIncludeMine] = useState(true);
-  const txns = TRANSACTIONS;
+  const txns = FEED_ROWS;
   const counts = txns.reduce<Record<string, number>>((acc, t) => {
     acc[t.type] = (acc[t.type] ?? 0) + 1;
     return acc;

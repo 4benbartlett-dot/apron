@@ -31,8 +31,11 @@ export function NewsFeed({ day, headed = false }: { day: NewsDay; headed?: boole
 }
 
 function NewsRow({ move }: { move: NewsMove }) {
-  const color = move.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
-  const verdict = move.legal ? "Legal" : move.kind === "trade" ? "Blocked" : "Doesn't fit";
+  // A ruling has no verdict to hand down — the league already did. It reads
+  // in the accent, not in the green or red the engine's own stamps use.
+  const ruling = move.kind === "ruling";
+  const color = ruling ? "var(--accent-ink)" : move.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
+  const verdict = ruling ? "Final" : move.legal ? "Legal" : move.kind === "trade" ? "Blocked" : "Doesn't fit";
   const lead = move.winShifts[0];
   const delta = lead ? lead.afterWins - lead.beforeWins : 0;
 

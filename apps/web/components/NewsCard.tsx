@@ -8,6 +8,15 @@ import type { NewsMove } from "@/lib/newsDay";
 /** "Cleveland Cavaliers" -> "Cleveland Cavaliers’", not "Cavaliers’s". */
 const possessive = (name: string) => (name.endsWith("s") ? `${name}’` : `${name}’s`);
 
+/** Column label for each kind of penalty on a ruling card. */
+const PENALTY_LABEL: Record<string, string> = {
+  pick_forfeiture: "Pick",
+  fine: "Fine",
+  suspension: "Suspended",
+  monitoring: "Oversight",
+  restitution: "Restitution",
+};
+
 /**
  * A real move, rendered as the filing it would be if you had staged it
  * yourself: the same masthead, verdict stamp, docket and receipt the share card
@@ -15,10 +24,16 @@ const possessive = (name: string) => (name.endsWith("s") ? `${name}’` : `${nam
  * comes from the engine run in lib/newsDay.ts.
  */
 export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: boolean }) {
-  const color = move.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
-  const stamp = move.legal
-    ? move.kind === "trade" ? "Legal trade" : "Legal signing"
-    : move.kind === "trade" ? "Blocked" : "Doesn't fit yet";
+  // A league ruling is the one card the engine does not rule on — the
+  // penalty is quoted, the ledger underneath it is computed. It takes the
+  // accent, not a verdict colour.
+  const ruling = move.kind === "ruling";
+  const color = ruling ? "var(--accent-ink)" : move.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
+  const stamp = ruling
+    ? "League ruling"
+    : move.legal
+      ? move.kind === "trade" ? "Legal trade" : "Legal signing"
+      : move.kind === "trade" ? "Blocked" : "Doesn't fit yet";
 
   return (
     <article className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg)]">
@@ -61,6 +76,29 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
       <div className="px-4 pt-3.5 sm:px-5">
         {move.docket ? (
           <TradeDocket teams={move.docket} stack maxLines={compact ? 4 : undefined} />
+        ) : move.ruling ? (
+          <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel)]">
+            <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--panel-2)]/50 px-3 py-1.5">
+              <span className="flex items-center gap-2 text-[12.5px] font-semibold">
+                <TeamLogo id={move.focusTeam} size={16} />
+                {teamMeta(move.focusTeam).name}
+              </span>
+              <span className="label">penalties</span>
+            </div>
+            <p className="border-b border-[var(--border)] px-3 py-2 text-[12.5px] leading-snug text-[var(--text)]/85">
+              {move.ruling.summary}
+            </p>
+            <ul className="divide-y divide-[var(--border)]/60">
+              {move.ruling.penalties.map((p, i) => (
+                <li key={i} className="flex gap-2.5 px-3 py-1.5 text-[12.5px] leading-snug">
+                  <span className="label mt-[3px] w-16 shrink-0 !text-[9px] !text-[var(--accent-ink)]">
+                    {PENALTY_LABEL[p.kind] ?? p.kind}
+                  </span>
+                  <span>{p.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : move.signing ? (
           <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel)]">
             <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--panel-2)]/50 px-3 py-1.5">
@@ -86,17 +124,34 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
         ) : null}
       </div>
 
-      {/* the receipt */}
+      {/* what the league found — rulings only, in the league's words */}
+      {move.ruling && move.ruling.findings.length > 0 && (
+        <div className="px-4 pt-3.5 sm:px-5">
+          <div className="label mb-1.5">What the league found</div>
+          <ul className="space-y-1.5">
+            {move.ruling.findings.map((f, i) => (
+              <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
+                <span className="shrink-0 font-bold text-[var(--muted)]">·</span>
+                <span>{f}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* the receipt — on a ruling, the pick ledger after the penalty */}
       <div className="px-4 pb-1 pt-3.5 sm:px-5">
-        <div className="label mb-1.5">{move.legal ? "Why it works" : "What's in the way"}</div>
+        <div className="label mb-1.5">
+          {ruling ? "The ledger, after" : move.legal ? "Why it works" : "What's in the way"}
+        </div>
         <ul className="space-y-1.5">
           {move.checks.map((c, i) => (
             <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
               <span
                 className="shrink-0 font-bold"
-                style={{ color: c.ok ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}
+                style={{ color: ruling ? "var(--accent-ink)" : c.ok ? "var(--tier-below_cap)" : "var(--tier-second_apron)" }}
               >
-                {c.ok ? "✓" : "✗"}
+                {ruling ? "▸" : c.ok ? "✓" : "✗"}
               </span>
               <span>{c.text}</span>
             </li>
@@ -149,10 +204,31 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
         </div>
       )}
 
+      {/* sources — a ruling card quotes, so it says whom */}
+      {move.ruling && move.ruling.sources.length > 0 && (
+        <div className="px-4 pt-3.5 text-[11px] leading-snug text-[var(--muted)] sm:px-5">
+          <span className="label mr-1.5 !text-[9px]">Sources</span>
+          {move.ruling.sources.map((s, i) => (
+            <span key={i}>
+              {i > 0 && " · "}
+              {s.url ? (
+                <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+                  {s.outlet}
+                </a>
+              ) : (
+                s.outlet
+              )}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* the invitation */}
       <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-[var(--border)] bg-[var(--panel-2)]/40 px-4 py-2.5 text-[11.5px] sm:px-5">
         <span className="text-[var(--muted)]">
-          Ruled by the same engine the trade machine uses.
+          {ruling
+            ? "The ledger is read from the same pick data the trade board enforces."
+            : "Ruled by the same engine the trade machine uses."}
         </span>
         <Link
           href={`/team/${move.focusTeam}`}

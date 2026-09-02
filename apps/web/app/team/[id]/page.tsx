@@ -100,7 +100,14 @@ export default function TeamWarRoom() {
     canDo.push("Below the first apron: full expanded salary-matching is available.");
   const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
   canDo.push(
-    `Draft capital: ${plural(picks.incoming.length, "extra incoming pick", "extra incoming picks")}, owes ${picks.outgoing.length}.`,
+    (() => {
+      // A forfeited pick is not owed to anyone — it is gone. Count it apart.
+      const forfeited = picks.outgoing.filter((p) => /forfeited to the league/i.test(p.headline)).length;
+      const owed = picks.outgoing.length - forfeited;
+      return `Draft capital: ${plural(picks.incoming.length, "extra incoming pick", "extra incoming picks")}, owes ${owed}${
+        forfeited ? `, ${plural(forfeited, "pick forfeited to the league", "picks forfeited to the league")}` : ""
+      }.`;
+    })(),
   );
 
   return (
@@ -263,8 +270,11 @@ export default function TeamWarRoom() {
                 style={{ borderColor: color, color, background: `color-mix(in srgb, ${color} 8%, transparent)` }}>{text}</span>
             );
             const oblChip = (y: number, o: OwnFirstObligation, key: string) => {
-              const color = o.status === "owed" ? "var(--tier-second_apron)" : "var(--tier-taxpayer)";
-              const label = o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
+              // A forfeiture reads like an owe — the pick is gone — but with no
+              // counterparty: the league took it, and nobody sends it back.
+              const color = o.status === "owed" || o.status === "forfeited" ? "var(--tier-second_apron)" : "var(--tier-taxpayer)";
+              const label =
+                o.status === "forfeited" ? "forfeited" : o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
               return chip(color, `’${y - 2000} ${label}`, o.note ?? `${y} first-rounder`, key);
             };
             // PHX easter egg: when nearly every own first is encumbered or
@@ -292,6 +302,16 @@ export default function TeamWarRoom() {
                 <div className="mb-3 flex flex-wrap gap-1">
                   {visibleHoldings.map((h, i) => {
                     const kindTxt = h.kind === "outright" ? `from ${h.origin ?? h.counterparties?.[0] ?? "?"}` : h.kind === "swap_right" ? `swap ${h.favorable ?? ""}`.trim() : "conditional";
+                    // An acquired pick the league then took (the Clippers' Indiana
+                    // 2029): shown, struck, so the ledger says where it went
+                    // rather than quietly losing a row.
+                    if (h.forfeited)
+                      return (
+                        <span key={`h${i}`} title={h.note} className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
+                          style={{ borderColor: "var(--tier-second_apron)", color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 8%, transparent)" }}>
+                          <span className="line-through decoration-[1.5px]">{`’${h.year - 2000} ${h.round === 1 ? "1st" : "2nd"} · ${kindTxt}`}</span> · forfeited
+                        </span>
+                      );
                     const color = h.kind === "swap_right" ? "var(--tier-taxpayer)" : h.kind === "conditional" ? "var(--muted)" : "var(--tier-below_cap)";
                     return chip(color, `’${h.year - 2000} ${h.round === 1 ? "1st" : "2nd"} · ${kindTxt}`, h.note, `h${i}`);
                   })}

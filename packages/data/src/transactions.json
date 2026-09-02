@@ -2,11 +2,60 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Saint Thomas",
+      "pos": "F",
+      "date": "Sep 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Philadelphia 76ers (PHI) via Exhibit 10"
+    },
+    {
+      "player": "Paul Reed",
+      "pos": "C",
+      "date": "Sep 02, 2026",
+      "type": "Other",
+      "detail": "Detroit Pistons (DET) fully guaranteed $5.6 million for 2026-27"
+    },
+    {
+      "player": "Moussa Cisse",
+      "pos": "F",
+      "date": "Sep 02, 2026",
+      "type": "Other",
+      "detail": "Dallas Mavericks (DAL) guaranteed $1,092,558 of salary for 2026-27"
+    },
+    {
       "player": "Josiah Allick",
       "pos": "F",
       "date": "Sep 01, 2026",
       "type": "Signing",
       "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Jameer Nelson Jr.",
+      "pos": "G",
+      "date": "Sep 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $1.36 million with Philadelphia 76ers (PHI) via Exhibit 10"
+    },
+    {
+      "player": "Tacko Fall",
+      "pos": "C",
+      "date": "Sep 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.45 million with Philadelphia 76ers (PHI) via Exhibit 10"
+    },
+    {
+      "player": "Trey Townsend",
+      "pos": "F",
+      "date": "Sep 01, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $1.36 million with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Josiah Allick",
+      "pos": "F",
+      "date": "Sep 01, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
     },
     {
       "player": "Matthew Murrell",

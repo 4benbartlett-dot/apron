@@ -1,4 +1,5 @@
 import { validateTrade, violatesStepien, matchRuleLabel, type ApronTier, type Trade } from "@apron/cba-engine";
+import { ACQUIRED_PICKS, hasAcquiredFirst } from "@apron/data";
 import {
   BASE_CONTRACTS,
   leagueData,
@@ -171,15 +172,26 @@ export function summarizeTrade(t: string): TradeSummary | null {
     const ins = new Set(
       d.picks.filter((p) => p.to === teamId && p.id.endsWith("|1")).map((p) => Number(p.id.split("|")[1])),
     );
+    // A first the team already holds from a REAL trade covers its year, the
+    // same way the board's ownership ledger counts it — unless this very deal
+    // sends it out. (The Clippers' 2030 and 2032 are forfeited; Toronto's 2031
+    // and 2033 firsts are what keep those from pairing into a violation.)
+    const coveredByAcquired = (y: number) =>
+      ACQUIRED_PICKS.some((ap) => ap.team === teamId && ap.round === 1 && ap.year === y && !outs.has(ap.id)) ||
+      (y === 2033 && hasAcquiredFirst(teamId, 2033));
     const uncovered: number[] = [];
     for (const y of [2027, 2028, 2029, 2030, 2031, 2032]) {
       const ownGone = outs.has(`${teamId}|${y}|1`) || lockedFirstEncumbrance(teamId, y) !== undefined;
-      if (ownGone && !ins.has(y)) uncovered.push(y);
+      if (ownGone && !ins.has(y) && !coveredByAcquired(y)) uncovered.push(y);
     }
-    if (lockedFirstEncumbrance(teamId, 2033)) uncovered.push(2033);
+    // Same 2033 rule as the board: a locked 2033 pairs with 2032 unless another
+    // team's 2033 first is in hand (see store.ts yearsWithoutFirst).
+    if (lockedFirstEncumbrance(teamId, 2033) && !coveredByAcquired(2033)) uncovered.push(2033);
     if (!violatesStepien(uncovered)) continue;
+    // Any outgoing first is the offending pick — an acquired one too, as the
+    // board reads it: sending Toronto's 2031 away is what uncovers 2031.
     const outYears = d.picks
-      .filter((p) => p.from === teamId && p.id.startsWith(`${teamId}|`) && p.id.endsWith("|1"))
+      .filter((p) => p.from === teamId && p.id.endsWith("|1"))
       .map((p) => Number(p.id.split("|")[1]));
     stepienFinding = stepienFindingFor(teamId, uncovered, outYears);
     if (stepienFinding) break;
