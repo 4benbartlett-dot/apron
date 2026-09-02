@@ -2,11 +2,23 @@ import {
   validateTrade,
   validateSigning,
   classifyTier,
+  violatesStepien,
   teamSalary as engTeamSalary,
   type Contract,
   type TeamTradeSummary,
 } from "@apron/cba-engine";
-import { TRANSACTIONS, type Transaction } from "@apron/data";
+import {
+  TRANSACTIONS,
+  LEAGUE_RULINGS,
+  PICK_RIGHTS,
+  DATA_AS_OF,
+  firstEncumbranceOf,
+  hasAcquiredFirst,
+  teamPossessive,
+  type Transaction,
+  type LeagueRuling,
+  type RulingPenalty,
+} from "@apron/data";
 import {
   BASE_CONTRACTS,
   C,
@@ -18,6 +30,7 @@ import {
   feedStateOf,
   freeAgentsOf,
   tpeLedger,
+  lockedFirstEncumbrance,
   TEAM_IDS,
 } from "@/lib/league";
 import { rewind, isoDate } from "@/lib/replayRewind";
@@ -60,7 +73,7 @@ export interface WinShift {
 export interface NewsMove {
   /** Stable across rebuilds — the dismissal key and the React key. */
   id: string;
-  kind: "trade" | "signing";
+  kind: "trade" | "signing" | "ruling";
   date: string;
   /** "Aug 19" — for the strip. */
   dateLabel: string;
@@ -79,6 +92,15 @@ export interface NewsMove {
     total: number;
     y1: number;
     mechanism?: string;
+  };
+  /** Present on league rulings: what the league said, in its own words. The
+   * checks on a ruling card are still computed — they read the pick ledger
+   * after the penalty — but the penalty itself is quoted, not derived. */
+  ruling?: {
+    summary: string;
+    findings: string[];
+    penalties: { kind: RulingPenalty["kind"]; text: string }[];
+    sources: { outlet: string; url?: string; note?: string }[];
   };
   checks: DocketCheck[];
   consequences: MoveConsequence[];
@@ -531,6 +553,139 @@ const fmt = (n: number) =>
   `$${(n / 1e6).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}M`;
 const tierLabel = (salary: number) => classifyTier(salary, C).replace(/_/g, " ");
 
+/* -------------------------------- rulings -------------------------------- */
+
+const PICK_YEARS_WITH_TAIL = [2027, 2028, 2029, 2030, 2031, 2032, 2033] as const;
+
+/** "2030, 2031, 2032 and 2033" */
+const list = (xs: (string | number)[]) =>
+  xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
+
+/**
+ * A league ruling, rendered the way a move is: the penalty as the league
+ * stated it, and underneath it the one thing this site can add — the pick
+ * ledger AFTER the penalty, read from the same data the trade board reads.
+ * Which firsts are still there, which years are uncovered, and whether the
+ * Stepien rule now stands between the team and its next pick trade are all
+ * computed; nothing about the ledger is copied from a press release.
+ */
+export function buildRulingCard(r: LeagueRuling): NewsMove {
+  const team = r.team;
+  const name = teamMeta(team).name;
+  const forfeits = r.penalties.filter(
+    (p): p is Extract<RulingPenalty, { kind: "pick_forfeiture" }> => p.kind === "pick_forfeiture",
+  );
+  const checks: DocketCheck[] = [];
+  const consequences: MoveConsequence[] = [];
+
+  if (forfeits.length) {
+    const firsts = forfeits.filter((f) => f.round === 1);
+    checks.push({
+      ok: true,
+      text: `Forfeited: ${list(
+        firsts.map((f) => (f.origin === team ? `the ${f.year} first` : `${teamPossessive(teamMeta(f.origin).name)} ${f.year} first`)),
+      )}${firsts.some((f) => f.origin !== team) ? " — an acquired pick does not go back to the team that sent it" : ""}.`,
+    });
+
+    // The ledger, year by year, from the same encumbrance + holdings data the
+    // board's pick chips use.
+    const rows = PICK_YEARS_WITH_TAIL.map((y) => {
+      const enc = firstEncumbranceOf(team, y);
+      const acquired = (PICK_RIGHTS[team]?.holdings ?? [])
+        .filter((h) => h.round === 1 && h.year === y && hasAcquiredFirst(team, y) && h.kind === "outright" && !h.forfeited && h.origin && h.origin !== team)
+        .map((h) => h.origin!);
+      const ownCovers = !enc || enc.status === "swap";
+      return { y, enc, acquired, covered: ownCovers || acquired.length > 0 };
+    });
+    const kept = rows.flatMap((row) => {
+      const out: string[] = [];
+      if (!row.enc) out.push(`${row.y} own`);
+      else if (row.enc.status === "swap") out.push(`${row.y} own (${row.enc.counterparty} holds a swap)`);
+      for (const o of row.acquired) out.push(`${teamPossessive(teamMeta(o).name)} ${row.y}`);
+      return out;
+    });
+    const owed = rows
+      .filter((row) => row.enc && row.enc.status !== "swap" && row.enc.status !== "forfeited")
+      .map((row) => `${row.y} to ${row.enc!.counterparty}`);
+    checks.push({
+      ok: true,
+      text: `Firsts still on the ledger: ${kept.length ? list(kept) : "none"}${owed.length ? `. Already owed away: ${list(owed)}` : ""}.`,
+    });
+
+    const uncovered = rows.filter((row) => !row.covered).map((row) => row.y);
+    const violates = violatesStepien(uncovered);
+    // Which acquired firsts are load-bearing: remove one and Stepien fails.
+    const loadBearing = rows
+      .filter((row) => row.covered && row.enc && row.enc.status !== "swap" && row.acquired.length === 1)
+      .filter((row) => violatesStepien([...uncovered, row.y]))
+      .map((row) => `${teamPossessive(teamMeta(row.acquired[0]!).name)} ${row.y}`);
+    checks.push({
+      ok: true,
+      text: violates
+        ? `Years without a first: ${list(uncovered)} — consecutive drafts already uncovered, so under the Stepien rule as this site applies it ${name} cannot trade a first until a covered year is restored.`
+        : `Years without a first: ${list(uncovered)} — never two in a row, so the Stepien rule still lets ${name} trade a first${
+            loadBearing.length ? `. ${list(loadBearing)} ${loadBearing.length === 1 ? "is" : "are"} what keeps it that way: trading ${loadBearing.length === 1 ? "it" : "either"} would leave consecutive drafts uncovered` : ""
+          }.`,
+    });
+    if (!loadBearing.length && !violates && uncovered.length)
+      consequences.push({ team, severity: "note", text: `Forfeited years count as uncovered here — the conservative read; the league has not said a forfeited year is exempt from the Stepien test.` });
+    else if (loadBearing.length)
+      consequences.push({
+        team,
+        severity: "restrict",
+        text: `${list(loadBearing)} ${loadBearing.length === 1 ? "is" : "are"} locked in practice: the board will block any trade that sends ${loadBearing.length === 1 ? "it" : "one"} out. Forfeited years count as uncovered — the conservative read, since the league has not said otherwise.`,
+      });
+  }
+  checks.push({
+    ok: true,
+    text: `No cap-sheet change for ${name}: a fine is not team salary, and the suspensions sit outside the CBA's cap machinery.`,
+  });
+
+  for (const p of r.penalties) {
+    if (p.kind === "pick_forfeiture") continue;
+    consequences.push({
+      team,
+      severity: p.kind === "fine" ? "cap" : p.kind === "suspension" ? "restrict" : "note",
+      text: p.text,
+    });
+  }
+
+  const fine = r.penalties.find((p): p is Extract<RulingPenalty, { kind: "fine" }> => p.kind === "fine");
+  const suspended = r.penalties.filter((p): p is Extract<RulingPenalty, { kind: "suspension" }> => p.kind === "suspension");
+  const years = forfeits.map((f) => f.year).sort((a, b) => a - b);
+  const subhead = [
+    forfeits.length
+      ? `${forfeits.length} first${forfeits.length === 1 ? "" : "s"}${years.length > 1 ? `, ${years[0]}–${years[years.length - 1]}` : years.length ? `, ${years[0]}` : ""}`
+      : null,
+    fine ? `${fmt(fine.amount)} fine` : null,
+    suspended.length ? `${list(suspended.map((s) => s.person.split(" ").slice(-1)[0]!))} suspended` : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  const others = [...new Set(forfeits.map((f) => f.origin).filter((o) => o !== team))];
+
+  return {
+    id: r.id,
+    kind: "ruling",
+    date: r.date,
+    dateLabel: label(r.date),
+    headline: r.headline,
+    subhead,
+    teams: [team, ...others],
+    legal: true,
+    ruling: {
+      summary: r.summary,
+      findings: r.findings,
+      penalties: r.penalties.map((p) => ({ kind: p.kind, text: p.text })),
+      sources: r.sources.map((s) => ({ outlet: s.outlet, url: s.url, note: s.note })),
+    },
+    checks,
+    consequences,
+    winShifts: [],
+    focusTeam: team,
+  };
+}
+
 /* -------------------------------- the day -------------------------------- */
 
 /** Rows worth leading with: real trades and contracts with dollar terms. */
@@ -569,8 +724,10 @@ export function latestNewsDay(): NewsDay | null {
 
 function compute(): NewsDay | null {
   const dated = TRANSACTIONS.map((t) => ({ t, iso: isoDate(t.date) })).filter((x) => x.iso && significant(x.t));
-  if (!dated.length) return null;
-  const days = [...new Set(dated.map((x) => x.iso))].sort().reverse();
+  // League rulings are news days too — never stamped ahead of the roster data.
+  const rulings = LEAGUE_RULINGS.filter((r) => r.date <= DATA_AS_OF);
+  if (!dated.length && !rulings.length) return null;
+  const days = [...new Set([...dated.map((x) => x.iso), ...rulings.map((r) => r.date)])].sort().reverse();
 
   // The newest day the feed moved, plus earlier move-days behind it while the
   // story is still thin, bounded to a week. An offseason breaks in clusters and
@@ -597,6 +754,11 @@ function compute(): NewsDay | null {
   // Per-move isolation: one deal the prose cannot express must not cost the
   // reader the others that parsed cleanly.
   const moves: NewsMove[] = [];
+  for (const r of rulings) {
+    if (!window.includes(r.date)) continue;
+    const m = attempt(() => buildRulingCard(r), `ruling ${r.id}`);
+    if (m) moves.push(m);
+  }
   for (const [key, g] of tradeGroups(rows)) {
     const m = attempt(() => buildTrade(g, key.split("|")[0]!), `trade ${key}`);
     if (m) moves.push(m);
@@ -617,9 +779,12 @@ function compute(): NewsDay | null {
     if (m) moves.push(m);
   }
   if (!moves.length) return null;
-  // Newest first, then biggest projection swing — that is what makes one of
-  // them the lede.
-  moves.sort((a, b) => (a.date === b.date ? swing(b) - swing(a) : b.date.localeCompare(a.date)));
+  // Newest first; on the same day a league ruling leads, then the biggest
+  // projection swing — that is what makes one of them the lede.
+  const lede = (m: NewsMove) => (m.kind === "ruling" ? 1 : 0);
+  moves.sort((a, b) =>
+    a.date === b.date ? lede(b) - lede(a) || swing(b) - swing(a) : b.date.localeCompare(a.date),
+  );
   return { date: iso, dateLabel: label(iso), moves };
 }
 
@@ -674,7 +839,8 @@ export function tradeGroups(rows: readonly Transaction[]): Map<string, Transacti
 function countMoves(window: string[]): number {
   const rows = TRANSACTIONS.filter((t) => window.includes(isoDate(t.date)) && significant(t));
   const signings = new Set(rows.filter((r) => r.type !== "Trade").map((r) => normName(r.player)));
-  return tradeGroups(rows).size + signings.size;
+  const rulings = LEAGUE_RULINGS.filter((r) => window.includes(r.date)).length;
+  return tradeGroups(rows).size + signings.size + rulings;
 }
 
 function attempt<T>(fn: () => T | null, what: string): T | null {

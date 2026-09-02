@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { latestNewsDay, splitAssets, parseLegs, dayBefore } from "@/lib/newsDay";
-import { DATA_AS_OF } from "@apron/data";
+import { latestNewsDay, buildRulingCard, splitAssets, parseLegs, dayBefore } from "@/lib/newsDay";
+import { DATA_AS_OF, LEAGUE_RULINGS } from "@apron/data";
 
 // ---------------------------------------------------------------------------
 // THE NEWS DAY — the cards are generated, so the guards are about the SHAPE of
@@ -160,5 +160,47 @@ describe("prose the feed has never produced but might", () => {
 
   it("builds the day without throwing", () => {
     expect(() => latestNewsDay()).not.toThrow();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// LEAGUE RULINGS — the one card the engine does not rule on. The penalty is
+// quoted from league-rulings.json; the ledger underneath it is computed. These
+// guards are about that split staying honest.
+// ---------------------------------------------------------------------------
+
+describe("a league ruling on the feed", () => {
+  const ruling = LEAGUE_RULINGS.find((r) => r.id === "2026-09-02-lac-circumvention")!;
+  const card = buildRulingCard(ruling);
+
+  it("quotes every penalty and computes the ledger after it", () => {
+    expect(card.kind).toBe("ruling");
+    expect(card.ruling!.penalties.filter((p) => p.kind === "pick_forfeiture")).toHaveLength(5);
+    expect(card.ruling!.penalties.filter((p) => p.kind === "suspension")).toHaveLength(3);
+    expect(card.ruling!.sources.length).toBeGreaterThan(0);
+    // The computed half: what is left, what is uncovered, and the Stepien read.
+    expect(card.checks.some((c) => /Firsts still on the ledger/.test(c.text))).toBe(true);
+    expect(card.checks.some((c) => /Toronto Raptors' 2031/.test(c.text) && /2033/.test(c.text))).toBe(true);
+    expect(card.checks.some((c) => /Years without a first: 2028, 2030 and 2032/.test(c.text))).toBe(true);
+    expect(card.checks.some((c) => /Stepien rule still lets/.test(c.text))).toBe(true);
+    expect(card.consequences.some((c) => /locked in practice/.test(c.text))).toBe(true);
+  });
+
+  it("is a ruling, not a verdict: no projection swing, no cap-sheet change, Indiana named as affected", () => {
+    expect(card.winShifts).toEqual([]);
+    expect(card.legal).toBe(true); // the stamp says "League ruling"; every check is a statement, not a failure
+    expect(card.checks.every((c) => c.ok)).toBe(true);
+    expect(card.teams).toEqual(["LAC", "IND"]);
+    expect(card.focusTeam).toBe("LAC");
+    expect(card.subhead).toMatch(/5 firsts, 2029–2033/);
+    expect(card.subhead).toMatch(/\$30\.0M fine/);
+    expect(card.subhead).toMatch(/Ballmer, Zucker and Frank suspended/);
+  });
+
+  it("leads the day it was announced, ahead of that day's signings", () => {
+    const day = latestNewsDay()!;
+    if (day.date !== ruling.date) return; // the window has moved on — nothing to assert
+    expect(day.moves[0]!.id).toBe(ruling.id);
+    expect(day.moves.filter((m) => m.kind === "ruling")).toHaveLength(1);
   });
 });

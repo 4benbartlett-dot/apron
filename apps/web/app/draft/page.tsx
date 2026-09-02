@@ -11,19 +11,25 @@ function isFirst(p: DraftPick) {
 
 function PickRow({ p }: { p: DraftPick }) {
   const first = isFirst(p);
+  // A pick the league took under a ruling (league-rulings.json) — the one row
+  // in the ledger with no counterparty.
+  const forfeited = /forfeited to the league/i.test(p.headline);
+  const tone = forfeited ? "var(--tier-second_apron)" : first ? "var(--tier-first_apron)" : "var(--tier-over_cap)";
   return (
     <div className="border-b border-[var(--border)]/30 py-2">
       <div className="flex items-start gap-2">
         <span
           className="mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold"
-          style={{
-            color: first ? "var(--tier-first_apron)" : "var(--tier-over_cap)",
-            background: `color-mix(in srgb, ${first ? "var(--tier-first_apron)" : "var(--tier-over_cap)"} 14%, transparent)`,
-          }}
+          style={{ color: tone, background: `color-mix(in srgb, ${tone} 14%, transparent)` }}
         >
           {p.year} {first ? "1st" : "2nd"}
         </span>
-        <span className="text-sm">{p.headline.replace(/^\d{4}\s+(first|second) round draft pick\s*/i, "")}</span>
+        <span className="text-sm">
+          {p.headline.replace(/^\d{4}\s+(first|second) round draft pick\s*/i, "")}
+          {forfeited && (
+            <span className="stamp ml-2 align-middle text-[9px]" style={{ color: tone }}>Forfeited</span>
+          )}
+        </span>
       </div>
       {p.detail && <div className="mt-1 pl-1 text-xs leading-snug text-[var(--muted)]">{p.detail}</div>}
     </div>

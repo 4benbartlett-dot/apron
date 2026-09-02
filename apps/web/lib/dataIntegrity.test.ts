@@ -5,7 +5,7 @@ import {
   BASE_CONTRACTS, TEAM_IDS, C, currentSalary, normName,
   teamProjection, feedStateOf, freeAgentsOf, LEAGUE_WINS,
 } from "@/lib/league";
-import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS, getLeagueData } from "@apron/data";
+import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS, LEAGUE_RULINGS, getLeagueData } from "@apron/data";
 import { shortPlayerName } from "@/lib/names";
 import { feedIso } from "@/lib/feedDate";
 
@@ -52,6 +52,32 @@ describe("data integrity", () => {
 
   it("the strength snapshot is stamped for the same day as the rosters", () => {
     expect(rd("team-strength-2026.json").asOf).toBe(rd("meta.json").rostersAsOf);
+  });
+
+  // A ruling is curated prose with structured penalties hanging off it, and the
+  // pick ledger is rebuilt from those penalties. A typo in a team code or a
+  // year would silently forfeit nothing — or the wrong team's pick.
+  it("every league ruling is well-formed and dated inside the data", () => {
+    const valid = new Set(TEAM_IDS);
+    const kinds = new Set(["pick_forfeiture", "fine", "suspension", "monitoring", "restitution"]);
+    const ids = new Set<string>();
+    for (const r of LEAGUE_RULINGS) {
+      expect(ids.has(r.id), `duplicate ruling id ${r.id}`).toBe(false);
+      ids.add(r.id);
+      expect(r.date <= DATA_AS_OF, `${r.id} is dated after the rosters`).toBe(true);
+      expect(valid.has(r.team), `${r.id} team ${r.team}`).toBe(true);
+      expect(r.headline.length).toBeGreaterThan(10);
+      expect(r.sources.length, `${r.id} cites no source`).toBeGreaterThan(0);
+      for (const p of r.penalties) {
+        expect(kinds.has(p.kind), `${r.id}: unknown penalty kind ${p.kind}`).toBe(true);
+        expect(p.text.length, `${r.id}: a ${p.kind} with no text`).toBeGreaterThan(5);
+        if (p.kind === "pick_forfeiture") {
+          expect(valid.has(p.team) && valid.has(p.origin), `${r.id}: ${p.team}/${p.origin}`).toBe(true);
+          expect(p.year).toBeGreaterThanOrEqual(2027);
+          expect([1, 2]).toContain(p.round);
+        }
+      }
+    }
   });
 
   // The Jul 10 four-team trade landed in the feed twice.

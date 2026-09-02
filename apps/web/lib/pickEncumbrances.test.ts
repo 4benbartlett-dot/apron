@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { violatesStepien } from "@apron/cba-engine";
-import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf, ACQUIRED_PICKS, PICK_RIGHTS } from "@apron/data";
+import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf, ACQUIRED_PICKS, PICK_RIGHTS, PICK_FORFEITURES, DRAFT_PICKS, hasAcquiredFirst } from "@apron/data";
 import { lockedFirstEncumbrance, PICK_YEARS } from "@/lib/store";
 import { summarizeTrade, encodeTradeParam } from "@/lib/trade-share";
 
@@ -149,5 +149,89 @@ describe("acquired incoming picks (real trades before the sim)", () => {
       // (We only assert consistency where the ledger records the origin side.)
       if (enc) expect(["owed", "protected", "swap"]).toContain(enc.status);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// THE SEP 2, 2026 RULING. The league took five Clippers firsts — one in each
+// draft 2029 through 2033 — and the RealGM ledger has no row for a pick with
+// no counterparty. league-rulings.json is the source; everything below is the
+// overlay it produces, pinned so a scraper re-run can never quietly restore a
+// pick the league has already taken.
+// ---------------------------------------------------------------------------
+
+describe("the Clippers' forfeited firsts (league-rulings.json overlay)", () => {
+  it("five forfeitures, all Clippers firsts, 2029 through 2033", () => {
+    const lac = PICK_FORFEITURES.filter((f) => f.team === "LAC" && f.round === 1);
+    expect(lac.map((f) => f.year).sort()).toEqual([2029, 2030, 2031, 2032, 2033]);
+  });
+
+  it("the four own firsts read as forfeited — locked, with the league as the counterparty", () => {
+    for (const y of [2030, 2031, 2032, 2033]) {
+      const enc = firstEncumbranceOf("LAC", y);
+      expect(enc?.status, String(y)).toBe("forfeited");
+      expect(enc?.counterparty, String(y)).toBe("the league");
+      expect(lockedFirstEncumbrance("LAC", y), String(y)).toBeDefined();
+    }
+    const own = PICK_RIGHTS.LAC!.ownFirstObligations.filter((o) => o.status === "forfeited").map((o) => o.year);
+    expect(own).toEqual([2030, 2031, 2032, 2033]);
+  });
+
+  it("2029 is Indiana's pick, not the Clippers' own — the own 2029 keeps Philadelphia's swap", () => {
+    // Zach Lowe, Sep 2: the forfeited 2029 first is the Pacers pick from the
+    // Zubac trade, because LAC's own 2029 already carries PHI's swap right.
+    expect(firstEncumbranceOf("LAC", 2029)?.status).toBe("swap");
+    expect(lockedFirstEncumbrance("LAC", 2029)).toBeUndefined();
+    const h = PICK_RIGHTS.LAC!.holdings.find((x) => x.origin === "IND" && x.year === 2029 && x.round === 1);
+    expect(h?.forfeited).toBe(true);
+    // Gone from the board's tradeable inventory…
+    expect(ACQUIRED_PICKS.some((p) => p.id === "IND|2029|1")).toBe(false);
+    expect(hasAcquiredFirst("LAC", 2029)).toBe(false);
+  });
+
+  it("…and it does not go back to Indiana", () => {
+    const o = PICK_RIGHTS.IND!.ownFirstObligations.find((x) => x.year === 2029)!;
+    expect(o.status).toBe("owed");
+    expect(o.to).toBe("LAC");
+    expect(o.note).toMatch(/does not return to IND/);
+    // Nobody else holds it either.
+    expect(ACQUIRED_PICKS.some((p) => p.id === "IND|2029|1")).toBe(false);
+  });
+
+  it("the raw ledger says so too, on both teams' pages", () => {
+    const lacOut = DRAFT_PICKS.LAC!.outgoing.filter((p) => /forfeited to the league/i.test(p.headline));
+    expect(lacOut.map((p) => p.year).sort()).toEqual([2029, 2030, 2031, 2032, 2033]);
+    expect(lacOut.find((p) => p.year === 2029)!.headline).toMatch(/Indiana Pacers' pick/);
+    const indOut = DRAFT_PICKS.IND!.outgoing.find((p) => p.year === 2029 && /first round/i.test(p.headline))!;
+    expect(indOut.detail).toMatch(/does not return to Indiana Pacers/);
+  });
+
+  it("Toronto's 2031 and 2033 firsts stay Clippers inventory, and 2033 counts as coverage", () => {
+    expect(ACQUIRED_PICKS.find((p) => p.id === "TOR|2031|1")?.team).toBe("LAC");
+    // 2033 is past the board's tradeable window, so it is not in ACQUIRED_PICKS —
+    // but it still covers the year for the Stepien tail test.
+    expect(hasAcquiredFirst("LAC", 2033)).toBe(true);
+    expect(hasAcquiredFirst("LAC", 2031)).toBe(true);
+    expect(hasAcquiredFirst("LAC", 2030)).toBe(false);
+    expect(hasAcquiredFirst("LAC", 2032)).toBe(false);
+  });
+
+  it("as the ledger stands the Clippers pass Stepien (2028, 2030, 2032 uncovered — never two in a row)", () => {
+    // A seconds-only deal touches no first: the share card must not read a
+    // standing 2032+2033 violation into it. Without Toronto's 2033 first
+    // covering the tail year, it would.
+    const token = encodeTradeParam(["LAC", "CHA"], [], [{ id: "LAC|2031|2", from: "LAC", to: "CHA" }]);
+    const s = summarizeTrade(token)!;
+    expect(s.hasPicks).toBe(true);
+    expect(s.reason ?? "").not.toMatch(/Stepien/);
+    expect(s.legal).toBe(true);
+  });
+
+  it("trading Toronto's 2031 first is blocked: 2030 is forfeited, so 2030 + 2031 would both be uncovered", () => {
+    const token = encodeTradeParam(["LAC", "CHA"], [], [{ id: "TOR|2031|1", from: "LAC", to: "CHA" }]);
+    const s = summarizeTrade(token)!;
+    expect(s.legal).toBe(false);
+    expect(s.reason).toMatch(/Stepien/);
+    expect(s.reason).toMatch(/forfeited to the league/);
   });
 });

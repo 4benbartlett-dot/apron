@@ -401,15 +401,32 @@ export {
   PICK_LEDGER_TEAMS,
   ACQUIRED_PICKS,
   firstEncumbranceOf,
+  hasAcquiredFirst,
   type FirstEncumbrance,
   type FirstEncumbranceStatus,
   type AcquiredPick,
 } from "./pick-encumbrances";
 
-/** Future draft-pick ledger by team (RealGM via Firecrawl). */
-export const DRAFT_PICKS = (
-  draftPicksRaw as { teams: Record<string, TeamPicks> }
-).teams;
+import { withForfeitures } from "./rulings";
+export {
+  LEAGUE_RULINGS,
+  PICK_FORFEITURES,
+  forfeituresOf,
+  rulingDateLabel,
+  possessive as teamPossessive,
+  type LeagueRuling,
+  type RulingPenalty,
+  type RulingSource,
+  type PickForfeiture,
+} from "./rulings";
+
+/** Future draft-pick ledger by team (RealGM via Firecrawl), with the league's
+ * forfeitures laid over it — the scrape cannot know about a pick that has no
+ * counterparty, and re-running it must not lose one. */
+export const DRAFT_PICKS: Record<string, TeamPicks> = withForfeitures(
+  (draftPicksRaw as { teams: Record<string, TeamPicks> }).teams,
+  (code) => (raw as { teams: { id: string; name: string }[] }).teams.find((t) => t.id === code)?.name ?? code,
+);
 
 export {
   PICK_RIGHTS,

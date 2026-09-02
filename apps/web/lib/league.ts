@@ -2895,9 +2895,15 @@ export function stepienFindingFor(
   let message: string;
   if (encumbered.length && offendingYear !== undefined) {
     const e = encumbered[0]!;
-    message = `${poss} ${e.year} first is already owed to ${e.counterparty}${
-      e.status === "protected" ? " (protected — it may not convey, so it can't be counted)" : ""
-    }; trading the ${offendingYear} first leaves ${pair[0]} and ${pair[1]} both uncovered (Stepien rule).`;
+    // A forfeited first has no counterparty and is never coming back — say
+    // so, rather than "owed to the league" as if the league might send it home.
+    const gone =
+      e.status === "forfeited"
+        ? `${poss} ${e.year} first was forfeited to the league`
+        : `${poss} ${e.year} first is already owed to ${e.counterparty}${
+            e.status === "protected" ? " (protected — it may not convey, so it can't be counted)" : ""
+          }`;
+    message = `${gone}; trading the ${offendingYear} first leaves ${pair[0]} and ${pair[1]} both uncovered (Stepien rule).`;
   } else if (offendingYear !== undefined) {
     message = `Trading the ${offendingYear} first leaves ${name} without a first in ${pair[0]} and ${pair[1]} — consecutive future drafts (Stepien rule).`;
   } else {

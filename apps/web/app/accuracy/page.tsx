@@ -26,7 +26,7 @@ const COVERED = [
 ];
 
 const APPROXIMATE = [
-  "Two 2026 moves are on the board as done deals while the league is still reviewing them, and either could be unwound. Kawhi Leonard is a Raptor here — Toronto and the Clippers agreed that trade on June 30, but it was put on hold pending the NBA's investigation into whether the Clippers circumvented the cap, with no timetable. Gary Trent Jr.'s four-year deal with Milwaukee is under a circumvention review of its own. Both are booked the way every public roster page books them, because the reporting expects both to stand — but a verdict either way is a thing this board would have to be told about.",
+  "Gary Trent Jr.'s four-year deal with Milwaukee is on the board as a done deal while the league reviews it for circumvention, and it could be unwound; it is booked the way every public roster page books it. The Clippers' review is over: the September 2 ruling left Kawhi Leonard's contract intact, so he is a Raptor here for good, and the five forfeited first-round picks sit on the Clippers' ledger as forfeited — locked from the board, and counted as years without a first for the Stepien rule. That last part is the conservative read: the league has not said whether a forfeited year is exempt from the consecutive-years test.",
   "Injury availability is projected from the injury's TYPE and DATE, not from games missed last season. A torn Achilles, ACL, patellar tendon, or a microfracture is assumed to cost twelve months from the day it happened, so one suffered late in a season eats into the next one; everything else is treated as healed by opening night. That is a rule of thumb, not a medical opinion, and it can't know about a setback or an early return.",
   "Apron Value — the 0–100 number on every player — is a rough read on impact from box scores and lineup data. It leans on BPM and carries an uncertainty band; it isn't trying to outdo the big public metrics like EPM or DARKO.",
   "A team's projected record is a read on the roster as it stands today — not a full-season forecast. There's no coaching, chemistry, or playoff translation baked in.",
@@ -109,6 +109,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     items: [
       "A first-rounder you already owe (or that's protected out) is locked from your board, and its year counts as uncovered for the Stepien rule.",
       "Trades move picks as they execute, so later proposals see the real inventory, and Stepien counts picks you moved in earlier deals — not just the current one.",
+      "A first the league takes away (the Clippers' 2029–2033 penalty) is off the board and its year is uncovered for Stepien; another team's unprotected first in that year covers it, which is why Toronto's 2031 and 2033 picks are what keep the Clippers able to trade a first at all — and why trading either one is blocked.",
       "A second-apron season is meant to freeze the team's own first seven drafts out (two repeat seasons in the next four drops that pick to the end of the round) — that penalty is modeled in the rules engine but not yet applied to any team's picks on the board, so a frozen first can still be traded here.",
     ],
   },
