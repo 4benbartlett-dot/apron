@@ -50,16 +50,45 @@ const tradeEnds = (detail: string) => {
  * under test rather than rebuilding the whole league.
  */
 export function rewind(contracts: Contract[], iso: string, teams: string[]): Contract[] {
-  const priorTeam = new Map(
-    getLeagueData().contracts.map((c) => [normName(c.playerName), c.teamId] as const),
-  );
-  const out = contracts.map((c) => ({ ...c, years: c.years.map((y) => ({ ...y })) }));
+  const base = getLeagueData().contracts;
+  const priorTeam = new Map(base.map((c) => [normName(c.playerName), c.teamId] as const));
+  const baseRow = new Map(base.map((c) => [normName(c.playerName), c] as const));
+  const scope = new Set(teams);
+  let out = contracts.map((c) => ({ ...c, years: c.years.map((y) => ({ ...y })) }));
+
+  // Waives after `iso` are undone too. applyReleases turns a waived player's
+  // row into his dead-money charge on the team that cut him; before the cut
+  // that charge did not exist, and he was live on that team at his real
+  // salary. Konchar went Utah → Minnesota on Aug 29 and was waived and
+  // stretched on Aug 30; a rewind to Aug 25 left his $2,055,000 dead on
+  // Minnesota's books while he was still a Jazzman, and read the Kuminga
+  // signing as $2.0M over a hard cap that, on our sheet, it cleared. The
+  // restored row carries the base sheet's seasons and the dead row's team —
+  // the team he was on when cut — so the trade unwind below can walk him back.
+  const releasedAfter = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Release" && !/contract was terminated/i.test(t.detail)) continue;
+    const d = isoDate(t.date);
+    if (d && d > iso) releasedAfter.add(normName(t.player));
+  }
+  const liveNames = new Set(out.filter((c) => !c.deadMoney).map((c) => normName(c.playerName)));
+  out = out.flatMap((c) => {
+    if (!c.deadMoney) return [c];
+    const k = normName(c.playerName);
+    if (!releasedAfter.has(k) || !scope.has(c.teamId)) return [c];
+    // Re-signed elsewhere since (the DeRozan shape): his live row unwinds on
+    // its own; the old team's charge simply did not exist yet.
+    if (liveNames.has(k)) return [];
+    const b = baseRow.get(k);
+    if (!b) return [];
+    return [{ ...b, years: b.years.map((y) => ({ ...y })), teamId: c.teamId }];
+  });
+
   const byName = new Map<string, Contract>();
   for (const c of out) {
     const k = normName(c.playerName);
     if (!c.deadMoney && !byName.has(k)) byName.set(k, c);
   }
-  const scope = new Set(teams);
 
   // TRANSACTIONS is newest-first, which is the order an unwind has to run in:
   // a player who moved twice comes off the later move before the earlier one.

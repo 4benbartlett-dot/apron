@@ -280,19 +280,26 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
     else movesByPlayer.set(k, { name: l.asset, from: l.from, to: l.to });
   }
 
+  const teams = [...new Set([...movesByPlayer.values()].flatMap((mv) => [mv.from, mv.to]))].sort();
+  if (!teams.length) return null;
+  let pre = rewind(BASE_CONTRACTS, dayBefore(iso), teams);
+  const post = rewind(BASE_CONTRACTS, iso, teams);
+
+  // Resolve each player on the sheet AS OF the deal, not today's. A player
+  // waived a day later is a dead-money charge on today's sheet with no live
+  // row to move — Konchar arrived in Minnesota Aug 29 and was stretched Aug
+  // 30, and the Aug 29 docket had him missing from the incoming side.
+  const liveOn = (sheet: Contract[], name: string) =>
+    sheet.find((c) => normName(c.playerName) === normName(name) && !c.deadMoney);
   const players: { playerId: string; from: string; to: string }[] = [];
   for (const mv of movesByPlayer.values()) {
-    const c = contractOf(mv.name);
+    const c = liveOn(post, mv.name) ?? contractOf(mv.name);
     // Two-ways and draft rights carry no cap salary, so they have no sheet row
     // to move. They belong to the deal but not to the cap ledger the docket is.
     if (!c) continue;
     players.push({ playerId: c.playerId, from: mv.from, to: mv.to });
   }
   if (!players.length) return null;
-
-  const teams = [...new Set(players.flatMap((p) => [p.from, p.to]))].sort();
-  let pre = rewind(BASE_CONTRACTS, dayBefore(iso), teams);
-  const post = rewind(BASE_CONTRACTS, iso, teams);
 
   // A sign-and-trade is signed FIRST and traded in the same breath, so the
   // sheet it should be measured against has him already under contract on the
@@ -420,6 +427,47 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
 
 /* ------------------------------- signings -------------------------------- */
 
+/**
+ * A deal agreed over a hard cap the team then cleared with its own later
+ * moves — the Kuminga shape: reported Aug 26 at the taxpayer mid-level with
+ * Minnesota short of the second-apron room to file it, then Josh Green to
+ * Utah on Aug 29 and Konchar stretched on Aug 30. The signing stands once the
+ * sheet fits; the card says what it took. Only salary-shedding moves are
+ * named (outgoing players, waives), oldest first.
+ */
+function clearedSince(team: string, iso: string, hardCap: number): { moves: string; salary: number; room: number } | null {
+  const salary = engTeamSalary(leagueData(BASE_CONTRACTS), team, YEAR);
+  const room = hardCap - salary;
+  if (room < 0) return null;
+  const parts: string[] = [];
+  const seen = new Set<string>();
+  const later = TRANSACTIONS.filter((t) => {
+    const d = isoDate(t.date);
+    return d > iso && d <= DATA_AS_OF && (t.type === "Trade" || t.type === "Release") && t.detail.includes(`(${team})`);
+  });
+  for (const t of [...later].reverse()) {
+    const k = `${t.type}|${normName(t.player)}`;
+    if (seen.has(k)) continue;
+    seen.add(k);
+    const when = label(isoDate(t.date));
+    if (t.type === "Trade") {
+      const m = t.detail.match(/Traded to\s+(.+?)\s*\(([A-Za-z]{2,4})\)\s*from\s+(.+?)\s*\(([A-Za-z]{2,4})\)/);
+      if (!m || std(m[4]!) !== team) continue;
+      parts.push(`${t.player} to ${teamMeta(std(m[2]!)).name} (${when})`);
+    } else {
+      const by = t.detail.match(/(?:Waived|Released) by [^(]*\(([A-Za-z]{2,4})\)/i);
+      if (!by || std(by[1]!) !== team) continue;
+      parts.push(`${t.player} waived${/Stretch Provision/i.test(t.detail) ? " and stretched" : ""} (${when})`);
+    }
+  }
+  if (!parts.length) return null;
+  return { moves: list(parts), salary, room };
+}
+
+export function buildSigningCard(row: Transaction, iso: string): NewsMove | null {
+  return buildSigning(row, iso);
+}
+
 function buildSigning(row: Transaction, iso: string): NewsMove | null {
   const teamM = row.detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
   const yearsM = row.detail.match(/(\d+)\s*year/);
@@ -468,14 +516,40 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   // the books, and whether this deal clears it.
   if (Number.isFinite(fs.hardCap)) {
     const room = fs.hardCap - after;
-    checks.push({
-      ok: room >= 0,
-      text:
-        room >= 0
-          ? `Fits under the ${fmt(fs.hardCap)} hard cap${hardCapCause(fs.hardCapSource) ? ` from ${hardCapCause(fs.hardCapSource)}` : ""} with ${fmt(room)} to spare`
-          : `${fmt(-room)} OVER the ${fmt(fs.hardCap)} hard cap${hardCapCause(fs.hardCapSource) ? ` from ${hardCapCause(fs.hardCapSource)}` : ""} — the deal is agreed, and something has to clear before it can be filed`,
-    });
-    if (room < 0) {
+    const cause = hardCapCause(fs.hardCapSource) ? ` from ${hardCapCause(fs.hardCapSource)}` : "";
+    const cleared = room < 0 ? clearedSince(team, iso, fs.hardCap) : null;
+    if (room >= 0) {
+      checks.push({ ok: true, text: `Fits under the ${fmt(fs.hardCap)} hard cap${cause} with ${fmt(room)} to spare` });
+      // A fit by a whisker on THIS sheet, which reads a couple of million
+      // light of the trackers that count unlikely bonuses, is a fit the
+      // reporting may not have seen. When the team went and opened real room
+      // anyway, say so: Kuminga fit by $56K here and Minnesota still moved
+      // Josh Green and stretched Konchar to get under the line for real.
+      const opened = room < 1_000_000 ? clearedSince(team, iso, fs.hardCap) : null;
+      if (opened)
+        consequences.push({
+          team,
+          severity: "note",
+          text: `A fit by ${fmt(room)} on this sheet, which carries no unlikely bonuses; ${teamMeta(team).name} then opened real room with ${opened.moves} — ${fmt(opened.room)} under the line today.`,
+        });
+    } else if (cleared) {
+      // Over the line the day it was reported, under it today by the team's
+      // own hand. The stamp follows the sheet as it stands, and the receipt
+      // keeps the sequence: agreed first, room second.
+      checks.push({
+        ok: true,
+        text: `${fmt(-room)} over the ${fmt(fs.hardCap)} hard cap${cause} as reported on ${label(iso)}; cleared since by ${cleared.moves} — the sheet reads ${fmt(cleared.salary)} today, ${fmt(cleared.room)} under`,
+      });
+      consequences.push({
+        team,
+        severity: "note",
+        text: `Agreed before the room existed: ${teamMeta(team).name} opened it with ${cleared.moves}.`,
+      });
+    } else {
+      checks.push({
+        ok: false,
+        text: `${fmt(-room)} OVER the ${fmt(fs.hardCap)} hard cap${cause} — the deal is agreed, and something has to clear before it can be filed`,
+      });
       consequences.push({
         team,
         severity: "cap",

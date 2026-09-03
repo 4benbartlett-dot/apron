@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { latestNewsDay, buildRulingCard, splitAssets, parseLegs, dayBefore } from "@/lib/newsDay";
-import { DATA_AS_OF, LEAGUE_RULINGS } from "@apron/data";
+import { latestNewsDay, buildRulingCard, buildSigningCard, splitAssets, parseLegs, dayBefore } from "@/lib/newsDay";
+import { DATA_AS_OF, LEAGUE_RULINGS, TRANSACTIONS } from "@apron/data";
+import { rewind } from "@/lib/replayRewind";
+import { BASE_CONTRACTS } from "@/lib/league";
 
 // ---------------------------------------------------------------------------
 // THE NEWS DAY — the cards are generated, so the guards are about the SHAPE of
@@ -202,5 +204,42 @@ describe("a league ruling on the feed", () => {
     if (day.date !== ruling.date) return; // the window has moved on — nothing to assert
     expect(day.moves[0]!.id).toBe(ruling.id);
     expect(day.moves.filter((m) => m.kind === "ruling")).toHaveLength(1);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// AGREED FIRST, ROOM SECOND — the Kuminga shape. Reported Aug 26 at the
+// taxpayer mid-level with Minnesota short of the second-apron room to file
+// it; Josh Green to Utah on Aug 29 and Konchar waived-and-stretched on Aug 30
+// opened it. Two things had to be true for the card to say so: the rewind
+// must not leave a later waive's dead money on the earlier sheet, and a deal
+// the team's own later moves cleared must stand, with the sequence on the
+// receipt rather than a red x the league itself has since answered.
+// ---------------------------------------------------------------------------
+
+describe("a signing the team cleared after agreeing to it", () => {
+  const row = TRANSACTIONS.find((t) => t.type === "Signing" && /Kuminga/.test(t.player) && /Signed a/.test(t.detail))!;
+
+  it("the rewind to the day before has Konchar on Utah, live, not dead on Minnesota", () => {
+    const pre = rewind(BASE_CONTRACTS, "2026-08-25", ["MIN"]);
+    const konchar = pre.filter((c) => /Konchar/.test(c.playerName));
+    expect(konchar.some((c) => c.deadMoney && c.teamId === "MIN")).toBe(false);
+    expect(konchar.find((c) => !c.deadMoney)?.teamId).toBe("UTA");
+    // On the day of the trade he is a Timberwolf at his real salary; the
+    // stretch has not happened yet.
+    const onTradeDay = rewind(BASE_CONTRACTS, "2026-08-29", ["MIN", "UTA"]).find((c) => /Konchar/.test(c.playerName) && !c.deadMoney)!;
+    expect(onTradeDay.teamId).toBe("MIN");
+    expect(onTradeDay.years.find((y) => y.leagueYear === "2026-27")?.salary).toBe(6_165_000);
+  });
+
+  it("the card stands, and names what cleared it", () => {
+    const card = buildSigningCard(row, "2026-08-26")!;
+    expect(card).not.toBeNull();
+    expect(card.legal).toBe(true);
+    const hardCap = card.checks.find((c) => /hard cap/.test(c.text))!;
+    expect(hardCap.ok).toBe(true);
+    // Either it fit on our sheet that day, or it was over and the later
+    // moves are named — both are honest; a silent red x is not.
+    expect(hardCap.text).toMatch(/Fits under|cleared since by Josh Green to Utah Jazz \(Aug 29\) and John Konchar waived and stretched \(Aug 30\)/);
   });
 });

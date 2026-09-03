@@ -32,6 +32,9 @@ cd apps/web && vercel    # log in via browser, accept the defaults
   own credentials from your environment.)
 - **`/admin` is dev-only.** The front office writes to the repo's data files
   and shells out to git, so it 404s in production unless `APRON_ADMIN=1` is
-  set — and a Vercel filesystem is read-only, so leave it unset there.
+  set — and a Vercel filesystem is read-only, so leave it unset there. If you
+  ever do expose it (a preview deployment, a tunnel to your laptop), set
+  `APRON_ADMIN_PASSWORD` too: `middleware.ts` then requires it as HTTP Basic
+  auth on every `/admin` request.
 - To refresh the data later: `cd packages/data && node scripts/scrape-*.mjs`,
   then commit the updated JSON and push (Vercel redeploys automatically).
