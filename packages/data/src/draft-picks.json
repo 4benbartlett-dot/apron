@@ -811,8 +811,8 @@
         },
         {
           "year": 2029,
-          "headline": "2029 first round draft pick to L.A. Clippers",
-          "detail": "Indiana's 2029 1st round pick to L.A. Clippers [Indiana-L.A. Clippers, 2/5/2026]"
+          "headline": "Forfeited by L.A. Clippers: 2029 first round draft pick to L.A. Clippers",
+          "detail": "Forfeited by L.A. Clippers: Indiana's 2029 1st round pick to L.A. Clippers [Indiana-L.A. Clippers, 2/5/2026; NBA ruling, 9/2/2026]"
         },
         {
           "year": 2030,
@@ -840,8 +840,8 @@
         },
         {
           "year": 2029,
-          "headline": "2029 first round draft pick from Indiana",
-          "detail": "Indiana's 2029 1st round pick to L.A. Clippers [Indiana-L.A. Clippers, 2/5/2026]"
+          "headline": "Forfeited: 2029 first round draft pick from Indiana",
+          "detail": "Forfeited by L.A. Clippers: Indiana's 2029 1st round pick to L.A. Clippers [Indiana-L.A. Clippers, 2/5/2026; NBA ruling, 9/2/2026]"
         },
         {
           "year": 2030,
@@ -897,8 +897,28 @@
         },
         {
           "year": 2030,
+          "headline": "2030 first round draft pick forfeited",
+          "detail": "The L.A. Clippers have forfeited their 2030 1st round pick [NBA ruling, 9/2/2026]"
+        },
+        {
+          "year": 2030,
           "headline": "2030 second round draft pick to Charlotte or Utah",
           "detail": "Charlotte will receive the more favorable of the L.A. Clippers' 2030 2nd round pick and Utah's 2030 2nd round pick and Utah will receive the less favorable of the two (via L.A. Clippers to Utah) [L.A. Clippers-Utah, 2/1/2025; Charlotte-Utah, 6/29/2025]"
+        },
+        {
+          "year": 2031,
+          "headline": "2031 first round draft pick forfeited",
+          "detail": "The L.A. Clippers have forfeited their 2031 1st round pick [NBA ruling, 9/2/2026]"
+        },
+        {
+          "year": 2032,
+          "headline": "2032 first round draft pick forfeited",
+          "detail": "The L.A. Clippers have forfeited their 2032 1st round pick [NBA ruling, 9/2/2026]"
+        },
+        {
+          "year": 2033,
+          "headline": "2033 first round draft pick forfeited",
+          "detail": "The L.A. Clippers have forfeited their 2033 1st round pick [NBA ruling, 9/2/2026]"
         }
       ]
     },

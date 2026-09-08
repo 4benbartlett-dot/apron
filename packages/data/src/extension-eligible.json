@@ -926,6 +926,24 @@
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
+    },
+    {
+      "date": "9/3/2027",
+      "player": "T.J. McConnell",
+      "team": "IND",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "9/7/2027",
+      "player": "Jamal Murray",
+      "team": "DEN",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
     }
   ]
 }

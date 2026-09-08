@@ -13,7 +13,7 @@ function PickRow({ p }: { p: DraftPick }) {
   const first = isFirst(p);
   // A pick the league took under a ruling (league-rulings.json) — the one row
   // in the ledger with no counterparty.
-  const forfeited = /forfeited to the league/i.test(p.headline);
+  const forfeited = /forfeit/i.test(p.headline);
   const tone = forfeited ? "var(--tier-second_apron)" : first ? "var(--tier-first_apron)" : "var(--tier-over_cap)";
   return (
     <div className="border-b border-[var(--border)]/30 py-2">

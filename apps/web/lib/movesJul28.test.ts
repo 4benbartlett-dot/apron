@@ -229,14 +229,13 @@ function windowDeals(): Deal[] {
 // recover the renounces / waives / spent-exception context reality had at
 // signing time. Keep this list EXACT: a new failure fails the suite, and so
 // does one of these silently healing (update it and /accuracy when it does).
-// Luke Kennard (PHX) is the same bound realmoves.test.ts documents for the Jul 1
-// wave — the feed re-dated his signing into this window. PHX signed him at
-// exactly the Taxpayer MLE ($6,064,000 y1) and sits under its own second-apron
-// hard cap, but the replay rebuilds their sheet without the spent-exception
-// context, so a team in that thin sub-first-apron band gets offered the NT-MLE
-// (self-limited to ~$0.9M by its own hard cap) rather than the taxpayer-MLE
-// CHOICE Phoenix actually made. A modeling simplification, not a cap error.
-const DOCUMENTED_BOUNDS: string[] = ["Luke Kennard"];
+// Luke Kennard (PHX) was the one bound here until Sep 7 2026 — the feed
+// re-dated his signing into this window. Phoenix signed him at exactly the
+// Taxpayer MLE ($6,064,000 y1) from just under the first apron, and the engine
+// offered that band only the NT-MLE. Art. VII §6(f)(1) keys the Taxpayer MLE
+// on landing over the first apron, not starting there, and the engine now
+// reads it that way (see realmoves.test.ts), so the list is empty.
+const DOCUMENTED_BOUNDS: string[] = [];
 
 describe("Jul 11–28 real signings validate as legal", () => {
   it("replays every dated signing in the window against the engine", () => {

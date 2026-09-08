@@ -15,10 +15,12 @@ import {
   firstEncumbranceOf,
   hasAcquiredFirst,
   teamPossessive,
+  getLeagueData,
   type Transaction,
   type LeagueRuling,
   type RulingPenalty,
 } from "@apron/data";
+import { maxSalaryTier, veteranExtensionMax, poisonPillValues } from "@apron/cba-engine";
 import {
   BASE_CONTRACTS,
   C,
@@ -31,6 +33,8 @@ import {
   freeAgentsOf,
   tpeLedger,
   lockedFirstEncumbrance,
+  projectedCap,
+  experienceOf,
   TEAM_IDS,
 } from "@/lib/league";
 import { rewind, isoDate } from "@/lib/replayRewind";
@@ -73,7 +77,7 @@ export interface WinShift {
 export interface NewsMove {
   /** Stable across rebuilds — the dismissal key and the React key. */
   id: string;
-  kind: "trade" | "signing" | "ruling";
+  kind: "trade" | "signing" | "extension" | "ruling";
   date: string;
   /** "Aug 19" — for the strip. */
   dateLabel: string;
@@ -92,6 +96,16 @@ export interface NewsMove {
     total: number;
     y1: number;
     mechanism?: string;
+  };
+  /** Present on extensions of a contract still running: the new seasons. */
+  extension?: {
+    player: string;
+    team: string;
+    years: number;
+    total: number;
+    /** First new season and its salary. */
+    start: string;
+    y1: number;
   };
   /** Present on league rulings: what the league said, in its own words. The
    * checks on a ruling card are still computed — they read the pick ledger
@@ -113,6 +127,8 @@ export interface NewsDay {
   date: string;
   dateLabel: string;
   moves: NewsMove[];
+  /** Moves inside the window that did not make the cut — the rest live on /transactions. */
+  more: number;
 }
 
 /* ----------------------------- feed parsing ------------------------------ */
@@ -627,6 +643,125 @@ const fmt = (n: number) =>
   `$${(n / 1e6).toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}M`;
 const tierLabel = (salary: number) => classifyTier(salary, C).replace(/_/g, " ");
 
+/* ------------------------------- extensions ------------------------------ */
+
+/** The base sheet's own row — before any feed pass — says whether a player
+ * was under contract for this season when his "extension" row landed. */
+const RAW_CURRENT = new Set(
+  getLeagueData()
+    .contracts.filter((c) => c.years.some((y) => y.leagueYear === YEAR && y.salary > 0))
+    .map((c) => normName(c.playerName)),
+);
+
+/** An "extension" row for a player already under contract this season — not
+ * a free agent re-signing the feed happens to label an extension. */
+export const isExtensionRow = (t: Transaction) =>
+  (t.type === "Signing" || t.type === "Re-sign" || t.type === "Extension") &&
+  /extension/i.test(t.detail) &&
+  RAW_CURRENT.has(normName(t.player));
+
+/**
+ * An extension changes nothing on this season's sheet, so the engine's cap
+ * verdict is beside the point; what it can rule on is the shape of the deal
+ * (Art. VII §7): how many seasons, whether year one clears the ceiling, and
+ * what the extension does to the player's trade value in the meantime — the
+ * poison pill on a rookie-scale extension (§8(g)), the six-month freeze on a
+ * veteran one that outruns extend-and-trade limits (§8(f)).
+ */
+export function buildExtensionCard(row: Transaction, iso: string): NewsMove | null {
+  const teamM = row.detail.match(/with\s+[A-Za-z0-9 .'&-]+\(([A-Za-z]{2,4})\)/);
+  const yearsM = row.detail.match(/(\d+)\s*year/);
+  const totalM = row.detail.match(/\$\s*([\d.]+)\s*million/);
+  if (!teamM || !yearsM || !totalM || !isTeam(teamM[1]!)) return null;
+  const team = std(teamM[1]!);
+  const c = contractOf(row.player);
+  if (!c || c.teamId !== team) return null;
+  const n = Number(yearsM[1]);
+  const total = Math.round(Number(totalM[1]) * 1e6);
+  const seasons = [...c.years].filter((y) => y.salary > 0).sort((a, b) => a.leagueYear.localeCompare(b.leagueYear));
+  // If the sheet already carries the new seasons (their sum is the reported
+  // total), read them; otherwise lay the total out at 8% raises from the
+  // season after the current deal ends.
+  const tail = seasons.slice(-n);
+  const booked = tail.length === n && Math.abs(tail.reduce((s, y) => s + y.salary, 0) - total) < total * 0.01;
+  const lastCurrent = booked ? seasons[seasons.length - n - 1] : seasons[seasons.length - 1];
+  const startYear = lastCurrent ? Number(lastCurrent.leagueYear.slice(0, 4)) + 1 : Number(YEAR.slice(0, 4)) + 1;
+  const start = `${startYear}-${String((startYear + 1) % 100).padStart(2, "0")}`;
+  const y1 = booked ? tail[0]!.salary : Math.round(total / (n + (0.08 * n * (n - 1)) / 2));
+  const newSalaries = booked ? tail.map((y) => y.salary) : Array.from({ length: n }, (_, k) => Math.round(y1 * (1 + 0.08 * k)));
+  const current = c.years.find((y) => y.leagueYear === YEAR)?.salary ?? 0;
+  const yos = experienceOf(c.playerId);
+  // A player still on his rookie scale extends under §7(a)(2); a veteran under §7(a)(1).
+  const rookieScale = /rookie/i.test(row.detail) || (yos <= 4 && current < C.maxSalary["0-6"] * 0.4);
+  const priorFinal = lastCurrent?.salary ?? current;
+
+  const checks: DocketCheck[] = [];
+  const consequences: MoveConsequence[] = [];
+  checks.push({
+    ok: true,
+    text: `${n} new season${n === 1 ? "" : "s"} from ${start}: ${fmt(y1)} in year one, ${fmt(total)} in all${booked ? "" : " (8% raises assumed)"}. Nothing moves on the ${YEAR} sheet — he is still on ${fmt(current)} this season.`,
+  });
+  if (rookieScale) {
+    const cap = projectedCap(start);
+    const max = Math.round(cap * 0.25);
+    const okYears = n <= 5;
+    checks.push({
+      ok: okYears,
+      text: okYears
+        ? `${n} seasons is inside the rookie-scale extension limit (five, with the fifth as a designated player, Art. VII §7(a)(2)).`
+        : `${n} seasons is more than a rookie-scale extension allows (five, Art. VII §7(a)(2)).`,
+    });
+    checks.push({
+      ok: y1 <= max + 1,
+      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the 25% maximum for a player off his rookie scale — ${fmt(max)} on a ${start} cap projected at ${fmt(cap)} (7% a year from ${fmt(C.salaryCap)}).`,
+    });
+    const pill = poisonPillValues(current, newSalaries);
+    consequences.push({
+      team,
+      severity: "restrict",
+      text: `Until the extension takes effect, a team acquiring him counts ${fmt(pill.acquiringValue)} for matching — the average of this season and the new years (the poison pill, Art. VII §8(g)) — while ${teamMeta(team).name} send out ${fmt(current)}.`,
+    });
+  } else {
+    const max = veteranExtensionMax(priorFinal, yos, C);
+    const okYears = n <= 4;
+    checks.push({
+      ok: okYears,
+      text: okYears
+        ? `${n} new season${n === 1 ? "" : "s"} is inside the veteran extension limit (four new seasons, five in all with the current one, Art. VII §7(a)(1)).`
+        : `${n} new seasons is more than a veteran extension allows (four, Art. VII §7(a)(1)).`,
+    });
+    checks.push({
+      ok: y1 <= max + 1,
+      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the extension ceiling of ${fmt(max)} — the greater of 140% of his final current-contract salary (${fmt(priorFinal)}) and 140% of the estimated average, capped at the ${maxSalaryTier(yos, C) === max ? "max" : "player's max"} (Art. VII §7(a)).`,
+    });
+    const etLimit = Math.max(priorFinal * 1.2, C.estimatedAverageSalary * 1.2);
+    const frozen = n + seasons.length - (booked ? n : 0) >= 5 || y1 > etLimit + 1;
+    consequences.push({
+      team,
+      severity: frozen ? "restrict" : "note",
+      text: frozen
+        ? `Beyond extend-and-trade limits (over 120% of his final salary, or five seasons in all), so he cannot be traded for six months (Art. VII §8(f)).`
+        : `Inside extend-and-trade limits, so the extension carries no trade freeze (Art. VII §8(f)).`,
+    });
+  }
+  const legal = checks.every((k) => k.ok);
+  return {
+    id: `${iso}-ext-${normName(row.player).replace(/\s/g, "")}`,
+    kind: "extension",
+    date: iso,
+    dateLabel: label(iso),
+    headline: `${row.player} extends with ${teamMeta(team).name}`,
+    subhead: `${n} year${n === 1 ? "" : "s"} · ${fmt(total)} · ${fmt(y1)} in ${start}`,
+    teams: [team],
+    legal,
+    extension: { player: row.player, team, years: n, total, start, y1 },
+    checks,
+    consequences,
+    winShifts: [],
+    focusTeam: team,
+  };
+}
+
 /* -------------------------------- rulings -------------------------------- */
 
 const PICK_YEARS_WITH_TAIL = [2027, 2028, 2029, 2030, 2031, 2032, 2033] as const;
@@ -849,7 +984,9 @@ function compute(): NewsDay | null {
     const k = normName(r.player);
     if (/Sign-and-Trade/i.test(r.detail) || inTrades.has(k) || toldSigning.has(k)) continue;
     toldSigning.add(k);
-    const m = attempt(() => buildSigning(r, isoDate(r.date)), `signing ${r.player}`);
+    const m = isExtensionRow(r)
+      ? attempt(() => buildExtensionCard(r, isoDate(r.date)), `extension ${r.player}`)
+      : attempt(() => buildSigning(r, isoDate(r.date)), `signing ${r.player}`);
     if (m) moves.push(m);
   }
   if (!moves.length) return null;
@@ -859,7 +996,11 @@ function compute(): NewsDay | null {
   moves.sort((a, b) =>
     a.date === b.date ? lede(b) - lede(a) || swing(b) - swing(a) : b.date.localeCompare(a.date),
   );
-  return { date: iso, dateLabel: label(iso), moves };
+  // The strip and the board show the day's news, not the day's ledger. July
+  // 6 had twenty-odd deals and a page that led with all of them buried the
+  // team picker; the rest are one tap away on /transactions.
+  const MAX_CARDS = 4;
+  return { date: iso, dateLabel: label(iso), moves: moves.slice(0, MAX_CARDS), more: Math.max(0, moves.length - MAX_CARDS) };
 }
 
 /**

@@ -1,5 +1,5 @@
 {
- "asOf": "2026-08-17",
+ "asOf": "2026-09-07",
  "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player (dedupe is by NAME, so the id below is free to be the real one). Aug 17 2026: playerId is now the player's REAL Basketball-Reference id wherever one exists, verified against the name-bearing rows in player-stats-history.json — a synthetic curated-* id is keyed to nothing, so ratings/experience/positions/bio/impact all miss and the player enters the model at the age-27, ~22-mpg, av-51 default. Only the four with genuinely no NBA row (Alpha Diallo, Arthur Kaluma, Tarik Biberovic, Bogoljub Markovic) keep a curated-* id.",
  "players": [
   {
@@ -140,6 +140,20 @@
    "teamId": "POR",
    "years": [],
    "why": "Feed Jul 1: 'Signed a 1 year $2.45 million contract with Portland (POR)' after OKC declined his qualifying offer. $2,449,421 is the 2-YOS minimum exactly. No 2025-26 standard-contract row."
+  },
+  {
+   "playerId": "simmobe01",
+   "playerName": "Ben Simmons",
+   "teamId": "SAC",
+   "years": [],
+   "why": "Sep 4 2026: agreed to a one-year veteran minimum with Sacramento (NBA.com, NBC Sports, Yahoo; Spotrac's feed row corrected from LAC in feed-corrections.json). Out of the league in 2025-26 after 51 games for BKN/LAC in 2024-25, so no scraped sheet row; the signings pass books the deal onto this stub. Real Basketball-Reference id so his 2023-24 and 2024-25 history rows load. $3.52M is the 9-YOS minimum, so Art. VII §3(f) deems the cap charge at the 2-YOS $2,449,421."
+  },
+  {
+   "playerId": "curated-khalifa-diop",
+   "playerName": "Khalifa Diop",
+   "teamId": "CLE",
+   "years": [],
+   "why": "Sep 2 2026: signed 4yr/$9.26M with Cleveland via the second-round pick exception (2027-28 team option), per the feed. Drafted #39 in 2022 by Cleveland, never on an NBA sheet (Gran Canaria, then Baskonia), so no Basketball-Reference id. The reported total back-solves to $2.15M in year one at 5% raises, but Spotrac's Cleveland apron figure rose by exactly $1,357,763 — the 0-YOS minimum — the day the deal was filed, so year one is the minimum and the money is back-loaded; the stated cap-hit row in manual-moves.json carries that figure."
   }
  ]
 }

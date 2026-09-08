@@ -2,6 +2,90 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Ben Simmons",
+      "pos": "PG",
+      "date": "Sep 04, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.52 million contract with Sacramento Kings (SAC)"
+    },
+    {
+      "player": "John Butler Jr.",
+      "pos": "C",
+      "date": "Sep 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Milwaukee Bucks (MIL) via Exhibit 10"
+    },
+    {
+      "player": "Kobe Stewart",
+      "pos": "F",
+      "date": "Sep 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Jarkel Joiner",
+      "pos": "G",
+      "date": "Sep 04, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Grant Nelson",
+      "pos": "F",
+      "date": "Sep 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Jarkel Joiner",
+      "pos": "G",
+      "date": "Sep 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "J.D. Davison",
+      "pos": "PG",
+      "date": "Sep 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Orlando Magic (ORL) via Exhibit 10"
+    },
+    {
+      "player": "Malaki Branham",
+      "pos": "SG",
+      "date": "Sep 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Orlando Magic (ORL) via Exhibit 10"
+    },
+    {
+      "player": "Kyle Mangas",
+      "pos": "G",
+      "date": "Sep 03, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Jonathan Kuminga",
+      "pos": "PF",
+      "date": "Sep 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $12.43 million with Minnesota Timberwolves (MIN) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "Amen Thompson",
+      "pos": "PG",
+      "date": "Sep 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 5 year $208 million contract extension with Houston Rockets (HOU)"
+    },
+    {
+      "player": "Kyle Mangas",
+      "pos": "G",
+      "date": "Sep 03, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $1.36 million with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
       "player": "Saint Thomas",
       "pos": "F",
       "date": "Sep 02, 2026",
@@ -23,6 +107,27 @@
       "detail": "Dallas Mavericks (DAL) guaranteed $1,092,558 of salary for 2026-27"
     },
     {
+      "player": "Khalifa Diop",
+      "pos": "C",
+      "date": "Sep 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $9.26 million with Cleveland Cavaliers (CLE) via 2nd-round exception - includes 2029-30 Team Option"
+    },
+    {
+      "player": "Trey Townsend",
+      "pos": "F",
+      "date": "Sep 02, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
+    },
+    {
+      "player": "Matthew Murrell",
+      "pos": "SG",
+      "date": "Sep 02, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
+    },
+    {
       "player": "Josiah Allick",
       "pos": "F",
       "date": "Sep 01, 2026",
@@ -41,7 +146,7 @@
       "pos": "C",
       "date": "Sep 01, 2026",
       "type": "Signing",
-      "detail": "Signed a 1 year $2.45 million with Philadelphia 76ers (PHI) via Exhibit 10"
+      "detail": "Signed a 1 year $2.54 million with Philadelphia 76ers (PHI) via Exhibit 10"
     },
     {
       "player": "Trey Townsend",
