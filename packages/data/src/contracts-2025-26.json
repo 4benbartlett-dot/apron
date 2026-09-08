@@ -8619,7 +8619,40 @@
           "leagueYear": "2026-27",
           "salary": 12258609,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 35862069,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 38731034,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 41600000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 44468966,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 47337931,
+          "guarantee": "full"
         }
+      ],
+      "tradeKickerPct": 0.1,
+      "poisonPillExtensionSalaries": [
+        35862069,
+        38731034,
+        41600000,
+        44468966,
+        47337931
       ]
     },
     {

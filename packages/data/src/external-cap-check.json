@@ -1,7 +1,7 @@
 {
   "source": "Spotrac NBA Team Apron Tracker (via Firecrawl)",
   "url": "https://www.spotrac.com/nba/apron/_/year/2026",
-  "asOf": "2026-09-02",
+  "asOf": "2026-09-08",
   "note": "An INDEPENDENT answer to the same question our sheet computes, for all 30 teams. Nothing in the app reads this; externalCapCheck.test.ts diffs against it so a disagreement is a number rather than a surprise. Their figure is not automatically correct — ours has reproduced beat-writer numbers Spotrac lagged on — but an unexplained gap is a lead.",
   "lines": {
     "firstApron": 209015000,
@@ -29,7 +29,7 @@
       "secondApronHardCapped": false
     },
     "CLE": {
-      "apronSalary": 176964573,
+      "apronSalary": 178322336,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -123,11 +123,6 @@
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "MIN": {
-      "apronSalary": 211013416,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
     "OKC": {
       "apronSalary": 214779492,
       "firstApronHardCapped": false,
@@ -135,6 +130,11 @@
     },
     "PHX": {
       "apronSalary": 216225506,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "MIN": {
+      "apronSalary": 217077416,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },

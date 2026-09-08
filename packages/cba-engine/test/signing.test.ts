@@ -20,11 +20,18 @@ describe("spendingPower gates mechanisms by apron tier", () => {
     expect(ids).toContain("room_mle");
     expect(ids).not.toContain("ntmle");
   });
-  it("over-cap (below apron) team gets the Non-Tax MLE + BAE", () => {
+  it("over-cap (below apron) team gets the Non-Tax MLE + BAE, and the Taxpayer MLE for a deal that carries it over the first apron", () => {
     const ids = spendingPower(190_000_000, C).mechanisms.map((m) => m.id);
     expect(ids).toContain("ntmle");
     expect(ids).toContain("bae");
-    expect(ids).not.toContain("tpmle");
+    // Art. VII §6(f)(1): the Taxpayer MLE may be used "provided that the
+    // Team's Apron Team Salary immediately following the Team's use of such
+    // Exception exceeds the First Apron Level" — a landing condition, not a
+    // starting one. It is on the list; validateSigning applies the condition.
+    expect(ids).toContain("tpmle");
+    // $190M + $6.06M stays under the first apron, so the Taxpayer MLE is not
+    // usable here — the Non-Tax MLE is the mechanism.
+    expect(validateSigning(190_000_000, 6_000_000, C).mechanism?.id).toBe("ntmle");
   });
   it("first-apron team gets only the Taxpayer MLE", () => {
     const ids = spendingPower(212_000_000, C).mechanisms.map((m) => m.id);
@@ -78,11 +85,27 @@ describe("validateSigning picks the right exception", () => {
     expect(v.hardCap).toBe("first_apron");
   });
 
-  it("Non-Tax MLE cannot be used if it would breach the first-apron hard cap", () => {
+  it("Non-Tax MLE cannot be used if it would breach the first-apron hard cap; the Taxpayer MLE can, and hard-caps at the second", () => {
     // $205M team is only ~$4M below the first apron.
     const v = validateSigning(205_000_000, 10_000_000, C);
     expect(v.legal).toBe(false);
-    expect(v.maxOffer).toBeLessThan(5_000_000); // capped by room to the apron
+    // The most it can pay is the full Taxpayer MLE: $205M + $6.06M lands over
+    // the first apron, which is what §6(f)(1) requires, and under the second.
+    expect(v.maxOffer).toBe(C.taxpayerMLE);
+    expect(v.maxOfferMechanism?.id).toBe("tpmle");
+    const t = validateSigning(205_000_000, 6_000_000, C);
+    expect(t.legal).toBe(true);
+    expect(t.mechanism?.id).toBe("tpmle");
+    expect(t.hardCap).toBe("second_apron");
+    // Minnesota, Sep 3 2026: $209.0M, under the first apron by $15K, signs
+    // Kuminga for $6,064,000 — the Non-Tax MLE would breach its own hard cap,
+    // the Taxpayer MLE lands the team over the first apron as required.
+    const k = validateSigning(209_000_000, 6_064_000, C);
+    expect(k.legal).toBe(true);
+    expect(k.mechanism?.id).toBe("tpmle");
+    // A Taxpayer MLE deal that would NOT clear the first apron is not allowed;
+    // that team has the Non-Tax MLE instead.
+    expect(validateSigning(195_000_000, 6_000_000, C).mechanism?.id).toBe("ntmle");
   });
 
   it("first-apron team is limited to the Taxpayer MLE", () => {

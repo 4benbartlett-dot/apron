@@ -155,6 +155,21 @@ export function spendingPower(
         hardCap: "first_apron",
         citation: CITES.bae,
       });
+      // Art. VII §6(f)(1) keys the Taxpayer MLE on where the team lands, not
+      // where it starts: it may be used "provided that the Team's Apron Team
+      // Salary immediately following the Team's use of such Exception exceeds
+      // the First Apron Level". A team under the first apron whose signing
+      // carries it over therefore has the taxpayer mid-level and NOT the
+      // non-taxpayer one (whose own hard cap it would breach) — Minnesota at
+      // $209.0M signing Kuminga for $6.06M is exactly that team. The landing
+      // condition is enforced in validateSigning, where the salary is known.
+      push({
+        id: "tpmle",
+        label: "Taxpayer MLE",
+        maxSalary: c.taxpayerMLE,
+        hardCap: "second_apron",
+        citation: CITES.tpmle,
+      });
     } else if (tier === "first_apron") {
       push({
         id: "tpmle",
@@ -247,12 +262,16 @@ export function validateSigning(
     : maxSalaryTier(yos, c);
   const overMax = askingSalary > playerMax + EPS;
 
+  // §6(f)(1): the Taxpayer MLE is only usable by a team that is over the
+  // first apron once the signing is done.
+  const landsOverFirstApron = (salary: number) => apron + salary > c.firstApron + EPS;
   const usable = overMax
     ? []
     : power.mechanisms.filter(
         (m) =>
           askingSalary <= m.maxSalary + EPS &&
-          apron + askingSalary <= apronLine(m.hardCap, c) + EPS,
+          apron + askingSalary <= apronLine(m.hardCap, c) + EPS &&
+          (m.id !== "tpmle" || landsOverFirstApron(askingSalary)),
       );
   const mechanism =
     [...usable].sort(
@@ -266,6 +285,9 @@ export function validateSigning(
   for (const m of power.mechanisms) {
     const room = apronLine(m.hardCap, c) - apron;
     const offer = Math.max(0, Math.min(m.maxSalary, room, playerMax));
+    // A Taxpayer MLE offer that would leave the team under the first apron
+    // is no offer at all (§6(f)(1)).
+    if (m.id === "tpmle" && !landsOverFirstApron(offer)) continue;
     if (offer > maxOffer) {
       maxOffer = offer;
       maxOfferMechanism = m;

@@ -58,7 +58,10 @@ export function provenanceOf(c: Contract): Provenance {
   }
 
   const stated = TRANSACTIONS.find(
-    (t) => normName(t.player) === k && /fully guaranteed \$[\d.]+\s*(million|k)\b[^.]*for 2026-27/i.test(t.detail),
+    (t) =>
+      normName(t.player) === k &&
+      (/fully guaranteed \$[\d.]+\s*(million|k)\b[^.]*for 2026-27/i.test(t.detail) ||
+        /counts \$[\d.]+\s*(million|k)\b against the cap for 2026-27/i.test(t.detail)),
   );
   if (stated) {
     notes.push(`2026-27 cap hit is STATED by a feed row (${stated.date}: "${stated.detail}"). That figure wins over anything back-solved.`);

@@ -199,7 +199,9 @@ describe("the Clippers' forfeited firsts (league-rulings.json overlay)", () => {
   });
 
   it("the raw ledger says so too, on both teams' pages", () => {
-    const lacOut = DRAFT_PICKS.LAC!.outgoing.filter((p) => /forfeited to the league/i.test(p.headline));
+    // One forfeiture row per year — RealGM's own where it prints one (2030-33
+    // since Sep 7), the overlay's where it does not (the Indiana 2029).
+    const lacOut = DRAFT_PICKS.LAC!.outgoing.filter((p) => /forfeit/i.test(p.headline));
     expect(lacOut.map((p) => p.year).sort()).toEqual([2029, 2030, 2031, 2032, 2033]);
     expect(lacOut.find((p) => p.year === 2029)!.headline).toMatch(/Indiana Pacers' pick/);
     const indOut = DRAFT_PICKS.IND!.outgoing.find((p) => p.year === 2029 && /first round/i.test(p.headline))!;

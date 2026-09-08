@@ -910,15 +910,22 @@ function deemVetMinimums(contracts: Contract[]): Contract[] {
  * Requires the word "fully": "UTA guaranteed $200k for 2026-27" is a PARTIAL
  * guarantee on a bigger salary, not the salary itself.
  */
-const STATED_SALARY = new Map<string, number>();
+const STATED_SALARY = new Map<string, { amount: number; guaranteed: boolean }>();
 for (const t of TRANSACTIONS) {
-  const m = t.detail.match(/fully guaranteed \$([\d.]+)\s*(million|k)\b[^.]*for 2026-27/i);
+  // Two phrasings. "Fully guaranteed $X … for 2026-27" is the feed's own and
+  // says the guarantee along with the figure; "counts $X against the cap for
+  // 2026-27" is the curated form for a cap hit that IS known (Spotrac's team
+  // figure moved by exactly it) when the guarantee is not, so the row states
+  // only what it knows and the booked guarantee is left alone.
+  const m =
+    t.detail.match(/fully guaranteed \$([\d.]+)\s*(million|k)\b[^.]*for 2026-27/i) ??
+    t.detail.match(/counts \$([\d.]+)\s*(million|k)\b against the cap for 2026-27/i);
   if (!m) continue;
   // Rounded: "$7.660317 million" × 1e6 is 7660317.000000001 in floating point,
   // and a cap hit is a whole number of dollars.
   const amount = Math.round(Number(m[1]) * (m[2]!.toLowerCase() === "k" ? 1_000 : 1_000_000));
   const k = normName(t.player);
-  if (!STATED_SALARY.has(k)) STATED_SALARY.set(k, amount); // newest row wins
+  if (!STATED_SALARY.has(k)) STATED_SALARY.set(k, { amount, guaranteed: /fully guaranteed/i.test(t.detail) }); // newest row wins
 }
 function applyStatedSalaries(contracts: Contract[]): Contract[] {
   return contracts.map((c) => {
@@ -926,11 +933,11 @@ function applyStatedSalaries(contracts: Contract[]): Contract[] {
     const stated = STATED_SALARY.get(normName(c.playerName));
     if (stated == null) return c;
     const cur = c.years.find((y) => y.leagueYear === YEAR);
-    if (!cur || cur.salary === stated) return c;
+    if (!cur || cur.salary === stated.amount) return c;
     return {
       ...c,
       years: c.years.map((y) =>
-        y.leagueYear === YEAR ? { ...y, salary: stated, guarantee: "full" as const } : y,
+        y.leagueYear === YEAR ? { ...y, salary: stated.amount, guarantee: stated.guaranteed ? ("full" as const) : y.guarantee } : y,
       ),
     };
   });

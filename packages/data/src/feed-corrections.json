@@ -28,6 +28,13 @@
       "type": "Qualifying Offer",
       "detail": "LA (LAC) withdrew Qualifying Offer with his consent; becomes an Unrestricted Free Agent",
       "why": "Spotrac attributes the withdrawal to New Orleans, the team he signed with. The Clippers held the qualifying offer and withdrew it with his consent so he could sign in New Orleans (Aug 26)."
+    },
+    {
+      "date": "Sep 04, 2026",
+      "player": "Ben Simmons",
+      "type": "Signing",
+      "detail": "Agreed to a 1 year $3.52 million contract with Sacramento Kings (SAC)",
+      "why": "Spotrac's row reads 'with LA Clippers (LAC)', which is the team he last played for (18 games in 2024-25), not the team he signed with. NBA.com ('Reports: Ben Simmons agrees to one-year deal with Kings'), NBC Sports (Spears) and Yahoo all have Sacramento on Sep 4 2026, one year at the veteran minimum — $3.52M is the 9-YOS figure ($3,524,115) to the dollar. Entry comes out when Spotrac fixes theirs."
     }
   ]
 }

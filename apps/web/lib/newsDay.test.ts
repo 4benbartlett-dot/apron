@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { latestNewsDay, buildRulingCard, buildSigningCard, splitAssets, parseLegs, dayBefore } from "@/lib/newsDay";
+import { latestNewsDay, buildRulingCard, buildSigningCard, splitAssets, parseLegs, dayBefore, buildExtensionCard, isExtensionRow } from "@/lib/newsDay";
 import { DATA_AS_OF, LEAGUE_RULINGS, TRANSACTIONS } from "@apron/data";
+import { feedIso } from "@/lib/feedDate";
 import { rewind } from "@/lib/replayRewind";
 import { BASE_CONTRACTS } from "@/lib/league";
 
@@ -18,6 +19,13 @@ describe("the latest news day", () => {
     expect(day).not.toBeNull();
     expect(day!.date <= DATA_AS_OF).toBe(true);
     expect(day!.moves.length).toBeGreaterThan(0);
+  });
+
+  it("shows the day's news, not the day's ledger: at most four cards, the rest counted", () => {
+    // July 6 had twenty-odd deals; a board that led with all of them buried
+    // the team picker. The overflow is a count and a link to /transactions.
+    expect(day!.moves.length).toBeLessThanOrEqual(4);
+    expect(day!.more).toBeGreaterThanOrEqual(0);
   });
 
   it("every move carries a verdict it can show its work for", () => {
@@ -241,5 +249,38 @@ describe("a signing the team cleared after agreeing to it", () => {
     // Either it fit on our sheet that day, or it was over and the later
     // moves are named — both are honest; a silent red x is not.
     expect(hardCap.text).toMatch(/Fits under|cleared since by Josh Green to Utah Jazz \(Aug 29\) and John Konchar waived and stretched \(Aug 30\)/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// EXTENSIONS — a row for a player already under contract adds seasons and
+// changes nothing on this year's sheet, so the card rules on the SHAPE of the
+// deal (Art. VII §7) and on what it does to his trade value meanwhile, not on
+// a cap the signing never touches.
+// ---------------------------------------------------------------------------
+
+describe("an extension card", () => {
+  const row = TRANSACTIONS.find((t) => t.player === "Amen Thompson" && /extension/i.test(t.detail))!;
+
+  it("is told apart from a free agent re-signing the feed calls an extension", () => {
+    expect(row).toBeDefined();
+    expect(isExtensionRow(row)).toBe(true);
+    // Porziņģis' pre-moratorium "extension" was a free agent's new deal — his
+    // base row had no 2026-27 salary — and stays a signing card.
+    const kp = TRANSACTIONS.find((t) => t.player === "Kristaps Porzingis" && /extension/i.test(t.detail));
+    if (kp) expect(isExtensionRow(kp)).toBe(false);
+  });
+
+  it("reads the booked seasons, checks the rookie-scale limits, and names the poison pill", () => {
+    const card = buildExtensionCard(row, feedIso(row.date))!;
+    expect(card.kind).toBe("extension");
+    expect(card.extension).toMatchObject({ team: "HOU", years: 5, total: 208_000_000, start: "2027-28", y1: 35_862_069 });
+    expect(card.legal).toBe(true);
+    expect(card.checks.some((c) => /Nothing moves on the 2026-27 sheet/.test(c.text))).toBe(true);
+    expect(card.checks.some((c) => /rookie-scale extension limit/.test(c.text) && c.ok)).toBe(true);
+    expect(card.checks.some((c) => /under the 25% maximum/.test(c.text))).toBe(true);
+    // Average of $12,258,609 and the five new seasons: what an acquirer counts.
+    expect(card.consequences.some((c) => /\$36\.7M for matching/.test(c.text))).toBe(true);
+    expect(card.winShifts).toEqual([]);
   });
 });

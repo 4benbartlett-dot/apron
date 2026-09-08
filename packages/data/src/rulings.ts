@@ -112,9 +112,11 @@ interface LedgerTeam {
  * Overlay the forfeitures onto the scraped RealGM ledger (DRAFT_PICKS): the
  * forfeiting team gains an outgoing row per pick, and where the pick was
  * another team's, that team's own outgoing row says the pick is gone for good
- * rather than merely traded. RealGM will presumably print its own forfeiture
- * rows eventually; until then the scraper cannot know, and re-running it must
- * not lose the ruling.
+ * rather than merely traded. RealGM started printing its own forfeiture rows
+ * on Sep 7 ("2030 first round draft pick forfeited"); where the scrape already
+ * carries one for the year, the overlay adds nothing but the one fact RealGM
+ * leaves out on the origin's side — that the pick does not come back. Where a
+ * future scrape drops them, the ruling still puts them back.
  */
 export function withForfeitures<T extends Record<string, LedgerTeam>>(
   teams: T,
@@ -128,22 +130,28 @@ export function withForfeitures<T extends Record<string, LedgerTeam>>(
     const when = rulingDateLabel(f.date);
     const team = (out[f.team] ??= { incoming: [], outgoing: [] });
     const own = f.origin === f.team;
-    team.outgoing.push({
-      year: f.year,
-      headline: `${f.year} ${round} round draft pick forfeited to the league${own ? "" : ` (${possessive(nameOf(f.origin))} pick)`}`,
-      detail: `${f.text} [NBA ruling, ${when}]`,
-    });
-    team.outgoing.sort((a, b) => a.year - b.year);
+    const roundRe = new RegExp(`${round} round`, "i");
+    const scraped = team.outgoing.some((p) => p.year === f.year && roundRe.test(p.headline) && /forfeit/i.test(p.headline));
+    if (!scraped) {
+      team.outgoing.push({
+        year: f.year,
+        headline: `${f.year} ${round} round draft pick forfeited to the league${own ? "" : ` (${possessive(nameOf(f.origin))} pick)`}`,
+        detail: `${f.text} [NBA ruling, ${when}]`,
+      });
+      team.outgoing.sort((a, b) => a.year - b.year);
+    }
     if (own) continue;
     const origin = out[f.origin];
     if (!origin) continue;
-    const rows = origin.outgoing.filter((p) => p.year === f.year && new RegExp(`${round} round`, "i").test(p.headline));
+    const rows = origin.outgoing.filter((p) => p.year === f.year && roundRe.test(p.headline));
     if (rows.length !== 1) continue;
     const row = rows[0]!;
+    if (/does not return/i.test(row.detail)) continue;
     const i = origin.outgoing.indexOf(row);
+    const said = /forfeit/i.test(row.headline + row.detail);
     origin.outgoing[i] = {
       ...row,
-      detail: `${row.detail} Forfeited by ${nameOf(f.team)} to the league under the ${when} ruling; it does not return to ${nameOf(f.origin)}.`,
+      detail: `${row.detail} ${said ? "It" : `Forfeited by ${nameOf(f.team)} to the league under the ${when} ruling; it`} does not return to ${nameOf(f.origin)}.`,
     };
   }
   return out as T;

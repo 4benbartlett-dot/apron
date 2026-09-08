@@ -220,20 +220,19 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
 // Jalen Smith, phantom Potter dead money, and the pending Nance charge, so
 // Oubre's official 2yr/$16.5M NT-MLE now fits under the first apron —
 // see feed-team-state.json rationales.)
-//  - Kennard (PHX): booked correctly at the exact Taxpayer MLE ($6,064,000
-//    y1) and PHX sits UNDER its $221.7M second-apron hard cap — the live
-//    sheet is right. But the Jul 10-11 refresh added Koa Peat's trade, which
-//    lifts PHX to ~$208.1M, just under the first apron. The replay rebuilds
-//    the sheet WITHOUT the team's spent-exception context, so a team in that
-//    thin band is offered the NT-MLE (self-limited by its own first-apron
-//    cap to ~$0.9M) rather than the taxpayer-MLE CHOICE PHX actually made —
-//    a modeling simplification, not a cap error. (Reproducing this exact
-//    signing on the board would hit the same limitation; a narrow but real
-//    edge worth a future fix: offer the taxpayer-MLE option to sub-first-
-//    apron teams.)
+// (Kennard HEALED on Sep 7 2026, by the engine rather than the data. PHX signed
+// him at exactly the Taxpayer MLE while sitting ~$208.1M, just UNDER the first
+// apron, and the engine used to offer that band only the NT-MLE — self-limited
+// to ~$0.9M by its own first-apron cap — because it keyed the Taxpayer MLE on
+// where a team starts. Art. VII §6(f)(1) keys it on where the team LANDS:
+// usable "provided that the Team's Apron Team Salary immediately following the
+// Team's use of such Exception exceeds the First Apron Level". Kennard's deal
+// carries Phoenix over the line, so the taxpayer-MLE choice Phoenix actually
+// made is now the engine's verdict too — and the same rule is what makes
+// Minnesota's Kuminga signing read legal on the Sep 3 sheet.)
 // The gate below is EXACT: a new failure fails the suite, and so does one of
 // these silently healing (update the list and /accuracy when data improves).
-const DOCUMENTED_BOUNDS = ["Luke Kennard", "Quentin Grimes", "Sandro Mamukelashvili"];
+const DOCUMENTED_BOUNDS = ["Quentin Grimes", "Sandro Mamukelashvili"];
 
 describe("July 1 real veteran signings validate as legal", () => {
   it("replays each signing (strict = team's LAST move; lenient = team's FIRST move)", () => {

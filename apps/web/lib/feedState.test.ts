@@ -199,14 +199,21 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
 
       // What the stretch leaves buys a rookie, not a veteran. Marks: the stretch
       // puts Cleveland "~32M under the 1st Apron to sign Harden + one more
-      // player." After Harden there is $2,111,767 — over the rookie minimum,
+      // player." After Harden there was $2,111,767 — over the rookie minimum,
       // and $337,654 short of what Art. VII §3(f) charges for a one-year
-      // veteran minimum. Cleveland's 15th man is a rookie or a two-way.
+      // veteran minimum. Cleveland's 15th man had to be a rookie or a two-way,
+      // and on Sep 2 it was: Khalifa Diop, a 2022 second-rounder, via the
+      // second-round exception with a $1,357,763 first year — the 0-YOS
+      // minimum, and exactly what Spotrac's Cleveland figure rose by. What is
+      // left now, $754,004, buys nobody: the sheet is full.
+      const diop = BASE_CONTRACTS.find((c) => c.playerName === "Khalifa Diop")!;
+      expect(diop.teamId).toBe("CLE");
+      expect(currentSalary(diop)).toBe(C.minimumSalaries[0]);
       const under = feedStateOf("CLE").hardCap - bookedSalary("CLE");
-      console.log(`  CLE under its hard cap by $${under.toLocaleString()} with Harden booked`);
-      expect(under).toBe(2_111_767);
-      expect(under).toBeGreaterThanOrEqual(C.minimumSalaries[0]!);
-      expect(under).toBeLessThan(C.minimumSalaries[2]!);
+      console.log(`  CLE under its hard cap by $${under.toLocaleString()} with Harden and Diop booked`);
+      expect(under).toBe(754_004);
+      expect(under + currentSalary(diop)).toBe(2_111_767);
+      expect(under).toBeLessThan(C.minimumSalaries[0]!);
     });
 
     it("Harden's expiring deal reproduces the contract history Marks published", () => {
@@ -249,9 +256,11 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       // The room BEFORE Harden, now that the stretch is on the books: $32,050,038.
       // SI said "$31.9 million"; Marks said "~32M". If a rescrape moves
       // Whitmore's charge or Harden's year one, that agreement breaks here
-      // rather than silently on the card.
+      // rather than silently on the card. Diop (Sep 2) came after both
+      // numbers were published, so he is set aside with Harden.
       const harden = BASE_CONTRACTS.find((c) => c.playerName === "James Harden")!;
-      const room = feedStateOf("CLE").hardCap - (bookedSalary("CLE") - currentSalary(harden));
+      const diop = BASE_CONTRACTS.find((c) => c.playerName === "Khalifa Diop")!;
+      const room = feedStateOf("CLE").hardCap - (bookedSalary("CLE") - currentSalary(harden) - currentSalary(diop));
       expect(room).toBe(32_050_038);
       expect(Math.abs(room - 31_900_000)).toBeLessThan(250_000);
     });

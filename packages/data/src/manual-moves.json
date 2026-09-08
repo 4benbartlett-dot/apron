@@ -2,6 +2,14 @@
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
   "transactions": [
     {
+      "player": "Khalifa Diop",
+      "pos": "C",
+      "date": "Sep 02, 2026",
+      "type": "Other",
+      "detail": "Cleveland Cavaliers (CLE) counts $1.357763 million against the cap for 2026-27",
+      "why": "The feed's row (Sep 2: 'Signed a 4 year $9.26 million with Cleveland Cavaliers (CLE) via 2nd-round exception - includes 2029-30 Team Option') back-solves at standard 5% raises to $2,148,000 in year one. Spotrac's Cleveland apron figure rose from $176,964,573 to $178,322,336 on the same pull — $1,357,763 exactly, the 2026-27 0-YOS minimum — so the deal is shaped with a minimum first year and the balance behind it, which a second-round exception contract may do. This row states the 2026-27 cap hit; whether year one is guaranteed is not reported, so it does not say 'fully guaranteed' and the stated-salary pass keeps the row's guarantee as booked."
+    },
+    {
       "player": "Quinten Post",
       "pos": "C",
       "date": "Jul 08, 2026",

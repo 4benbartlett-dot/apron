@@ -102,7 +102,7 @@ export default function TeamWarRoom() {
   canDo.push(
     (() => {
       // A forfeited pick is not owed to anyone — it is gone. Count it apart.
-      const forfeited = picks.outgoing.filter((p) => /forfeited to the league/i.test(p.headline)).length;
+      const forfeited = picks.outgoing.filter((p) => /forfeit/i.test(p.headline)).length;
       const owed = picks.outgoing.length - forfeited;
       return `Draft capital: ${plural(picks.incoming.length, "extra incoming pick", "extra incoming picks")}, owes ${owed}${
         forfeited ? `, ${plural(forfeited, "pick forfeited to the league", "picks forfeited to the league")}` : ""

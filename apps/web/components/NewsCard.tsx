@@ -32,8 +32,8 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
   const stamp = ruling
     ? "League ruling"
     : move.legal
-      ? move.kind === "trade" ? "Legal trade" : "Legal signing"
-      : move.kind === "trade" ? "Blocked" : "Doesn't fit yet";
+      ? move.kind === "trade" ? "Legal trade" : move.kind === "extension" ? "Legal extension" : "Legal signing"
+      : move.kind === "trade" ? "Blocked" : move.kind === "extension" ? "Over the line" : "Doesn't fit yet";
 
   return (
     <article className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg)]">
@@ -98,6 +98,26 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
                 </li>
               ))}
             </ul>
+          </div>
+        ) : move.extension ? (
+          <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel)]">
+            <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--panel-2)]/50 px-3 py-1.5">
+              <span className="flex items-center gap-2 text-[12.5px] font-semibold">
+                <TeamLogo id={move.extension.team} size={16} />
+                {teamMeta(move.extension.team).name}
+              </span>
+              <span className="label">extends</span>
+            </div>
+            <div className="flex flex-col gap-0.5 px-3 py-2 text-[13px] sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
+              <span className="font-semibold">{move.extension.player}</span>
+              <span className="tabular text-[var(--muted)]">
+                {move.extension.years} yr · ${(move.extension.total / 1e6).toFixed(1)}M ·{" "}
+                <span className="font-semibold text-[var(--text)]">
+                  ${(move.extension.y1 / 1e6).toFixed(1)}M
+                </span>{" "}
+                from {move.extension.start}
+              </span>
+            </div>
           </div>
         ) : move.signing ? (
           <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel)]">

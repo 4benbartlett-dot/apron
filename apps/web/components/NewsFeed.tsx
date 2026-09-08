@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { NewsCard } from "@/components/NewsCard";
 import { TeamLogo } from "@/components/TeamLogo";
 import type { NewsDay, NewsMove } from "@/lib/newsDay";
@@ -25,6 +26,14 @@ export function NewsFeed({ day, headed = false }: { day: NewsDay; headed?: boole
         {day.moves.map((m) => (
           <NewsRow key={m.id} move={m} />
         ))}
+        {day.more > 0 && (
+          <Link
+            href="/transactions"
+            className="block px-3 py-2 text-[12px] text-[var(--muted)] hover:bg-[var(--panel-2)]/60 hover:text-[var(--text)] sm:px-4"
+          >
+            + {day.more} more move{day.more === 1 ? "" : "s"} this week, on the transactions page →
+          </Link>
+        )}
       </div>
     </section>
   );
@@ -35,7 +44,7 @@ function NewsRow({ move }: { move: NewsMove }) {
   // in the accent, not in the green or red the engine's own stamps use.
   const ruling = move.kind === "ruling";
   const color = ruling ? "var(--accent-ink)" : move.legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
-  const verdict = ruling ? "Final" : move.legal ? "Legal" : move.kind === "trade" ? "Blocked" : "Doesn't fit";
+  const verdict = ruling ? "Final" : move.legal ? "Legal" : move.kind === "trade" ? "Blocked" : move.kind === "extension" ? "Over the line" : "Doesn't fit";
   const lead = move.winShifts[0];
   const delta = lead ? lead.afterWins - lead.beforeWins : 0;
 

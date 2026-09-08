@@ -332,11 +332,16 @@ describe("Aug 19-20 — the five-team Watson deal and the Harden re-sign", () =>
     // Aug 28 today's sheet also carries the Whitmore stretch, which the $28.4M
     // predates, so the stretch's savings are put back to recover the quantity
     // the reporting names. The post-stretch room is checked on its own below.
+    // Since Sep 2 it also carries Khalifa Diop's $1,357,763 (the second-round
+    // exception deal that filled the 15th spot), which the $28.4M and the
+    // $32.05M both predate; he is set aside the same way.
     const harden = find("James Harden");
+    const diop = find("Khalifa Diop");
     const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore" && c.deadMoney)!;
     const stretchSaved = 5_458_310 - whitmore.years.find((y) => y.leagueYear === YEAR)!.salary;
     const preHarden = committed(BASE_CONTRACTS, "CLE") -
-      harden.years.find((y) => y.leagueYear === YEAR)!.salary;
+      harden.years.find((y) => y.leagueYear === YEAR)!.salary -
+      diop.years.find((y) => y.leagueYear === YEAR)!.salary;
     const room = C.firstApron - preHarden;
     const preStretch = room - stretchSaved;
     console.log(`  CLE post-trade ${M(preHarden + stretchSaved)} → room ${M(preStretch)} vs reported $28.4M; after the stretch ${M(room)}`);
