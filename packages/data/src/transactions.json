@@ -2,6 +2,783 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Nicolas Batum",
+      "pos": "SF",
+      "date": "Sep 21, 2026",
+      "type": "Other",
+      "detail": "Retired from Professional Basketball"
+    },
+    {
+      "player": "Jaden Bradley",
+      "pos": "SG",
+      "date": "Sep 21, 2026",
+      "type": "Signing",
+      "detail": "Signed a 4 year $9.26 million contract with Toronto Raptors (TOR) via 2nd-round exception by converted Two-Way - includes 2029-30 Team Option"
+    },
+    {
+      "player": "D.J. Armstrong",
+      "pos": "G",
+      "date": "Sep 21, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Ogi Agbim",
+      "pos": "G",
+      "date": "Sep 20, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Bez Mbeng",
+      "pos": "G",
+      "date": "Sep 20, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Elias Ralph",
+      "pos": "F",
+      "date": "Sep 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Stephen Thompson",
+      "pos": "SG",
+      "date": "Sep 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Markquis Nowell",
+      "pos": "PG",
+      "date": "Sep 19, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Jalen Warley",
+      "pos": "PG",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Indiana Pacers (IND) via Exhibit 10"
+    },
+    {
+      "player": "Kowacie Reeves, Jr.",
+      "pos": "G",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Indiana Pacers (IND) via Exhibit 10"
+    },
+    {
+      "player": "Rienk Mast",
+      "pos": "C",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Indiana Pacers (IND) via Exhibit 10"
+    },
+    {
+      "player": "Keba Keita",
+      "pos": "C",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Indiana Pacers (IND) via Exhibit 10"
+    },
+    {
+      "player": "KeShawn Murphy",
+      "pos": "F",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Washington Wizards (WAS) via Exhibit 10"
+    },
+    {
+      "player": "Meechie Johnson, Jr.",
+      "pos": "PG",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Los Angeles Lakers (LAL) via Exhibit 10"
+    },
+    {
+      "player": "Chase Ross",
+      "pos": "G",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Los Angeles Lakers (LAL) via Exhibit 10"
+    },
+    {
+      "player": "Stephen Thompson",
+      "pos": "SG",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Minnesota Timberwolves (MIN) via Exhibit 10"
+    },
+    {
+      "player": "Jayden Nunn",
+      "pos": "G",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with San Antonio Spurs (SAS) via Exhibit 10"
+    },
+    {
+      "player": "Markquis Nowell",
+      "pos": "PG",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans Pelicans (NOP) via Exhibit 10"
+    },
+    {
+      "player": "Elias Ralph",
+      "pos": "F",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Nick Boyd",
+      "pos": "G",
+      "date": "Sep 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Ausar Thompson",
+      "pos": "SG",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a a 5 year $155 million Rookie Scale contract extension with Detroit Pistons (DET)"
+    },
+    {
+      "player": "David Stockton",
+      "pos": "PG",
+      "date": "Sep 18, 2026",
+      "type": "Release",
+      "detail": "Waived by Phoenix Suns (PHX)"
+    },
+    {
+      "player": "David Stockton",
+      "pos": "PG",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Phoenix Suns (PHX) via Exhibit 10"
+    },
+    {
+      "player": "Jules Bernard",
+      "pos": "SG",
+      "date": "Sep 18, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Jules Bernard",
+      "pos": "SG",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Minnesota Timberwolves (MIN) via Exhibit 10"
+    },
+    {
+      "player": "Anton Watson",
+      "pos": "PF",
+      "date": "Sep 18, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Anton Watson",
+      "pos": "PF",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Los Angeles Lakers (LAL) via Exhibit 10"
+    },
+    {
+      "player": "Jacksen Moni",
+      "pos": "C",
+      "date": "Sep 18, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Jacksen Moni",
+      "pos": "C",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Will Baker",
+      "pos": "C",
+      "date": "Sep 18, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Pelle Larsson",
+      "pos": "SG",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 4 year $60 million Rookie Scale contract extension with Miami Heat (MIA) - includes 2030-31 Mutual Option"
+    },
+    {
+      "player": "Cam Whitmore",
+      "pos": "SF",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Keyonte George",
+      "pos": "SG",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a 5 year $155.4 million Rookie Scale contract extension with Utah Jazz (UTA) - includes $2.5 million incentives"
+    },
+    {
+      "player": "Jordan Schakel",
+      "pos": "SF",
+      "date": "Sep 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Phoenix Suns (PHX) via Exhibit 10"
+    },
+    {
+      "player": "Jordan Schakel",
+      "pos": "SF",
+      "date": "Sep 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Phoenix Suns (PHX)"
+    },
+    {
+      "player": "Sean McNeil",
+      "pos": "G",
+      "date": "Sep 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Saddiq Bey",
+      "pos": "SF",
+      "date": "Sep 17, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 3 year $55.5 million contract extension with New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Isaiah Wong",
+      "pos": "PG",
+      "date": "Sep 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Isaiah Wong",
+      "pos": "PG",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Brooklyn Nets (BKN) via Exhibit 10"
+    },
+    {
+      "player": "Liam Robbins",
+      "pos": "C",
+      "date": "Sep 16, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Deivon Smith",
+      "pos": "PG",
+      "date": "Sep 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Chance McMillian",
+      "pos": "G",
+      "date": "Sep 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Aziz Bandaogo",
+      "pos": "F",
+      "date": "Sep 16, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Aziz Bandaogo",
+      "pos": "F",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans Pelicans (NOP) via Exhibit 10"
+    },
+    {
+      "player": "John Konchar",
+      "pos": "SG",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 9"
+    },
+    {
+      "player": "Drew Eubanks",
+      "pos": "C",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 9"
+    },
+    {
+      "player": "James Wiseman",
+      "pos": "C",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 9"
+    },
+    {
+      "player": "Ochai Agbaji",
+      "pos": "SF",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 9"
+    },
+    {
+      "player": "Bruce Brown Jr.",
+      "pos": "SG",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 9"
+    },
+    {
+      "player": "Anthony Gill",
+      "pos": "PF",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.07 million with Washington Wizards (WAS)"
+    },
+    {
+      "player": "Elfrid Payton",
+      "pos": "PG",
+      "date": "Sep 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 9"
+    },
+    {
+      "player": "Johnny O'Neil",
+      "pos": "C",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Dwight Murray Jr.",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Dwight Murray Jr.",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Brooklyn Nets (BKN) via Exhibit 10"
+    },
+    {
+      "player": "Isaiah Wong",
+      "pos": "PG",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Isaiah Wong",
+      "pos": "PG",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Brooklyn Nets (BKN) via Exhibit 10"
+    },
+    {
+      "player": "Keion Brooks Jr.",
+      "pos": "SF",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana Pacers (IND)"
+    },
+    {
+      "player": "Cam Hildreth",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana Pacers (IND)"
+    },
+    {
+      "player": "Wade Taylor IV",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana Pacers (IND)"
+    },
+    {
+      "player": "M.J. Iraldi",
+      "pos": "SF",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Indiana Pacers (IND)"
+    },
+    {
+      "player": "Basheer Jihad",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Detroit Pistons (DET)"
+    },
+    {
+      "player": "Dawson Garcia",
+      "pos": "SF",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Detroit Pistons (DET)"
+    },
+    {
+      "player": "Liam Robbins",
+      "pos": "C",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Paul Zilinskas",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Paul Zilinskas",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Igor Milicic Jr.",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Igor Milicic Jr.",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Toby Okani",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Toby Okani",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Mitch Mascari",
+      "pos": "SG",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Mitch Mascari",
+      "pos": "SG",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Nick Jourdain",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Nick Jourdain",
+      "pos": "F",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Jaden Akins",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Jaden Akins",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New York Knicks (NYK) via Exhibit 10"
+    },
+    {
+      "player": "Caleb Grill",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Boston Celtics (BOS)"
+    },
+    {
+      "player": "Sean McNeil",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Cleveland Cavaliers (CLE) via Exhibit 10"
+    },
+    {
+      "player": "Deivon Smith",
+      "pos": "PG",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Chance McMillian",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Christoph Tilly",
+      "pos": "C",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Oklahoma City Thunder (OKC) via Exhibit 10"
+    },
+    {
+      "player": "Will Baker",
+      "pos": "C",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Atlanta Hawks (ATL) via Exhibit 10"
+    },
+    {
+      "player": "Caleb Grill",
+      "pos": "G",
+      "date": "Sep 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Boston Celtics (BOS) via Exhibit 10"
+    },
+    {
+      "player": "Basheer Jihad",
+      "pos": "F",
+      "date": "Sep 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Detroit Pistons (DET) via Exhibit 10"
+    },
+    {
+      "player": "Dawson Garcia",
+      "pos": "SF",
+      "date": "Sep 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Detroit Pistons (DET) via Exhibit 10"
+    },
+    {
+      "player": "Wade Taylor IV",
+      "pos": "G",
+      "date": "Sep 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Indiana Pacers (IND) via Exhibit 10"
+    },
+    {
+      "player": "Gradey Dick",
+      "pos": "SG",
+      "date": "Sep 14, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
+    },
+    {
+      "player": "Brandon Ingram",
+      "pos": "SF",
+      "date": "Sep 14, 2026",
+      "type": "Trade",
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
+    },
+    {
+      "player": "Kawhi Leonard",
+      "pos": "SF",
+      "date": "Sep 14, 2026",
+      "type": "Trade",
+      "detail": "Traded to Toronto (TOR) from LA (LAC) for Brandon Ingram, Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick"
+    },
+    {
+      "player": "Hank Morgan",
+      "pos": "F",
+      "date": "Sep 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Boston Celtics (BOS)"
+    },
+    {
+      "player": "Hank Morgan",
+      "pos": "F",
+      "date": "Sep 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Boston Celtics (BOS) via Exhibit 10"
+    },
+    {
+      "player": "LaMont Butler",
+      "pos": "PG",
+      "date": "Sep 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Devin Carter",
+      "pos": "PG",
+      "date": "Sep 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Alex Toohey",
+      "pos": "F",
+      "date": "Sep 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Bennedict Mathurin",
+      "pos": "SG",
+      "date": "Sep 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $15.38 million contract with New Orleans Pelicans (NOP) - includes 2027-28 Player Option"
+    },
+    {
+      "player": "LaMont Butler",
+      "pos": "PG",
+      "date": "Sep 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Atlanta Hawks (ATL) via Exhibit 10"
+    },
+    {
+      "player": "Keyshawn Bryant",
+      "pos": "SF",
+      "date": "Sep 10, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Lonnie Walker IV",
+      "pos": "SG",
+      "date": "Sep 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Denver Nuggets (DEN) via Exhibit 9"
+    },
+    {
+      "player": "Keyshawn Bryant",
+      "pos": "SF",
+      "date": "Sep 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Atlanta Hawks (ATL) via Exhibit 10"
+    },
+    {
+      "player": "Devon Higgs",
+      "pos": "G",
+      "date": "Sep 09, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Taj Gibson",
+      "pos": "C",
+      "date": "Sep 09, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "DeMar DeRozan",
+      "pos": "SF",
+      "date": "Sep 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.88 million contract with Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Devon Higgs",
+      "pos": "G",
+      "date": "Sep 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Atlanta Hawks (ATL) via Exhibit 10"
+    },
+    {
+      "player": "Ben Simmons",
+      "pos": "PG",
+      "date": "Sep 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.52 million contract with Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Bez Mbeng",
+      "pos": "G",
+      "date": "Sep 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Dillon Jones",
+      "pos": "SF",
+      "date": "Sep 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Philadelphia 76ers (PHI) via Exhibit 10"
+    },
+    {
+      "player": "James Harden",
+      "pos": "SG",
+      "date": "Sep 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $96.54 million contract with Cleveland Cavaliers (CLE) - includes 2028-29 Player Option"
+    },
+    {
+      "player": "Taj Gibson",
+      "pos": "C",
+      "date": "Sep 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to New Orleans (NOP) from Memphis (MEM) with AJ Johnson for Jordan Hawkins, Micah Peavy, a 2031 2nd round pick [TOR pick] and a 2032 2nd round pick [MEM right to swap; most favorable of MEM, PHI and UTA for NOP]"
+    },
+    {
+      "player": "AJ Johnson",
+      "pos": "PG",
+      "date": "Sep 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to New Orleans (NOP) from Memphis (MEM) with Taj Gibson for Jordan Hawkins, Micah Peavy, a 2031 2nd round pick [TOR pick] and a 2032 2nd round pick [MEM right to swap; most favorable of MEM, PHI and UTA for NOP]"
+    },
+    {
+      "player": "Micah Peavy",
+      "pos": "SG",
+      "date": "Sep 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from New Orleans (NOP) with Jordan Hawkins, a 2031 2nd round pick [TOR pick] and a 2032 2nd round pick [MEM right to swap; most favorable of MEM, PHI and UTA for NOP] for AJ Johnson and Taj Gibson"
+    },
+    {
+      "player": "Jordan Hawkins",
+      "pos": "SG",
+      "date": "Sep 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Memphis (MEM) from New Orleans (NOP) with Micah Peavy, a 2031 2nd round pick [TOR pick] and a 2032 2nd round pick [MEM right to swap; most favorable of MEM, PHI and UTA for NOP] for AJ Johnson and Taj Gibson"
+    },
+    {
+      "player": "Kobe Stewart",
+      "pos": "F",
+      "date": "Sep 07, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
       "player": "Ben Simmons",
       "pos": "PG",
       "date": "Sep 04, 2026",
@@ -2737,27 +3514,6 @@
       "date": "Jun 30, 2026",
       "type": "Signing",
       "detail": "Agreed to a contract with New Orleans (NOP)"
-    },
-    {
-      "player": "Gradey Dick",
-      "pos": "SG",
-      "date": "Jun 30, 2026",
-      "type": "Trade",
-      "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
-    },
-    {
-      "player": "Brandon Ingram",
-      "pos": "SF",
-      "date": "Jun 30, 2026",
-      "type": "Trade",
-      "detail": "Traded to LA (LAC) from Toronto (TOR) with Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard"
-    },
-    {
-      "player": "Kawhi Leonard",
-      "pos": "SF",
-      "date": "Jun 30, 2026",
-      "type": "Trade",
-      "detail": "Traded to Toronto (TOR) from LA (LAC) for Brandon Ingram, Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick"
     },
     {
       "player": "Alpha Kaba",

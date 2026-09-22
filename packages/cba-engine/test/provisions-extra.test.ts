@@ -86,9 +86,11 @@ describe("cap holds: rookie-scale QVFA tier (Art. VII §4(d)(1)(ii))", () => {
     // Below the estimated average salary: 300% vs the ordinary 190%.
     expect(capHold(6_000_000, K, "bird", true)).toBe(18_000_000);
     expect(capHold(6_000_000, K, "bird")).toBe(11_400_000);
-    // At/above the estimated average: 250% vs 150% (capped at the 10+ max).
-    expect(capHold(14_000_000, K, "bird", true)).toBe(Math.min(K.maxSalary["10+"], 35_000_000));
-    expect(capHold(14_000_000, K, "bird")).toBe(21_000_000);
+    // At/above the estimated average ($15,163,000 in 2026-27): 250% vs 150%
+    // (capped at the 10+ max). $14M sat above the $13.2M placeholder this
+    // file was written against and sits below the official figure.
+    expect(capHold(16_000_000, K, "bird", true)).toBe(Math.min(K.maxSalary["10+"], 40_000_000));
+    expect(capHold(16_000_000, K, "bird")).toBe(24_000_000);
     // Non-Bird/Early-Bird multiples are unaffected by the rookie-scale flag.
     expect(capHold(6_000_000, K, "non_bird", true)).toBe(7_200_000);
   });

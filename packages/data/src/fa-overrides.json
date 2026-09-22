@@ -1,7 +1,12 @@
 {
-  "asOf": "2026-07-07",
+  "asOf": "2026-09-22",
   "note": "Curated corrections to the scraped free-agent feed (survives re-scrapes \u2014 the scraper never writes this file). Keyed by normalized name.",
   "byName": {
+    "james harden": {
+      "raise": 0.05,
+      "tradeKickerPct": 0.15,
+      "why": "Filed Sep 8 2026 at 3yr/$96,540,000 (Spotrac 'Signed'; Hoops Rumors 'Cavaliers Officially Re-Sign James Harden'): a $30,647,619 starting salary with 5% raises -- $32,180,000 and a $33,712,381 player option -- plus a 15% trade kicker. A Bird re-signing may raise at 8%, and back-solving the total that way books $29,796,296; Spotrac's Cleveland apron figure rose by exactly $30,647,619 the day the deal was filed, which is $96,540,000 / 3.15 to the dollar. Cleveland lands $44,656 under its first-apron hard cap with Harden and Diop booked."
+    },
     "alex antetokounmpo": {
       "birdStatus": "non_bird",
       "why": "Web-verified team tenure: Signed a two-way with Milwaukee on Oct 13, 2025 -- his first NBA-roster season. Prior time was G League (Raptors 905, Wisconsin Herd) and PAOK in Greece. 1 season on the NBA roster"

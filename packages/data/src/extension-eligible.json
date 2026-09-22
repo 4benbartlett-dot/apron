@@ -426,7 +426,7 @@
     {
       "date": "7/1/2027",
       "player": "AJ Johnson",
-      "team": "MEM",
+      "team": "NOP",
       "pos": "PG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
@@ -723,7 +723,7 @@
     {
       "date": "7/6/2027",
       "player": "Micah Peavy",
-      "team": "NOP",
+      "team": "MEM",
       "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
@@ -941,6 +941,51 @@
       "player": "Jamal Murray",
       "team": "DEN",
       "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Jaden Hardy",
+      "team": "LAL",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Scotty Pippen Jr.",
+      "team": "MEM",
+      "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/28/2026",
+      "player": "Jay Huff",
+      "team": "IND",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "2/12/2027",
+      "player": "Brandon Ingram",
+      "team": "LAC",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "9/20/2027",
+      "player": "Joel Embiid",
+      "team": "PHI",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

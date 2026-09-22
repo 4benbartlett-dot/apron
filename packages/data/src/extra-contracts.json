@@ -1,5 +1,5 @@
 {
- "asOf": "2026-09-07",
+ "asOf": "2026-09-22",
  "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player (dedupe is by NAME, so the id below is free to be the real one). Aug 17 2026: playerId is now the player's REAL Basketball-Reference id wherever one exists, verified against the name-bearing rows in player-stats-history.json — a synthetic curated-* id is keyed to nothing, so ratings/experience/positions/bio/impact all miss and the player enters the model at the age-27, ~22-mpg, av-51 default. Only the four with genuinely no NBA row (Alpha Diallo, Arthur Kaluma, Tarik Biberovic, Bogoljub Markovic) keep a curated-* id.",
  "players": [
   {
@@ -97,7 +97,7 @@
    "playerName": "Lonnie Walker IV",
    "teamId": "DEN",
    "years": [],
-   "why": "Feed Aug 5: 'Agreed to a 1 year $3.29 million contract with Denver (DEN)'. $3,286,399 is the 7-YOS minimum to the dollar — he spent 2025-26 overseas, which is why he has no sheet row AND why his years of service stopped at seven. Minimum exception, consumes nothing; Art. VII 3(f) charges DEN the 2-YOS figure."
+   "why": "Feed Aug 5: 'Agreed to a 1 year $3.29 million contract with Denver (DEN)'. $3,286,399 is the 7-YOS minimum to the dollar — he spent 2025-26 overseas, which is why he has no sheet row AND why his years of service stopped at seven. UPDATED Sep 21: filed Sep 10 as a non-guaranteed camp deal ('Nuggets Sign Lonnie Walker IV To Camp Deal', Hoops Rumors; the feed row reads 'via Exhibit 9'), so the sheet carries no salary for him until he makes the team; the stub stays so he exists as a name."
   },
   {
    "playerId": "curated-tarik-biberovic",
@@ -154,6 +154,19 @@
    "teamId": "CLE",
    "years": [],
    "why": "Sep 2 2026: signed 4yr/$9.26M with Cleveland via the second-round pick exception (2027-28 team option), per the feed. Drafted #39 in 2022 by Cleveland, never on an NBA sheet (Gran Canaria, then Baskonia), so no Basketball-Reference id. The reported total back-solves to $2.15M in year one at 5% raises, but Spotrac's Cleveland apron figure rose by exactly $1,357,763 — the 0-YOS minimum — the day the deal was filed, so year one is the minimum and the money is back-loaded; the stated cap-hit row in manual-moves.json carries that figure."
+  },
+  {
+   "playerId": "gibsota01",
+   "playerName": "Taj Gibson",
+   "teamId": "MEM",
+   "years": [
+    {
+     "leagueYear": "2026-27",
+     "salary": 3815861,
+     "guarantee": "non_guaranteed"
+    }
+   ],
+   "why": "Sep 21 2026: on Memphis's books for 2026-27 at a non-guaranteed $3,815,861 (Hoops Rumors, Sep 9) that the scraped sheet never carried — Spotrac's Memphis page listed the minimum all summer and the apron check called it an open lead. He was traded to New Orleans on Sep 8 as matching salary and waived on Sep 9 with $148,828 guaranteed by the trade; the curated release row in manual-moves.json books that, and this stub exists so the trade and the waive have a row to act on. Real Basketball-Reference id."
   }
  ]
 }

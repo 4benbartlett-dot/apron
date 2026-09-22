@@ -159,6 +159,21 @@ export function NewsCard({ move, compact = false }: { move: NewsMove; compact?: 
         </div>
       )}
 
+      {/* what happened after — the ruling's own record, dated */}
+      {move.ruling && move.ruling.updates.length > 0 && (
+        <div className="px-4 pt-3.5 sm:px-5">
+          <div className="label mb-1.5">Since the ruling</div>
+          <ul className="space-y-1.5">
+            {move.ruling.updates.map((u, i) => (
+              <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
+                <span className="shrink-0 font-semibold text-[var(--muted)]">{u.dateLabel}</span>
+                <span>{u.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* the receipt — on a ruling, the pick ledger after the penalty */}
       <div className="px-4 pb-1 pt-3.5 sm:px-5">
         <div className="label mb-1.5">

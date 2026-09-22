@@ -2,6 +2,54 @@
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
   "transactions": [
     {
+      "player": "Spencer Jones",
+      "pos": "SF",
+      "date": "Jul 31, 2026",
+      "type": "Other",
+      "detail": "Denver Nuggets (DEN) counts $6 million against the cap for 2026-27",
+      "why": "His matched offer sheet is reported as 2yr/$11.75M, which back-solved at 5% raises books $5,731,707 in year one. Spotrac's Denver cap page (Sep 22) has $6,000,000, and $6,000,000 + $5,750,000 is $11,750,000 exactly — the sheet DESCENDS, as Quinten Post's did, and a matched sheet is taken verbatim. Stated so the filed first year is the one on the books."
+    },
+    {
+      "player": "Alpha Diallo",
+      "pos": "SF",
+      "date": "Jul 15, 2026",
+      "type": "Other",
+      "detail": "Denver Nuggets (DEN) counts $1.357763 million against the cap for 2026-27",
+      "why": "The feed's '1 year $1.36 million' is the rounded figure; the deal is the 0-YOS minimum, $1,357,763, which Spotrac's Denver cap page carries to the dollar. $2,237 of phantom salary otherwise."
+    },
+    {
+      "player": "Saddiq Bey",
+      "pos": "SF",
+      "date": "Sep 18, 2026",
+      "type": "Other",
+      "detail": "New Orleans Pelicans (NOP) counts $6.55708 million against the cap for 2026-27",
+      "why": "The scraped sheet carries $6,440,678 for 2026-27 (and $6,118,644 for 2025-26), which is no raise shape at all. Spotrac's New Orleans cap page has $6,557,080, Hoops Rumors' write-up of his Sep 17 extension has '$6.56MM' this season and a four-year value of $62.06M ($55.5M plus this year), and $6,557,080 is exactly a 5% raise on a $6,244,838 first year — the 2025 deal's real shape. Filed with the extension so the poison-free 2026-27 figure under it is the one the league counts."
+    },
+    {
+      "player": "Jaden Bradley",
+      "pos": "SG",
+      "date": "Sep 21, 2026",
+      "type": "Other",
+      "detail": "Toronto Raptors (TOR) counts $1.357763 million against the cap for 2026-27",
+      "why": "The feed's row (Sep 21: 'Signed a 4 year $9.26 million contract with Toronto Raptors (TOR) via 2nd-round exception by converted Two-Way - includes 2029-30 Team Option') back-solves at 5% raises to $2,153,488 in year one. Hoops Rumors has the deal at $9,264,648 'including $1,357,763 guaranteed' — the 2026-27 0-YOS minimum — and Spotrac's Toronto apron figure rose on the same pull by $4,526,252, which is the Leonard trade's net ($50,300,000 in, $47,131,511 out = $3,168,489) plus exactly $1,357,763. Same shape as Diop's: a minimum first year with the money behind it. States the cap hit only; the guarantee is left as booked."
+    },
+    {
+      "player": "Devin Carter",
+      "pos": "PG",
+      "date": "Sep 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL) - leaves behind $5.15808 million in dead cap",
+      "why": "The feed's row states no amount, so the sheet charged both remaining seasons. Hoops Rumors, Sep 11: his $5,158,080 for 2026-27 is guaranteed and stays on Atlanta's books; the $7,370,897 fourth-year option for 2027-28 was declined as part of the waive, so nothing carries past this season. Spotrac's Atlanta figure did not move — the same $5,158,080 as roster salary or as dead money."
+    },
+    {
+      "player": "Taj Gibson",
+      "pos": "C",
+      "date": "Sep 09, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP) - leaves behind $0.148828 million in dead cap",
+      "why": "Acquired from Memphis on Sep 8 as matching salary in the Hawkins–Johnson trade and waived the next day. Hoops Rumors: the trade awarded a partial guarantee of $148,828 on his $3,815,861 non-guaranteed minimum, and New Orleans owes that and nothing more. Spotrac's New Orleans apron figure moved by $1,713,136 across the trade, the waive and Mathurin's filing; Mathurin's $7,500,000 plus Johnson's $3,237,120, less Hawkins ($7,021,895) and Peavy ($2,150,917), is $1,564,308 — the $148,828 left over is this row. He has no sheet row of his own (never on Basketball-Reference's 2025-26 contract table), so a stub in extra-contracts.json carries the minimum for the trade to move."
+    },
+    {
       "player": "Khalifa Diop",
       "pos": "C",
       "date": "Sep 02, 2026",

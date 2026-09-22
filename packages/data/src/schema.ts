@@ -261,8 +261,9 @@ export function validateFeedCorrections(x: unknown): Issue[] {
   if (c.array(x.corrections, "$.corrections"))
     x.corrections.forEach((row, i) => {
       const p = `$.corrections[${i}]`;
-      if (!c.object(row, p, ["date", "player", "type", "detail", "why"])) return;
+      if (!c.object(row, p, ["date", "player", "type", "detail", "why", "newDate"])) return;
       c.str(row.date, `${p}.date`, { required: true, re: FEED_DATE_RE });
+      c.str(row.newDate, `${p}.newDate`, { re: FEED_DATE_RE });
       c.str(row.player, `${p}.player`, { required: true });
       c.str(row.type, `${p}.type`, { required: true, oneOf: TRANSACTION_TYPES });
       c.str(row.detail, `${p}.detail`, { required: true });
@@ -397,7 +398,7 @@ export function validateLeagueRulings(x: unknown, ctx: SchemaCtx): Issue[] {
   const ids = new Set<string>();
   x.rulings.forEach((r, i) => {
     const p = `$.rulings[${i}]`;
-    if (!c.object(r, p, ["id", "date", "team", "headline", "summary", "findings", "penalties", "sources"])) return;
+    if (!c.object(r, p, ["id", "date", "team", "headline", "summary", "findings", "penalties", "sources", "updates"])) return;
     c.str(r.id, `${p}.id`, { required: true, re: /^[a-z0-9-]+$/ });
     if (isStr(r.id)) {
       if (ids.has(r.id)) c.fail(`${p}.id`, `duplicate id ${r.id}`);
@@ -408,6 +409,16 @@ export function validateLeagueRulings(x: unknown, ctx: SchemaCtx): Issue[] {
     c.str(r.headline, `${p}.headline`, { required: true });
     c.str(r.summary, `${p}.summary`, { required: true });
     c.strings(r.findings, `${p}.findings`);
+    // What happened after the ruling, dated — a trade it had held up going
+    // through, an interim governor named for the suspension.
+    if (r.updates !== undefined && c.array(r.updates, `${p}.updates`))
+      r.updates.forEach((u, j) => {
+        const q = `${p}.updates[${j}]`;
+        if (!c.object(u, q, ["date", "text", "source"])) return;
+        c.str(u.date, `${q}.date`, { required: true, re: ISO_DATE_RE });
+        c.str(u.text, `${q}.text`, { required: true });
+        c.str(u.source, `${q}.source`);
+      });
     if (c.array(r.penalties, `${p}.penalties`))
       r.penalties.forEach((pen, j) => {
         const q = `${p}.penalties[${j}]`;
@@ -477,8 +488,12 @@ export function validateFaOverrides(x: unknown): Issue[] {
   for (const [name, o] of Object.entries(x.byName)) {
     const p = `$.byName.${name}`;
     if (!/^[a-z0-9 ]+$/.test(name)) c.fail(p, "keys are normalized names: lowercase, no punctuation");
-    if (!c.object(o, p, ["birdStatus", "why"])) continue;
+    if (!c.object(o, p, ["birdStatus", "why", "raise", "tradeKickerPct"])) continue;
     c.str(o.birdStatus, `${p}.birdStatus`, { oneOf: BIRD_STATUSES });
+    // The filed raise rate when the press-release total alone cannot say (a
+    // Bird re-signing may raise at 8%, but Harden's was filed at 5%).
+    c.num(o.raise, `${p}.raise`, { min: 0, max: 0.08 });
+    c.num(o.tradeKickerPct, `${p}.tradeKickerPct`, { min: 0, max: 0.15 });
     c.str(o.why, `${p}.why`);
   }
   return c.issues;

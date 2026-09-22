@@ -252,13 +252,15 @@ describe("what the August deals actually spent", () => {
     expect(committed(BASE_CONTRACTS, "PHX")).toBeLessThanOrEqual(C.secondApron);
   });
 
-  // Three of the window's four outside signings are minimum-scale deals to
-  // veterans whose service time is the only thing setting the number: Walker
-  // (7 YOS, overseas in 2025-26 so the clock stopped), Watford (5), Highsmith
-  // (6). All three land on the sheet at the same deemed 2-YOS charge.
+  // Two of the window's outside signings are minimum-scale deals to veterans
+  // whose service time is the only thing setting the number: Watford (5),
+  // Highsmith (6). Both land on the sheet at the same deemed 2-YOS charge.
+  // Walker (7 YOS) was the third until Sep 10, when Denver filed his "1 year
+  // $3.29 million" as a non-guaranteed camp deal (Hoops Rumors: "Nuggets Sign
+  // Lonnie Walker IV To Camp Deal"; the feed: "via Exhibit 9") — a camp
+  // invite carries no cap salary here until he makes the team.
   it("the window's veteran minimums all book at the deemed figure", () => {
     for (const [name, team] of [
-      ["Lonnie Walker IV", "DEN"],
       ["Trendon Watford", "NOP"],
       ["Haywood Highsmith", "PHX"],
     ] as const) {
@@ -266,6 +268,8 @@ describe("what the August deals actually spent", () => {
       expect(c.teamId, name).toBe(team);
       expect(c.years.find((y) => y.leagueYear === YEAR)!.salary, name).toBe(C.minimumSalaries[2]);
     }
+    const walker = find("Lonnie Walker IV");
+    expect(walker.years.find((y) => y.leagueYear === YEAR)).toBeUndefined();
   });
 
   // Westbrook (Aug 12) and Lowry (Jul 2) both retired mid-offseason. A retired
@@ -346,7 +350,7 @@ describe("Aug 19-20 — the five-team Watson deal and the Harden re-sign", () =>
     const preStretch = room - stretchSaved;
     console.log(`  CLE post-trade ${M(preHarden + stretchSaved)} → room ${M(preStretch)} vs reported $28.4M; after the stretch ${M(room)}`);
     expect(Math.abs(preStretch - 28_400_000)).toBeLessThan(100_000);
-    expect(room).toBe(32_050_038); // SI "$31.9M", Marks "~32M"
+    expect(room).toBe(32_050_427); // SI "$31.9M", Marks "~32M"; $389 more since Meleek Thomas's first year became the 0-YOS minimum
   });
 
   it("Harden's 3yr/$97M did not fit until Whitmore was stretched", () => {
@@ -357,12 +361,14 @@ describe("Aug 19-20 — the five-team Watson deal and the Harden re-sign", () =>
     // filed, and the clearing move had not happened. The engine agreed the
     // SIGNING mechanism was fine — Bird rights cover it — so what blocked it
     // was purely the hard cap the Watson trade created. On Aug 28 Cleveland
-    // waived and stretched Whitmore, and the same deal fits with $2,111,767
-    // to spare.
+    // waived and stretched Whitmore, and the deal fit. It was FILED on Sep 8
+    // at $30,647,619 — 5% raises on a $96.54M total (Spotrac's Cleveland
+    // figure rose by exactly that), $709,348 above the 8% back-solve — and
+    // still fits: $1,402,808 to spare before Diop, $45,045 after him.
     const harden = find("James Harden");
     const y1 = harden.years.find((y) => y.leagueYear === YEAR)!.salary;
     expect(harden.teamId).toBe("CLE");
-    expect(y1).toBe(29_938_271); // 97,000,000 / 3.24, rounded
+    expect(y1).toBe(30_647_619); // 96,540,000 / 3.15 — the filed 5% shape
     const whitmore = BASE_CONTRACTS.find((c) => c.playerName === "Cam Whitmore" && c.deadMoney)!;
     const stretchSaved = 5_458_310 - whitmore.years.find((y) => y.leagueYear === YEAR)!.salary;
     const room = C.firstApron - (committed(BASE_CONTRACTS, "CLE") - y1);

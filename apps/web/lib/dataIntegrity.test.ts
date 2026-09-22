@@ -3,8 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   BASE_CONTRACTS, TEAM_IDS, C, currentSalary, normName,
-  teamProjection, feedStateOf, freeAgentsOf, LEAGUE_WINS,
-} from "@/lib/league";
+  teamProjection, feedStateOf, freeAgentsOf, LEAGUE_WINS, isCampDeal } from "@/lib/league";
 import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS, LEAGUE_RULINGS, getLeagueData } from "@apron/data";
 import { shortPlayerName } from "@/lib/names";
 import { feedIso } from "@/lib/feedDate";
@@ -175,8 +174,17 @@ describe("data integrity", () => {
     const seen = new Set<string>();
     for (const t of TRANSACTIONS) {
       if (t.type !== "Signing" && t.type !== "Re-sign") continue;
-      // Two-ways and Exhibit 10s carry no cap salary; coaches carry no contract.
-      if (/Two-Way|Exhibit|as head coach|as an assistant/i.test(t.detail)) continue;
+      // A camp invite (Exhibit 9 or 10) is the feed's last word on a player
+      // whose earlier row priced the deal: Walker's Aug 5 "1 year $3.29
+      // million" was filed Sep 10 as a non-guaranteed camp deal, which the
+      // sheet leaves off until he makes the team. Newest-first, so the camp
+      // row is met before the priced one and retires it.
+      if (isCampDeal(t.detail)) {
+        seen.add(normName(t.player));
+        continue;
+      }
+      // Two-ways carry no cap salary; coaches carry no contract.
+      if (/Two-Way|as head coach|as an assistant/i.test(t.detail)) continue;
       if (/via Offer Sheet/i.test(t.detail) && /right to match/i.test(t.detail)) continue;
       // A deal the corrections file deliberately holds back is absent on
       // purpose, with its reason written down — that is the opposite of silent.
@@ -234,10 +242,14 @@ describe("data integrity", () => {
       if (seen.has(k)) continue;
       seen.add(k);
       const waived = feedIso(t.date);
-      // A move dated on or after the waive is the feed's newer word on him.
+      // A move dated on or after the waive is the feed's newer word on him —
+      // unless it is a two-way or a camp invite, which carry no cap salary and
+      // so cannot be where his guaranteed money went (Whitmore's Denver
+      // two-way, Konchar's Knicks Exhibit 9: the old team still owes it).
       const claimed = TRANSACTIONS.some(
         (x) =>
           (x.type === "Signing" || x.type === "Re-sign" || x.type === "Trade") &&
+          !(x.type !== "Trade" && (/two-way contract/i.test(x.detail) || isCampDeal(x.detail))) &&
           normName(x.player) === k &&
           feedIso(x.date) >= waived,
       );

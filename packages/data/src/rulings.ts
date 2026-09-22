@@ -54,6 +54,9 @@ export interface LeagueRuling {
   findings: string[];
   penalties: RulingPenalty[];
   sources: RulingSource[];
+  /** What happened after, dated: the trade the ruling had held up, the interim
+   * governor named for the suspension. Rendered on the card under the findings. */
+  updates?: { date: string; text: string; source?: string }[];
 }
 
 export const LEAGUE_RULINGS: LeagueRuling[] = (raw as { rulings: LeagueRuling[] }).rulings;

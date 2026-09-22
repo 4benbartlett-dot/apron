@@ -115,6 +115,8 @@ export interface NewsMove {
     findings: string[];
     penalties: { kind: RulingPenalty["kind"]; text: string }[];
     sources: { outlet: string; url?: string; note?: string }[];
+    /** What happened after, dated — only what the data's date has reached. */
+    updates: { dateLabel: string; text: string }[];
   };
   checks: DocketCheck[];
   consequences: MoveConsequence[];
@@ -887,6 +889,9 @@ export function buildRulingCard(r: LeagueRuling): NewsMove {
       findings: r.findings,
       penalties: r.penalties.map((p) => ({ kind: p.kind, text: p.text })),
       sources: r.sources.map((s) => ({ outlet: s.outlet, url: s.url, note: s.note })),
+      updates: (r.updates ?? [])
+        .filter((u) => u.date <= DATA_AS_OF)
+        .map((u) => ({ dateLabel: label(u.date), text: u.text })),
     },
     checks,
     consequences,

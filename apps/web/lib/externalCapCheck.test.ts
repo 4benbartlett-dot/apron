@@ -14,9 +14,10 @@ import ext from "../../../packages/data/src/external-cap-check.json";
 // independent party computing the same quantity from the same league.
 //
 // Their figure is NOT automatically right. Ours has reproduced beat-writer
-// numbers Spotrac lagged on, and it is currently $29.9M "wrong" on Cleveland
-// for the good reason that we book a deal they have not filed yet. So this does
-// not assert agreement. It asserts that every disagreement is one we know
+// numbers Spotrac lagged on, and for three weeks it was $29.9M "wrong" on
+// Cleveland for the good reason that we booked a deal they had not filed yet
+// (Harden, filed Sep 8: the two sheets now agree to $389). So this does not
+// assert agreement. It asserts that every disagreement is one we know
 // about: the shape stays the same, the outliers stay the same size, and a NEW
 // team drifting is the thing that breaks the build.
 //
@@ -80,9 +81,17 @@ const gap = (t: string) => Math.max(0, Math.abs(ours(t) - theirs(t)) - freshlySi
  * Harden contract away from Spotrac, not arbitrarily far.
  */
 const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
-  CLE: {
-    maxGap: 31_000_000,
-    why: "We book Harden's agreed 3yr/$97M; Spotrac has not filed it, twelve days on. Their $176,964,573 is our sheet minus his $29,938,271 — the two agree to $389 on everything else, Whitmore's stretch included, which is the tightest external match in the league.",
+  TOR: {
+    maxGap: 8_000_000,
+    why: "Spotrac's Toronto page carries a $5,700,000 Jordan Nwora line with no transaction behind it — a free-agent hold from his 2024-25 stint, which their apron figure appears to count — and Andre Jackson Jr.'s Aug 4 Exhibit 10 sits off both sheets now. The Leonard trade itself agrees: their figure moved by his $50,300,000 less Ingram and Dick's $47,131,511 on Sep 14, plus Bradley's $1,357,763.",
+  },
+  DEN: {
+    maxGap: 7_000_000,
+    why: "Open, with leads from their Denver page (Sep 22). Aaron Gordon: the scraped sheet has $33,658,037 for 2026-27 with 8% steps behind it, Spotrac $31,978,037 — we read $1.68M HIGH on him, so the rest of the roster reads further low than the total shows. Their page also carries Jalen Pickett at $2,449,421, who signed a Clippers two-way on Aug 12, and David Roddy at the same figure with no transaction behind it; the tracker may count either. Spencer Jones's matched sheet ($6,000,000 then $5,750,000, their page) and Diallo's rookie minimum are booked to their figures. Walker's camp deal is off both.",
+  },
+  NOP: {
+    maxGap: 7_500_000,
+    why: "Open. Their tracker's own Sep 8–21 movement reproduces the Hawkins–Johnson trade, Gibson's $148,828 guarantee and Mathurin's $7,500,000 filing to the dollar, so the residual predates them. Their New Orleans page (Sep 22) carries Willy Hernangómez at $4,642,804 with no transaction behind it, and still lists Hawkins and Peavy, traded Sep 8 — holds and stale lines in the same column as salary.",
   },
   MIN: {
     maxGap: 5_000_000,
@@ -94,9 +103,8 @@ const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
   },
   MEM: {
     maxGap: 9_500_000,
-    why: "Open. Their table carries a Taj Gibson minimum and an Olivier-Maxence Prosper we have on Dallas, plus a Cole Anthony dead-money row we do not. Leads, not verdicts — their cap page mixes holds and dead money into the same column.",
+    why: "Open. Their table carries an Olivier-Maxence Prosper we have on Dallas, plus a Cole Anthony dead-money row we do not. Leads, not verdicts — their cap page mixes holds and dead money into the same column. The Taj Gibson minimum it carried all summer is on our sheet as of Sep 21 (a stub, so his Sep 8 trade and Sep 9 waive have a row to act on) and gone from both, to New Orleans and then to waivers.",
   },
-  WAS: { maxGap: 10_500_000, why: "Open, unattributed. Largest unexplained gap in the league after Memphis. $1.36M of it opened Sep 1 when Izaiyah Nelson's phantom rookie minimum came off — he is on Orlando's two-way, and Spotrac's Wizards page never carried him." },
   HOU: { maxGap: 7_000_000, why: "Open, unattributed — we read HIGHER, unlike most." },
   CHA: { maxGap: 6_000_000, why: "Open, unattributed." },
   DAL: { maxGap: 6_000_000, why: "Open, unattributed — we read higher; Prosper sits here and on their Memphis page." },
@@ -151,13 +159,16 @@ describe("our cap sheet against Spotrac's", () => {
     expect(total).toBeLessThan(90_000_000);
   });
 
-  it("Cleveland agrees to the dollar once Harden is set aside", () => {
-    // The single most precise external check this project has: strip the one
-    // contract Spotrac has not filed and the two sheets are $389 apart on
-    // fourteen other players.
+  it("Cleveland agrees to the dollar", () => {
+    // The single most precise external check this project has. For three
+    // weeks it read "once Harden is set aside": strip the one contract Spotrac
+    // had not filed and the two sheets were $389 apart on fourteen other
+    // players. Spotrac filed him on Sep 8 at $30,647,619 — which is what
+    // settled his raise rate (5%, not the 8% a Bird deal may carry) — and now
+    // the whole sheet is $389 apart, Harden included.
     const harden = BASE_CONTRACTS.find((c) => normName(c.playerName) === normName("James Harden"))!;
-    const withoutHarden = ours("CLE") - currentSalary(harden);
-    expect(Math.abs(withoutHarden - theirs("CLE"))).toBeLessThan(1_000);
+    expect(currentSalary(harden)).toBe(30_647_619);
+    expect(Math.abs(ours("CLE") - theirs("CLE"))).toBeLessThan(1_000);
   });
 
   it("agrees on which teams are over which line, except where explained", () => {
