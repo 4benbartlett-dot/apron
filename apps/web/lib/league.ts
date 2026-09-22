@@ -317,6 +317,41 @@ function applyTrades(contracts: Contract[]): { contracts: Contract[]; moved: str
 }
 
 /**
+ * A camp invite: an Exhibit 10 (the feed writes "via Exhibit 10" or "- Exhibit
+ * 10") or its veteran twin, an Exhibit 9. Both are non-guaranteed minimums
+ * that sit off every public cap page until the player makes the team —
+ * Spotrac's apron tracker carries none of them, and neither does this sheet.
+ * The Knicks signed five veterans to Exhibit 9s on Sep 16 (Bruce Brown, Drew
+ * Eubanks, Wiseman, Agbaji, Konchar); their tracker did not move.
+ */
+export const isCampDeal = (detail: string) => /Exhibit (?:9|10)\b/i.test(detail);
+
+/**
+ * Players whose NEWEST signing row is a camp invite. The filed deal is the
+ * camp deal whatever an earlier "agreed" row said: Lonnie Walker's Aug 5
+ * minimum with Denver was filed Sep 10 as an Exhibit 9. Checked by both
+ * signing passes, because Spotrac's signed-FA page lists an Exhibit 10 as an
+ * ordinary one-year minimum (Dillon Jones, $2,449,421 "Official") — which put
+ * him on Philadelphia's sheet and Philadelphia over the first apron.
+ */
+const CAMP_INVITES = (() => {
+  const out = new Set<string>();
+  const decided = new Set<string>();
+  // The newest row decides even when an older one priced the deal: Walker's
+  // Aug 5 "1 year $3.29 million" was the reported figure for what Hoops
+  // Rumors, on filing day, called a non-guaranteed camp deal. Koloko's July
+  // row is the same shape (and Spotrac filed it under Atlanta, his old team).
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    const k = normName(t.player);
+    if (decided.has(k)) continue;
+    decided.add(k);
+    if (isCampDeal(t.detail)) out.add(k);
+  }
+  return out;
+})();
+
+/**
  * Apply free-agent signings (Spotrac feed): give signed players their new
  * 2026-27 deal on the right team. This is what removes them from the free-agent
  * pool (and the cap-hold count) once they've actually re-signed.
@@ -334,6 +369,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
   for (const t of TRANSACTIONS) {
     if (t.type !== "Signing" && t.type !== "Re-sign") continue;
     if (PENDING_SIGNING.has(normName(t.player))) continue;
+    if (CAMP_INVITES.has(normName(t.player))) continue;
     // Two-way deals carry no cap salary — move the player out of the FA pool
     // (old team keeps no hold) into the new team's two-way slot.
     if (/two-way contract/i.test(t.detail)) {
@@ -344,6 +380,26 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
       const team = stdTeam(teamM[1]!);
       if (!VALID_TEAMS.has(team)) continue;
       seen.add(k);
+      // A two-way is not where a waived player's guaranteed money went. Cam
+      // Whitmore was waived and stretched by Cleveland on Aug 28 and signed a
+      // Denver two-way on Sep 18; moving his row to Denver carried the
+      // $5,458,310 with it and erased Cleveland's $1,819,437 × 3. His old row
+      // stays where it is for applyReleases to turn into Cleveland's dead
+      // money, and the two-way is its own salary-less row under his real id.
+      const waived = LAST_RELEASE.get(normName(t.player));
+      if (waived && feedIso(t.date) >= waived && salaryForYear(c, YEAR) > 0) {
+        cloned.push({
+          ...cloneContract(c),
+          teamId: team,
+          years: c.years.filter((y) => y.leagueYear < YEAR),
+          signedUsing: "Two-Way",
+          twoWay: true,
+          restriction: undefined,
+        });
+        c.playerId = `${c.playerId}-deadcap`;
+        signed.push(`${c.playerName} → ${team} (two-way; ${c.teamId} keeps his dead money)`);
+        continue;
+      }
       c.teamId = team;
       c.signedUsing = "Two-Way";
       c.restriction = undefined;
@@ -356,7 +412,7 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     // page until the player makes the team. The feed writes one with a term
     // and a dollar figure ("1 year $1.36 million … via Exhibit 10"), which is
     // exactly the shape of a real signing.
-    if (/Exhibit 10/i.test(t.detail)) continue;
+    if (isCampDeal(t.detail)) continue;
     // A pending RFA offer sheet isn't a signing yet — the incumbent can match
     // (Quinten Post: MEM sheet, GSW right to match). He stays an RFA with his
     // hold until the feed reports a resolution.
@@ -416,7 +472,10 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     const raise = raiseFor(c.playerName, c.teamId, team, aav, yrs);
     c.teamId = team;
     const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
-    const rows = dealFromAav(aav, yrs, raise);
+    const rows =
+      /via 2nd-round exception/i.test(t.detail) && total > 0
+        ? secondRoundExceptionYears(total, yrs)
+        : dealFromAav(aav, yrs, raise);
     if (rows.length === 1)
       rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...rows];
@@ -428,6 +487,8 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     // Capture a trade bonus (kicker) if the deal mentions one.
     const kickM = t.detail.match(/([\d.]+)\s*%\s*Trade Bonus/i);
     if (kickM) c.tradeKickerPct = Number(kickM[1]) / 100;
+    const kickOverride = FA_OVERRIDES[normName(c.playerName)]?.tradeKickerPct;
+    if (kickOverride != null) c.tradeKickerPct = kickOverride;
     signed.push(`${c.playerName} → ${team}`);
   }
   return { contracts: cloned, signed };
@@ -450,8 +511,14 @@ export function raiseFor(
   aav: number,
   term: number,
 ): number {
-  if (priorTeam !== newTeam) return 0.05; // outside signing — never 8%
   const k = normName(playerName);
+  // The filed rate, where it is known and the total alone cannot say. Harden's
+  // 3yr/$96.54M is a Bird re-signing that COULD raise at 8%, and back-solved
+  // that way books $29,796,296; Spotrac's Cleveland figure rose by exactly
+  // $30,647,619 the day it was filed, which is $96,540,000 / 3.15 — 5% raises.
+  const filed = FA_OVERRIDES[k]?.raise;
+  if (filed != null) return filed;
+  if (priorTeam !== newTeam) return 0.05; // outside signing — never 8%
   // Matching an offer sheet copies the other team's terms, which are capped at
   // 5% raises however big the sheet is — check BEFORE the size heuristic below,
   // which would otherwise read a large sheet as a Bird re-sign.
@@ -549,6 +616,7 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     if (!s || !s.aav || s.aav <= 0) return c;
     if (PENDING_OFFER_SHEET.has(normName(c.playerName))) return c;
     if (PENDING_SIGNING.has(normName(c.playerName))) return c;
+    if (CAMP_INVITES.has(normName(c.playerName))) return c;
     // A vet EXTENSION of a player still under contract adds FUTURE years —
     // replacing YEAR-forward would overwrite his real current salary.
     const hasCurrent = c.years.some((y) => y.leagueYear === YEAR && y.salary > 0);
@@ -573,6 +641,7 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
       restriction: EXTENSION_DEALS.has(normName(c.playerName))
         ? extensionRestriction(prior, rows[0]!.salary, s.years)
         : FA_RESTRICTION,
+      tradeKickerPct: FA_OVERRIDES[normName(c.playerName)]?.tradeKickerPct ?? c.tradeKickerPct,
     };
   });
   return { contracts: out, signed };
@@ -623,9 +692,17 @@ const LAST_RELEASE = (() => {
 // roster at $2.41M for a month afterwards. Only a move dated on or after the
 // waive means the feed has moved on; same-day is treated as later because
 // applyReleases runs last and would otherwise clobber a waive-and-re-sign.
+//
+// And not every later signing is a claim on the money. A two-way and a camp
+// invite (Exhibit 9 or 10) carry no cap salary, so they cannot be where a
+// waived player's GUARANTEED money went — the old team still owes it. Konchar's
+// Sep 16 Exhibit 9 with the Knicks and Whitmore's Sep 18 Denver two-way each
+// exempted a stretched player from his own stretch, and Minnesota and
+// Cleveland lost $2,055,000 and $1,819,437 a season of dead money.
 const ACTIVE_LATER = new Set(
   TRANSACTIONS.filter((t) => {
     if (t.type !== "Signing" && t.type !== "Re-sign" && t.type !== "Trade") return false;
+    if (t.type !== "Trade" && (/two-way contract/i.test(t.detail) || isCampDeal(t.detail))) return false;
     const waived = LAST_RELEASE.get(normName(t.player));
     return waived == null || feedIso(t.date) >= waived;
   }).map((t) => normName(t.player)),
@@ -778,17 +855,36 @@ const afterReleases = applyReleases(afterSignedFA.contracts);
 const existingIds = new Set(afterReleases.map((c) => c.playerId));
 // Real reported rookie-scale terms (e.g. "Signed a 4 year $66.91 million Rookie
 // Scale contract") supersede our estimated scale numbers.
+// A second-rounder's deal via the second-round exception is reported the
+// same way ("4 year $9.26 million … via 2nd-round exception"), but it is not
+// shaped the same way: the first year is the rookie minimum and the money
+// sits behind it. Every $9.26M deal in the feed is the same contract —
+// $9,264,648 with $1,357,763 guaranteed (Bradley, per Hoops Rumors) — and
+// Spotrac's team figures moved by exactly $1,357,763 when Diop's and
+// Bradley's were filed. Meleek Thomas at the uniform split was the $389 that
+// separated Cleveland's sheet from Spotrac's for a month.
 const ROOKIE_DEALS = new Map(
   TRANSACTIONS.filter(
-    (t) => t.type === "Signing" && /Rookie Scale contract/i.test(t.detail),
+    (t) => t.type === "Signing" && /Rookie Scale contract|via 2nd-round exception/i.test(t.detail),
   ).map((t) => {
     const yearsM = t.detail.match(/(\d+)\s*year/);
     const totalM = t.detail.match(/\$([\d.]+)\s*million/);
     const yrs = yearsM ? Number(yearsM[1]) : 4;
     const total = totalM ? Number(totalM[1]) * 1_000_000 : 0;
-    return [normName(t.player), { yrs, total }] as const;
+    return [normName(t.player), { yrs, total, secondRound: /2nd-round exception/i.test(t.detail) }] as const;
   }),
 );
+/** A second-round-exception deal's seasons: the 0-YOS minimum this year, the
+ * rest of the reported total spread over the remaining seasons at 5%. */
+export function secondRoundExceptionYears(total: number, yrs: number): ContractYear[] {
+  const y1 = C.minimumSalaries[0]!;
+  const start = Number(YEAR.slice(0, 4));
+  const rest = yrs > 1 ? dealFromAav(Math.round((total - y1) / (yrs - 1)), yrs - 1, 0.05) : [];
+  return [
+    { leagueYear: YEAR, salary: y1, guarantee: "full" as const },
+    ...rest.map((y, k) => ({ ...y, leagueYear: `${start + 1 + k}-${String((start + 2 + k) % 100).padStart(2, "0")}` })),
+  ];
+}
 // CBA Art. VII §8(d)(i): a drafted rookie who signs can't be traded for 30
 // days — every 2026 draftee who SIGNED is inside that freeze in-sim.
 //
@@ -841,7 +937,11 @@ const rookieContracts = ROOKIES_2026.filter(
   (r) => {
     const deal = ROOKIE_DEALS.get(normName(r.playerName));
     const dealYears =
-      deal && deal.total > 0 ? dealFromAav(Math.round(deal.total / deal.yrs), deal.yrs) : r.years;
+      deal && deal.total > 0
+        ? deal.secondRound
+          ? secondRoundExceptionYears(deal.total, deal.yrs)
+          : dealFromAav(Math.round(deal.total / deal.yrs), deal.yrs)
+        : r.years;
     // A first-rounder's 2026-27 cap hit is the OFFICIAL rookie scale (what
     // Spotrac/HoopsRumors show), not dealFromAav's uniform-raise split of the
     // reported 4-year total — that back-loads too little and overstates year 1

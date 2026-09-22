@@ -2521,7 +2521,39 @@
           "leagueYear": "2026-27",
           "salary": 11117925,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 26724138,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 28862069,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 31000000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 33137931,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 35275862,
+          "guarantee": "full"
         }
+      ],
+      "poisonPillExtensionSalaries": [
+        26724138,
+        28862069,
+        31000000,
+        33137931,
+        35275862
       ]
     },
     {
@@ -4342,8 +4374,29 @@
           "leagueYear": "2026-27",
           "salary": 2296271,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 13500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 14500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 15500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 16500000,
+          "guarantee": "player_option"
         }
-      ]
+      ],
+      "restriction": "extended beyond extend-and-trade limits (not trade-eligible for 6 months)"
     },
     {
       "playerId": "gardnmy01",
@@ -6511,7 +6564,39 @@
           "leagueYear": "2026-27",
           "salary": 6563925,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 28703704,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 29851852,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 31000000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 32148148,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 33296296,
+          "guarantee": "full"
         }
+      ],
+      "poisonPillExtensionSalaries": [
+        28703704,
+        29851852,
+        31000000,
+        32148148,
+        33296296
       ]
     },
     {
@@ -9331,8 +9416,25 @@
           "leagueYear": "2026-27",
           "salary": 6440678,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 20108696,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 18500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 16891304,
+          "guarantee": "full"
         }
-      ]
+      ],
+      "tradeKickerPct": 0.15,
+      "restriction": "extended beyond extend-and-trade limits (not trade-eligible for 6 months)"
     },
     {
       "playerId": "queende01",

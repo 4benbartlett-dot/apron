@@ -301,7 +301,14 @@ export const RESOLVED_OFFER_SHEETS: string[] = (rosterCorrectionsRaw as { resolv
  * shows the cap-clearing move or corrected terms. */
 export const PENDING_SIGNINGS: string[] = (rosterCorrectionsRaw as { pendingSignings?: string[] }).pendingSignings ?? [];
 /** Curated free-agent feed corrections, keyed by normalized name. */
-export const FA_OVERRIDES: Record<string, { birdStatus?: string }> = (faOverridesRaw as { byName: Record<string, { birdStatus?: string }> }).byName;
+export interface FaOverride {
+  birdStatus?: string;
+  /** Filed annual raise rate, when the reported total cannot settle it on its own. */
+  raise?: number;
+  tradeKickerPct?: number;
+  why?: string;
+}
+export const FA_OVERRIDES: Record<string, FaOverride> = (faOverridesRaw as { byName: Record<string, FaOverride> }).byName;
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 /** "Sep 02, 2026" → "2026-09-02" ("" when unparseable, which sorts last). */

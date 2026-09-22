@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-08-25",
+  "asOf": "2026-09-22",
   "note": "Player-level evidence for the team totals in external-cap-check.json. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, and their 2026-27 column includes rows (two-ways, non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -161,8 +161,6 @@
       "Greg Brown III": 2185116
     },
     "DEN": {
-      "DeMar DeRozan": 2449421,
-      "Lonnie Walker IV": 2449421,
       "Nikola Jokic": 59033114,
       "Jamal Murray": 50105628,
       "Aaron Gordon": 31978037,
@@ -174,9 +172,10 @@
       "DaRon Holmes II": 3372120,
       "Marvin Bagley III": 2449421,
       "Tyus Jones": 2449421,
+      "DeMar DeRozan": 2449421,
       "Trevon Brazile": 1357763,
       "Alpha Diallo": 1357763,
-      "Jonas Valanciunas": 2000000,
+      "Jonas Valanciunas": 666667,
       "David Roddy": 2449421,
       "Jalen Pickett": 2449421,
       "Richard Jefferson": 2449421,
@@ -184,7 +183,6 @@
       "Troy Daniels": 2449421,
       "DeMarcus Cousins": 2449421,
       "Vlatko Cancar": 2449421,
-      "Bruce Brown Jr.": 2449421,
       "Curtis Jones": 2185116,
       "Markus Howard": 2185116
     },
@@ -570,11 +568,9 @@
     "TOR": {
       "Kawhi Leonard": 50300000,
       "Scottie Barnes": 41754690,
-      "Brandon Ingram": 40000000,
       "Immanuel Quickley": 32500000,
       "R.J. Barrett": 29616071,
       "Jakob Poeltl": 19500000,
-      "Gradey Dick": 7131511,
       "Collin Murray-Boyles": 6649560,
       "Allen Graves": 4065720,
       "Ja'Kobe Walter": 3811800,
@@ -583,6 +579,7 @@
       "Jamal Shead": 2296271,
       "Jamison Battle": 2296271,
       "Alijah Martin": 2185116,
+      "Jaden Bradley": 1357763,
       "Jordan Nwora": 5700000,
       "Garrett Temple": 2449421,
       "A.J. Lawson": 2449421,
@@ -615,24 +612,25 @@
       "Trey Murphy III": 27000000,
       "Herb Jones": 14898786,
       "Jeremiah Fears": 7896240,
-      "Jordan Hawkins": 7021895,
+      "Bennedict Mathurin": 7500000,
       "Saddiq Bey": 6557080,
       "Derik Queen": 5416080,
       "DeAndre Jordan": 3876529,
       "Yves Missi": 3512760,
+      "AJ Johnson": 3237120,
       "Bryce McGowens": 2584539,
       "Trendon Watford": 2449421,
       "Karlo Matkovic": 2296271,
-      "Micah Peavy": 2150917,
+      "Taj Gibson": 148828,
       "Willy Hernangomez": 4642804,
       "Tony Snell": 2449421,
-      "Elfrid Payton": 2449421,
       "Brandon Boston Jr": 2449421,
       "Josh Oduro": 2185116,
       "James Nunnally": 2185116,
       "Jared Harper": 2185116,
       "Gary Clark": 2185116,
-      "Keion Brooks Jr.": 2185116
+      "Jordan Hawkins": 10469646,
+      "Micah Peavy": 2525901
     },
     "WAS": {
       "Anthony Davis": 58456566,

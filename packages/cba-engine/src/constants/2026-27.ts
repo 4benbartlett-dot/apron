@@ -29,9 +29,15 @@ export const SEASON_2026_27: LeagueConstants = {
   roomMLE: 9_366_000,
   biAnnualException: 5_477_000, // 3.32% of cap, rounded to the nearest $1,000
 
-  // Approximate CBA estimated average player salary (~ total salaries / players);
-  // used for the Early Bird alternative. Refine when the official figure posts.
-  estimatedAverageSalary: 13_200_000,
+  // Estimated Average Player Salary, official: $15,163,000 (Hoops Rumors,
+  // "Salary Cap, Tax Line Set For 2026/27", Jun 2026 — "players earning below
+  // the estimated average salary … can receive a starting salary of up to 140%
+  // of the estimated average salary", $21,228,200). It sets the veteran
+  // extension ceiling (§7(a)), the extend-and-trade limit (§8(f)), the cap-hold
+  // multiplier prong (§4(d)) and the Early Bird alternative. The $13,200,000
+  // placeholder this replaced read Saddiq Bey's filed $20,108,696 first year as
+  // over a $18,480,000 ceiling the league does not have.
+  estimatedAverageSalary: 15_163_000,
 
   maxSalary: {
     "0-6": Math.round(CAP * 0.25), // $41,240,250

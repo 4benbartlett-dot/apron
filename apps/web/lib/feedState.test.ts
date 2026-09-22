@@ -190,11 +190,17 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       // "about $1.82 million" the beat writers printed — and Spotrac's Cleveland
       // figure fell by exactly the $3,638,873 that frees. The list above is
       // empty again, and the team page no longer needs a sourced way out.
+      // Since Sep 18 he is also a Nugget, on a two-way: a second row, with no
+      // cap salary on it, and Cleveland's charge untouched by it.
       const whitmore = BASE_CONTRACTS.filter((c) => c.playerName === "Cam Whitmore");
-      expect(whitmore).toHaveLength(1);
-      expect(whitmore[0]!.teamId).toBe("CLE");
-      expect(whitmore[0]!.deadMoney).toBe(true);
-      expect(whitmore[0]!.years.map((y) => y.salary)).toEqual([1_819_437, 1_819_437, 1_819_437]);
+      expect(whitmore).toHaveLength(2);
+      const dead = whitmore.find((c) => c.deadMoney)!;
+      expect(dead.teamId).toBe("CLE");
+      expect(dead.years.map((y) => y.salary)).toEqual([1_819_437, 1_819_437, 1_819_437]);
+      const twoWay = whitmore.find((c) => !c.deadMoney)!;
+      expect(twoWay.teamId).toBe("DEN");
+      expect(twoWay.signedUsing).toBe("Two-Way");
+      expect(currentSalary(twoWay)).toBe(0);
       expect(feedStateOf("CLE").pendingRelief).toBeUndefined();
 
       // What the stretch leaves buys a rookie, not a veteran. Marks: the stretch
@@ -204,15 +210,20 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       // veteran minimum. Cleveland's 15th man had to be a rookie or a two-way,
       // and on Sep 2 it was: Khalifa Diop, a 2022 second-rounder, via the
       // second-round exception with a $1,357,763 first year — the 0-YOS
-      // minimum, and exactly what Spotrac's Cleveland figure rose by. What is
-      // left now, $754,004, buys nobody: the sheet is full.
+      // minimum, and exactly what Spotrac's Cleveland figure rose by. Harden
+      // filed on Sep 8 at $30,647,619 — 5% raises on $96.54M, not the 8% the
+      // reported $97M back-solved to — which took $709,348 more. What is left
+      // now, $45,045, buys nobody: the sheet is full. (It read $44,656 for a
+      // day: Meleek Thomas's second-round-exception deal was booked $389 above
+      // the 0-YOS minimum it actually starts at, and Spotrac's Cleveland
+      // figure — $208,969,955 — is now ours to the dollar.)
       const diop = BASE_CONTRACTS.find((c) => c.playerName === "Khalifa Diop")!;
       expect(diop.teamId).toBe("CLE");
       expect(currentSalary(diop)).toBe(C.minimumSalaries[0]);
       const under = feedStateOf("CLE").hardCap - bookedSalary("CLE");
       console.log(`  CLE under its hard cap by $${under.toLocaleString()} with Harden and Diop booked`);
-      expect(under).toBe(754_004);
-      expect(under + currentSalary(diop)).toBe(2_111_767);
+      expect(under).toBe(45_045);
+      expect(under + currentSalary(diop)).toBe(1_402_808);
       expect(under).toBeLessThan(C.minimumSalaries[0]!);
     });
 
@@ -245,7 +256,7 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       // rule itself stays pinned by Jalen Duren in rosterIntegrity.test.ts.
       const mathurin = BASE_CONTRACTS.find((c) => c.playerName === "Bennedict Mathurin")!;
       expect(mathurin.teamId).toBe("NOP");
-      expect(currentSalary(mathurin)).toBe(7_804_878); // 2yr/$16M at 5% raises
+      expect(currentSalary(mathurin)).toBe(7_500_000); // filed Sep 10 at 2yr/$15.375M: $7.5M, then $7.875M
       expect(freeAgentsOf(BASE_CONTRACTS).some((f) => f.playerName === "Bennedict Mathurin")).toBe(false);
       expect(
         freeAgentsOf(BASE_CONTRACTS).filter((f) => f.priorTeam === "LAC").map((f) => f.playerName),
@@ -253,26 +264,27 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     });
 
     it("the filed stretch reproduces the room the beat writers published", () => {
-      // The room BEFORE Harden, now that the stretch is on the books: $32,050,038.
-      // SI said "$31.9 million"; Marks said "~32M". If a rescrape moves
+      // The room BEFORE Harden, now that the stretch is on the books: $32,050,427
+      // ($32,050,038 until Meleek Thomas's first year was corrected to the
+      // 0-YOS minimum). SI said "$31.9 million"; Marks said "~32M". If a rescrape moves
       // Whitmore's charge or Harden's year one, that agreement breaks here
       // rather than silently on the card. Diop (Sep 2) came after both
       // numbers were published, so he is set aside with Harden.
       const harden = BASE_CONTRACTS.find((c) => c.playerName === "James Harden")!;
       const diop = BASE_CONTRACTS.find((c) => c.playerName === "Khalifa Diop")!;
       const room = feedStateOf("CLE").hardCap - (bookedSalary("CLE") - currentSalary(harden) - currentSalary(diop));
-      expect(room).toBe(32_050_038);
+      expect(room).toBe(32_050_427);
       expect(Math.abs(room - 31_900_000)).toBeLessThan(250_000);
     });
 
-    it("NOP: Mathurin's $7.8M could only be the non-taxpayer MLE, which hard-caps them at the first apron", () => {
+    it("NOP: Mathurin's $7.5M could only be the non-taxpayer MLE, which hard-caps them at the first apron", () => {
       // Booked Aug 26 with no exception. New Orleans is ~$205M committed, so
       // it cannot be a room signing; y1 exceeds the BAE ($5,477,000) and the
       // taxpayer MLE ($6,064,000); the NT-MLE is the only lawful vehicle, and
       // Art. VII §6(g)(3) freezes the first apron as a hard cap once it is used.
       const s = feedStateOf("NOP");
       expect(s.hardCap).toBe(C.firstApron);
-      expect(s.consumed.ntmle).toBe(7_804_878);
+      expect(s.consumed.ntmle).toBe(7_500_000);
       expect(s.hardCapSource).toContain("Mathurin");
       const under = C.firstApron - bookedSalary("NOP");
       expect(under).toBeGreaterThan(0);

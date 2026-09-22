@@ -257,9 +257,13 @@ function correct(rows) {
   let applied = 0;
   const out = rows.map((t) => {
     const f = byKey.get(`${t.date}|${t.player}|${t.type}`);
-    if (!f || f.detail === t.detail) return t;
+    if (!f || (f.detail === t.detail && !f.newDate)) return t;
     applied++;
-    return { ...t, detail: f.detail, type: classify(f.detail) };
+    // `newDate` re-dates the row: Spotrac keeps the Leonard trade on the day it
+    // was agreed (Jun 30) though the league did not approve it until Sep 14.
+    // A --full re-pull brings the Jun 30 original back, and collapse() keys a
+    // trade on its players and teams, not its date, so the re-dated row wins.
+    return { ...t, detail: f.detail, type: classify(f.detail), date: f.newDate ?? t.date };
   });
   if (applied) console.log(`Applied ${applied} feed correction(s) from feed-corrections.json.`);
   return out;

@@ -1,24 +1,6 @@
 {
   "rows": [
     {
-      "date": "9/15/2026",
-      "player": "Jarred Vanderbilt",
-      "team": "LAL",
-      "pos": "PF",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "9/17/2026",
-      "player": "Isaac Okoro",
-      "team": "CHI",
-      "pos": "SG",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
       "date": "10/1/2026",
       "player": "Onyeka Okongwu",
       "team": "ATL",
@@ -59,6 +41,24 @@
       "player": "Moses Moody",
       "team": "GSW",
       "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Jaden Hardy",
+      "team": "LAL",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2026",
+      "player": "Scotty Pippen Jr.",
+      "team": "MEM",
+      "pos": "PG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -371,15 +371,6 @@
     },
     {
       "date": "10/18/2026",
-      "player": "Jaden Bradley",
-      "team": "TOR",
-      "pos": "SG",
-      "kind": "GUARANTEED",
-      "amount": 0,
-      "note": "Guaranteed — — 50%; first day of Regular Season"
-    },
-    {
-      "date": "10/18/2026",
       "player": "Mohamed Bamba",
       "team": "UTA",
       "pos": "C",
@@ -559,6 +550,15 @@
       "note": "Guaranteed — — Opening Night"
     },
     {
+      "date": "10/20/2026",
+      "player": "Ben Simmons",
+      "team": "SAC",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 1000000,
+      "note": "Guaranteed — — Opening Night"
+    },
+    {
       "date": "10/21/2026",
       "player": "Jordan Walsh",
       "team": "BOS",
@@ -595,13 +595,13 @@
       "note": "Extension Eligible"
     },
     {
-      "date": "10/31/2026",
-      "player": "Devin Carter",
-      "team": "ATL",
-      "pos": "PG",
-      "kind": "CLUB",
-      "amount": 7370897,
-      "note": "Club Option"
+      "date": "10/28/2026",
+      "player": "Jay Huff",
+      "team": "IND",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
     },
     {
       "date": "10/31/2026",
@@ -812,15 +812,6 @@
     },
     {
       "date": "10/31/2026",
-      "player": "AJ Johnson",
-      "team": "MEM",
-      "pos": "PG",
-      "kind": "CLUB",
-      "amount": 5493394,
-      "note": "Club Option"
-    },
-    {
-      "date": "10/31/2026",
       "player": "Cedric Coward",
       "team": "MEM",
       "pos": "SG",
@@ -889,6 +880,15 @@
       "pos": "C",
       "kind": "CLUB",
       "amount": 5595827,
+      "note": "Club Option"
+    },
+    {
+      "date": "10/31/2026",
+      "player": "AJ Johnson",
+      "team": "NOP",
+      "pos": "PG",
+      "kind": "CLUB",
+      "amount": 5493394,
       "note": "Club Option"
     },
     {
@@ -1262,15 +1262,6 @@
     },
     {
       "date": "1/10/2027",
-      "player": "Taj Gibson",
-      "team": "MEM",
-      "pos": "C",
-      "kind": "GUARANTEED",
-      "amount": 3815861,
-      "note": "Guaranteed"
-    },
-    {
-      "date": "1/10/2027",
       "player": "Myron Gardner",
       "team": "MIA",
       "pos": "G",
@@ -1343,6 +1334,15 @@
     },
     {
       "date": "1/10/2027",
+      "player": "Ben Simmons",
+      "team": "SAC",
+      "pos": "PG",
+      "kind": "GUARANTEED",
+      "amount": 3524115,
+      "note": "Guaranteed"
+    },
+    {
+      "date": "1/10/2027",
       "player": "Trayce Jackson-Davis",
       "team": "TOR",
       "pos": "PF",
@@ -1382,6 +1382,15 @@
       "player": "Moussa Diabate",
       "team": "CHA",
       "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "2/12/2027",
+      "player": "Brandon Ingram",
+      "team": "LAC",
+      "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -2117,12 +2126,30 @@
     },
     {
       "date": "6/29/2027",
+      "player": "Gradey Dick",
+      "team": "LAC",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 10576031,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Cameron Christie",
       "team": "LAC",
       "pos": "SG",
       "kind": "CLUB",
       "amount": 0,
       "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Brandon Ingram",
+      "team": "LAC",
+      "pos": "SF",
+      "kind": "PLAYER",
+      "amount": 41904762,
+      "note": "Player Option"
     },
     {
       "date": "6/29/2027",
@@ -2248,6 +2275,15 @@
       "pos": "PF",
       "kind": "RFA / QO",
       "amount": 11357585,
+      "note": "Qualifying Offer to be paid on 06/29/2027"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Jordan Hawkins",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "RFA / QO",
+      "amount": 10469646,
       "note": "Qualifying Offer to be paid on 06/29/2027"
     },
     {
@@ -2459,15 +2495,6 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Jordan Hawkins",
-      "team": "NOP",
-      "pos": "SG",
-      "kind": "RFA / QO",
-      "amount": 10469646,
-      "note": "Qualifying Offer to be paid on 06/29/2027"
-    },
-    {
-      "date": "6/29/2027",
       "player": "Dejounte Murray",
       "team": "NOP",
       "pos": "PG",
@@ -2519,6 +2546,15 @@
       "kind": "RFA / QO",
       "amount": 0,
       "note": "Qualifying Offer — — TBD - Two-Way"
+    },
+    {
+      "date": "6/29/2027",
+      "player": "Bennedict Mathurin",
+      "team": "NOP",
+      "pos": "SG",
+      "kind": "PLAYER",
+      "amount": 7875000,
+      "note": "Player Option"
     },
     {
       "date": "6/29/2027",
@@ -2837,6 +2873,15 @@
     },
     {
       "date": "6/29/2027",
+      "player": "Daeqwon Plowden",
+      "team": "SAC",
+      "pos": "G",
+      "kind": "CLUB",
+      "amount": 0,
+      "note": "Club Option — — non-guaranteed"
+    },
+    {
+      "date": "6/29/2027",
       "player": "Maliq Brown",
       "team": "SAS",
       "pos": "PG",
@@ -2864,15 +2909,6 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Gradey Dick",
-      "team": "TOR",
-      "pos": "SG",
-      "kind": "RFA / QO",
-      "amount": 10576031,
-      "note": "Qualifying Offer to be paid on 06/29/2027"
-    },
-    {
-      "date": "6/29/2027",
       "player": "Jamal Shead",
       "team": "TOR",
       "pos": "PG",
@@ -2891,15 +2927,6 @@
     },
     {
       "date": "6/29/2027",
-      "player": "Brandon Ingram",
-      "team": "TOR",
-      "pos": "SF",
-      "kind": "PLAYER",
-      "amount": 41904762,
-      "note": "Player Option"
-    },
-    {
-      "date": "6/29/2027",
       "player": "Chucky Hepburn",
       "team": "TOR",
       "pos": "G",
@@ -2915,15 +2942,6 @@
       "kind": "PLAYER",
       "amount": 0,
       "note": "Player Option"
-    },
-    {
-      "date": "6/29/2027",
-      "player": "Jaden Bradley",
-      "team": "TOR",
-      "pos": "SG",
-      "kind": "RFA / QO",
-      "amount": 0,
-      "note": "Qualifying Offer — — TBD - Two-Way"
     },
     {
       "date": "6/29/2027",
@@ -3170,15 +3188,6 @@
     },
     {
       "date": "7/1/2027",
-      "player": "Devin Carter",
-      "team": "ATL",
-      "pos": "PG",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "7/1/2027",
       "player": "Tidjane Salaun",
       "team": "CHA",
       "pos": "PF",
@@ -3287,15 +3296,6 @@
     },
     {
       "date": "7/1/2027",
-      "player": "AJ Johnson",
-      "team": "MEM",
-      "pos": "PG",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "7/1/2027",
       "player": "Kel'el Ware",
       "team": "MIL",
       "pos": "C",
@@ -3326,6 +3326,15 @@
       "player": "Yves Missi",
       "team": "NOP",
       "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/1/2027",
+      "player": "AJ Johnson",
+      "team": "NOP",
+      "pos": "PG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -3575,6 +3584,15 @@
     },
     {
       "date": "7/6/2027",
+      "player": "Micah Peavy",
+      "team": "MEM",
+      "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "7/6/2027",
       "player": "Bam Adebayo",
       "team": "MIA",
       "pos": "C",
@@ -3596,15 +3614,6 @@
       "player": "Myles Turner",
       "team": "MIL",
       "pos": "C",
-      "kind": "EXTENSION ELIGIBLE",
-      "amount": 0,
-      "note": "Extension Eligible"
-    },
-    {
-      "date": "7/6/2027",
-      "player": "Micah Peavy",
-      "team": "NOP",
-      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -3920,6 +3929,15 @@
       "player": "Jamal Murray",
       "team": "DEN",
       "pos": "PG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "9/20/2027",
+      "player": "Joel Embiid",
+      "team": "PHI",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

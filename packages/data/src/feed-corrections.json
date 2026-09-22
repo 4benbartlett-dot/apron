@@ -1,5 +1,5 @@
 {
-  "note": "Rows Spotrac published wrong, keyed by date|player|type. Applied by scrape-transactions.mjs after every merge, so the feed on disk is right no matter how many times it is re-pulled, and the wrong row never has to be hand-edited twice. Each entry says what Spotrac printed, what the corrected text is, and where the correction comes from. Remove an entry once Spotrac fixes the row.",
+  "note": "Rows Spotrac published wrong, keyed by date|player|type. Applied by scrape-transactions.mjs after every merge, so the feed on disk is right no matter how many times it is re-pulled, and the wrong row never has to be hand-edited twice. Each entry says what Spotrac printed, what the corrected text is, and where the correction comes from. Remove an entry once Spotrac fixes the row. An entry may also carry `newDate`, which re-dates the row: the feed keeps a trade on the day it was agreed even when the league approved it months later.",
   "corrections": [
     {
       "date": "Aug 29, 2026",
@@ -35,6 +35,37 @@
       "type": "Signing",
       "detail": "Agreed to a 1 year $3.52 million contract with Sacramento Kings (SAC)",
       "why": "Spotrac's row reads 'with LA Clippers (LAC)', which is the team he last played for (18 games in 2024-25), not the team he signed with. NBA.com ('Reports: Ben Simmons agrees to one-year deal with Kings'), NBC Sports (Spears) and Yahoo all have Sacramento on Sep 4 2026, one year at the veteran minimum — $3.52M is the 9-YOS figure ($3,524,115) to the dollar. Entry comes out when Spotrac fixes theirs."
+    },
+    {
+      "date": "Sep 08, 2026",
+      "player": "Ben Simmons",
+      "type": "Signing",
+      "detail": "Signed a 1 year $3.52 million contract with Sacramento Kings (SAC)",
+      "why": "Spotrac's 'Signed' row repeats the Sep 4 mistake: 'with LA Clippers (LAC)'. The Kings announced the signing themselves on Sep 8 (NBA.com: 'Kings officially sign Ben Simmons to one-year deal'; Yahoo, CBS), and Spotrac's own Sacramento apron figure rose by exactly $2,449,421 on the same pull — the Art. VII §3(f) charge for a one-year veteran minimum. Entry comes out when Spotrac fixes theirs."
+    },
+    {
+      "date": "Jun 30, 2026",
+      "player": "Kawhi Leonard",
+      "type": "Trade",
+      "newDate": "Sep 14, 2026",
+      "detail": "Traded to Toronto (TOR) from LA (LAC) for Brandon Ingram, Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick",
+      "why": "Completed Sep 14, 2026. The trade was agreed on Jun 30, paused by Toronto on Jul 9 while the league investigated Leonard's off-court money, and completed on Sep 14 once the Sep 2 ruling left his contract intact — 76 days after the agreement (Hoops Rumors, Sep 14; Shams Charania; Law Murray of The Athletic: terms unchanged, Leonard waived his 15% trade kicker). Spotrac keeps the row on the agreement date; RealGM's pick ledger dates every pick in the deal 9/14/2026. The sheet dates the trade the day it was executed, so the Sep 14 news day carries it and a rewind to any day before shows the rosters the league recognized."
+    },
+    {
+      "date": "Jun 30, 2026",
+      "player": "Brandon Ingram",
+      "type": "Trade",
+      "newDate": "Sep 14, 2026",
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Gradey Dick, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard",
+      "why": "Same deal as Leonard's row. The trade was agreed on Jun 30, paused by Toronto on Jul 9 while the league investigated Leonard's off-court money, and completed on Sep 14 once the Sep 2 ruling left his contract intact — 76 days after the agreement (Hoops Rumors, Sep 14; Shams Charania; Law Murray of The Athletic: terms unchanged, Leonard waived his 15% trade kicker). Spotrac keeps the row on the agreement date; RealGM's pick ledger dates every pick in the deal 9/14/2026. The sheet dates the trade the day it was executed, so the Sep 14 news day carries it and a rewind to any day before shows the rosters the league recognized."
+    },
+    {
+      "date": "Jun 30, 2026",
+      "player": "Gradey Dick",
+      "type": "Trade",
+      "newDate": "Sep 14, 2026",
+      "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard",
+      "why": "Same deal as Leonard's row. The trade was agreed on Jun 30, paused by Toronto on Jul 9 while the league investigated Leonard's off-court money, and completed on Sep 14 once the Sep 2 ruling left his contract intact — 76 days after the agreement (Hoops Rumors, Sep 14; Shams Charania; Law Murray of The Athletic: terms unchanged, Leonard waived his 15% trade kicker). Spotrac keeps the row on the agreement date; RealGM's pick ledger dates every pick in the deal 9/14/2026. The sheet dates the trade the day it was executed, so the Sep 14 news day carries it and a rewind to any day before shows the rosters the league recognized."
     }
   ]
 }
