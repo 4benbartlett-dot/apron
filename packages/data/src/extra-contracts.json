@@ -40,6 +40,7 @@
    "playerId": "curated-alpha-diallo",
    "playerName": "Alpha Diallo",
    "teamId": "DEN",
+   "yearsOfService": 0,
    "years": [],
    "why": "Feed Jul 15: 'Signed 1 year $1.36 million contract with Denver (DEN)'. Arrived from Monaco (France) — no 2025-26 NBA sheet row."
   },
@@ -48,7 +49,8 @@
    "playerName": "Moussa Cisse",
    "teamId": "DAL",
    "years": [],
-   "why": "Feed Jul 22: DAL matched New York's 2y/$4.76M offer sheet on the two-way RFA. Signings feed carries the terms; no 2025-26 standard-contract row."
+   "why": "Feed Jul 22: DAL matched New York's 2y/$4.76M offer sheet on the two-way RFA. Signings feed carries the terms; no 2025-26 standard-contract row.",
+   "yearsOfService": 1
   },
   {
    "playerId": "crawfis01",
@@ -125,7 +127,8 @@
    "playerName": "Alijah Martin",
    "teamId": "TOR",
    "years": [],
-   "why": "Feed Jul 3: 'Signed a 2 year $4.76 million contract with Toronto (TOR) - includes 2027-28 Player Option' off his two-way qualifying offer — the same standard-minimum shape as Moussa Cisse's matched sheet. A stub and not a surname fallback: 'Martin' resolves league-wide to Tyrese Martin in Brooklyn."
+   "why": "Feed Jul 3: 'Signed a 2 year $4.76 million contract with Toronto (TOR) - includes 2027-28 Player Option' off his two-way qualifying offer — the same standard-minimum shape as Moussa Cisse's matched sheet. A stub and not a surname fallback: 'Martin' resolves league-wide to Tyrese Martin in Brooklyn.",
+   "yearsOfService": 1
   },
   {
    "playerId": "plowdda01",
@@ -167,6 +170,60 @@
     }
    ],
    "why": "Sep 21 2026: on Memphis's books for 2026-27 at a non-guaranteed $3,815,861 (Hoops Rumors, Sep 9) that the scraped sheet never carried — Spotrac's Memphis page listed the minimum all summer and the apron check called it an open lead. He was traded to New Orleans on Sep 8 as matching salary and waived on Sep 9 with $148,828 guaranteed by the trade; the curated release row in manual-moves.json books that, and this stub exists so the trade and the waive have a row to act on. Real Basketball-Reference id."
+  },
+  {
+   "playerId": "smithto05",
+   "playerName": "Tolu Smith III",
+   "teamId": "DET",
+   "years": [],
+   "why": "Sep 22 2026: no 2026-27 row on the scraped sheet, but the feed has Detroit exercising his $2.41M option for 2026-27 on Jun 29 and Spotrac's Detroit cap page carries him at a non-guaranteed $2,411,090. The exercised-option pass books the year on this stub; the filed cap hit refines the rounded amount. Real Basketball-Reference id."
+  },
+  {
+   "playerId": "cainja01",
+   "playerName": "Jamal Cain",
+   "teamId": "ORL",
+   "years": [],
+   "why": "Sep 22 2026: not on the scraped sheet; Orlando exercised his $2.58M option for 2026-27 on Jun 29 (feed) and Spotrac's Orlando cap page carries him at a non-guaranteed $2,584,539. Booked by the exercised-option pass. Real Basketball-Reference id."
+  },
+  {
+   "playerId": "bouyeja01",
+   "playerName": "Jamaree Bouyea",
+   "teamId": "PHX",
+   "years": [],
+   "why": "Sep 22 2026: not on the scraped sheet; Phoenix exercised his $2.58M option for 2026-27 on Jun 29 (feed) and Spotrac's Phoenix cap page carries him at a non-guaranteed $2,584,539. Booked by the exercised-option pass. Real Basketball-Reference id."
+  },
+  {
+   "playerId": "vukcetr01",
+   "playerName": "Tristan Vukcevic",
+   "teamId": "WAS",
+   "years": [
+    {
+     "leagueYear": "2026-27",
+     "salary": 3000000,
+     "guarantee": "non_guaranteed"
+    }
+   ],
+   "why": "Sep 22 2026: not on the scraped sheet and no 2026 feed row — his deal predates the window (re-signed with Washington in 2025). Spotrac's Washington cap page carries him at $3,000,000, non-guaranteed, on the active roster and in their apron figure; without him the Wizards read $3M light. Real Basketball-Reference id."
+  },
+  {
+   "playerId": "cardwdy01",
+   "playerName": "Dylan Cardwell",
+   "teamId": "SAC",
+   "years": [
+    {
+     "leagueYear": "2026-27",
+     "salary": 2150917,
+     "guarantee": "full"
+    }
+   ],
+   "why": "Sep 22 2026: not on the scraped sheet and no 2026 feed row — his standard deal predates the window (converted from his 2025-26 Sacramento two-way). Spotrac's Sacramento cap page carries him at $2,150,917, guaranteed, on the active roster and in their apron figure. Real Basketball-Reference id."
+  },
+  {
+   "playerId": "jacksqu01",
+   "playerName": "Quenton Jackson",
+   "teamId": "IND",
+   "years": [],
+   "why": "Sep 22 2026: not on the scraped sheet, but the feed has Indiana fully guaranteeing his $2.58M for 2026-27 on Jul 15 and Spotrac's Indiana cap page carries him at $2,584,539 on the active roster. The stated-salary pass creates the season from the guarantee row; the filed cap hit refines the rounded amount. Real Basketball-Reference id."
   }
  ]
 }

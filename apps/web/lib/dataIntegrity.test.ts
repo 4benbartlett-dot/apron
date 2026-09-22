@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   BASE_CONTRACTS, TEAM_IDS, C, currentSalary, normName,
-  teamProjection, feedStateOf, freeAgentsOf, LEAGUE_WINS, isCampDeal } from "@/lib/league";
+  teamProjection, feedStateOf, freeAgentsOf, LEAGUE_WINS, isCampDeal, claimsWaivedPlayer } from "@/lib/league";
 import { DATA_AS_OF, TRANSACTIONS, RETIRED_2026, PENDING_SIGNINGS, LEAGUE_RULINGS, getLeagueData } from "@apron/data";
 import { shortPlayerName } from "@/lib/names";
 import { feedIso } from "@/lib/feedDate";
@@ -243,15 +243,10 @@ describe("data integrity", () => {
       seen.add(k);
       const waived = feedIso(t.date);
       // A move dated on or after the waive is the feed's newer word on him —
-      // unless it is a two-way or a camp invite, which carry no cap salary and
-      // so cannot be where his guaranteed money went (Whitmore's Denver
-      // two-way, Konchar's Knicks Exhibit 9: the old team still owes it).
+      // the sheet's own rule for what counts (a two-way or a camp invite does
+      // not; an exercised option or a waiver claim does), so the two agree.
       const claimed = TRANSACTIONS.some(
-        (x) =>
-          (x.type === "Signing" || x.type === "Re-sign" || x.type === "Trade") &&
-          !(x.type !== "Trade" && (/two-way contract/i.test(x.detail) || isCampDeal(x.detail))) &&
-          normName(x.player) === k &&
-          feedIso(x.date) >= waived,
+        (x) => claimsWaivedPlayer(x) && normName(x.player) === k && feedIso(x.date) >= waived,
       );
       if (claimed) continue;
       for (const c of BASE_CONTRACTS)
@@ -314,7 +309,10 @@ describe("data integrity", () => {
       // "none of it was guaranteed" answer), or he is playing somewhere on a
       // NEW deal and the old team's charge was settled by a curated row.
       const hasDeadRow = rows.some((c) => c.deadMoney);
-      if (!hasDeadRow) lost.push(`${t.player} (waived ${t.date}) was owed $${owed.toLocaleString()} and no team carries a cent of it`);
+      // …or a team claimed him off waivers and took the whole contract with
+      // him (Micah Potter, Portland, Jul 10): nothing dead, nothing lost.
+      const claimedOffWaivers = TRANSACTIONS.some((x) => normName(x.player) === k && /Claimed off waivers by/i.test(x.detail));
+      if (!hasDeadRow && !claimedOffWaivers) lost.push(`${t.player} (waived ${t.date}) was owed $${owed.toLocaleString()} and no team carries a cent of it`);
     }
     expect(lost).toEqual([]);
   });

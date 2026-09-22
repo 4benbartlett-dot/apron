@@ -507,6 +507,30 @@ export function validateRetired(x: unknown): Issue[] {
   return c.issues;
 }
 
+export function validateSpotracCapHits(x: unknown, ctx: SchemaCtx): Issue[] {
+  const c = new Checker();
+  if (!c.object(x, "$", ["source", "asOf", "note", "byName"])) return c.issues;
+  c.str(x.source, "$.source");
+  c.str(x.asOf, "$.asOf", { re: ISO_DATE_RE });
+  c.str(x.note, "$.note");
+  if (!isRec(x.byName)) {
+    c.fail("$.byName", "must be an object keyed by normalized name");
+    return c.issues;
+  }
+  for (const [name, o] of Object.entries(x.byName)) {
+    const p = `$.byName.${name}`;
+    if (!/^[a-z0-9 ]+$/.test(name)) c.fail(p, "keys are normalized names: lowercase, no punctuation");
+    if (!c.object(o, p, ["name", "team", "cap", "base", "likely", "unlikely", "tradeBonus", "type", "nonGuaranteed"])) continue;
+    c.str(o.name, `${p}.name`, { required: true });
+    c.team(o.team, `${p}.team`, ctx);
+    for (const k of ["cap", "base", "likely", "unlikely"]) c.num(o[k], `${p}.${k}`, { required: true, int: true, min: 0 });
+    c.num(o.tradeBonus, `${p}.tradeBonus`, { int: true, min: 0 });
+    c.str(o.type, `${p}.type`);
+    c.bool(o.nonGuaranteed, `${p}.nonGuaranteed`);
+  }
+  return c.issues;
+}
+
 export function validateMeta(x: unknown): Issue[] {
   const c = new Checker();
   if (!c.object(x, "$", ["rostersAsOf"])) return c.issues;
@@ -529,6 +553,7 @@ export type SchemaId =
   | "leagueRulings"
   | "faOverrides"
   | "retired"
+  | "spotracCapHits"
   | "meta";
 
 export interface DataSchema {
@@ -551,6 +576,7 @@ export const DATA_SCHEMAS: Record<SchemaId, DataSchema> = {
   leagueRulings: { id: "leagueRulings", file: "league-rulings.json", title: "League rulings", validate: validateLeagueRulings },
   faOverrides: { id: "faOverrides", file: "fa-overrides.json", title: "Free-agent overrides", validate: (x) => validateFaOverrides(x) },
   retired: { id: "retired", file: "retired-2026.json", title: "Retirements", validate: (x) => validateRetired(x) },
+  spotracCapHits: { id: "spotracCapHits", file: "spotrac-cap-hits-2026.json", title: "Spotrac cap hits", validate: validateSpotracCapHits },
   meta: { id: "meta", file: "meta.json", title: "Snapshot date", validate: (x) => validateMeta(x) },
 };
 

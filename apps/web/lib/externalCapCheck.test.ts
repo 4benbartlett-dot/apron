@@ -1,70 +1,77 @@
 import { describe, it, expect } from "vitest";
-import { teamSalary as engTeamSalary } from "@apron/cba-engine";
-import { BASE_CONTRACTS, TEAM_IDS, C, YEAR, leagueData, currentSalary, normName } from "@/lib/league";
+import { teamSalary as engTeamSalary, apronTeamSalary } from "@apron/cba-engine";
+import { BASE_CONTRACTS, TEAM_IDS, C, YEAR, leagueData, currentSalary, normName, ADOPTED_FILINGS } from "@/lib/league";
 import { TRANSACTIONS } from "@apron/data";
 import { feedIso } from "@/lib/feedDate";
 import ext from "../../../packages/data/src/external-cap-check.json";
+import pages from "../../../packages/data/src/external-roster-check.json";
 
 // ---------------------------------------------------------------------------
 // THE OUTSIDE CHECK.
 //
 // Every other test here is internally consistent by construction: our engine
 // against our data, which cannot catch a number that is wrong in both. This one
-// diffs all 30 team salaries against Spotrac's published apron tracker — an
-// independent party computing the same quantity from the same league.
+// diffs all 30 teams against Spotrac — an independent party computing the same
+// quantities from the same league — twice over:
 //
-// Their figure is NOT automatically right. Ours has reproduced beat-writer
-// numbers Spotrac lagged on, and for three weeks it was $29.9M "wrong" on
-// Cleveland for the good reason that we booked a deal they had not filed yet
-// (Harden, filed Sep 8: the two sheets now agree to $389). So this does not
-// assert agreement. It asserts that every disagreement is one we know
-// about: the shape stays the same, the outliers stay the same size, and a NEW
-// team drifting is the thing that breaks the build.
+//   1. SALARY: our team salary against their active roster plus dead money.
+//   2. APRON:  the engine's Apron Team Salary (Art. VII §2(e)) against the
+//      figure their apron tracker prints. Their number decomposes exactly, on
+//      every page we have read, as active + dead + unlikely incentives + the
+//      §2(d)(1)(i)(F) addback for a 0/1-YOS free agent on a minimum. Ours is
+//      built from the same parts, so the two agree wherever the salary does.
 //
-// A LIKELY source of the residual, from Marks himself: APRON team salary counts
-// unlikely bonuses, and ordinary team salary does not. His Denver graphic is
-// labelled "*Includes bonuses" and he describes New Orleans as "$7.4M (unlikely
-// bonuses count) under the first apron". We do not model incentives at all, so
-// we would read low by whatever a roster carries in them — which is the shape
-// of the gap: small, almost everywhere, and mostly in one direction.
+// Sep 22 2026: for two months this file bounded gaps it could only describe
+// (Cleveland $31M for an unfiled Harden, "open, unattributed" on six teams,
+// $63M league-wide). Pulling every team's cap table instead of the tracker's
+// totals turned each gap into named rows — a back-solved raise shape, an
+// incentive the sheet folded into salary, a two-way carrying phantom salary,
+// a non-guaranteed option year the sheet omitted — and the sheet now books
+// them. What is left is listed below, each with the reason it is left.
 //
-// Refresh with: node packages/data/scripts/scrape-apron-tracker.mjs
+// Their figure is still not automatically right: Hyland's one-year minimum is
+// deemed at the two-year figure under §3(f) here and not there, and their
+// Lillard set-off is an arithmetic this sheet does not model. The point is
+// that every disagreement is a sentence, not a bound.
+//
+// Refresh with: node packages/data/scripts/scrape-apron-tracker.mjs (totals)
+//               node packages/data/scripts/scrape-external-rosters.mjs (pages)
 // ---------------------------------------------------------------------------
 
-const theirs = (t: string) =>
-  (ext.byTeam as Record<string, { apronSalary: number }>)[t]!.apronSalary;
-const ours = (t: string) => engTeamSalary(leagueData(BASE_CONTRACTS), t, YEAR);
+type Page = { active: { name: string; cap: number; unlikely: number }[]; dead: { name: string; cap: number }[]; summary: { apronTotal: number } };
+const page = (t: string) => (pages.byTeam as Record<string, Page>)[t]!;
+const theirApron = (t: string) => (ext.byTeam as Record<string, { apronSalary: number }>)[t]!.apronSalary;
+const theirSalary = (t: string) => {
+  const p = page(t);
+  return p.active.reduce((s, r) => s + r.cap, 0) + p.dead.reduce((s, r) => s + r.cap, 0);
+};
+const lg = leagueData(BASE_CONTRACTS);
+const ourSalary = (t: string) => engTeamSalary(lg, t, YEAR);
+const ourApron = (t: string) => apronTeamSalary(lg, t, C);
 const M = (x: number) => `$${(x / 1e6).toFixed(2)}M`;
 
 /**
- * Salary we have booked that Spotrac has not filed yet.
- *
- * They lag a day or two on a fresh signing, so the morning after a deal our
- * sheet reads high by exactly that contract and their number is not wrong — it
- * is just older. Hard-coding a bigger ceiling for whoever signed yesterday
- * would mean editing this file every time the league does something; computing
- * the allowance from the feed means the check maintains itself and the
- * tolerance shrinks back on its own once they catch up.
- *
- * The window is deliberately short. Cleveland's Harden has been agreed for six
- * days and is NOT covered by this — a deal nobody has filed after a week is a
- * fact about the deal, not about Spotrac's refresh cycle, and it belongs in
- * EXPLAINED with a reason.
+ * Salary we have booked that Spotrac has not filed yet. They lag a few days on
+ * a fresh signing; the morning after a deal our sheet reads high by exactly
+ * that contract and their number is not wrong, just older.
  */
-const FRESH_DAYS = 4;
+const FRESH_DAYS = 7;
 const freshlySigned = (team: string): number => {
-  const cutoff = new Date(`${ext.asOf}T12:00:00Z`);
+  const cutoff = new Date(`${pages.asOf}T12:00:00Z`);
   cutoff.setUTCDate(cutoff.getUTCDate() - FRESH_DAYS);
   const floor = cutoff.toISOString().slice(0, 10);
   let sum = 0;
   const seen = new Set<string>();
   for (const t of TRANSACTIONS) {
     if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    if (/extension/i.test(t.detail)) continue;
     const d = feedIso(t.date);
     if (!d || d < floor) continue;
     const k = normName(t.player);
     if (seen.has(k)) continue;
     seen.add(k);
+    const onPage = page(team).active.some((r) => normName(r.name) === k);
+    if (onPage) continue;
     const c = BASE_CONTRACTS.find((x) => normName(x.playerName) === k && !x.deadMoney && x.teamId === team);
     if (c) sum += currentSalary(c);
   }
@@ -72,54 +79,27 @@ const freshlySigned = (team: string): number => {
 };
 
 /** How far apart we are once their filing lag is taken out. */
-const gap = (t: string) => Math.max(0, Math.abs(ours(t) - theirs(t)) - freshlySigned(t));
+const gap = (t: string) => Math.max(0, Math.abs(ourSalary(t) - theirSalary(t)) - freshlySigned(t));
 
 /**
  * Teams whose gap is explained, with the explanation and a ceiling on it. A
  * team may only be here while someone can say WHY, and the bound is what makes
- * it a check rather than an exemption: Cleveland is allowed to be one unfiled
- * Harden contract away from Spotrac, not arbitrarily far.
+ * it a check rather than an exemption.
  */
 const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
-  TOR: {
-    maxGap: 8_000_000,
-    why: "Spotrac's Toronto page carries a $5,700,000 Jordan Nwora line with no transaction behind it — a free-agent hold from his 2024-25 stint, which their apron figure appears to count — and Andre Jackson Jr.'s Aug 4 Exhibit 10 sits off both sheets now. The Leonard trade itself agrees: their figure moved by his $50,300,000 less Ingram and Dick's $47,131,511 on Sep 14, plus Bradley's $1,357,763.",
-  },
-  DEN: {
-    maxGap: 7_000_000,
-    why: "Open, with leads from their Denver page (Sep 22). Aaron Gordon: the scraped sheet has $33,658,037 for 2026-27 with 8% steps behind it, Spotrac $31,978,037 — we read $1.68M HIGH on him, so the rest of the roster reads further low than the total shows. Their page also carries Jalen Pickett at $2,449,421, who signed a Clippers two-way on Aug 12, and David Roddy at the same figure with no transaction behind it; the tracker may count either. Spencer Jones's matched sheet ($6,000,000 then $5,750,000, their page) and Diallo's rookie minimum are booked to their figures. Walker's camp deal is off both.",
-  },
-  NOP: {
-    maxGap: 7_500_000,
-    why: "Open. Their tracker's own Sep 8–21 movement reproduces the Hawkins–Johnson trade, Gibson's $148,828 guarantee and Mathurin's $7,500,000 filing to the dollar, so the residual predates them. Their New Orleans page (Sep 22) carries Willy Hernangómez at $4,642,804 with no transaction behind it, and still lists Hawkins and Peavy, traded Sep 8 — holds and stale lines in the same column as salary.",
+  MIL: {
+    maxGap: 1_250_000,
+    why: "Lillard's stretched dead money reads $22,516,603 a season here and $21,311,053 on Spotrac's Milwaukee page: they apply a set-off for the salary he signed for in Portland, an arithmetic this sheet does not model. The $1,205,550 is that set-off by their reckoning.",
   },
   MIN: {
-    maxGap: 5_000_000,
-    why: "Spotrac's tracker has not entered Kuminga's $6,064,000 (their signed-FA page has him Official). Add it and they read ~$2.1M above us — the same standing gap Minnesota carried before the Green trade, the shape of the unlikely-bonus residual.",
+    maxGap: 400_000,
+    why: "Bones Hyland's one-year veteran minimum ($2,845,883 at 5 YOS, Hoops Rumors: 'one-year league minimum deal') is deemed at the two-year figure, $2,449,421, under Art. VII §3(f) here — the same rule Spotrac applies to Kyle Anderson, Tyus Jones and DeRozan on its own pages and, for whatever reason, not to him.",
   },
-  SAC: {
-    maxGap: 7_500_000,
-    why: "Spotrac's tracker still carries DeRozan's $10M unstretched; their own Jul 6 feed row now says 'via Stretch Provision' and Hoops Rumors has the $3,333,333 × 3. The $6,666,667 the stretch saves is the whole gap.",
-  },
-  MEM: {
-    maxGap: 9_500_000,
-    why: "Open. Their table carries an Olivier-Maxence Prosper we have on Dallas, plus a Cole Anthony dead-money row we do not. Leads, not verdicts — their cap page mixes holds and dead money into the same column. The Taj Gibson minimum it carried all summer is on our sheet as of Sep 21 (a stub, so his Sep 8 trade and Sep 9 waive have a row to act on) and gone from both, to New Orleans and then to waivers.",
-  },
-  HOU: { maxGap: 7_000_000, why: "Open, unattributed — we read HIGHER, unlike most." },
-  CHA: { maxGap: 6_000_000, why: "Open, unattributed." },
-  DAL: { maxGap: 6_000_000, why: "Open, unattributed — we read higher; Prosper sits here and on their Memphis page." },
-  MIL: { maxGap: 5_000_000, why: "Open, unattributed." },
-  CHI: { maxGap: 5_000_000, why: "Open, unattributed." },
 };
 
-/** Everyone else has to stay inside this. It was $3.5M until Sep 1, when
- * fourteen second-round picks on two-way deals came off the sheet at
- * $1,358,152 apiece — phantom salary that had been narrowing a gap we read
- * LOW on almost everywhere (see the bonus note above). None of the fourteen is
- * on his team's Spotrac page, so the sheet is closer to the league and further
- * from this number, and the honest move is to widen the bound by about one
- * rookie minimum rather than list each team as "explained". */
-const ROUTINE_GAP = 5_000_000;
+/** Everyone else has to agree to within rounding: a feed row that says
+ * "$2.15 million" for a $2,150,917 salary is the size of what is left. */
+const ROUTINE_GAP = 1_000;
 
 describe("our cap sheet against Spotrac's", () => {
   it("uses the same apron lines they publish", () => {
@@ -129,59 +109,70 @@ describe("our cap sheet against Spotrac's", () => {
     expect(ext.lines.secondApron).toBe(C.secondApron);
   });
 
-  it("covers all 30 teams", () => {
+  it("covers all 30 teams, on both the tracker and the pages", () => {
     expect(Object.keys(ext.byTeam).sort()).toEqual([...TEAM_IDS].sort());
+    expect(Object.keys(pages.byTeam).sort()).toEqual([...TEAM_IDS].sort());
+    for (const t of TEAM_IDS) expect(page(t).summary.apronTotal, t).toBe(theirApron(t));
   });
 
-  it("no team drifts further than we have accounted for", () => {
+  it("no team's salary drifts further than we have accounted for", () => {
     const over: string[] = [];
     for (const t of TEAM_IDS) {
       const g = gap(t);
       const limit = EXPLAINED[t]?.maxGap ?? ROUTINE_GAP;
-      if (g > limit)
-        over.push(`${t} differs by ${M(g)} (limit ${M(limit)}${EXPLAINED[t] ? ", explained" : ", routine"})`);
+      if (g > limit) over.push(`${t} differs by ${M(g)} (limit ${M(limit)}${EXPLAINED[t] ? ", explained" : ", routine"})`);
     }
     expect(over).toEqual([]);
   });
 
+  it("the engine's apron salary reproduces their apron figure wherever the salary agrees", () => {
+    // The apron figure is salary plus the add-backs. If salary agrees and the
+    // apron does not, an incentive or an addback is missing — a data gap on
+    // one side or the other, never a rounding.
+    const off: string[] = [];
+    for (const t of TEAM_IDS) {
+      const salaryGap = ourSalary(t) - theirSalary(t) - (ourSalary(t) > theirSalary(t) ? freshlySigned(t) : 0);
+      const apronGap = ourApron(t) - theirApron(t) - (ourApron(t) > theirApron(t) ? freshlySigned(t) : 0);
+      if (Math.abs(apronGap - salaryGap) > ROUTINE_GAP) off.push(`${t}: salary off by ${M(salaryGap)}, apron off by ${M(apronGap)}`);
+    }
+    expect(off).toEqual([]);
+  });
+
   it("the league-wide gap has not quietly grown", () => {
-    // One number for the whole reconciliation. It was $75.4M excluding
-    // Cleveland when this check was written, $69.7M once Quinten Post's
-    // descending offer sheet was booked at its filed year one, $64.6M once
-    // the filing-lag allowance stopped counting deals they simply had not
-    // entered yet, and $84.6M on Sep 1 — a jump that WAS systemic and is
-    // accounted for: fourteen two-way rookies' phantom minimums ($19.0M) came
-    // off a sheet that reads low, plus DeRozan's stretch ($6.7M) and Kuminga
-    // ($6.1M) that Spotrac's tracker has not entered. A jump means something
-    // systemic moved, even if no single team broke its own limit.
-    const total = TEAM_IDS.filter((t) => t !== "CLE").reduce((s, t) => s + gap(t), 0);
-    console.log(`  league-wide |gap| excluding CLE: ${M(total)}`);
-    expect(total).toBeLessThan(90_000_000);
+    // One number for the whole reconciliation. $75.4M when this check was
+    // written, $63.0M on Sep 21 with Cleveland set aside, and $4.1M on Sep 22
+    // once every team's page had been read — Lillard's set-off, Hyland's
+    // deemed minimum, Gill's unfiled minimum and four rounding dollars.
+    const total = TEAM_IDS.reduce((s, t) => s + gap(t), 0);
+    console.log(`  league-wide |gap|: ${M(total)}`);
+    expect(total).toBeLessThan(2_000_000);
   });
 
-  it("Cleveland agrees to the dollar", () => {
-    // The single most precise external check this project has. For three
-    // weeks it read "once Harden is set aside": strip the one contract Spotrac
-    // had not filed and the two sheets were $389 apart on fourteen other
-    // players. Spotrac filed him on Sep 8 at $30,647,619 — which is what
-    // settled his raise rate (5%, not the 8% a Bird deal may carry) — and now
-    // the whole sheet is $389 apart, Harden included.
-    const harden = BASE_CONTRACTS.find((c) => normName(c.playerName) === normName("James Harden"))!;
-    expect(currentSalary(harden)).toBe(30_647_619);
-    expect(Math.abs(ours("CLE") - theirs("CLE"))).toBeLessThan(1_000);
-  });
-
-  it("agrees on which teams are over which line, except where explained", () => {
+  it("agrees on which teams are over which line", () => {
     // The tier is what governs what a team may DO — aggregate salaries, use a
     // mid-level, send cash — so a tier disagreement matters more than dollars.
+    // Measured on apron salary, which is what the aprons are measured on.
     const tier = (x: number) =>
       x > C.secondApron ? "2A" : x > C.firstApron ? "1A" : x > C.luxuryTaxLine ? "tax" : "under";
-    const differ = TEAM_IDS.filter((t) => tier(ours(t)) !== tier(theirs(t)))
-      .map((t) => `${t}: ours ${tier(ours(t))} (${M(ours(t))}) vs theirs ${tier(theirs(t))} (${M(theirs(t))})`);
+    const differ = TEAM_IDS.filter((t) => tier(ourApron(t)) !== tier(theirApron(t)))
+      .map((t) => `${t}: ours ${tier(ourApron(t))} (${M(ourApron(t))}) vs theirs ${tier(theirApron(t))} (${M(theirApron(t))})`);
     console.log(`  tier disagreements: ${differ.length}/30`);
     for (const d of differ) console.log(`    ${d}`);
-    // Every one of these is a team sitting within a couple of million of a
-    // line, where a gap we already tolerate is enough to cross it.
-    expect(differ.length).toBeLessThanOrEqual(7);
+    expect(differ).toEqual([]);
+  });
+
+  it("every filed figure the sheet adopted is one Spotrac lists on the same team", () => {
+    // applyFiledSalaries replaces a back-solved first year with the filed one.
+    // Each replacement is logged; here the log is checked against the pages
+    // it came from, and the count is pinned so a silent widening of the rule
+    // shows up as a number.
+    for (const a of ADOPTED_FILINGS) {
+      const row = page(a.team).active.find((r) => normName(r.name) === normName(a.player) || r.cap === a.to);
+      expect(row, `${a.player} on ${a.team}`).toBeDefined();
+      expect(row!.cap).toBe(a.to);
+    }
+    console.log(`  adopted filings: ${ADOPTED_FILINGS.length}`);
+    expect(ADOPTED_FILINGS.length).toBeGreaterThan(40);
+    expect(ADOPTED_FILINGS.length).toBeLessThan(80);
   });
 });

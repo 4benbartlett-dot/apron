@@ -2,6 +2,14 @@
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
   "transactions": [
     {
+      "player": "Alijah Martin",
+      "pos": "SG",
+      "date": "Jul 03, 2026",
+      "type": "Other",
+      "detail": "Toronto Raptors (TOR) counts $2.185116 million against the cap for 2026-27",
+      "why": "The feed's '2 year $4.76 million' back-solved at 5% raises books $2,320,494 in year one. The total is $4,757,011 (Spotrac's signed page), which is $2,185,116 + $2,571,895 — the 1-YOS minimum this season and the 2-YOS minimum next, a two-year minimum contract off his two-way qualifying offer. Spotrac's Toronto cap page carries $2,185,116, and their apron figure carries the $264,305 Art. VII §2(d)(1)(i)(F) addback a 1-YOS free-agent minimum draws."
+    },
+    {
       "player": "Spencer Jones",
       "pos": "SF",
       "date": "Jul 31, 2026",
@@ -23,7 +31,7 @@
       "date": "Sep 18, 2026",
       "type": "Other",
       "detail": "New Orleans Pelicans (NOP) counts $6.55708 million against the cap for 2026-27",
-      "why": "The scraped sheet carries $6,440,678 for 2026-27 (and $6,118,644 for 2025-26), which is no raise shape at all. Spotrac's New Orleans cap page has $6,557,080, Hoops Rumors' write-up of his Sep 17 extension has '$6.56MM' this season and a four-year value of $62.06M ($55.5M plus this year), and $6,557,080 is exactly a 5% raise on a $6,244,838 first year — the 2025 deal's real shape. Filed with the extension so the poison-free 2026-27 figure under it is the one the league counts."
+      "why": "The scraped sheet carries his $6,440,678 BASE salary. His cap hit is $6,557,080: SalarySwish itemizes a $116,402 LIKELY incentive on top of the base for 2026-27, Spotrac's New Orleans cap page prints $6,557,080, and Hoops Rumors' write-up of the Sep 17 extension has '$6.56MM' this season. Likely bonuses are Salary under Art. VII §3(d); this row states the cap hit the league counts."
     },
     {
       "player": "Jaden Bradley",
@@ -104,6 +112,118 @@
       "type": "Signing",
       "detail": "Signed a 1 year $2.845883 million contract with Cleveland (CLE)",
       "why": "ESPN/RealGM Jul 26: first NBA deal since 2019-20 after five EuroLeague seasons. The reported '$2.8M' is the 5-YOS veteran minimum ($2,845,883) — his five NBA seasons were 2015-16 through 2019-20 — NOT the taxpayer MLE, which is more than double at $6,064,000. Booked at the exact minimum so Art. VII §3(f) charges Cleveland the 2-YOS figure. Agreed but not yet in Spotrac's feed as of the Jul 28 pull."
+    },
+    {
+      "player": "Kam Jones",
+      "pos": "G",
+      "date": "Jun 30, 2026",
+      "type": "Release",
+      "detail": "Waived by Chicago (CHI) - leaves behind $1.075459 million in dead cap",
+      "why": "Waived on the day his $2,150,917 for 2026-27 would have guaranteed in full (Bleacher Nation, HoopsHype, Jun 30). Spotrac's Chicago cap page carries $1,075,459 of dead money for him — half the salary, the partial guarantee the trade from Indiana left. The scraped sheet had no 2026-27 year for him at all, so a non-guaranteed one was added to his row for the waive to act on; his Jul 6 Milwaukee two-way is a separate, salary-less row."
+    },
+    {
+      "player": "Chet Holmgren",
+      "pos": "C",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Oklahoma City Thunder (OKC) counts $41.24025 million against the cap for 2026-27",
+      "why": "His rookie-scale maximum extension starts at 25% of the cap. The scraped sheet estimated $41,500,000 against a projected cap; the 2026-27 cap came in at $164,961,000 on Jun 30, so the figure is $41,240,250 — Spotrac's Oklahoma City page, to the dollar."
+    },
+    {
+      "player": "Jalen Williams",
+      "pos": "SF",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Oklahoma City Thunder (OKC) counts $41.24025 million against the cap for 2026-27",
+      "why": "Same as Holmgren's: a 25%-of-cap rookie maximum, $41,240,250 on the official $164,961,000 cap, where the scraped sheet still carried a $41,500,000 projection."
+    },
+    {
+      "player": "Paolo Banchero",
+      "pos": "PF",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Orlando Magic (ORL) counts $41.24025 million against the cap for 2026-27",
+      "why": "A 25%-of-cap rookie maximum: $41,240,250 on the official $164,961,000 cap (Spotrac's Orlando page), not the sheet's $41,500,000 projection."
+    },
+    {
+      "player": "Bam Adebayo",
+      "pos": "C",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Miami Heat (MIA) counts $49.4883 million against the cap for 2026-27",
+      "why": "His extension's first season is 30% of the cap: $49,488,300 on the official $164,961,000 (Spotrac's Miami page), not the sheet's $49,800,000 projection."
+    },
+    {
+      "player": "Joel Embiid",
+      "pos": "C",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Philadelphia 76ers (PHI) counts $57.985752 million against the cap for 2026-27",
+      "why": "The first season of his Sep 2024 extension is $57,985,752 (SalarySwish's year-by-year and Spotrac's Philadelphia page agree; $62,624,612 and a $67,263,473 player option follow). The scraped sheet carried a $58,100,000 estimate."
+    },
+    {
+      "player": "Luguentz Dort",
+      "pos": "SG",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Atlanta Hawks (ATL) counts $17.722222 million against the cap for 2026-27",
+      "why": "Spotrac's Atlanta page has a $17,722,222 base with $1,000,000 in unlikely incentives; the scraped sheet's $18,222,222 is the base plus half of them, which is no cap figure at all. Unlikely money rides on the row as excludedPerformanceBonus for the apron."
+    },
+    {
+      "player": "Onyeka Okongwu",
+      "pos": "C",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Atlanta Hawks (ATL) counts $16.1 million against the cap for 2026-27",
+      "why": "$16,100,000 on Spotrac's Atlanta page; the scraped sheet's $16,120,000 is a rounding of it."
+    },
+    {
+      "player": "Olivier-Maxence Prosper",
+      "pos": "SF",
+      "date": "Aug 28, 2025",
+      "type": "Release",
+      "detail": "Waived by Dallas (DAL) - leaves behind $1.002360 million in dead cap",
+      "why": "Dallas waived him in late August 2025 to re-sign Dante Exum (SI, NBA.com); his guaranteed $1,002,360 for 2026-27 stays on the Mavericks' books, and Spotrac's Dallas cap page carries it as dead money. The scraped sheet still listed him as a live Maverick at exactly that figure. He signed a Memphis two-way in September 2025, a multi-year deal in March 2026, and Memphis exercised his 2026-27 option on Jun 29 — so his live row is a Grizzly's and this row is the charge Dallas keeps."
+    },
+    {
+      "player": "Luka Dončić",
+      "pos": "PG",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Los Angeles Lakers (LAL) counts $49.4883 million against the cap for 2026-27",
+      "why": "His extension's first season is 30% of the cap: $49,488,300 on the official $164,961,000 (Spotrac's Lakers page), not the scraped sheet's $49,800,000 projection."
+    },
+    {
+      "player": "De'Aaron Fox",
+      "pos": "PG",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "San Antonio Spurs (SAS) counts $49.4883 million against the cap for 2026-27",
+      "why": "30% of the official $164,961,000 cap is $49,488,300 (Spotrac's San Antonio page); the scraped sheet carried a $49,800,000 projection."
+    },
+    {
+      "player": "Kyle Kuzma",
+      "pos": "PF",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Milwaukee Bucks (MIL) counts $20.490152 million against the cap for 2026-27",
+      "why": "Spotrac's Milwaukee page: $19,431,819 base, $725,000 likely, and a cap hit of $20,490,152 — the base plus the likely bonus plus $333,333 of prorated trade bonus from his February 2025 trade to Milwaukee. The scraped sheet's $20,345,152 is none of those; the cap hit is stated."
+    },
+    {
+      "player": "Myron Gardner",
+      "pos": "SF",
+      "date": "Jun 30, 2026",
+      "type": "Other",
+      "detail": "Miami Heat (MIA) counts $2.584539 million against the cap for 2026-27",
+      "why": "The scraped sheet carries $2,150,917 for 2026-27 — a 2025-26 minimum-scale figure, not a 2026-27 one. Spotrac's Miami cap page has $2,584,539, which is $2,461,463 (a 2025-26 minimum) raised 5%: the second season of a two-year minimum deal signed in 2025, the same figure their page prints for Dru Smith, McGowens, Jamal Cain and Bouyea. Stated so the sheet carries the filed second year."
+    },
+    {
+      "player": "Bogoljub Marković",
+      "pos": "PF",
+      "date": "Jul 01, 2026",
+      "type": "Other",
+      "detail": "Milwaukee Bucks (MIL) counts $1.357763 million against the cap for 2026-27",
+      "why": "The feed's row ('Signed a 4 year $9.26 million contract with Milwaukee (MIL) - includes 2029-30 Team Option') omits the 'via 2nd-round exception' label every other $9.26M rookie deal carries, so the sheet spread it at 5% raises to $2,153,488. It is the same $9,264,648 second-round-exception contract as Bradley's and Diop's — a 2025 second-rounder's first NBA deal — and Spotrac's Milwaukee page has $1,357,763, the 0-YOS minimum, with the money behind it."
     }
   ]
 }

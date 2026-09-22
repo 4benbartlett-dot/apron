@@ -330,8 +330,8 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     it("IND: Oubre's official 2yr/$16.5M partial NT-MLE — booked = consumed, $1.6M under the cap (HR, Jul 1)", () => {
       const oubre = BASE_CONTRACTS.find((c) => c.playerName === "Kelly Oubre Jr.")!;
       expect(oubre.teamId).toBe("IND");
-      expect(currentSalary(oubre)).toBe(8_048_780); // 16.5M/2.05, NOT the $17M headline's 8,292,683
-      expect(feedStateOf("IND").consumed.ntmle).toBe(8_048_780);
+      expect(currentSalary(oubre)).toBe(8_050_000); // 16.5M/2.05, NOT the $17M headline's 8,292,683
+      expect(feedStateOf("IND").consumed.ntmle).toBe(8_050_000);
       // Hoops Rumors printed "just $1.6MM below a first-apron hard cap with 14
       // players under contract" on Jul 1, and our sheet landed exactly
       // $1,600,035 below on 14 — the check that originally proved the audit.
@@ -348,9 +348,15 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       const smith = BASE_CONTRACTS.filter((c) => c.playerName === "Jalen Smith");
       expect(smith).toHaveLength(1);
       expect(smith[0]!.teamId).toBe("CHI"); // Braden Smith's rights trade must not move him
-      const potter = BASE_CONTRACTS.find((c) => c.playerName === "Micah Potter")!;
-      expect(potter.deadMoney).toBe(true);
-      expect(currentSalary(potter)).toBe(0); // non-guaranteed, waived clean
+      // Potter was waived clean on Jul 8 (nothing guaranteed) and CLAIMED off
+      // waivers by Portland on Jul 10 — a claimed contract moves, it is not
+      // dead money. He is a Blazer at his exercised, non-guaranteed option
+      // ($2,801,346, Spotrac's Portland page), and Indiana carries nothing.
+      const potter = BASE_CONTRACTS.filter((c) => c.playerName === "Micah Potter");
+      expect(potter).toHaveLength(1);
+      expect(potter[0]!.deadMoney).toBeFalsy();
+      expect(potter[0]!.teamId).toBe("POR");
+      expect(currentSalary(potter[0]!)).toBe(2_801_346);
       // Nance was held pending from Jul 8 because his deemed minimum charge did
       // not FIT under Indiana's Oubre hard cap — a cap objection, not a doubt
       // about the deal. Indiana's sheet has since fallen far enough that it

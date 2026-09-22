@@ -163,8 +163,10 @@ describe("apron split — holds gate room, never tier (reviewer coupling note)",
     // Sanity: CHI is below the cap with real room. (Was >$15M before the
     // Claxton reconciliation fix put his $23.1M on the right team — theirs —
     // and ~$12.4M until the Jul 9 audit returned Jalen Smith's $9.4M to CHI:
-    // the Braden Smith draft-rights trade had surname-matched him onto IND.)
-    expect(roomNoHolds).toBeGreaterThan(2_000_000);
+    // the Braden Smith draft-rights trade had surname-matched him onto IND;
+    // ~$1.96M since Sep 22, when Claxton's, Zach Collins's and Powell's filed
+    // first years came in $0.7M above the back-solves.)
+    expect(roomNoHolds).toBeGreaterThan(1_500_000);
     const target = BASE_CONTRACTS.find(
       (c) => c.teamId === "SAS" && !c.deadMoney && (c.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0) > 15_000_000,
     )!;

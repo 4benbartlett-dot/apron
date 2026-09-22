@@ -19,6 +19,7 @@ import playerPedigreeRaw from "./player-pedigree-2026.json";
 import playerHistoryRaw from "./player-history.json";
 import recentAccoladesRaw from "./player-recent-accolades.json";
 import extraContractsRaw from "./extra-contracts.json";
+import spotracCapHitsRaw from "./spotrac-cap-hits-2026.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
 import upcomingRaw from "./upcoming-deadlines.json";
@@ -288,6 +289,24 @@ export interface ExtraContract {
 }
 export const EXTRA_CONTRACTS: ExtraContract[] =
   (extraContractsRaw as { players: ExtraContract[] }).players;
+
+/** A player's 2026-27 row on Spotrac's cap table (scrape-external-rosters.mjs).
+ * `cap` is their cap hit (base + likely incentives); `unlikely` is what Art.
+ * VII §2(e)(1)(i) adds back for Apron Team Salary. */
+export interface SpotracCapHit {
+  name: string;
+  team: string;
+  cap: number;
+  base: number;
+  likely: number;
+  unlikely: number;
+  /** A paid trade bonus, prorated onto the cap hit of each remaining season. */
+  tradeBonus?: number;
+  type?: string;
+  nonGuaranteed?: boolean;
+}
+export const SPOTRAC_CAP_HITS_2026: Record<string, SpotracCapHit> =
+  (spotracCapHitsRaw as { byName: Record<string, SpotracCapHit> }).byName;
 /** Waived DURING 2025-26 (before the transactions window) — no FA hold. */
 export const WAIVED_2025_26: string[] = (waivedRaw as { players: { name: string }[] }).players.map((p) => p.name);
 /** Audited roster corrections (Jul 2026). Waived players who are unsigned UFAs,

@@ -1428,7 +1428,7 @@ function TeamColumn({
   // burns through kept holds. Feed state carries how July actually went:
   // room teams lost their MLEs/BAE, and spent exceptions stay spent.
   const power = spendingPower(committed + holds, C, {
-    apronSalary: committed,
+    apronSalary: lg.capSheet(teamId).apronSalary,
     roomTeam: feedStateOf(teamId).roomTeam,
     consumed: consumedFor(lg.moves, teamId),
   });
@@ -1464,11 +1464,14 @@ function TeamColumn({
   // binds every tool — the same clamp the team page and the sign drawer
   // apply, so the chip can't advertise money the drawer would refuse.
   const liveHardCap = lg.hardCapOf(teamId);
+  // Hard caps are tested on apron salary — signed money plus the CBA's
+  // add-backs — which the cap sheet carries.
+  const apronNow = lg.capSheet(teamId).apronSalary;
   const line = (m: { maxSalary: number; hardCap: "first_apron" | "second_apron" | null }) =>
     Math.min(
       m.maxSalary,
-      Number.isFinite(liveHardCap) ? Math.max(0, liveHardCap - committed) : Infinity,
-      m.hardCap === "first_apron" ? Math.max(0, C.firstApron - committed) : m.hardCap === "second_apron" ? Math.max(0, C.secondApron - committed) : Infinity,
+      Number.isFinite(liveHardCap) ? Math.max(0, liveHardCap - apronNow) : Infinity,
+      m.hardCap === "first_apron" ? Math.max(0, C.firstApron - apronNow) : m.hardCap === "second_apron" ? Math.max(0, C.secondApron - apronNow) : Infinity,
     );
 
   return (
@@ -1525,6 +1528,7 @@ function TeamColumn({
             same holds-excluded basis. */}
         <Thermometer
           salary={committed}
+          apronSalary={lg.capSheet(teamId).apronSalary}
           holds={holds}
           ghost={summary && summary.postTradeSalary !== committed ? summary.postTradeSalary : undefined}
           c={C}
@@ -1967,8 +1971,11 @@ function SignEditor({
   const isOwn = isOwnKept(fa, team);
   const base = committed + holds - (isOwn ? fa.hold : 0);
   // Apron status is signed salary ONLY — kept holds consume cap room but never
-  // make a team a tax/apron team (Art. VII §2 excludes Free Agent Amounts).
-  const apronBase = committed;
+  // make a team a tax/apron team (Art. VII §2 excludes Free Agent Amounts) —
+  // plus the CBA's add-backs: unlikely bonuses and the 0/1-YOS minimum, which
+  // the engine's cap sheet carries. Denver's $218.1M sheet is $224.8M against
+  // the aprons, and that is the number a hard cap is tested against.
+  const apronBase = lg.capSheet(team).apronSalary;
   const opts = {
     isOwnFreeAgent: isOwn,
     yearsOfService: fa.yearsOfService,
@@ -2091,7 +2098,7 @@ function SignEditor({
       yearsOfService: fa.yearsOfService,
       priorSalary: fa.lastSalary,
       birdStatus: fa.birdStatus,
-      apronSalary: sendCommitted,
+      apronSalary: lg.capSheet(fa.priorTeam).apronSalary,
       roomTeam: feedStateOf(fa.priorTeam).roomTeam,
       consumed: consumedFor(lg.moves, fa.priorTeam),
     }).maxOffer,

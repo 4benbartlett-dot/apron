@@ -1,4 +1,4 @@
-import { spendingPower, classifyTier } from "@apron/cba-engine";
+import { spendingPower, classifyTier, apronTeamSalary } from "@apron/cba-engine";
 import { TRADE_EXCEPTIONS, DRAFT_PICKS } from "@apron/data";
 import {
   BASE_CONTRACTS,
@@ -11,8 +11,7 @@ import {
   consumedFor,
   tpeLedger,
   freeAgentsOf,
-  holdsByTeam,
-} from "@/lib/league";
+  holdsByTeam, leagueData } from "@/lib/league";
 import { GLOSSARY, type TermKey } from "@/lib/glossary";
 import { fmtM, fmtFull } from "@/lib/format";
 
@@ -505,8 +504,9 @@ export function teamSeo(id: string): TeamSeo {
   // Holds must skip feed-forced renounces (same rule as the live board) —
   // unfiltered holds sank BKN's real cap room and inflated LAL's by ~$78M.
   const holds = fas.reduce((n, f) => n + f.hold, 0);
+  const apron = apronTeamSalary(leagueData(BASE_CONTRACTS), id, C);
   const power = spendingPower(committed + holds, C, {
-    apronSalary: committed,
+    apronSalary: apron,
     roomTeam: feed.roomTeam,
     consumed: consumedFor([], id),
   });
@@ -519,11 +519,11 @@ export function teamSeo(id: string): TeamSeo {
       0,
       Math.min(
         m.maxSalary,
-        Number.isFinite(feed.hardCap) ? feed.hardCap - committed : Infinity,
-        m.hardCap === "first_apron" ? C.firstApron - committed : m.hardCap === "second_apron" ? C.secondApron - committed : Infinity,
+        Number.isFinite(feed.hardCap) ? feed.hardCap - apron : Infinity,
+        m.hardCap === "first_apron" ? C.firstApron - apron : m.hardCap === "second_apron" ? C.secondApron - apron : Infinity,
       ),
     );
-  const tier = classifyTier(committed, C);
+  const tier = classifyTier(apron, C);
   const tpes = (tpeLedger([])[id] ?? []).map((s) => ({ label: s.label, amount: s.amount }));
   const topContracts = BASE_CONTRACTS.filter((c) => c.teamId === id && !c.deadMoney)
     .map((c) => ({ name: c.playerName, salary: currentSalary(c) }))

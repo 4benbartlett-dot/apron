@@ -83,7 +83,7 @@
       "hardCapSource": "Marcus Smart Taxpayer MLE (full)"
     },
     "IND": {
-      "consumedNtmle": 8048780,
+      "consumedNtmle": 8050000,
       "inWorldHardCap": "first_apron",
       "confidence": "high",
       "rationale": "Kelly Oubre Jr. 2yr/$16.5M OFFICIAL (Spotrac; y1 = 8,048,780 with the standard 5% raise — the “$17M” headline was rounded; prior PHI) — outside deal; above TP-MLE, not within ±$60k of Room MLE ($9,366,000), fits under NT-MLE ⇒ partial NT-MLE ⇒ hard-capped at first apron. Hoops Rumors (Jul 1) confirms both the mechanism (“a portion of their non-taxpayer mid-level exception”) and the cap state (“just $1.6MM below a first-apron hard cap with 14 players under contract” — our reconciled sheet shows the same 14 players $1.60M below). Jul 8: Micah Potter’s non-guaranteed $2.8M was waived to ZERO dead money (Hoops Rumors), and Larry Nance Jr.’s agreed vet-min is held as PENDING — the ~$2.45M charge would sit ~$0.85M over this very hard cap on our sheet and his guarantee structure is unresolved (see roster-corrections-2026.json pendingSignings).",

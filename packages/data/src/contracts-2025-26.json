@@ -3006,6 +3006,11 @@
           "leagueYear": "2025-26",
           "salary": 1272870,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2026-27",
+          "salary": 2150917,
+          "guarantee": "partial"
         }
       ]
     },
@@ -4377,22 +4382,22 @@
         },
         {
           "leagueYear": "2027-28",
-          "salary": 13500000,
+          "salary": 13392857,
           "guarantee": "full"
         },
         {
           "leagueYear": "2028-29",
-          "salary": 14500000,
+          "salary": 14464286,
           "guarantee": "full"
         },
         {
           "leagueYear": "2029-30",
-          "salary": 15500000,
+          "salary": 15535714,
           "guarantee": "full"
         },
         {
           "leagueYear": "2030-31",
-          "salary": 16500000,
+          "salary": 16607143,
           "guarantee": "player_option"
         }
       ],
@@ -5173,20 +5178,27 @@
         },
         {
           "leagueYear": "2026-27",
-          "salary": 33658037,
-          "guarantee": "full"
+          "salary": 31978037,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 1680000,
+          "unlikelyBonus": 1680000
         },
         {
           "leagueYear": "2027-28",
-          "salary": 36350680,
-          "guarantee": "full"
+          "salary": 34536280,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 1814400,
+          "unlikelyBonus": 1814400
         },
         {
           "leagueYear": "2028-29",
-          "salary": 39043323,
-          "guarantee": "full"
+          "salary": 37094523,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 1948800,
+          "unlikelyBonus": 1948800
         }
-      ]
+      ],
+      "tradeKickerPct": 0.03
     },
     {
       "playerId": "johnsca02",
@@ -6567,36 +6579,36 @@
         },
         {
           "leagueYear": "2027-28",
-          "salary": 28703704,
+          "salary": 28700000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2028-29",
-          "salary": 29851852,
+          "salary": 29848000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2029-30",
-          "salary": 31000000,
+          "salary": 30996000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2030-31",
-          "salary": 32148148,
+          "salary": 32144000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2031-32",
-          "salary": 33296296,
+          "salary": 33292000,
           "guarantee": "full"
         }
       ],
       "poisonPillExtensionSalaries": [
-        28703704,
-        29851852,
-        31000000,
-        32148148,
-        33296296
+        28700000,
+        29848000,
+        30996000,
+        32144000,
+        33292000
       ]
     },
     {
@@ -9419,7 +9431,7 @@
         },
         {
           "leagueYear": "2027-28",
-          "salary": 20108696,
+          "salary": 20100000,
           "guarantee": "full"
         },
         {
@@ -9429,7 +9441,7 @@
         },
         {
           "leagueYear": "2029-30",
-          "salary": 16891304,
+          "salary": 16900000,
           "guarantee": "full"
         }
       ],

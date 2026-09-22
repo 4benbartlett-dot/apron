@@ -55,7 +55,7 @@ export default async function AdminTeam({ params }: { params: Promise<{ id: stri
   const dead = deadMoneyOf(BASE_CONTRACTS, id);
   const twoWays = BASE_CONTRACTS.filter((c) => c.teamId === id && (c.twoWay || c.signedUsing === "Two-Way") && currentSalary(c) === 0);
   const consumed = consumedFor([], id);
-  const power = spendingPower(sheet.salary + holds, C, { apronSalary: sheet.salary, roomTeam: feed.roomTeam, consumed });
+  const power = spendingPower(sheet.salary + holds, C, { apronSalary: sheet.apronSalary, roomTeam: feed.roomTeam, consumed });
   const tpes = tpeLedger([])[id] ?? [];
   const rights = PICK_RIGHTS[id] ?? { ownFirstObligations: [], holdings: [] };
   const forfeits = forfeituresOf(id);
@@ -86,7 +86,7 @@ export default async function AdminTeam({ params }: { params: Promise<{ id: stri
       </div>
 
       <div className="panel p-4">
-        <Thermometer salary={sheet.salary} c={C} holds={holds} />
+        <Thermometer salary={sheet.salary} apronSalary={sheet.apronSalary} c={C} holds={holds} />
         <div className="mt-3 grid grid-cols-2 gap-3 text-[12px] sm:grid-cols-4">
           <div>
             <div className="label !text-[10px]">Hard cap</div>
