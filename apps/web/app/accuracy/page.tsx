@@ -40,14 +40,14 @@ const APPROXIMATE = [
   "Some traded-player-exception details are simplified: one exception per team per trade, whole players only.",
   "Any use of the non-taxpayer mid-level hard-caps the team at the first apron here. The real rule is softer in one narrow case: a use within the taxpayer MLE's size and 2-year length can later be re-characterized as the taxpayer MLE (Art. VII §6(f)(5)), trading the first-apron cap for a second-apron one.",
   "A matched offer sheet freezes the player from trades outright for a year here; the real rule is no trade without the player's consent — and never to the team that made the offer.",
-  "A few fine adjustments to a team's apron salary need per-player bonus data that public feeds don't carry. When it isn't public, those small adjustments are left out rather than guessed.",
+  "Apron salary is built the way the CBA builds it: signed salary, plus unlikely bonuses, plus the minimum add-back for a 0- or 1-year free agent signed for less than the two-year minimum. Those inputs come from Spotrac's cap tables, and every team's apron figure is reconciled against Spotrac's, row by row, with the few remaining dollars named on the check.",
   "Which apron tier a team sits in is measured on salary actually signed. Cap holds for free agents you haven't re-signed or renounced still count against your room to sign and absorb, but they don't move you up an apron tier here. Denver is the live example: after matching Spencer Jones' offer sheet they read as a first-apron team on signed salary, while reporting places them in the second — the difference is Peyton Watson's unrenounced hold, which they're keeping on purpose while they try to bring him back.",
   "Reported deals are public as a term and a total, so the first-year salary is back-solved from the raise the deal is entitled to — 8% re-signing with your own team on Bird or Early Bird rights, 5% otherwise, including matched offer sheets and anything paid with an exception. That lands the big ones exactly (Austin Reaves' 4-year max back-solves to the 25% figure to the dollar), but a deal with unusual year-to-year structure — flat, declining, or front-loaded — is smoothed into standard raises.",
 ];
 
 const NOT_INCLUDED = [
   "Pick-swap outcomes and conditional incoming picks. You can trade swap rights on the board, but a swap never resolves to a final pick slot, and a conditional first you'd acquire isn't counted as Stepien coverage.",
-  "Incentive bonuses. Public contracts don't reliably say which bonuses count as likely or unlikely, so bonus money stays out of the live totals.",
+  "Incentive bonuses come from Spotrac's cap tables, per player: a likely bonus sits in the cap hit, an unlikely one is excluded from salary and added back for the aprons, which is why a team's apron number can run a few million above its cap number. Whether a bonus is likely or unlikely is the league's call each season, and the tables follow the league.",
   "Signing second-round-pick exceptions and two-way contracts — you can't do those from the offseason drawer yet.",
   "Designated “supermax” extensions — you can't build one from the board yet.",
   "Freezing a future first-round pick for a second-apron team at all — the rule is modeled in the rules engine, but the board doesn't apply it to any pick yet, so a frozen first can still be traded here.",

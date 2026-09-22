@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, type Transaction } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -23,6 +23,9 @@ export function normName(name: string): string {
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .toLowerCase()
+    // A Cyrillic е is what "ё" leaves behind once its diaeresis is stripped —
+    // the scraped sheet spells Egor Dёmin with one, and no other source does.
+    .replace(/\u0435/g, "e")
     .replace(/[.'’`-]/g, "")
     .replace(/\b(jr|sr|ii|iii|iv|v)\b/g, "")
     .replace(/\s+/g, " ")
@@ -351,6 +354,34 @@ const CAMP_INVITES = (() => {
   return out;
 })();
 
+/** Players whose NEWEST signing row is a two-way: no cap salary, whatever
+ * Spotrac's signed-FA page prints for the deal ($678,882, half the rookie
+ * minimum, which applySignedFA was booking as team salary — Jalen Wilson,
+ * Amari Williams, Rupert, Love, Watkins). */
+const TWO_WAY_LATEST = (() => {
+  const out = new Set<string>();
+  const decided = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    const k = normName(t.player);
+    if (decided.has(k)) continue;
+    decided.add(k);
+    if (/two-way contract/i.test(t.detail)) out.add(k);
+  }
+  return out;
+})();
+
+/**
+ * Rows whose 2026-27 figure the sheet BACK-SOLVED — from a reported term and
+ * total at an assumed raise shape, from a rounded "$2.41 million" in feed
+ * prose, from an exercised option's rounded amount. These are the rows a filed
+ * figure may replace (applyFiledSalaries); a scraped sheet row or a curated
+ * stated salary is never in here.
+ */
+const BACK_SOLVED = new Set<string>();
+/** Rows a curated manual-moves row states outright — never replaced. */
+const CURATED_STATED = new Set<string>();
+
 /**
  * Apply free-agent signings (Spotrac feed): give signed players their new
  * 2026-27 deal on the right team. This is what removes them from the free-agent
@@ -403,6 +434,9 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
       c.teamId = team;
       c.signedUsing = "Two-Way";
       c.restriction = undefined;
+      // No cap salary on a two-way: Jett Howard's declined-option year and a
+      // stub's placeholder both rode along to the new team as team salary.
+      c.years = c.years.filter((y) => y.leagueYear < YEAR);
       signed.push(`${c.playerName} → ${team} (two-way)`);
       continue;
     }
@@ -479,11 +513,15 @@ function applySignings(contracts: Contract[]): { contracts: Contract[]; signed: 
     if (rows.length === 1)
       rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     c.years = [...c.years.filter((y) => y.leagueYear < YEAR), ...rows];
+    BACK_SOLVED.add(c.playerId);
     // An extension of an expiring deal (signed pre-moratorium) is NOT a free-
     // agent signing — no Dec-15 freeze; only the §8(f) extend-and-trade test.
     c.restriction = /extension/i.test(t.detail)
       ? extensionRestriction(prior, rows[0]!.salary, yrs)
       : FA_RESTRICTION;
+    // A Standard NBA Contract signed as a free agent: what the 0/1-YOS apron
+    // addback (Art. VII §2(d)(1)(i)(F)) keys on.
+    c.signedAsFreeAgent = !/extension/i.test(t.detail);
     // Capture a trade bonus (kicker) if the deal mentions one.
     const kickM = t.detail.match(/([\d.]+)\s*%\s*Trade Bonus/i);
     if (kickM) c.tradeKickerPct = Number(kickM[1]) / 100;
@@ -590,6 +628,10 @@ const PENDING_SIGNING = new Set(PENDING_SIGNINGS.map(normName));
  * $6M and Moussa Cissé's $2.4M both sit far below the line — so this is a guard
  * against the next one, not a fix for a live mis-booking.
  */
+/** Players whose deal the feed says came via the second-round exception. */
+const SECOND_ROUND_EXCEPTION = new Set(
+  TRANSACTIONS.filter((t) => (t.type === "Signing" || t.type === "Re-sign") && /via 2nd-round exception/i.test(t.detail)).map((t) => normName(t.player)),
+);
 const OFFER_SHEET_DEALS = new Set<string>();
 {
   const decided = new Set<string>();
@@ -617,6 +659,7 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     if (PENDING_OFFER_SHEET.has(normName(c.playerName))) return c;
     if (PENDING_SIGNING.has(normName(c.playerName))) return c;
     if (CAMP_INVITES.has(normName(c.playerName))) return c;
+    if (TWO_WAY_LATEST.has(normName(c.playerName))) return c;
     // A vet EXTENSION of a player still under contract adds FUTURE years —
     // replacing YEAR-forward would overwrite his real current salary.
     const hasCurrent = c.years.some((y) => y.leagueYear === YEAR && y.salary > 0);
@@ -624,14 +667,21 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
     const team = stdTeam(s.team);
     if (!VALID_TEAMS.has(team)) return c;
     signed.push(`${c.playerName} → ${team}`);
-    const rows = dealFromAav(
-      s.aav,
-      s.years,
-      raiseFor(c.playerName, c.teamId, team, s.aav, s.years),
-    );
+    // The signed-FA page carries a second-round-exception deal as a plain
+    // term and total; the transactions row says what it is (Marković's
+    // $9.26M was re-spread to $2,153,488 in year one here after the
+    // transactions pass had it right at the minimum).
+    const rows = SECOND_ROUND_EXCEPTION.has(normName(c.playerName))
+      ? secondRoundExceptionYears(s.total, s.years)
+      : dealFromAav(
+          s.aav,
+          s.years,
+          raiseFor(c.playerName, c.teamId, team, s.aav, s.years),
+        );
     if (rows.length === 1)
       rows[0] = { ...rows[0]!, salary: deemedMinSalary(c.playerId, rows[0]!.salary, 1) };
     const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
+    BACK_SOLVED.add(c.playerId);
     return {
       ...cloneContract(c),
       teamId: team,
@@ -642,6 +692,7 @@ function applySignedFA(contracts: Contract[]): { contracts: Contract[]; signed: 
         ? extensionRestriction(prior, rows[0]!.salary, s.years)
         : FA_RESTRICTION,
       tradeKickerPct: FA_OVERRIDES[normName(c.playerName)]?.tradeKickerPct ?? c.tradeKickerPct,
+      signedAsFreeAgent: !EXTENSION_DEALS.has(normName(c.playerName)),
     };
   });
   return { contracts: out, signed };
@@ -664,6 +715,66 @@ function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: st
     };
   });
   return { contracts: out, freed };
+}
+
+/**
+ * Team options the feed says were EXERCISED for 2026-27 — "Detroit (DET)
+ * exercised $2.41 million option for 2026-27". The scraped sheet omits a
+ * non-guaranteed option year for some end-of-bench players (Tolu Smith,
+ * Jamal Cain, Bouyea have no 2026-27 row at all) and still files Prosper
+ * under Dallas, who waived him in August 2025; the exercising team is where
+ * he is, and the option amount is his salary. A row the sheet already carries
+ * on the exercising team is left alone — the sheet's figure is exact, the
+ * feed's is rounded. Rows this creates are back-solved (rounded prose) and a
+ * filed cap hit refines them.
+ */
+const OPTION_EXERCISED = (() => {
+  const out = new Map<string, { team: string; amount: number }>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Option") continue;
+    const m = t.detail.match(/^[A-Za-z .'&-]+?\(([A-Za-z]{2,4})\) exercised \$([\d.]+)\s*million option for 2026-27/i);
+    if (!m) continue;
+    const k = normName(t.player);
+    if (!out.has(k)) out.set(k, { team: stdTeam(m[1]!), amount: Math.round(Number(m[2]) * 1_000_000) });
+  }
+  return out;
+})();
+function applyExercisedOptions(contracts: Contract[]): Contract[] {
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const o = OPTION_EXERCISED.get(normName(c.playerName));
+    if (!o || !VALID_TEAMS.has(o.team)) return c;
+    const cur = c.years.find((y) => y.leagueYear === YEAR);
+    if (cur && c.teamId === o.team) return c;
+    BACK_SOLVED.add(c.playerId);
+    const years = cur
+      ? c.years.map((y) => (y.leagueYear === YEAR ? { ...y, salary: o.amount } : y))
+      : [...c.years, { leagueYear: YEAR, salary: o.amount, guarantee: "non_guaranteed" as const }];
+    return { ...cloneContract(c), teamId: o.team, years };
+  });
+}
+
+/** "Claimed off waivers by Portland (POR)": the claiming team takes the
+ * contract as it stands — Micah Potter's exercised, non-guaranteed $2.8M
+ * option went from Indiana's waiver to Portland's roster on Jul 10, and the
+ * sheet had him as nothing at all. */
+const WAIVER_CLAIMS = (() => {
+  const out = new Map<string, { team: string; date: string }>();
+  for (const t of TRANSACTIONS) {
+    const m = t.detail.match(/Claimed off waivers by [^(]*\(([A-Za-z]{2,4})\)/i);
+    if (!m) continue;
+    const k = normName(t.player);
+    if (!out.has(k)) out.set(k, { team: stdTeam(m[1]!), date: feedIso(t.date) });
+  }
+  return out;
+})();
+function applyWaiverClaims(contracts: Contract[]): Contract[] {
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const w = WAIVER_CLAIMS.get(normName(c.playerName));
+    if (!w || !VALID_TEAMS.has(w.team) || c.teamId === w.team) return c;
+    return { ...cloneContract(c), teamId: w.team, restriction: undefined };
+  });
 }
 
 const RETIRED = new Set(RETIRED_2026.map(normName));
@@ -699,10 +810,25 @@ const LAST_RELEASE = (() => {
 // Sep 16 Exhibit 9 with the Knicks and Whitmore's Sep 18 Denver two-way each
 // exempted a stretched player from his own stretch, and Minnesota and
 // Cleveland lost $2,055,000 and $1,819,437 a season of dead money.
+/**
+ * Does this row claim a waived player's contract or salary? A standard
+ * signing or a trade does; a two-way or a camp invite (Exhibit 9/10) carries
+ * no cap salary and does not. A team option EXERCISED on him does — Prosper
+ * was waived by Dallas in Aug 2025 (his $1,002,360 stays on their books),
+ * signed in Memphis in March, and Memphis exercised his 2026-27 option on Jun
+ * 29, the only 2026 row that says where he is. So does a waiver claim: the
+ * claiming team takes the contract as it stands (Micah Potter, Portland).
+ */
+export function claimsWaivedPlayer(t: Transaction): boolean {
+  if (t.type === "Trade") return true;
+  if (t.type === "Option") return /\) exercised \$[\d.]+\s*million option for 2026-27/i.test(t.detail);
+  if (/Claimed off waivers by/i.test(t.detail)) return true;
+  if (t.type !== "Signing" && t.type !== "Re-sign") return false;
+  return !/two-way contract/i.test(t.detail) && !isCampDeal(t.detail);
+}
 const ACTIVE_LATER = new Set(
   TRANSACTIONS.filter((t) => {
-    if (t.type !== "Signing" && t.type !== "Re-sign" && t.type !== "Trade") return false;
-    if (t.type !== "Trade" && (/two-way contract/i.test(t.detail) || isCampDeal(t.detail))) return false;
+    if (!claimsWaivedPlayer(t)) return false;
     const waived = LAST_RELEASE.get(normName(t.player));
     return waived == null || feedIso(t.date) >= waived;
   }).map((t) => normName(t.player)),
@@ -782,13 +908,21 @@ function applyReleases(contracts: Contract[]): Contract[] {
     const remaining = dead.years.filter((y) => y.leagueYear >= YEAR);
     // Guaranteed total: the curated figure where one exists, else every
     // remaining season as listed (a stretch of a fully guaranteed deal).
-    const guaranteed = terms ? terms.guaranteed : remaining.reduce((s, y) => s + y.salary, 0);
+    // A season the sheet marks non-guaranteed is nothing owed once he is
+    // waived — Banton, Malachi Smith, Davison and Dalen Terry each had a team
+    // option exercised on Jun 29 and were cut inside six weeks; no public
+    // page carries a cent of them. A stated amount (Kam Jones's half) wins.
+    const guaranteed = terms
+      ? terms.guaranteed
+      : remaining.filter((y) => y.guarantee !== "non_guaranteed").reduce((s, y) => s + y.salary, 0);
     if (stretched && guaranteed > 0) {
       dead.years = stretchedYears(guaranteed, remaining.length);
     } else if (terms) {
       dead.years = terms.guaranteed > 0
         ? [{ leagueYear: YEAR, salary: terms.guaranteed, guarantee: "full" as const }]
         : [];
+    } else if (guaranteed !== remaining.reduce((s, y) => s + y.salary, 0)) {
+      dead.years = remaining.filter((y) => y.guarantee !== "non_guaranteed");
     }
     return dead;
   });
@@ -846,8 +980,9 @@ const deduped = dedupe(activeRaw);
 // Options first (a declined option makes a player a FA), then trades, then the
 // offseason's signings restore/re-sign anyone who agreed to a new deal.
 const afterOptions = applyOptions(deduped);
-const afterTrades = applyTrades(afterOptions.contracts);
-const afterSignings = applySignings(afterTrades.contracts);
+const afterTrades = applyTrades(applyExercisedOptions(afterOptions.contracts));
+const afterClaims = applyWaiverClaims(afterTrades.contracts);
+const afterSignings = applySignings(afterClaims);
 // The structured signed-FA feed is authoritative for the newest deals — apply
 // it last so it corrects team/salary from the looser transactions-prose pass.
 const afterSignedFA = applySignedFA(afterSignings.contracts);
@@ -936,6 +1071,7 @@ const rookieContracts = ROOKIES_2026.filter(
 ).map(
   (r) => {
     const deal = ROOKIE_DEALS.get(normName(r.playerName));
+    if (deal && deal.total > 0) BACK_SOLVED.add(r.playerId);
     const dealYears =
       deal && deal.total > 0
         ? deal.secondRound
@@ -1010,7 +1146,7 @@ function deemVetMinimums(contracts: Contract[]): Contract[] {
  * Requires the word "fully": "UTA guaranteed $200k for 2026-27" is a PARTIAL
  * guarantee on a bigger salary, not the salary itself.
  */
-const STATED_SALARY = new Map<string, { amount: number; guaranteed: boolean }>();
+const STATED_SALARY = new Map<string, { amount: number; guaranteed: boolean; curated: boolean }>();
 for (const t of TRANSACTIONS) {
   // Two phrasings. "Fully guaranteed $X … for 2026-27" is the feed's own and
   // says the guarantee along with the figure; "counts $X against the cap for
@@ -1025,7 +1161,9 @@ for (const t of TRANSACTIONS) {
   // and a cap hit is a whole number of dollars.
   const amount = Math.round(Number(m[1]) * (m[2]!.toLowerCase() === "k" ? 1_000 : 1_000_000));
   const k = normName(t.player);
-  if (!STATED_SALARY.has(k)) STATED_SALARY.set(k, { amount, guaranteed: /fully guaranteed/i.test(t.detail) }); // newest row wins
+  // A curated row (manual-moves.json, which carries a `why`) states a figure
+  // with its evidence; a feed row states a rounded one ("$5.6 million").
+  if (!STATED_SALARY.has(k)) STATED_SALARY.set(k, { amount, guaranteed: /fully guaranteed/i.test(t.detail), curated: typeof (t as { why?: string }).why === "string" }); // newest row wins
 }
 function applyStatedSalaries(contracts: Contract[]): Contract[] {
   return contracts.map((c) => {
@@ -1033,7 +1171,17 @@ function applyStatedSalaries(contracts: Contract[]): Contract[] {
     const stated = STATED_SALARY.get(normName(c.playerName));
     if (stated == null) return c;
     const cur = c.years.find((y) => y.leagueYear === YEAR);
-    if (!cur || cur.salary === stated.amount) return c;
+    if (stated.curated) CURATED_STATED.add(c.playerId);
+    else BACK_SOLVED.add(c.playerId);
+    // "Indiana (IND) fully guaranteed $2.58 million salary for 2026-27" on a
+    // row the scraped sheet ends in 2025-26 (Quenton Jackson): a guaranteed
+    // 2026-27 salary IS a 2026-27 season, so the statement creates it.
+    if (!cur)
+      return {
+        ...c,
+        years: [...c.years, { leagueYear: YEAR, salary: stated.amount, guarantee: stated.guaranteed ? ("full" as const) : ("non_guaranteed" as const) }],
+      };
+    if (cur.salary === stated.amount) return c;
     return {
       ...c,
       years: c.years.map((y) =>
@@ -1043,11 +1191,148 @@ function applyStatedSalaries(contracts: Contract[]): Contract[] {
   });
 }
 
+/**
+ * Performance incentives, from Spotrac's cap tables (player-incentives-2026.json).
+ * Basketball-Reference's contract table carries none of them, and they are
+ * what separates Salary from Apron Team Salary: a likely bonus is Salary, an
+ * unlikely one is excluded from Salary (Art. VII §3(d)) and added back for the
+ * aprons (§2(e)(1)(i)). Toronto reads $6.6M higher on the apron than on the
+ * cap for Quickley's, Barrett's and Poeltl's unlikely money alone. The row's
+ * `salary` stays the cap hit; the bonuses ride alongside it for the engine's
+ * apronTeamSalary. Matched by name and team, or by name where unique.
+ */
+/** Spotrac's spelling → the sheet's, where the two disagree on a first name. */
+const SPOTRAC_ALIASES: Record<string, string> = {
+  "nicolas claxton": "nic claxton",
+  "herb jones": "herbert jones",
+  "nahshon hyland": "bones hyland",
+  "mohamed bamba": "mo bamba",
+  "sviatoslav mykhailiuk": "svi mykhailiuk",
+  "cameron christie": "cam christie",
+};
+/** Spotrac's rows for a player, by normalized (sheet) name; team disambiguates. */
+const SPOTRAC_BY_NAME = (() => {
+  const byName = new Map<string, (typeof SPOTRAC_CAP_HITS_2026)[string][]>();
+  for (const v of Object.values(SPOTRAC_CAP_HITS_2026)) {
+    const raw = normName(v.name);
+    const k = SPOTRAC_ALIASES[raw] ?? raw;
+    if (!byName.has(k)) byName.set(k, []);
+    byName.get(k)!.push(v);
+  }
+  return byName;
+})();
+function spotracRowFor(c: Contract) {
+  const cands = SPOTRAC_BY_NAME.get(normName(c.playerName));
+  if (!cands) return undefined;
+  return cands.find((x) => x.team === c.teamId) ?? (cands.length === 1 ? cands[0] : undefined);
+}
+
+function applyIncentives(contracts: Contract[]): Contract[] {
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const v = spotracRowFor(c);
+    if (!v || !c.years.some((y) => y.leagueYear === YEAR && y.salary > 0)) return c;
+    return {
+      ...c,
+      years: c.years.map((y) =>
+        y.leagueYear === YEAR
+          ? {
+              ...y,
+              likelyBonus: v.likely > 0 ? v.likely : y.likelyBonus,
+              unlikelyBonus: v.unlikely > 0 ? v.unlikely : y.unlikelyBonus,
+              excludedPerformanceBonus: v.unlikely > 0 ? v.unlikely : y.excludedPerformanceBonus,
+            }
+          : y,
+      ),
+    };
+  });
+}
+
+/** What applyFiledSalaries replaced, for the tests and the commit log. */
+export const ADOPTED_FILINGS: { player: string; team: string; from: number; to: number }[] = [];
+
+/**
+ * A FILED first-year figure beats a back-solved one. The feed reports a deal
+ * as a term and a total, and the sheet lays that out at an assumed raise
+ * shape; Spotrac's cap table carries the filed structure. Coby White's
+ * 3yr/$74M is $26,811,593 this season and DESCENDS; Trae Young's 4yr/$212.8M
+ * starts at the $49,488,300 maximum; Jusuf Nurkić's is flat. Each read
+ * $0.7M–$4M off at 5% or 8% raises. So where a row is one the sheet
+ * back-solved (BACK_SOLVED), Spotrac lists the same player on the same team,
+ * and the two figures are within 25% of each other — the same deal, shaped
+ * differently — the filed cap hit is booked and the later seasons are scaled
+ * so the reported total still holds. A curated stated salary is never
+ * replaced, nor is a deemed one-year veteran minimum (Art. VII §3(f), which
+ * Spotrac applies to most and not all). Every replacement is listed in
+ * ADOPTED_FILINGS.
+ */
+function applyFiledSalaries(contracts: Contract[]): Contract[] {
+  const vetMinScale = new Set(Object.values(C.minimumSalaries));
+  return contracts.map((c) => {
+    if (c.deadMoney || CURATED_STATED.has(c.playerId)) return c;
+    const v = spotracRowFor(c);
+    if (!v || !(v.cap > 0)) return c;
+    const cur = c.years.find((y) => y.leagueYear === YEAR);
+    if (!cur || cur.salary <= 0 || cur.salary === v.cap) return c;
+    // A scraped sheet row is replaced only on an exact identity: the sheet
+    // carries the BASE and omits a likely bonus (Dillon Brooks: $19,992,727
+    // plus $1,000,000 likely is Spotrac's $20,992,727), or it carries base
+    // PLUS the unlikely money Basketball-Reference sometimes folds in (Aaron
+    // Wiggins). Either is arithmetic, not a judgment about whose number wins.
+    const bonus = v.tradeBonus ?? 0;
+    const identity =
+      (v.likely > 0 && cur.salary === v.cap - v.likely) ||
+      (v.unlikely > 0 && cur.salary === v.cap + v.unlikely) ||
+      // A trade bonus paid on this offseason's trade is prorated onto every
+      // remaining season's cap hit (Jaylen Brown's 7%: $657,622 a year on top
+      // of a $57,078,728 base after the Jul 1 trade; Finney-Smith's $861,974
+      // after Jul 6). Spotrac folds it into the cap hit without itemizing it,
+      // so the identity is on the base: the sheet has exactly their base and
+      // their cap hit runs past base plus likely.
+      (bonus > 0 && (cur.salary === v.cap - bonus || cur.salary === v.base + v.likely)) ||
+      (cur.salary === v.base && v.cap > v.base + v.likely);
+    if (!identity) {
+      if (!BACK_SOLVED.has(c.playerId)) return c;
+      if (Math.abs(cur.salary - v.cap) > 0.25 * v.cap) return c;
+      if (cur.salary === C.minimumSalaries[2] && vetMinScale.has(v.cap)) return c;
+    }
+    const fwd = c.years.filter((y) => y.leagueYear >= YEAR);
+    const total = fwd.reduce((s, y) => s + y.salary, 0);
+    const laterSum = total - cur.salary;
+    const factor = laterSum > 0 && total - v.cap > 0 ? (total - v.cap) / laterSum : 1;
+    ADOPTED_FILINGS.push({ player: c.playerName, team: c.teamId, from: cur.salary, to: v.cap });
+    return {
+      ...c,
+      years: c.years.map((y) =>
+        y.leagueYear === YEAR
+          ? { ...y, salary: v.cap }
+          : y.leagueYear > YEAR
+            ? { ...y, salary: Math.round(y.salary * factor) }
+            : y,
+      ),
+    };
+  });
+}
+
+/** Years of service on every row, for the engine's minimum, max and apron
+ * addback rules — a curated stub may state its own (Diallo: 0). */
+function stampYearsOfService(contracts: Contract[]): Contract[] {
+  return contracts.map((c) =>
+    c.yearsOfService != null || EXPERIENCE[c.playerId] == null ? c : { ...c, yearsOfService: EXPERIENCE[c.playerId] },
+  );
+}
+
 /** Base working roster set: trades + signings applied, rookies added. */
-export const BASE_CONTRACTS: Contract[] = deemVetMinimums(
-  applyStatedSalaries(
-    [...afterReleases, ...rookiesAfterTrades.contracts, ...STATED_DEAD_CAP].filter(
-      (c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))),
+export const BASE_CONTRACTS: Contract[] = stampYearsOfService(
+  applyFiledSalaries(
+    applyIncentives(
+      deemVetMinimums(
+        applyStatedSalaries(
+          [...afterReleases, ...rookiesAfterTrades.contracts, ...STATED_DEAD_CAP].filter(
+            (c) => !(c.deadMoney && SUPPRESSED_DEAD.has(normName(c.playerName))),
+          ),
+        ),
+      ),
     ),
   ),
 );

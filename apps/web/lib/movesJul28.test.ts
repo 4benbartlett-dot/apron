@@ -7,7 +7,7 @@ import {
   type Contract,
 } from "@apron/cba-engine";
 import { BASE_CONTRACTS, C, YEAR, leagueData, freeAgentsOf, normName } from "@/lib/league";
-import { getLeagueData, TRANSACTIONS } from "@apron/data";
+import { getLeagueData, TRANSACTIONS, TRADE_EXCEPTIONS } from "@apron/data";
 import { rewind } from "@/lib/replayRewind";
 
 // ---------------------------------------------------------------------------
@@ -155,22 +155,29 @@ describe("Jul 11–28 real trades validate as legal", () => {
     expect(okcPost).toBeLessThanOrEqual(C.secondApron);
   });
 
-  // The Clippers absorbed Broome into CAP ROOM, which means this replay is only
+  // The Clippers absorbed Broome, which means this replay is only
   // reconstructible if the sheet is rewound past everything they signed AFTER
-  // Jul 28. Beal's Aug 13 Non-Bird deal ($6,424,800) alone puts them $4.6M over
-  // the cap, and an over-cap team taking back $2.15M for nothing has no
-  // matching band that works — the move would read illegal for a reason that
-  // did not exist on the day it happened. Rewind the Clippers to Jul 28 and the
-  // room is there again: this is the harness's job, not a rule failure.
+  // Jul 28 (Beal's Aug 13 Non-Bird deal alone would put them over the cap).
+  // Rewound, they sit under the cap — but only by $1.92M, because on Jul 28
+  // Kawhi Leonard's $50.3M was still theirs (the Toronto trade was paused
+  // Jul 9 and completed Sep 14) and Jordan Miller's, Hachimura's and Baba
+  // Miller's filed first years run $1.1M above the back-solves. $1.92M of
+  // room does not absorb $2.15M. What does is the $2,654,880 traded-player
+  // exception from the Kobe Brown trade with Indiana, which Spotrac's Clippers
+  // page still lists with its Feb 5, 2027 expiry: a pre-existing TPE, which a
+  // team under the first apron may use.
   it("Jul 28 — PHI dumps Johni Broome + a 2027 2nd to LAC for cash", () => {
     let pre = unTrade(clone(BASE_CONTRACTS), { [strip("Johni Broome")]: "PHI" });
     pre = rewind(pre, "2026-07-28", ["LAC", "PHI"]);
     expect(committed(pre, "LAC")).toBeLessThan(C.salaryCap);
+    const kobeBrownTpe = TRADE_EXCEPTIONS.find((x) => x.team === "LAC" && x.player === "Kobe Brown")!;
+    expect(kobeBrownTpe.amount).toBe(2_654_880);
     const v = validateTrade(
       leagueData(pre),
       {
         teams: ["PHI", "LAC"],
         players: [{ playerId: find("Johni Broome").playerId, from: "PHI", to: "LAC" }],
+        tpeUse: { LAC: { amount: kobeBrownTpe.amount, preExisting: true } },
       },
       C,
     );

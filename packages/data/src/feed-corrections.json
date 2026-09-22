@@ -66,6 +66,13 @@
       "newDate": "Sep 14, 2026",
       "detail": "Traded to LA (LAC) from Toronto (TOR) with Brandon Ingram, a 2027 1st round pick [TOR right to swap] , a 2031 1st round pick [unprotected] , a 2033 1st round pick [unprotected] , a 2030 2nd round pick and a 2033 2nd round pick for Kawhi Leonard",
       "why": "Same deal as Leonard's row. The trade was agreed on Jun 30, paused by Toronto on Jul 9 while the league investigated Leonard's off-court money, and completed on Sep 14 once the Sep 2 ruling left his contract intact — 76 days after the agreement (Hoops Rumors, Sep 14; Shams Charania; Law Murray of The Athletic: terms unchanged, Leonard waived his 15% trade kicker). Spotrac keeps the row on the agreement date; RealGM's pick ledger dates every pick in the deal 9/14/2026. The sheet dates the trade the day it was executed, so the Sep 14 news day carries it and a rewind to any day before shows the rosters the league recognized."
+    },
+    {
+      "date": "Aug 02, 2026",
+      "player": "Jeremy Sochan",
+      "type": "Signing",
+      "detail": "Signed a 1 year $2.63 million contract with Portland (POR) via Exhibit 9",
+      "why": "Spotrac's row reads 'Signed a 1 year $2.63 million a contract with Portland (POR)' with no camp label, but Hoops Rumors (Aug 2, 'Trail Blazers, Jeremy Sochan Complete One-Year Deal') has the deal non-guaranteed at the veteran minimum, a training-camp spot to compete for alongside Micah Potter and Vit Krejci; Spotrac's own Portland cap page and apron figure leave him off. The label makes the sheet treat it as the camp invite it is."
     }
   ]
 }

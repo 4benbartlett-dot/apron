@@ -5,8 +5,7 @@ import {
   violatesStepien,
   teamSalary as engTeamSalary,
   type Contract,
-  type TeamTradeSummary,
-} from "@apron/cba-engine";
+  type TeamTradeSummary, apronTeamSalary } from "@apron/cba-engine";
 import {
   TRANSACTIONS,
   LEAGUE_RULINGS,
@@ -454,7 +453,8 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
  * named (outgoing players, waives), oldest first.
  */
 function clearedSince(team: string, iso: string, hardCap: number): { moves: string; salary: number; room: number } | null {
-  const salary = engTeamSalary(leagueData(BASE_CONTRACTS), team, YEAR);
+  // A hard cap is tested on apron salary (Art. VII §2(e)).
+  const salary = apronTeamSalary(leagueData(BASE_CONTRACTS), team, C);
   const room = hardCap - salary;
   if (room < 0) return null;
   const parts: string[] = [];
@@ -499,6 +499,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   const pre = rewind(BASE_CONTRACTS, dayBefore(iso), [team]);
   const post = rewind(BASE_CONTRACTS, iso, [team]);
   const before = engTeamSalary(leagueData(pre), team, YEAR);
+  const beforeApron = apronTeamSalary(leagueData(pre), team, C);
   const fa = freeAgentsOf(pre).find((f) => f.playerId === c.playerId);
   const isOwn = fa?.priorTeam === team;
   const v = validateSigning(before, y1, C, fa
@@ -511,6 +512,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
     : {});
 
   const after = engTeamSalary(leagueData(post), team, YEAR);
+  const afterApron = apronTeamSalary(leagueData(post), team, C);
   const fs = feedStateOf(team);
   const checks: DocketCheck[] = [];
   const consequences: MoveConsequence[] = [];
@@ -533,7 +535,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   // The rule implication that actually bites in August: a hard cap already on
   // the books, and whether this deal clears it.
   if (Number.isFinite(fs.hardCap)) {
-    const room = fs.hardCap - after;
+    const room = fs.hardCap - afterApron;
     const cause = hardCapCause(fs.hardCapSource) ? ` from ${hardCapCause(fs.hardCapSource)}` : "";
     const cleared = room < 0 ? clearedSince(team, iso, fs.hardCap) : null;
     if (room >= 0) {
@@ -590,8 +592,9 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
   // apron to the second, which costs them aggregation, cash, every mid-level
   // and the freeze on a future first — none of which is visible in "$223.3M".
   // Only said when the signing is what crossed it.
-  const beforeTier = classifyTier(before, C);
-  const afterTier = classifyTier(after, C);
+  // Read on apron salary, which is what the lines are drawn against.
+  const beforeTier = classifyTier(beforeApron, C);
+  const afterTier = classifyTier(afterApron, C);
   if (afterTier !== beforeTier) {
     const crossed = tierConsequence(team, afterTier);
     if (crossed) consequences.push(crossed);

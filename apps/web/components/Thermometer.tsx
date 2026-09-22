@@ -30,6 +30,10 @@ const TIER_NOTE: Record<ApronTier, string> = {
 
 interface Props {
   salary: number;
+  /** Art. VII §2(e) Apron Team Salary — salary plus unlikely bonuses and the
+   * 0/1-YOS addback — which is what the Tax/1A/2A ticks actually judge. When
+   * omitted the bar judges on `salary` alone. */
+  apronSalary?: number;
   c: LeagueConstants;
   /** Free-agent cap holds, drawn as a hatched extension of the bar. Holds
    * consume cap room (they sit in Team Salary, Art. VII §4(a)(2)) but NOT
@@ -45,6 +49,7 @@ interface Props {
 
 export function Thermometer({
   salary,
+  apronSalary,
   c,
   holds = 0,
   ghost,
@@ -66,7 +71,7 @@ export function Thermometer({
   const maxScale = c.secondApron * 1.07;
   const pctN = (v: number) => Math.max(0, Math.min(100, (v / maxScale) * 100));
   const pct = (v: number) => `${pctN(v)}%`;
-  const tier: ApronTier = classifyTier(salary, c);
+  const tier: ApronTier = classifyTier(apronSalary ?? salary, c);
 
   const ticks: { v: number; label: string }[] = [
     { v: c.salaryCap, label: "Cap" },

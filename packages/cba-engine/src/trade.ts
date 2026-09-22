@@ -4,8 +4,7 @@ import type {
   RuleResult,
   TeamTradeSummary,
   Trade,
-  TradeVerdict,
-} from "./types";
+  TradeVerdict, ApronTier } from "./types";
 import {
   apronTeamSalary,
   classifyTier,
@@ -230,9 +229,16 @@ export function validateTrade(
     // Kept free-agent holds consume below-cap absorption room (they're Team
     // Salary for room purposes) — but never change apron tier.
     const capRoom = c.salaryCap - signedPre - (trade.capHolds?.[teamId] ?? 0);
+    // Whether a team is UNDER THE CAP is a Team Salary question — unlikely
+    // bonuses are excluded from Salary (Art. VII §3(d)) and only added back
+    // for the aprons (§2(e)(1)(i)). Chicago sits $2M under the cap on salary
+    // and $0.2M over it on apron salary; its room is real. The apron bands
+    // (100% matching) are read from apron salary, as the aprons are.
+    const capTier = classifyTier(signedPre, c);
+    const matchTier: ApronTier = capTier === "below_cap" ? "below_cap" : preTier;
 
     const allowance = post > c.firstApron + EPSILON ? 0 : c.tradeMatch.addOn;
-    const match = maxIncomingSalary(outgoingSalary, preTier, capRoom, c, { addOn: allowance });
+    const match = maxIncomingSalary(outgoingSalary, matchTier, capRoom, c, { addOn: allowance });
 
     // Salary absorbed into a traded-player exception needs no matching —
     // it still counts fully toward post-trade (apron) salary.

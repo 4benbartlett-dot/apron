@@ -1,10 +1,9 @@
 {
-  "note": "Corrections from a July 2026 data audit (statuses verified against ESPN / Hoops Rumors / SalarySwish / Spotrac). waivedFreeAgents: players a team waived who are unsigned UFAs — surfaced as signable, with no Bird rights and no team cap hold. suppressDeadCap: dead-money charges that are wrong and should not sit on a team's books. resolvedOfferSheets: RFA offer sheets treated as resolved so the player leaves his old team's hold.",
+  "note": "Corrections from a July 2026 data audit (statuses verified against ESPN / Hoops Rumors / SalarySwish / Spotrac). waivedFreeAgents: players a team waived who are unsigned UFAs — surfaced as signable, with no Bird rights and no team cap hold. suppressDeadCap: dead-money charges that are wrong and should not sit on a team's books. resolvedOfferSheets: RFA offer sheets treated as resolved so the player leaves his old team's hold. Sep 22 2026: Vasilije Micić came OFF suppressDeadCap. The Bucks bought him out in July 2025 and stretched the $2,000,000 he did not give back over three seasons (Hoops Rumors, 'Bucks Officially Stretch Lillard, Buy Out Micic'); the sheet's $666,667 rows for 2025-26 through 2027-28 are that stretch, and Spotrac's Milwaukee page carries the 2026-27 one as dead money. Suppressing it had Milwaukee $666,667 light.",
   "asOf": "2026-08-25",
   "waivedFreeAgents": [],
   "suppressDeadCap": [
-    "Brandon Clarke",
-    "Vasilije Micic"
+    "Brandon Clarke"
   ],
   "resolvedOfferSheets": [
     "Quinten Post"

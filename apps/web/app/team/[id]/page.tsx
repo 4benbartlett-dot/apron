@@ -32,7 +32,10 @@ export default function TeamWarRoom() {
   const consumed = consumedFor(lg.moves, id);
   // Match the offseason board: a team that operated under the cap has its
   // MLEs/BAE dead, and exceptions the real July already spent stay spent.
-  const power = spendingPower(committed + holds, C, { apronSalary: committed, roomTeam: feed.roomTeam, consumed });
+  // Exceptions and the aprons gate on APRON salary — signed money plus the
+  // CBA's add-backs (unlikely bonuses, the 0/1-YOS minimum) — not on the cap
+  // number: Toronto's $201.2M sheet is $208.1M against the first apron.
+  const power = spendingPower(committed + holds, C, { apronSalary: sheet.apronSalary, roomTeam: feed.roomTeam, consumed });
   // The LIVE hard cap: the real-July feed AND anything the user's own staged
   // moves triggered this session (same source the board enforces). A team the
   // user just hard-capped can't cross that line with any further addition.
@@ -44,12 +47,16 @@ export default function TeamWarRoom() {
 
   // Room under the binding hard cap: a cap already triggered (this session or
   // real July) caps EVERY addition; a mechanism whose USE would trigger a cap
-  // caps to that apron. Take the tightest.
+  // caps to that apron. Take the tightest. A hard cap is tested on APRON
+  // salary (Art. VII §2(e)): Toronto's $201.2M sheet has $964K under the first
+  // apron once Quickley's, Barrett's and Poeltl's unlikely money is counted,
+  // not $7.8M.
+  const apron = sheet.apronSalary;
   const line = (n: number, hc: "first_apron" | "second_apron" | null) => {
     const caps = [n];
-    if (Number.isFinite(liveHardCap)) caps.push(Math.max(0, liveHardCap - committed));
-    if (hc === "first_apron") caps.push(Math.max(0, C.firstApron - committed));
-    else if (hc === "second_apron") caps.push(Math.max(0, C.secondApron - committed));
+    if (Number.isFinite(liveHardCap)) caps.push(Math.max(0, liveHardCap - apron));
+    if (hc === "first_apron") caps.push(Math.max(0, C.firstApron - apron));
+    else if (hc === "second_apron") caps.push(Math.max(0, C.secondApron - apron));
     return Math.min(...caps);
   };
 
@@ -141,7 +148,7 @@ export default function TeamWarRoom() {
           ))}
         </ul>
         <div className="mt-3">
-          <Thermometer salary={committed} holds={holds} c={C} />
+          <Thermometer salary={committed} apronSalary={sheet.apronSalary} holds={holds} c={C} />
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
           {power.mechanisms.map((m) => (
