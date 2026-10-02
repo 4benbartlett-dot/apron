@@ -20,6 +20,7 @@ import playerHistoryRaw from "./player-history.json";
 import recentAccoladesRaw from "./player-recent-accolades.json";
 import extraContractsRaw from "./extra-contracts.json";
 import spotracCapHitsRaw from "./spotrac-cap-hits-2026.json";
+import spotracCapHits2027Raw from "./spotrac-cap-hits-2027.json";
 import faOverridesRaw from "./fa-overrides.json";
 import metaRaw from "./meta.json";
 import upcomingRaw from "./upcoming-deadlines.json";
@@ -307,6 +308,10 @@ export interface SpotracCapHit {
 }
 export const SPOTRAC_CAP_HITS_2026: Record<string, SpotracCapHit> =
   (spotracCapHitsRaw as { byName: Record<string, SpotracCapHit> }).byName;
+/** The same, for 2027-28 — the filed second season of a deal the sheet laid
+ * out from a reported total. */
+export const SPOTRAC_CAP_HITS_2027: Record<string, SpotracCapHit> =
+  (spotracCapHits2027Raw as { byName: Record<string, SpotracCapHit> }).byName;
 /** Waived DURING 2025-26 (before the transactions window) — no FA hold. */
 export const WAIVED_2025_26: string[] = (waivedRaw as { players: { name: string }[] }).players.map((p) => p.name);
 /** Audited roster corrections (Jul 2026). Waived players who are unsigned UFAs,

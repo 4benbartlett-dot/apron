@@ -167,8 +167,11 @@ describe("Jul 11–28 real trades validate as legal", () => {
   // page still lists with its Feb 5, 2027 expiry: a pre-existing TPE, which a
   // team under the first apron may use.
   it("Jul 28 — PHI dumps Johni Broome + a 2027 2nd to LAC for cash", () => {
-    let pre = unTrade(clone(BASE_CONTRACTS), { [strip("Johni Broome")]: "PHI" });
-    pre = rewind(pre, "2026-07-28", ["LAC", "PHI"]);
+    // Rewind first, then undo the trade: since Sep 24 Broome is dead money on
+    // the Clippers, and the rewind is what turns that charge back into the
+    // live row the trade can walk to Philadelphia.
+    let pre = rewind(clone(BASE_CONTRACTS), "2026-07-28", ["LAC", "PHI"]);
+    pre = unTrade(pre, { [strip("Johni Broome")]: "PHI" });
     expect(committed(pre, "LAC")).toBeLessThan(C.salaryCap);
     const kobeBrownTpe = TRADE_EXCEPTIONS.find((x) => x.team === "LAC" && x.player === "Kobe Brown")!;
     expect(kobeBrownTpe.amount).toBe(2_654_880);
@@ -176,7 +179,8 @@ describe("Jul 11–28 real trades validate as legal", () => {
       leagueData(pre),
       {
         teams: ["PHI", "LAC"],
-        players: [{ playerId: find("Johni Broome").playerId, from: "PHI", to: "LAC" }],
+        // Waived Sep 24, so his live row exists only on the rewound sheet.
+        players: [{ playerId: pre.find((c) => strip(c.playerName) === strip("Johni Broome") && !c.deadMoney)!.playerId, from: "PHI", to: "LAC" }],
         tpeUse: { LAC: { amount: kobeBrownTpe.amount, preExisting: true } },
       },
       C,

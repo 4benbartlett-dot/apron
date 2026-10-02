@@ -26,6 +26,7 @@
 // input: Spotrac lags filings we have already booked (Harden) and we have found
 // numbers where our sheet matched the beat writers and theirs did not.
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
@@ -36,7 +37,13 @@ const OUT = join(__dirname, "..", "src", "external-roster-check.json");
 // The one thing this scrape feeds INTO the sheet: per-player incentives, which
 // Basketball-Reference's contract table does not carry and which decide Apron
 // Team Salary (Art. VII §2(e)(1)(i) adds unlikely bonuses back).
-const CAP_HITS = join(__dirname, "..", "src", "spotrac-cap-hits-2026.json");
+// --year=2027 reads a FUTURE season's tables instead (Spotrac's year/2027 is
+// 2027-28) and writes only spotrac-cap-hits-2027.json — the filed salaries the
+// sheet uses in place of back-solved later seasons. The 2026 pull is the one
+// that also writes the outside-check file.
+const SEASON_ARG = process.argv.find((a) => a.startsWith("--year="));
+const SEASON = SEASON_ARG ? Number(SEASON_ARG.slice(7)) : 2026;
+const CAP_HITS = join(__dirname, "..", "src", `spotrac-cap-hits-${SEASON}.json`);
 
 const SLUGS = {
   ATL: "atlanta-hawks", BOS: "boston-celtics", BKN: "brooklyn-nets", CHA: "charlotte-hornets",
@@ -108,8 +115,11 @@ const num = (s) => {
  * (when listed) share the active columns.
  */
 function parsePage(md) {
-  const out = { active: [], twoWay: [], dead: [], holds: [], summary: {} };
+  const out = { active: [], twoWay: [], dead: [], holds: [], exceptions: [], summary: {} };
   let section = null;
+  // "This team is currently hard-capped at the first apron." — on the apron summary.
+  const hc = md.match(/currently hard-capped at the (first|second) apron/i);
+  out.summary.hardCap = hc ? `${hc[1].toLowerCase()}_apron` : null;
   for (const line of md.split("\n")) {
     if (/^\| Player \(\d+ of 15/.test(line)) { section = "active"; continue; }
     if (/^\| Player \(\d+\) \| Pos \| Age \| Type \| Cap Hit \| Cap Hit PctLeague Cap \| Qualifying Offer/.test(line)) { section = "holds"; continue; }
@@ -127,8 +137,22 @@ function parsePage(md) {
       else if (k === "Cap Hold") out.summary.capHold = v;
       continue;
     }
+    // The exceptions table: | Type | Reason | Used On | Expires | Original | Available |
+    // A trade exception's row is "| Trade | Kawhi Leonard trade with TOR |  | 9/14/2027 | $3,168,489 | $3,168,489 |".
+    if (section === "exceptions") {
+      const cells = line.split("|").slice(1, -1).map((c) => c.trim());
+      if (cells.length >= 6 && /\$[\d,]+/.test(cells[4] ?? "")) {
+        const [type, reason, usedOn, expires, original, available] = cells;
+        const [m, d, y] = (expires.match(/(\d+)\/(\d+)\/(\d{4})/) ?? []).slice(1);
+        out.exceptions.push({
+          type, reason, usedOn, expires: y ? `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}` : expires,
+          original: num(original), available: num(available),
+        });
+      }
+      continue;
+    }
     const nm = line.match(/^\| [^|\[]*\[([^\]]+)\]\(https:\/\/www\.spotrac\.com\/nba\/player\/[^)]*\)([^|]*)\|(.*)$/);
-    if (!nm || !section || section === "exceptions") continue;
+    if (!nm || !section) continue;
     const name = nm[1].trim();
     const flag = nm[2].replace(/<br>/g, " ").trim();
     const cells = nm[3].split("|").map((c) => c.trim());
@@ -150,9 +174,10 @@ function parsePage(md) {
 
 const want = process.argv.slice(2).filter((a) => SLUGS[a]);
 const teams = want.length ? want : Object.keys(SLUGS);
+const PAGES_OUT = SEASON === 2026 ? OUT : join(__dirname, "..", "src", `.spotrac-pages-${SEASON}.json`);
 const prior = (() => {
   try {
-    return JSON.parse(readFileSync(OUT, "utf8")).byTeam ?? {};
+    return JSON.parse(readFileSync(PAGES_OUT, "utf8")).byTeam ?? {};
   } catch {
     return {};
   }
@@ -161,7 +186,7 @@ const prior = (() => {
 const byTeam = { ...prior };
 let failed = 0;
 for (const t of teams) {
-  const md = await scrape(`https://www.spotrac.com/nba/${SLUGS[t]}/cap/_/year/2026`);
+  const md = await scrape(`https://www.spotrac.com/nba/${SLUGS[t]}/cap/_/year/${SEASON}`);
   if (!md) {
     console.error(`  ${t}  FETCH FAILED — keeping any prior rows`);
     failed++;
@@ -193,7 +218,7 @@ for (const t of teams) {
 }
 
 writeFileSync(
-  OUT,
+  PAGES_OUT,
   JSON.stringify(
     {
       source: "Spotrac team cap tables (via Firecrawl)",
@@ -206,7 +231,7 @@ writeFileSync(
     2,
   ) + "\n",
 );
-console.log(`\nWrote ${Object.keys(byTeam).length} teams -> ${OUT}${failed ? ` (${failed} failed)` : ""}`);
+console.log(`\nWrote ${Object.keys(byTeam).length} teams -> ${PAGES_OUT}${failed ? ` (${failed} failed)` : ""}`);
 
 // Every active-roster row, keyed by normalized name (the join key league.ts
 // uses), team kept for disambiguation. This file is an INPUT: the sheet reads
@@ -231,7 +256,7 @@ writeFileSync(
       source: "Spotrac team cap tables (via Firecrawl)",
       asOf: new Date().toISOString().slice(0, 10),
       note:
-        "Every 2026-27 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
+        `Every ${SEASON}-${String((SEASON + 1) % 100).padStart(2, "0")} active-roster row on Spotrac's cap tables: ` + "`cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
       byName,
     },
     null,

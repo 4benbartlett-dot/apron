@@ -15,6 +15,8 @@ import {
   hasAcquiredFirst,
   teamPossessive,
   getLeagueData,
+  SPOTRAC_CAP_HITS_2026,
+  transactionIso,
   type Transaction,
   type LeagueRuling,
   type RulingPenalty,
@@ -688,7 +690,11 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
   // total), read them; otherwise lay the total out at 8% raises from the
   // season after the current deal ends.
   const tail = seasons.slice(-n);
-  const booked = tail.length === n && Math.abs(tail.reduce((s, y) => s + y.salary, 0) - total) < total * 0.01;
+  // Booked seasons sum to the reported total within rounding — or, where they
+  // are estimates of a percent-of-cap deal (Wembanyama's, Mitchell's), within
+  // the few percent a cap projection misses by.
+  const tol = tail.some((y) => y.estimated) ? 0.03 : 0.01;
+  const booked = tail.length === n && Math.abs(tail.reduce((s, y) => s + y.salary, 0) - total) < total * tol;
   const lastCurrent = booked ? seasons[seasons.length - n - 1] : seasons[seasons.length - 1];
   const startYear = lastCurrent ? Number(lastCurrent.leagueYear.slice(0, 4)) + 1 : Number(YEAR.slice(0, 4)) + 1;
   const start = `${startYear}-${String((startYear + 1) % 100).padStart(2, "0")}`;
@@ -696,9 +702,25 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
   const newSalaries = booked ? tail.map((y) => y.salary) : Array.from({ length: n }, (_, k) => Math.round(y1 * (1 + 0.08 * k)));
   const current = c.years.find((y) => y.leagueYear === YEAR)?.salary ?? 0;
   const yos = experienceOf(c.playerId);
-  // A player still on his rookie scale extends under §7(a)(2); a veteran under §7(a)(1).
-  const rookieScale = /rookie/i.test(row.detail) || (yos <= 4 && current < C.maxSalary["0-6"] * 0.4);
+  // A player still on a Rookie Scale Contract — a FIRST-round pick's —
+  // extends under §7(b); everyone else under §7(a). Spotrac's contract type
+  // says which (RK-1ST vs RK-2ND), and it beats the feed's prose: the feed
+  // called Pelle Larsson's a "Rookie Scale contract extension", but he was the
+  // 44th pick of 2024 on a second-round deal, and Hoops Rumors counts four
+  // rookie-scale extensions this year, not five. No poison pill for him.
+  const spotracType = SPOTRAC_CAP_HITS_2026[normName(row.player)]?.type ?? "";
+  const rookieScale = /^RK-1ST$/i.test(spotracType)
+    ? true
+    : /^RK-2ND$/i.test(spotracType) || /VET|FA|S&T|ROS/i.test(spotracType)
+      ? false
+      : /rookie/i.test(row.detail) || (yos <= 4 && current < C.maxSalary["0-6"] * 0.4);
   const priorFinal = lastCurrent?.salary ?? current;
+  // Seasons the extended contract covers counted from the day it is signed —
+  // what §8(e)(2) and §8(f)(i) count: what is left of the current deal, plus
+  // the new ones. (Counting past seasons made every extension look longer.)
+  const currentLeft = c.years.filter((y) => y.leagueYear >= YEAR && y.salary > 0).length - (booked ? n : 0);
+  const covers = n + Math.max(0, currentLeft);
+  const estimated = booked && tail.some((y) => y.estimated);
 
   const checks: DocketCheck[] = [];
   const consequences: MoveConsequence[] = [];
@@ -727,7 +749,19 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
       text: `Until the extension takes effect, a team acquiring him counts ${fmt(pill.acquiringValue)} for matching — the average of this season and the new years (the poison pill, Art. VII §8(g)) — while ${teamMeta(team).name} send out ${fmt(current)}.`,
     });
   } else {
-    const max = veteranExtensionMax(priorFinal, yos, C);
+    // The ceiling is measured in the season the extension STARTS: its max tier
+    // is a share of THAT season's cap, at the service he will have by then.
+    // Read against this season's cap, Donovan Mitchell's 35%-of-cap extension
+    // ($61.6M in 2027-28, Spotrac's estimate on a projected $176M cap) looked
+    // $9M over a ceiling built from 2026-27's cap and his ninth-year tier.
+    const yearsAhead = startYear - Number(YEAR.slice(0, 4));
+    const capAtStart = projectedCap(start);
+    const cAtStart = {
+      ...C,
+      salaryCap: capAtStart,
+      maxSalary: { "0-6": Math.round(capAtStart * 0.25), "7-9": Math.round(capAtStart * 0.3), "10+": Math.round(capAtStart * 0.35) },
+    };
+    const max = veteranExtensionMax(priorFinal, yos + yearsAhead, cAtStart);
     const okYears = n <= 4;
     checks.push({
       ok: okYears,
@@ -737,17 +771,67 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
     });
     checks.push({
       ok: y1 <= max + 1,
-      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the extension ceiling of ${fmt(max)} — the greater of 140% of his final current-contract salary (${fmt(priorFinal)}) and 140% of the estimated average, capped at the ${maxSalaryTier(yos, C) === max ? "max" : "player's max"} (Art. VII §7(a)).`,
+      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the extension ceiling of ${fmt(max)} — the greater of 140% of his final current-contract salary (${fmt(priorFinal)}) and 140% of the estimated average, capped at his ${start} maximum on a cap projected at ${fmt(capAtStart)} (Art. VII §7(a)).`,
     });
-    const etLimit = Math.max(priorFinal * 1.2, C.estimatedAverageSalary * 1.2);
-    const frozen = n + seasons.length - (booked ? n : 0) >= 5 || y1 > etLimit + 1;
-    consequences.push({
-      team,
-      severity: frozen ? "restrict" : "note",
-      text: frozen
-        ? `Beyond extend-and-trade limits (over 120% of his final salary, or five seasons in all), so he cannot be traded for six months (Art. VII §8(f)).`
-        : `Inside extend-and-trade limits, so the extension carries no trade freeze (Art. VII §8(f)).`,
-    });
+    // §8(f)(i): an extension is frozen for six months if it covers five
+    // seasons, or if its first year or its raises exceed what an extension
+    // signed to be traded could carry (§8(e)(2) → §7(a)(3)(iii)(B) and
+    // §5(a)(4)): a first year over the greater of 120% of his final Regular
+    // Salary and 120% of the Estimated Average Player Salary, or a raise or
+    // decline of more than 5% of the first year.
+    const regularFinal = priorFinal - (lastCurrent?.likelyBonus ?? 0);
+    const etLimit = Math.max(regularFinal * 1.2, C.estimatedAverageSalary * 1.2);
+    const steps = newSalaries.slice(1).map((v, k) => Math.abs(v - newSalaries[k]!));
+    const raiseOk = steps.every((d) => d <= newSalaries[0]! * 0.05 + 1);
+    const reasons = [
+      covers >= 5 ? `it covers ${covers} seasons from the day it was signed` : null,
+      y1 > etLimit + 1 ? `${fmt(y1)} in year one is over the ${fmt(etLimit)} an extend-and-trade allows` : null,
+      !raiseOk ? `its raises run past 5% of the first year` : null,
+    ].filter(Boolean) as string[];
+    const onlyRaises = reasons.length === 1 && !raiseOk;
+    if (reasons.length && estimated && onlyRaises) {
+      consequences.push({
+        team,
+        severity: "note",
+        text: `The filed raises are not public; the seasons on the sheet are estimates. At raises above 5% of the first year he could not be traded for six months (Art. VII §8(f)(i)); at 5% or less he could.`,
+      });
+    } else {
+      consequences.push({
+        team,
+        severity: reasons.length ? "restrict" : "note",
+        text: reasons.length
+          ? `He cannot be traded for six months: ${list(reasons)} (Art. VII §8(f)(i)).`
+          : `Inside extend-and-trade limits — ${covers} seasons from signing, ${fmt(y1)} in year one, raises within 5% — so the extension carries no trade freeze (Art. VII §8(f)(i)).`,
+      });
+    }
+
+    // §8(f)(i), second sentence: a team that acquired the player by trade in
+    // the last six months may extend him only inside those same limits. Kawhi
+    // Leonard was a Raptor for eight days when he extended — two new seasons,
+    // a 5% raise, $56.1M against a $60.4M ceiling — which is why it could
+    // happen at all.
+    const acquired = TRANSACTIONS.filter(
+      (t) =>
+        t.type === "Trade" &&
+        normName(t.player) === normName(row.player) &&
+        new RegExp(`^Traded to [^(]*\\(${team}\\)`).test(t.detail) &&
+        transactionIso(t.date) <= iso,
+    )
+      .map((t) => transactionIso(t.date))
+      .sort()
+      .pop();
+    if (acquired) {
+      const [y, m, d] = acquired.split("-").map(Number);
+      const until = new Date(Date.UTC(y!, m! - 1 + 6, d!)).toISOString().slice(0, 10);
+      if (iso < until) {
+        checks.push({
+          ok: reasons.length === 0,
+          text: reasons.length === 0
+            ? `Acquired by trade on ${label(acquired)}, inside six months of this deal — allowed because it stays within extend-and-trade limits (Art. VII §8(f)(i)).`
+            : `Acquired by trade on ${label(acquired)}, inside six months — a team may not give a player it just traded for an extension beyond extend-and-trade limits, and this one is (Art. VII §8(f)(i)).`,
+        });
+      }
+    }
   }
   const legal = checks.every((k) => k.ok);
   return {

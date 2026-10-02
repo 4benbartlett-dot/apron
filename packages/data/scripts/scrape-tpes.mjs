@@ -21,6 +21,7 @@
 //
 //   node packages/data/scripts/scrape-tpes.mjs
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
@@ -28,7 +29,10 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SRC = join(__dirname, "..", "src");
-const AS_OF = "2026-07-05";
+// The day of the pull: a TPE that expired before it is dropped. This was a
+// hard-coded Jul 5 for three months, so a re-run kept nothing newer than the
+// moratorium and the file sat at its July state.
+const AS_OF = process.env.TPE_AS_OF ?? new Date().toISOString().slice(0, 10);
 
 const SPOTRAC_URL = "https://www.spotrac.com/nba/transactions/trade-exceptions";
 const SWISH_URL = "https://www.salaryswish.com/trade-exception";
@@ -263,6 +267,22 @@ const out = {
     "Per CBA §6(n)(2), a team that used cap room this offseason has renounced its outstanding TPEs. Rows are NOT filtered for that here — the app decides with FEED_TEAM_STATE.",
   rows,
 };
+// Curated corrections (tpe-corrections.json): amounts both trackers have
+// wrong, with the CBA reason. Applied last so a re-pull cannot undo them.
+try {
+  const fixes = JSON.parse(readFileSync(join(SRC, "tpe-corrections.json"), "utf8")).corrections ?? [];
+  for (const f of fixes) {
+    const row = out.rows.find((r) => r.team === f.team && nameKey(r.player) === nameKey(f.player));
+    if (!row) { console.log(`  correction for ${f.team} ${f.player}: no such row (expired or dropped)`); continue; }
+    if (row.amount !== f.amount) {
+      row.corrected = { from: row.amount, why: f.why };
+      row.amount = f.amount;
+      console.log(`  corrected ${f.team} ${f.player}: ${row.corrected.from} -> ${f.amount}`);
+    }
+  }
+} catch (e) {
+  if (e?.code !== "ENOENT") throw e;
+}
 writeFileSync(join(SRC, "trade-exceptions.json"), JSON.stringify(out, null, 2));
 
 // ---- report -------------------------------------------------------------------

@@ -3,6 +3,7 @@
 //
 //   node scripts/scrape-spotrac-extras.mjs
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";

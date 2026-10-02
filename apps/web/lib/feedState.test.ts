@@ -73,14 +73,14 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
 
   it("UTA: NT-MLE legally split across two signings, remainder available", () => {
     const s = feedStateOf("UTA");
-    expect(s.consumed.ntmle).toBe(11_917_659); // Hayes + Okogie
+    expect(s.consumed.ntmle).toBe(12_000_000); // Hayes + Okogie, $6.0M each as filed
     expect(s.hardCap).toBe(C.firstApron);
     const power = spendingPower(171_505_322, C, {
       apronSalary: 171_505_322,
       consumed: consumedFor([], "UTA"),
     });
     const nt = power.mechanisms.find((m) => m.id === "ntmle");
-    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE - 11_917_659); // ~$3.1M left
+    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE - 12_000_000); // $3,044,000 left
   });
 
   it("CHI: room team — MLEs dead even though they sit under the cap", () => {
@@ -94,10 +94,13 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     expect(ids).not.toContain("bae");
   });
 
-  it("DET + WAS carry sign-and-trade hard caps; DEN/CHA stay clean controls", () => {
+  it("DET + WAS carry sign-and-trade hard caps; DEN/TOR stay clean controls", () => {
     expect(feedStateOf("DET").hardCap).toBe(C.firstApron); // Collins S&T (Jul 1)
     expect(feedStateOf("WAS").hardCap).toBe(C.firstApron); // Middleton S&T (Jul 8)
-    for (const t of ["DEN", "CHA"]) {
+    // Charlotte was the second control until Oct 2 2026: it absorbed
+    // Finney-Smith into its NT-MLE in July (AP, Hoops Rumors), which the
+    // feed-state audit had missed.
+    for (const t of ["DEN", "TOR"]) {
       const s = feedStateOf(t);
       expect(s.roomTeam).toBe(false);
       expect(s.hardCap).toBe(Infinity);
@@ -106,12 +109,12 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     }
   });
 
-  it("ATL: Landale took the NT-MLE (not Bird) — $14M consumed, first-apron cap", () => {
+  it("ATL: Landale took the NT-MLE (not Bird) — $14.1M consumed, first-apron cap", () => {
     // Community-audit correction: an earlier pass misread this as an own-FA
     // re-sign. Gozlan: ATL's Non-Bird rights were too low, so Landale's deal
     // used "nearly their entire $15 million mid-level exception."
     const s = feedStateOf("ATL");
-    expect(s.consumed.ntmle).toBe(14_000_000);
+    expect(s.consumed.ntmle).toBe(14_100_000); // his filed salary; reported as "$14M"
     expect(s.hardCap).toBe(C.firstApron); // NT-MLE use hard-caps in-world
     expect(s.hardCapSource).toContain("Landale");
     const power = spendingPower(178_000_000, C, {
@@ -119,7 +122,7 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       consumed: consumedFor([], "ATL"),
     });
     const nt = power.mechanisms.find((m) => m.id === "ntmle");
-    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE - 14_000_000); // ~$1.04M left
+    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE - 14_100_000); // $944,000 left
   });
 
   it("every in-world hard cap names its source move", () => {
@@ -396,6 +399,6 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
       ],
       "UTA",
     );
-    expect(merged.ntmle).toBe(11_917_659 + 1_000_000);
+    expect(merged.ntmle).toBe(12_000_000 + 1_000_000);
   });
 });

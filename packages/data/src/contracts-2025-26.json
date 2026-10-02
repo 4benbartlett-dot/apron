@@ -380,8 +380,29 @@
           "leagueYear": "2026-27",
           "salary": 2667944,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 12500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 13500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 14500000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 15500000,
+          "guarantee": "full"
         }
-      ]
+      ],
+      "restriction": "extended Jul 6, 2026 to cover five seasons (§8(f)(i)): not trade-eligible until Jan 6, 2027"
     },
     {
       "playerId": "walshjo01",
@@ -397,6 +418,21 @@
           "leagueYear": "2026-27",
           "salary": 2406205,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 5000000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 5250000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 5500000,
+          "guarantee": "team_option"
         }
       ]
     },
@@ -1752,6 +1788,24 @@
           "leagueYear": "2026-27",
           "salary": 2296271,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 7407407,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 8000000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 8592593,
+          "guarantee": "full",
+          "estimated": true
         }
       ]
     },
@@ -2127,10 +2181,30 @@
         },
         {
           "leagueYear": "2027-28",
-          "salary": 53817156,
-          "guarantee": "full"
+          "salary": 61600000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 66528000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 71456000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 76384000,
+          "guarantee": "player_option",
+          "estimated": true
         }
-      ]
+      ],
+      "restriction": "extended Jul 8, 2026 to cover five seasons (§8(f)(i)): not trade-eligible until Jan 8, 2027"
     },
     {
       "playerId": "hardeja01",
@@ -4189,6 +4263,16 @@
           "leagueYear": "2026-27",
           "salary": 30169644,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 16510000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 17320356,
+          "guarantee": "player_option"
         }
       ]
     },
@@ -4382,23 +4466,23 @@
         },
         {
           "leagueYear": "2027-28",
-          "salary": 13392857,
+          "salary": 13500000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2028-29",
-          "salary": 14464286,
+          "salary": 14580000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2029-30",
-          "salary": 15535714,
+          "salary": 15660000,
           "guarantee": "full"
         },
         {
           "leagueYear": "2030-31",
-          "salary": 16607143,
-          "guarantee": "player_option"
+          "salary": 16260000,
+          "guarantee": "team_option"
         }
       ],
       "restriction": "extended beyond extend-and-trade limits (not trade-eligible for 6 months)"
@@ -6579,36 +6663,46 @@
         },
         {
           "leagueYear": "2027-28",
-          "salary": 28700000,
-          "guarantee": "full"
+          "salary": 28703704,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 500000,
+          "unlikelyBonus": 500000
         },
         {
           "leagueYear": "2028-29",
-          "salary": 29848000,
-          "guarantee": "full"
+          "salary": 29851852,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 500000,
+          "unlikelyBonus": 500000
         },
         {
           "leagueYear": "2029-30",
-          "salary": 30996000,
-          "guarantee": "full"
+          "salary": 31000000,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 500000,
+          "unlikelyBonus": 500000
         },
         {
           "leagueYear": "2030-31",
-          "salary": 32144000,
-          "guarantee": "full"
+          "salary": 32148148,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 500000,
+          "unlikelyBonus": 500000
         },
         {
           "leagueYear": "2031-32",
-          "salary": 33292000,
-          "guarantee": "full"
+          "salary": 33296296,
+          "guarantee": "full",
+          "excludedPerformanceBonus": 500000,
+          "unlikelyBonus": 500000
         }
       ],
       "poisonPillExtensionSalaries": [
-        28700000,
-        29848000,
-        30996000,
-        32144000,
-        33292000
+        28703704,
+        29851852,
+        31000000,
+        32148148,
+        33296296
       ]
     },
     {
@@ -6780,8 +6874,19 @@
           "leagueYear": "2026-27",
           "salary": 62587158,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 55700000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 60156000,
+          "guarantee": "player_option"
         }
-      ]
+      ],
+      "restriction": "extended Sep 25, 2026 with 8% raises, beyond extend-and-trade limits (§8(f)(i)): not trade-eligible until Mar 25, 2027"
     },
     {
       "playerId": "butleji01",
@@ -7018,6 +7123,16 @@
           "leagueYear": "2026-27",
           "salary": 50300000,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 56100000,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 58900000,
+          "guarantee": "player_option"
         }
       ]
     },
@@ -7621,8 +7736,24 @@
           "leagueYear": "2026-27",
           "salary": 19992727,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 22530864,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 24333333,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 26135802,
+          "guarantee": "full"
         }
-      ]
+      ],
+      "restriction": "extended Aug 8, 2026 with 8% raises, beyond extend-and-trade limits (§8(f)(i)): not trade-eligible until Feb 8, 2027"
     },
     {
       "playerId": "allengr01",
@@ -8355,6 +8486,21 @@
           "leagueYear": "2026-27",
           "salary": 9428571,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 18195600,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 17323584,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 16680816,
+          "guarantee": "full"
         }
       ]
     },
@@ -8492,7 +8638,25 @@
     {
       "playerId": "prospol01",
       "playerName": "Olivier-Maxence Prosper",
+      "teamId": "MEM",
+      "years": [
+        {
+          "leagueYear": "2025-26",
+          "salary": 0,
+          "guarantee": "full"
+        },
+        {
+          "leagueYear": "2026-27",
+          "salary": 2497812,
+          "guarantee": "full"
+        }
+      ]
+    },
+    {
+      "playerId": "prospol01-dal-stretch",
+      "playerName": "Olivier-Maxence Prosper",
       "teamId": "DAL",
+      "deadMoney": true,
       "years": [
         {
           "leagueYear": "2025-26",
@@ -9730,7 +9894,44 @@
           "leagueYear": "2026-27",
           "salary": 16868246,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 44000000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 47520000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 51040000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 54560000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 58080000,
+          "guarantee": "player_option",
+          "estimated": true
         }
+      ],
+      "poisonPillExtensionSalaries": [
+        44000000,
+        47520000,
+        51040000,
+        54560000,
+        58080000
       ]
     },
     {

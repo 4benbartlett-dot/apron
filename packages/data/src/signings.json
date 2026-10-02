@@ -9,6 +9,14 @@
       "aav": 53199923,
       "status": "Official"
     },
+    "jalen duren": {
+      "name": "Jalen Duren",
+      "team": "DET",
+      "years": 5,
+      "total": 200000000,
+      "aav": 40000000,
+      "status": "Agreed"
+    },
     "austin reaves": {
       "name": "Austin Reaves",
       "team": "LAL",
@@ -561,6 +569,14 @@
       "aav": 3876529,
       "status": "Official"
     },
+    "dwight powell": {
+      "name": "Dwight Powell",
+      "team": "DAL",
+      "years": 1,
+      "total": 3876529,
+      "aav": 3876529,
+      "status": "Official"
+    },
     "nikola vucevic": {
       "name": "Nikola Vucevic",
       "team": "ORL",
@@ -591,6 +607,14 @@
       "years": 1,
       "total": 3524115,
       "aav": 3524115,
+      "status": "Official"
+    },
+    "tony bradley": {
+      "name": "Tony Bradley",
+      "team": "NYK",
+      "years": 1,
+      "total": 3506659,
+      "aav": 3506659,
       "status": "Official"
     },
     "jevon carter": {
@@ -713,6 +737,14 @@
       "aav": 2625627,
       "status": "Official"
     },
+    "blake wesley": {
+      "name": "Blake Wesley",
+      "team": "LAC",
+      "years": 1,
+      "total": 2625627,
+      "aav": 2625627,
+      "status": "Official"
+    },
     "brandon williams": {
       "name": "Brandon Williams",
       "team": "GSW",
@@ -769,6 +801,14 @@
       "aav": 2537526,
       "status": "Official"
     },
+    "trevor keels": {
+      "name": "Trevor Keels",
+      "team": "WAS",
+      "years": 1,
+      "total": 2449421,
+      "aav": 2449421,
+      "status": "Official"
+    },
     "dillon jones": {
       "name": "Dillon Jones",
       "team": "PHI",
@@ -785,9 +825,25 @@
       "aav": 2449421,
       "status": "Official"
     },
+    "drew timme": {
+      "name": "Drew Timme",
+      "team": "MIN",
+      "years": 1,
+      "total": 2449421,
+      "aav": 2449421,
+      "status": "Official"
+    },
     "harrison ingram": {
       "name": "Harrison Ingram",
       "team": "UTA",
+      "years": 1,
+      "total": 2449421,
+      "aav": 2449421,
+      "status": "Official"
+    },
+    "antonio reeves": {
+      "name": "Antonio Reeves",
+      "team": "MIN",
       "years": 1,
       "total": 2449421,
       "aav": 2449421,
@@ -801,9 +857,33 @@
       "aav": 2449421,
       "status": "Official"
     },
+    "hayden gray": {
+      "name": "Hayden Gray",
+      "team": "BOS",
+      "years": 1,
+      "total": 2185116,
+      "aav": 2185116,
+      "status": "Official"
+    },
     "bez mbeng": {
       "name": "Bez Mbeng",
       "team": "CHA",
+      "years": 1,
+      "total": 2185116,
+      "aav": 2185116,
+      "status": "Official"
+    },
+    "norchad omier": {
+      "name": "Norchad Omier",
+      "team": "MIN",
+      "years": 1,
+      "total": 2185116,
+      "aav": 2185116,
+      "status": "Official"
+    },
+    "curtis jones": {
+      "name": "Curtis Jones",
+      "team": "CLE",
       "years": 1,
       "total": 2185116,
       "aav": 2185116,
@@ -836,6 +916,14 @@
     "trey jemison": {
       "name": "Trey Jemison",
       "team": "TOR",
+      "years": 1,
+      "total": 678882,
+      "aav": 678882,
+      "status": "Official"
+    },
+    "kevin mccullar": {
+      "name": "Kevin McCullar Jr.",
+      "team": "NYK",
       "years": 1,
       "total": 678882,
       "aav": 678882,

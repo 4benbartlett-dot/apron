@@ -178,6 +178,24 @@ export function tradeConsequences(
   const out: MoveConsequence[] = [];
   const cappedNew = new Set<string>();
   const name = (t: string) => teamMeta(t).name;
+  // A trade can trigger a hard cap the team already carries a stricter one
+  // of. Charlotte sent cash in the Sep 27 Hield trade — a second-apron cap
+  // (row I) — but has been capped at the FIRST apron since it absorbed
+  // Finney-Smith into its mid-level in July; "now hard-capped at the second
+  // apron" told a reader its ceiling had moved up. Say what the trade
+  // triggers and which cap actually binds.
+  const capped = (team: string, line: number, lineLabel: string, why: string): MoveConsequence => {
+    const fs = feedStateOf(team);
+    if (fs.hardCap < line) {
+      const cause = hardCapCause(fs.hardCapSource);
+      return {
+        team,
+        severity: "note",
+        text: `${name(team)} also trigger a ${lineLabel} hard cap — ${why} — but the first-apron cap they already carry${cause ? ` from ${cause}` : ""} is the one that binds.`,
+      };
+    }
+    return { team, severity: "cap", text: "" };
+  };
   const poss = (t: string) => { const n = teamMeta(t).name; return n.endsWith("s") ? `${n}'` : `${n}'s`; };
   for (const t of teams) {
     const belowAprons = t.preTradeTier !== "first_apron" && t.preTradeTier !== "second_apron";
@@ -209,11 +227,17 @@ export function tradeConsequences(
     const cashCap = checks?.some((c) => c.ok && c.teamId === t.teamId && c.ruleId === "hard_cap_second_apron_cash");
     if ((aggCap || cashCap) && !cappedNew.has(t.teamId)) {
       cappedNew.add(t.teamId);
-      out.push({
-        team: t.teamId,
-        severity: "cap",
-        text: `${name(t.teamId)} are now hard-capped at the second apron (${fmtM(C.secondApron)}) for the season — they ${aggCap ? "aggregated salaries to match one incoming player (Art. VII §2(e), row H)" : "sent cash in the trade (row I)"}.`,
-      });
+      const why = aggCap ? "they aggregated salaries to match one incoming player (Art. VII §2(e), row H)" : "they sent cash in the trade (row I)";
+      const already = capped(t.teamId, C.secondApron, "second-apron", why.replace(/^they /, "they "));
+      out.push(
+        already.severity === "note"
+          ? already
+          : {
+              team: t.teamId,
+              severity: "cap",
+              text: `${name(t.teamId)} are now hard-capped at the second apron (${fmtM(C.secondApron)}) for the season — ${why}.`,
+            },
+      );
     }
     const tier = tierConsequence(t.teamId, t.postTradeTier);
     if (tier && !(t.postTradeTier === "first_apron" && cappedNew.has(t.teamId))) out.push(tier);

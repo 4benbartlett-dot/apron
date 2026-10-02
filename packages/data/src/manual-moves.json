@@ -2,6 +2,22 @@
   "note": "Manually curated moves that broke before the scraped feeds caught up. Same shape as transactions.json rows; appended after the feed so a later feed row for the same player supersedes these. Remove entries once the feed carries them.",
   "transactions": [
     {
+      "player": "Rob Dillingham",
+      "pos": "PG",
+      "date": "Sep 28, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA) - leaves behind $6.88932 million in dead cap",
+      "why": "Charlotte acquired him from Chicago for Buddy Hield and cash on Sep 27 and waived him the next day (ESPN). His 2026-27 salary of $6,889,320 is guaranteed — Minnesota exercised the third-year option in Oct 2025 — and stays on Charlotte's books (SalarySwish; Spotrac's Charlotte page). The sheet also carries his $8,763,216 fourth-year option for 2027-28, which nobody can exercise now; without this row the waive charged both seasons. Not stretched."
+    },
+    {
+      "player": "Johni Broome",
+      "pos": "C",
+      "date": "Sep 24, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC) - leaves behind $2.150917 million in dead cap",
+      "why": "Hoops Rumors (Sep 24): only his $2.15MM for 2026-27 was guaranteed; the deal runs through 2028-29 but the later seasons were not. Spotrac's Clippers page carries $2,150,917 dead and lists the 2027-28 guarantee date as Jan 10, 2028. The sheet marks all three seasons guaranteed, so without this row the waive charged $7.4M."
+    },
+    {
       "player": "Alijah Martin",
       "pos": "SG",
       "date": "Jul 03, 2026",
@@ -71,7 +87,7 @@
       "date": "Jul 08, 2026",
       "type": "Other",
       "detail": "Memphis (MEM) fully guaranteed $9 million salary for 2026-27",
-      "why": "His offer sheet is reported as 3yr/$30M, which is $26.1M of base plus $1.35M a year of unlikely incentives; the signings feed carries the $26.1M base. Back-solved with standard 5% RAISES that gives a 2026-27 of $8,285,714, but the deal DESCENDS — Spotrac's cap table has him at $9,000,000, and 9.0 + 8.7 + 8.4 is $26.1M exactly, the same total from the other direction. A descending shape is legal (Art. II §5(b) allows an 8% decline) and it is what was filed, so the year-one figure is stated here for STATED_SALARY rather than inferred. Our own resolvedOfferSheetsNote already said 'Y1 $9M guaranteed'; nothing was reading it."
+      "why": "His offer sheet is reported as 3yr/$30M, which is $26.1M of base plus $1.35M a year of unlikely incentives; the signings feed carries the $26.1M base. Back-solved with standard 5% RAISES that gives a 2026-27 of $8,285,714, but the deal steps DOWN after year one — Spotrac's cap tables have him at $9,000,000 for 2026-27 and $8,550,000 for 2027-28 (non-guaranteed, with $1,282,500 of unlikely incentives), and 9.0 + 8.55 + 8.55 is $26.1M exactly. (This note said 9.0 / 8.7 / 8.4 until Oct 2 2026, a guess at the shape that the 2027-28 filing corrected.) A descending shape is legal (Art. II §5(b) allows an 8% decline) and it is what was filed, so the year-one figure is stated here for STATED_SALARY rather than inferred. Our own resolvedOfferSheetsNote already said 'Y1 $9M guaranteed'; nothing was reading it."
     },
     {
       "player": "DeMar DeRozan",
@@ -170,22 +186,6 @@
       "why": "Spotrac's Atlanta page has a $17,722,222 base with $1,000,000 in unlikely incentives; the scraped sheet's $18,222,222 is the base plus half of them, which is no cap figure at all. Unlikely money rides on the row as excludedPerformanceBonus for the apron."
     },
     {
-      "player": "Onyeka Okongwu",
-      "pos": "C",
-      "date": "Jun 30, 2026",
-      "type": "Other",
-      "detail": "Atlanta Hawks (ATL) counts $16.1 million against the cap for 2026-27",
-      "why": "$16,100,000 on Spotrac's Atlanta page; the scraped sheet's $16,120,000 is a rounding of it."
-    },
-    {
-      "player": "Olivier-Maxence Prosper",
-      "pos": "SF",
-      "date": "Aug 28, 2025",
-      "type": "Release",
-      "detail": "Waived by Dallas (DAL) - leaves behind $1.002360 million in dead cap",
-      "why": "Dallas waived him in late August 2025 to re-sign Dante Exum (SI, NBA.com); his guaranteed $1,002,360 for 2026-27 stays on the Mavericks' books, and Spotrac's Dallas cap page carries it as dead money. The scraped sheet still listed him as a live Maverick at exactly that figure. He signed a Memphis two-way in September 2025, a multi-year deal in March 2026, and Memphis exercised his 2026-27 option on Jun 29 — so his live row is a Grizzly's and this row is the charge Dallas keeps."
-    },
-    {
       "player": "Luka Dončić",
       "pos": "PG",
       "date": "Jun 30, 2026",
@@ -208,14 +208,6 @@
       "type": "Other",
       "detail": "Milwaukee Bucks (MIL) counts $20.490152 million against the cap for 2026-27",
       "why": "Spotrac's Milwaukee page: $19,431,819 base, $725,000 likely, and a cap hit of $20,490,152 — the base plus the likely bonus plus $333,333 of prorated trade bonus from his February 2025 trade to Milwaukee. The scraped sheet's $20,345,152 is none of those; the cap hit is stated."
-    },
-    {
-      "player": "Myron Gardner",
-      "pos": "SF",
-      "date": "Jun 30, 2026",
-      "type": "Other",
-      "detail": "Miami Heat (MIA) counts $2.584539 million against the cap for 2026-27",
-      "why": "The scraped sheet carries $2,150,917 for 2026-27 — a 2025-26 minimum-scale figure, not a 2026-27 one. Spotrac's Miami cap page has $2,584,539, which is $2,461,463 (a 2025-26 minimum) raised 5%: the second season of a two-year minimum deal signed in 2025, the same figure their page prints for Dru Smith, McGowens, Jamal Cain and Bouyea. Stated so the sheet carries the filed second year."
     },
     {
       "player": "Bogoljub Marković",

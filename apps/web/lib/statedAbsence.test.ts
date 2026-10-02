@@ -75,6 +75,8 @@ describe("naming a hard cap's cause in English", () => {
   it("expands the acronyms and makes the name possessive", () => {
     expect(hardCapCause("Rui Hachimura NT-MLE")).toBe("Rui Hachimura’s non-taxpayer mid-level");
     expect(hardCapCause("De'Anthony Melton Taxpayer MLE")).toBe("De'Anthony Melton’s taxpayer mid-level");
+    expect(hardCapCause("Precious Achiuwa bi-annual")).toBe("Precious Achiuwa’s bi-annual");
+    expect(hardCapCause("Nicolas Batum BAE")).toBe("Nicolas Batum’s bi-annual");
   });
 
   it("drops the full/partial bookkeeping, which changes nothing for a reader", () => {

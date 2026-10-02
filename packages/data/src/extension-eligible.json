@@ -642,7 +642,7 @@
     {
       "date": "7/6/2027",
       "player": "Dorian Finney-Smith",
-      "team": "CHA",
+      "team": "ATL",
       "pos": "PF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
@@ -986,6 +986,60 @@
       "player": "Joel Embiid",
       "team": "PHI",
       "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2027",
+      "player": "Corey Kispert",
+      "team": "ATL",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2027",
+      "player": "Jalen Johnson",
+      "team": "ATL",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2027",
+      "player": "Aaron Gordon",
+      "team": "DEN",
+      "pos": "PF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2027",
+      "player": "Alperen Sengun",
+      "team": "HOU",
+      "pos": "C",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2027",
+      "player": "Trey Murphy III",
+      "team": "NOP",
+      "pos": "SF",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/1/2027",
+      "player": "Jalen Suggs",
+      "team": "ORL",
+      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

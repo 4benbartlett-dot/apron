@@ -57,5 +57,10 @@ export function hardCapCause(source: string | undefined): string | undefined {
     if (who.includes("+")) return `the ${who} ${kind} mid-level`;
     return `${who}${who.endsWith("s") ? "’" : "’s"} ${kind} mid-level`;
   }
+  const bae = s.match(/^(.*?)\s+(BAE|bi-annual(?: exception)?)$/i);
+  if (bae) {
+    const who = bae[1]!;
+    return `${who}${who.endsWith("s") ? "’" : "’s"} bi-annual`;
+  }
   return s;
 }

@@ -7,6 +7,7 @@
 // player by a normalized name so it can be joined to the Basketball-Reference
 // contract data.
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";

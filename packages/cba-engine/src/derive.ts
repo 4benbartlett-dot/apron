@@ -51,9 +51,12 @@ export function apronSalaryForYear(
   if (!row) return 0;
   let salary = row.salary + (row.excludedPerformanceBonus ?? 0);
   const yos = contract.yearsOfService;
+  // Not lost on a waive: the clause reaches a Free Agent's Contract that "is
+  // terminated" too (§2(d)(1)(i)(F), the parenthetical — pro-rated only when
+  // the termination comes during the Regular Season). Spotrac's Charlotte
+  // apron carries Ryan Nembhard's after his Sep 26 2026 waive.
   const isStandardFreeAgent =
     contract.signedAsFreeAgent &&
-    !contract.deadMoney &&
     !contract.twoWay &&
     contract.signedUsing?.toLowerCase() !== "two-way";
   if (isStandardFreeAgent && yos != null && yos <= 1) {

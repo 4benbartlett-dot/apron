@@ -36,6 +36,11 @@ export interface ContractYear {
    * the cap Salary amount after likely/unlikely treatment. */
   likelyBonus?: number;
   unlikelyBonus?: number;
+  /** The figure is a third-party ESTIMATE, not a filed salary — a deal
+   * written as a percentage of a future cap (Wembanyama's, Mitchell's), or
+   * one whose structure was never reported (Shead's). Counted like any other
+   * season; anything that would turn on its exact shape says so. */
+  estimated?: boolean;
 }
 
 /** A player's re-signing rights with their current team. */

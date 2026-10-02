@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-09-22",
+  "asOf": "2026-10-02",
   "note": "Every 2026-27 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
   "byName": {
     "jalen johnson": {
@@ -50,8 +50,8 @@
     "onyeka okongwu": {
       "name": "Onyeka Okongwu",
       "team": "ATL",
-      "cap": 16100000,
-      "base": 16100000,
+      "cap": 16120000,
+      "base": 16120000,
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,
@@ -67,6 +67,17 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "S&T",
+      "nonGuaranteed": false
+    },
+    "dorian finneysmith": {
+      "name": "Dorian Finney-Smith",
+      "team": "ATL",
+      "cap": 14196974,
+      "base": 13335000,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "FA",
       "nonGuaranteed": false
     },
     "jock landale": {
@@ -89,17 +100,6 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-EXT",
-      "nonGuaranteed": false
-    },
-    "buddy hield": {
-      "name": "Buddy Hield",
-      "team": "ATL",
-      "cap": 9658536,
-      "base": 9658536,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "S&T",
       "nonGuaranteed": false
     },
     "aaron wiggins": {
@@ -156,17 +156,6 @@
       "tradeBonus": 0,
       "type": "RK-2ND",
       "nonGuaranteed": true
-    },
-    "ryan nembhard": {
-      "name": "Ryan Nembhard",
-      "team": "ATL",
-      "cap": 2150917,
-      "base": 2150917,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "ROS",
-      "nonGuaranteed": false
     },
     "henri veesaar": {
       "name": "Henri Veesaar",
@@ -564,17 +553,6 @@
       "type": "S&T",
       "nonGuaranteed": false
     },
-    "dorian finneysmith": {
-      "name": "Dorian Finney-Smith",
-      "team": "CHA",
-      "cap": 14196974,
-      "base": 13335000,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "FA",
-      "nonGuaranteed": false
-    },
     "royce oneale": {
       "name": "Royce O'Neale",
       "team": "CHA",
@@ -751,6 +729,17 @@
       "type": "RK-1ST",
       "nonGuaranteed": false
     },
+    "buddy hield": {
+      "name": "Buddy Hield",
+      "team": "CHI",
+      "cap": 9658536,
+      "base": 9658536,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "S&T",
+      "nonGuaranteed": false
+    },
     "jalen smith": {
       "name": "Jalen Smith",
       "team": "CHI",
@@ -782,17 +771,6 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "FA",
-      "nonGuaranteed": false
-    },
-    "rob dillingham": {
-      "name": "Rob Dillingham",
-      "team": "CHI",
-      "cap": 6889320,
-      "base": 6889320,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
       "nonGuaranteed": false
     },
     "matas buzelis": {
@@ -1147,6 +1125,17 @@
       "type": "RK",
       "nonGuaranteed": false
     },
+    "dwight powell": {
+      "name": "Dwight Powell",
+      "team": "DAL",
+      "cap": 2449421,
+      "base": 3876529,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "FA",
+      "nonGuaranteed": false
+    },
     "moussa cisse": {
       "name": "Moussa Cisse",
       "team": "DAL",
@@ -1309,7 +1298,7 @@
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,
-      "type": "UD",
+      "type": "FA",
       "nonGuaranteed": false
     },
     "cade cunningham": {
@@ -1321,6 +1310,17 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "DRK-EXT",
+      "nonGuaranteed": false
+    },
+    "jalen duren": {
+      "name": "Jalen Duren",
+      "team": "DET",
+      "cap": 34482759,
+      "base": 34482759,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "",
       "nonGuaranteed": false
     },
     "john collins": {
@@ -1435,17 +1435,6 @@
     },
     "taurean prince": {
       "name": "Taurean Prince",
-      "team": "DET",
-      "cap": 3815861,
-      "base": 3815861,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "FA",
-      "nonGuaranteed": false
-    },
-    "gary harris": {
-      "name": "Gary Harris",
       "team": "DET",
       "cap": 3815861,
       "base": 3815861,
@@ -2225,17 +2214,6 @@
       "type": "RK-1ST",
       "nonGuaranteed": false
     },
-    "dangelo russell": {
-      "name": "D'Angelo Russell",
-      "team": "MEM",
-      "cap": 5969250,
-      "base": 5969250,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "FA",
-      "nonGuaranteed": false
-    },
     "kris murray": {
       "name": "Kris Murray",
       "team": "MEM",
@@ -2434,17 +2412,6 @@
       "type": "FA",
       "nonGuaranteed": false
     },
-    "myron gardner": {
-      "name": "Myron Gardner",
-      "team": "MIA",
-      "cap": 2584539,
-      "base": 2584539,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "ROS",
-      "nonGuaranteed": false
-    },
     "simone fontecchio": {
       "name": "Simone Fontecchio",
       "team": "MIA",
@@ -2477,6 +2444,17 @@
       "tradeBonus": 0,
       "type": "RK-2ND",
       "nonGuaranteed": true
+    },
+    "myron gardner": {
+      "name": "Myron Gardner",
+      "team": "MIA",
+      "cap": 2150917,
+      "base": 2150917,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "ROS",
+      "nonGuaranteed": false
     },
     "ryan conwell": {
       "name": "Ryan Conwell",
@@ -2786,17 +2764,6 @@
       "type": "FA",
       "nonGuaranteed": false
     },
-    "nahshon hyland": {
-      "name": "Nah'Shon Hyland",
-      "team": "MIN",
-      "cap": 2845883,
-      "base": 2845883,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "FA",
-      "nonGuaranteed": false
-    },
     "terrence shannon": {
       "name": "Terrence Shannon Jr.",
       "team": "MIN",
@@ -2806,6 +2773,17 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
+      "nonGuaranteed": false
+    },
+    "nahshon hyland": {
+      "name": "Nah'Shon Hyland",
+      "team": "MIN",
+      "cap": 2449421,
+      "base": 2845883,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "FA",
       "nonGuaranteed": false
     },
     "trey lyles": {
@@ -3669,8 +3647,8 @@
     "damian lillard": {
       "name": "Damian Lillard",
       "team": "POR",
-      "cap": 13398000,
-      "base": 13398000,
+      "cap": 13398800,
+      "base": 13398800,
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,
@@ -4853,17 +4831,6 @@
       "tradeBonus": 0,
       "type": "RK-2ND",
       "nonGuaranteed": true
-    },
-    "johni broome": {
-      "name": "Johni Broome",
-      "team": "LAC",
-      "cap": 2150917,
-      "base": 2150917,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-2ND",
-      "nonGuaranteed": false
     },
     "baba miller": {
       "name": "Baba Miller",
