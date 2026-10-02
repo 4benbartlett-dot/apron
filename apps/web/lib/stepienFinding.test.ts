@@ -52,11 +52,11 @@ describe("hardCapDetailFor (session vs real-July provenance)", () => {
   });
 
   it("a session-only cap reports source=session (undoable)", () => {
-    expect(hardCapDetailFor("CHA", C.firstApron)).toEqual({ line: C.firstApron, source: "session" });
+    expect(hardCapDetailFor("TOR", C.firstApron)).toEqual({ line: C.firstApron, source: "session" });
   });
 
   it("uncapped teams return null", () => {
-    expect(hardCapDetailFor("CHA", Infinity)).toBeNull();
+    expect(hardCapDetailFor("TOR", Infinity)).toBeNull();
   });
 
   it("when both bind at the same line, reality wins the label", () => {

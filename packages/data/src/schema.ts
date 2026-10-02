@@ -114,7 +114,7 @@ class Checker {
 
 /* -------------------------------- contracts ------------------------------- */
 
-const CONTRACT_YEAR_KEYS = ["leagueYear", "salary", "guarantee", "excludedPerformanceBonus", "tradeSalary", "likelyBonus", "unlikelyBonus"];
+const CONTRACT_YEAR_KEYS = ["leagueYear", "salary", "guarantee", "excludedPerformanceBonus", "tradeSalary", "likelyBonus", "unlikelyBonus", "estimated"];
 const CONTRACT_KEYS = [
   "playerId", "playerName", "teamId", "years", "tradeKickerPct", "noTradeClause", "birdStatus", "signedUsing",
   "yearsOfService", "signedAsFreeAgent", "twoWay", "minimumSalary", "deadMoney", "restriction", "noAggregate",
@@ -142,6 +142,7 @@ export function validateContractRow(x: unknown, path: string, ctx: SchemaCtx, ex
       c.str(y.guarantee, `${p}.guarantee`, { required: true, oneOf: GUARANTEE_TYPES });
       for (const k of ["excludedPerformanceBonus", "tradeSalary", "likelyBonus", "unlikelyBonus"])
         c.num(y[k], `${p}.${k}`, { int: true, min: 0 });
+      c.bool(y.estimated, `${p}.estimated`);
     });
   }
   c.num(x.tradeKickerPct, `${path}.tradeKickerPct`, { min: 0, max: 0.15 });
@@ -554,6 +555,7 @@ export type SchemaId =
   | "faOverrides"
   | "retired"
   | "spotracCapHits"
+  | "spotracCapHits2027"
   | "meta";
 
 export interface DataSchema {
@@ -577,6 +579,7 @@ export const DATA_SCHEMAS: Record<SchemaId, DataSchema> = {
   faOverrides: { id: "faOverrides", file: "fa-overrides.json", title: "Free-agent overrides", validate: (x) => validateFaOverrides(x) },
   retired: { id: "retired", file: "retired-2026.json", title: "Retirements", validate: (x) => validateRetired(x) },
   spotracCapHits: { id: "spotracCapHits", file: "spotrac-cap-hits-2026.json", title: "Spotrac cap hits", validate: validateSpotracCapHits },
+  spotracCapHits2027: { id: "spotracCapHits2027", file: "spotrac-cap-hits-2027.json", title: "Spotrac cap hits, 2027-28", validate: validateSpotracCapHits },
   meta: { id: "meta", file: "meta.json", title: "Snapshot date", validate: (x) => validateMeta(x) },
 };
 

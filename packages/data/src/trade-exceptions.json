@@ -1,18 +1,8 @@
 {
-  "asOf": "2026-07-05",
+  "asOf": "2026-10-02",
   "source": "Spotrac (spotrac.com/nba/transactions/trade-exceptions) + SalarySwish (salaryswish.com/trade-exception)",
   "availabilityNote": "Per CBA §6(n)(2), a team that used cap room this offseason has renounced its outstanding TPEs. Rows are NOT filtered for that here — the app decides with FEED_TEAM_STATE.",
   "rows": [
-    {
-      "team": "ATL",
-      "player": "Kobe Bufkin",
-      "amount": 4503720,
-      "expires": "2026-09-16",
-      "sources": [
-        "spotrac",
-        "salaryswish"
-      ]
-    },
     {
       "team": "ATL",
       "player": "Vit Krejci",
@@ -25,14 +15,28 @@
     },
     {
       "team": "ATL",
+      "player": "Ryan Nembhard",
+      "amount": 2150917,
+      "expires": "2027-09-22",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "ATL",
       "player": "Luke Kennard",
-      "amount": 1775700,
+      "amount": 1971962,
       "expires": "2027-02-05",
       "original": 11000000,
       "sources": [
         "spotrac",
         "salaryswish"
-      ]
+      ],
+      "corrected": {
+        "from": 1775700,
+        "why": "Atlanta absorbed Wiggins into its $11,000,000 Kennard exception. Spotrac's exception page and its Hawks page leave $1,971,962 (11,000,000 less his $9,028,038 Salary); SalarySwish leaves $1,775,700, subtracting his unlikely bonus too, which §3(d) keeps out of Salary. The scraper had resolved to SalarySwish."
+      }
     },
     {
       "team": "ATL",
@@ -119,6 +123,16 @@
     },
     {
       "team": "CHA",
+      "player": "Buddy Hield",
+      "amount": 9658536,
+      "expires": "2027-09-27",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "CHA",
       "player": "Collin Sexton",
       "amount": 8200962,
       "expires": "2027-02-04",
@@ -129,9 +143,9 @@
     },
     {
       "team": "CHA",
-      "player": "Tyus Jones",
-      "amount": 7000000,
-      "expires": "2027-02-05",
+      "player": "Dorian Finney-Smith",
+      "amount": 4538438,
+      "expires": "2027-09-22",
       "sources": [
         "spotrac",
         "salaryswish"
@@ -146,6 +160,17 @@
         "spotrac",
         "salaryswish"
       ]
+    },
+    {
+      "team": "CHA",
+      "player": "Tyus Jones",
+      "amount": 110680,
+      "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ],
+      "original": 7000000
     },
     {
       "team": "CHI",
@@ -368,6 +393,20 @@
     },
     {
       "team": "LAC",
+      "player": "Kawhi Leonard",
+      "amount": 3168489,
+      "expires": "2027-09-14",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ],
+      "amountMismatch": {
+        "spotrac": 3168489,
+        "salaryswish": 3168490
+      }
+    },
+    {
+      "team": "LAC",
       "player": "Kobe Brown",
       "amount": 2654880,
       "expires": "2027-02-05",
@@ -434,12 +473,17 @@
     {
       "team": "MEM",
       "player": "Ja Morant",
-      "amount": 4314089,
+      "amount": 2163172,
       "expires": "2027-06-29",
-      "singleSource": true,
+      "original": 4314089,
       "sources": [
-        "spotrac"
-      ]
+        "spotrac",
+        "salaryswish"
+      ],
+      "amountMismatch": {
+        "spotrac": 2163172,
+        "salaryswish": 493691
+      }
     },
     {
       "team": "MIL",
@@ -476,6 +520,26 @@
       "player": "Rob Dillingham",
       "amount": 6576120,
       "expires": "2027-02-05",
+      "sources": [
+        "spotrac",
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "MIN",
+      "player": "Josh Green",
+      "amount": 2498412,
+      "expires": "2027-08-29",
+      "singleSource": true,
+      "sources": [
+        "salaryswish"
+      ]
+    },
+    {
+      "team": "NOP",
+      "player": "Jordan Hawkins",
+      "amount": 7021895,
+      "expires": "2027-09-08",
       "sources": [
         "spotrac",
         "salaryswish"
@@ -544,12 +608,16 @@
     {
       "team": "OKC",
       "player": "Aaron Wiggins",
-      "amount": 9224300,
+      "amount": 9028038,
       "expires": "2027-07-06",
       "sources": [
         "spotrac",
         "salaryswish"
-      ]
+      ],
+      "corrected": {
+        "from": 9224300,
+        "why": "Oklahoma City sent Wiggins to Atlanta on Jul 6 for two seconds, creating an exception of his Salary. Both trackers print $9,224,300, which is his base ($8,831,776) plus BOTH bonuses — but Art. VII §3(d) excludes unlikely bonuses from Salary, so the exception is base plus the $196,262 likely bonus: $9,028,038, the cap hit Spotrac's own Thunder and Hawks pages carry."
+      }
     },
     {
       "team": "OKC",

@@ -35,16 +35,21 @@ describe("Jul 7 signings & extensions book correctly", () => {
 
 describe("SAC's Achiuwa NT-MLE (corrected from a Bird misread)", () => {
   it("hard-caps Sacramento at the first apron — the 14th capped team", () => {
+    // Oct 2 2026: the exception was the BI-ANNUAL, not the mid-level. His
+    // filed first year is $5,477,000, the bi-annual to the dollar; the
+    // $5,609,756 that pointed at the mid-level was a back-solve of the
+    // reported total. The hard cap is the same — the bi-annual triggers it.
     const s = feedStateOf("SAC");
-    expect(s.consumed.ntmle).toBe(5_609_756);
+    expect(s.consumed.bae).toBe(C.biAnnualException);
+    expect(s.consumed.ntmle).toBeUndefined();
     expect(s.hardCap).toBe(C.firstApron);
     expect(s.hardCapSource).toContain("Achiuwa");
-    // The NT-MLE now shows its used remainder, not the full exception.
     const power = spendingPower(190_000_000, C, {
       apronSalary: 190_000_000,
       consumed: consumedFor([], "SAC"),
     });
     const nt = power.mechanisms.find((m) => m.id === "ntmle");
-    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE - 5_609_756);
+    expect(nt?.maxSalary).toBe(C.nonTaxpayerMLE);
+    expect(power.mechanisms.find((m) => m.id === "bae")).toBeUndefined();
   });
 });

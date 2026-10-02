@@ -18,6 +18,7 @@
 // provenance behind rosters. A run that parses nothing ABORTS without writing —
 // an upstream markup change must never blank the feed.
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";

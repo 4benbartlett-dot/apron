@@ -16,3 +16,6 @@ marketing/
 
 # atomic-write scratch from the front office (packages/data writer)
 *.tmp
+
+# full page dumps from a future-season cap-table pull (the input file is spotrac-cap-hits-<year>.json)
+packages/data/src/.spotrac-pages-*.json

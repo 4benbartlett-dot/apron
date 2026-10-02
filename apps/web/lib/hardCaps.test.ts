@@ -155,31 +155,29 @@ describe("apron split — holds gate room, never tier (reviewer coupling note)",
   });
 
   it("holds still consume below-cap trade absorption room", () => {
-    // CHI-like below-cap team: room on signed salary alone is big, but kept
-    // holds erase most of it — absorption must shrink accordingly.
+    // A below-cap team: room on signed salary alone is real, but kept holds
+    // erase it — absorption must shrink accordingly. The team is whichever
+    // has the most room today rather than a named one: Chicago held this
+    // spot until Sep 27, when Buddy Hield's $9.7M arrived for Dillingham's
+    // $6.9M and took them over the cap.
     const data = leagueData(BASE_CONTRACTS);
-    const chi = teamSalary(data, "CHI", "2026-27");
-    const roomNoHolds = C.salaryCap - chi;
-    // Sanity: CHI is below the cap with real room. (Was >$15M before the
-    // Claxton reconciliation fix put his $23.1M on the right team — theirs —
-    // and ~$12.4M until the Jul 9 audit returned Jalen Smith's $9.4M to CHI:
-    // the Braden Smith draft-rights trade had surname-matched him onto IND;
-    // ~$1.96M since Sep 22, when Claxton's, Zach Collins's and Powell's filed
-    // first years came in $0.7M above the back-solves.)
-    expect(roomNoHolds).toBeGreaterThan(1_500_000);
+    const room = (t: string) => C.salaryCap - teamSalary(data, t, "2026-27");
+    const team = [...TEAM_IDS].sort((a, b) => room(b) - room(a))[0]!;
+    expect(room(team)).toBeGreaterThan(1_000_000);
+    const partner = team === "SAS" ? "LAL" : "SAS";
     const target = BASE_CONTRACTS.find(
-      (c) => c.teamId === "SAS" && !c.deadMoney && (c.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0) > 15_000_000,
+      (c) => c.teamId === partner && !c.deadMoney && (c.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0) > 15_000_000,
     )!;
     const tr = (holds: number) =>
       validateTrade(
         data,
         {
-          teams: ["CHI", "SAS"],
-          players: [{ playerId: target.playerId, from: "SAS", to: "CHI" }],
-          capHolds: { CHI: holds },
+          teams: [team, partner],
+          players: [{ playerId: target.playerId, from: partner, to: team }],
+          capHolds: { [team]: holds },
         },
         C,
-      ).teams.find((t) => t.teamId === "CHI")!.maxIncomingAllowed;
+      ).teams.find((t) => t.teamId === team)!.maxIncomingAllowed;
     // With enough holds, absorption collapses (only the expanded formula on
     // $0 outgoing remains: $250k tier-1 floor).
     expect(tr(0)).toBeGreaterThan(tr(35_000_000));

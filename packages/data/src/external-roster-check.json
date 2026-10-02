@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-09-22",
+  "asOf": "2026-10-02",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -57,12 +57,12 @@
           "name": "Onyeka Okongwu",
           "pos": "C",
           "type": "RK-EXT",
-          "cap": 16100000,
-          "base": 16100000,
+          "cap": 16120000,
+          "base": 16120000,
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 16100000,
+          "guaranteed": 16120000,
           "nonGuaranteed": false
         },
         {
@@ -75,6 +75,18 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 14403710,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Dorian Finney-Smith",
+          "pos": "PF",
+          "type": "FA",
+          "cap": 14196974,
+          "base": 13335000,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 13335000,
           "nonGuaranteed": false
         },
         {
@@ -99,18 +111,6 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 13975000,
-          "nonGuaranteed": false
-        },
-        {
-          "name": "Buddy Hield",
-          "pos": "SG",
-          "type": "S&T",
-          "cap": 9658536,
-          "base": 9658536,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 9658536,
           "nonGuaranteed": false
         },
         {
@@ -174,18 +174,6 @@
           "nonGuaranteed": true
         },
         {
-          "name": "Ryan Nembhard",
-          "pos": "PG",
-          "type": "ROS",
-          "cap": 2150917,
-          "base": 2150917,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 2150917,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Henri Veesaar",
           "pos": "C",
           "type": "RK-2ND",
@@ -240,14 +228,6 @@
           "rights": "Early Bird"
         },
         {
-          "name": "Tony Bradley",
-          "pos": "C",
-          "type": "ROS",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
           "name": "Dylan Windler",
           "pos": "SF",
           "type": "2W",
@@ -256,12 +236,63 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Jock Landale",
+          "usedOn": "$14,100,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 944000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Trae Young trade with WAS",
+          "usedOn": "",
+          "expires": "2027-01-08",
+          "original": 1357994,
+          "available": 1357993
+        },
+        {
+          "type": "Trade",
+          "reason": "Vit Krejci trade with POR",
+          "usedOn": "",
+          "expires": "2027-02-01",
+          "original": 2349578,
+          "available": 2349578
+        },
+        {
+          "type": "Trade",
+          "reason": "Luke Kennard trade with LAL",
+          "usedOn": "Aaron Wiggins, $9,028,038",
+          "expires": "2027-02-05",
+          "original": 11000000,
+          "available": 1971962
+        },
+        {
+          "type": "Trade",
+          "reason": "Ryan Nembhard trade with CHA",
+          "usedOn": "",
+          "expires": "2027-09-22",
+          "original": 2150917,
+          "available": 2150917
+        }
+      ],
       "summary": {
-        "activeRoster": 191103911,
+        "hardCap": "first_apron",
+        "activeRoster": 193511432,
         "deadMoney": 5158080,
-        "capHold": 33832800,
-        "capTotal": 230094791,
-        "apronTotal": 197458253
+        "capHold": 31383379,
+        "capTotal": 230052891,
+        "apronTotal": 199865774
       }
     },
     "BOS": {
@@ -471,7 +502,66 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Mitchell Robinson",
+          "usedOn": "$15,044,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 0
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Anfernee Simons trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 27678571,
+          "available": 27678571
+        },
+        {
+          "type": "Trade",
+          "reason": "Chris Boucher trade with UTA",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2296274,
+          "available": 2296274
+        },
+        {
+          "type": "Trade",
+          "reason": "Josh Minott trade with BKN",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2378870,
+          "available": 2378870
+        },
+        {
+          "type": "Trade",
+          "reason": "Xavier Tillman Sr trade with CHA",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2546675,
+          "available": 2546675
+        },
+        {
+          "type": "Trade",
+          "reason": "Jaylen Brown trade with PHI",
+          "usedOn": "",
+          "expires": "2027-07-06",
+          "original": 2952348,
+          "available": 2952348
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 198722406,
         "capHold": 9269074,
         "capTotal": 207991480,
@@ -673,7 +763,18 @@
           "rights": "1st Round Pick"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Room",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 9369000,
+          "available": 9369000
+        }
+      ],
       "summary": {
+        "hardCap": null,
         "activeRoster": 160056358,
         "capHold": 3173040,
         "capTotal": 163229398,
@@ -752,18 +853,6 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 14265750,
-          "nonGuaranteed": false
-        },
-        {
-          "name": "Dorian Finney-Smith",
-          "pos": "PF",
-          "type": "FA",
-          "cap": 14196974,
-          "base": 13335000,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 13335000,
           "nonGuaranteed": false
         },
         {
@@ -888,7 +977,18 @@
         }
       ],
       "twoWay": [],
-      "dead": [],
+      "dead": [
+        {
+          "name": "Rob Dillingham",
+          "flag": "",
+          "cap": 6889320
+        },
+        {
+          "name": "Ryan Nembhard",
+          "flag": "",
+          "cap": 2150917
+        }
+      ],
       "holds": [
         {
           "name": "Xavier Tillman",
@@ -897,21 +997,65 @@
           "cap": 2449421,
           "qo": 0,
           "rights": "Bird"
+        }
+      ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Dorian Finney-Smith trade with HOU",
+          "usedOn": "$13,765,987",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 847026
         },
         {
-          "name": "Antonio Reeves",
-          "pos": "SG",
-          "type": "2W",
-          "cap": 2185116,
-          "qo": 0,
-          "rights": "Non-Bird"
+          "type": "Trade",
+          "reason": "Mason Plumlee trade with OKC",
+          "usedOn": "",
+          "expires": "2027-02-04",
+          "original": 2296274,
+          "available": 2296274
+        },
+        {
+          "type": "Trade",
+          "reason": "Collin Sexton trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-04",
+          "original": 8200962,
+          "available": 8200962
+        },
+        {
+          "type": "Trade",
+          "reason": "Tyus Jones trade with DAL",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 7000000,
+          "available": 7000000
+        },
+        {
+          "type": "Trade",
+          "reason": "LaMelo Ball trade with MIN",
+          "usedOn": "",
+          "expires": "2027-07-10",
+          "original": 40770520,
+          "available": 40770520
+        },
+        {
+          "type": "Trade",
+          "reason": "Dorian Finney-Smith trade with ATL",
+          "usedOn": "",
+          "expires": "2027-09-22",
+          "original": 4538438,
+          "available": 4538438
         }
       ],
       "summary": {
-        "activeRoster": 179704708,
-        "capHold": 4634537,
-        "capTotal": 184339245,
-        "apronTotal": 180204708
+        "hardCap": "first_apron",
+        "activeRoster": 165507734,
+        "deadMoney": 9040237,
+        "capHold": 2449421,
+        "capTotal": 176997392,
+        "apronTotal": 175346475
       }
     },
     "CHI": {
@@ -989,6 +1133,18 @@
           "nonGuaranteed": false
         },
         {
+          "name": "Buddy Hield",
+          "pos": "SG",
+          "type": "S&T",
+          "cap": 9658536,
+          "base": 9658536,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 9658536,
+          "nonGuaranteed": false
+        },
+        {
           "name": "Jalen Smith",
           "pos": "PF",
           "type": "FA",
@@ -1022,18 +1178,6 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 8000000,
-          "nonGuaranteed": false
-        },
-        {
-          "name": "Rob Dillingham",
-          "pos": "PG",
-          "type": "RK-1ST",
-          "cap": 6889320,
-          "base": 6889320,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 6889320,
           "nonGuaranteed": false
         },
         {
@@ -1094,11 +1238,22 @@
         }
       ],
       "holds": [],
+      "exceptions": [
+        {
+          "type": "Room",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 9369000,
+          "available": 9369000
+        }
+      ],
       "summary": {
-        "activeRoster": 161925408,
+        "hardCap": "first_apron",
+        "activeRoster": 164694624,
         "deadMoney": 1075459,
-        "capTotal": 163000867,
-        "apronTotal": 165315984
+        "capTotal": 165770083,
+        "apronTotal": 168085200
       }
     },
     "CLE": {
@@ -1287,14 +1442,6 @@
       ],
       "holds": [
         {
-          "name": "James Harden",
-          "pos": "SG",
-          "type": "FA",
-          "cap": 47019232,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
           "name": "Tristan Thompson",
           "pos": "C",
           "type": "FA",
@@ -1351,11 +1498,54 @@
           "rights": "Non-Bird"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "Do not have enough room to use",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 6064000
+        },
+        {
+          "type": "Trade",
+          "reason": "De'Andrew Hunter trade with SAC",
+          "usedOn": "Cam Whitmore, $5,458,310",
+          "expires": "2027-02-01",
+          "original": 6897984,
+          "available": 1439674
+        },
+        {
+          "type": "Trade",
+          "reason": "Darius Garland trade with LAC",
+          "usedOn": "",
+          "expires": "2027-02-04",
+          "original": 263397,
+          "available": 263397
+        },
+        {
+          "type": "Trade",
+          "reason": "Lonzo Ball trade with UTA",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 10000000,
+          "available": 10000000
+        },
+        {
+          "type": "Trade",
+          "reason": "Max Strus trade with LAC",
+          "usedOn": "",
+          "expires": "2027-08-20",
+          "original": 16660836,
+          "available": 16660836
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 206725846,
         "deadMoney": 2244109,
-        "capHold": 64165179,
-        "capTotal": 273135134,
+        "capHold": 17145947,
+        "capTotal": 226115902,
         "apronTotal": 208969955
       }
     },
@@ -1530,6 +1720,18 @@
           "nonGuaranteed": false
         },
         {
+          "name": "Dwight Powell",
+          "pos": "C",
+          "type": "FA",
+          "cap": 2449421,
+          "base": 3876529,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 1000000,
+          "nonGuaranteed": false
+        },
+        {
           "name": "Moussa Cisse",
           "pos": "F",
           "type": "FA",
@@ -1538,7 +1740,7 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 1092558,
+          "guaranteed": 2185116,
           "nonGuaranteed": false
         }
       ],
@@ -1561,14 +1763,6 @@
         }
       ],
       "holds": [
-        {
-          "name": "Dwight Powell",
-          "pos": "C",
-          "type": "FA",
-          "cap": 7600000,
-          "qo": 0,
-          "rights": "Bird"
-        },
         {
           "name": "Nicolo Melli",
           "pos": "PF",
@@ -1618,12 +1812,63 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Tarik Biberovic",
+          "usedOn": "$3,000,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 12044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "Marcus Sasser trade with DET",
+          "usedOn": "$5,198,983",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 278017
+        },
+        {
+          "type": "Trade",
+          "reason": "Anthony Davis trade with WAS",
+          "usedOn": "Zaccharie Risacher, $13,826,040",
+          "expires": "2027-02-05",
+          "original": 20830154,
+          "available": 7004114
+        },
+        {
+          "type": "Trade",
+          "reason": "Dante Exum trade with WAS",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2296274,
+          "available": 0
+        },
+        {
+          "type": "Trade",
+          "reason": "Jaden Hardy trade with WAS",
+          "usedOn": "AJ Johnson, $3,090,480",
+          "expires": "2027-02-05",
+          "original": 6000000,
+          "available": 2909520
+        },
+        {
+          "type": "Trade",
+          "reason": "Ryan Nembard trade with ATL",
+          "usedOn": "",
+          "expires": "2027-07-19",
+          "original": 2150917,
+          "available": 2150917
+        }
+      ],
       "summary": {
-        "activeRoster": 177194562,
+        "hardCap": "first_apron",
+        "activeRoster": 179643983,
         "deadMoney": 10871533,
-        "capHold": 24120857,
-        "capTotal": 212186952,
-        "apronTotal": 189674985
+        "capHold": 16520857,
+        "capTotal": 207036373,
+        "apronTotal": 192124406
       }
     },
     "DEN": {
@@ -1787,7 +2032,7 @@
         {
           "name": "Alpha Diallo",
           "pos": "SF",
-          "type": "UD",
+          "type": "FA",
           "cap": 1357763,
           "base": 1357763,
           "likely": 0,
@@ -1813,14 +2058,6 @@
           "cap": 2449421,
           "qo": 0,
           "rights": "Two-Way"
-        },
-        {
-          "name": "Jalen Pickett",
-          "pos": "PG",
-          "type": "RK-2ND",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Bird"
         },
         {
           "name": "Richard Jefferson",
@@ -1863,14 +2100,6 @@
           "rights": "Bird"
         },
         {
-          "name": "Curtis Jones",
-          "pos": "G",
-          "type": "2W",
-          "cap": 2185116,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
           "name": "Markus Howard",
           "pos": "PG",
           "type": "2W",
@@ -1879,11 +2108,38 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "Do not have enough room to use",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 6064000
+        },
+        {
+          "type": "Trade",
+          "reason": "Hunter Tyson trade with BKN",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2221677,
+          "available": 2221677
+        },
+        {
+          "type": "Trade",
+          "reason": "Payton Watson trade with CLE - unusable if over 2nd Apron",
+          "usedOn": "",
+          "expires": "2027-08-20",
+          "original": 10232558,
+          "available": 10232558
+        }
+      ],
       "summary": {
+        "hardCap": null,
         "activeRoster": 217460512,
         "deadMoney": 666667,
-        "capHold": 21516179,
-        "capTotal": 239643358,
+        "capHold": 16881642,
+        "capTotal": 235008821,
         "apronTotal": 224836337
       }
     },
@@ -1899,6 +2155,18 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 50105628,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jalen Duren",
+          "pos": "C",
+          "type": "",
+          "cap": 34482759,
+          "base": 34482759,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 34482759,
           "nonGuaranteed": false
         },
         {
@@ -2034,18 +2302,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Gary Harris",
-          "pos": "SG",
-          "type": "FA",
-          "cap": 3815861,
-          "base": 3815861,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 3815861,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Tolu Smith III",
           "pos": "F",
           "type": "ROS",
@@ -2071,16 +2327,14 @@
         }
       ],
       "twoWay": [],
-      "dead": [],
-      "holds": [
+      "dead": [
         {
-          "name": "Jalen Duren",
-          "pos": "C",
-          "type": "RK-1ST",
-          "cap": 19449432,
-          "qo": 9615393,
-          "rights": "Restricted Bird"
-        },
+          "name": "Gary Harris",
+          "flag": "WAIVED",
+          "cap": 3815861
+        }
+      ],
+      "holds": [
         {
           "name": "Malik Beasley",
           "pos": "SG",
@@ -2098,11 +2352,39 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Isaiah Joe trade with OKC",
+          "usedOn": "$11,323,006",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 3720994
+        },
+        {
+          "type": "Trade",
+          "reason": "Marcus Sasser trade with DAL",
+          "usedOn": "",
+          "expires": "2027-07-08",
+          "original": 5198983,
+          "available": 5198983
+        },
+        {
+          "type": "Trade",
+          "reason": "Isaiah Stewart trade with MEM",
+          "usedOn": "",
+          "expires": "2027-07-08",
+          "original": 15000000,
+          "available": 15000000
+        }
+      ],
       "summary": {
-        "activeRoster": 154337535,
-        "capHold": 29098853,
-        "capTotal": 183436388,
-        "apronTotal": 154337535
+        "hardCap": "first_apron",
+        "activeRoster": 185004433,
+        "deadMoney": 3815861,
+        "capHold": 9649421,
+        "capTotal": 198469715,
+        "apronTotal": 188820294
       }
     },
     "GSW": {
@@ -2404,7 +2686,34 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 15044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Trayce Jackson-Davis trade with TOR",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2221677,
+          "available": 2221677
+        }
+      ],
       "summary": {
+        "hardCap": "second_apron",
         "activeRoster": 220838432,
         "capHold": 33498979,
         "capTotal": 254337411,
@@ -2626,7 +2935,34 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Marcus Smart",
+          "usedOn": "$6,064,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 8980000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Dorian Finney-Smith trade with ATL",
+          "usedOn": "",
+          "expires": "2027-07-06",
+          "original": 13335000,
+          "available": 13335000
+        }
+      ],
       "summary": {
+        "hardCap": "second_apron",
         "activeRoster": 200413923,
         "capHold": 11982800,
         "capTotal": 212396723,
@@ -2808,14 +3144,6 @@
       "dead": [],
       "holds": [
         {
-          "name": "James Johnson",
-          "pos": "PF",
-          "type": "FA",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Bird"
-        },
-        {
           "name": "Gabe York",
           "pos": "PG",
           "type": "2W",
@@ -2824,10 +3152,37 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Kelly Oubre Jr.",
+          "usedOn": "$8,050,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 6994000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Kam Jones trade with CHI",
+          "usedOn": "",
+          "expires": "2027-06-24",
+          "original": 1075459,
+          "available": 1075459
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 206299934,
-        "capHold": 4634537,
-        "capTotal": 210934471,
+        "capHold": 2185116,
+        "capTotal": 208485050,
         "apronTotal": 206779934
       }
     },
@@ -3029,7 +3384,18 @@
       "twoWay": [],
       "dead": [],
       "holds": [],
+      "exceptions": [
+        {
+          "type": "Room",
+          "reason": "Collin Sexton",
+          "usedOn": "$9,366,000",
+          "expires": "End-of-Season",
+          "original": 9369000,
+          "available": 0
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 200897322,
         "capTotal": 200897322,
         "apronTotal": 200897322
@@ -3143,18 +3509,6 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 6001080,
-          "nonGuaranteed": false
-        },
-        {
-          "name": "D'Angelo Russell",
-          "pos": "PG",
-          "type": "FA",
-          "cap": 5969250,
-          "base": 5969250,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 5969250,
           "nonGuaranteed": false
         },
         {
@@ -3274,6 +3628,11 @@
           "cap": 17744971
         },
         {
+          "name": "D'Angelo Russell",
+          "flag": "",
+          "cap": 5969250
+        },
+        {
           "name": "Cole Anthony",
           "flag": "WAIVED",
           "cap": 3700000
@@ -3285,11 +3644,46 @@
         }
       ],
       "holds": [],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Quentin Post",
+          "usedOn": "$10,350,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 4694000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Jaren Jackson Jr trade with UTA",
+          "usedOn": "",
+          "expires": "2027-02-03",
+          "original": 28872920,
+          "available": 28872920
+        },
+        {
+          "type": "Trade",
+          "reason": "Ja Morant trade with POR",
+          "usedOn": "Micah Peavy, $2,150,917",
+          "expires": "2027-06-29",
+          "original": 4314089,
+          "available": 2163172
+        }
+      ],
       "summary": {
-        "activeRoster": 139883634,
-        "deadMoney": 21909021,
+        "hardCap": "first_apron",
+        "activeRoster": 133914384,
+        "deadMoney": 27878271,
         "capTotal": 161792655,
-        "apronTotal": 164142655
+        "apronTotal": 164402828
       }
     },
     "MIA": {
@@ -3403,18 +3797,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Myron Gardner",
-          "pos": "G",
-          "type": "ROS",
-          "cap": 2584539,
-          "base": 2584539,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 250000,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Simone Fontecchio",
           "pos": "SF",
           "type": "FA",
@@ -3449,6 +3831,18 @@
           "tradeBonus": 0,
           "guaranteed": 0,
           "nonGuaranteed": true
+        },
+        {
+          "name": "Myron Gardner",
+          "pos": "G",
+          "type": "ROS",
+          "cap": 2150917,
+          "base": 2150917,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 250000,
+          "nonGuaranteed": false
         },
         {
           "name": "Ryan Conwell",
@@ -3499,22 +3893,6 @@
           "rights": "Non-Bird"
         },
         {
-          "name": "Trevor Keels",
-          "pos": "SG",
-          "type": "2W",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
-          "name": "Keshad Johnson",
-          "pos": "PF",
-          "type": "ROS",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Early Bird"
-        },
-        {
           "name": "Udonis Haslem",
           "pos": "PF",
           "type": "FA",
@@ -3531,11 +3909,30 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Tim Hardaway Jr.",
+          "usedOn": "$6,065,000, Klay Thompson",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 3379000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        }
+      ],
       "summary": {
-        "activeRoster": 206622878,
-        "capHold": 19602956,
-        "capTotal": 226225834,
-        "apronTotal": 206622878
+        "hardCap": "first_apron",
+        "activeRoster": 206189256,
+        "capHold": 14704114,
+        "capTotal": 220893370,
+        "apronTotal": 206189256
       }
     },
     "MIL": {
@@ -3760,14 +4157,6 @@
       ],
       "holds": [
         {
-          "name": "Andre Jackson Jr.",
-          "pos": "SG",
-          "type": "RK-2ND",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Bird"
-        },
-        {
           "name": "Thanasis Antetokounmpo",
           "pos": "SF",
           "type": "FA",
@@ -3784,11 +4173,46 @@
           "rights": "Non-Bird"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 15044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Giannis Antetokounmpo trade with MIA",
+          "usedOn": "",
+          "expires": "2027-07-06",
+          "original": 25456566,
+          "available": 25456566
+        },
+        {
+          "type": "Trade",
+          "reason": "Bobby Portis trade with MIA",
+          "usedOn": "",
+          "expires": "2027-07-06",
+          "original": 85763,
+          "available": 85763
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 168320596,
         "deadMoney": 21977720,
-        "capHold": 7083958,
-        "capTotal": 197382274,
+        "capHold": 4634537,
+        "capTotal": 194932853,
         "apronTotal": 195073316
       }
     },
@@ -3915,18 +4339,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Nah'Shon Hyland",
-          "pos": "PG",
-          "type": "FA",
-          "cap": 2845883,
-          "base": 2845883,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 2845883,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Terrence Shannon Jr.",
           "pos": "SG",
           "type": "RK-1ST",
@@ -3936,6 +4348,18 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2801640,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Nah'Shon Hyland",
+          "pos": "PG",
+          "type": "FA",
+          "cap": 2449421,
+          "base": 2845883,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 2449421,
           "nonGuaranteed": false
         },
         {
@@ -4013,12 +4437,39 @@
           "rights": "Non-Bird"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 6064000
+        },
+        {
+          "type": "Trade",
+          "reason": "Mike Conley trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-03",
+          "original": 10774038,
+          "available": 10774038
+        },
+        {
+          "type": "Trade",
+          "reason": "Rob Dillingham trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 6576120,
+          "available": 6576120
+        }
+      ],
       "summary": {
-        "activeRoster": 213272416,
+        "hardCap": "second_apron",
+        "activeRoster": 212875954,
         "deadMoney": 2055000,
         "capHold": 37707518,
-        "capTotal": 253034934,
-        "apronTotal": 217077416
+        "capTotal": 252638472,
+        "apronTotal": 216680954
       }
     },
     "NYK": {
@@ -4198,20 +4649,39 @@
           "cap": 2449421,
           "qo": 0,
           "rights": "Non-Bird"
+        }
+      ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 6064000
         },
         {
-          "name": "Kevin McCullar Jr.",
-          "pos": "SG",
-          "type": "2W",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Early Bird"
+          "type": "Trade",
+          "reason": "Dalen Terry trade with NOP",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 899118,
+          "available": 899118
+        },
+        {
+          "type": "Trade",
+          "reason": "Guerschon Yabusele trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 100882,
+          "available": 100882
         }
       ],
       "summary": {
+        "hardCap": null,
         "activeRoster": 218412232,
-        "capHold": 8071882,
-        "capTotal": 226484114,
+        "capHold": 5622461,
+        "capTotal": 224034693,
         "apronTotal": 218412232
       }
     },
@@ -4398,7 +4868,50 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 6064000
+        },
+        {
+          "type": "Trade",
+          "reason": "Ousmane Dieng trade with CHA",
+          "usedOn": "",
+          "expires": "2027-02-04",
+          "original": 2449522,
+          "available": 2449522
+        },
+        {
+          "type": "Trade",
+          "reason": "Isaiah Joe trade with DET",
+          "usedOn": "",
+          "expires": "2027-07-06",
+          "original": 11323006,
+          "available": 11323006
+        },
+        {
+          "type": "Trade",
+          "reason": "Aaron Wiggins trade with ATL",
+          "usedOn": "",
+          "expires": "2027-07-06",
+          "original": 9028038,
+          "available": 9028038
+        },
+        {
+          "type": "Trade",
+          "reason": "Lu Dort trade with ATL",
+          "usedOn": "",
+          "expires": "2027-07-19",
+          "original": 17722222,
+          "available": 17722222
+        }
+      ],
       "summary": {
+        "hardCap": null,
         "activeRoster": 214279492,
         "capHold": 2185116,
         "capTotal": 216464608,
@@ -4602,7 +5115,26 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 6064000
+        },
+        {
+          "type": "Trade",
+          "reason": "Tyus Jones trade with DAL",
+          "usedOn": "",
+          "expires": "2027-02-04",
+          "original": 7000000,
+          "available": 7000000
+        }
+      ],
       "summary": {
+        "hardCap": null,
         "activeRoster": 209865321,
         "deadMoney": 8000000,
         "capHold": 4634537,
@@ -4825,7 +5357,42 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Dean Wade",
+          "usedOn": "$9,000,000, Anfernee Simons",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 44000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "Ariel Hukporti",
+          "usedOn": "$3,400,000",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 2077000
+        },
+        {
+          "type": "Trade",
+          "reason": "Jared McCain trade with OKC",
+          "usedOn": "",
+          "expires": "2027-02-04",
+          "original": 4221360,
+          "available": 4221360
+        },
+        {
+          "type": "Trade",
+          "reason": "Eric Gordon trade with MEM",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2296274,
+          "available": 2296274
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 207186472,
         "capHold": 11718495,
         "capTotal": 218904967,
@@ -5123,7 +5690,34 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Taxpayer Mid-Level",
+          "reason": "Luke Kennard",
+          "usedOn": "$6,064,000",
+          "expires": "End-of-Season",
+          "original": 6064000,
+          "available": 0
+        },
+        {
+          "type": "Trade",
+          "reason": "Nigel Hayes-Davis trade with MIL",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2048494,
+          "available": 2048494
+        },
+        {
+          "type": "Trade",
+          "reason": "Nick Richards trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 5000000,
+          "available": 5000000
+        }
+      ],
       "summary": {
+        "hardCap": "second_apron",
         "activeRoster": 193028455,
         "deadMoney": 23197051,
         "capHold": 26150716,
@@ -5209,8 +5803,8 @@
           "name": "Damian Lillard",
           "pos": "PG",
           "type": "FA",
-          "cap": 13398000,
-          "base": 13398000,
+          "cap": 13398800,
+          "base": 13398800,
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
@@ -5312,14 +5906,6 @@
       ],
       "holds": [
         {
-          "name": "Blake Wesley",
-          "pos": "SG",
-          "type": "FA",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
           "name": "Ben McLemore",
           "pos": "SF",
           "type": "FA",
@@ -5360,12 +5946,31 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 15044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        }
+      ],
       "summary": {
-        "activeRoster": 191824641,
+        "hardCap": "first_apron",
+        "activeRoster": 191825441,
         "deadMoney": 268032,
-        "capHold": 13903611,
-        "capTotal": 205996284,
-        "apronTotal": 192092673
+        "capHold": 11454190,
+        "capTotal": 203547663,
+        "apronTotal": 192093473
       }
     },
     "SAC": {
@@ -5613,7 +6218,50 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 15044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "Precious Achiuwa",
+          "usedOn": "$5,477,000",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 0
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "Precious Achiuwa",
+          "usedOn": "$5,477,000",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 0
+        },
+        {
+          "type": "Trade",
+          "reason": "Dario Saric trade with CHI",
+          "usedOn": "",
+          "expires": "2027-02-01",
+          "original": 5426400,
+          "available": 5426400
+        },
+        {
+          "type": "Trade",
+          "reason": "Devin Carter trade with ATL",
+          "usedOn": "",
+          "expires": "2027-06-30",
+          "original": 4923720,
+          "available": 4923720
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 193946825,
         "deadMoney": 3333333,
         "capHold": 19066758,
@@ -5828,7 +6476,26 @@
           "rights": "Early Bird"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Tobias Harris",
+          "usedOn": "$15,044,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 0
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 198279967,
         "capHold": 32893995,
         "capTotal": 231173962,
@@ -6042,7 +6709,34 @@
           "rights": "Non-Bird"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 15044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Ochai Agbaji trade with BKN",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 6383525,
+          "available": 6383525
+        }
+      ],
       "summary": {
+        "hardCap": null,
         "activeRoster": 201188888,
         "capHold": 13048263,
         "capTotal": 214237151,
@@ -6230,20 +6924,39 @@
           "cap": 7885000,
           "qo": 0,
           "rights": "Bird"
+        }
+      ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Jaxson Hayes",
+          "usedOn": "$6,000,000, Josh Okogie",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 3044000
         },
         {
-          "name": "Hayden Gray",
-          "pos": "G",
-          "type": "ROS",
-          "cap": 2185116,
-          "qo": 0,
-          "rights": "Non-Bird"
+          "type": "Trade",
+          "reason": "Jock Landale trade with MEM",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2296274,
+          "available": 2296274
+        },
+        {
+          "type": "Trade",
+          "reason": "Walker Kessler trade with LAL",
+          "usedOn": "",
+          "expires": "2027-07-08",
+          "original": 15054411,
+          "available": 15054411
         }
       ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 180515680,
-        "capHold": 10070116,
-        "capTotal": 190585796,
+        "capHold": 7885000,
+        "capTotal": 188400680,
         "apronTotal": 180515680
       }
     },
@@ -6456,14 +7169,6 @@
           "rights": "Non-Bird"
         },
         {
-          "name": "Brandon Boston Jr",
-          "pos": "SG",
-          "type": "ROS",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Early Bird"
-        },
-        {
           "name": "Josh Oduro",
           "pos": "C",
           "type": "2W",
@@ -6496,11 +7201,46 @@
           "rights": "Non-Bird"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Bennedict Mathurin",
+          "usedOn": "$7,500,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 7544000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Jose Alvarado trade with NYK",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 4500000,
+          "available": 4500000
+        },
+        {
+          "type": "Trade",
+          "reason": "Jordan Hawkins trade with MEM",
+          "usedOn": "",
+          "expires": "2027-09-08",
+          "original": 7021895,
+          "available": 7021895
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 196221049,
         "deadMoney": 148828,
-        "capHold": 18282110,
-        "capTotal": 214651987,
+        "capHold": 15832689,
+        "capTotal": 212202566,
         "apronTotal": 202788678
       }
     },
@@ -6759,7 +7499,34 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 15044000
+        },
+        {
+          "type": "Trade",
+          "reason": "Jaden Hardy trade with LAL",
+          "usedOn": "",
+          "expires": "2027-07-07",
+          "original": 6000000,
+          "available": 6000000
+        },
+        {
+          "type": "Trade",
+          "reason": "D'Angelo Russell trade with MEM",
+          "usedOn": "",
+          "expires": "2027-07-08",
+          "original": 5969250,
+          "available": 5969250
+        }
+      ],
       "summary": {
+        "hardCap": "first_apron",
         "activeRoster": 192013104,
         "capHold": 48802530,
         "capTotal": 240815634,
@@ -6949,18 +7716,6 @@
           "nonGuaranteed": true
         },
         {
-          "name": "Johni Broome",
-          "pos": "C",
-          "type": "RK-2ND",
-          "cap": 2150917,
-          "base": 2150917,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 2150917,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Baba Miller",
           "pos": "C",
           "type": "RK-2ND",
@@ -6974,7 +7729,13 @@
         }
       ],
       "twoWay": [],
-      "dead": [],
+      "dead": [
+        {
+          "name": "Johni Broome",
+          "flag": "",
+          "cap": 2150917
+        }
+      ],
       "holds": [
         {
           "name": "Nicolas Batum",
@@ -7025,11 +7786,71 @@
           "rights": "Two-Way"
         }
       ],
+      "exceptions": [
+        {
+          "type": "Non-Taxpayer Mid-Level",
+          "reason": "Rui Hachimura",
+          "usedOn": "$14,000,000",
+          "expires": "End-of-Season",
+          "original": 15044000,
+          "available": 1044000
+        },
+        {
+          "type": "Bi-Annual",
+          "reason": "",
+          "usedOn": "",
+          "expires": "End-of-Season",
+          "original": 5477000,
+          "available": 5477000
+        },
+        {
+          "type": "Trade",
+          "reason": "Kobe Brown trade with IND",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2654880,
+          "available": 2654880
+        },
+        {
+          "type": "Trade",
+          "reason": "Chris Paul trade with TOR",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 2296274,
+          "available": 2296274
+        },
+        {
+          "type": "Trade",
+          "reason": "Ivica Zubac trade with IND",
+          "usedOn": "",
+          "expires": "2027-02-05",
+          "original": 1314427,
+          "available": 1314427
+        },
+        {
+          "type": "Trade",
+          "reason": "John Collins trade with DET",
+          "usedOn": "Max Strus, $16,660,836",
+          "expires": "2027-07-08",
+          "original": 17000000,
+          "available": 339164
+        },
+        {
+          "type": "Trade",
+          "reason": "Kawhi Leonard trade with TOR",
+          "usedOn": "",
+          "expires": "2027-09-14",
+          "original": 3168489,
+          "available": 3168489
+        }
+      ],
       "summary": {
-        "activeRoster": 185362824,
+        "hardCap": "first_apron",
+        "activeRoster": 183211907,
+        "deadMoney": 2150917,
         "capHold": 19364679,
         "capTotal": 204727503,
-        "apronTotal": 185362824
+        "apronTotal": 185622997
       }
     }
   }

@@ -6,6 +6,7 @@
 //
 // Output: src/signings.json { source, byName: { normName: {name, team, years, aav, total, status} } }
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";

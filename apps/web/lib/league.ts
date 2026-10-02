@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, type Transaction } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, type Transaction } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -220,10 +220,16 @@ function looksStretched(c: Contract): boolean {
  * no-appearance guard matters because this source also lists some ACTIVE
  * contracts as flat AAV (Quickley's $32.5M×4 is a real deal, and he played). */
 function looksDeadSolo(c: Contract): boolean {
-  if (RATINGS[c.playerId]) return false; // played in 2025-26 → a real player
   const sals = c.years.filter((y) => y.salary > 0).map((y) => y.salary);
   if (sals.length < 2 || new Set(sals).size !== 1) return false;
-  return sals.length >= 3 || sals[0]! < 1_000_000;
+  // No standard contract pays less than the rookie minimum ($1,272,870 in
+  // 2025-26), so a flat multi-season row under $1M is a stretch remnant even
+  // for a player who appeared last season — E.J. Liddell played for
+  // Brooklyn on a two-way and his Phoenix row ($706,898 a season, the
+  // Aug 2024 stretch) read as a live Sun at that salary.
+  if (sals[0]! < 1_000_000) return true;
+  if (RATINGS[c.playerId]) return false; // played in 2025-26 → a real player
+  return sals.length >= 3;
 }
 
 /** The source cap sheets carry BOTH a stretched player's dead-money charge
@@ -381,6 +387,10 @@ const TWO_WAY_LATEST = (() => {
 const BACK_SOLVED = new Set<string>();
 /** Rows a curated manual-moves row states outright — never replaced. */
 const CURATED_STATED = new Set<string>();
+/** Rows whose 2026-27 an identity corrected (a likely bonus left out, unlikely
+ * money folded in, a trade bonus's proration): their later seasons are the
+ * scraped sheet's, which carried the same mistake forward. */
+const IDENTITY_CORRECTED = new Set<string>();
 
 /**
  * Apply free-agent signings (Spotrac feed): give signed players their new
@@ -1171,6 +1181,7 @@ function applyStatedSalaries(contracts: Contract[]): Contract[] {
     const stated = STATED_SALARY.get(normName(c.playerName));
     if (stated == null) return c;
     const cur = c.years.find((y) => y.leagueYear === YEAR);
+    const wasBackSolved = BACK_SOLVED.has(c.playerId);
     if (stated.curated) CURATED_STATED.add(c.playerId);
     else BACK_SOLVED.add(c.playerId);
     // "Indiana (IND) fully guaranteed $2.58 million salary for 2026-27" on a
@@ -1182,10 +1193,22 @@ function applyStatedSalaries(contracts: Contract[]): Contract[] {
         years: [...c.years, { leagueYear: YEAR, salary: stated.amount, guarantee: stated.guaranteed ? ("full" as const) : ("non_guaranteed" as const) }],
       };
     if (cur.salary === stated.amount) return c;
+    // A stated first year on a deal the sheet BACK-SOLVED moves the rest of
+    // that deal with it, so the reported total still holds: Porzingis's
+    // 2yr/$40M is $20M and $20M, and stating the first left the second at the
+    // 8% back-solve's $20.77M — $40.77M in all, and an extension card that
+    // could not find its own seasons.
+    const later = c.years.filter((y) => y.leagueYear > YEAR);
+    const laterSum = later.reduce((s, y) => s + y.salary, 0);
+    const factor = wasBackSolved && laterSum > 0 ? Math.max(0, (cur.salary + laterSum - stated.amount) / laterSum) : 1;
     return {
       ...c,
       years: c.years.map((y) =>
-        y.leagueYear === YEAR ? { ...y, salary: stated.amount, guarantee: stated.guaranteed ? ("full" as const) : y.guarantee } : y,
+        y.leagueYear === YEAR
+          ? { ...y, salary: stated.amount, guarantee: stated.guaranteed ? ("full" as const) : y.guarantee }
+          : y.leagueYear > YEAR && factor !== 1
+            ? { ...y, salary: Math.round(y.salary * factor) }
+            : y,
       ),
     };
   });
@@ -1280,27 +1303,48 @@ function applyFiledSalaries(contracts: Contract[]): Contract[] {
     // PLUS the unlikely money Basketball-Reference sometimes folds in (Aaron
     // Wiggins). Either is arithmetic, not a judgment about whose number wins.
     const bonus = v.tradeBonus ?? 0;
+    // A trade bonus paid on this offseason's trade is prorated onto every
+    // remaining season's cap hit (Jaylen Brown's 7%: $657,622 a year on top
+    // of a $57,078,728 base after the Jul 1 trade; Finney-Smith's $861,974
+    // after Jul 6). Spotrac folds it into the cap hit without itemizing it,
+    // so the identity is on the base: the sheet has exactly their base and
+    // their cap hit runs past base plus likely.
+    const proration =
+      (bonus > 0 && (cur.salary === v.cap - bonus || cur.salary === v.base + v.likely)) ||
+      (cur.salary === v.base && v.cap > v.base + v.likely);
     const identity =
       (v.likely > 0 && cur.salary === v.cap - v.likely) ||
       (v.unlikely > 0 && cur.salary === v.cap + v.unlikely) ||
-      // A trade bonus paid on this offseason's trade is prorated onto every
-      // remaining season's cap hit (Jaylen Brown's 7%: $657,622 a year on top
-      // of a $57,078,728 base after the Jul 1 trade; Finney-Smith's $861,974
-      // after Jul 6). Spotrac folds it into the cap hit without itemizing it,
-      // so the identity is on the base: the sheet has exactly their base and
-      // their cap hit runs past base plus likely.
-      (bonus > 0 && (cur.salary === v.cap - bonus || cur.salary === v.base + v.likely)) ||
-      (cur.salary === v.base && v.cap > v.base + v.likely);
+      proration;
     if (!identity) {
       if (!BACK_SOLVED.has(c.playerId)) return c;
       if (Math.abs(cur.salary - v.cap) > 0.25 * v.cap) return c;
       if (cur.salary === C.minimumSalaries[2] && vetMinScale.has(v.cap)) return c;
     }
+    ADOPTED_FILINGS.push({ player: c.playerName, team: c.teamId, from: cur.salary, to: v.cap });
+    // What the later seasons do depends on why this one moved. An identity
+    // is a fact about THIS season — a likely bonus the sheet left out, or
+    // unlikely money it folded in — and says nothing about the next, except
+    // a trade bonus's proration, which lands on every remaining season alike.
+    // Only a back-solve is re-spread: the filed first year replaces an assumed
+    // one, and the later seasons of the SAME deal scale so the reported total
+    // still holds. (Rescaling on an identity reached seasons that were never
+    // back-solved: Dillon Brooks's Aug 8 extension years, filed figures, were
+    // shaved 1.4% the day his 2026-27 likely bonus was booked.)
+    if (identity) {
+      IDENTITY_CORRECTED.add(c.playerId);
+      const add = proration ? v.cap - cur.salary : 0;
+      return {
+        ...c,
+        years: c.years.map((y) =>
+          y.leagueYear === YEAR ? { ...y, salary: v.cap } : y.leagueYear > YEAR && add ? { ...y, salary: y.salary + add } : y,
+        ),
+      };
+    }
     const fwd = c.years.filter((y) => y.leagueYear >= YEAR);
     const total = fwd.reduce((s, y) => s + y.salary, 0);
     const laterSum = total - cur.salary;
     const factor = laterSum > 0 && total - v.cap > 0 ? (total - v.cap) / laterSum : 1;
-    ADOPTED_FILINGS.push({ player: c.playerName, team: c.teamId, from: cur.salary, to: v.cap });
     return {
       ...c,
       years: c.years.map((y) =>
@@ -1309,6 +1353,55 @@ function applyFiledSalaries(contracts: Contract[]): Contract[] {
           : y.leagueYear > YEAR
             ? { ...y, salary: Math.round(y.salary * factor) }
             : y,
+      ),
+    };
+  });
+}
+
+/** What applyFiledFutureSalaries replaced. */
+export const ADOPTED_FILINGS_2027: { player: string; team: string; from: number; to: number }[] = [];
+
+/**
+ * The same rule one season out. A deal the sheet laid out from a reported
+ * total carries an ASSUMED second season (5% or 8% raises), and every multi-
+ * year view read it: Champagnie's extension came out rising and falling,
+ * Porzingis's flat $20M/$20M came out $20M/$20.77M. Spotrac's 2027-28 tables
+ * carry the filed figure. Where a row is back-solved, Spotrac lists the
+ * player on the same team for 2027-28, and the two are within 25%, the filed
+ * 2027-28 salary is booked and the seasons after it scale so the forward
+ * total holds. Rows the scraped sheet carries (filed figures already) and
+ * seasons booked from a contract page are left alone.
+ */
+function applyFiledFutureSalaries(contracts: Contract[]): Contract[] {
+  const NEXT = "2027-28";
+  const byName = new Map<string, (typeof SPOTRAC_CAP_HITS_2027)[string][]>();
+  for (const v of Object.values(SPOTRAC_CAP_HITS_2027)) {
+    const raw = normName(v.name);
+    const k = SPOTRAC_ALIASES[raw] ?? raw;
+    if (!byName.has(k)) byName.set(k, []);
+    byName.get(k)!.push(v);
+  }
+  // Eligible: a back-solved deal; a row whose first year a curated statement
+  // fixed (the max-tier rows the scrape had projected off an estimated cap —
+  // Holmgren's $41.5M became $41,240,250, and his 2027-28 is 8% on THAT,
+  // $44,539,470, not the scrape's $44.82M); and a row an identity corrected.
+  const eligible = (id: string) => BACK_SOLVED.has(id) || CURATED_STATED.has(id) || IDENTITY_CORRECTED.has(id);
+  return contracts.map((c) => {
+    if (c.deadMoney || !eligible(c.playerId)) return c;
+    const cands = byName.get(normName(c.playerName));
+    const v = cands?.find((x) => x.team === c.teamId) ?? (cands?.length === 1 ? cands[0] : undefined);
+    if (!v || !(v.cap > 0) || v.team !== c.teamId) return c;
+    const nxt = c.years.find((y) => y.leagueYear === NEXT);
+    if (!nxt || nxt.salary <= 0 || nxt.salary === v.cap || nxt.estimated) return c;
+    if (Math.abs(nxt.salary - v.cap) > 0.25 * v.cap) return c;
+    const after = c.years.filter((y) => y.leagueYear > NEXT);
+    const afterSum = after.reduce((s, y) => s + y.salary, 0);
+    const factor = afterSum > 0 ? Math.max(0, (nxt.salary + afterSum - v.cap) / afterSum) : 1;
+    ADOPTED_FILINGS_2027.push({ player: c.playerName, team: c.teamId, from: nxt.salary, to: v.cap });
+    return {
+      ...c,
+      years: c.years.map((y) =>
+        y.leagueYear === NEXT ? { ...y, salary: v.cap } : y.leagueYear > NEXT ? { ...y, salary: Math.round(y.salary * factor) } : y,
       ),
     };
   });
@@ -1324,7 +1417,7 @@ function stampYearsOfService(contracts: Contract[]): Contract[] {
 
 /** Base working roster set: trades + signings applied, rookies added. */
 export const BASE_CONTRACTS: Contract[] = stampYearsOfService(
-  applyFiledSalaries(
+  applyFiledFutureSalaries(applyFiledSalaries(
     applyIncentives(
       deemVetMinimums(
         applyStatedSalaries(
@@ -1333,7 +1426,7 @@ export const BASE_CONTRACTS: Contract[] = stampYearsOfService(
           ),
         ),
       ),
-    ),
+    )),
   ),
 );
 export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];
@@ -3131,7 +3224,7 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
   const add = (slot: TpeSlot) => (out[slot.team] ??= []).push(slot);
 
   for (const r of TRADE_EXCEPTIONS) {
-    if (r.expires < "2026-07-05") continue; // expired before the sim's today
+    if (r.expires < DATA_AS_OF) continue; // expired before the data's date
     if (feedStateOf(r.team).roomTeam) continue; // renounced with the room
     // Row F(ii): a Standard TPE lives exactly a year, so it arose on its
     // expiry minus a year. If that arise date lands in the CURRENT offseason

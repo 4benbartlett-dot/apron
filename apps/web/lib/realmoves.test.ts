@@ -17,7 +17,9 @@ import {
   assetMeterValue,
   pickValue,
 } from "@/lib/league";
-import { getLeagueData } from "@apron/data";
+import { getLeagueData, TRANSACTIONS } from "@apron/data";
+import { rewind } from "@/lib/replayRewind";
+import { feedIso } from "@/lib/feedDate";
 
 // Raw (pre-reconciliation) team for each player — the true 2025-26 team.
 const RAW_TEAM = new Map(
@@ -67,6 +69,23 @@ function unTrade(cs: Contract[], backTo: Record<string, string>): Contract[] {
       ? { ...c, teamId: dest, noAggregate: undefined, restriction: undefined, bycPriorSalary: undefined }
       : c;
   });
+}
+
+/**
+ * The day a player's deal was FILED — his newest signing row (or, for a
+ * sign-and-trade, the trade row that sent him to `team`). A replay is a claim
+ * about that day, so the sheet is rewound to it before the deal is undone:
+ * what a team did afterwards (Duren's Oct 1 re-signing in Detroit, Hield's
+ * Sep 27 arrival in Chicago) did not exist yet and cannot block it.
+ */
+function filedOn(name: string, team: string): string {
+  const k = strip(name);
+  for (const t of TRANSACTIONS) {
+    if (strip(t.player) !== k) continue;
+    if ((t.type === "Signing" || t.type === "Re-sign") && t.detail.includes(`(${team})`)) return feedIso(t.date);
+    if (t.type === "Trade" && new RegExp(`^Traded to [^(]*\\(${team}\\)`).test(t.detail)) return feedIso(t.date);
+  }
+  return "2026-07-01";
 }
 
 /** Back-solve year-1 from (total, years) with a raise % — mirrors dealFromAav. */
@@ -159,7 +178,7 @@ describe("July 1 real sign-and-trades", () => {
 
   it("John Collins: LAC re-signs 3yr/$51M, S&T to DET", () => {
     const y1 = y1From(51_000_000, 3, 0.08);
-    const pre = unSign(clone(BASE_CONTRACTS), "John Collins");
+    const pre = unSign(rewind(clone(BASE_CONTRACTS), filedOn("John Collins", "DET"), ["DET", "LAC"]), "John Collins");
     const det = committed(pre, "DET");
     const v = acquirerLegal(det, y1);
     console.log(
@@ -202,20 +221,25 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
   ["Branden Carlson", "POR", 1, 2.45],
 ];
 
-// Documented sheet-reconstruction bounds — NOT rule failures. The harness
-// rebuilds each team's pre-move sheet by un-signing new deals, which can't
-// recover everything reality had at signing time:
-//  - Grimes / Mamukelashvili (LAL) fail ONLY in lenient mode, and pass in
-//    strict via the NT-MLE — which is the exception the Lakers actually used.
-//    Lenient strips every other LAL July signing, and that is enough to drop
-//    their reconstructed sheet BELOW the cap, at which point the team loses the
-//    NT-MLE entirely and is offered cap room plus the $9,366,000 Room MLE. Once
-//    Kessler's ~$29M sign-and-trade eats the room, the Room MLE can't reach
-//    $14M. So the lenient verdict swings on which side of the cap line the
-//    stripped sheet lands, which is an artifact of the reconstruction rather
-//    than a fact about the signing. (These two briefly passed mid-refresh and
-//    then failed again when the unsigned-second-rounder fix removed $1.36M from
-//    the Lakers' books — a knife-edge worth naming, not chasing.)
+// Documented sheet-reconstruction bounds — NOT rule failures. Empty since
+// Oct 2 2026, when the harness began rewinding each team to the day the deal
+// was FILED (filedOn) instead of replaying against today's sheet minus one
+// signing. Two things healed at once:
+//  - Grimes / Mamukelashvili (LAL) had failed in lenient mode for three
+//    months, and the note here said they passed in strict "via the NT-MLE —
+//    which is the exception the Lakers actually used". That was wrong:
+//    feed-team-state.json records the Lakers as a ROOM team (Sexton's first
+//    year is the $9,366,000 Room MLE to the dollar), and on their filing day
+//    both deals fit in cap room. They only read otherwise because the old
+//    harness carried every later Laker move (Kessler's sign-and-trade among
+//    them) back into July.
+//  - Norman Powell (CHI) and the Collins sign-and-trade (DET) would have
+//    started failing on the same grounds: Chicago took Buddy Hield's $9.7M on
+//    Sep 27 and Detroit signed Duren for $34.5M on Oct 1, and neither existed
+//    in July.
+// Still not modeled: cap holds. A replay measures room on signed salary, so a
+// "cap_room" verdict assumes the team renounced what it had to — which the
+// feed-state rationales check team by team.
 // (Oubre HEALED in the Jul 9 hard-cap audit: IND's sheet lost a mis-teamed
 // Jalen Smith, phantom Potter dead money, and the pending Nance charge, so
 // Oubre's official 2yr/$16.5M NT-MLE now fits under the first apron —
@@ -224,15 +248,11 @@ const SIGNINGS_JUL1: [string, string, number, number][] = [
 // him at exactly the Taxpayer MLE while sitting ~$208.1M, just UNDER the first
 // apron, and the engine used to offer that band only the NT-MLE — self-limited
 // to ~$0.9M by its own first-apron cap — because it keyed the Taxpayer MLE on
-// where a team starts. Art. VII §6(f)(1) keys it on where the team LANDS:
-// usable "provided that the Team's Apron Team Salary immediately following the
-// Team's use of such Exception exceeds the First Apron Level". Kennard's deal
-// carries Phoenix over the line, so the taxpayer-MLE choice Phoenix actually
-// made is now the engine's verdict too — and the same rule is what makes
-// Minnesota's Kuminga signing read legal on the Sep 3 sheet.)
+// where a team starts. Art. VII §6(f)(1) keys it on where the team LANDS.
+// Since Oct 2 the rewound replay also names the mechanism Phoenix used: tpmle.)
 // The gate below is EXACT: a new failure fails the suite, and so does one of
 // these silently healing (update the list and /accuracy when data improves).
-const DOCUMENTED_BOUNDS = ["Quentin Grimes", "Sandro Mamukelashvili"];
+const DOCUMENTED_BOUNDS: string[] = [];
 
 describe("July 1 real veteran signings validate as legal", () => {
   it("replays each signing (strict = team's LAST move; lenient = team's FIRST move)", () => {
@@ -248,7 +268,7 @@ describe("July 1 real veteran signings validate as legal", () => {
       }
       const y1 = y1From(totalM * 1e6, years);
       // Own-FA info from the pre-signing FA pool.
-      const preStrict = unSign(clone(BASE_CONTRACTS), name);
+      const preStrict = unSign(rewind(clone(BASE_CONTRACTS), filedOn(name, team), [team]), name);
       const fa = freeAgentsOf(preStrict).find((f) => f.playerId === c.playerId);
       const isOwn = fa?.priorTeam === team;
       const opts = fa

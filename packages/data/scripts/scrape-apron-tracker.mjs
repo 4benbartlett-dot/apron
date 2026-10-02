@@ -16,6 +16,7 @@
 // an unexplained gap is a lead, and a gap we have explained belongs written
 // down next to the explanation.
 
+import "./firecrawl-throttle.mjs";
 import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";

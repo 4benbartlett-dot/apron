@@ -105,6 +105,17 @@ export function rewind(contracts: Contract[], iso: string, teams: string[]): Con
     } else if (t.type === "Signing" || t.type === "Re-sign") {
       const team = signedWith(t.detail);
       if (!team || !scope.has(team) || c.teamId !== team) continue;
+      // An EXTENSION of a player already under contract this season moves
+      // nobody and changes nothing this season; before it he was on the same
+      // team at the same salary, with only his old seasons. Undoing it as if it
+      // were a free-agent signing stripped his 2026-27 salary — Amen Thompson's
+      // Sep 3 extension made a rewound Houston $12.3M lighter and handed a
+      // July replay cap room the Rockets never had.
+      const b = baseRow.get(k);
+      if (/extension/i.test(t.detail) && b && b.years.some((y) => y.leagueYear === YEAR && y.salary > 0)) {
+        c.years = b.years.map((y) => ({ ...y }));
+        continue;
+      }
       c.teamId = priorTeam.get(k) ?? c.teamId;
       c.years = c.years.filter((y) => y.leagueYear < YEAR);
     }

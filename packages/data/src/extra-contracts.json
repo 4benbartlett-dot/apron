@@ -1,5 +1,5 @@
 {
- "asOf": "2026-09-22",
+ "asOf": "2026-10-02",
  "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player (dedupe is by NAME, so the id below is free to be the real one). Aug 17 2026: playerId is now the player's REAL Basketball-Reference id wherever one exists, verified against the name-bearing rows in player-stats-history.json — a synthetic curated-* id is keyed to nothing, so ratings/experience/positions/bio/impact all miss and the player enters the model at the age-27, ~22-mpg, av-51 default. Only the four with genuinely no NBA row (Alpha Diallo, Arthur Kaluma, Tarik Biberovic, Bogoljub Markovic) keep a curated-* id.",
  "players": [
   {
@@ -16,11 +16,11 @@
    "years": [
     {
      "leagueYear": "2026-27",
-     "salary": 2150000,
+     "salary": 2150917,
      "guarantee": "full"
     }
    ],
-   "why": "Jun 29 feed: 'Dallas (DAL) exercised $2.15 million option for 2026-27'. Traded to ATL Jul 19 in the three-team Dort/Risacher deal — stubbed on DAL so applyTrades moves him. No 2025-26 bref contracts row (he was on a two-way)."
+   "why": "Jun 29 feed: 'Dallas (DAL) exercised $2.15 million option for 2026-27'. Traded to ATL Jul 19 in the three-team Dort/Risacher deal — stubbed on DAL so applyTrades moves him. No 2025-26 bref contracts row (he was on a two-way). Oct 2 2026: salary corrected from the feed's rounded $2.15 million to $2,150,917, the figure Spotrac's Atlanta and Charlotte pages carry (the 2026-27 salary on a two-year minimum signed in 2025-26) — his Sep 26 waive by Charlotte left exactly that in dead money."
   },
   {
    "playerId": "hezonma01",
@@ -201,9 +201,14 @@
      "leagueYear": "2026-27",
      "salary": 3000000,
      "guarantee": "non_guaranteed"
+    },
+    {
+     "leagueYear": "2027-28",
+     "salary": 3000000,
+     "guarantee": "non_guaranteed"
     }
    ],
-   "why": "Sep 22 2026: not on the scraped sheet and no 2026 feed row — his deal predates the window (re-signed with Washington in 2025). Spotrac's Washington cap page carries him at $3,000,000, non-guaranteed, on the active roster and in their apron figure; without him the Wizards read $3M light. Real Basketball-Reference id."
+   "why": "Sep 22 2026: not on the scraped sheet and no 2026 feed row — his deal predates the window (re-signed with Washington in 2025). Spotrac's Washington cap page carries him at $3,000,000, non-guaranteed, on the active roster and in their apron figure; without him the Wizards read $3M light. Real Basketball-Reference id. Oct 2 2026: Spotrac's 2027-28 table carries a second non-guaranteed $3,000,000 season."
   },
   {
    "playerId": "cardwdy01",
@@ -214,16 +219,32 @@
      "leagueYear": "2026-27",
      "salary": 2150917,
      "guarantee": "full"
+    },
+    {
+     "leagueYear": "2027-28",
+     "salary": 2525901,
+     "guarantee": "non_guaranteed"
     }
    ],
-   "why": "Sep 22 2026: not on the scraped sheet and no 2026 feed row — his standard deal predates the window (converted from his 2025-26 Sacramento two-way). Spotrac's Sacramento cap page carries him at $2,150,917, guaranteed, on the active roster and in their apron figure. Real Basketball-Reference id."
+   "why": "Sep 22 2026: not on the scraped sheet and no 2026 feed row — his standard deal predates the window (converted from his 2025-26 Sacramento two-way). Spotrac's Sacramento cap page carries him at $2,150,917, guaranteed, on the active roster and in their apron figure. Real Basketball-Reference id. Oct 2 2026: Spotrac's 2027-28 table adds a non-guaranteed $2,525,901 second season."
   },
   {
    "playerId": "jacksqu01",
    "playerName": "Quenton Jackson",
    "teamId": "IND",
-   "years": [],
-   "why": "Sep 22 2026: not on the scraped sheet, but the feed has Indiana fully guaranteeing his $2.58M for 2026-27 on Jul 15 and Spotrac's Indiana cap page carries him at $2,584,539 on the active roster. The stated-salary pass creates the season from the guarantee row; the filed cap hit refines the rounded amount. Real Basketball-Reference id."
+   "years": [
+    {
+     "leagueYear": "2026-27",
+     "salary": 2584539,
+     "guarantee": "full"
+    },
+    {
+     "leagueYear": "2027-28",
+     "salary": 2934742,
+     "guarantee": "non_guaranteed"
+    }
+   ],
+   "why": "Sep 22 2026: not on the scraped sheet, but the feed has Indiana fully guaranteeing his $2.58M for 2026-27 on Jul 15 and Spotrac's Indiana cap page carries him at $2,584,539 on the active roster. The stated-salary pass creates the season from the guarantee row; the filed cap hit refines the rounded amount. Real Basketball-Reference id. Oct 2 2026: both seasons booked from Spotrac's tables — $2,584,539 this season (guaranteed Jul 15) and a non-guaranteed $2,934,742 for 2027-28."
   }
  ]
 }
