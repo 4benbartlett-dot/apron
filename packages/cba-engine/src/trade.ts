@@ -70,7 +70,7 @@ const CITE = {
   secondApronCash:
     "2023 CBA Art. VII §2(e), row I — paying cash in a trade hard-caps a team at the second apron and is barred if post-trade Apron Team Salary would exceed it.",
   poisonPill:
-    "2023 CBA Art. VII §8(g) — rookie-scale-extension poison-pill value for the acquiring team is the average of current plus extension salaries.",
+    "2023 CBA Art. VII §8(g) — only for whether the acquiring team has Room, a rookie-scale extension's current salary is deemed the average of it and the extension's salaries.",
   noMinimumAggregate:
     "2023 CBA Art. VII §6(j)(4)(ii) — outside Dec. 15 through the trade deadline, an aggregation of three or more outgoing players for fewer replacements may include no more than one minimum traded player.",
   eligibility:
@@ -83,6 +83,11 @@ const CITE = {
 interface TeamLegs {
   outgoingPlayerSalaries: number[];
   incomingPlayerSalaries: number[];
+  /** The same legs valued for a cap-ROOM absorption: a rookie-scale extension
+   * in its poison-pill window counts at its §8(g) average here, and only here. */
+  incomingRoomSalaries: number[];
+  /** Incoming players in the poison-pill window, for the explanation. */
+  poisonPillPlayers: { name: string; actual: number; room: number }[];
   outgoingCapSalaries: number[];
   incomingCapSalaries: number[];
   outgoingMinimumFlags: boolean[];
@@ -113,6 +118,8 @@ function legsFor(
   const ly = c.leagueYear;
   const outgoingPlayerSalaries: number[] = [];
   const incomingPlayerSalaries: number[] = [];
+  const incomingRoomSalaries: number[] = [];
+  const poisonPillPlayers: TeamLegs["poisonPillPlayers"] = [];
   const outgoingCapSalaries: number[] = [];
   const incomingCapSalaries: number[] = [];
   const outgoingMinimumFlags: boolean[] = [];
@@ -152,20 +159,19 @@ function legsFor(
       const baseIncomingTrade = contract.tradeKickerPct
         ? Math.min(c.maxSalary["10+"], tradeSalary * (1 + contract.tradeKickerPct))
         : tradeSalary;
-      const incValue = contract.poisonPillExtensionSalaries?.length
+      // Art. VII §8(g): the poison-pill average applies "only for purposes of
+      // determining whether the acquiring Team has Room". A team matching
+      // salaries over the cap takes him at what he is paid. validateTrade
+      // picks which value applies.
+      const roomValue = contract.poisonPillExtensionSalaries?.length
         ? poisonPillValues(baseIncomingTrade, contract.poisonPillExtensionSalaries).acquiringValue
         : baseIncomingTrade;
-      incomingPlayerSalaries.push(incValue);
+      incomingPlayerSalaries.push(baseIncomingTrade);
+      incomingRoomSalaries.push(roomValue);
       incomingCapSalaries.push(incomingCap);
       incomingCount += 1;
-      if (contract.poisonPillExtensionSalaries?.length) {
-        checks.push({
-          ruleId: "poison_pill_incoming_value",
-          ok: true,
-          teamId,
-          reason: `${contract.playerName} is in the poison-pill window, so ${teamId} uses ${fmt(incValue)} as incoming matching/room value instead of his current ${fmt(baseIncomingTrade)} salary.`,
-          citation: CITE.poisonPill,
-        });
+      if (roomValue !== baseIncomingTrade) {
+        poisonPillPlayers.push({ name: contract.playerName, actual: baseIncomingTrade, room: roomValue });
       }
     }
   }
@@ -173,6 +179,8 @@ function legsFor(
   return {
     outgoingPlayerSalaries,
     incomingPlayerSalaries,
+    incomingRoomSalaries,
+    poisonPillPlayers,
     outgoingCapSalaries,
     incomingCapSalaries,
     outgoingMinimumFlags,
@@ -204,6 +212,8 @@ export function validateTrade(
     const {
       outgoingPlayerSalaries,
       incomingPlayerSalaries,
+      incomingRoomSalaries,
+      poisonPillPlayers,
       outgoingCapSalaries,
       incomingCapSalaries,
       outgoingMinimumFlags,
@@ -217,7 +227,8 @@ export function validateTrade(
     );
 
     const outgoingSalary = outgoingPlayerSalaries.reduce((a, b) => a + b, 0);
-    const incomingSalary = incomingPlayerSalaries.reduce((a, b) => a + b, 0);
+    const incomingActual = incomingPlayerSalaries.reduce((a, b) => a + b, 0);
+    const incomingRoom = incomingRoomSalaries.reduce((a, b) => a + b, 0);
     const outgoingCapSalary = outgoingCapSalaries.reduce((a, b) => a + b, 0);
     const incomingCapSalary = incomingCapSalaries.reduce((a, b) => a + b, 0);
 
@@ -238,7 +249,31 @@ export function validateTrade(
     const matchTier: ApronTier = capTier === "below_cap" ? "below_cap" : preTier;
 
     const allowance = post > c.firstApron + EPSILON ? 0 : c.tradeMatch.addOn;
-    const match = maxIncomingSalary(outgoingSalary, matchTier, capRoom, c, { addOn: allowance });
+    let match = maxIncomingSalary(outgoingSalary, matchTier, capRoom, c, { addOn: allowance });
+    // A below-cap team may absorb into Room or match like an over-cap team.
+    // Only the Room path sees the §8(g) poison-pill value; if that path no
+    // longer fits, the team can still match at the actual salaries.
+    let incomingSalary = incomingActual;
+    if (match.rule === "cap_room_absorption" && incomingRoom > incomingActual) {
+      const viaMatching = maxIncomingSalary(outgoingSalary, "over_cap", capRoom, c, { addOn: allowance });
+      if (incomingRoom <= match.maxIncoming + EPSILON || incomingActual > viaMatching.maxIncoming + EPSILON) {
+        incomingSalary = incomingRoom;
+      } else {
+        match = viaMatching;
+      }
+    }
+    for (const pp of poisonPillPlayers) {
+      const viaRoom = match.rule === "cap_room_absorption";
+      checks.push({
+        ruleId: "poison_pill_incoming_value",
+        ok: true,
+        teamId,
+        reason: viaRoom
+          ? `${pp.name} is in the poison-pill window and ${teamId} is absorbing him into cap room, so he counts at ${fmt(pp.room)} (his current and extension salaries averaged), not his ${fmt(pp.actual)}.`
+          : `${pp.name} is in the poison-pill window, but ${teamId} is matching salaries rather than using cap room, so he counts at his actual ${fmt(pp.actual)}.`,
+        citation: CITE.poisonPill,
+      });
+    }
 
     // Salary absorbed into a traded-player exception needs no matching —
     // it still counts fully toward post-trade (apron) salary.

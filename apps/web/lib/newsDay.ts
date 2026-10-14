@@ -746,7 +746,7 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
     consequences.push({
       team,
       severity: "restrict",
-      text: `Until the extension takes effect, a team acquiring him counts ${fmt(pill.acquiringValue)} for matching — the average of this season and the new years (the poison pill, Art. VII §8(g)) — while ${teamMeta(team).name} send out ${fmt(current)}.`,
+      text: `Until the extension takes effect, a team absorbing him into cap room counts ${fmt(pill.acquiringValue)}, the average of this season and the new years (the poison pill, Art. VII §8(g)). A team matching salaries takes him at his ${fmt(current)}.`,
     });
   } else {
     // The ceiling is measured in the season the extension STARTS: its max tier

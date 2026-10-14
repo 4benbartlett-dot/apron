@@ -73,7 +73,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
       `The expanded matching formula, greater of (lesser of (200% + $250k, outgoing + ${fmtFull(C.tradeMatch.escalatedFlatAddOn)}), 125% + $250k), for teams below the aprons; strict 100% at or above either apron.`,
       "The $250k matching allowance disappears once a team's apron salary would clear the first apron after the trade (Art. VII §6(j)(3)).",
       "Base-year compensation: re-sign your own free agent to a raise over 20%, then trade him, and his outgoing matching value drops to the greater of half the new salary or the old one — while your cap sheet still loses the full amount.",
-      "Poison-pill rookie extensions use the average of current and extension salaries for the acquiring team's matching, per Art. VII §8(g).",
+      "Poison-pill rookie extensions: a team absorbing the player into cap room counts the average of his current and extension salaries; a team matching salaries counts what he is actually paid. Art. VII §8(g) applies the average only to Room.",
       "Combining salaries in a trade (aggregation) hard-caps you at the second apron, and is only allowed if the deal leaves you at or below it; sending cash does the same (restriction-table rows H and I).",
       "Outside the Dec. 15-to-deadline window, combining three or more outgoing players for fewer replacements can include no more than one minimum-salary player.",
       "Trade kickers add to the acquiring team's incoming salary when the bonus data is available.",

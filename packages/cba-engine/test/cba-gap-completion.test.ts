@@ -78,32 +78,42 @@ describe("trade matching edge cases wired to salary values", () => {
     expect(aaa.postTradeSalary).toBe(190_000_000);
   });
 
-  it("poison-pill incoming value is the average of current plus extension salaries", () => {
-    const poison: Contract = {
-      ...contract("poison", "BBB", 8_000_000),
-      poisonPillExtensionSalaries: [30_000_000, 32_000_000, 34_000_000, 36_000_000],
-    };
-    const data = league([
-      filler("AAA", 150_000_000),
-      contract("out", "AAA", 30_000_000),
-      filler("BBB", 120_000_000),
-      poison,
-    ]);
-    const v = validateTrade(
-      data,
-      {
-        teams: ["AAA", "BBB"],
-        players: [
-          { playerId: "out", from: "AAA", to: "BBB" },
-          { playerId: "poison", from: "BBB", to: "AAA" },
-        ],
-      },
-      C25,
-    );
+  // Art. VII §8(g) deems the average "only for purposes of determining
+  // whether the acquiring Team has Room". An over-the-cap team matches at the
+  // salary he is actually paid; a room team absorbs the average.
+  const poison: Contract = {
+    ...contract("poison", "BBB", 8_000_000),
+    poisonPillExtensionSalaries: [30_000_000, 32_000_000, 34_000_000, 36_000_000],
+  };
+  const swap = (out: string, from: string) =>
+    ({ teams: ["AAA", "BBB"], players: [{ playerId: out, from, to: "BBB" }, { playerId: "poison", from: "BBB", to: "AAA" }] });
+
+  it("an over-the-cap team matches a poison-pill player at his actual salary", () => {
+    const data = league([filler("AAA", 150_000_000), contract("out", "AAA", 30_000_000), filler("BBB", 120_000_000), poison]);
+    const v = validateTrade(data, swap("out", "AAA"), C25);
     const aaa = v.teams.find((t) => t.teamId === "AAA")!;
+    expect(aaa.incomingSalary).toBe(8_000_000);
+    expect(aaa.incomingCapSalary).toBe(8_000_000);
+    expect(v.checks.some((x) => x.ruleId === "poison_pill_incoming_value" && /actual/.test(x.reason))).toBe(true);
+  });
+
+  it("a team absorbing him into cap room counts the poison-pill average", () => {
+    // AAA sits $60M under the cap and sends out $1M: only Room can take him.
+    const data = league([filler("AAA", C25.salaryCap - 61_000_000), contract("tiny", "AAA", 1_000_000), filler("BBB", 120_000_000), poison]);
+    const v = validateTrade(data, swap("tiny", "AAA"), C25);
+    const aaa = v.teams.find((t) => t.teamId === "AAA")!;
+    expect(aaa.matchingRule).toBe("cap_room_absorption");
     expect(aaa.incomingSalary).toBe(28_000_000);
     expect(aaa.incomingCapSalary).toBe(8_000_000);
-    expect(v.checks.some((x) => x.ruleId === "poison_pill_incoming_value" && x.ok)).toBe(true);
+  });
+
+  it("a below-cap team the average doesn't fit can still match at the actual salary", () => {
+    // $5M of room + $7M out: Room can't hold the $28M average, but 200% + $250K matching holds $8M.
+    const data = league([filler("AAA", C25.salaryCap - 12_000_000), contract("mid", "AAA", 7_000_000), filler("BBB", 120_000_000), poison]);
+    const v = validateTrade(data, swap("mid", "AAA"), C25);
+    const aaa = v.teams.find((t) => t.teamId === "AAA")!;
+    expect(aaa.incomingSalary).toBe(8_000_000);
+    expect(v.checks.find((x) => x.ruleId === "salary_matching" && x.teamId === "AAA")?.ok).toBe(true);
   });
 
   it("removes the $250k matching allowance when post-trade apron salary exceeds the first apron", () => {

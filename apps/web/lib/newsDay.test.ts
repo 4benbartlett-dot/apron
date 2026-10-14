@@ -279,8 +279,9 @@ describe("an extension card", () => {
     expect(card.checks.some((c) => /Nothing moves on the 2026-27 sheet/.test(c.text))).toBe(true);
     expect(card.checks.some((c) => /rookie-scale extension limit/.test(c.text) && c.ok)).toBe(true);
     expect(card.checks.some((c) => /under the 25% maximum/.test(c.text))).toBe(true);
-    // Average of $12,258,609 and the five new seasons: what an acquirer counts.
-    expect(card.consequences.some((c) => /\$36\.7M for matching/.test(c.text))).toBe(true);
+    // Average of $12,258,609 and the five new seasons: what a team absorbing
+    // him into cap room counts. A team matching salaries counts $12.26M.
+    expect(card.consequences.some((c) => /cap room counts \$36\.7M/.test(c.text) && /takes him at his \$12\.3M/.test(c.text))).toBe(true);
     expect(card.winShifts).toEqual([]);
   });
 });
