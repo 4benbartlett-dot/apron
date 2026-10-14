@@ -293,7 +293,9 @@ describe("next season's commitments against Spotrac's 2027-28 tables", () => {
 
 
 const HARD_CAP_EXPLAINED: Record<string, string> = {
-  POR: "Spotrac flags Portland hard-capped at the first apron, but no 2026-27 move triggers it: no exception use, no sign-and-trade acquisition, and no trade since Jul 1 (the Morant deal was Jun 29, in the 2025-26 league year, whose caps ended Jun 30). Their flag, not our omission.",
+  // Portland sat here until Oct 14, written off as Spotrac's mistake. Spotrac
+  // was right: a row E–J move after the regular season (the Jun 29 Morant
+  // trade) binds through the NEXT league year, Art. VII §2(e)(2)(ii)(B).
 };
 type PageExc = { type: string; original: number; available: number };
 const usedOf = (ex: PageExc[], re: RegExp) => ex.filter((e) => re.test(e.type)).reduce((s, e) => s + (e.original - e.available), 0);

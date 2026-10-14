@@ -181,7 +181,9 @@
     },
     "POR": {
       "confidence": "high",
-      "rationale": "One feed signing: Branden Carlson 1yr/$2,449,421 (y1 = 2,449,421 <= min top 3,876,529) -> minimum exception, consumes nothing; prior team OKC (OKC declined his QO). Caleb Love is a two-way (skipped). POR committed 2026-27 = $172.8M (over cap, so no room usage possible anyway). Ja Morant arrived by trade, not signing. No MLE/BAE use, no hard cap."
+      "rationale": "One feed signing: Branden Carlson 1yr/$2,449,421 (y1 = 2,449,421 <= min top 3,876,529) -> minimum exception, consumes nothing; prior team OKC (OKC declined his QO). Caleb Love is a two-way (skipped). POR committed 2026-27 = $172.8M (over cap, so no room usage possible anyway). Ja Morant arrived by trade, not signing. No MLE/BAE use. HARD-CAPPED at the first apron all 2026-27 by the Jun 29 Morant trade: Portland took in his $39,446,090 for Jerami Grant ($32,000,001) and Kris Murray ($3,132,000), $35,132,001 out, beyond the 100% + $250K a standard traded-player exception allows, so it used the expanded exception (restriction-table row E). Art. VII §2(e)(2)(ii)(B): a row E–J transaction made between the last day of the regular season and June 30 binds the team at that apron through the end of the SUBSEQUENT salary cap year. The sheet had treated Jun 29 as the 2025-26 league year and let the cap lapse on Jun 30; Spotrac flagged it all along, and The Third Apron (Yossi Gozlan) reported the hard cap at the time of the deal.",
+      "inWorldHardCap": "first_apron",
+      "hardCapSource": "Ja Morant trade (Jun 29, expanded traded-player exception)"
     },
     "SAC": {
       "confidence": "high",
