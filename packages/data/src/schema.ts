@@ -21,7 +21,7 @@ export interface SchemaCtx {
   teams: ReadonlySet<string>;
 }
 
-export const GUARANTEE_TYPES = ["full", "partial", "non_guaranteed", "team_option", "player_option"] as const;
+export const GUARANTEE_TYPES = ["full", "partial", "non_guaranteed", "team_option", "player_option", "mutual_option"] as const;
 export const BIRD_STATUSES = ["bird", "early_bird", "non_bird", "none"] as const;
 export const TRANSACTION_TYPES = [
   "Trade",

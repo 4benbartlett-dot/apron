@@ -13,9 +13,14 @@ export function middleware(req: NextRequest) {
   const header = req.headers.get("authorization") ?? "";
   const [scheme, encoded] = header.split(" ");
   if (scheme === "Basic" && encoded) {
-    const decoded = atob(encoded);
-    const supplied = decoded.slice(decoded.indexOf(":") + 1);
-    if (supplied === password) return NextResponse.next();
+    let supplied = "";
+    try {
+      const decoded = atob(encoded);
+      supplied = decoded.slice(decoded.indexOf(":") + 1);
+    } catch {
+      /* not base64 — a 401 like any wrong password, not a 500 */
+    }
+    if (sameSecret(supplied, password)) return NextResponse.next();
   }
   return new NextResponse("The front office needs a password.", {
     status: 401,
@@ -23,4 +28,12 @@ export function middleware(req: NextRequest) {
   });
 }
 
-export const config = { matcher: ["/admin", "/admin/:path*"] };
+/** Compare without returning early at the first differing character, so the
+ * response time doesn't say how much of a guess was right. */
+function sameSecret(a: string, b: string): boolean {
+  let diff = a.length ^ b.length;
+  for (let i = 0; i < b.length; i++) diff |= (a.charCodeAt(i) || 0) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+export const config ={ matcher: ["/admin", "/admin/:path*"] };

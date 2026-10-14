@@ -2,11 +2,543 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Aaron Nkrumah",
+      "pos": "F",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 10"
+    },
+    {
+      "player": "Isaac McKneely",
+      "pos": "G",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "R.J. Davis",
+      "pos": "SG",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio Spurs (SAS)"
+    },
+    {
+      "player": "Viktor Lakhin",
+      "pos": "F",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 10"
+    },
+    {
+      "player": "Pedro Bradshaw",
+      "pos": "G",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Pedro Bradshaw",
+      "pos": "G",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Denver Nuggets (DEN) via Exhibit 10"
+    },
+    {
+      "player": "Mohamed Wague",
+      "pos": "C",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
+    },
+    {
+      "player": "Fletcher Loyer",
+      "pos": "G",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with LA Clippers (LAC) via Exhibit 10"
+    },
+    {
+      "player": "Jorge Diaz-Graham",
+      "pos": "C",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Dallas Mavericks (DAL) via Exhibit 10"
+    },
+    {
+      "player": "Chris Mantis",
+      "pos": "F",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Chris Mantis",
+      "pos": "F",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Dallas Mavericks (DAL) via Exhibit 10"
+    },
+    {
+      "player": "Darin Green Jr.",
+      "pos": "SG",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Darin Green Jr.",
+      "pos": "SG",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Dallas Mavericks (DAL) via Exhibit 10"
+    },
+    {
+      "player": "Payton Pritchard",
+      "pos": "PG",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 2 year $44.15 million contract extension with Boston Celtics (BOS) - includes 2029-30 Mutual Option"
+    },
+    {
+      "player": "Matt Cross",
+      "pos": "F",
+      "date": "Oct 13, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Matt Cross",
+      "pos": "F",
+      "date": "Oct 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Dallas Mavericks (DAL) via Exhibit 10"
+    },
+    {
+      "player": "Zach Cleveland",
+      "pos": "F",
+      "date": "Oct 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Memphis Grizzlies (MEM) via Exhibit 10"
+    },
+    {
+      "player": "Yuki Kawamura",
+      "pos": "G",
+      "date": "Oct 12, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Caleb Houstan",
+      "pos": "SF",
+      "date": "Oct 12, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Jamarion Sharp",
+      "pos": "C",
+      "date": "Oct 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Toronto Raptors (TOR) via Exhibit 10"
+    },
+    {
+      "player": "Chucky Hepburn",
+      "pos": "G",
+      "date": "Oct 12, 2026",
+      "type": "Release",
+      "detail": "Waived by Toronto Raptors (TOR)"
+    },
+    {
+      "player": "Lonnie Walker IV",
+      "pos": "SG",
+      "date": "Oct 12, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Aaron Nkrumah",
+      "pos": "F",
+      "date": "Oct 12, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Damari Monsanto",
+      "pos": "SG",
+      "date": "Oct 12, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Dain Dainja",
+      "pos": "F",
+      "date": "Oct 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Dion Brown",
+      "pos": "G",
+      "date": "Oct 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Tyler Burton",
+      "pos": "SF",
+      "date": "Oct 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Golden State Warriors (GSW) via Exhibit 10"
+    },
+    {
+      "player": "Christian Koloko",
+      "pos": "C",
+      "date": "Oct 11, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Miles Kelly",
+      "pos": "F",
+      "date": "Oct 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Skal Labissiere",
+      "pos": "PF",
+      "date": "Oct 11, 2026",
+      "type": "Release",
+      "detail": "Waived by Washington Wizards (WAS)"
+    },
+    {
+      "player": "Alondes Williams",
+      "pos": "G",
+      "date": "Oct 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Washington Wizards (WAS) via Exhibit 10"
+    },
+    {
+      "player": "Jalen Moore",
+      "pos": "SF",
+      "date": "Oct 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans Pelicans (NOP) via Exhibit 10"
+    },
+    {
+      "player": "Damari Monsanto",
+      "pos": "SG",
+      "date": "Oct 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 10"
+    },
+    {
+      "player": "Brandin Podziemski",
+      "pos": "SG",
+      "date": "Oct 10, 2026",
+      "type": "Signing",
+      "detail": "Agreed to a 5 year $110 million contract extension with Golden State Warriors (GSW) - includes 2031-32 Player Option and trade bonus"
+    },
+    {
+      "player": "Curtis Jones",
+      "pos": "G",
+      "date": "Oct 09, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Kadary Richmond",
+      "pos": "SG",
+      "date": "Oct 09, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Jax Robinson",
+      "pos": "F",
+      "date": "Oct 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Cleveland Cavaliers (CLE) via Exhibit 10"
+    },
+    {
+      "player": "Noam Yaacov",
+      "pos": "G",
+      "date": "Oct 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Cleveland Cavaliers (CLE) via Exhibit 10"
+    },
+    {
+      "player": "Jalon Moore",
+      "pos": "F",
+      "date": "Oct 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans Pelicans (NOP) via Exhibit 10"
+    },
+    {
+      "player": "Rafael Castro",
+      "pos": "C",
+      "date": "Oct 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Los Angeles Lakers (LAL) via Exhibit 10"
+    },
+    {
+      "player": "Kylor Kelley",
+      "pos": "C",
+      "date": "Oct 09, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Miami Heat (MIA) via Exhibit 10"
+    },
+    {
+      "player": "Dion Brown",
+      "pos": "G",
+      "date": "Oct 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Brooklyn Nets (BKN) via Exhibit 10"
+    },
+    {
+      "player": "Gabe Madsen",
+      "pos": "F",
+      "date": "Oct 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Miami Heat (MIA) via Exhibit 10"
+    },
+    {
+      "player": "Dennis Smith Jr.",
+      "pos": "PG",
+      "date": "Oct 08, 2026",
+      "type": "Release",
+      "detail": "Waived by Miami Heat (MIA)"
+    },
+    {
+      "player": "Dennis Smith Jr.",
+      "pos": "PG",
+      "date": "Oct 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Miami Heat (MIA) via Exhibit 10"
+    },
+    {
+      "player": "J’Vonne Hadley",
+      "pos": "F",
+      "date": "Oct 08, 2026",
+      "type": "Release",
+      "detail": "Waived by Miami Heat (MIA)"
+    },
+    {
+      "player": "Lester Quinones",
+      "pos": "SG",
+      "date": "Oct 08, 2026",
+      "type": "Release",
+      "detail": "Waived by Miami Heat (MIA)"
+    },
+    {
+      "player": "Mohamed Wague",
+      "pos": "C",
+      "date": "Oct 08, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Utah Jazz (UTA) via Exhibit 10"
+    },
+    {
+      "player": "Jahmyl Telfort",
+      "pos": "SF",
+      "date": "Oct 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with LA Clippers (LAC) via Exhibit 10"
+    },
+    {
+      "player": "Jaylen Martin",
+      "pos": "F",
+      "date": "Oct 07, 2026",
+      "type": "Release",
+      "detail": "Waived by Portland Trail Blazers (POR)"
+    },
+    {
+      "player": "Trhae Mitchell",
+      "pos": "F",
+      "date": "Oct 07, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Trhae Mitchell",
+      "pos": "F",
+      "date": "Oct 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 10"
+    },
+    {
+      "player": "Anthony Pritchard",
+      "pos": "G",
+      "date": "Oct 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Oklahoma City Thunder (OKC) via Exhibit 10"
+    },
+    {
+      "player": "Terrell Brown Jr.",
+      "pos": "G",
+      "date": "Oct 06, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
+    },
+    {
+      "player": "Johnell Davis",
+      "pos": "G",
+      "date": "Oct 06, 2026",
+      "type": "Release",
+      "detail": "Waived by Orlando Magic (ORL)"
+    },
+    {
+      "player": "Fletcher Loyer",
+      "pos": "G",
+      "date": "Oct 06, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Jaylen Martin",
+      "pos": "F",
+      "date": "Oct 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Portland Trail Blazers (POR) via Exhibit 10"
+    },
+    {
+      "player": "Ariel Hukporti",
+      "pos": "C",
+      "date": "Oct 06, 2026",
+      "type": "Other",
+      "detail": "Will miss the 2026-27 season with Philadelphia 76ers (PHI) due to Achilles injury"
+    },
+    {
+      "player": "Johni Broome",
+      "pos": "C",
+      "date": "Oct 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Milwaukee Bucks (MIL) via Exhibit 10"
+    },
+    {
+      "player": "Robert McCray V",
+      "pos": "G",
+      "date": "Oct 06, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "John Butler Jr.",
+      "pos": "C",
+      "date": "Oct 06, 2026",
+      "type": "Release",
+      "detail": "Waived by Milwaukee Bucks (MIL)"
+    },
+    {
+      "player": "Jordan Hawkins",
+      "pos": "SG",
+      "date": "Oct 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Chicago Bulls (CHI)"
+    },
+    {
+      "player": "Tyson Degenhart",
+      "pos": "F",
+      "date": "Oct 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Toronto Raptors (TOR) via Exhibit 10"
+    },
+    {
+      "player": "Taylor Funk",
+      "pos": "PF",
+      "date": "Oct 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Utah Jazz (UTA) via Exhibit 10"
+    },
+    {
+      "player": "Skal Labissiere",
+      "pos": "PF",
+      "date": "Oct 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Washington Wizards (WAS) via Exhibit 10"
+    },
+    {
+      "player": "Mike Sharavjamts",
+      "pos": "F",
+      "date": "Oct 05, 2026",
+      "type": "Release",
+      "detail": "Waived by Orlando Magic (ORL)"
+    },
+    {
+      "player": "Mike Sharavjamts",
+      "pos": "F",
+      "date": "Oct 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Orlando Magic (ORL) via Exhibit 10"
+    },
+    {
+      "player": "Isaiah Stevens",
+      "pos": "PG",
+      "date": "Oct 05, 2026",
+      "type": "Release",
+      "detail": "Waived by Chicago Bulls (CHI)"
+    },
+    {
+      "player": "Andre Jackson Jr.",
+      "pos": "SG",
+      "date": "Oct 05, 2026",
+      "type": "Release",
+      "detail": "Waived by Toronto Raptors (TOR)"
+    },
+    {
+      "player": "Jazian Gortman",
+      "pos": "G",
+      "date": "Oct 05, 2026",
+      "type": "Release",
+      "detail": "Waived by Washington Wizards (WAS)"
+    },
+    {
+      "player": "Johnell Davis",
+      "pos": "G",
+      "date": "Oct 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Orlando Magic (ORL) via Exhibit 10"
+    },
+    {
+      "player": "Sean East II",
+      "pos": "G",
+      "date": "Oct 04, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Viktor Lakhin",
+      "pos": "F",
+      "date": "Oct 04, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
       "player": "Jalen Duren",
       "pos": "C",
       "date": "Oct 02, 2026",
       "type": "Signing",
-      "detail": "Agreed to a 5 year $200 million with Detroit Pistons (DET)"
+      "detail": "Signed a 5 year $200 million with Detroit Pistons (DET)"
+    },
+    {
+      "player": "Steve Settle",
+      "pos": "F",
+      "date": "Oct 02, 2026",
+      "type": "Release",
+      "detail": "Waived by Washington Wizards (WAS)"
+    },
+    {
+      "player": "Jazian Gortman",
+      "pos": "G",
+      "date": "Oct 02, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Washington Wizards (WAS) via Exhibit 10"
+    },
+    {
+      "player": "Jordan Hawkins",
+      "pos": "SG",
+      "date": "Oct 02, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis Grizzlies (MEM) via Buyout ($678,882 cap savings)"
     },
     {
       "player": "Khaman Maluach",
@@ -31,7 +563,7 @@
     },
     {
       "player": "Moussa Cisse",
-      "pos": "F",
+      "pos": "C",
       "date": "Oct 01, 2026",
       "type": "Other",
       "detail": "Dallas Mavericks (DAL) fully guaranteed guaranteed $2,185,116 of salary for 2026-27"

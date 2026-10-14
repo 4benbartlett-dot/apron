@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { TEAM_IDS, teamMeta } from "@/lib/league";
 import { TeamLogo } from "@/components/TeamLogo";
+import { leaguePhase } from "@/lib/phase";
 
 /** First-run landing: pick whose front office you're running. */
 export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
@@ -27,7 +28,7 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
 
       <div className="relative mx-auto max-w-3xl text-center">
         <div className="label !text-[11px] text-[var(--accent-ink)]">
-          2026–27 · Free agency is open
+          2026–27 · {leaguePhase().short}
         </div>
         <h2 className="mt-2 text-[clamp(24px,4vw,34px)] font-bold leading-tight tracking-tight">
           Whose front office are you running?

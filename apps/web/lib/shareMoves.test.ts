@@ -33,3 +33,33 @@ describe("shared-offseason (?gm=) token", () => {
     expect(decodeMovesParam("not-valid-base64!!")).toBeNull();
   });
 });
+
+// A link is input from anywhere: truncated, hand-edited, or minted by an older
+// build. `[{"kind":"trade"}]` used to reach the replay and throw on
+// `players.map`, which blanked the board and — because hydration persists what
+// it loads — kept blanking it on every reload.
+describe("a malformed shared offseason costs only its bad moves", () => {
+  const good: Move = { kind: "renounce", label: "Renounce Seth Curry", playerId: "curryse01", playerName: "Seth Curry", team: "GSW" };
+  const token = (list: unknown[]) => encodeMovesToken(list as Move[]);
+
+  it("drops moves missing the fields the replay reads", () => {
+    expect(decodeMovesParam(token([{ kind: "trade" }]))).toBeNull();
+    expect(decodeMovesParam(token([{ kind: "trade" }, good]))).toEqual([good]);
+  });
+
+  it("drops unknown kinds, non-objects, bad teams and bad money", () => {
+    const junk = [
+      null, 5, "x", [], { kind: "teleport", label: "" },
+      { kind: "sign", label: "", playerId: "greendr01", playerName: "Draymond Green", teamId: "ZZZ", salary: 1 },
+      { kind: "sign", label: "", playerId: "greendr01", playerName: "Draymond Green", teamId: "GSW", salary: "lots" },
+      { kind: "sign", label: "", playerId: "greendr01", playerName: "Draymond Green", teamId: "GSW", salary: Number.MAX_VALUE },
+      { kind: "trade", label: "", players: [{ playerId: "davisan02", to: "Narnia" }] },
+    ];
+    expect(decodeMovesParam(token([...junk, good]))).toEqual([good]);
+  });
+
+  it("caps a token that claims an absurd number of moves", () => {
+    const decoded = decodeMovesParam(token(Array.from({ length: 2000 }, () => good)));
+    expect(decoded!.length).toBeLessThanOrEqual(400);
+  });
+});

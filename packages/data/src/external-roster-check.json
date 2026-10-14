@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-02",
+  "asOf": "2026-10-14",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -19,7 +19,7 @@
         },
         {
           "name": "Dyson Daniels",
-          "pos": "PG",
+          "pos": "SG",
           "type": "RK-EXT",
           "cap": 25000000,
           "base": 25000000,
@@ -31,7 +31,7 @@
         },
         {
           "name": "C.J. McCollum",
-          "pos": "SG",
+          "pos": "PG",
           "type": "VET-EXT",
           "cap": 21000000,
           "base": 21000000,
@@ -139,7 +139,7 @@
         },
         {
           "name": "Zuby Ejiofor",
-          "pos": "C",
+          "pos": "PF",
           "type": "RK-1ST",
           "cap": 3453360,
           "base": 3453360,
@@ -632,7 +632,7 @@
         },
         {
           "name": "Keon Ellis",
-          "pos": "SF",
+          "pos": "SG",
           "type": "FA",
           "cap": 9000000,
           "base": 9000000,
@@ -644,7 +644,7 @@
         },
         {
           "name": "Mikel Brown Jr.",
-          "pos": "PG",
+          "pos": "SG",
           "type": "RK-1ST",
           "cap": 8787000,
           "base": 8787000,
@@ -704,7 +704,7 @@
         },
         {
           "name": "Drake Powell",
-          "pos": "SF",
+          "pos": "SG",
           "type": "RK-1ST",
           "cap": 3540600,
           "base": 3540600,
@@ -758,7 +758,7 @@
           "name": "Nikola Milutinov",
           "pos": "C",
           "type": "",
-          "cap": 3173040,
+          "cap": 3076920,
           "qo": 0,
           "rights": "1st Round Pick"
         }
@@ -776,8 +776,8 @@
       "summary": {
         "hardCap": null,
         "activeRoster": 160056358,
-        "capHold": 3173040,
-        "capTotal": 163229398,
+        "capHold": 3076920,
+        "capTotal": 163133278,
         "apronTotal": 160056358
       }
     },
@@ -797,7 +797,7 @@
         },
         {
           "name": "Naz Reid",
-          "pos": "C",
+          "pos": "PF",
           "type": "FA",
           "cap": 23275862,
           "base": 23275862,
@@ -893,7 +893,7 @@
         },
         {
           "name": "Hannes Steinbach",
-          "pos": "PF",
+          "pos": "C",
           "type": "RK-1ST",
           "cap": 5227200,
           "base": 5227200,
@@ -941,7 +941,7 @@
         },
         {
           "name": "Moussa Diabate",
-          "pos": "PF",
+          "pos": "C",
           "type": "ROS",
           "cap": 2461462,
           "base": 2461462,
@@ -965,7 +965,7 @@
         },
         {
           "name": "Sion James",
-          "pos": "SF",
+          "pos": "SG",
           "type": "RK-2ND",
           "cap": 2411090,
           "base": 2411090,
@@ -1027,10 +1027,10 @@
         {
           "type": "Trade",
           "reason": "Tyus Jones trade with DAL",
-          "usedOn": "",
+          "usedOn": "Rob Dillingham, $6,262,920",
           "expires": "2027-02-05",
           "original": 7000000,
-          "available": 7000000
+          "available": 110680
         },
         {
           "type": "Trade",
@@ -1062,7 +1062,7 @@
       "active": [
         {
           "name": "Josh Giddey",
-          "pos": "SG",
+          "pos": "PG",
           "type": "FA",
           "cap": 25000000,
           "base": 25000000,
@@ -1146,7 +1146,7 @@
         },
         {
           "name": "Jalen Smith",
-          "pos": "PF",
+          "pos": "C",
           "type": "FA",
           "cap": 9428571,
           "base": 9428571,
@@ -1284,7 +1284,7 @@
         },
         {
           "name": "James Harden",
-          "pos": "SG",
+          "pos": "PG",
           "type": "FA",
           "cap": 30647619,
           "base": 30647619,
@@ -1308,7 +1308,7 @@
         },
         {
           "name": "Peyton Watson",
-          "pos": "SG",
+          "pos": "SF",
           "type": "S&T",
           "cap": 20465116,
           "base": 20465116,
@@ -1344,7 +1344,7 @@
         },
         {
           "name": "Mario Hezonja",
-          "pos": "SG",
+          "pos": "SF",
           "type": "FA",
           "cap": 2449421,
           "base": 2845883,
@@ -1368,7 +1368,7 @@
         },
         {
           "name": "Nae'qwan Tomlin",
-          "pos": "F",
+          "pos": "PF",
           "type": "ROS",
           "cap": 2411090,
           "base": 2411090,
@@ -1380,7 +1380,7 @@
         },
         {
           "name": "Craig Porter Jr.",
-          "pos": "G",
+          "pos": "PG",
           "type": "ROS",
           "cap": 2406205,
           "base": 2406205,
@@ -1392,7 +1392,7 @@
         },
         {
           "name": "Tyrese Proctor",
-          "pos": "SG",
+          "pos": "PG",
           "type": "RK-2ND",
           "cap": 2150917,
           "base": 2150917,
@@ -1589,7 +1589,7 @@
         },
         {
           "name": "Santi Aldama",
-          "pos": "C",
+          "pos": "PF",
           "type": "FA",
           "cap": 17007043,
           "base": 17007043,
@@ -1697,7 +1697,7 @@
         },
         {
           "name": "Sergio de Larrea",
-          "pos": "SG",
+          "pos": "PG",
           "type": "RK-1ST",
           "cap": 3182280,
           "base": 3182280,
@@ -1709,7 +1709,7 @@
         },
         {
           "name": "Tarik Biberovic",
-          "pos": "PF",
+          "pos": "SG",
           "type": "RK",
           "cap": 3000000,
           "base": 3000000,
@@ -1733,7 +1733,7 @@
         },
         {
           "name": "Moussa Cisse",
-          "pos": "F",
+          "pos": "C",
           "type": "FA",
           "cap": 2185116,
           "base": 2185116,
@@ -1935,7 +1935,7 @@
         },
         {
           "name": "Zeke Nnaji",
-          "pos": "PF",
+          "pos": "C",
           "type": "RK-EXT",
           "cap": 7466667,
           "base": 7466667,
@@ -1947,7 +1947,7 @@
         },
         {
           "name": "Spencer Jones",
-          "pos": "SF",
+          "pos": "PF",
           "type": "FA",
           "cap": 6000000,
           "base": 6000000,
@@ -1983,7 +1983,7 @@
         },
         {
           "name": "Marvin Bagley III",
-          "pos": "PF",
+          "pos": "C",
           "type": "FA",
           "cap": 2449421,
           "base": 3506659,
@@ -2160,13 +2160,13 @@
         {
           "name": "Jalen Duren",
           "pos": "C",
-          "type": "",
-          "cap": 34482759,
-          "base": 34482759,
+          "type": "FA",
+          "cap": 40160643,
+          "base": 40160643,
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 34482759,
+          "guaranteed": 40160643,
           "nonGuaranteed": false
         },
         {
@@ -2183,7 +2183,7 @@
         },
         {
           "name": "Duncan Robinson",
-          "pos": "SF",
+          "pos": "SG",
           "type": "S&T",
           "cap": 15992957,
           "base": 15992957,
@@ -2207,7 +2207,7 @@
         },
         {
           "name": "Ausar Thompson",
-          "pos": "SG",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 11117925,
           "base": 11117925,
@@ -2380,11 +2380,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 185004433,
+        "activeRoster": 190682317,
         "deadMoney": 3815861,
         "capHold": 9649421,
-        "capTotal": 198469715,
-        "apronTotal": 188820294
+        "capTotal": 204147599,
+        "apronTotal": 194498178
       }
     },
     "GSW": {
@@ -2427,7 +2427,7 @@
         },
         {
           "name": "Kristaps Porzingis",
-          "pos": "PF",
+          "pos": "C",
           "type": "VET-EXT",
           "cap": 20000000,
           "base": 20000000,
@@ -2463,7 +2463,7 @@
         },
         {
           "name": "Yaxel Lendeborg",
-          "pos": "PF",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 6096240,
           "base": 6096240,
@@ -3057,7 +3057,7 @@
         },
         {
           "name": "Jarace Walker",
-          "pos": "PF",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 8478542,
           "base": 8478542,
@@ -3081,7 +3081,7 @@
         },
         {
           "name": "Ben Sheppard",
-          "pos": "SF",
+          "pos": "SG",
           "type": "RK-1ST",
           "cap": 5031669,
           "base": 5031669,
@@ -3274,7 +3274,7 @@
         },
         {
           "name": "Jake LaRavia",
-          "pos": "PF",
+          "pos": "SF",
           "type": "FA",
           "cap": 6000000,
           "base": 6000000,
@@ -3405,7 +3405,7 @@
       "active": [
         {
           "name": "Jerami Grant",
-          "pos": "PF",
+          "pos": "SF",
           "type": "FA",
           "cap": 34206898,
           "base": 34206898,
@@ -3441,7 +3441,7 @@
         },
         {
           "name": "Ty Jerome",
-          "pos": "SG",
+          "pos": "PG",
           "type": "FA",
           "cap": 9220050,
           "base": 9220050,
@@ -3473,18 +3473,6 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 7805900,
-          "nonGuaranteed": false
-        },
-        {
-          "name": "Jordan Hawkins",
-          "pos": "SG",
-          "type": "RK-1ST",
-          "cap": 7021895,
-          "base": 7021895,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 7021895,
           "nonGuaranteed": false
         },
         {
@@ -3597,7 +3585,7 @@
         },
         {
           "name": "Jaylen Wells",
-          "pos": "SG",
+          "pos": "SF",
           "type": "RK-2ND",
           "cap": 2296271,
           "base": 2296271,
@@ -3609,7 +3597,7 @@
         },
         {
           "name": "Micah Peavy",
-          "pos": "SG",
+          "pos": "SF",
           "type": "RK-2ND",
           "cap": 2150917,
           "base": 2150917,
@@ -3626,6 +3614,11 @@
           "name": "Kentavious Caldwell-Pope",
           "flag": "WAIVED",
           "cap": 17744971
+        },
+        {
+          "name": "Jordan Hawkins",
+          "flag": "WAIVED",
+          "cap": 6343013
         },
         {
           "name": "D'Angelo Russell",
@@ -3680,10 +3673,10 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 133914384,
-        "deadMoney": 27878271,
-        "capTotal": 161792655,
-        "apronTotal": 164402828
+        "activeRoster": 126892489,
+        "deadMoney": 34221284,
+        "capTotal": 161113773,
+        "apronTotal": 163723946
       }
     },
     "MIA": {
@@ -3786,7 +3779,7 @@
         },
         {
           "name": "Dru Smith",
-          "pos": "SG",
+          "pos": "PG",
           "type": "FA",
           "cap": 2584539,
           "base": 2584539,
@@ -3834,7 +3827,7 @@
         },
         {
           "name": "Myron Gardner",
-          "pos": "G",
+          "pos": "SG",
           "type": "ROS",
           "cap": 2150917,
           "base": 2150917,
@@ -4083,7 +4076,7 @@
         },
         {
           "name": "Ryan Rollins",
-          "pos": "SG",
+          "pos": "PG",
           "type": "FA",
           "cap": 4000000,
           "base": 4000000,
@@ -4256,7 +4249,7 @@
         },
         {
           "name": "Jaden McDaniels",
-          "pos": "PF",
+          "pos": "SF",
           "type": "RK-EXT",
           "cap": 26200000,
           "base": 26200000,
@@ -4304,7 +4297,7 @@
         },
         {
           "name": "Cody Williams",
-          "pos": "SG",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 6015600,
           "base": 6015600,
@@ -4488,7 +4481,7 @@
         },
         {
           "name": "OG Anunoby",
-          "pos": "SF",
+          "pos": "PF",
           "type": "FA",
           "cap": 42500000,
           "base": 42500000,
@@ -4512,7 +4505,7 @@
         },
         {
           "name": "Mikal Bridges",
-          "pos": "SF",
+          "pos": "SG",
           "type": "VET-EXT",
           "cap": 33482145,
           "base": 33482145,
@@ -4524,7 +4517,7 @@
         },
         {
           "name": "Josh Hart",
-          "pos": "SG",
+          "pos": "SF",
           "type": "VET-EXT",
           "cap": 20923760,
           "base": 20923760,
@@ -4572,7 +4565,7 @@
         },
         {
           "name": "Pacome Dadiet",
-          "pos": "SG",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 2983680,
           "base": 2983680,
@@ -4638,7 +4631,7 @@
           "name": "Petteri Koponen",
           "pos": "G",
           "type": "RK",
-          "cap": 3173040,
+          "cap": 2926800,
           "qo": 0,
           "rights": "1st Round Pick"
         },
@@ -4680,8 +4673,8 @@
       "summary": {
         "hardCap": null,
         "activeRoster": 218412232,
-        "capHold": 5622461,
-        "capTotal": 224034693,
+        "capHold": 5376221,
+        "capTotal": 223788453,
         "apronTotal": 218412232
       }
     },
@@ -4701,7 +4694,7 @@
         },
         {
           "name": "Chet Holmgren",
-          "pos": "C",
+          "pos": "PF",
           "type": "rookie-maximum-extension",
           "cap": 41240250,
           "base": 41240250,
@@ -5427,7 +5420,7 @@
         },
         {
           "name": "Miles Bridges",
-          "pos": "SF",
+          "pos": "PF",
           "type": "FA",
           "cap": 22826087,
           "base": 22826087,
@@ -5741,7 +5734,7 @@
         },
         {
           "name": "Jrue Holiday",
-          "pos": "PG",
+          "pos": "SG",
           "type": "VET-EXT",
           "cap": 34800000,
           "base": 34800000,
@@ -5861,7 +5854,7 @@
         },
         {
           "name": "Vit Krejci",
-          "pos": "PG",
+          "pos": "SG",
           "type": "FA",
           "cap": 2667944,
           "base": 2667944,
@@ -5873,7 +5866,7 @@
         },
         {
           "name": "Sidy Cissoko",
-          "pos": "SG",
+          "pos": "SF",
           "type": "ROS",
           "cap": 2497812,
           "base": 2497812,
@@ -6073,7 +6066,7 @@
         },
         {
           "name": "Alex Karaban",
-          "pos": "PF",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 2948280,
           "base": 2948280,
@@ -6085,7 +6078,7 @@
         },
         {
           "name": "Daeqwon Plowden",
-          "pos": "G",
+          "pos": "SG",
           "type": "FA",
           "cap": 2449421,
           "base": 2449421,
@@ -6121,7 +6114,7 @@
         },
         {
           "name": "Dylan Cardwell",
-          "pos": "PF",
+          "pos": "C",
           "type": "ROS",
           "cap": 2150917,
           "base": 2150917,
@@ -6369,7 +6362,7 @@
         },
         {
           "name": "Stephon Castle",
-          "pos": "PG",
+          "pos": "SG",
           "type": "RK-1ST",
           "cap": 10015920,
           "base": 10015920,
@@ -6393,7 +6386,7 @@
         },
         {
           "name": "Carter Bryant",
-          "pos": "PF",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 5145360,
           "base": 5145360,
@@ -6578,7 +6571,7 @@
         },
         {
           "name": "Allen Graves",
-          "pos": "PF",
+          "pos": "SF",
           "type": "RK-1ST",
           "cap": 4065720,
           "base": 4065720,
@@ -6662,7 +6655,7 @@
         },
         {
           "name": "Jaden Bradley",
-          "pos": "SG",
+          "pos": "PG",
           "type": "",
           "cap": 1357763,
           "base": 1357763,
@@ -6759,7 +6752,7 @@
         },
         {
           "name": "Lauri Markkanen",
-          "pos": "PF",
+          "pos": "SF",
           "type": "VET-EXT",
           "cap": 46113154,
           "base": 46113154,
@@ -6783,7 +6776,7 @@
         },
         {
           "name": "Darryn Peterson",
-          "pos": "PG",
+          "pos": "SG",
           "type": "RK-1ST",
           "cap": 13195320,
           "base": 13195320,
@@ -7096,7 +7089,7 @@
         },
         {
           "name": "AJ Johnson",
-          "pos": "PG",
+          "pos": "SG",
           "type": "RK-1ST",
           "cap": 3237120,
           "base": 3237120,
@@ -7248,7 +7241,7 @@
       "active": [
         {
           "name": "Anthony Davis",
-          "pos": "C",
+          "pos": "PF",
           "type": "VET-EXT",
           "cap": 58456566,
           "base": 58456566,
@@ -7284,7 +7277,7 @@
         },
         {
           "name": "Alex Sarr",
-          "pos": "PF",
+          "pos": "C",
           "type": "RK-1ST",
           "cap": 12370680,
           "base": 12370680,
@@ -7633,7 +7626,7 @@
         },
         {
           "name": "Isaiah Jackson",
-          "pos": "PF",
+          "pos": "C",
           "type": "FA",
           "cap": 7000000,
           "base": 7000000,
@@ -7681,7 +7674,7 @@
         },
         {
           "name": "Yanic Konan Niederhauser",
-          "pos": "F",
+          "pos": "C",
           "type": "RK-1ST",
           "cap": 2880960,
           "base": 2880960,
@@ -7717,7 +7710,7 @@
         },
         {
           "name": "Baba Miller",
-          "pos": "C",
+          "pos": "PF",
           "type": "RK-2ND",
           "cap": 1705630,
           "base": 1705630,

@@ -238,7 +238,7 @@
       "date": "10/21/2026",
       "player": "Zeke Nnaji",
       "team": "DEN",
-      "pos": "PF",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -247,7 +247,7 @@
       "date": "10/23/2026",
       "player": "Jaden McDaniels",
       "team": "MIN",
-      "pos": "PF",
+      "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -283,7 +283,7 @@
       "date": "2/8/2027",
       "player": "Moussa Diabate",
       "team": "CHA",
-      "pos": "PF",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -301,7 +301,7 @@
       "date": "4/11/2027",
       "player": "Jrue Holiday",
       "team": "POR",
-      "pos": "PG",
+      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -382,7 +382,7 @@
       "date": "7/1/2027",
       "player": "Tyrese Proctor",
       "team": "CLE",
-      "pos": "SG",
+      "pos": "PG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -427,7 +427,7 @@
       "date": "7/1/2027",
       "player": "AJ Johnson",
       "team": "NOP",
-      "pos": "PG",
+      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -517,7 +517,7 @@
       "date": "7/1/2027",
       "player": "Stephon Castle",
       "team": "SAS",
-      "pos": "PG",
+      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -535,7 +535,7 @@
       "date": "7/1/2027",
       "player": "Cody Williams",
       "team": "MIN",
-      "pos": "SG",
+      "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -553,7 +553,7 @@
       "date": "7/1/2027",
       "player": "Alex Sarr",
       "team": "WAS",
-      "pos": "PF",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -589,7 +589,7 @@
       "date": "7/3/2027",
       "player": "Sion James",
       "team": "CHA",
-      "pos": "SF",
+      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -724,7 +724,7 @@
       "date": "7/6/2027",
       "player": "Micah Peavy",
       "team": "MEM",
-      "pos": "SG",
+      "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -733,7 +733,7 @@
       "date": "7/6/2027",
       "player": "OG Anunoby",
       "team": "NYK",
-      "pos": "SF",
+      "pos": "PF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -787,7 +787,7 @@
       "date": "7/7/2027",
       "player": "Duncan Robinson",
       "team": "DET",
-      "pos": "SF",
+      "pos": "SG",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -850,7 +850,7 @@
       "date": "7/11/2027",
       "player": "Isaiah Jackson",
       "team": "LAC",
-      "pos": "PF",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -877,7 +877,7 @@
       "date": "7/15/2027",
       "player": "Santi Aldama",
       "team": "DAL",
-      "pos": "C",
+      "pos": "PF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -922,7 +922,7 @@
       "date": "8/7/2027",
       "player": "Lauri Markkanen",
       "team": "UTA",
-      "pos": "PF",
+      "pos": "SF",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"
@@ -1040,6 +1040,15 @@
       "player": "Jalen Suggs",
       "team": "ORL",
       "pos": "SG",
+      "kind": "EXTENSION ELIGIBLE",
+      "amount": 0,
+      "note": "Extension Eligible"
+    },
+    {
+      "date": "10/7/2027",
+      "player": "Wendell Carter Jr.",
+      "team": "ORL",
+      "pos": "C",
       "kind": "EXTENSION ELIGIBLE",
       "amount": 0,
       "note": "Extension Eligible"

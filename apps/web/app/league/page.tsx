@@ -9,6 +9,7 @@ import { fmtM, fmtFull } from "@/lib/format";
 import { Thermometer } from "@/components/Thermometer";
 import { TierBadge } from "@/components/TierBadge";
 import { TeamLogo } from "@/components/TeamLogo";
+import { leaguePhase } from "@/lib/phase";
 
 const BASE_DATA = leagueData(BASE_CONTRACTS);
 // Holds for the "league as of today" view: real-world only — feed-forced
@@ -52,7 +53,7 @@ export default function LeaguePage() {
             </button>
           )}
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            New league year · free agency open. Rosters reflect applied trades &amp;
+            {leaguePhase().detail}. Rosters reflect applied trades &amp;
             signings; each card shows the team’s free-agent cap holds.
           </p>
         </div>

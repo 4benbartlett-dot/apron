@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-02",
+  "asOf": "2026-10-14",
   "note": "Every 2027-28 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
   "byName": {
     "jalen johnson": {
@@ -1007,12 +1007,12 @@
     "jalen duren": {
       "name": "Jalen Duren",
       "team": "DET",
-      "cap": 37241379,
-      "base": 37241379,
+      "cap": 36947792,
+      "base": 36947792,
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,
-      "type": "",
+      "type": "FA",
       "nonGuaranteed": false
     },
     "ausar thompson": {
@@ -1123,6 +1123,17 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "VET-EXT",
+      "nonGuaranteed": false
+    },
+    "brandin podziemski": {
+      "name": "Brandin Podziemski",
+      "team": "GSW",
+      "cap": 18965518,
+      "base": 18965518,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "RK-EXT",
       "nonGuaranteed": false
     },
     "moses moody": {
@@ -2225,6 +2236,17 @@
       "type": "VET-EXT",
       "nonGuaranteed": false
     },
+    "saddiq bey": {
+      "name": "Saddiq Bey",
+      "team": "NOP",
+      "cap": 20108695,
+      "base": 20108695,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "VET-EXT",
+      "nonGuaranteed": false
+    },
     "jeremiah fears": {
       "name": "Jeremiah Fears",
       "team": "NOP",
@@ -3273,8 +3295,8 @@
     "jamal shead": {
       "name": "Jamal Shead",
       "team": "TOR",
-      "cap": 7407407,
-      "base": 7407407,
+      "cap": 8000000,
+      "base": 8000000,
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,

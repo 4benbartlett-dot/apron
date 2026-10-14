@@ -216,6 +216,14 @@
       "type": "Other",
       "detail": "Milwaukee Bucks (MIL) counts $1.357763 million against the cap for 2026-27",
       "why": "The feed's row ('Signed a 4 year $9.26 million contract with Milwaukee (MIL) - includes 2029-30 Team Option') omits the 'via 2nd-round exception' label every other $9.26M rookie deal carries, so the sheet spread it at 5% raises to $2,153,488. It is the same $9,264,648 second-round-exception contract as Bradley's and Diop's — a 2025 second-rounder's first NBA deal — and Spotrac's Milwaukee page has $1,357,763, the 0-YOS minimum, with the money behind it."
+    },
+    {
+      "player": "Jordan Hawkins",
+      "pos": "SG",
+      "date": "Oct 02, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis Grizzlies (MEM) via Buyout - leaves behind $6.343013 million in dead cap",
+      "why": "He was owed $7,021,895 for 2026-27 when Memphis waived him on Oct 2, three weeks after taking him from New Orleans. Spotrac's row states $678,882 in cap savings and Hoops Rumors (Oct 6) puts Memphis at about $6.3MM once his two-way with Chicago pays him roughly $679K. $7,021,895 − $678,882 = $6,343,013. Without this row the waive charged Memphis the full $7.02M."
     }
   ]
 }
