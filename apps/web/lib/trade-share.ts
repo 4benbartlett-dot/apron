@@ -12,6 +12,7 @@ import {
   tpeLedger,
   fitTpePlan,
   stepienFindingFor,
+  SIM_DATE,
   type StepienFinding,
 } from "./league";
 import { fmtM } from "./format";
@@ -146,6 +147,7 @@ export function summarizeTrade(t: string): TradeSummary | null {
     teams: d.teams,
     players: d.players,
     capHolds: holdsByTeam(freeAgentsOf(BASE_CONTRACTS)),
+    date: SIM_DATE,
   };
   let v = validateTrade(data, trade, C);
   // Same TPE auto-fit as the live boards (base ledger — session-minted TPEs

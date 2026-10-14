@@ -167,6 +167,20 @@ export interface LeagueConstants {
 
   /** Minimum salary by years of service (0..10, where 10 = "10+"). */
   minimumSalaries: Record<number, number>;
+
+  /** The dates the league year turns on. Omitted = date-gated rules
+   * (§2(e)(2)(ii)) never fire, which is the pre-calendar behavior. */
+  calendar?: SeasonCalendar;
+}
+
+/** Key dates of a league year, as ISO yyyy-mm-dd strings. */
+export interface SeasonCalendar {
+  /** Last day of the Regular Season. From the next day through
+   * `capYearEnd`, Art. VII §2(e)(2)(ii) carries restriction-table rows E–J
+   * into the Subsequent Salary Cap Year. */
+  regularSeasonEnd: string;
+  /** Last day of the Salary Cap Year (June 30). */
+  capYearEnd: string;
 }
 
 /* ----------------------------- Trades ----------------------------- */
@@ -238,6 +252,12 @@ export interface Trade {
    * restriction. Default is offseason/pre-Dec. 15, when the restriction applies.
    */
   timing?: "offseason" | "pre_dec15" | "dec15_to_deadline" | "post_deadline";
+  /** The day the trade is made, ISO yyyy-mm-dd. Between the day after the
+   * last day of the Regular Season and June 30 (per `LeagueConstants.calendar`)
+   * a row E–J trade is also tested against, and hard-caps the team through,
+   * the Subsequent Salary Cap Year (Art. VII §2(e)(2)(ii)). Omitted = no
+   * date-gated rules. */
+  date?: string;
 }
 
 /* ----------------------------- Verdicts ----------------------------- */
@@ -269,8 +289,24 @@ export interface TeamTradeSummary {
   tpeAbsorbed?: number;
 }
 
+/** A hard cap a trade triggers (Art. VII §2(e)(2), Transaction Restrictions
+ * Table rows E–J). */
+export interface TradeHardCap {
+  teamId: string;
+  /** Restriction-table row: E expanded TPE, F standing standard TPE, H
+   * aggregated standard TPE, I cash paid. (G and J are not modeled.) */
+  row: "E" | "F" | "H" | "I";
+  level: "first_apron" | "second_apron";
+  /** Every Salary Cap Year the cap binds in: the trade's own year, plus the
+   * Subsequent Salary Cap Year for a trade made after the Regular Season. */
+  leagueYears: string[];
+  citation: string;
+}
+
 export interface TradeVerdict {
   legal: boolean;
+  /** Hard caps the trade triggers, whether or not it is legal. */
+  hardCaps: TradeHardCap[];
   teams: TeamTradeSummary[];
   /** Only the failed checks. */
   violations: RuleResult[];

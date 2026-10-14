@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { validateSigning, validateTrade, teamSalary, type Contract } from "@apron/cba-engine";
-import { BASE_CONTRACTS, C, sessionHardCaps, leagueData, TEAM_IDS, type Move } from "@/lib/league";
+import { BASE_CONTRACTS, C, SIM_DATE, sessionHardCaps, sessionHardCapLevels, leagueData, TEAM_IDS, type Move } from "@/lib/league";
 
 // Reported by @SF_DavidGio on launch day: a trade taking back more than 100%
 // (expanded matching) hard-caps the team at the first apron for the YEAR, but
@@ -132,6 +132,30 @@ describe("sessionHardCaps — trade-triggered", () => {
       cash: [{ from: "BOS", to: "LAL", amount: 500_000 }],
     };
     expect(sessionHardCaps([move], base).BOS).toBe(C.secondApron);
+  });
+
+  // Art. VII §2(e)(2)(ii)(B): a row E–J move made between the day after the
+  // last day of the Regular Season (Apr 11, 2027) and June 30 binds through the
+  // end of the NEXT Salary Cap Year — Portland's Jun 29, 2026 Morant trade is
+  // the case the engine missed.
+  it("a row E trade made after the 2026-27 Regular Season carries its cap into 2027-28", () => {
+    expect(sessionHardCapLevels([uneven], BASE_CONTRACTS, "2027-06-20")[ACQ]).toEqual({
+      "2026-27": "first_apron",
+      "2027-28": "first_apron",
+    });
+    // This year's dollar line is unchanged by the carry-forward.
+    expect(sessionHardCaps([uneven], BASE_CONTRACTS, "2027-06-20")[ACQ]).toBe(C.firstApron);
+  });
+
+  it("the same trade made during the season binds 2026-27 only", () => {
+    expect(SIM_DATE < "2027-04-12").toBe(true); // the sim's today is in-season
+    expect(sessionHardCapLevels([uneven])[ACQ]).toEqual({ "2026-27": "first_apron" });
+    expect(sessionHardCapLevels([uneven], BASE_CONTRACTS, "2027-04-11")[ACQ]).toEqual({ "2026-27": "first_apron" });
+  });
+
+  it("an MLE signing after the season does not carry (row B is not in rows E–J)", () => {
+    const sign = { kind: "sign", label: "x", playerId: "a", playerName: "A", teamId: "DET", salary: 10_000_000, years: 2, mechanism: "ntmle" } as Move;
+    expect(sessionHardCapLevels([sign], BASE_CONTRACTS, "2027-05-01").DET).toEqual({ "2026-27": "first_apron" });
   });
 });
 

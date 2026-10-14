@@ -64,6 +64,9 @@ export const SEASON_2026_27: LeagueConstants = {
     9: 3_524_115,
     10: 3_876_529, // 10+ years
   },
+
+  // The 2026-27 Regular Season ends Sunday, Apr 11, 2027.
+  calendar: { regularSeasonEnd: "2027-04-11", capYearEnd: "2027-06-30" },
 };
 
 /** @deprecated kept for back-compat; the 2026-27 numbers are now official. */
