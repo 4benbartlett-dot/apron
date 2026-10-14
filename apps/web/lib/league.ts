@@ -6,6 +6,7 @@ import {
   capHold,
   stretchProvision,
   validateTrade,
+  postSeasonWindow,
   type BirdStatus,
   type Contract,
   type ContractYear,
@@ -40,6 +41,10 @@ const SIM_TODAY = (() => {
   const [y, m, d] = DATA_AS_OF.split("-").map(Number);
   return new Date(y ?? 2026, (m ?? 7) - 1, d ?? 1);
 })();
+
+/** The sim's "today" as ISO yyyy-mm-dd — the date every session move is made
+ * on, and the `date` the boards hand validateTrade (Art. VII §2(e)(2)(ii)). */
+export const SIM_DATE: string = DATA_AS_OF;
 
 /** Start of the current sim offseason — the day after the 2025-26 Regular
  * Season ended (~Apr 12, 2026). A Standard TPE lives exactly one year, so a
@@ -3046,11 +3051,45 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
  * apron) — plus row H aggregated trade matching and row I cash trades (second
  * apron). Recomputed by replaying the ledger, so saved sessions and shared
  * ?gm= links are repaired retroactively; removing an early move un-triggers
- * caps that no longer apply. Hard caps test APRON salary — holds excluded. */
-export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS): Record<string, number> {
+ * caps that no longer apply. Hard caps test APRON salary — holds excluded.
+ * This year's lines only; `sessionHardCapLevels` has the years they reach. */
+export function sessionHardCaps(
+  moves: Move[],
+  base: Contract[] = BASE_CONTRACTS,
+  today: string = SIM_DATE,
+): Record<string, number> {
   const line: Record<string, number> = {};
-  const capAt = (t: string, v: number) => {
-    line[t] = Math.min(line[t] ?? Infinity, v);
+  for (const [team, byYear] of Object.entries(sessionHardCapLevels(moves, base, today))) {
+    const level = byYear[YEAR];
+    if (level) line[team] = level === "first_apron" ? C.firstApron : C.secondApron;
+  }
+  return line;
+}
+
+export type HardCapLevel = "first_apron" | "second_apron";
+
+/** Every session hard cap by team and Salary Cap Year, as an apron LEVEL —
+ * a year whose apron amounts aren't set yet can't be a dollar line. A move
+ * made between the day after the last day of the Regular Season and June 30
+ * (`today` against C's calendar) that engages restriction-table rows E–J —
+ * the Expanded TPE, a standing row-F TPE, aggregation, cash paid — binds
+ * through the end of the NEXT Salary Cap Year too (Art. VII §2(e)(2)(ii)(B)).
+ * That is how Portland's Jun 29, 2026 Morant trade capped its 2026-27. The
+ * rows A–D and K caps (MLE, BAE, sign-and-trade acquisition) stay in-year. */
+export function sessionHardCapLevels(
+  moves: Move[],
+  base: Contract[] = BASE_CONTRACTS,
+  today: string = SIM_DATE,
+): Record<string, Record<string, HardCapLevel>> {
+  const caps: Record<string, Record<string, HardCapLevel>> = {};
+  const window = postSeasonWindow(today, C);
+  const thisYear = [YEAR];
+  const rowsEJ = window ? [YEAR, window.subsequentYear] : thisYear;
+  const capAt = (t: string, level: HardCapLevel, years: string[]) => {
+    const byYear = (caps[t] ??= {});
+    for (const y of years) {
+      if (byYear[y] !== "first_apron") byYear[y] = level;
+    }
   };
   let cs = base;
   const renounced = new Set<string>();
@@ -3058,13 +3097,14 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
     if (m.kind === "renounce") {
       renounced.add(m.playerId);
     } else if (m.kind === "sign") {
-      if (m.mechanism === "ntmle" || m.mechanism === "bae") capAt(m.teamId, C.firstApron);
-      else if (m.mechanism === "tpmle") capAt(m.teamId, C.secondApron);
+      if (m.mechanism === "ntmle" || m.mechanism === "bae") capAt(m.teamId, "first_apron", thisYear);
+      else if (m.mechanism === "tpmle") capAt(m.teamId, "second_apron", thisYear);
     } else if (m.kind === "sign_trade") {
-      if (m.toTeam) capAt(m.toTeam, C.firstApron);
+      // Row C (§8(e)(1) acquisition) — not in rows E–J, so in-year only.
+      if (m.toTeam) capAt(m.toTeam, "first_apron", thisYear);
       // Row E for the SENDER: taking back more than its (BYC-reduced)
       // outgoing means it used expanded matching — first-apron hard cap.
-      if (m.senderHardCapped && m.fromTeam) capAt(m.fromTeam, C.firstApron);
+      if (m.senderHardCapped && m.fromTeam) capAt(m.fromTeam, "first_apron", rowsEJ);
     } else if (m.kind === "trade") {
       const teamOf = new Map(cs.filter((c) => !c.deadMoney).map((c) => [c.playerId, c.teamId]));
       const players = m.players
@@ -3081,19 +3121,23 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
               .reduce((sum, c) => sum + currentSalary(c), 0),
           ]),
         );
-        const v = validateTrade(leagueData(cs), { teams, players, capHolds: holds, tpeUse: m.tpeUse, cash: m.cash }, C);
+        const v = validateTrade(
+          leagueData(cs),
+          { teams, players, capHolds: holds, tpeUse: m.tpeUse, cash: m.cash, date: today },
+          C,
+        );
         // Restriction-table row F: using a Regular-Season-arisen TPE hard-caps
         // the team at the first apron for the rest of the year. A TPE that
         // AROSE in the current offseason is exempt until after the following
         // Regular Season (§6(j)(1)(i)), so gate on the row-F flag, not merely
         // "pre-existing".
         for (const [team, use] of Object.entries(m.tpeUse ?? {})) {
-          if (isRowFCapped(use) && use.amount > 0) capAt(team, C.firstApron);
+          if (isRowFCapped(use) && use.amount > 0) capAt(team, "first_apron", rowsEJ);
         }
         for (const check of v.checks) {
           if (!check.ok || !check.teamId) continue;
           if (check.ruleId === "hard_cap_second_apron_aggregation" || check.ruleId === "hard_cap_second_apron_cash") {
-            capAt(check.teamId, C.secondApron);
+            capAt(check.teamId, "second_apron", rowsEJ);
           }
         }
         for (const t of v.teams) {
@@ -3109,13 +3153,13 @@ export function sessionHardCaps(moves: Move[], base: Contract[] = BASE_CONTRACTS
             Math.max(0, C.salaryCap - (signedPre.get(t.teamId) ?? t.preTradeSalary) - (holds[t.teamId] ?? 0)) +
             t.outgoingSalary +
             250_000;
-          if (matchable > absorption + 1) capAt(t.teamId, C.firstApron);
+          if (matchable > absorption + 1) capAt(t.teamId, "first_apron", rowsEJ);
         }
       }
     }
     cs = applyMove(cs, m);
   }
-  return line;
+  return caps;
 }
 
 /* ------------------- Feed-derived offseason team state ------------------- */

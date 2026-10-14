@@ -54,4 +54,9 @@ export const SEASON_2025_26: LeagueConstants = {
     9: 3_303_774,
     10: 3_634_153, // 10+ years
   },
+
+  // The 2025-26 Regular Season ended Sunday, Apr 12, 2026. A row E–J trade
+  // from Apr 13 through Jun 30, 2026 (Portland's Jun 29 Morant trade) binds
+  // through 2026-27 too (Art. VII §2(e)(2)(ii)).
+  calendar: { regularSeasonEnd: "2026-04-12", capYearEnd: "2026-06-30" },
 };

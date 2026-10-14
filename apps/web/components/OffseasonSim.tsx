@@ -24,7 +24,7 @@ import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam } from "@/lib/store";
-import { leagueData, YEAR } from "@/lib/league";
+import { leagueData, SIM_DATE, YEAR } from "@/lib/league";
 import { fmtM, fmtFull } from "@/lib/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -592,7 +592,7 @@ export default function OffseasonSim() {
     const capHolds = Object.fromEntries(
       board.map((t) => [t, Math.max(0, lg.teamHolds(t) - (stStage?.fromTeam === t ? stStage.hold : 0))]),
     );
-    let tr: Trade = { teams: board, players, capHolds };
+    let tr: Trade = { teams: board, players, capHolds, date: SIM_DATE };
     let v = validateTrade(boardData, tr, C);
     // If matching fails, try absorbing incoming players into standing TPEs
     // (largest exception, whole players) and re-judge.

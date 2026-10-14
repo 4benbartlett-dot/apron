@@ -4,8 +4,11 @@ import type {
   RuleResult,
   TeamTradeSummary,
   Trade,
+  TradeHardCap,
   TradeVerdict, ApronTier } from "./types";
 import {
+  apronCommittedSalary,
+  apronSalaryForYear,
   apronTeamSalary,
   classifyTier,
   findContract,
@@ -15,6 +18,7 @@ import {
 } from "./derive";
 import { maxIncomingSalary } from "./matching";
 import { poisonPillValues } from "./provisions";
+import { postSeasonWindow } from "./constants/calendar";
 
 /** Dollar tolerance for floating-point / rounding wobble in comparisons. */
 const EPSILON = 1;
@@ -78,7 +82,50 @@ const CITE = {
   noAggregate:
     "2023 CBA Art. VII §6(j)(4)(i) — a player acquired by trade may not be aggregated with other salaries for two months after being acquired.",
   unknownPlayer: "Apron engine — referenced player has no contract in the dataset.",
+  rowF: "2023 CBA · Art. VII §2(e) transaction restrictions, row F.",
+  subsequentYearTest:
+    "2023 CBA Art. VII §2(e)(2)(ii)(A), §2(e)(3) — after the last day of the Regular Season, a row E–J transaction may not leave the team's Apron Team Salary for the Subsequent Salary Cap Year (options exercised, no ETOs) over the applicable apron, taken at the current year's amount.",
+  subsequentYearHardCap:
+    "2023 CBA Art. VII §2(e)(2)(ii)(B) — a row E–J transaction made between the day after the last day of the Regular Season and June 30 hard-caps the team at that apron through the end of the Subsequent Salary Cap Year.",
 } as const;
+
+type HardCapRow = TradeHardCap["row"];
+const ROW_LEVEL: Record<HardCapRow, TradeHardCap["level"]> = {
+  E: "first_apron",
+  F: "first_apron",
+  H: "second_apron",
+  I: "second_apron",
+};
+const ROW_CITE: Record<HardCapRow, string> = {
+  E: CITE.hardCap,
+  F: CITE.rowF,
+  H: CITE.secondApronAggHardCap,
+  I: CITE.secondApronCash,
+};
+
+/**
+ * Apron Team Salary for `leagueYear` after the trade, counted the way
+ * §2(e)(3)(i) projects the Subsequent Salary Cap Year: every option year is in
+ * (options exercised, ETOs not), and nothing else happens before then. Players
+ * moving count at their salary for that year. Trade bonuses are left out — the
+ * CBA lets the team allocate one across the remaining seasons.
+ */
+function postTradeApronSalaryFor(
+  data: LeagueData,
+  teamId: string,
+  trade: Trade,
+  c: LeagueConstants,
+): number {
+  let salary = apronCommittedSalary(data, teamId, c);
+  for (const m of trade.players) {
+    if (m.from === m.to) continue;
+    const contract = findContract(data, m.playerId);
+    if (!contract) continue;
+    if (m.from === teamId) salary -= apronSalaryForYear(contract, c);
+    if (m.to === teamId) salary += apronSalaryForYear(contract, c);
+  }
+  return salary;
+}
 
 interface TeamLegs {
   outgoingPlayerSalaries: number[];
@@ -207,8 +254,14 @@ export function validateTrade(
 ): TradeVerdict {
   const checks: RuleResult[] = [];
   const teams: TeamTradeSummary[] = [];
+  const hardCaps: TradeHardCap[] = [];
+  // Art. VII §2(e)(2)(ii): a trade made after the last day of the Regular
+  // Season answers to the Subsequent Salary Cap Year as well.
+  const window = postSeasonWindow(trade.date, c);
 
   for (const teamId of trade.teams) {
+    /** Restriction-table rows E–J this team's side of the trade engages. */
+    const rows = new Set<HardCapRow>();
     const {
       outgoingPlayerSalaries,
       incomingPlayerSalaries,
@@ -314,6 +367,7 @@ export function validateTrade(
       // off `firstApronCap` (falling back to `preExisting` for legacy callers)
       // rather than `preExisting`, which merely means "standing before now".
       if (tpe && (tpe.firstApronCap ?? tpe.preExisting)) {
+        rows.add("F");
         const rowFOk = post <= c.firstApron + EPSILON;
         checks.push({
           ruleId: "tpe_first_apron",
@@ -322,7 +376,7 @@ export function validateTrade(
           reason: rowFOk
             ? `${teamId} uses a pre-existing traded-player exception and stays under the first apron (${fmt(post)} ≤ ${fmt(c.firstApron)}) — hard-capped there for the year.`
             : `${teamId} cannot use a pre-existing traded-player exception: it would finish at ${fmt(post)}, over the first apron (${fmt(c.firstApron)}) — restriction-table row F.`,
-          citation: "2023 CBA · Art. VII §2(e) transaction restrictions, row F.",
+          citation: CITE.rowF,
         });
       }
     }
@@ -359,6 +413,7 @@ export function validateTrade(
     if (subApron && tookBackMore) {
       const hardCapOk = post <= c.firstApron + EPSILON;
       const expandedMatching = match.rule !== "cap_room_absorption";
+      if (expandedMatching) rows.add("E");
       checks.push({
         ruleId: "hard_cap_first_apron",
         ok: !expandedMatching || hardCapOk,
@@ -404,6 +459,7 @@ export function validateTrade(
         outgoingPlayerSalaries.map((s) => s + allowance),
       );
     if (aggregating) {
+      rows.add("H");
       checks.push({
         ruleId: overSecondApronAfter
           ? "second_apron_no_aggregation"
@@ -438,6 +494,7 @@ export function validateTrade(
       (mv) => mv.from === teamId && mv.amount > 0,
     );
     if (sendsCash) {
+      rows.add("I");
       checks.push({
         ruleId: overSecondApronAfter
           ? "second_apron_no_cash_out"
@@ -448,6 +505,42 @@ export function validateTrade(
           ? `${teamId} pays cash and would finish over the second apron, which row I forbids.`
           : `${teamId} pays cash while staying at or below the second apron (${fmt(post)} ≤ ${fmt(c.secondApron)}) — legal, but row I hard-caps it at the second apron for the season.`,
         citation: CITE.secondApronCash,
+      });
+    }
+
+    // --- Hard caps, and the §2(e)(2)(ii) Subsequent-Salary-Cap-Year test ---
+    for (const row of rows) {
+      hardCaps.push({
+        teamId,
+        row,
+        level: ROW_LEVEL[row],
+        leagueYears: window ? [c.leagueYear, window.subsequentYear] : [c.leagueYear],
+        citation: window ? CITE.subsequentYearHardCap : ROW_CITE[row],
+      });
+    }
+    if (window && rows.size > 0) {
+      // (A): the team's Apron Team Salary for the Subsequent Salary Cap Year,
+      // right after the trade, may not exceed the tightest apron it engaged.
+      // §2(e)(3)(ii) takes that year's aprons at THIS year's amounts — the
+      // real ones aren't set until July. (B), the cap itself, binds at the
+      // Subsequent year's real apron and is reported in `hardCaps`.
+      const firstApronRow = rows.has("E") || rows.has("F");
+      const line = firstApronRow ? c.firstApron : c.secondApron;
+      const lineName = firstApronRow ? "first" : "second";
+      const engaged = [...rows].sort().join(", ");
+      const nextPost = postTradeApronSalaryFor(data, teamId, trade, {
+        ...c,
+        leagueYear: window.subsequentYear,
+      });
+      const ok = nextPost <= line + EPSILON;
+      checks.push({
+        ruleId: firstApronRow ? "subsequent_year_first_apron" : "subsequent_year_second_apron",
+        ok,
+        teamId,
+        reason: ok
+          ? `${teamId} makes a row ${engaged} trade after the Regular Season, so it is hard-capped at the ${lineName} apron through ${window.subsequentYear} too; its ${window.subsequentYear} Apron Team Salary after the trade is ${fmt(nextPost)}, within ${fmt(line)}.`
+          : `${teamId} makes a row ${engaged} trade after the Regular Season, which also binds ${window.subsequentYear}: its ${window.subsequentYear} Apron Team Salary after the trade would be ${fmt(nextPost)}, ${fmt(nextPost - line)} over the ${lineName} apron (${fmt(line)}, this year's amount until next year's is set).`,
+        citation: CITE.subsequentYearTest,
       });
     }
 
@@ -513,6 +606,7 @@ export function validateTrade(
   const violations = checks.filter((c) => !c.ok);
   return {
     legal: violations.length === 0,
+    hardCaps,
     teams,
     violations,
     checks,
