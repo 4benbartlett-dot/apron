@@ -74,8 +74,16 @@ export default function TeamWarRoom() {
   const topExcRoom = topExc
     ? Math.min(topExc.maxSalary, line(topExc.maxSalary, topExc.hardCap))
     : 0;
+  // A hard cap counts minimum contracts too. Cleveland sits $45,045 under
+  // its line and Golden State $347,568 under theirs: "minimum deals only"
+  // promised a signing neither can make without sending salary out first.
+  const hardCapRoom = Number.isFinite(liveHardCap) ? liveHardCap - apron : Infinity;
   if (topExc && topExcRoom >= C.minimumSalaries[0]!)
     canDo.push(`Can add an outside free agent up to ${fmtM(topExcRoom)} via the ${topExc.label}.`);
+  else if (hardCapRoom < C.minimumSalaries[0]!)
+    canDo.push(
+      `No room to sign anyone: ${fmtFull(Math.max(0, hardCapRoom))} under its hard cap is less than the smallest minimum contract (${fmtFull(C.minimumSalaries[0]!)}). Adding a player means sending salary out first.`,
+    );
   else
     canDo.push("Minimum deals only for outside free agents — no cap room, and no exception left big enough to use.");
 
