@@ -33,6 +33,7 @@ const GUARANTEE_GLYPH: Record<string, string> = {
   non_guaranteed: "NG",
   team_option: "TO",
   player_option: "PO",
+  mutual_option: "MO",
 };
 
 const SOURCE_TAG: Record<string, { text: string; color: string }> = {

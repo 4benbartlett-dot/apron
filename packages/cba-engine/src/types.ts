@@ -12,7 +12,11 @@ export type GuaranteeType =
   | "partial"
   | "non_guaranteed"
   | "team_option"
-  | "player_option";
+  | "player_option"
+  /** Both sides must pick it up (Pritchard's 2029-30, Podziemski's 2031-32).
+   * Nothing in the cap math turns on who holds an option; this keeps the
+   * sheet from calling it a player option the reporting says it isn't. */
+  | "mutual_option";
 
 export interface ContractYear {
   /** e.g. "2025-26" */

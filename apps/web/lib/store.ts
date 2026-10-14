@@ -22,6 +22,7 @@ import {
   type Move,
 } from "./league";
 import { track } from "./analytics";
+import { sanitizeMoves } from "./moveGuard";
 import { lockedFirstEncumbrance, sessionHardCaps, feedStateOf } from "./league";
 
 export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
@@ -86,14 +87,34 @@ export function hydrateMoves() {
     // A shared offseason (?gm=) takes priority over localStorage.
     const gm = new URLSearchParams(window.location.search).get("gm");
     const raw = gm ? gmDecode(gm) : window.localStorage.getItem(STORAGE_KEY) || "[]";
-    const saved = JSON.parse(raw);
-    if (Array.isArray(saved) && saved.length) {
-      moves = saved as Move[];
+    const saved = replayable(sanitizeMoves(JSON.parse(raw)));
+    if (saved.length) {
+      moves = saved;
       emit();
     }
   } catch {
     /* ignore */
   }
+}
+
+/** The moves that replay cleanly against today's league, in order. Shape is
+ * sanitizeMoves's job; this catches the rest — a link minted before a data
+ * refresh can name a player the sheet has since dropped, and one bad move must
+ * cost only itself, not the board. */
+function replayable(list: Move[]): Move[] {
+  const kept: Move[] = [];
+  let cs = BASE_CONTRACTS;
+  for (const m of list) {
+    try {
+      const next = applyMove(cs, m);
+      sessionHardCaps([...kept, m]);
+      cs = next;
+      kept.push(m);
+    } catch {
+      /* dropped */
+    }
+  }
+  return kept;
 }
 
 /** Pure encoder for a move list → shareable token (UTF-8- and URL-safe). */
@@ -115,8 +136,8 @@ export function encodeMoves(): string {
  * empty or malformed). Reads independently of store hydration order. */
 export function decodeMovesParam(token: string): Move[] | null {
   try {
-    const saved = JSON.parse(gmDecode(token));
-    return Array.isArray(saved) && saved.length ? (saved as Move[]) : null;
+    const saved = replayable(sanitizeMoves(JSON.parse(gmDecode(token))));
+    return saved.length ? saved : null;
   } catch {
     return null;
   }

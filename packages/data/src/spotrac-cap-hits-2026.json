@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-02",
+  "asOf": "2026-10-14",
   "note": "Every 2026-27 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
   "byName": {
     "jalen johnson": {
@@ -1315,12 +1315,12 @@
     "jalen duren": {
       "name": "Jalen Duren",
       "team": "DET",
-      "cap": 34482759,
-      "base": 34482759,
+      "cap": 40160643,
+      "base": 40160643,
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,
-      "type": "",
+      "type": "FA",
       "nonGuaranteed": false
     },
     "john collins": {
@@ -2175,17 +2175,6 @@
       "team": "MEM",
       "cap": 7805900,
       "base": 7805900,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": false
-    },
-    "jordan hawkins": {
-      "name": "Jordan Hawkins",
-      "team": "MEM",
-      "cap": 7021895,
-      "base": 7021895,
       "likely": 0,
       "unlikely": 0,
       "tradeBonus": 0,

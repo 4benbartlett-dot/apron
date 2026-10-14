@@ -260,6 +260,7 @@ const NEXT_EXPLAINED: Record<string, { maxGap: number; why: string }> = {
   WAS: { maxGap: 8_050_000, why: "Tre Mann's $8,000,000 — the last season of the 3yr/$24M extension Charlotte gave him in Sep 2024 — is missing from Spotrac's 2027-28 Wizards table, though his 2026-27 season is on their 2026-27 one." },
   OKC: { maxGap: 650_000, why: "Shai Gilgeous-Alexander's supermax starts in 2027-28 at 35% of a cap nobody knows yet: $61,005,000 on the scraped sheet's projection, $61,600,000 on Spotrac's." },
   ATL: { maxGap: 30_000, why: "Corey Kispert: $13,050,000 on the scraped sheet, $13,025,000 on Spotrac's table." },
+  TOR: { maxGap: 600_000, why: "Jamal Shead's 3yr/$24M extension (Oct 1). Nobody has reported the split: the sheet carries an estimated $7,407,407 at 8% raises, and Spotrac's Oct 14 table has a flat $8,000,000. Neither is a filing; re-check when one is." },
 };
 
 describe("next season's commitments against Spotrac's 2027-28 tables", () => {

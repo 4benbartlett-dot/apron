@@ -297,8 +297,21 @@
           "leagueYear": "2027-28",
           "salary": 8303571,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 21225962,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 22924038,
+          "guarantee": "mutual_option",
+          "estimated": true
         }
-      ]
+      ],
+      "restriction": "extended Oct 13, 2026 with 8% raises, beyond extend-and-trade limits (§8(f)(i)): not trade-eligible until Apr 13, 2027"
     },
     {
       "playerId": "gonzahu01",
@@ -6987,8 +7000,46 @@
           "leagueYear": "2026-27",
           "salary": 5679459,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 18965517,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 20482758,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 21999999,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 23517240,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 25034481,
+          "guarantee": "mutual_option",
+          "estimated": true
         }
-      ]
+      ],
+      "poisonPillExtensionSalaries": [
+        18965517,
+        20482758,
+        21999999,
+        23517240,
+        25034481
+      ],
+      "tradeKickerPct": 0.15
     },
     {
       "playerId": "meltode01",

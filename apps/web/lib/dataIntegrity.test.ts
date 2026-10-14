@@ -312,7 +312,11 @@ describe("data integrity", () => {
       // …or a team claimed him off waivers and took the whole contract with
       // him (Micah Potter, Portland, Jul 10): nothing dead, nothing lost.
       const claimedOffWaivers = TRANSACTIONS.some((x) => normName(x.player) === k && /Claimed off waivers by/i.test(x.detail));
-      if (!hasDeadRow && !claimedOffWaivers) lost.push(`${t.player} (waived ${t.date}) was owed $${owed.toLocaleString()} and no team carries a cent of it`);
+      // …or the raw sheet's 2026-27 was an option nobody picked up. Andre
+      // Jackson Jr.'s $2.4M was Milwaukee's declined option; Toronto waived
+      // him off an Exhibit 10 on Oct 5, and nobody ever owed that money.
+      const optionDeclined = TRANSACTIONS.some((x) => normName(x.player) === k && /declined .*option for 2026-27/i.test(x.detail));
+      if (!hasDeadRow && !claimedOffWaivers && !optionDeclined) lost.push(`${t.player} (waived ${t.date}) was owed $${owed.toLocaleString()} and no team carries a cent of it`);
     }
     expect(lost).toEqual([]);
   });

@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-02",
+  "asOf": "2026-10-14",
   "source": "Spotrac (spotrac.com/nba/transactions/trade-exceptions) + SalarySwish (salaryswish.com/trade-exception)",
   "availabilityNote": "Per CBA §6(n)(2), a team that used cap room this offseason has renounced its outstanding TPEs. Rows are NOT filtered for that here — the app decides with FEED_TEAM_STATE.",
   "rows": [
@@ -166,11 +166,11 @@
       "player": "Tyus Jones",
       "amount": 110680,
       "expires": "2027-02-05",
+      "original": 7000000,
       "sources": [
         "spotrac",
         "salaryswish"
-      ],
-      "original": 7000000
+      ]
     },
     {
       "team": "CHI",
