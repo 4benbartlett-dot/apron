@@ -5,6 +5,8 @@ import { TEAM_IDS, C } from "@/lib/league";
 import { maxIncomingSalary } from "@apron/cba-engine";
 import { GLOSSARY } from "@/lib/glossary";
 import { shortPlayerName } from "@/lib/names";
+import { blogPosts, postBySlug } from "@/lib/blog";
+import { DATA_AS_OF } from "@apron/data";
 
 // The programmatic SEO surface: /terms/* and /teams/*/trade-machine pages are
 // generated from these modules — a broken slug or empty section 404s a page
@@ -78,5 +80,29 @@ describe("salary-matching term matches the engine (no phantom 125% apron band)",
     expect(apronRow!.value).not.toMatch(/125%|200%/);
     // Conversely, no expanded band (125%/200%) may be labeled as an apron rule.
     for (const r of bands) if (/125%|200%/.test(r.value)) expect(r.label, r.value).not.toMatch(/apron/i);
+  });
+});
+
+describe("blog posts", () => {
+  it("slugs are unique and URL-safe, and every post answers up front", () => {
+    const posts = blogPosts();
+    expect(new Set(posts.map((p) => p.slug)).size).toBe(posts.length);
+    for (const p of posts) {
+      expect(p.slug).toMatch(/^[a-z0-9-]+$/);
+      expect(p.answer.length, p.slug).toBeGreaterThan(100);
+      expect(p.faq.length, p.slug).toBeGreaterThan(1);
+      expect(p.updated >= p.published || p.updated === DATA_AS_OF, p.slug).toBe(true);
+    }
+  });
+
+  it("no post renders a broken number or a dead internal link", () => {
+    for (const p of blogPosts()) {
+      const text = JSON.stringify(p);
+      expect(text, p.slug).not.toMatch(/NaN|undefined|Infinity|\$-/);
+      for (const r of p.related) {
+        if (r.href.startsWith("/terms/")) expect(termBySlug(r.href.slice(7)), r.href).toBeDefined();
+        if (r.href.startsWith("/blog/")) expect(postBySlug(r.href.slice(6)), r.href).toBeDefined();
+      }
+    }
   });
 });

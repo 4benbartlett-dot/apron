@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { TEAM_IDS } from "@/lib/league";
 import { SEO_TERMS, teamSlug, SITE } from "@/lib/seo";
+import { blogPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -23,6 +24,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/draft", 0.5),
     page("/deadlines", 0.5),
     page("/about", 0.5),
+    page("/blog", 0.8),
+    ...blogPosts().map((p) => ({
+      url: `${SITE}/blog/${p.slug}`,
+      lastModified: new Date(`${p.updated}T12:00:00Z`),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })),
     ...SEO_TERMS.map((t) => page(`/terms/${t.slug}`, 0.7)),
     ...TEAM_IDS.map((id) => page(`/teams/${teamSlug(id)}/trade-machine`, 0.7, "daily")),
   ];
