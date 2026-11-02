@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, type Transaction } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, PLAYER_INJURIES_GAMES_LEFT, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, type Transaction } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -1876,9 +1876,14 @@ function projectedGames(playerId: string): number {
   // stated timeline ("6-8 weeks", "up to two months") into games missed from
   // the day of the pull (`basis` marks a row it estimated that way). Edwards's
   // two-month knee and Jalen Williams's fractured fibula are not ACLs, and the
-  // offseason rule below would have played them all year.
-  if (inj.basis && DATA_AS_OF >= "2026-10-20")
-    return Math.max(0, HEALTHY_GAMES - Math.round((inj.gamesOut * HEALTHY_GAMES) / 82));
+  // offseason rule below would have played them all year. `gamesOut` counts
+  // from the pull, so it is a share of the games LEFT, put back on an 82-game
+  // pace: the projection is the roster for the rest of the season, which is
+  // all the simulator plays.
+  if (inj.basis && DATA_AS_OF >= "2026-10-20") {
+    const left = Math.max(1, PLAYER_INJURIES_GAMES_LEFT);
+    return Math.max(0, Math.round(HEALTHY_GAMES * (1 - Math.min(1, inj.gamesOut / left))));
+  }
   // Match on TYPE as well as prose: Butler's row reads "Out For Season (Knee)"
   // and only names the torn ACL mid-sentence, while `type` says it outright.
   const text = `${inj.type ?? ""} ${inj.desc ?? ""}`;

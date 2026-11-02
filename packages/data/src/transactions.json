@@ -2,6 +2,104 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Ace Bailey",
+      "pos": "SF",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Utah Jazz (UTA) exercised $9.98 million Team Option for 2027-28"
+    },
+    {
+      "player": "Isaiah Collier",
+      "pos": "PG",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Utah Jazz (UTA) declined $4.99 million Team Option for 2027-28"
+    },
+    {
+      "player": "Kasparas Jakucionis",
+      "pos": "PG",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Milwaukee Bucks (MIL) exercised $4.02 million Team Option for 2027-28"
+    },
+    {
+      "player": "Kel'el Ware",
+      "pos": "C",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Milwaukee Bucks (MIL) exercised $7.14 million Team Option for 2027-28"
+    },
+    {
+      "player": "Asa Newell",
+      "pos": "PF",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Atlanta Hawks (ATL) exercised $3.56 million Team Option for 2027-28"
+    },
+    {
+      "player": "Kon Knueppel",
+      "pos": "SF",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Charlotte Hornets (CHA) exercised $11.02 million Team Option for 2027-28"
+    },
+    {
+      "player": "Liam McNeeley",
+      "pos": "SF",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Charlotte Hornets (CHA) exercised $3.04 million Team Option for 2027-28"
+    },
+    {
+      "player": "Jared McCain",
+      "pos": "PG",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Oklahoma City Thunder (OKC) exercised $6.78 million Team Option for 2027-28"
+    },
+    {
+      "player": "Thomas Sorber",
+      "pos": "C",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Oklahoma City Thunder (OKC) exercised $5.12 million Team Option for 2027-28"
+    },
+    {
+      "player": "Bub Carrington",
+      "pos": "PG",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Washington Wizards (WAS) exercised $7.26 million Team Option for 2027-28"
+    },
+    {
+      "player": "Kyshawn George",
+      "pos": "SG",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Washington Wizards (WAS) exercised $5.44 million Team Option for 2027-28"
+    },
+    {
+      "player": "Tre Johnson",
+      "pos": "SG",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Washington Wizards (WAS) exercised $9.06 million Team Option for 2027-28"
+    },
+    {
+      "player": "Will Riley",
+      "pos": "SF",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Washington Wizards (WAS) exercised $3.86 million Team Option for 2027-28"
+    },
+    {
+      "player": "Alex Sarr",
+      "pos": "C",
+      "date": "Nov 01, 2026",
+      "type": "Option",
+      "detail": "Washington Wizards (WAS) exercised $15.61 million Team Option for 2027-28"
+    },
+    {
       "player": "Joan Beringer",
       "pos": "C",
       "date": "Oct 30, 2026",

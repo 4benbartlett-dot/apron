@@ -1,6 +1,6 @@
 {
  "source": "Basketball-Reference NBA_2027 schedule + ratings",
- "asOf": "2026-10-29",
+ "asOf": "2026-11-01",
  "games": [
   {
    "date": "2026-10-20",
@@ -502,107 +502,149 @@
   {
    "date": "2026-10-30",
    "away": "DET",
-   "home": "BKN"
+   "home": "BKN",
+   "awayPts": 110,
+   "homePts": 94
   },
   {
    "date": "2026-10-30",
    "away": "CHI",
-   "home": "BOS"
+   "home": "BOS",
+   "awayPts": 111,
+   "homePts": 125
   },
   {
    "date": "2026-10-30",
    "away": "HOU",
-   "home": "DAL"
+   "home": "DAL",
+   "awayPts": 111,
+   "homePts": 116
   },
   {
    "date": "2026-10-30",
    "away": "LAL",
-   "home": "GSW"
+   "home": "GSW",
+   "awayPts": 95,
+   "homePts": 112
   },
   {
    "date": "2026-10-30",
    "away": "IND",
-   "home": "MIA"
+   "home": "MIA",
+   "awayPts": 125,
+   "homePts": 145
   },
   {
    "date": "2026-10-30",
    "away": "LAC",
-   "home": "MIN"
+   "home": "MIN",
+   "awayPts": 101,
+   "homePts": 127
   },
   {
    "date": "2026-10-30",
    "away": "NYK",
-   "home": "PHI"
+   "home": "PHI",
+   "awayPts": 93,
+   "homePts": 98
   },
   {
    "date": "2026-10-30",
    "away": "DEN",
-   "home": "PHX"
+   "home": "PHX",
+   "awayPts": 127,
+   "homePts": 120
   },
   {
    "date": "2026-10-30",
    "away": "ORL",
-   "home": "TOR"
+   "home": "TOR",
+   "awayPts": 121,
+   "homePts": 114
   },
   {
    "date": "2026-10-30",
    "away": "CHA",
-   "home": "WAS"
+   "home": "WAS",
+   "awayPts": 79,
+   "homePts": 95
   },
   {
    "date": "2026-10-31",
    "away": "PHI",
-   "home": "CHA"
+   "home": "CHA",
+   "awayPts": 109,
+   "homePts": 104
   },
   {
    "date": "2026-10-31",
    "away": "OKC",
-   "home": "HOU"
+   "home": "HOU",
+   "awayPts": 98,
+   "homePts": 119
   },
   {
    "date": "2026-10-31",
    "away": "SAC",
-   "home": "MEM"
+   "home": "MEM",
+   "awayPts": 105,
+   "homePts": 136
   },
   {
    "date": "2026-10-31",
    "away": "CLE",
-   "home": "MIL"
+   "home": "MIL",
+   "awayPts": 136,
+   "homePts": 111
   },
   {
    "date": "2026-10-31",
    "away": "ATL",
-   "home": "NOP"
+   "home": "NOP",
+   "awayPts": 99,
+   "homePts": 121
   },
   {
    "date": "2026-10-31",
    "away": "MIN",
-   "home": "SAS"
+   "home": "SAS",
+   "awayPts": 111,
+   "homePts": 121
   },
   {
    "date": "2026-10-31",
    "away": "POR",
-   "home": "UTA"
+   "home": "UTA",
+   "awayPts": 112,
+   "homePts": 90
   },
   {
    "date": "2026-11-01",
    "away": "LAC",
-   "home": "GSW"
+   "home": "GSW",
+   "awayPts": 112,
+   "homePts": 124
   },
   {
    "date": "2026-11-01",
    "away": "BKN",
-   "home": "IND"
+   "home": "IND",
+   "awayPts": 98,
+   "homePts": 90
   },
   {
    "date": "2026-11-01",
    "away": "TOR",
-   "home": "LAL"
+   "home": "LAL",
+   "awayPts": 125,
+   "homePts": 131
   },
   {
    "date": "2026-11-01",
    "away": "BOS",
-   "home": "ORL"
+   "home": "ORL",
+   "awayPts": 108,
+   "homePts": 97
   },
   {
    "date": "2026-11-02",
@@ -6146,245 +6188,245 @@
   }
  ],
  "ratings": {
-  "HOU": {
-   "w": 5,
-   "l": 0,
-   "ortg": 123.53,
-   "drtg": 109.28,
-   "nrtg": 14.26,
-   "nrtgAdj": 17.62
-  },
-  "LAL": {
-   "w": 4,
-   "l": 1,
-   "ortg": 123.16,
-   "drtg": 113.42,
-   "nrtg": 9.74,
-   "nrtgAdj": 15.62
-  },
   "MEM": {
-   "w": 5,
+   "w": 6,
    "l": 0,
-   "ortg": 118.65,
-   "drtg": 106.71,
-   "nrtg": 11.93,
-   "nrtgAdj": 14.3
+   "ortg": 120.41,
+   "drtg": 105.56,
+   "nrtg": 14.85,
+   "nrtgAdj": 16.27
   },
-  "MIN": {
-   "w": 3,
-   "l": 2,
-   "ortg": 115.51,
-   "drtg": 103.04,
-   "nrtg": 12.47,
-   "nrtgAdj": 12.47
+  "HOU": {
+   "w": 6,
+   "l": 1,
+   "ortg": 122.73,
+   "drtg": 110.06,
+   "nrtg": 12.67,
+   "nrtgAdj": 15.83
   },
   "POR": {
-   "w": 3,
+   "w": 4,
    "l": 1,
-   "ortg": 122.18,
-   "drtg": 113.1,
-   "nrtg": 9.07,
-   "nrtgAdj": 12.45
+   "ortg": 120.06,
+   "drtg": 108.42,
+   "nrtg": 11.64,
+   "nrtgAdj": 14.2
+  },
+  "MIN": {
+   "w": 4,
+   "l": 3,
+   "ortg": 117,
+   "drtg": 105.74,
+   "nrtg": 11.25,
+   "nrtgAdj": 13.73
   },
   "SAS": {
-   "w": 3,
+   "w": 4,
    "l": 2,
-   "ortg": 114.67,
-   "drtg": 108.04,
-   "nrtg": 6.62,
-   "nrtgAdj": 11.28
+   "ortg": 115.89,
+   "drtg": 108.69,
+   "nrtg": 7.2,
+   "nrtgAdj": 13
+  },
+  "LAL": {
+   "w": 5,
+   "l": 2,
+   "ortg": 119.98,
+   "drtg": 114.78,
+   "nrtg": 5.2,
+   "nrtgAdj": 10.31
+  },
+  "GSW": {
+   "w": 4,
+   "l": 3,
+   "ortg": 119.69,
+   "drtg": 116.54,
+   "nrtg": 3.16,
+   "nrtgAdj": 9.2
+  },
+  "DAL": {
+   "w": 4,
+   "l": 2,
+   "ortg": 114.58,
+   "drtg": 111.97,
+   "nrtg": 2.6,
+   "nrtgAdj": 8.66
   },
   "TOR": {
    "w": 3,
-   "l": 1,
-   "ortg": 112.2,
-   "drtg": 98.39,
-   "nrtg": 13.81,
-   "nrtgAdj": 7.54
-  },
-  "DAL": {
-   "w": 3,
-   "l": 2,
-   "ortg": 113.7,
-   "drtg": 111.6,
-   "nrtg": 2.1,
-   "nrtgAdj": 6.89
-  },
-  "ATL": {
-   "w": 3,
    "l": 3,
-   "ortg": 116.52,
-   "drtg": 111.78,
-   "nrtg": 4.75,
-   "nrtgAdj": 6.72
+   "ortg": 115.92,
+   "drtg": 108.97,
+   "nrtg": 6.94,
+   "nrtgAdj": 4.13
   },
   "OKC": {
    "w": 4,
-   "l": 1,
-   "ortg": 109.66,
-   "drtg": 106.14,
-   "nrtg": 3.52,
-   "nrtgAdj": 5.75
+   "l": 2,
+   "ortg": 108.89,
+   "drtg": 109.71,
+   "nrtg": -0.82,
+   "nrtgAdj": 4.05
   },
-  "LAC": {
-   "w": 1,
-   "l": 3,
-   "ortg": 105.8,
-   "drtg": 107.49,
-   "nrtg": -1.7,
-   "nrtgAdj": 5.29
-  },
-  "GSW": {
-   "w": 2,
-   "l": 3,
-   "ortg": 117.9,
-   "drtg": 119.59,
-   "nrtg": -1.69,
-   "nrtgAdj": 4.33
+  "ATL": {
+   "w": 3,
+   "l": 4,
+   "ortg": 113.52,
+   "drtg": 112.48,
+   "nrtg": 1.04,
+   "nrtgAdj": 2.41
   },
   "UTA": {
    "w": 1,
-   "l": 4,
-   "ortg": 110.85,
-   "drtg": 118.51,
-   "nrtg": -7.66,
-   "nrtgAdj": 2.05
+   "l": 5,
+   "ortg": 107.32,
+   "drtg": 117.36,
+   "nrtg": -10.04,
+   "nrtgAdj": 1.44
   },
   "DET": {
-   "w": 4,
+   "w": 5,
    "l": 1,
-   "ortg": 112.6,
-   "drtg": 106.26,
-   "nrtg": 6.34,
-   "nrtgAdj": 1.03
+   "ortg": 111.83,
+   "drtg": 103.93,
+   "nrtg": 7.9,
+   "nrtgAdj": 1.37
   },
   "CLE": {
-   "w": 3,
-   "l": 2,
-   "ortg": 114.85,
-   "drtg": 113.67,
-   "nrtg": 1.18,
-   "nrtgAdj": -0.41
-  },
-  "PHI": {
    "w": 4,
-   "l": 1,
-   "ortg": 106.61,
-   "drtg": 103.61,
-   "nrtg": 3,
-   "nrtgAdj": -2.27
-  },
-  "BOS": {
-   "w": 3,
-   "l": 1,
-   "ortg": 117.9,
-   "drtg": 110.46,
-   "nrtg": 7.44,
-   "nrtgAdj": -2.47
-  },
-  "MIA": {
-   "w": 1,
-   "l": 4,
-   "ortg": 108.6,
-   "drtg": 116.13,
-   "nrtg": -7.53,
-   "nrtgAdj": -4.41
+   "l": 2,
+   "ortg": 117.67,
+   "drtg": 112.65,
+   "nrtg": 5.02,
+   "nrtgAdj": 0.68
   },
   "DEN": {
-   "w": 2,
+   "w": 3,
    "l": 2,
-   "ortg": 109.93,
-   "drtg": 113.87,
-   "nrtg": -3.94,
-   "nrtgAdj": -4.88
+   "ortg": 114.14,
+   "drtg": 115.84,
+   "nrtg": -1.71,
+   "nrtgAdj": -0.77
+  },
+  "NOP": {
+   "w": 2,
+   "l": 4,
+   "ortg": 112.9,
+   "drtg": 111.29,
+   "nrtg": 1.61,
+   "nrtgAdj": -1.14
+  },
+  "LAC": {
+   "w": 1,
+   "l": 5,
+   "ortg": 107.26,
+   "drtg": 114.91,
+   "nrtg": -7.65,
+   "nrtgAdj": -1.2
+  },
+  "BOS": {
+   "w": 5,
+   "l": 1,
+   "ortg": 118.85,
+   "drtg": 109.58,
+   "nrtg": 9.27,
+   "nrtgAdj": -1.3
+  },
+  "MIA": {
+   "w": 2,
+   "l": 4,
+   "ortg": 114.25,
+   "drtg": 117.25,
+   "nrtg": -3,
+   "nrtgAdj": -2.46
+  },
+  "PHI": {
+   "w": 6,
+   "l": 1,
+   "ortg": 109.44,
+   "drtg": 105.7,
+   "nrtg": 3.75,
+   "nrtgAdj": -3.43
+  },
+  "ORL": {
+   "w": 2,
+   "l": 4,
+   "ortg": 109.45,
+   "drtg": 118.32,
+   "nrtg": -8.87,
+   "nrtgAdj": -6.04
   },
   "NYK": {
    "w": 2,
-   "l": 3,
-   "ortg": 110.32,
-   "drtg": 110,
-   "nrtg": 0.32,
-   "nrtgAdj": -5.87
-  },
-  "IND": {
-   "w": 2,
-   "l": 3,
-   "ortg": 112.22,
-   "drtg": 112.16,
-   "nrtg": 0.05,
-   "nrtgAdj": -6.28
-  },
-  "NOP": {
-   "w": 1,
    "l": 4,
-   "ortg": 112.14,
-   "drtg": 114.45,
-   "nrtg": -2.31,
-   "nrtgAdj": -6.91
-  },
-  "ORL": {
-   "w": 1,
-   "l": 3,
-   "ortg": 103.31,
-   "drtg": 115.56,
-   "nrtg": -12.25,
-   "nrtgAdj": -7.03
+   "ortg": 109.31,
+   "drtg": 109.98,
+   "nrtg": -0.67,
+   "nrtgAdj": -6.13
   },
   "PHX": {
    "w": 1,
-   "l": 2,
-   "ortg": 110.06,
-   "drtg": 124.95,
-   "nrtg": -14.89,
-   "nrtgAdj": -7.38
+   "l": 3,
+   "ortg": 113.48,
+   "drtg": 126.45,
+   "nrtg": -12.97,
+   "nrtgAdj": -6.3
+  },
+  "WAS": {
+   "w": 3,
+   "l": 3,
+   "ortg": 111.5,
+   "drtg": 110.67,
+   "nrtg": 0.82,
+   "nrtgAdj": -8.9
   },
   "SAC": {
    "w": 0,
-   "l": 5,
-   "ortg": 106.85,
-   "drtg": 123.13,
-   "nrtg": -16.27,
-   "nrtgAdj": -9
+   "l": 6,
+   "ortg": 105.67,
+   "drtg": 124.15,
+   "nrtg": -18.47,
+   "nrtgAdj": -8.91
   },
-  "WAS": {
+  "IND": {
    "w": 2,
-   "l": 3,
-   "ortg": 113.62,
-   "drtg": 116.03,
-   "nrtg": -2.41,
-   "nrtgAdj": -10.3
+   "l": 5,
+   "ortg": 111.81,
+   "drtg": 115.84,
+   "nrtg": -4.02,
+   "nrtgAdj": -9.88
+  },
+  "BKN": {
+   "w": 1,
+   "l": 5,
+   "ortg": 105.83,
+   "drtg": 113.25,
+   "nrtg": -7.42,
+   "nrtgAdj": -12.77
   },
   "CHA": {
    "w": 3,
-   "l": 2,
-   "ortg": 104.29,
-   "drtg": 111.54,
-   "nrtg": -7.25,
-   "nrtgAdj": -11.55
-  },
-  "BKN": {
-   "w": 0,
    "l": 4,
-   "ortg": 108.79,
-   "drtg": 118.19,
-   "nrtg": -9.4,
-   "nrtgAdj": -14.58
+   "ortg": 103.27,
+   "drtg": 111.68,
+   "nrtg": -8.41,
+   "nrtgAdj": -13.08
   },
   "MIL": {
    "w": 1,
-   "l": 4,
-   "ortg": 109.64,
-   "drtg": 120.16,
-   "nrtg": -10.52,
-   "nrtgAdj": -14.81
+   "l": 5,
+   "ortg": 109.29,
+   "drtg": 122.1,
+   "nrtg": -12.81,
+   "nrtgAdj": -17.08
   },
   "CHI": {
    "w": 1,
-   "l": 4,
-   "ortg": 106.53,
-   "drtg": 121.59,
-   "nrtg": -15.06,
-   "nrtgAdj": -20.24
+   "l": 5,
+   "ortg": 106.92,
+   "drtg": 121.76,
+   "nrtg": -14.84,
+   "nrtgAdj": -19.93
   }
  }
 }

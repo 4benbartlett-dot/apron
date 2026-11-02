@@ -285,6 +285,10 @@ export const PLAYER_DIMENSIONS_2026: Record<string, PlayerDims> =
 export interface PlayerInjury { name: string; team: string; date: string; onset?: string; desc: string; type: string; status: string; gamesOut: number; basis?: string; }
 export const PLAYER_INJURIES_2026: Record<string, PlayerInjury> =
   (playerInjuriesRaw as { byId: Record<string, PlayerInjury> }).byId;
+/** Games a healthy player has left from the day of the pull (82 before
+ * opening night): the denominator for each row's `gamesOut`. */
+export const PLAYER_INJURIES_GAMES_LEFT: number =
+  (playerInjuriesRaw as { gamesLeft?: number }).gamesLeft ?? 82;
 
 /** Star PEDIGREE (82orBust peak rating + accolades) — the signal that an
  * established star stays a star even when his aged or injury-shortened current
