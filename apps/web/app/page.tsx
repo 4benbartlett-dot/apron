@@ -65,9 +65,9 @@ const SITE_JSONLD = {
       "@id": `${SITE}/#website`,
       url: SITE,
       name: "Over the Apron",
-      alternateName: ["Over the Apron — NBA Offseason, Simplified", "overtheapron"],
+      alternateName: ["Over the Apron — The NBA Salary Cap, Simplified", "overtheapron"],
       description:
-        "An NBA trade machine and free-agency simulator built on the 2023 CBA: apron tiers, hard caps, Bird rights, salary matching, and a cited reason for every verdict.",
+        "An NBA trade machine, cap sheets, and season simulator built on the 2023 CBA: apron tiers, hard caps, Bird rights, salary matching, and a cited reason for every verdict.",
       publisher: { "@id": `${SITE}/#org` },
       inLanguage: "en-US",
     },

@@ -49,7 +49,7 @@ export function SiteEggs() {
   useEffect(() => {
     try {
       console.log(
-        "%c   ●\n  ╱        OVER THE APRON\n ╱         NBA offseason, simplified\n╺ ╺ ╺ ╺\n\n" +
+        "%c   ●\n  ╱        OVER THE APRON\n ╱         NBA salary cap, simplified\n╺ ╺ ╺ ╺\n\n" +
           "Rules are cited where they apply. See what is modeled —\n" +
           "and what's approximate — at overtheapron.com/accuracy.\n" +
           "Catch something wrong? Say so. It goes into the review queue.",

@@ -26,6 +26,9 @@ import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam } from "@/lib/store";
 import { leagueData, SIM_DATE, TRADE_DEADLINE, tradeTiming, YEAR } from "@/lib/league";
 import { tradeableOn, shortDate } from "@apron/cba-engine";
+import { homeHeadline } from "@/lib/phase";
+
+const headline = homeHeadline();
 import { fmtM, fmtFull } from "@/lib/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -875,12 +878,13 @@ export default function OffseasonSim() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-[26px] font-bold leading-tight tracking-tight">
-            The NBA offseason, <span className="underline-swipe">simplified</span>.
+            {headline.lead} <span className="underline-swipe">{headline.emph}</span>.
           </h1>
+          {headline.sub && (
+            <p className="mt-1 text-[13px] font-semibold text-[var(--accent-ink)]">{headline.sub}</p>
+          )}
           <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-            Put teams on the board, then trade, sign, extend, and renounce. Each
-            move builds on the last from the current roster data, with rule
-            citations where they apply.
+            {headline.intro}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

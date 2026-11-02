@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         mainEntityOfPage: url,
         datePublished: post.published,
         dateModified: post.updated,
-        image: `${SITE}/api/og?v=2`,
+        image: `${SITE}/api/og?v=3`,
         author: { "@type": "Person", name: BLOG_AUTHOR, url: `${SITE}/about` },
         publisher: { "@type": "Organization", name: "Over the Apron", url: SITE, logo: `${SITE}/icon-512.png` },
       },

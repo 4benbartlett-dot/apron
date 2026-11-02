@@ -36,16 +36,16 @@ export const metadata: Metadata = {
         ? "https://overtheapron.com"
         : "http://localhost:3100"),
   ),
-  title: "Over the Apron — NBA Offseason, Simplified",
+  title: "Over the Apron — The NBA Salary Cap, Simplified",
   description:
-    "Build trades, sign free agents, and run an NBA offseason with cited 2023 CBA rules, apron limits, Bird rights, hard caps, and clear reasons for each verdict.",
+    "Build NBA trades and signings under the real 2023 CBA: apron limits, hard caps, trade freezes, Bird rights, and playoff odds, with the rule cited for every verdict.",
   openGraph: {
-    title: "Over the Apron — NBA Offseason, Simplified",
+    title: "Over the Apron — The NBA Salary Cap, Simplified",
     description:
-      "Build trades, sign free agents, and run an NBA offseason with cited 2023 CBA rules and clear limits.",
-    images: ["/api/og?v=2"],
+      "Build NBA trades and signings under the real 2023 CBA, with the rule cited for every verdict.",
+    images: ["/api/og?v=3"],
   },
-  twitter: { card: "summary_large_image", images: ["/api/og?v=2"] },
+  twitter: { card: "summary_large_image", images: ["/api/og?v=3"] },
 };
 
 export const viewport: Viewport = {
@@ -83,13 +83,13 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebApplication",
               name: "Over the Apron",
-              alternateName: "NBA Offseason, Simplified",
+              alternateName: "The NBA Salary Cap, Simplified",
               url: "https://overtheapron.com",
               applicationCategory: "SportsApplication",
               operatingSystem: "Web",
               offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
               description:
-                "NBA trade machine and offseason simulator with cited 2023 CBA rules for apron limits, hard caps, salary matching, traded-player exceptions, and free agency.",
+                "NBA trade machine, cap sheets, and season simulator with cited 2023 CBA rules for apron limits, hard caps, salary matching, trade freezes, traded-player exceptions, and free agency.",
             }),
           }}
         />

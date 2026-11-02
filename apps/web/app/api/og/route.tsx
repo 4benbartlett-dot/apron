@@ -483,13 +483,13 @@ export async function GET(req: Request) {
           <Wordmark />
           <div style={{ display: "flex", flexDirection: "column", margin: "auto 0" }}>
             <div style={{ fontSize: 62, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.1 }}>
-              The NBA offseason,
+              The NBA salary cap,
             </div>
             <div style={{ fontSize: 62, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.1 }}>
               simplified.
             </div>
             <div style={{ fontSize: 26, color: muted, marginTop: 22, lineHeight: 1.4 }}>
-              Trades, signings, aprons, and hard caps — with the rule shown when it matters.
+              Trades, signings, aprons, hard caps, and playoff odds — with the rule shown when it matters.
             </div>
           </div>
           <div
@@ -503,7 +503,7 @@ export async function GET(req: Request) {
               fontFamily: mono,
             }}
           >
-            <div>2026–27 · FREE AGENCY · 2023 CBA</div>
+            <div>2026–27 · 2023 CBA</div>
             <div>OVERTHEAPRON.COM</div>
           </div>
         </div>

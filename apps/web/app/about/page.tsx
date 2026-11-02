@@ -29,7 +29,7 @@ export default function AboutPage() {
           Over the Apron
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
-          The NBA offseason, under the real CBA.
+          The NBA salary cap, under the real CBA.
         </p>
       </header>
 

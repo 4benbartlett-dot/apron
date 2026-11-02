@@ -1,6 +1,6 @@
 # Over the Apron
 
-The NBA offseason, under the real CBA. Live at [overtheapron.com](https://overtheapron.com).
+The NBA salary cap, under the real CBA. Live at [overtheapron.com](https://overtheapron.com).
 
 Over the Apron is a trade machine and free-agency simulator built around the
 2023 collective bargaining agreement. You build trades, sign free agents, run
