@@ -31,6 +31,9 @@ import freeAgentsRaw from "./free-agents.json";
 import signingsRaw from "./signings.json";
 import ratingsRaw from "./ratings.json";
 import rosterCorrectionsRaw from "./roster-corrections-2026.json";
+import season2027Raw from "./season-2027.json";
+import gameModelRaw from "./game-model-calibration.json";
+import playerStats2027Raw from "./player-stats-2027.json";
 
 /* --- Returning veterans (recently retired / overseas) as signable minimum free
  * agents. One curated record per player fans out into the maps below. --- */
@@ -178,6 +181,28 @@ export interface TeamCalibration {
 }
 export const TEAM_CALIBRATION: TeamCalibration =
   (teamStrengthRaw as { calibration: TeamCalibration }).calibration;
+
+/* ---------------------------- THE SEASON BEING PLAYED ---------------------------- */
+
+/** One game on the 2026-27 schedule; points only once it is final. */
+export interface ScheduledGame { date: string; away: string; home: string; awayPts?: number; homePts?: number; }
+/** A team's 2026-27 rating table to date (bref): nrtgAdj is schedule-adjusted. */
+export interface SeasonRating { w: number; l: number; ortg: number; drtg: number; nrtg: number; nrtgAdj: number; }
+/** The 2026-27 schedule and results (scripts/scrape-season.mjs). `asOf` is the
+ * last date with a final score. */
+export const SEASON_2027 = season2027Raw as { source: string; asOf: string | null; games: ScheduledGame[]; ratings: Record<string, SeasonRating> };
+
+/** The single-game model's two constants, measured on a completed season
+ * (scripts/calibrate-game-model.mjs): home-court points and the SD of a
+ * game's margin around its expectation. */
+export interface GameModelCalibration { season: string; games: number; hca: number; marginSd: number; brier: number; winsRmse: number; winsPerPointActual: number; winsPerPointModel: number; calibration: { n: number; predicted: number; actual: number }[]; caveat: string; }
+export const GAME_MODEL = gameModelRaw as GameModelCalibration;
+
+/** Per-player 2026-27 statistical profile to date, same shape as
+ * PLAYER_STATS_2026 (scripts/scrape-stats.mjs 2027). Small samples early. */
+export const PLAYER_STATS_2027: Record<string, Record<string, number>> =
+  (playerStats2027Raw as { byId: Record<string, Record<string, number>> }).byId;
+export const PLAYER_STATS_2027_AS_OF: string | undefined = (playerStats2027Raw as { asOf?: string }).asOf;
 const positionOverrides = positionOverridesRaw as {
   byId?: Record<string, string>;
   secondaryById?: Record<string, string[]>;
@@ -253,7 +278,11 @@ export const PLAYER_DIMENSIONS_2026: Record<string, PlayerDims> =
  * reported injury, its date, and — for the majors that carry into 2026-27 — a
  * standard-recovery estimate of games missed to start the season. Not a
  * probabilistic "injury prone" tag; the real thing. */
-export interface PlayerInjury { name: string; team: string; date: string; desc: string; type: string; status: string; gamesOut: number; }
+/** `gamesOut`: games he is expected to miss from the day of the pull. `basis`
+ * says where that came from (a stated timeline, the injury type, …); `onset`
+ * is the earliest date seen for an ongoing injury, since bref's date is the
+ * latest update. */
+export interface PlayerInjury { name: string; team: string; date: string; onset?: string; desc: string; type: string; status: string; gamesOut: number; basis?: string; }
 export const PLAYER_INJURIES_2026: Record<string, PlayerInjury> =
   (playerInjuriesRaw as { byId: Record<string, PlayerInjury> }).byId;
 

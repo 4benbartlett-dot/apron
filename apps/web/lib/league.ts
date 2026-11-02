@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, type Transaction } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, type Transaction } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -17,6 +17,7 @@ import {
 } from "@apron/cba-engine";
 import { shortPlayerName } from "./names";
 import { feedIso } from "./feedDate";
+import { posteriorRating, simulateSeason, type SimTeam, type TeamOutlook } from "./seasonSim";
 
 /** Normalize a player name for joining across data sources. */
 export function normName(name: string): string {
@@ -138,6 +139,25 @@ const OPTION_DECLINED = new Set(
     (t) => t.type === "Option" && /declined/i.test(t.detail) && /2026-27/.test(t.detail),
   ).map((t) => normName(t.player)),
 );
+
+/** A team option declined for a LATER season — the Oct 31 rookie-scale
+ * deadline: "Minnesota Timberwolves (MIN) declined $7.67 million Team Option
+ * for 2027-28". He is still under contract this season; the declined season
+ * and everything after it is money nobody owes (Cody Williams, Pacôme Dadiet
+ * become 2027 unrestricted free agents, Art. XI §4(a)). Newest row wins. */
+const OPTION_DECLINED_LATER = (() => {
+  const out = new Map<string, string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Option" || !/declined/i.test(t.detail)) continue;
+    const m = t.detail.match(/Option for (20\d\d)-\d\d/i);
+    if (!m) continue;
+    const season = `${m[1]}-${String(Number(m[1]!.slice(2)) + 1).padStart(2, "0")}`;
+    if (season <= "2026-27") continue; // this season's declines are OPTION_DECLINED
+    const k = normName(t.player);
+    if (!out.has(k)) out.set(k, season);
+  }
+  return out;
+})();
 
 /** Active league year: the new 2026-27 season (free agency open). */
 export const YEAR = "2026-27";
@@ -722,6 +742,9 @@ function applyOptions(contracts: Contract[]): { contracts: Contract[]; freed: st
   const freed: string[] = [];
   const out = contracts.map((c) => {
     if (c.deadMoney) return c;
+    const laterDeclined = OPTION_DECLINED_LATER.get(normName(c.playerName));
+    if (laterDeclined && c.years.some((y) => y.leagueYear >= laterDeclined))
+      c = { ...cloneContract(c), years: c.years.filter((y) => y.leagueYear < laterDeclined) };
     if (!OPTION_DECLINED.has(normName(c.playerName))) return c;
     freed.push(c.playerName);
     return {
@@ -992,6 +1015,100 @@ const activeRaw = [
   ...returningStubs,
 ];
 const deduped = dedupe(activeRaw);
+/* ------------------------------ IN-SEASON DEALS ------------------------------ */
+// Two contract shapes the offseason never produced and the regular season
+// produces weekly. Each is the newest word on the player, so a later waive
+// (LAST_RELEASE) retires it.
+
+/** Regular-season days, opening night (Oct 20) through Apr 11. A 10-day pays
+ * the Minimum Player Salary (Art. II §9(b)) by the day: 10/174ths of it. */
+const SEASON_DAYS = 174;
+const isoPlusDays = (iso: string, n: number) => {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+
+/** "Signed a 10-day contract with LA Clippers (LAC) via Hardship Provision" —
+ * newest signing row per player. Blake Wesley's Oct 29 hardship deal is the
+ * first; read off the signed-FA page, he had been booked at his camp deal's
+ * full-season $2.45M. */
+const TEN_DAY = (() => {
+  const out = new Map<string, { team: string; date: string }>();
+  const decided = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    const k = normName(t.player);
+    if (decided.has(k)) continue;
+    decided.add(k);
+    const m = t.detail.match(/10-day contract with [^(]*\(([A-Za-z]{2,4})\)/i);
+    const date = feedIso(t.date);
+    if (m && date) out.set(k, { team: stdTeam(m[1]!), date });
+  }
+  return out;
+})();
+
+/** "New York Knicks (NYK) converted Exhibit 9 contract to Standard contract":
+ * a camp invite who made the team. The camp row kept him off the sheet
+ * (CAMP_INVITES); the conversion is what puts him on it, at his minimum,
+ * non-guaranteed until the Jan 10 league-wide guarantee date — Hoops Rumors
+ * on Tony Bradley's Utah deal (Oct 17). James Wiseman's was the other. */
+const CONVERTED_TO_STANDARD = (() => {
+  const out = new Map<string, { team: string; date: string }>();
+  for (const t of TRANSACTIONS) {
+    const m = t.detail.match(/\(([A-Za-z]{2,4})\) converted (?:an? )?Exhibit (?:9|10) contract to (?:a )?Standard contract/i);
+    if (!m) continue;
+    const k = normName(t.player);
+    const date = feedIso(t.date);
+    if (!date || out.has(k)) continue;
+    out.set(k, { team: stdTeam(m[1]!), date });
+  }
+  return out;
+})();
+
+function applyInSeasonDeals(contracts: Contract[]): Contract[] {
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const k = normName(c.playerName);
+    const cut = LAST_RELEASE.get(k);
+    const ownMin = C.minimumSalaries[Math.min(experienceOf(c.playerId), 10)] ?? C.minimumSalaries[10]!;
+    const past = c.years.filter((y) => y.leagueYear < YEAR);
+    const ten = TEN_DAY.get(k);
+    if (ten && !(cut && cut > ten.date) && VALID_TEAMS.has(ten.team)) {
+      // Cap hit: the §3(f) deemed figure where it applies (a 3+ YOS vet on a
+      // one-year minimum counts at the 2-YOS scale — Spotrac's $14,077 a day
+      // for Wesley is $2,449,421 / 174), prorated. The whole 10 days are
+      // guaranteed, so the charge is all ten even on day one; Spotrac prints
+      // the days accrued so far. Once the ten days run out he is off the
+      // roster and what he was paid stays on the books.
+      const capDaily = deemedMinSalary(c.playerId, ownMin, 1) / SEASON_DAYS;
+      const expires = isoPlusDays(ten.date, 9);
+      return {
+        ...cloneContract(c),
+        teamId: ten.team,
+        years: [...past, { leagueYear: YEAR, salary: Math.round(capDaily * 10), guarantee: "full" as const }],
+        signedUsing: "10-Day",
+        restriction: `10-day contract, expires ${expires}`,
+        deadMoney: expires < DATA_AS_OF ? true : undefined,
+        signedAsFreeAgent: true,
+      };
+    }
+    const conv = CONVERTED_TO_STANDARD.get(k);
+    if (conv && !(cut && cut > conv.date) && VALID_TEAMS.has(conv.team)) {
+      const cur = c.years.find((y) => y.leagueYear === YEAR);
+      if (cur && cur.salary > 0 && c.teamId === conv.team) return c; // a priced deal already booked
+      return {
+        ...cloneContract(c),
+        teamId: conv.team,
+        years: [...past, { leagueYear: YEAR, salary: deemedMinSalary(c.playerId, ownMin, 1), guarantee: "non_guaranteed" as const }],
+        restriction: FA_RESTRICTION,
+        signedAsFreeAgent: true,
+      };
+    }
+    return c;
+  });
+}
+
 // Options first (a declined option makes a player a FA), then trades, then the
 // offseason's signings restore/re-sign anyone who agreed to a new deal.
 const afterOptions = applyOptions(deduped);
@@ -1001,7 +1118,7 @@ const afterSignings = applySignings(afterClaims);
 // The structured signed-FA feed is authoritative for the newest deals — apply
 // it last so it corrects team/salary from the looser transactions-prose pass.
 const afterSignedFA = applySignedFA(afterSignings.contracts);
-const afterReleases = applyReleases(afterSignedFA.contracts);
+const afterReleases = applyReleases(applyInSeasonDeals(afterSignedFA.contracts));
 const existingIds = new Set(afterReleases.map((c) => c.playerId));
 // Real reported rookie-scale terms (e.g. "Signed a 4 year $66.91 million Rookie
 // Scale contract") supersede our estimated scale numbers.
@@ -1755,6 +1872,13 @@ function projectedGames(playerId: string): number {
   if (stated) return gamesAfter(stated.date, stated.months);
   const inj = PLAYER_INJURIES_2026[playerId];
   if (!inj?.date) return HEALTHY_GAMES;
+  // In season the report is about THIS season, and the scraper reads its
+  // stated timeline ("6-8 weeks", "up to two months") into games missed from
+  // the day of the pull (`basis` marks a row it estimated that way). Edwards's
+  // two-month knee and Jalen Williams's fractured fibula are not ACLs, and the
+  // offseason rule below would have played them all year.
+  if (inj.basis && DATA_AS_OF >= "2026-10-20")
+    return Math.max(0, HEALTHY_GAMES - Math.round((inj.gamesOut * HEALTHY_GAMES) / 82));
   // Match on TYPE as well as prose: Butler's row reads "Out For Season (Knee)"
   // and only names the torn ACL mid-sentence, while `type` says it outright.
   const text = `${inj.type ?? ""} ${inj.desc ?? ""}`;
@@ -2385,6 +2509,52 @@ export function teamProjection(team: string, liveContracts: Contract[]): TeamPro
     deltaNrtg: Math.round((proj.nrtg - base.nrtg) * 10) / 10,
     deltaWins: proj.wins - base.wins,
   };
+}
+
+/* ------------------------------ THE SEASON SO FAR ------------------------------ */
+
+/**
+ * Each team's rating for the games LEFT: the board's projection (the model's
+ * read on the roster) updated by the 2026-27 results to date. The prior SD is
+ * the model's own measured error (TEAM_CALIBRATION.cvRmseNrtg) and a game's is
+ * GAME_MODEL.marginSd, so how far October moves a team is arithmetic, not a
+ * dial: at 3.5 and 14.0 the projection is worth about 16 games.
+ *
+ * A staged move shifts a team by exactly what it changes in the projection,
+ * not by the posterior's shrunken share of it: a trade changes who plays the
+ * remaining games in full, whatever the record says about the old roster.
+ */
+/** The projection's measured error (3.512 on the Oct rebaseline). */
+const PRIOR_SD = TEAM_CALIBRATION.cvRmseNrtg ?? 3.5;
+export function seasonRatings(liveContracts: Contract[]): SimTeam[] {
+  const base = leagueStandings(BASE_CONTRACTS);
+  const live = liveContracts === BASE_CONTRACTS ? base : leagueStandings(liveContracts);
+  const priorSd = PRIOR_SD;
+  return TEAM_IDS.map((t) => {
+    const obs = SEASON_2027.ratings[t];
+    const games = obs ? obs.w + obs.l : 0;
+    const post = posteriorRating(base[t]!.nrtg, priorSd, obs?.nrtgAdj ?? 0, games, GAME_MODEL.marginSd);
+    return {
+      id: t,
+      conference: teamMeta(t).conference as "East" | "West",
+      rating: post.mean + (live[t]!.nrtg - base[t]!.nrtg),
+      ratingSd: post.sd,
+    };
+  });
+}
+
+/** The prior's weight in games (≈16), for the page's explanation. */
+export const PRIOR_WEIGHT_GAMES = Math.round((GAME_MODEL.marginSd * GAME_MODEL.marginSd) / (PRIOR_SD * PRIOR_SD));
+
+/** The rest of 2026-27, simulated — records so far, projected finish, and
+ * playoff and title odds. Same seed every call, so a staged move's change in
+ * odds is the move's and not the dice's (common random numbers). */
+export function seasonOutlook(liveContracts: Contract[], sims = 5000): Record<string, TeamOutlook> {
+  return simulateSeason(seasonRatings(liveContracts), SEASON_2027.games, {
+    sims,
+    hca: GAME_MODEL.hca,
+    marginSd: GAME_MODEL.marginSd,
+  });
 }
 
 /**

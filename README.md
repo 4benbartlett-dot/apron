@@ -35,6 +35,9 @@ that actually decide deals in the apron era are the ones this tries to get right
   moves ago, not just the ones in front of you.
 - **A trade finder.** Name a target and it searches the other roster for packages
   that clear the modeled rules.
+- **The season, simulated.** Real 2026-27 results update each team's projected
+  strength, and the rest of the season is played out 5,000 times for playoff,
+  play-in and title odds. Stage a move and the odds rerun with it.
 
 ## Accuracy
 
@@ -86,7 +89,13 @@ pnpm --filter @apron/web typecheck
 
 To refresh the data, the scripts in `packages/data/scripts/` rebuild the JSON
 snapshots from public sources (some need `FIRECRAWL_API_KEY` set for a rendering
-proxy), then you commit the updated JSON.
+proxy), then you commit the updated JSON. In season, one command runs them in
+order (transactions, the schedule and scores, player stats, injuries), then
+rebaselines the team projections and runs the suites:
+
+```bash
+pnpm --filter @apron/data refresh        # add :full for the 62-page Spotrac check
+```
 
 ### The front office (`/admin`)
 

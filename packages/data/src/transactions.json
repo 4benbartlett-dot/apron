@@ -2,11 +2,1355 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Joan Beringer",
+      "pos": "C",
+      "date": "Oct 30, 2026",
+      "type": "Option",
+      "detail": "Minnesota Timberwolves (MIN) exercised $4.62 million Team Option for 2027-28"
+    },
+    {
+      "player": "Terrence Shannon Jr.",
+      "pos": "SG",
+      "date": "Oct 30, 2026",
+      "type": "Option",
+      "detail": "Minnesota Timberwolves (MIN) exercised $5.05 million Team Option for 2027-28"
+    },
+    {
+      "player": "Cody Williams",
+      "pos": "SF",
+      "date": "Oct 30, 2026",
+      "type": "Option",
+      "detail": "Minnesota Timberwolves (MIN) declined $7.67 million Team Option for 2027-28"
+    },
+    {
+      "player": "Reed Sheppard",
+      "pos": "SG",
+      "date": "Oct 30, 2026",
+      "type": "Option",
+      "detail": "Houston Rockets (HOU) exercised $14.04 million Team Option for 2027-28"
+    },
+    {
+      "player": "Baylor Scheierman",
+      "pos": "SG",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Boston Celtics (BOS) exercised $4.95 million Team Option for 2027-28"
+    },
+    {
+      "player": "Hugo Gonzalez",
+      "pos": "SF",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Boston Celtics (BOS) exercised $3.06 million Team Option for 2027-28"
+    },
+    {
+      "player": "Yanic Konan Niederhauser",
+      "pos": "C",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "LA Clippers (LAC) exercised $3.02 million Team Option for 2027-28"
+    },
+    {
+      "player": "Pacome Dadiet",
+      "pos": "SF",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "New York Knicks (NYK) declined $5.37 million Team Option for 2027-28"
+    },
+    {
+      "player": "Yang Hansen",
+      "pos": "C",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Portland Trail Blazers (POR) exercised $4.86 million Team Option for 2027-28"
+    },
+    {
+      "player": "Donovan Clingan",
+      "pos": "C",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Portland Trail Blazers (POR) exercised $9.55 million Team Option for 2027-28"
+    },
+    {
+      "player": "Danny Wolf",
+      "pos": "PF",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn Nets (BKN) exercised $3.08 million Team Option for 2027-28"
+    },
+    {
+      "player": "Ben Saraf",
+      "pos": "PG",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn Nets (BKN) exercised $3.17 million Team Option for 2027-28"
+    },
+    {
+      "player": "Drake Powell",
+      "pos": "SG",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn Nets (BKN) exercised $3.71 million Team Option for 2027-28"
+    },
+    {
+      "player": "Nolan Traore",
+      "pos": "PG",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn Nets (BKN) exercised $4.19 million Team Option for 2027-28"
+    },
+    {
+      "player": "Egor Demin",
+      "pos": "PG",
+      "date": "Oct 29, 2026",
+      "type": "Option",
+      "detail": "Brooklyn Nets (BKN) exercised $7.58 million Team Option for 2027-28"
+    },
+    {
+      "player": "Blake Wesley",
+      "pos": "SG",
+      "date": "Oct 29, 2026",
+      "type": "Signing",
+      "detail": "Signed a 10-day contract with LA Clippers (LAC) via Hardship Provision"
+    },
+    {
+      "player": "Ariel Hukporti",
+      "pos": "C",
+      "date": "Oct 29, 2026",
+      "type": "Other",
+      "detail": "Philadelphia 76ers (PHI) granted $1.7 million Disabled Player Exception due to season-ending Achilles injury"
+    },
+    {
+      "player": "Lawson Lovering",
+      "pos": "C",
+      "date": "Oct 29, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Zaccharie Risacher",
+      "pos": "SF",
+      "date": "Oct 28, 2026",
+      "type": "Option",
+      "detail": "Dallas Mavericks (DAL) exercised $17.43 million Team Option for 2027-28"
+    },
+    {
+      "player": "AK Okereke",
+      "pos": "F",
+      "date": "Oct 28, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Enrique Freeman",
+      "pos": "PF",
+      "date": "Oct 28, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Ariel Hukporti",
+      "pos": "C",
+      "date": "Oct 27, 2026",
+      "type": "Other",
+      "detail": "Philadelphia 76ers (PHI) applied for Disabled Player Exception due to season-ending Achilles injury; if granted would be worth $1.7 million"
+    },
+    {
+      "player": "Micah Peavy",
+      "pos": "SF",
+      "date": "Oct 24, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Otega Oweh",
+      "pos": "SG",
+      "date": "Oct 24, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Kobe Bufkin",
+      "pos": "PG",
+      "date": "Oct 24, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Utah Jazz (UTA)"
+    },
+    {
+      "player": "Dalton Knecht",
+      "pos": "SF",
+      "date": "Oct 23, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with New York Knicks (NYK)"
+    },
+    {
+      "player": "Sean Pedulla",
+      "pos": "G",
+      "date": "Oct 23, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Kevin McCullar Jr.",
+      "pos": "SG",
+      "date": "Oct 23, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Blake Hinson",
+      "pos": "SG",
+      "date": "Oct 21, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "pos": "PG",
+      "date": "Oct 21, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Jase Richardson",
+      "pos": "SG",
+      "date": "Oct 21, 2026",
+      "type": "Option",
+      "detail": "Orlando Magic (ORL) exercised $3.28 million Team Option for 2027-28"
+    },
+    {
+      "player": "Tristan Da Silva",
+      "pos": "SF",
+      "date": "Oct 21, 2026",
+      "type": "Option",
+      "detail": "Orlando Magic (ORL) exercised $6.14 million Team Option for 2027-28"
+    },
+    {
+      "player": "Trendon Watford",
+      "pos": "PF",
+      "date": "Oct 21, 2026",
+      "type": "Other",
+      "detail": "New Orleans Pelicans (NOP) guaranteed $500k for 2026-27"
+    },
+    {
+      "player": "Mohamed Bamba",
+      "pos": "C",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Utah Jazz (UTA) guaranteed $500k for 2026-27"
+    },
+    {
+      "player": "Isaiah Crawford",
+      "pos": "G",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Houston Rockets (HOU) guaranteed $1.15 million for 2026-27"
+    },
+    {
+      "player": "Brandon Williams",
+      "pos": "PG",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Golden State Warriors (GSW) guaranteed $1.4 million for 2026-27"
+    },
+    {
+      "player": "Nick Richards",
+      "pos": "C",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Miami Heat (MIA) guaranteed $3.07 million for 2026-27"
+    },
+    {
+      "player": "Ben Simmons",
+      "pos": "PG",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Sacramento Kings (SAC) guaranteed $1 million for 2026-27"
+    },
+    {
+      "player": "Cedric Coward",
+      "pos": "SG",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Memphis Grizzlies (MEM) exercised $6.29 million Team Option for 2027-28"
+    },
+    {
+      "player": "Zach Edey",
+      "pos": "C",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Memphis Grizzlies (MEM) exercised $8.07 million Team Option for 2027-28"
+    },
+    {
+      "player": "Jeremiah Fears",
+      "pos": "PG",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "New Orleans Pelicans (NOP) exercised $8.27 million Team Option for 2027-28"
+    },
+    {
+      "player": "Yves Missi",
+      "pos": "C",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "New Orleans Pelicans (NOP) exercised $5.60 million Team Option for 2027-28"
+    },
+    {
+      "player": "Derik Queen",
+      "pos": "C",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "New Orleans Pelicans (NOP) exercised $5.67 million Team Option for 2027-28"
+    },
+    {
+      "player": "Ja'Kobe Walter",
+      "pos": "SG",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Toronto Raptors (TOR) exercised $5.87 million Team Option for 2027-28"
+    },
+    {
+      "player": "Collin Murray-Boyles",
+      "pos": "PF",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Toronto Raptors (TOR) exercised $6.97 million Team Option for 2027-28"
+    },
+    {
+      "player": "Noa Essengue",
+      "pos": "PF",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Chicago Bulls (CHI) exercised $5.97 million Team Option for 2027-28"
+    },
+    {
+      "player": "Matas Buzelis",
+      "pos": "SF",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Chicago Bulls (CHI) exercised $7.59 million Team Option for 2027-28"
+    },
+    {
+      "player": "Jaylon Tyson",
+      "pos": "SG",
+      "date": "Oct 20, 2026",
+      "type": "Option",
+      "detail": "Cleveland Cavaliers (CLE) exercised $5.64 million Team Option for 2026-27"
+    },
+    {
+      "player": "Vit Krejci",
+      "pos": "SG",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Portland Trail Blazers (POR) fully guaranteed $2.67 million salary for 2026-27"
+    },
+    {
+      "player": "Jaylen Wells",
+      "pos": "SF",
+      "date": "Oct 20, 2026",
+      "type": "Other",
+      "detail": "Memphis Grizzlies (MEM) fully guaranteed $2.30 million salary for 2026-27"
+    },
+    {
+      "player": "Jaden McDaniels",
+      "pos": "SF",
+      "date": "Oct 20, 2026",
+      "type": "Signing",
+      "detail": "Signed a 1 year $40 million contract extension with Minnesota Timberwolves (MIN) for 2029-30"
+    },
+    {
+      "player": "Pete Nance",
+      "pos": "PF",
+      "date": "Oct 20, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Milwaukee Bucks (MIL)"
+    },
+    {
+      "player": "VJ Edgecombe",
+      "pos": "SG",
+      "date": "Oct 19, 2026",
+      "type": "Option",
+      "detail": "Philadelphia 76ers (PHI) exercised $12.22 million Team Option for 2027-28"
+    },
+    {
+      "player": "Ron Holland II",
+      "pos": "SF",
+      "date": "Oct 19, 2026",
+      "type": "Option",
+      "detail": "Detroit Pistons (DET) exercised $11.49 million Team Option for 2027-28"
+    },
+    {
+      "player": "Anthony Gill",
+      "pos": "PF",
+      "date": "Oct 19, 2026",
+      "type": "Other",
+      "detail": "Washington Wizards (WAS) converted Exhibit 9 contract to Standard contract"
+    },
+    {
+      "player": "James Wiseman",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Other",
+      "detail": "New York Knicks (NYK) converted Exhibit 9 contract to Standard contract"
+    },
+    {
+      "player": "Tony Bradley",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Other",
+      "detail": "Utah Jazz (UTA) converted Exhibit 10 contract to Standard contract"
+    },
+    {
+      "player": "Oso Ighodaro",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a 3 year $29 million contract extension with Phoenix Suns (PHX); begins with the 2028-29 season"
+    },
+    {
+      "player": "Oso Ighodaro",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Extension",
+      "detail": "Phoenix Suns (PHX) exercised $2.49 million Team Option for 2027-28 as part of extension"
+    },
+    {
+      "player": "Drew Timme",
+      "pos": "F",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Phoenix Suns (PHX) via converted Exhibit 10"
+    },
+    {
+      "player": "Drew Timme",
+      "pos": "F",
+      "date": "Oct 19, 2026",
+      "type": "Other",
+      "detail": "Claimed off waivers by Phoenix Suns (PHX)"
+    },
+    {
+      "player": "Brandon Miller",
+      "pos": "SF",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a 5 year $208.26 million Rookie Scale contract extension with Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Kevin Porter Jr.",
+      "pos": "PG",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Milwaukee Bucks (MIL)"
+    },
+    {
+      "player": "Micah Peavy",
+      "pos": "SF",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis Grizzlies (MEM)"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "pos": "PG",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis Grizzlies (MEM)"
+    },
+    {
+      "player": "Dalton Knecht",
+      "pos": "SF",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Julian Phillips",
+      "pos": "SF",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Houston Rockets (HOU) via converted Two-Way"
+    },
+    {
+      "player": "Oscar Tshiebwe",
+      "pos": "PF",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Houston Rockets (HOU) via converted Exhibit 10"
+    },
+    {
+      "player": "Sean Pedulla",
+      "pos": "G",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Houston Rockets (HOU)"
+    },
+    {
+      "player": "Adam Flagler",
+      "pos": "G",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Duop Reath",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Phoenix Suns (PHX) via converted Exhibit 10"
+    },
+    {
+      "player": "Koby Brea",
+      "pos": "G",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Phoenix Suns (PHX)"
+    },
+    {
+      "player": "CJ Huntley",
+      "pos": "F",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Phoenix Suns (PHX)"
+    },
+    {
+      "player": "Dwight Powell",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL) ($1,449,421 cap savings)"
+    },
+    {
+      "player": "Cason Wallace",
+      "pos": "PG",
+      "date": "Oct 19, 2026",
+      "type": "Signing",
+      "detail": "Signed a 5 year $135 million Rookie Scale contract extension with Oklahoma City Thunder (OKC) - includes $4 million in unlikely incentives and 5% Trade Bonus"
+    },
+    {
+      "player": "Tony Bradley",
+      "pos": "C",
+      "date": "Oct 17, 2026",
+      "type": "Other",
+      "detail": "Claimed off waivers by Utah Jazz (UTA)"
+    },
+    {
+      "player": "Caleb McConnell",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Houston Rockets (HOU)"
+    },
+    {
+      "player": "Cameron Matthews",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Houston Rockets (HOU)"
+    },
+    {
+      "player": "Bryce Harris",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Houston Rockets (HOU)"
+    },
+    {
+      "player": "Brice Williams",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Detroit Pistons (DET)"
+    },
+    {
+      "player": "John Ukomadu",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Detroit Pistons (DET)"
+    },
+    {
+      "player": "Emanuel Miller",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Coleman Hawkins",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Dane Goodwin",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Noam Yaacov",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Tre'von Spillers",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Zack Austin",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Rashaun Agee",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Alex Toohey",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Tyler Burton",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Dalen Terry",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Golden State Warriors (GSW)"
+    },
+    {
+      "player": "Milos Uzan",
+      "pos": "PG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Boston Celtics (BOS)"
+    },
+    {
+      "player": "Tucker DeVries",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Boston Celtics (BOS)"
+    },
+    {
+      "player": "Gabe McGlothan",
+      "pos": "PF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Boston Celtics (BOS)"
+    },
+    {
+      "player": "Hayden Gray",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Boston Celtics (BOS)"
+    },
+    {
+      "player": "Jalon Moore",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Kobe Bufkin",
+      "pos": "PG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "John Poulakidas",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Seth Lundy",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Drew Timme",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Norchad Omier",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Kenyon Martin Jr.",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Antonio Reeves",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Enrique Freeman",
+      "pos": "PF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Elfrid Payton",
+      "pos": "PG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Tristen Newton",
+      "pos": "PG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Viktor Lakhin",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Jake Stephens",
+      "pos": "C",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Milwaukee Bucks (MIL)"
+    },
+    {
+      "player": "Johni Broome",
+      "pos": "C",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Milwaukee Bucks (MIL)"
+    },
+    {
+      "player": "Pete Nance",
+      "pos": "PF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Milwaukee Bucks (MIL) ($2,537,526 cap savings)"
+    },
+    {
+      "player": "Bruce Brown Jr.",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Cooper Flagg",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Option",
+      "detail": "Dallas Mavericks (DAL) exercised $15.21 million Club Option for 2027-28"
+    },
+    {
+      "player": "Latrell Wrightsell Jr.",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Jarkel Joiner",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Jahmyl Telfort",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Miye Oni",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Nathan Mensah",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Blake Wesley",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Kobe Johnson",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Cam Corhen",
+      "pos": "PF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Christoph Tilly",
+      "pos": "C",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Lamar Wilkerson",
+      "pos": "F",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Nate Johnson",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Buddy Boeheim",
+      "pos": "SG",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Nolan Hickman",
+      "pos": "G",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Washington Wizards (WAS)"
+    },
+    {
+      "player": "Kendall Brown",
+      "pos": "SF",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio Spurs (SAS)"
+    },
+    {
+      "player": "Lamar Wilkerson",
+      "pos": "F",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Oklahoma City Thunder (OKC) via Exhibit 10"
+    },
+    {
+      "player": "Kevin Knox",
+      "pos": "SF",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Orlando Magic (ORL)"
+    },
+    {
+      "player": "J.D. Davison",
+      "pos": "PG",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Orlando Magic (ORL)"
+    },
+    {
+      "player": "Malaki Branham",
+      "pos": "SG",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Orlando Magic (ORL)"
+    },
+    {
+      "player": "Dariq Whitehead",
+      "pos": "SG",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Oklahoma City Thunder (OKC) via Exhibit 10"
+    },
+    {
+      "player": "Bryce Harris",
+      "pos": "F",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Houston Rockets (HOU) via Exhibit 10"
+    },
+    {
+      "player": "Caleb McConnell",
+      "pos": "G",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Houston Rockets (HOU) via Exhibit 10"
+    },
+    {
+      "player": "Tre'von Spillers",
+      "pos": "F",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Cleveland Cavaliers (CLE) via Exhibit 10"
+    },
+    {
+      "player": "Nate Johnson",
+      "pos": "G",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Oklahoma City Thunder (OKC) via Exhibit 10"
+    },
+    {
+      "player": "Caleb Houstan",
+      "pos": "SF",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Portland Trail Blazers (POR)"
+    },
+    {
+      "player": "Hunter Dickinson",
+      "pos": "C",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by New Orleans Pelicans (NOP)"
+    },
+    {
+      "player": "Pat Connaughton",
+      "pos": "SG",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA) ($3,815,861 cap savings)"
+    },
+    {
+      "player": "Payton Pritchard",
+      "pos": "PG",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year $44.15 million contract extension with Boston Celtics (BOS) - includes 2029-30 Mutual Option"
+    },
+    {
+      "player": "Guillermo Diaz-Graham",
+      "pos": "C",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Guillermo Diaz-Graham",
+      "pos": "C",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Dallas Mavericks (DAL) via Exhibit 10"
+    },
+    {
+      "player": "Jalen Celestine",
+      "pos": "PG",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Toronto Raptors (TOR) via Exhibit 10"
+    },
+    {
+      "player": "Andrew Holifield",
+      "pos": "C",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Anthony Pritchard",
+      "pos": "G",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Zhaire Smith",
+      "pos": "SG",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Marcus Garrett",
+      "pos": "PG",
+      "date": "Oct 16, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Taye Fields",
+      "pos": "G",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Philadelphia 76ers (PHI) via Exhibit 10"
+    },
+    {
+      "player": "Cris Carroll",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Philadelphia 76ers (PHI) via Exhibit 10"
+    },
+    {
+      "player": "Kendall Brown",
+      "pos": "SF",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with San Antonio Spurs (SAS) via Exhibit 10"
+    },
+    {
+      "player": "Hunter Dickinson",
+      "pos": "C",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with New Orleans Pelicans (NOP) via Exhibit 10"
+    },
+    {
+      "player": "Ezra Ausar",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Miami Heat (MIA) via Exhibit 10"
+    },
+    {
+      "player": "Jorge Diaz-Graham",
+      "pos": "C",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Giorgi Bezhanishvili",
+      "pos": "PF",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Jon Elmore",
+      "pos": "G",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio Spurs (SAS)"
+    },
+    {
+      "player": "David Muoka",
+      "pos": "C",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Sacramento Kings (SAC)"
+    },
+    {
+      "player": "David Muoka",
+      "pos": "C",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 10"
+    },
+    {
+      "player": "Saint Thomas",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Philadelphia 76ers (PHI)"
+    },
+    {
+      "player": "Duke Miles",
+      "pos": "G",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Philadelphia 76ers (PHI)"
+    },
+    {
+      "player": "Ian Schieffelin",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Miami Heat (MIA)"
+    },
+    {
+      "player": "Nathan Mensah",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with LA Clippers (LAC) via Exhibit 10"
+    },
+    {
+      "player": "Miye Oni",
+      "pos": "SG",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with LA Clippers (LAC) via Exhibit 10"
+    },
+    {
+      "player": "Fletcher Loyer",
+      "pos": "G",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Caleb Houstan",
+      "pos": "SF",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Portland Trail Blazers (POR) via Exhibit 10"
+    },
+    {
+      "player": "Ben Humrichous",
+      "pos": "SF",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Brooklyn Nets (BKN)"
+    },
+    {
+      "player": "Cameron Matthews",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Houston Rockets (HOU) via Exhibit 10"
+    },
+    {
+      "player": "DaJuan Gordon",
+      "pos": "SG",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Latrell Wrightsell Jr.",
+      "pos": "SG",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Wyatt Fricks",
+      "pos": "F",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA)"
+    },
+    {
+      "player": "Drew Eubanks",
+      "pos": "C",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Ochai Agbaji",
+      "pos": "SF",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "Tony Bradley",
+      "pos": "C",
+      "date": "Oct 15, 2026",
+      "type": "Release",
+      "detail": "Waived by New York Knicks (NYK)"
+    },
+    {
+      "player": "DaJuan Gordon",
+      "pos": "SG",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Charlotte Hornets (CHA) via Exhibit 10"
+    },
+    {
+      "player": "Leaky Black",
+      "pos": "SF",
+      "date": "Oct 15, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Sacramento Kings (SAC) via converted Exhibit 10"
+    },
+    {
       "player": "Aaron Nkrumah",
       "pos": "F",
       "date": "Oct 14, 2026",
       "type": "Signing",
       "detail": "Signed a contract with Sacramento Kings (SAC) via Exhibit 10"
+    },
+    {
+      "player": "Chance Moore",
+      "pos": "F",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
+    },
+    {
+      "player": "Chance Moore",
+      "pos": "F",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Utah Jazz (UTA) via Exhibit 10"
+    },
+    {
+      "player": "Kristaps Porzingis",
+      "pos": "C",
+      "date": "Oct 14, 2026",
+      "type": "Other",
+      "detail": "Out indefinitely with Golden State Warriors (GSW) due to undisclosed health issues"
+    },
+    {
+      "player": "Otega Oweh",
+      "pos": "SG",
+      "date": "Oct 14, 2026",
+      "type": "Other",
+      "detail": "Will miss the 2026-27 season with Oklahoma City Thunder (OKC) due to Achilles injury"
+    },
+    {
+      "player": "Aniwaniwa Tait-Jones",
+      "pos": "F",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Los Angeles Lakers (LAL) via Exhibit 10"
+    },
+    {
+      "player": "Jahmir Young",
+      "pos": "PG",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Jaxson Robinson",
+      "pos": "F",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Cameron Christie",
+      "pos": "SG",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "Cole Swider",
+      "pos": "F",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Taelon Peter",
+      "pos": "G",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio Spurs (SAS)"
+    },
+    {
+      "player": "Malik Williams",
+      "pos": "C",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio Spurs (SAS)"
+    },
+    {
+      "player": "Trey Jemison III",
+      "pos": "PF",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by Toronto Raptors (TOR)"
+    },
+    {
+      "player": "Giorgi Bezhanishvili",
+      "pos": "PF",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Atlanta Hawks (ATL) via Exhibit 10"
+    },
+    {
+      "player": "DeAndre Williams",
+      "pos": "SF",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC)"
+    },
+    {
+      "player": "DeAndre Williams",
+      "pos": "SF",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with LA Clippers (LAC) via Exhibit 10"
+    },
+    {
+      "player": "Terry Taylor",
+      "pos": "SF",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by San Antonio Spurs (SAS)"
+    },
+    {
+      "player": "Jahmir Young",
+      "pos": "PG",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Los Angeles Lakers (LAL) via Exhibit 10"
+    },
+    {
+      "player": "Steven Crowl",
+      "pos": "C",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by Denver Nuggets (DEN)"
+    },
+    {
+      "player": "Steven Crowl",
+      "pos": "C",
+      "date": "Oct 14, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with Denver Nuggets (DEN) via Exhibit 10"
     },
     {
       "player": "Isaac McKneely",
@@ -105,6 +1449,13 @@
       "date": "Oct 13, 2026",
       "type": "Release",
       "detail": "Waived by Dallas Mavericks (DAL)"
+    },
+    {
+      "player": "Terry Taylor",
+      "pos": "SF",
+      "date": "Oct 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a contract with San Antonio Spurs (SAS) via Exhibit 10"
     },
     {
       "player": "Matt Cross",

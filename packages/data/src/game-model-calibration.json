@@ -1,0 +1,40 @@
+{
+  "source": "Basketball-Reference NBA_2026: 1230 regular-season games, schedule-adjusted net ratings",
+  "season": "2025-26",
+  "games": 1230,
+  "hca": 1.76,
+  "marginSd": 14.04,
+  "brier": 0.1961,
+  "brierCoinFlip": 0.25,
+  "winsRmse": 3.31,
+  "winsPerPointActual": 2.232,
+  "winsPerPointModel": 2.097,
+  "calibration": [
+    {
+      "n": 72,
+      "predicted": 0.158,
+      "actual": 0.167
+    },
+    {
+      "n": 275,
+      "predicted": 0.308,
+      "actual": 0.265
+    },
+    {
+      "n": 368,
+      "predicted": 0.504,
+      "actual": 0.546
+    },
+    {
+      "n": 348,
+      "predicted": 0.695,
+      "actual": 0.716
+    },
+    {
+      "n": 167,
+      "predicted": 0.859,
+      "actual": 0.886
+    }
+  ],
+  "caveat": "In-sample: each game is scored against its teams' full-season ratings, so marginSd is a floor. The simulator's rating uncertainty (prior and posterior variance) carries the out-of-sample error on top of it."
+}
