@@ -28,7 +28,11 @@ const DAY = 86400000;
 // once the season is on, `gamesOut` is the games he is expected to miss from
 // here, which is what the projection (and the simulator, which plays only the
 // games left) needs. In the offseason it is the games he misses to start it.
+// `gamesLeft` (top of the file) is the same count for a healthy player, so
+// gamesOut / gamesLeft is the share of what's left he misses. 82 − gamesOut
+// is not: by Nov 2 a season-ending injury is 75 out of 75, not 75 of 82.
 const FROM = new Date(Math.max(SEASON_START.getTime(), Date.now()));
+const GAMES_LEFT = Math.round(((SEASON_END - FROM) / DAY / SEASON_DAYS) * 82);
 const WORDS = { a: 1, an: 1, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, twelve: 12, several: 3, few: 2, couple: 2 };
 const num = (w) => (/^\d+(\.\d+)?$/.test(w) ? Number(w) : WORDS[w.toLowerCase()]);
 const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -153,7 +157,8 @@ async function main() {
     byId[id] = { name, team, date, ...(onset !== date ? { onset } : {}), desc: desc.slice(0, 200), type, status, gamesOut, basis };
   });
 
-  writeFileSync(OUT, JSON.stringify({ source: "Basketball-Reference injury report", asOf: "2026-07", byId }, null, 2) + "\n");
+  const asOf = new Date().toISOString().slice(0, 10);
+  writeFileSync(OUT, JSON.stringify({ source: "Basketball-Reference injury report", asOf, gamesLeft: GAMES_LEFT, byId }, null, 2) + "\n");
   const total = Object.keys(byId).length;
   console.log(`Wrote ${total} injury records -> ${OUT} (${majors} bleed into 2026-27)`);
   const bleed = Object.entries(byId).filter(([, v]) => v.gamesOut >= 5).sort((a, b) => b[1].gamesOut - a[1].gamesOut);

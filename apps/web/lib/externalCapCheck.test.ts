@@ -269,6 +269,7 @@ const NEXT_EXPLAINED: Record<string, { maxGap: number; why: string }> = {
   OKC: { maxGap: 650_000, why: "Shai Gilgeous-Alexander's supermax starts in 2027-28 at 35% of a cap nobody knows yet: $61,005,000 on the scraped sheet's projection, $61,600,000 on Spotrac's." },
   ATL: { maxGap: 30_000, why: "Corey Kispert: $13,050,000 on the scraped sheet, $13,025,000 on Spotrac's table." },
   CHA: { maxGap: 8_100_000, why: "Brandon Miller's 5yr/$208.26M rookie-scale extension (Oct 19) starts here. No split has been reported: the sheet books an estimated $35,906,897 at 8% raises, Spotrac's table $44,000,000, which reaches $208.26M over five seasons only if the salary falls every year. Re-check when the filing is reported." },
+  UTA: { maxGap: 5_000_000, why: "Isaiah Collier's $4,988,948 2027-28 team option, declined Nov 2 (HoopsHype, Hoops Rumors). The sheet drops it; Spotrac's Nov 2 page total ($186,127,252) drops it too, but its rows still list him, and the rows are what this sums." },
   TOR: { maxGap: 600_000, why: "Jamal Shead's 3yr/$24M extension (Oct 1). Nobody has reported the split: the sheet carries an estimated $7,407,407 at 8% raises, and Spotrac's Oct 14 table has a flat $8,000,000. Neither is a filing; re-check when one is." },
 };
 
