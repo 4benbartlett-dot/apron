@@ -276,7 +276,7 @@ export const SEO_TERMS: SeoTerm[] = [
         heading: "How it works",
         body: [
           `A team that uses cap room gives up the regular MLEs and bi-annual exception — in exchange it can sign one or more players using the Room MLE (${fmtFull(C.roomMLE)} in 2026-27, up to 3 years) even after its cap space is gone.`,
-          "The Lakers' current feed state reflects this pattern: room operation first, then a Room MLE signing.",
+          "The Lakers did exactly this in July: cap room first, then a Room MLE signing.",
         ],
       },
     ],

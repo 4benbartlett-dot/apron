@@ -1514,7 +1514,7 @@
           "year": 2027,
           "status": "owed",
           "to": "UTA",
-          "note": "Own 2027 first surrendered outright (no protection on MIN's pick) into the UTA/CLE/MIN pool; the three ranked picks go most-favorable to Memphis, second to Utah, least to Phoenix (via Utah). MIN keeps no 2027 first regardless of ranking; original trade counterparty was Utah. The '1-5 bar' in the prose is on Utah's pick, not MIN's.",
+          "note": "Own 2027 first surrendered outright (no protection on MIN's pick) into the UTA/CLE/MIN pool; the three ranked picks go most-favorable to Memphis, second to Utah, least to Phoenix (via Utah). Minnesota keeps no 2027 first however they rank.",
           "source": "Minnesota-Utah, 7/6/2022; Cleveland-Utah, 9/3/2022; Phoenix-Utah, 1/21/2025; Memphis-Utah, 2/3/2026"
         },
         {
@@ -1978,7 +1978,7 @@
           "to": "BOS",
           "favorable": "less",
           "protection": "1-8",
-          "note": "Pending Boston-Philadelphia deal: Boston receives EITHER a 2028 first from Philadelphia OR instead a swap right over a 2028 first from Philadelphia (swap branch leaves PHI the less favorable); the PHI pick is available in the 1-8 range, terms not final. Ambiguity: PHI's own 2028 first is already pledged to Brooklyn (protected 1-8) and PHI holds the Clippers' 2028 first, so this Boston obligation may be satisfied via the held Clippers pick rather than PHI's own first. Listed conservatively as an obligation.",
+          "note": "Owed to Boston: a 2028 first from Philadelphia, or a swap right over one; final terms not reported. Philadelphia's own 2028 first already goes to Brooklyn (protected 1-8), so this may be paid with the Clippers' 2028 first that Philadelphia holds.",
           "source": "Boston-Philadelphia, pending"
         },
         {
@@ -2053,7 +2053,7 @@
             "OKC"
           ],
           "favorable": "least",
-          "note": "Receives the two least favorable of Golden State's, Milwaukee's and Oklahoma City's 2028 2nds; Boston independently receives the most favorable. Prose does not have PHI convey these onward to Boston.",
+          "note": "Receives the two least favorable of Golden State's, Milwaukee's and Oklahoma City's 2028 2nds; Boston independently receives the most favorable.",
           "source": "Atlanta-Detroit-Golden State-Portland, 2/9/2023; Brooklyn-Indiana-Milwaukee-Phoenix, 2/9/2023; Brooklyn-Houston, 7/6/2023; Houston-Oklahoma City, 10/17/2023; Portland-Washington, 7/6/2024; Oklahoma City-Philadelphia, 2/4/2026; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending"
         },
         {
@@ -2078,7 +2078,7 @@
             "WAS"
           ],
           "favorable": "less",
-          "note": "Receives the less favorable of (i) the more favorable of Phoenix's and Portland's 2030 2nds and (ii) Washington's 2030 2nd; Boston gets the most favorable and Washington the less favorable of Phoenix/Portland. PHI lands the middle of the three in most orderings, but the worst when Washington's pick is the least favorable. Prose does not have PHI convey this onward to Boston.",
+          "note": "Receives the less favorable of (i) the more favorable of Phoenix's and Portland's 2030 2nds and (ii) Washington's 2030 2nd; Boston gets the most favorable and Washington the less favorable of Phoenix/Portland.",
           "source": "Indiana-Phoenix-Washington, 6/23/2023; Portland-Washington, 7/6/2024; Philadelphia-Washington, 2/6/2025; Boston-Philadelphia, pending"
         },
         {
@@ -2087,7 +2087,7 @@
           "kind": "outright",
           "origin": "WAS",
           "counterparties": [],
-          "note": "Washington's 2030 2nd to Philadelphia outright; PHI may convey this pick onward to Boston (explicit in prose).",
+          "note": "Washington's 2030 2nd to Philadelphia outright; Philadelphia may send it on to Boston.",
           "source": "Philadelphia-Washington, 2/6/2025"
         }
       ]
@@ -2317,7 +2317,7 @@
           "status": "protected",
           "to": "OKC",
           "protection": "1-16",
-          "note": "Own 2027 first is top-16 protected: if it lands 1-16 SAS keeps it (obligation extinguished; Sacramento instead sends its own and Charlotte's 2027 2nds to OKC); if 17-30 it conveys to OKC. Prose names both a Sacramento (protected 17-30) and an OKC (protected 1-16) branch and is internally inconsistent on recipient; conservatively treated as owed to OKC whenever outside the top-16.",
+          "note": "Own 2027 first is top-16 protected: if it lands 1-16 SAS keeps it (obligation extinguished; Sacramento instead sends its own and Charlotte's 2027 2nds to OKC); if 17-30 it conveys to OKC.",
           "source": "Chicago-Sacramento-San Antonio, 2/3/2025; Oklahoma City-Sacramento, 6/25/2025"
         }
       ],

@@ -1,0 +1,279 @@
+{
+  "source": "Basketball-Reference advanced pages: final (bref) and season-to-date (Wayback Machine snapshots)",
+  "asOf": "2026-11-02",
+  "seasons": [
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25",
+    "2025-26"
+  ],
+  "method": "pred = (prior·M + early·mp) / (M + mp); M minimizes rest-of-season BPM error weighted by rest-of-season minutes",
+  "priorMinutes": 1025,
+  "pooled": {
+    "M": 1025,
+    "rmse": 1.7717,
+    "priorOnly": 1.8836,
+    "seasonOnly": 3.2225,
+    "n": 7002
+  },
+  "byCutoff": [
+    {
+      "days": 13,
+      "games": 10,
+      "M": 1150,
+      "rmse": 1.7517,
+      "priorOnly": 1.8103,
+      "seasonOnly": 3.8473,
+      "n": 1748,
+      "atPooledM": 1.7523
+    },
+    {
+      "days": 27,
+      "games": 14,
+      "M": 1025,
+      "rmse": 1.7423,
+      "priorOnly": 1.8373,
+      "seasonOnly": 3.274,
+      "n": 1774,
+      "atPooledM": 1.7423
+    },
+    {
+      "days": 42,
+      "games": 23,
+      "M": 1075,
+      "rmse": 1.7867,
+      "priorOnly": 1.9062,
+      "seasonOnly": 2.8737,
+      "n": 1772,
+      "atPooledM": 1.7868
+    },
+    {
+      "days": 75,
+      "games": 38,
+      "M": 875,
+      "rmse": 1.8223,
+      "priorOnly": 2.0275,
+      "seasonOnly": 2.4148,
+      "n": 1708,
+      "atPooledM": 1.8239
+    }
+  ],
+  "bySeason": [
+    {
+      "season": 2022,
+      "M": 1375,
+      "rmse": 1.9411,
+      "priorOnly": 2.0237,
+      "seasonOnly": 3.4097,
+      "n": 1365
+    },
+    {
+      "season": 2023,
+      "M": 1075,
+      "rmse": 1.6395,
+      "priorOnly": 1.7383,
+      "seasonOnly": 3.2545,
+      "n": 1395
+    },
+    {
+      "season": 2024,
+      "M": 1100,
+      "rmse": 1.6311,
+      "priorOnly": 1.7377,
+      "seasonOnly": 3.2522,
+      "n": 1404
+    },
+    {
+      "season": 2025,
+      "M": 950,
+      "rmse": 1.851,
+      "priorOnly": 1.9736,
+      "seasonOnly": 3.1706,
+      "n": 1423
+    },
+    {
+      "season": 2026,
+      "M": 750,
+      "rmse": 1.778,
+      "priorOnly": 1.9408,
+      "seasonOnly": 3.007,
+      "n": 1415
+    }
+  ],
+  "leaveOneSeasonOut": [
+    {
+      "season": 2022,
+      "M": 950,
+      "rmse": 1.9485,
+      "priorOnly": 2.0237
+    },
+    {
+      "season": 2023,
+      "M": 1025,
+      "rmse": 1.6396,
+      "priorOnly": 1.7383
+    },
+    {
+      "season": 2024,
+      "M": 1025,
+      "rmse": 1.6313,
+      "priorOnly": 1.7377
+    },
+    {
+      "season": 2025,
+      "M": 1050,
+      "rmse": 1.8515,
+      "priorOnly": 1.9736
+    },
+    {
+      "season": 2026,
+      "M": 1125,
+      "rmse": 1.7876,
+      "priorOnly": 1.9408
+    }
+  ],
+  "priorSlope": 0.931,
+  "cutoffs": [
+    {
+      "season": 2022,
+      "days": 13,
+      "snapshot": "20211109",
+      "games": 11,
+      "players": 344
+    },
+    {
+      "season": 2022,
+      "days": 27,
+      "snapshot": "20211116",
+      "games": 15,
+      "players": 346
+    },
+    {
+      "season": 2022,
+      "days": 42,
+      "snapshot": "20211130",
+      "games": 22,
+      "players": 341
+    },
+    {
+      "season": 2022,
+      "days": 75,
+      "snapshot": "20220104",
+      "games": 38,
+      "players": 334
+    },
+    {
+      "season": 2023,
+      "days": 13,
+      "snapshot": "20221102",
+      "games": 8,
+      "players": 350
+    },
+    {
+      "season": 2023,
+      "days": 27,
+      "snapshot": "20221112",
+      "games": 13,
+      "players": 350
+    },
+    {
+      "season": 2023,
+      "days": 42,
+      "snapshot": "20221129",
+      "games": 23,
+      "players": 353
+    },
+    {
+      "season": 2023,
+      "days": 75,
+      "snapshot": "20230103",
+      "games": 39,
+      "players": 342
+    },
+    {
+      "season": 2024,
+      "days": 13,
+      "snapshot": "20231109",
+      "games": 8,
+      "players": 347
+    },
+    {
+      "season": 2024,
+      "days": 27,
+      "snapshot": "20231120",
+      "games": 14,
+      "players": 359
+    },
+    {
+      "season": 2024,
+      "days": 42,
+      "snapshot": "20231205",
+      "games": 22,
+      "players": 357
+    },
+    {
+      "season": 2024,
+      "days": 75,
+      "snapshot": "20240107",
+      "games": 37,
+      "players": 341
+    },
+    {
+      "season": 2025,
+      "days": 13,
+      "snapshot": "20241111",
+      "games": 11,
+      "players": 355
+    },
+    {
+      "season": 2025,
+      "days": 27,
+      "snapshot": "20241118",
+      "games": 15,
+      "players": 363
+    },
+    {
+      "season": 2025,
+      "days": 42,
+      "snapshot": "20241202",
+      "games": 22,
+      "players": 362
+    },
+    {
+      "season": 2025,
+      "days": 75,
+      "snapshot": "20250113",
+      "games": 39,
+      "players": 343
+    },
+    {
+      "season": 2026,
+      "days": 13,
+      "snapshot": "20251112",
+      "games": 11,
+      "players": 352
+    },
+    {
+      "season": 2026,
+      "days": 27,
+      "snapshot": "20251118",
+      "games": 15,
+      "players": 356
+    },
+    {
+      "season": 2026,
+      "days": 42,
+      "snapshot": "20251208",
+      "games": 25,
+      "players": 359
+    },
+    {
+      "season": 2026,
+      "days": 75,
+      "snapshot": "20260102",
+      "games": 35,
+      "players": 348
+    }
+  ]
+}

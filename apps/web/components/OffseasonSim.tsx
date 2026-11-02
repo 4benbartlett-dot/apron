@@ -24,7 +24,8 @@ import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam } from "@/lib/store";
-import { leagueData, SIM_DATE, YEAR } from "@/lib/league";
+import { leagueData, SIM_DATE, TRADE_DEADLINE, tradeTiming, YEAR } from "@/lib/league";
+import { tradeableOn, shortDate } from "@apron/cba-engine";
 import { fmtM, fmtFull } from "@/lib/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -102,6 +103,17 @@ export default function OffseasonSim() {
   // it staged; closing it drops them onto the live board with those moves.
   const [recap, setRecap] = useState<{ moves: Move[]; teams: string[] } | null>(null);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  // The day trades are judged on: today, or the deadline with every freeze
+  // that lifts by then lifted (Art. VII §8(d), §8(f), §6(j)(4)).
+  const [tradeDay, setTradeDay] = useState<"today" | "deadline">("today");
+  const tradeDate = tradeDay === "deadline" ? TRADE_DEADLINE : SIM_DATE;
+  const { lockedNow, lockedAtDeadline } = useMemo(() => {
+    const act = lg.contracts.filter((c) => !c.deadMoney && !c.twoWay && c.restriction);
+    return {
+      lockedNow: act.filter((c) => !tradeableOn(c, SIM_DATE)).length,
+      lockedAtDeadline: act.filter((c) => !tradeableOn(c, TRADE_DEADLINE)).length,
+    };
+  }, [lg.contracts]);
   const router = useRouter();
   const [sel, setSel] = useState<Record<string, Sel>>({});
   const [pickSel, setPickSel] = useState<Record<string, Sel>>({});
@@ -592,7 +604,7 @@ export default function OffseasonSim() {
     const capHolds = Object.fromEntries(
       board.map((t) => [t, Math.max(0, lg.teamHolds(t) - (stStage?.fromTeam === t ? stStage.hold : 0))]),
     );
-    let tr: Trade = { teams: board, players, capHolds, date: SIM_DATE };
+    let tr: Trade = { teams: board, players, capHolds, date: tradeDate, timing: tradeTiming(tradeDate) };
     let v = validateTrade(boardData, tr, C);
     // If matching fails, try absorbing incoming players into standing TPEs
     // (largest exception, whole players) and re-judge.
@@ -609,7 +621,7 @@ export default function OffseasonSim() {
       }
     }
     return { trade: tr, verdict: v, byTeam: new Map(v.teams.map((t) => [t.teamId, t])) };
-  }, [board, sel, lg, boardData, boardContracts, stStage]);
+  }, [board, sel, lg, boardData, boardContracts, stStage, tradeDate]);
 
   const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0 || swapSel.length > 0;
 
@@ -871,13 +883,37 @@ export default function OffseasonSim() {
             citations where they apply.
           </p>
         </div>
-        <button
-          onClick={() => setFinderOpen(true)}
-          className="rounded-md border border-[var(--accent)] px-3 py-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
-        >
-          Trade finder
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <div role="radiogroup" aria-label="Trade as of" className="inline-flex overflow-hidden rounded-md border border-[var(--border)] text-[12px] font-semibold">
+            {([
+              ["today", `Today · ${shortDate(SIM_DATE).replace(/, \d{4}$/, "")}`],
+              ["deadline", `Trade deadline · ${shortDate(TRADE_DEADLINE).replace(/, \d{4}$/, "")}`],
+            ] as const).map(([k, label]) => (
+              <button
+                key={k}
+                role="radio"
+                aria-checked={tradeDay === k}
+                onClick={() => setTradeDay(k)}
+                className={`px-2.5 py-1.5 ${tradeDay === k ? "bg-[var(--accent)] text-white" : "text-[var(--muted)] hover:text-[var(--text)]"}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setFinderOpen(true)}
+            className="rounded-md border border-[var(--accent)] px-3 py-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
+          >
+            Trade finder
+          </button>
+        </div>
       </div>
+      {tradeDay === "deadline" && (
+        <p className="-mt-3 mb-4 text-[12px] text-[var(--muted)]">
+          Trading as of {shortDate(TRADE_DEADLINE)}: rosters and salaries are today&rsquo;s, and every trade freeze that lifts by then has lifted. {lockedNow - lockedAtDeadline} players
+          locked today are free by the deadline; {lockedAtDeadline} still aren&rsquo;t.
+        </p>
+      )}
 
       {/* board controls */}
       <div className="mb-3 flex flex-wrap items-center gap-1.5">
@@ -984,6 +1020,7 @@ export default function OffseasonSim() {
             onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
             onWaive={(playerId, playerName) => setWaiveFor({ playerId, playerName, team: id })}
             stagedSt={stContract}
+            tradeDate={tradeDate}
           />
           </div>
         ))}
@@ -1056,7 +1093,7 @@ export default function OffseasonSim() {
       )}
       {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
       {waiveFor && <WaiveDrawer {...waiveFor} lg={lg} onClose={() => setWaiveFor(null)} />}
-      {finderOpen && <TradeFinderDrawer board={board} lg={lg} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
+      {finderOpen && <TradeFinderDrawer board={board} lg={lg} tradeDate={tradeDate} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
     </div>
   );
 }
@@ -1401,7 +1438,9 @@ function TeamColumn({
   onExtend,
   onWaive,
   stagedSt,
+  tradeDate,
 }: {
+  tradeDate: string;
   teamId: string;
   board: string[];
   lg: LG;
@@ -1642,9 +1681,15 @@ function TeamColumn({
                 <ImpactPill c={c} />
                 <PosBadge playerId={c.playerId} />
                 <span className="truncate">{c.playerName}</span>
-                {c.restriction && (
-                  <Term k="no_trade" extra={`${c.playerName} ${c.restriction}.`} className="shrink-0">
-                    <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>NO-TRADE</span>
+                {!tradeableOn(c, tradeDate) && (
+                  <Term
+                    k="no_trade"
+                    extra={`${c.playerName}: ${c.restriction}.${c.restrictionCite ? ` (${c.restrictionCite.replace("2023 CBA ", "")})` : ""}`}
+                    className="shrink-0"
+                  >
+                    <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>
+                      {c.tradeableFrom ? `LOCKED · ${shortDate(c.tradeableFrom).replace(/, \d{4}$/, "").toUpperCase()}` : "NO-TRADE"}
+                    </span>
                   </Term>
                 )}
                 {stagedSt && c.playerId === stagedSt.playerId && (
@@ -2721,11 +2766,13 @@ function WaiveDrawer({
 function TradeFinderDrawer({
   board,
   lg,
+  tradeDate,
   onClose,
   onLoad,
 }: {
   board: string[];
   lg: LG;
+  tradeDate: string;
   onClose: () => void;
   onLoad: (acquirer: string, seller: string, targetId: string, playerIds: string[], sweetenerIds?: string[]) => void;
 }) {
@@ -2749,7 +2796,7 @@ function TradeFinderDrawer({
         .filter(
           (c) =>
             currentSalary(c) > 0 &&
-            !c.restriction &&
+            tradeableOn(c, tradeDate) &&
             !c.deadMoney &&
             (mode === "reverse" || c.teamId !== acquirer),
         )
@@ -2758,20 +2805,20 @@ function TradeFinderDrawer({
           sortBy === "salary" ? currentSalary(b) - currentSalary(a) : impactScoreOf(b) - impactScoreOf(a),
         ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lg.contracts, acquirer, mode, posFilter, sortBy],
+    [lg.contracts, acquirer, mode, posFilter, sortBy, tradeDate],
   );
   const list = (q ? candidates.filter((c) => c.playerName.toLowerCase().includes(q.toLowerCase())) : candidates).slice(0, 50);
 
   const target = targetId ? lg.contracts.find((c) => c.playerId === targetId) : null;
   const forwardPackages = useMemo(
-    () => (mode === "forward" && targetId ? findTradePackages(lg.data, acquirer, targetId, 3, 10, capHolds) : []),
+    () => (mode === "forward" && targetId ? findTradePackages(lg.data, acquirer, targetId, 3, 10, capHolds, tradeDate) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mode, lg, acquirer, targetId, capHolds],
+    [mode, lg, acquirer, targetId, capHolds, tradeDate],
   );
   const reverseOffers = useMemo(
-    () => (mode === "reverse" && targetId ? findOffersForPlayer(lg.data, targetId, 3, capHolds) : []),
+    () => (mode === "reverse" && targetId ? findOffersForPlayer(lg.data, targetId, 3, capHolds, tradeDate) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mode, lg, targetId, capHolds],
+    [mode, lg, targetId, capHolds, tradeDate],
   );
 
   const playerRow = (playerId: string, name: string, salary: number) => (

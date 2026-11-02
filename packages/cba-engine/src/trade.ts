@@ -5,7 +5,7 @@ import type {
   TeamTradeSummary,
   Trade,
   TradeHardCap,
-  TradeVerdict, ApronTier } from "./types";
+  TradeVerdict, ApronTier, Contract } from "./types";
 import {
   apronCommittedSalary,
   apronSalaryForYear,
@@ -25,6 +25,26 @@ const EPSILON = 1;
 
 function fmt(n: number): string {
   return `$${(n / 1_000_000).toFixed(2)}M`;
+}
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "2026-12-15" → "Dec. 15, 2026"; whatever else comes in goes back out. */
+export function shortDate(iso: string): string {
+  const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(iso);
+  if (!m) return iso;
+  const mon = MONTHS[Number(m[2]) - 1]!;
+  return `${mon}${mon === "May" ? "" : "."} ${Number(m[3])}, ${m[1]}`;
+}
+
+/**
+ * Whether a contract may be traded on `date` (ISO). A `restriction` with a
+ * `tradeableFrom` lifts on that day; one without it holds on any date (a
+ * 10-day contract, or a freeze nobody has dated). No date means "now",
+ * which for a restricted player is no.
+ */
+export function tradeableOn(c: Pick<Contract, "restriction" | "tradeableFrom">, date?: string): boolean {
+  if (!c.restriction) return true;
+  return !!(c.tradeableFrom && date && date >= c.tradeableFrom);
 }
 
 /**
@@ -548,13 +568,24 @@ export function validateTrade(
     const outgoingMoves = trade.players.filter((p) => p.from === teamId);
     for (const mv of outgoingMoves) {
       const oc = findContract(data, mv.playerId);
-      if (oc?.restriction) {
+      if (oc && !tradeableOn(oc, trade.date)) {
         checks.push({
           ruleId: "trade_eligibility",
           ok: false,
           teamId,
-          reason: `${oc.playerName} cannot be traded — ${oc.restriction}`,
-          citation: CITE.eligibility,
+          reason: `${oc.playerName} cannot be traded${trade.date ? ` on ${shortDate(trade.date)}` : ""} — ${oc.restriction}`,
+          citation: oc.restrictionCite ?? CITE.eligibility,
+        });
+      }
+      // A matched offer sheet: for a year, nobody may trade him to the team
+      // whose sheet was matched, even with his consent (Art. XI §5(j)).
+      if (oc?.notTradeableTo === mv.to && (!oc.tradeableFrom || !trade.date || trade.date < oc.tradeableFrom)) {
+        checks.push({
+          ruleId: "trade_eligibility",
+          ok: false,
+          teamId,
+          reason: `${oc.playerName} cannot be traded to ${mv.to}: his offer sheet from ${mv.to} was matched, and for a year he can't go there.`,
+          citation: "2023 CBA Art. XI §5(j)",
         });
       }
     }
@@ -569,8 +600,9 @@ export function validateTrade(
         const oc = findContract(data, mv.playerId);
         return {
           salary: oc ? tradeSalaryForYear(oc, c.leagueYear) : 0,
-          frozen: !!oc?.noAggregate,
+          frozen: !!oc?.noAggregate && !(oc.aggregateFrom && trade.date && trade.date >= oc.aggregateFrom),
           name: oc?.playerName ?? mv.playerId,
+          from: oc?.aggregateFrom,
         };
       });
       const frozen = outSalaries.filter((o) => o.frozen);
@@ -588,14 +620,14 @@ export function validateTrade(
         ];
         const mustAggregate = !binPackable(incomingPlayerSalaries, bins);
         if (mustAggregate) {
-          const names = frozen.map((o) => o.name).join(", ");
+          const names = frozen.map((o) => (o.from ? `${o.name} (until ${shortDate(o.from)})` : o.name)).join(", ");
           checks.push({
             ruleId: "no_aggregate",
             ok: false,
             teamId,
             reason: `${names} ${
               frozen.length > 1 ? "were" : "was"
-            } acquired this offseason and can't be aggregated with other salaries for ~2 months — this trade would require combining that salary to match an incoming player.`,
+            } acquired by trade within the last two months and can't be combined with other salaries yet — this trade would need that salary to match an incoming player.`,
             citation: CITE.noAggregate,
           });
         }

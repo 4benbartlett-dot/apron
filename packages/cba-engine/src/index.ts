@@ -13,7 +13,7 @@ export {
   type CapSheet,
 } from "./derive";
 export { MATCH_RULE_LABEL, matchRuleLabel, maxIncomingSalary, type MatchResult } from "./matching";
-export { validateTrade } from "./trade";
+export { validateTrade, tradeableOn, shortDate } from "./trade";
 export {
   spendingPower,
   validateSigning,

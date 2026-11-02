@@ -83,7 +83,7 @@ export function TeamProfile({ roster }: { roster: Contract[] }) {
       )}
 
       <p className="mt-2 text-[10px] leading-relaxed text-[var(--muted)]">
-        Grades are minutes-weighted from the projected rotation; the chips are the fit read — how much each strength or gap is worth in net rating, on top of raw talent. Dimensions come from each player&rsquo;s real 2025-26 box profile. Injuries are real reported facts, factored into projected minutes.
+        Grades weight each player by projected minutes, with injuries included. The chips flag the roster&rsquo;s clearest strengths and gaps.
       </p>
     </div>
   );

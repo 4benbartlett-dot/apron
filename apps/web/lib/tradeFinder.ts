@@ -1,5 +1,5 @@
-import { validateTrade, type LeagueData } from "@apron/cba-engine";
-import { C, TEAM_IDS, currentSalary, rosterOf, assetMeterValue } from "./league";
+import { validateTrade, tradeableOn, type LeagueData } from "@apron/cba-engine";
+import { C, TEAM_IDS, currentSalary, rosterOf, assetMeterValue, tradeTiming } from "./league";
 
 export interface FinderPlayer {
   playerId: string;
@@ -59,6 +59,9 @@ export function findTradePackages(
   limit = 10,
   /** Kept free-agent holds per team — consume below-cap absorption room. */
   capHolds: Record<string, number> = {},
+  /** The day the trade is made: a freeze that has lifted by then doesn't
+   * count. Omitted = today's freezes all hold. */
+  date?: string,
 ): TradePackage[] {
   const target = data.contracts.find((c) => c.playerId === targetId);
   if (!target) return [];
@@ -66,15 +69,15 @@ export function findTradePackages(
   if (seller === acquirer) return [];
   const targetSalary = currentSalary(target);
 
-  // Tradeable roster: players with a current salary and no trade restriction.
-  const roster = rosterOf(data.contracts, acquirer).filter((c) => !c.restriction);
+  // Tradeable roster: players with a current salary, free to move on `date`.
+  const roster = rosterOf(data.contracts, acquirer).filter((c) => tradeableOn(c, date));
   // Acquirer packages: nothing at all (pure cap-room absorption) up to 3 players.
   const combos: (typeof roster)[] = [[], ...subsetsUpTo(roster, maxPlayers)];
   // Seller sweeteners: cheapest tradeable non-target pieces, tried when the
   // plain package fails (they raise the seller's outgoing so it can take
   // back more — the classic "filler comes back with the star" construction).
   const fillers = rosterOf(data.contracts, seller)
-    .filter((c) => !c.restriction && c.playerId !== targetId)
+    .filter((c) => tradeableOn(c, date) && c.playerId !== targetId)
     .sort((a, b) => currentSalary(a) - currentSalary(b))
     .slice(0, 8);
   const fillerSets: (typeof fillers)[] = [[], ...subsetsUpTo(fillers, 2)];
@@ -88,6 +91,7 @@ export function findTradePackages(
         ...pkg.map((c) => ({ playerId: c.playerId, from: acquirer, to: seller })),
       ],
       capHolds,
+      ...(date ? { date, timing: tradeTiming(date) } : {}),
     };
     return validateTrade(data, trade, C).legal;
   };
@@ -144,6 +148,7 @@ export function findOffersForPlayer(
   targetId: string,
   maxPlayers = 3,
   capHolds: Record<string, number> = {},
+  date?: string,
 ): LeagueOffer[] {
   const target = data.contracts.find((c) => c.playerId === targetId);
   if (!target) return [];
@@ -152,7 +157,7 @@ export function findOffersForPlayer(
   const offers: LeagueOffer[] = [];
   for (const acquirer of TEAM_IDS) {
     if (acquirer === seller) continue;
-    const pkgs = findTradePackages(data, acquirer, targetId, maxPlayers, 12, capHolds);
+    const pkgs = findTradePackages(data, acquirer, targetId, maxPlayers, 12, capHolds, date);
     if (!pkgs.length) continue;
     // The fairest package this team can make: value closest to the target's,
     // with ties (and near-ties) broken toward the slight OVERPAY a seller would

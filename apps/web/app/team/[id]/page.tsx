@@ -90,7 +90,7 @@ export default function TeamWarRoom() {
 
   // Why it's limited: what the audited July actually did.
   if (feed.roomTeam)
-    canDo.push(`Operated under the cap this July${consumed.room_mle ? " (used its Room MLE)" : ""}, so the non-taxpayer MLE and bi-annual exception are dead for the season (Art. VII §6(n)).`);
+    canDo.push(`Operated under the cap this July${consumed.room_mle ? " (used its Room MLE)" : ""}, so the non-taxpayer MLE and bi-annual exception are gone for the season.`);
   if (Number.isFinite(liveHardCap)) {
     // A cap tighter than the real-July feed means the user's own staged move
     // triggered it; attribute it so the "why" stays honest.
@@ -198,7 +198,7 @@ export default function TeamWarRoom() {
             <div className="tabular mt-1 text-sm text-[var(--muted)]">{proj.baseWins} wins · {proj.baseNrtg >= 0 ? "+" : ""}{proj.baseNrtg.toFixed(1)} net</div>
           </div>
           <div className="w-full text-[11px] text-[var(--muted)] sm:w-auto sm:flex-1 sm:text-right">
-            What this roster is worth over a full season, before any results: the position-aware rotation, a real-age aging curve, perimeter defense, and a bounded penalty for a structural hole. The season card below blends it with the record.
+            What this roster projects to over a full season at today&rsquo;s health. The season card below adds the team&rsquo;s record.
           </div>
         </div>
       )}

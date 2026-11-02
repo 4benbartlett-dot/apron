@@ -54,7 +54,7 @@ export function ImpactPill({ c }: { c?: Contract }) {
         ? `box-based${comp.bpm != null ? ` (BPM ${sign(comp.bpm, 0)})` : ""}, below the minutes cutoff — approximate`
         : "a limited-data projection";
   const blend =
-    ` Blend of this season's ${Math.round(comp.seasonAv)} read (${seasonProv}, grades ${comp.seasonTier}) at 35% and a 3-yr BPM history read of ${Math.round(comp.historyAv)} at 65%` +
+    ` Blend of a 2025-26 impact read of ${Math.round(comp.seasonAv)} (${seasonProv}) and a track record of ${Math.round(comp.historyAv)} (three seasons, plus this one so far)` +
     `${comp.ageMult < 1 ? `, aged ×${comp.ageMult.toFixed(2)}` : ""}` +
     `${comp.accoladeBonus > 0.05 ? `, +${comp.accoladeBonus.toFixed(1)} for All-NBA/All-Defensive/ring credit` : ""}.`;
   return (
