@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-14",
+  "asOf": "2026-10-31",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -184,6 +184,42 @@
           "tradeBonus": 0,
           "guaranteed": 1357763,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Jalen Wilson",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Keshon Gilbert",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "RayJ Dennis",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -463,6 +499,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2406205,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Amari Williams",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Dillon Mitchell",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Devin Carter",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -749,20 +821,47 @@
           "tradeBonus": 0,
           "guaranteed": 2941440,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Grant Nelson",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Chaney Johnson",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Tyler Bilodeau",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
       "dead": [],
-      "holds": [
-        {
-          "name": "Nikola Milutinov",
-          "pos": "C",
-          "type": "",
-          "cap": 3076920,
-          "qo": 0,
-          "rights": "1st Round Pick"
-        }
-      ],
+      "holds": [],
       "exceptions": [
         {
           "type": "Room",
@@ -776,8 +875,7 @@
       "summary": {
         "hardCap": null,
         "activeRoster": 160056358,
-        "capHold": 3076920,
-        "capTotal": 163133278,
+        "capTotal": 160056358,
         "apronTotal": 160056358
       }
     },
@@ -916,18 +1014,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Pat Connaughton",
-          "pos": "SG",
-          "type": "ROS",
-          "cap": 3815861,
-          "base": 3815861,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
-        },
-        {
           "name": "Liam McNeeley",
           "pos": "SF",
           "type": "RK-1ST",
@@ -973,6 +1059,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2411090,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "P.J. Hall",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Kylan Boswell",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Michael Ajayi",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
           "nonGuaranteed": false
         }
       ],
@@ -1051,11 +1173,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 165507734,
+        "activeRoster": 161691873,
         "deadMoney": 9040237,
         "capHold": 2449421,
-        "capTotal": 176997392,
-        "apronTotal": 175346475
+        "capTotal": 173181531,
+        "apronTotal": 171530614
       }
     },
     "CHI": {
@@ -1226,6 +1348,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2406205,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jaylin Sellers",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jordan Hawkins",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Tobe Awaka",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -1425,6 +1583,42 @@
           "tradeBonus": 0,
           "guaranteed": 1357763,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Ernest Udeh Jr.",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Riley Minix",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Tristan Enaruna",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -1720,18 +1914,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Dwight Powell",
-          "pos": "C",
-          "type": "FA",
-          "cap": 2449421,
-          "base": 3876529,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 1000000,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Moussa Cisse",
           "pos": "C",
           "type": "FA",
@@ -1741,6 +1923,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2185116,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Tobi Lawal",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jett Howard",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Walter Clayton Jr.",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -1760,6 +1978,11 @@
           "name": "Olivier-Maxence Prosper",
           "flag": "WAIVED",
           "cap": 1002360
+        },
+        {
+          "name": "Dwight Powell",
+          "flag": "",
+          "cap": 1000000
         }
       ],
       "holds": [
@@ -1864,11 +2087,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 179643983,
-        "deadMoney": 10871533,
+        "activeRoster": 177194562,
+        "deadMoney": 11871533,
         "capHold": 16520857,
-        "capTotal": 207036373,
-        "apronTotal": 192124406
+        "capTotal": 205586952,
+        "apronTotal": 190674985
       }
     },
     "DEN": {
@@ -2039,6 +2262,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 1357763,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Cam Whitmore",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Ryan Nembhard",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Bryce Hopkins",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -2324,6 +2583,42 @@
           "tradeBonus": 0,
           "guaranteed": 2150917,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Ugonna Onyenso",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Isaac Jones",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Elijah Harkless",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -2518,8 +2813,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 1400000,
+          "nonGuaranteed": false
         },
         {
           "name": "Charles Bassey",
@@ -2568,6 +2863,42 @@
           "tradeBonus": 0,
           "guaranteed": 2150917,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Malevy Leons",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Graham Ike",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "L.J. Cryer",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -2851,8 +3182,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 1154325,
+          "nonGuaranteed": false
         },
         {
           "name": "Jae’Sean Tate",
@@ -2889,6 +3220,42 @@
           "tradeBonus": 0,
           "guaranteed": 1357763,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Oscar Tshiebwe",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Julian Phillips",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Quadir Copeland",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -3138,6 +3505,42 @@
           "tradeBonus": 0,
           "guaranteed": 2296271,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Braden Smith",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jalen Slawson",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Kobe Brown",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -3297,18 +3700,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Dalton Knecht",
-          "pos": "SF",
-          "type": "RK-1ST",
-          "cap": 4201080,
-          "base": 4201080,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 4201080,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Cameron Carr",
           "pos": "SG",
           "type": "RK-1ST",
@@ -3379,10 +3770,52 @@
           "tradeBonus": 0,
           "guaranteed": 2150917,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Chris Manon",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Lawson Lovering",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Arthur Kaluma",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
-      "dead": [],
+      "dead": [
+        {
+          "name": "Dalton Knecht",
+          "flag": "WAIVED",
+          "cap": 4201080
+        }
+      ],
       "holds": [],
       "exceptions": [
         {
@@ -3396,7 +3829,8 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 200897322,
+        "activeRoster": 196696242,
+        "deadMoney": 4201080,
         "capTotal": 200897322,
         "apronTotal": 200897322
       }
@@ -3512,18 +3946,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Walter Clayton Jr.",
-          "pos": "PG",
-          "type": "RK-1ST",
-          "cap": 4190520,
-          "base": 4190520,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 4190520,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Karim Lopez",
           "pos": "PF",
           "type": "RK-1ST",
@@ -3592,19 +4014,43 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 300000,
+          "guaranteed": 2296271,
           "nonGuaranteed": false
         },
         {
-          "name": "Micah Peavy",
-          "pos": "SF",
-          "type": "RK-2ND",
-          "cap": 2150917,
-          "base": 2150917,
+          "name": "Javon Small",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 2150917,
+          "guaranteed": 85300,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jahmai Mashack",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Carson Cooper",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -3626,9 +4072,19 @@
           "cap": 5969250
         },
         {
+          "name": "Walter Clayton Jr.",
+          "flag": "WAIVED",
+          "cap": 4190520
+        },
+        {
           "name": "Cole Anthony",
           "flag": "WAIVED",
           "cap": 3700000
+        },
+        {
+          "name": "Micah Peavy",
+          "flag": "WAIVED",
+          "cap": 2150917
         },
         {
           "name": "Mamadi Diakite",
@@ -3673,8 +4129,8 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 126892489,
-        "deadMoney": 34221284,
+        "activeRoster": 120551052,
+        "deadMoney": 40562721,
         "capTotal": 161113773,
         "apronTotal": 163723946
       }
@@ -3810,8 +4266,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 3066143,
+          "nonGuaranteed": false
         },
         {
           "name": "Pelle Larsson",
@@ -3822,8 +4278,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 2296271,
+          "nonGuaranteed": false
         },
         {
           "name": "Myron Gardner",
@@ -3848,6 +4304,42 @@
           "tradeBonus": 0,
           "guaranteed": 1357763,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Keshad Johnson",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Vladislav Goldin",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Tre Donaldson",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -3860,14 +4352,6 @@
           "cap": 2457009,
           "qo": 0,
           "rights": "Non-Bird"
-        },
-        {
-          "name": "Jahmir Young",
-          "pos": "PG",
-          "type": "ROS",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Early Bird"
         },
         {
           "name": "Dwyane Wade",
@@ -3923,8 +4407,8 @@
       "summary": {
         "hardCap": "first_apron",
         "activeRoster": 206189256,
-        "capHold": 14704114,
-        "capTotal": 220893370,
+        "capHold": 12254693,
+        "capTotal": 218443949,
         "apronTotal": 206189256
       }
     },
@@ -4051,18 +4535,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Kevin Porter Jr.",
-          "pos": "PG",
-          "type": "FA",
-          "cap": 5390700,
-          "base": 5390700,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 5390700,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Kel'el Ware",
           "pos": "C",
           "type": "RK-1ST",
@@ -4111,18 +4583,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Pete Nance",
-          "pos": "PF",
-          "type": "FA",
-          "cap": 2537526,
-          "base": 2537526,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
-        },
-        {
           "name": "Bogoljub Marković",
           "pos": "PF",
           "type": "RK-2ND",
@@ -4133,6 +4593,42 @@
           "tradeBonus": 0,
           "guaranteed": 1357763,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Cormac Ryan",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Pete Nance",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Kam Jones",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -4141,6 +4637,11 @@
           "name": "Damian Lillard",
           "flag": "WAIVED",
           "cap": 21311053
+        },
+        {
+          "name": "Kevin Porter Jr.",
+          "flag": "WAIVED",
+          "cap": 5390700
         },
         {
           "name": "Vasilije Micic",
@@ -4202,11 +4703,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 168320596,
-        "deadMoney": 21977720,
+        "activeRoster": 160392370,
+        "deadMoney": 27368420,
         "capHold": 4634537,
-        "capTotal": 194932853,
-        "apronTotal": 195073316
+        "capTotal": 192395327,
+        "apronTotal": 192535790
       }
     },
     "MIN": {
@@ -4378,6 +4879,42 @@
           "tradeBonus": 0,
           "guaranteed": 1357763,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Rocco Zikarsky",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Zyon Pullin",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Enrique Freeman",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -4588,6 +5125,18 @@
           "nonGuaranteed": false
         },
         {
+          "name": "James Wiseman",
+          "pos": "C",
+          "type": "FA",
+          "cap": 2449421,
+          "base": 3066143,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
           "name": "Andre Drummond",
           "pos": "C",
           "type": "FA",
@@ -4622,19 +5171,53 @@
           "tradeBonus": 0,
           "guaranteed": 2296271,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Tyler Nickel",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Dalton Knecht",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jaden Akins",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
-      "dead": [],
-      "holds": [
+      "dead": [
         {
-          "name": "Petteri Koponen",
-          "pos": "G",
-          "type": "RK",
-          "cap": 2926800,
-          "qo": 0,
-          "rights": "1st Round Pick"
-        },
+          "name": "Drew Eubanks",
+          "flag": "",
+          "cap": 15000
+        }
+      ],
+      "holds": [
         {
           "name": "P.J. Tucker",
           "pos": "PF",
@@ -4672,10 +5255,11 @@
       ],
       "summary": {
         "hardCap": null,
-        "activeRoster": 218412232,
-        "capHold": 5376221,
-        "capTotal": 223788453,
-        "apronTotal": 218412232
+        "activeRoster": 220861653,
+        "deadMoney": 15000,
+        "capHold": 2449421,
+        "capTotal": 223326074,
+        "apronTotal": 220876653
       }
     },
     "OKC": {
@@ -4846,6 +5430,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 1500000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Micah Peavy",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 331638,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Josh Dix",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Brooks Barnhizer",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
           "nonGuaranteed": false
         }
       ],
@@ -5079,6 +5699,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2150917,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Izaiyah Nelson",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Alex Morales",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Colin Castleton",
+          "pos": "PF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
           "nonGuaranteed": false
         }
       ],
@@ -5539,18 +6195,6 @@
           "nonGuaranteed": true
         },
         {
-          "name": "Haywood Highsmith",
-          "pos": "F",
-          "type": "FA",
-          "cap": 2449421,
-          "base": 3066143,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
-        },
-        {
           "name": "Oso Ighodaro",
           "pos": "C",
           "type": "RK-2ND",
@@ -5572,6 +6216,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2150917,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Drew Timme",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Pat Spencer",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Duop Reath",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -5711,11 +6391,11 @@
       ],
       "summary": {
         "hardCap": "second_apron",
-        "activeRoster": 193028455,
+        "activeRoster": 190579034,
         "deadMoney": 23197051,
         "capHold": 26150716,
-        "capTotal": 242376222,
-        "apronTotal": 216225506
+        "capTotal": 239926801,
+        "apronTotal": 213776085
       }
     },
     "POR": {
@@ -5861,7 +6541,7 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 250000,
+          "guaranteed": 2667944,
           "nonGuaranteed": false
         },
         {
@@ -5887,6 +6567,42 @@
           "tradeBonus": 0,
           "guaranteed": 2449421,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Chris Youngblood",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "John Tonje",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jayson Kent",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -6097,8 +6813,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 1000000,
+          "nonGuaranteed": false
         },
         {
           "name": "Maxime Raynaud",
@@ -6134,6 +6850,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 1357763,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Sean Pedulla",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Jonathan Mogbo",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Leaky Black",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -6431,6 +7183,42 @@
           "tradeBonus": 0,
           "guaranteed": 3286399,
           "nonGuaranteed": false
+        },
+        {
+          "name": "David Jones-Garcia",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Ja'Kobi Gillespie",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Maliq Brown",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -6614,8 +7402,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 2406205,
+          "nonGuaranteed": false
         },
         {
           "name": "Jamal Shead",
@@ -6663,6 +7451,30 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 1357763,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Malachi Smith",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Nate Bittle",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -6879,7 +7691,7 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 200000,
+          "guaranteed": 500000,
           "nonGuaranteed": false
         },
         {
@@ -6904,6 +7716,54 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2763960,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Tony Bradley",
+          "pos": "C",
+          "type": "Exhibit-9 Conversion to Standard",
+          "cap": 2449421,
+          "base": 3506659,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Harrison Ingram",
+          "pos": "SF",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Kobe Bufkin",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Trey Alexander",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -6947,10 +7807,10 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 180515680,
+        "activeRoster": 182965101,
         "capHold": 7885000,
-        "capTotal": 188400680,
-        "apronTotal": 180515680
+        "capTotal": 190850101,
+        "apronTotal": 182965101
       }
     },
     "NOP": {
@@ -7120,7 +7980,7 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 250000,
+          "guaranteed": 500000,
           "nonGuaranteed": false
         },
         {
@@ -7133,6 +7993,42 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 2296271,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Julian Reese",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jaron Pierre Jr.",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Malik Dia",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -7406,6 +8302,54 @@
           "tradeBonus": 0,
           "guaranteed": 0,
           "nonGuaranteed": true
+        },
+        {
+          "name": "Anthony Gill",
+          "pos": "PF",
+          "type": "FA",
+          "cap": 2449421,
+          "base": 3066143,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Jamir Watkins",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Felix Okpara",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Reece Beekman",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -7520,10 +8464,10 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 192013104,
+        "activeRoster": 194462525,
         "capHold": 48802530,
-        "capTotal": 240815634,
-        "apronTotal": 192013104
+        "capTotal": 243265055,
+        "apronTotal": 194462525
       }
     },
     "LAC": {
@@ -7697,18 +8641,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Cameron Christie",
-          "pos": "SG",
-          "type": "RK-2ND",
-          "cap": 2296271,
-          "base": 2296271,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
-        },
-        {
           "name": "Baba Miller",
           "pos": "PF",
           "type": "RK-2ND",
@@ -7718,6 +8650,54 @@
           "unlikely": 0,
           "tradeBonus": 0,
           "guaranteed": 1705630,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Blake Wesley",
+          "pos": "SG",
+          "type": "10D",
+          "cap": 14077,
+          "base": 15090,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 15090,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Jalen Pickett",
+          "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Nick Martinelli",
+          "pos": "F",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Cameron Christie",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
           "nonGuaranteed": false
         }
       ],
@@ -7759,14 +8739,6 @@
           "pos": "SF",
           "type": "FA",
           "cap": 2449421,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
-          "name": "Norchad Omier",
-          "pos": "F",
-          "type": "2W",
-          "cap": 2185116,
           "qo": 0,
           "rights": "Non-Bird"
         },
@@ -7839,11 +8811,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 183211907,
+        "activeRoster": 180929713,
         "deadMoney": 2150917,
-        "capHold": 19364679,
-        "capTotal": 204727503,
-        "apronTotal": 185622997
+        "capHold": 17179563,
+        "capTotal": 200260193,
+        "apronTotal": 183340803
       }
     }
   }

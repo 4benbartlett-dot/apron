@@ -3,9 +3,9 @@ import { SITE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: `${SITE}/standings` },
-  title: "Projected NBA Standings 2026-27 — East & West, Impact-Based Wins | Over the Apron",
+  title: "NBA 2026-27 Playoff Odds & Projected Standings — Season Simulator | Over the Apron",
   description:
-    "Projected 2026-27 records for all 30 teams, ranked by conference from each roster's minutes-weighted impact — and how your trades and signings on the board change them, live.",
+    "Every team's 2026-27 record so far, projected finish and playoff, play-in and title odds, from the rest of the season simulated 5,000 times. Stage a trade or signing and the odds rerun with it.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

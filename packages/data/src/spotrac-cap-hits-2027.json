@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-14",
+  "asOf": "2026-10-31",
   "note": "Every 2027-28 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
   "byName": {
     "jalen johnson": {
@@ -221,7 +221,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "ron harper": {
       "name": "Ron Harper Jr.",
@@ -254,7 +254,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "julius randle": {
       "name": "Julius Randle",
@@ -331,7 +331,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "josh minott": {
       "name": "Josh Minott",
@@ -353,7 +353,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "drake powell": {
       "name": "Drake Powell",
@@ -364,7 +364,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "ben saraf": {
       "name": "Ben Saraf",
@@ -375,7 +375,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "joshua jefferson": {
       "name": "Joshua Jefferson",
@@ -397,7 +397,18 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
+    },
+    "brandon miller": {
+      "name": "Brandon Miller",
+      "team": "CHA",
+      "cap": 44000000,
+      "base": 44000000,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "EXT",
+      "nonGuaranteed": false
     },
     "naz reid": {
       "name": "Naz Reid",
@@ -628,7 +639,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "noa essengue": {
       "name": "Noa Essengue",
@@ -639,7 +650,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "dailyn swain": {
       "name": "Dailyn Swain",
@@ -727,7 +738,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "tyrese proctor": {
       "name": "Tyrese Proctor",
@@ -815,7 +826,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "santi aldama": {
       "name": "Santi Aldama",
@@ -837,7 +848,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "caleb martin": {
       "name": "Caleb Martin",
@@ -1057,7 +1068,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "isaiah joe": {
       "name": "Isaiah Joe",
@@ -1266,7 +1277,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "steven adams": {
       "name": "Steven Adams",
@@ -1530,7 +1541,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "kobe sanders": {
       "name": "Kobe Sanders",
@@ -1542,17 +1553,6 @@
       "tradeBonus": 0,
       "type": "FA",
       "nonGuaranteed": false
-    },
-    "cameron christie": {
-      "name": "Cameron Christie",
-      "team": "LAC",
-      "cap": 2486995,
-      "base": 2486995,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-2ND",
-      "nonGuaranteed": true
     },
     "baba miller": {
       "name": "Baba Miller",
@@ -1641,17 +1641,6 @@
       "tradeBonus": 0,
       "type": "FA",
       "nonGuaranteed": false
-    },
-    "dalton knecht": {
-      "name": "Dalton Knecht",
-      "team": "LAL",
-      "cap": 6452860,
-      "base": 6452860,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
     },
     "jaden hardy": {
       "name": "Jaden Hardy",
@@ -1761,7 +1750,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "cedric coward": {
       "name": "Cedric Coward",
@@ -1772,18 +1761,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
-    },
-    "walter clayton": {
-      "name": "Walter Clayton Jr.",
-      "team": "MEM",
-      "cap": 4390320,
-      "base": 4390320,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "karim lopez": {
       "name": "Karim Lopez",
@@ -1817,17 +1795,6 @@
       "tradeBonus": 0,
       "type": "FA",
       "nonGuaranteed": false
-    },
-    "micah peavy": {
-      "name": "Micah Peavy",
-      "team": "MEM",
-      "cap": 2525901,
-      "base": 2525901,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-2ND",
-      "nonGuaranteed": true
     },
     "jaylen wells": {
       "name": "Jaylen Wells",
@@ -2049,17 +2016,6 @@
       "type": "FA",
       "nonGuaranteed": false
     },
-    "pete nance": {
-      "name": "Pete Nance",
-      "team": "MIL",
-      "cap": 2756912,
-      "base": 2756912,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "FA",
-      "nonGuaranteed": true
-    },
     "bogoljub markovic": {
       "name": "Bogoljub Marković",
       "team": "MIL",
@@ -2126,17 +2082,6 @@
       "type": "FA",
       "nonGuaranteed": false
     },
-    "cody williams": {
-      "name": "Cody Williams",
-      "team": "MIN",
-      "cap": 7669890,
-      "base": 7669890,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
-    },
     "jonathan kuminga": {
       "name": "Jonathan Kuminga",
       "team": "MIN",
@@ -2157,7 +2102,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "joan beringer": {
       "name": "Joan Beringer",
@@ -2168,7 +2113,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "jaylen clark": {
       "name": "Jaylen Clark",
@@ -2256,7 +2201,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "bennedict mathurin": {
       "name": "Bennedict Mathurin",
@@ -2278,7 +2223,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "yves missi": {
       "name": "Yves Missi",
@@ -2289,7 +2234,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "aj johnson": {
       "name": "AJ Johnson",
@@ -2390,17 +2335,6 @@
       "type": "FA",
       "nonGuaranteed": false
     },
-    "pacome dadiet": {
-      "name": "Pacome Dadiet",
-      "team": "NYK",
-      "cap": 5373608,
-      "base": 5373608,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
-    },
     "jose alvarado": {
       "name": "Jose Alvarado",
       "team": "NYK",
@@ -2476,6 +2410,17 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "FA",
+      "nonGuaranteed": false
+    },
+    "cason wallace": {
+      "name": "Cason Wallace",
+      "team": "OKC",
+      "cap": 23275862,
+      "base": 23275862,
+      "likely": 0,
+      "unlikely": 800000,
+      "tradeBonus": 0,
+      "type": "RK-EXT",
       "nonGuaranteed": false
     },
     "alex caruso": {
@@ -2630,7 +2575,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "jase richardson": {
       "name": "Jase Richardson",
@@ -2641,7 +2586,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "noah penda": {
       "name": "Noah Penda",
@@ -2696,7 +2641,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "dean wade": {
       "name": "Dean Wade",
@@ -2894,7 +2839,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-2ND",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "ja morant": {
       "name": "Ja Morant",
@@ -2982,7 +2927,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "yang hansen": {
       "name": "Yang Hansen",
@@ -3191,7 +3136,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "stephon castle": {
       "name": "Stephon Castle",
@@ -3202,7 +3147,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "luke kornet": {
       "name": "Luke Kornet",
@@ -3224,7 +3169,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "jayden quaintance": {
       "name": "Jayden Quaintance",
@@ -3312,7 +3257,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "jakobe walter": {
       "name": "Ja'Kobe Walter",
@@ -3323,7 +3268,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "allen graves": {
       "name": "Allen Graves",

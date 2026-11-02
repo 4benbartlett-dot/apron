@@ -14,6 +14,7 @@ import { DepthChart } from "@/components/DepthChart";
 import { TeamProfile } from "@/components/TeamProfile";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
 import { Tumbleweed } from "@/components/Tumbleweed";
+import { SeasonOutlook } from "@/components/SeasonOutlook";
 
 export default function TeamWarRoom() {
   const params = useParams();
@@ -171,7 +172,7 @@ export default function TeamWarRoom() {
       {proj && (
         <div className="panel mb-4 flex flex-wrap items-center gap-x-8 gap-y-3 p-4">
           <div>
-            <div className="label !text-[10px]">Projected record</div>
+            <div className="label !text-[10px]">Roster projection · 82-game pace</div>
             <div className="mt-1 flex items-baseline gap-2">
               <span className="tabular text-2xl font-bold">{proj.projWins}-{82 - proj.projWins}</span>
               {proj.deltaWins !== 0 && (
@@ -197,10 +198,12 @@ export default function TeamWarRoom() {
             <div className="tabular mt-1 text-sm text-[var(--muted)]">{proj.baseWins} wins · {proj.baseNrtg >= 0 ? "+" : ""}{proj.baseNrtg.toFixed(1)} net</div>
           </div>
           <div className="w-full text-[11px] text-[var(--muted)] sm:w-auto sm:flex-1 sm:text-right">
-            <a href="/standings" className="underline decoration-dotted underline-offset-2 hover:text-[var(--text)]">Full standings</a> · models the position-aware rotation, a real-age aging curve, perimeter defense, and a bounded penalty for a structural hole; a talent-on-hand projection, not a full-season forecast (no coaching or playoff translation).
+            What this roster is worth over a full season, before any results: the position-aware rotation, a real-age aging curve, perimeter defense, and a bounded penalty for a structural hole. The season card below blends it with the record.
           </div>
         </div>
       )}
+
+      <SeasonOutlook team={id} contracts={lg.contracts} moved={lg.moves.length > 0} />
 
       <div className="panel mb-4 p-4">
         <div className="mb-2 text-sm font-semibold">Team profile <span className="text-[var(--muted)]">· on-court identity + fit</span></div>

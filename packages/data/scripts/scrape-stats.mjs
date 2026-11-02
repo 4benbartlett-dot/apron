@@ -4,17 +4,22 @@
 // accuracy, blocks, steals). This is the raw material the dimensional player
 // model (offense / defense / playmaking / rebounding / spacing / rim / perimeter
 // D) is derived from. Keyed by the same player id as the rest of the data.
-//   node scripts/scrape-stats.mjs
-// Output: src/player-stats-2026.json { byId: { id: { …stats… } } }
+//   node scripts/scrape-stats.mjs          # 2025-26 -> src/player-stats-2026.json
+//   node scripts/scrape-stats.mjs 2027     # 2026-27 to date -> src/player-stats-2027.json
+// Output: { byId: { id: { …stats… } } }. Basketball-Reference names a season
+// by the year it ends, so 2027 is the season now being played.
 import { load } from "cheerio";
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUT = join(__dirname, "..", "src", "player-stats-2026.json");
-const ADV = "https://www.basketball-reference.com/leagues/NBA_2026_advanced.html";
-const PG = "https://www.basketball-reference.com/leagues/NBA_2026_per_game.html";
+const SEASON = Number(process.argv[2] ?? 2026);
+if (!Number.isInteger(SEASON) || SEASON < 2000) throw new Error(`bad season ${process.argv[2]}`);
+const LABEL = `${SEASON - 1}-${String(SEASON % 100).padStart(2, "0")}`;
+const OUT = join(__dirname, "..", "src", `player-stats-${SEASON}.json`);
+const ADV = `https://www.basketball-reference.com/leagues/NBA_${SEASON}_advanced.html`;
+const PG = `https://www.basketball-reference.com/leagues/NBA_${SEASON}_per_game.html`;
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36";
 const uncomment = (h) => h.replace(/<!--/g, "").replace(/-->/g, "");
 
@@ -83,7 +88,7 @@ async function main() {
     if (Object.keys(entry).length) byId[id] = entry;
   }
 
-  writeFileSync(OUT, JSON.stringify({ source: "Basketball-Reference advanced + per_game (2025-26)", byId }, null, 2) + "\n");
+  writeFileSync(OUT, JSON.stringify({ source: `Basketball-Reference advanced + per_game (${LABEL})`, asOf: new Date().toISOString().slice(0, 10), byId }, null, 2) + "\n");
   const n = Object.keys(byId).length;
   console.log(`Wrote ${n} player stat profiles -> ${OUT}`);
   const sample = (id) => { const e = byId[id]; return e ? `usg${e.usg} ts${e.ts} blk%${e.blkp} stl%${e.stlp} dbpm${e.dbpm} 3par${e.tpar} 3p%${e.tpp} ast%${e.astp}` : "?"; };

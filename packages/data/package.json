@@ -11,7 +11,9 @@
   },
   "scripts": {
     "scrape": "node scripts/scrape-bref.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "refresh": "node scripts/refresh.mjs",
+    "refresh:full": "node scripts/refresh.mjs --spotrac"
   },
   "dependencies": {
     "@apron/cba-engine": "workspace:*"

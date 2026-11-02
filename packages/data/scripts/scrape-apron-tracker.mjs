@@ -62,12 +62,15 @@ for (const line of md.split("\n")) {
   const cells = line.split("|").slice(1, -1).map((c) => c.trim());
   if (cells.length < 7) continue;
   const code = cells[1].match(/^([A-Z]{2,3})\b/)?.[1];
-  if (!code || !/\$[\d,]+/.test(cells[2])) continue;
+  // Once the season starts Spotrac inserts a "Record" column ("3-2") after the
+  // team and every later column shifts by one; the preseason table has none.
+  const o = /^\d+-\d+$/.test(cells[2]) ? 1 : 0;
+  if (!code || !/\$[\d,]+/.test(cells[2 + o])) continue;
   const team = TEAM_FIX[code] ?? code;
   byTeam[team] = {
-    apronSalary: num(cells[2]),
-    firstApronHardCapped: yes(cells[3]),
-    secondApronHardCapped: yes(cells[5]),
+    apronSalary: num(cells[2 + o]),
+    firstApronHardCapped: yes(cells[3 + o]),
+    secondApronHardCapped: yes(cells[5 + o]),
   };
 }
 

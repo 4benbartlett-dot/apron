@@ -1,125 +1,35 @@
 {
   "source": "Spotrac NBA Team Apron Tracker (via Firecrawl)",
   "url": "https://www.spotrac.com/nba/apron/_/year/2026",
-  "asOf": "2026-10-14",
+  "asOf": "2026-10-31",
   "note": "An INDEPENDENT answer to the same question our sheet computes, for all 30 teams. Nothing in the app reads this; externalCapCheck.test.ts diffs against it so a disagreement is a number rather than a surprise. Their figure is not automatically correct — ours has reproduced beat-writer numbers Spotrac lagged on — but an unexplained gap is a lead.",
   "lines": {
     "firstApron": 209015000,
     "secondApron": 221686000
   },
   "byTeam": {
-    "BKN": {
-      "apronSalary": 160056358,
+    "DEN": {
+      "apronSalary": 224836337,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "MEM": {
-      "apronSalary": 163723946,
+    "GSW": {
+      "apronSalary": 221338432,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "CHI": {
-      "apronSalary": 168085200,
+    "NYK": {
+      "apronSalary": 220876653,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "CHA": {
-      "apronSalary": 175346475,
+    "ORL": {
+      "apronSalary": 219189751,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "UTA": {
-      "apronSalary": 180515680,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "LAC": {
-      "apronSalary": 185622997,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "WAS": {
-      "apronSalary": 192013104,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "POR": {
-      "apronSalary": 192093473,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "DAL": {
-      "apronSalary": 192124406,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "DET": {
-      "apronSalary": 194498178,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "MIL": {
-      "apronSalary": 195073316,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "BOS": {
-      "apronSalary": 198722406,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "ATL": {
-      "apronSalary": 199865774,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "HOU": {
-      "apronSalary": 200413923,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "LAL": {
-      "apronSalary": 200897322,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "SAS": {
-      "apronSalary": 200979967,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "SAC": {
-      "apronSalary": 201130158,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "NOP": {
-      "apronSalary": 202788678,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "MIA": {
-      "apronSalary": 206189256,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "IND": {
-      "apronSalary": 206779934,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "PHI": {
-      "apronSalary": 207186472,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "TOR": {
-      "apronSalary": 208051402,
-      "firstApronHardCapped": false,
-      "secondApronHardCapped": false
-    },
-    "CLE": {
-      "apronSalary": 208969955,
+    "MIN": {
+      "apronSalary": 216680954,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
@@ -129,32 +39,122 @@
       "secondApronHardCapped": false
     },
     "PHX": {
-      "apronSalary": 216225506,
+      "apronSalary": 213776085,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "MIN": {
-      "apronSalary": 216680954,
+    "CLE": {
+      "apronSalary": 208969955,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "NYK": {
-      "apronSalary": 218412232,
+    "TOR": {
+      "apronSalary": 208051402,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "ORL": {
-      "apronSalary": 219189751,
+    "PHI": {
+      "apronSalary": 207186472,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "GSW": {
-      "apronSalary": 221338432,
+    "IND": {
+      "apronSalary": 206779934,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     },
-    "DEN": {
-      "apronSalary": 224836337,
+    "MIA": {
+      "apronSalary": 206189256,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "NOP": {
+      "apronSalary": 202788678,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "SAC": {
+      "apronSalary": 201130158,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "SAS": {
+      "apronSalary": 200979967,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "LAL": {
+      "apronSalary": 200897322,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "HOU": {
+      "apronSalary": 200413923,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "ATL": {
+      "apronSalary": 199865774,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "BOS": {
+      "apronSalary": 198722406,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "DET": {
+      "apronSalary": 194498178,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "WAS": {
+      "apronSalary": 194462525,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "MIL": {
+      "apronSalary": 192535790,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "POR": {
+      "apronSalary": 192093473,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "DAL": {
+      "apronSalary": 190674985,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "LAC": {
+      "apronSalary": 183340803,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "UTA": {
+      "apronSalary": 182965101,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "CHA": {
+      "apronSalary": 171530614,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "CHI": {
+      "apronSalary": 168085200,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "MEM": {
+      "apronSalary": 163723946,
+      "firstApronHardCapped": false,
+      "secondApronHardCapped": false
+    },
+    "BKN": {
+      "apronSalary": 160056358,
       "firstApronHardCapped": false,
       "secondApronHardCapped": false
     }

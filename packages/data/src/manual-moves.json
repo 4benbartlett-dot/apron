@@ -224,6 +224,38 @@
       "type": "Release",
       "detail": "Waived by Memphis Grizzlies (MEM) via Buyout - leaves behind $6.343013 million in dead cap",
       "why": "He was owed $7,021,895 for 2026-27 when Memphis waived him on Oct 2, three weeks after taking him from New Orleans. Spotrac files it as a buyout with $678,882 in cap savings, which is exactly a full season of two-way pay (half the $1,357,763 rookie minimum), and Hoops Rumors (Oct 6) puts Memphis at about $6.3MM after he signed his two-way in Chicago. It is a giveback, not set-off: Art. XXVII only offsets half of what a new deal pays above the minimum, and a two-way pays less than the minimum. $7,021,895 − $678,882 = $6,343,013. Without this row the waive charged Memphis the full $7.02M."
+    },
+    {
+      "player": "Pat Connaughton",
+      "pos": "SF",
+      "date": "Oct 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Charlotte Hornets (CHA) - leaves behind $0 million in dead cap",
+      "why": "His $3,815,861 for 2026-27 was non-guaranteed (guarantee date Jan 2027) and Charlotte cut him Oct 16 to reach 15 (Shams via NBC Sports; Yardbarker). Spotrac's Charlotte page carries no dead money for him and the feed's own '$3,815,861 cap savings' is the whole salary. The sheet had charged all of it."
+    },
+    {
+      "player": "Dwight Powell",
+      "pos": "C",
+      "date": "Oct 19, 2026",
+      "type": "Release",
+      "detail": "Waived by Dallas Mavericks (DAL) - leaves behind $1 million in dead cap",
+      "why": "Signed Sep 25 for $3.88M with $1M guaranteed at signing (the feed's own signing row); Dallas waived him Oct 19 to reach 15. Spotrac's Dallas page carries $1,000,000 dead. The sheet had charged $2,449,421."
+    },
+    {
+      "player": "Cam Christie",
+      "pos": "SG",
+      "date": "Oct 14, 2026",
+      "type": "Release",
+      "detail": "Waived by LA Clippers (LAC) - leaves behind $0 million in dead cap",
+      "why": "The feed files this waive as 'Cameron Christie', which the sheet's 'Cam Christie' never matched, so he stayed on the books at $2,296,271. LAC had pushed his guarantee date to Oct 15 (feed, Jul 20) and cut him the day before; Spotrac's Clippers page carries no dead money and now lists him on a two-way (cap $0, $91,000 guaranteed)."
+    },
+    {
+      "player": "Haywood Highsmith",
+      "pos": "SF",
+      "date": "Oct 17, 2026",
+      "type": "Release",
+      "detail": "Waived by Phoenix Suns (PHX) - leaves behind $0 million in dead cap",
+      "why": "Phoenix cut him Oct 17 to keep Jamaree Bouyea as the 14th man (John Gambadoro, Arizona Sports; Hoops Rumors; NBA.com's transaction log). Spotrac's transactions feed never carried the waive, but its Suns cap page drops him with no dead money: the Aug 17 one-year minimum was not guaranteed before the season."
     }
   ]
 }

@@ -8,7 +8,7 @@ import {
   teamSalary as engTeamSalary,
   type Contract,
 } from "@apron/cba-engine";
-import { BASE_CONTRACTS, C, YEAR, leagueData, freeAgentsOf, normName } from "@/lib/league";
+import { BASE_CONTRACTS, C, YEAR, leagueData, freeAgentsOf, normName, deemedMinSalary } from "@/lib/league";
 import { TRANSACTIONS } from "@apron/data";
 import { rewind } from "@/lib/replayRewind";
 
@@ -245,16 +245,19 @@ describe("what the August deals actually spent", () => {
   // and the only thing that moves is the cap charge: a ONE-year minimum for a
   // 3+ YOS veteran counts at the 2-YOS figure under Art. VII §3(f). For a team
   // under a second-apron hard cap, that gap is the whole point of the move.
+  // Phoenix then cut him again on Oct 17, before the minimum was guaranteed
+  // (Arizona Sports; Spotrac's Suns page carries no dead money), so the
+  // August booking is now tested on the rule, and the sheet on the waive.
   it("Highsmith's minimum re-sign is charged at the 2-YOS figure", () => {
-    const h = find("Haywood Highsmith");
-    expect(h.teamId).toBe("PHX");
-    expect(h.years.find((y) => y.leagueYear === YEAR)!.salary).toBe(C.minimumSalaries[2]);
+    expect(deemedMinSalary("highsha01", C.minimumSalaries[6]!, 1)).toBe(C.minimumSalaries[2]);
+    expect(BASE_CONTRACTS.filter((c) => strip(c.playerName) === strip("Haywood Highsmith") && c.teamId === "PHX" && !c.deadMoney && (c.years.find((y) => y.leagueYear === YEAR)?.salary ?? 0) > 0)).toEqual([]);
     expect(committed(BASE_CONTRACTS, "PHX")).toBeLessThanOrEqual(C.secondApron);
   });
 
   // Two of the window's outside signings are minimum-scale deals to veterans
   // whose service time is the only thing setting the number: Watford (5),
-  // Highsmith (6). Both land on the sheet at the same deemed 2-YOS charge.
+  // Highsmith (6). Both booked at the same deemed 2-YOS charge; Highsmith's
+  // is covered above since his Oct 17 waive.
   // Walker (7 YOS) was the third until Sep 10, when Denver filed his "1 year
   // $3.29 million" as a non-guaranteed camp deal (Hoops Rumors: "Nuggets Sign
   // Lonnie Walker IV To Camp Deal"; the feed: "via Exhibit 9") — a camp
@@ -262,7 +265,6 @@ describe("what the August deals actually spent", () => {
   it("the window's veteran minimums all book at the deemed figure", () => {
     for (const [name, team] of [
       ["Trendon Watford", "NOP"],
-      ["Haywood Highsmith", "PHX"],
     ] as const) {
       const c = find(name);
       expect(c.teamId, name).toBe(team);

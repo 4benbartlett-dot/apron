@@ -92,6 +92,14 @@ const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
     maxGap: 1_250_000,
     why: "Lillard's stretched dead money reads $22,516,603 a season here and $21,311,053 on Spotrac's Milwaukee page: they apply a set-off for the salary he signed for in Portland, an arithmetic this sheet does not model. The $1,205,550 is that set-off by their reckoning.",
   },
+  LAC: {
+    maxGap: 130_000,
+    why: "Blake Wesley's 10-day hardship deal (Oct 29). Both sides price it the same way, his §3(f) deemed $2,449,421 over 174 days, or $14,077 a day. Spotrac prints the one day accrued; this sheet charges all ten ($140,771), since a 10-day is guaranteed on signing. The gap closes when the ten days run out.",
+  },
+  NYK: {
+    maxGap: 16_000,
+    why: "Spotrac's Knicks page carries $15,000 dead for Drew Eubanks, waived Oct 15 off an Exhibit 9. No report gives the camp deal a guarantee, and an Exhibit 9 normally carries none; left as their figure, not adopted.",
+  },
   WAS: {
     maxGap: 2_450_000,
     why: "Anthony Gill re-signed Sep 15–16 (Hoops Rumors: Washington's 15th standard contract; terms not released, 'likely another one-year, minimum-salary deal'), and Spotrac's own transactions feed has him signed at '1 year $3.07 million' — the 6-YOS minimum — which this sheet deems at the two-year $2,449,421 under §3(f). Spotrac's Washington cap page still lists 14 players and not him, two weeks on. Their tracker is the one behind.",
@@ -260,6 +268,7 @@ const NEXT_EXPLAINED: Record<string, { maxGap: number; why: string }> = {
   WAS: { maxGap: 8_050_000, why: "Tre Mann's $8,000,000 — the last season of the 3yr/$24M extension Charlotte gave him in Sep 2024 — is missing from Spotrac's 2027-28 Wizards table, though his 2026-27 season is on their 2026-27 one." },
   OKC: { maxGap: 650_000, why: "Shai Gilgeous-Alexander's supermax starts in 2027-28 at 35% of a cap nobody knows yet: $61,005,000 on the scraped sheet's projection, $61,600,000 on Spotrac's." },
   ATL: { maxGap: 30_000, why: "Corey Kispert: $13,050,000 on the scraped sheet, $13,025,000 on Spotrac's table." },
+  CHA: { maxGap: 8_100_000, why: "Brandon Miller's 5yr/$208.26M rookie-scale extension (Oct 19) starts here. No split has been reported: the sheet books an estimated $35,906,897 at 8% raises, Spotrac's table $44,000,000, which reaches $208.26M over five seasons only if the salary falls every year. Re-check when the filing is reported." },
   TOR: { maxGap: 600_000, why: "Jamal Shead's 3yr/$24M extension (Oct 1). Nobody has reported the split: the sheet carries an estimated $7,407,407 at 8% raises, and Spotrac's Oct 14 table has a flat $8,000,000. Neither is a filing; re-check when one is." },
 };
 

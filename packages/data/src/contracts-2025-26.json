@@ -3981,7 +3981,44 @@
           "leagueYear": "2026-27",
           "salary": 15104626,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 35906897,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 38779448,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 41652000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 44524552,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 47397103,
+          "guarantee": "full",
+          "estimated": true
         }
+      ],
+      "poisonPillExtensionSalaries": [
+        35906897,
+        38779448,
+        41652000,
+        44524552,
+        47397103
       ]
     },
     {
@@ -6041,8 +6078,46 @@
           "leagueYear": "2026-27",
           "salary": 7420806,
           "guarantee": "full"
+        },
+        {
+          "leagueYear": "2027-28",
+          "salary": 23275862,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2028-29",
+          "salary": 25137931,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2029-30",
+          "salary": 27000000,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2030-31",
+          "salary": 28862069,
+          "guarantee": "full",
+          "estimated": true
+        },
+        {
+          "leagueYear": "2031-32",
+          "salary": 30724138,
+          "guarantee": "full",
+          "estimated": true
         }
-      ]
+      ],
+      "poisonPillExtensionSalaries": [
+        23275862,
+        25137931,
+        27000000,
+        28862069,
+        30724138
+      ],
+      "tradeKickerPct": 0.05
     },
     {
       "playerId": "topicni01",

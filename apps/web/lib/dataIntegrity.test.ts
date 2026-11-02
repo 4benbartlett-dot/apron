@@ -173,6 +173,14 @@ describe("data integrity", () => {
     const missing: string[] = [];
     const seen = new Set<string>();
     for (const t of TRANSACTIONS) {
+      // A waive is the feed's last word on a player whose earlier signing
+      // priced a deal: Powell signed Sep 25 and was cut Oct 19, so his
+      // $3.88M deal survives only as dead money. Newest-first again, so the
+      // cut is met before the signing and retires it.
+      if (t.type === "Release") {
+        seen.add(normName(t.player));
+        continue;
+      }
       if (t.type !== "Signing" && t.type !== "Re-sign") continue;
       // A camp invite (Exhibit 9 or 10) is the feed's last word on a player
       // whose earlier row priced the deal: Walker's Aug 5 "1 year $3.29
