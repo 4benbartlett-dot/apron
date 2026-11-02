@@ -144,8 +144,13 @@ export const GLOSSARY = {
   },
   no_trade: {
     title: "Trade restriction",
-    body: "The CBA freezes recently signed players: a free agent can't be traded until December 15 or three months after signing, whichever is later (January 15 for a big Bird re-sign), a draft pick for 30 days, and a veteran extension beyond extend-and-trade limits for six months. A matched offer sheet holds for a year. A player acquired by trade can be dealt again right away, but not combined with other salaries for two months. Switch the trade board to the deadline to see who's free by then.",
-    cite: "2023 CBA · Art. VII §8(d)–(f), §6(j)(4); Art. XI §5(j)",
+    body: "The CBA freezes recently signed players: a free agent can't be traded until December 15 or three months after signing, whichever is later (January 15 for a big Bird re-sign), a draft pick for 30 days, and a veteran extension beyond extend-and-trade limits for six months. A player acquired by trade can be dealt again right away, but not combined with other salaries for two months. Switch the trade board to the deadline to see who's free by then.",
+    cite: "2023 CBA · Art. VII §8(d)–(f), §6(j)(4)",
+  },
+  trade_veto: {
+    title: "Trade veto",
+    body: "A few players have to agree to any trade: one with a no-trade clause, one whose offer sheet was matched (for a year, and never to the team that made the offer), and one who re-signed for a single season and will have Bird rights when it ends. The board lets you make the trade; in real life it needs his yes.",
+    cite: "2023 CBA · Art. VII §8(b); Art. XI §5(j)",
   },
   cap_hold: {
     title: "Cap hold",

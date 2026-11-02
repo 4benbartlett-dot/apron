@@ -110,11 +110,13 @@ describe("trade eligibility on a date", () => {
     const d = signed();
     const c = d.contracts.find((x) => x.playerId === "fa")!;
     c.restriction = "matched offer sheet";
-    c.tradeableFrom = "2027-07-31";
     c.notTradeableTo = "LAL";
+    c.notTradeableToUntil = "2027-07-31";
     const v = validateTrade(d, swap("fa", "2027-02-11"), C);
-    expect(v.violations.filter((y) => y.ruleId === "trade_eligibility").length).toBe(2);
+    // Free to move from Dec. 15 — but not to the team whose sheet was matched.
+    expect(v.violations.filter((y) => y.ruleId === "trade_eligibility").length).toBe(1);
     expect(v.violations.some((y) => y.citation === "2023 CBA Art. XI §5(j)")).toBe(true);
+    expect(validateTrade(d, swap("fa", "2027-08-01"), C).legal).toBe(true);
   });
 
   it("lifts the two-month aggregation freeze on its date", () => {

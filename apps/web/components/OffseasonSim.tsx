@@ -1692,6 +1692,11 @@ function TeamColumn({
                     </span>
                   </Term>
                 )}
+                {c.vetoReason && (
+                  <Term k="trade_veto" extra={`${c.playerName} ${c.vetoReason}.`} className="shrink-0">
+                    <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--tier-taxpayer)", background: "color-mix(in srgb, var(--tier-taxpayer) 12%, transparent)" }}>VETO</span>
+                  </Term>
+                )}
                 {stagedSt && c.playerId === stagedSt.playerId && (
                   <span className="rounded-[3px] px-1 py-px text-[8.5px] font-bold tracking-[0.05em]" style={{ color: "var(--accent-ink)", background: "color-mix(in srgb, var(--accent) 14%, transparent)" }} title="Staged sign-and-trade — re-signs at this rate and must be dealt away">S&T</span>
                 )}
