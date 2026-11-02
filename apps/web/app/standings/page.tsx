@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { GAME_MODEL, SEASON_2027 } from "@apron/data";
-import { BASE_CONTRACTS, PRIOR_WEIGHT_GAMES, TEAM_IDS, seasonOutlook, teamMeta, teamNickname } from "@/lib/league";
+import { SEASON_2027 } from "@apron/data";
+import { BASE_CONTRACTS, TEAM_IDS, seasonOutlook, teamMeta, teamNickname } from "@/lib/league";
 import type { TeamOutlook } from "@/lib/seasonSim";
 import { useLeague } from "@/lib/store";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -122,8 +122,8 @@ export default function StandingsPage() {
       </div>
       <p className="mb-5 text-sm leading-relaxed text-[var(--muted)]">
         Real records through {shortDate(SEASON_2027.asOf)} ({played} games played), then the remaining {SEASON_2027.games.length - played} played out {SIMS.toLocaleString()} times.
-        Each team starts from the board&rsquo;s projection of its roster and is moved by what it has actually done. This early, the projection still
-        counts for about {PRIOR_WEIGHT_GAMES} games of evidence, so a 5-0 start moves a team but doesn&rsquo;t remake it.
+        Each team starts from the board&rsquo;s projection of its roster and is moved by what it has actually done: a hot start nudges a team,
+        and by midseason the record does most of the work.
         {moved
           ? " The Δ column is how much your staged moves change each team's playoff odds, in percentage points."
           : " Stage a trade or signing on the board and the odds rerun with it."}
@@ -156,14 +156,8 @@ export default function StandingsPage() {
           way through the play-in; <em>Range</em> is the 10th to 90th percentile of simulated win totals.
         </p>
         <p>
-          How a game is decided: the better-rated team&rsquo;s edge plus {GAME_MODEL.hca.toFixed(1)} points for home court, against a
-          single-game spread of {GAME_MODEL.marginSd.toFixed(1)} points, both measured on {GAME_MODEL.season}&rsquo;s {GAME_MODEL.games.toLocaleString()} games.
-          Summed over each team&rsquo;s real {GAME_MODEL.season} schedule, that model lands within {GAME_MODEL.winsRmse.toFixed(1)} wins of its actual record (RMSE).
-          Each simulated season also redraws every team&rsquo;s true strength from its uncertainty, which is why the ranges are wide in October.
-        </p>
-        <p>
-          Simplified: ties are broken by coin flip rather than the NBA&rsquo;s tiebreaker chain, and the two games each team has left to schedule after NBA Cup
-          group play are filled in against conference opponents at a neutral site. More on the method on the{" "}
+          Every remaining game is played out from the two teams&rsquo; ratings plus home court, and each run also varies how good every team really is,
+          which is why the ranges are wide this early. Ties are broken by coin flip. More on the method on the{" "}
           <Link href="/accuracy" className="font-semibold text-[var(--accent-ink)] hover:underline">accuracy page</Link>.
         </p>
       </div>

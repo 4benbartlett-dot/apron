@@ -80,11 +80,22 @@ export interface Contract {
    * A player extended rather than re-signed via Bird stays trade-eligible.
    */
   restriction?: string;
+  /** First day (ISO) `restriction` no longer applies: a trade dated that day
+   * or later may include him. Absent = restricted whatever the date. */
+  tradeableFrom?: string;
+  /** The rule behind `restriction`, cited on the verdict. */
+  restrictionCite?: string;
+  /** A matched offer sheet's team, which may not acquire him for a year even
+   * with his consent (Art. XI §5(j)); lifts with `tradeableFrom`. */
+  notTradeableTo?: string;
   /**
    * True if the player was acquired this offseason — they cannot be aggregated
    * with other salaries in a trade for two months after being acquired.
    */
   noAggregate?: boolean;
+  /** First day (ISO) `noAggregate` lifts: two months after the trade
+   * (Art. VII §6(j)(4)(i)). Absent = for the whole session. */
+  aggregateFrom?: string;
   /**
    * If set, the player is a Base-Year Compensation player (re-signed via Bird
    * with a >20% raise, then traded the same league year). For the SENDING team's

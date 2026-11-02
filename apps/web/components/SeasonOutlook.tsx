@@ -7,7 +7,8 @@ import { SEASON_2027 } from "@apron/data";
 import { BASE_CONTRACTS, seasonOutlook } from "@/lib/league";
 import type { TeamOutlook } from "@/lib/seasonSim";
 
-const SIMS = 2500;
+// Same count and seed as /standings, so a team's odds read the same on both.
+const SIMS = 5000;
 
 function pct(p: number): string {
   if (p >= 0.995) return ">99%";

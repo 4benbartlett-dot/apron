@@ -176,7 +176,7 @@ export function explainBlocked(
           .sort((a, b) => b.amount - a.amount)[0];
         if (blocked && t.postTradeSalary > c.firstApron + 1) {
           subject.push(
-            `${name} do hold a ${fmtM(blocked.amount)} traded-player exception${blocked.label ? ` (${blocked.label})` : ""}, and it is big enough to absorb this — but it arose in a prior Regular Season, and an exception of that vintage can't be used by a team whose salary after the trade would sit above the first apron (${fmtM(c.firstApron)}). Theirs would be ${fmtM(t.postTradeSalary)}. Getting under that line first is what unlocks it, and using it would then hard-cap them there for the season.`,
+            `${name} do hold a ${fmtM(blocked.amount)} traded-player exception${blocked.label ? ` (${blocked.label})` : ""}, and it is big enough to absorb this — but it dates from last season, so they can only use it if they finish under the first apron (${fmtM(c.firstApron)}). Theirs would be ${fmtM(t.postTradeSalary)}. Getting under that line first is what unlocks it, and using it would then hard-cap them there for the season.`,
           );
         }
       }

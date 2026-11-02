@@ -12,26 +12,32 @@ const daysUntil = (to: string) =>
 const longDate = (d: string) =>
   new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
 
-/** Players booked with the Dec. 15 free-agent trade freeze: the ones the
- * calendar's first date sets loose. */
-const DEC15 = BASE_CONTRACTS.filter((c) => !c.deadMoney && /Dec\. 15/.test(c.restriction ?? "")).length;
+/** How many players on today's rosters a date sets free to trade. */
+const freedOn = (iso: string) => BASE_CONTRACTS.filter((c) => !c.deadMoney && !c.twoWay && c.tradeableFrom === iso).length;
+const DEC15 = freedOn("2026-12-15");
+const JAN15 = freedOn("2027-01-15");
 
 /** The 2026-27 dates that move the trade market, each with what it changes. */
 const SEASON_DATES: { date: string; title: string; what: string }[] = [
   {
     date: "2026-12-15",
     title: "Offseason signings become tradeable",
-    what: `Most players signed as free agents this summer can be traded from today: ${DEC15} on current rosters (Art. VII §8(d)(ii): the later of Dec. 15 and three months after signing).`,
+    what: `Most players signed as free agents this summer can be traded from today: ${DEC15} on current rosters (or three months after signing, if that's later).`,
   },
   {
     date: "2027-01-05",
     title: "10-day contracts open",
-    what: "Teams can sign 10-day contracts from today (Art. II §9(a)); before it, only a hardship exception allows one.",
+    what: "Teams can sign 10-day contracts from today; before it, only a hardship exception allows one.",
   },
   {
     date: "2027-01-10",
     title: "Contracts become fully guaranteed",
     what: "Any player still on a roster at the end of the day has his full-season salary guaranteed, so non-guaranteed deals get waived just before it.",
+  },
+  {
+    date: "2027-01-15",
+    title: "Bird re-signs become tradeable",
+    what: `Players who re-signed with their own team for a raise of more than 20% while it was over the cap can be traded from today: ${JAN15} on current rosters.`,
   },
   {
     date: "2027-02-11",

@@ -148,7 +148,7 @@ export function DepthChart({ roster }: { roster: Contract[] }) {
       )}
 
       <p className="mt-2 text-[10px] leading-relaxed text-[var(--muted)]">
-        Projected minutes from the position-aware rotation model: five on-court spots share a fixed 240-minute-a-night budget, best players first, with versatile players (their secondary spot shown on hover) sliding to a second position. ST = projected starter. Not a coach&rsquo;s actual rotation.
+        Projected minutes, best players first; versatile players can slide to a second position (shown on hover). ST = projected starter. Not the coach&rsquo;s actual rotation.
       </p>
     </div>
   );

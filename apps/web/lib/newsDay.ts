@@ -552,7 +552,7 @@ function buildSigning(row: Transaction, iso: string): NewsMove | null {
         consequences.push({
           team,
           severity: "note",
-          text: `A fit by ${fmt(room)} on this sheet, which carries no unlikely bonuses; ${teamMeta(team).name} then opened real room with ${opened.moves} — ${fmt(opened.room)} under the line today.`,
+          text: `A fit by ${fmt(room)}; ${teamMeta(team).name} then opened real room with ${opened.moves} — ${fmt(opened.room)} under the line today.`,
         });
     } else if (cleared) {
       // Over the line the day it was reported, under it today by the team's
@@ -740,7 +740,7 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
     });
     checks.push({
       ok: y1 <= max + 1,
-      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the 25% maximum for a player off his rookie scale — ${fmt(max)} on a ${start} cap projected at ${fmt(cap)} (7% a year from ${fmt(C.salaryCap)}).`,
+      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the 25% maximum for a player off his rookie scale — ${fmt(max)} on a ${start} cap projected at ${fmt(cap)}.`,
     });
     const pill = poisonPillValues(current, newSalaries);
     consequences.push({
@@ -771,7 +771,7 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
     });
     checks.push({
       ok: y1 <= max + 1,
-      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} the extension ceiling of ${fmt(max)} — the greater of 140% of his final current-contract salary (${fmt(priorFinal)}) and 140% of the estimated average, capped at his ${start} maximum on a cap projected at ${fmt(capAtStart)} (Art. VII §7(a)).`,
+      text: `${fmt(y1)} in ${start} is ${y1 <= max + 1 ? "under" : "over"} his extension ceiling of ${fmt(max)} (Art. VII §7(a)).`,
     });
     // §8(f)(i): an extension is frozen for six months if it covers five
     // seasons, or if its first year or its raises exceed what an extension
@@ -793,7 +793,7 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
       consequences.push({
         team,
         severity: "note",
-        text: `The filed raises are not public; the seasons on the sheet are estimates. At raises above 5% of the first year he could not be traded for six months (Art. VII §8(f)(i)); at 5% or less he could.`,
+        text: `If his raises top 5% a year, he can't be traded for six months (Art. VII §8(f)(i)); the exact raises haven't been reported.`,
       });
     } else {
       consequences.push({
@@ -920,18 +920,18 @@ export function buildRulingCard(r: LeagueRuling): NewsMove {
     checks.push({
       ok: true,
       text: violates
-        ? `Years without a first: ${list(uncovered)} — consecutive drafts already uncovered, so under the Stepien rule as this site applies it ${name} cannot trade a first until a covered year is restored.`
+        ? `Years without a first: ${list(uncovered)} — consecutive drafts already uncovered, so under the Stepien rule ${name} cannot trade a first until a covered year is restored.`
         : `Years without a first: ${list(uncovered)} — never two in a row, so the Stepien rule still lets ${name} trade a first${
             loadBearing.length ? `. ${list(loadBearing)} ${loadBearing.length === 1 ? "is what keeps" : "are what keep"} it that way: trading ${loadBearing.length === 1 ? "it" : "either"} would leave consecutive drafts uncovered` : ""
           }.`,
     });
     if (!loadBearing.length && !violates && uncovered.length)
-      consequences.push({ team, severity: "note", text: `Forfeited years count as uncovered here — the conservative read; the league has not said a forfeited year is exempt from the Stepien test.` });
+      consequences.push({ team, severity: "note", text: `Forfeited years count as years without a first; the league hasn't said otherwise.` });
     else if (loadBearing.length)
       consequences.push({
         team,
         severity: "restrict",
-        text: `${list(loadBearing)} ${loadBearing.length === 1 ? "is" : "are"} locked in practice: the board will block any trade that sends ${loadBearing.length === 1 ? "it" : "one"} out. Forfeited years count as uncovered — the conservative read, since the league has not said otherwise.`,
+        text: `${list(loadBearing)} ${loadBearing.length === 1 ? "is" : "are"} locked in practice: the board will block any trade that sends ${loadBearing.length === 1 ? "it" : "one"} out.`,
       });
   }
   checks.push({

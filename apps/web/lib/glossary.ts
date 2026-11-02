@@ -144,8 +144,8 @@ export const GLOSSARY = {
   },
   no_trade: {
     title: "Trade restriction",
-    body: "The CBA freezes recently signed players: free agents signed this offseason can't be traded until December 15 (later for some Bird re-signings), draft picks for 30 days after signing, and extensions beyond extend-and-trade limits for six months. Extensions within those limits — like a pre-moratorium extension of an expiring deal — carry no freeze at all.",
-    cite: "2023 CBA · Art. VII §8(d)–(f)",
+    body: "The CBA freezes recently signed players: a free agent can't be traded until December 15 or three months after signing, whichever is later (January 15 for a big Bird re-sign), a draft pick for 30 days, and a veteran extension beyond extend-and-trade limits for six months. A matched offer sheet holds for a year. A player acquired by trade can be dealt again right away, but not combined with other salaries for two months. Switch the trade board to the deadline to see who's free by then.",
+    cite: "2023 CBA · Art. VII §8(d)–(f), §6(j)(4); Art. XI §5(j)",
   },
   cap_hold: {
     title: "Cap hold",
@@ -164,12 +164,12 @@ export const GLOSSARY = {
   },
   trade_value: {
     title: "Apron Value",
-    body: "Each player's on-court value on a 0-100 scale where 50 is replacement level and the high 90s are league-best. It blends box-score production with stint-level RAPM from reconstructed five-man lineups. Hover shows the uncertainty band, tier, and components. It's a talent gauge, not a contract measure — matching and the aprons handle legality.",
+    body: "Each player's on-court value on a 0-100 scale where 50 is replacement level and the high 90s are league-best. It blends box-score production with on-court impact from lineup data, and during the season it moves with this season's play. Hover shows the uncertainty band, tier, and components. It's a talent gauge, not a contract measure — matching and the aprons handle legality.",
     cite: "overtheapron.com/accuracy",
   },
   projected_standings: {
     title: "Projected standings",
-    body: "Each team's projected net rating and win total from its current roster, ranked within its conference. The model allocates minutes by position, accounts for reported injuries, applies a real-age curve, and adds a bounded fit layer for spacing, defense, playmaking, and two-way balance. The projected rotation shows on each team page. This is a talent-on-hand projection, not a full-season forecast; it does not model coaching, chemistry changes, or playoff translation.",
+    body: "Each team's projected net rating and win total from its current roster, ranked within its conference. It comes from the projected rotation, reported injuries and age. It doesn't model coaching, chemistry, or playoff translation. For odds that also count each team's results so far, see the season simulator.",
     cite: "overtheapron.com/standings",
   },
 } as const;

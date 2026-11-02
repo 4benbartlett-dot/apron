@@ -33,6 +33,7 @@ import ratingsRaw from "./ratings.json";
 import rosterCorrectionsRaw from "./roster-corrections-2026.json";
 import season2027Raw from "./season-2027.json";
 import gameModelRaw from "./game-model-calibration.json";
+import earlySeasonRaw from "./early-season-calibration.json";
 import playerStats2027Raw from "./player-stats-2027.json";
 
 /* --- Returning veterans (recently retired / overseas) as signable minimum free
@@ -203,6 +204,21 @@ export const GAME_MODEL = gameModelRaw as GameModelCalibration;
 export const PLAYER_STATS_2027: Record<string, Record<string, number>> =
   (playerStats2027Raw as { byId: Record<string, Record<string, number>> }).byId;
 export const PLAYER_STATS_2027_AS_OF: string | undefined = (playerStats2027Raw as { asOf?: string }).asOf;
+
+/** How much a season to date should move a player's BPM, measured on five
+ * past seasons (scripts/calibrate-early-season.mjs): the preseason read is
+ * worth `priorMinutes` minutes of this season's play. */
+export interface EarlySeasonFit { M: number; rmse: number; priorOnly: number; seasonOnly: number; n: number; }
+export interface EarlySeasonCalibration {
+  seasons: string[];
+  priorMinutes: number;
+  pooled: EarlySeasonFit;
+  byCutoff: (EarlySeasonFit & { days: number; games: number; atPooledM: number })[];
+  bySeason: (EarlySeasonFit & { season: number })[];
+  leaveOneSeasonOut: { season: number; M: number; rmse: number; priorOnly: number }[];
+  priorSlope: number;
+}
+export const EARLY_SEASON = earlySeasonRaw as EarlySeasonCalibration;
 const positionOverrides = positionOverridesRaw as {
   byId?: Record<string, string>;
   secondaryById?: Record<string, string[]>;

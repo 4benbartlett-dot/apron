@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, PLAYER_INJURIES_GAMES_LEFT, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, type Transaction } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, PLAYER_INJURIES_GAMES_LEFT, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, PLAYER_STATS_2027, EARLY_SEASON, type Transaction } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -7,6 +7,7 @@ import {
   stretchProvision,
   validateTrade,
   postSeasonWindow,
+  shortDate,
   type BirdStatus,
   type Contract,
   type ContractYear,
@@ -46,6 +47,18 @@ const SIM_TODAY = (() => {
 /** The sim's "today" as ISO yyyy-mm-dd — the date every session move is made
  * on, and the `date` the boards hand validateTrade (Art. VII §2(e)(2)(ii)). */
 export const SIM_DATE: string = DATA_AS_OF;
+
+/** The 2026-27 trade deadline (Feb. 11, 3 p.m. ET; reported with the
+ * league's key dates). The board's "at the deadline" mode trades on it. */
+export const TRADE_DEADLINE = "2027-02-11";
+
+/** Which window a trade date falls in, for the minimum-player aggregation
+ * limit that is off from Dec. 15 through the deadline (Art. VII §6(j)(4)(ii)). */
+export function tradeTiming(date: string): "offseason" | "pre_dec15" | "dec15_to_deadline" | "post_deadline" {
+  if (date < "2026-10-20") return "offseason";
+  if (date < "2026-12-15") return "pre_dec15";
+  return date <= TRADE_DEADLINE ? "dec15_to_deadline" : "post_deadline";
+}
 
 /** Start of the current sim offseason — the day after the 2025-26 Regular
  * Season ended (~Apr 12, 2026). A Standard TPE lives exactly one year, so a
@@ -1537,8 +1550,155 @@ function stampYearsOfService(contracts: Contract[]): Contract[] {
   );
 }
 
+/* ------------------------------ WHEN HE CAN BE TRADED ------------------------------ */
+
+/** `iso` plus `n` calendar months, the CBA's "three (3) months following". */
+function isoPlusMonths(iso: string, n: number): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  const t = new Date(Date.UTC(y!, m! - 1 + n, 1));
+  const last = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate();
+  t.setUTCDate(Math.min(d!, last));
+  return t.toISOString().slice(0, 10);
+}
+const later = (a: string, b: string) => (a > b ? a : b);
+const md = (iso: string) => shortDate(iso).replace(/, \d{4}$/, "");
+
+/** Each player's feed rows, oldest first. */
+const ROWS_BY_PLAYER = (() => {
+  const out = new Map<string, { iso: string; type: string; detail: string }[]>();
+  for (const t of TRANSACTIONS) {
+    const iso = feedIso(t.date);
+    if (!iso) continue;
+    const raw = normName(t.player);
+    const k = SPOTRAC_ALIASES[raw] ?? raw;
+    (out.get(k) ?? out.set(k, []).get(k)!).push({ iso, type: t.type, detail: t.detail });
+  }
+  for (const rows of out.values()) rows.sort((a, b) => a.iso.localeCompare(b.iso));
+  return out;
+})();
+const teamOf = (detail: string) => detail.match(/with [^(]*\(([A-Za-z]{2,4})\)/)?.[1];
+const RAW_TEAM = new Map(base.contracts.filter((c) => !c.deadMoney).map((c) => [c.playerId, c.teamId]));
+
+/** Re-signed with Bird or Early Bird rights for a 20%+ raise while over the
+ * cap, so not tradeable until Jan 15 (Art. VII §8(d)(iii)): Hoops Rumors'
+ * running list, "Players Who Can't Be Traded Until January 15" (Aug 2026,
+ * updated for Duren's Oct 2 deal). Spencer Jones is on it too; his matched
+ * offer sheet is the stricter freeze and is handled as one. */
+const JAN15_REPORTED = new Set(
+  ["Coby White", "Jalen Duren", "Tari Eason", "Jordan Miller", "Austin Reaves", "Gary Trent Jr.", "Jaylen Clark",
+    "Ayo Dosunmu", "Landry Shamet", "Collin Gillespie", "Jordan Goodwin", "Mark Williams"].map(normName),
+);
+/** Re-signs shaped like §8(d)(iii) on the sheet (own team, 20%+ raise, over
+ * the minimum, team over the cap), Bird rights unknown. The test holds each
+ * one to the reported list or a named reason. */
+export const JAN15_SHAPED = new Set<string>();
+
+/**
+ * Dates every trade freeze on the sheet, from the day the contract was
+ * signed (Art. VII §8(d), §8(f); Art. XI §5(j)), and the two-month window in
+ * which a player acquired by trade can't have his salary combined with
+ * others' (§6(j)(4)(i)). The board's Today / Deadline switch reads these.
+ */
+function stampTradeEligibility(contracts: Contract[]): Contract[] {
+  const capSalary = new Map<string, number>();
+  for (const c of contracts) if (!c.twoWay) capSalary.set(c.teamId, (capSalary.get(c.teamId) ?? 0) + salaryForYear(c, YEAR));
+  return contracts.map((c) => {
+    if (c.deadMoney) return c;
+    const rows = ROWS_BY_PLAYER.get(normName(c.playerName)) ?? [];
+    const lastRelease = [...rows].reverse().find((r) => r.type === "Release")?.iso ?? "";
+    // A waiver claim takes over the contract he already had, signed when it
+    // was signed (Tony Bradley's Sep 30 Exhibit 9, claimed by Utah Oct 17).
+    const claimed = rows.some((r) => r.iso >= lastRelease && /Claimed off waivers/i.test(r.detail));
+    const since = claimed ? "2026-06-30" : later("2026-06-30", lastRelease);
+    const deal = (r: { type: string; detail: string }) => r.type === "Signing" && !/Two-Way contract with|10-day|extension/i.test(r.detail);
+    // The signing itself where the feed has it; "Agreed to" where that is
+    // all it has (it's the earlier date, so the freeze reads a day or two
+    // short at worst, and Dec 15 covers most of them anyway).
+    const signedRows = rows.filter((r) => deal(r) && r.iso > since && /^Signed/i.test(r.detail));
+    const signings = signedRows.length ? signedRows : rows.filter((r) => deal(r) && r.iso > since && /^Agreed/i.test(r.detail));
+    const out: Contract = { ...c };
+
+    // A player acquired by trade: two months before his salary can be combined.
+    const traded = [...rows].reverse().find((r) => r.type === "Trade" && r.iso > "2026-06-30" && new RegExp(`Traded to [^(]*\\(${c.teamId}\\)`).test(r.detail));
+    if (traded) {
+      out.noAggregate = true;
+      out.aggregateFrom = isoPlusMonths(traded.iso, 2);
+    }
+
+    if (!c.restriction || /^10-day/.test(c.restriction)) return out;
+    // A freeze curated with its own date ("…not trade-eligible until Jan 6,
+    // 2027" on Queta's five-season extension) keeps the date it states.
+    // An extension the feed shows SIGNED is dated from that row instead: the
+    // CBA counts from signing, and a curated note can carry the agreement day
+    // (Pritchard agreed Oct 13 and signed Oct 16).
+    const extSigned = rows.some((r) => /extension/i.test(r.detail) && /^Signed/i.test(r.detail));
+    const stated = c.restriction.match(/until ([A-Z][a-z]{2,8}\.? \d{1,2}, \d{4})/);
+    if (stated && !/Dec\. 15\)$/.test(c.restriction) && !(extSigned && /extend/i.test(c.restriction))) {
+      const iso = feedIso(stated[1]!.replace(".", ""));
+      if (iso) {
+        const sec = c.restriction.match(/§\s?\d+\([a-z]\)(?:\([ivx]+\))?/)?.[0];
+        return { ...out, tradeableFrom: iso, restrictionCite: sec ? `2023 CBA Art. VII ${sec.replace(/\s/g, "")}` : "2023 CBA Art. VII §8" };
+      }
+    }
+    const signedRow = signings.find((r) => teamOf(r.detail) === c.teamId) ?? signings[0];
+    const signed = signedRow?.iso;
+
+    if (/30-day/.test(c.restriction)) {
+      const from = isoPlusDays(signed ?? "2026-07-06", 30);
+      out.restriction = `signed his rookie contract${signed ? ` ${md(signed)}` : ""}; draft picks can't be traded for 30 days, so he's tradeable ${shortDate(from)}`;
+      out.tradeableFrom = from;
+      out.restrictionCite = "2023 CBA Art. VII §8(d)(i)";
+      return out;
+    }
+    if (/extend-and-trade|^extended/.test(c.restriction)) {
+      const exts = [...rows].reverse().filter((r) => /extension/i.test(r.detail));
+      const extRow = exts.find((r) => /^Signed/i.test(r.detail)) ?? exts[0];
+      // §8(f)(i) reaches Section 7(a) (veteran) extensions only; a rookie-scale
+      // extension (7(b)) carries the poison pill instead, and no freeze.
+      if (extRow && /Rookie Scale/i.test(extRow.detail)) return { ...out, restriction: undefined };
+      const ext = extRow?.iso ?? signed;
+      if (!ext) return out;
+      const from = isoPlusMonths(ext, 6);
+      out.restriction = `extended ${md(ext)} past what an extend-and-trade allows, which freezes him for six months: tradeable ${shortDate(from)}`;
+      out.tradeableFrom = from;
+      out.restrictionCite = "2023 CBA Art. VII §8(f)(i)";
+      return out;
+    }
+    if (!signed) return out;
+    const sheet = signedRow!.detail.match(/matching Offer Sheet from [^(]*\(([A-Za-z]{2,4})\)|matched Offer Sheet from [^(]*\(([A-Za-z]{2,4})\)/i);
+    if (sheet) {
+      const from = isoPlusMonths(signed, 12);
+      const by = sheet[1] ?? sheet[2]!;
+      out.restriction = `his offer sheet was matched ${md(signed)}, so he can't be traded without his consent until ${shortDate(from)}, and not to ${by} at all until then`;
+      out.tradeableFrom = from;
+      out.notTradeableTo = by;
+      out.restrictionCite = "2023 CBA Art. XI §5(j)";
+      return out;
+    }
+    // §8(d)(iii): a Bird or Early Bird re-sign with his prior team for more
+    // than 120% of his last salary, over the cap after it, waits for Jan 15.
+    // The feed can't tell Bird rights from Non-Bird, so the reported list
+    // decides; the shape test below only flags re-signs to check against it.
+    const prior = c.years.find((y) => y.leagueYear === "2025-26")?.salary ?? 0;
+    const y1 = salaryForYear(c, YEAR);
+    const ownMin = C.minimumSalaries[Math.min(10, c.yearsOfService ?? EXPERIENCE[c.playerId] ?? 0)] ?? 0;
+    if (RAW_TEAM.get(c.playerId) === c.teamId && prior > 0 && y1 > prior * 1.2 && y1 > ownMin + 1 && (capSalary.get(c.teamId) ?? 0) > C.salaryCap)
+      JAN15_SHAPED.add(c.playerName);
+    const birdRaise = JAN15_REPORTED.has(normName(c.playerName));
+    const floor = birdRaise ? "2027-01-15" : "2026-12-15";
+    const from = later(floor, isoPlusMonths(signed, 3));
+    const why = birdRaise
+      ? `re-signed ${md(signed)} for more than 120% of his old salary while over the cap, so he waits for the later of Jan. 15 and three months`
+      : `signed as a free agent ${md(signed)}, so he waits for the later of Dec. 15 and three months`;
+    out.restriction = `${why}: tradeable ${shortDate(from)}`;
+    out.tradeableFrom = from;
+    out.restrictionCite = birdRaise ? "2023 CBA Art. VII §8(d)(iii)" : "2023 CBA Art. VII §8(d)(ii)";
+    return out;
+  });
+}
+
 /** Base working roster set: trades + signings applied, rookies added. */
-export const BASE_CONTRACTS: Contract[] = stampYearsOfService(
+export const BASE_CONTRACTS: Contract[] = stampTradeEligibility(stampYearsOfService(
   applyFiledFutureSalaries(applyFiledSalaries(
     applyIncentives(
       deemVetMinimums(
@@ -1550,7 +1710,7 @@ export const BASE_CONTRACTS: Contract[] = stampYearsOfService(
       ),
     )),
   ),
-);
+));
 export const TRADES_APPLIED = [...afterTrades.moved, ...rookiesAfterTrades.moved];
 export const SIGNINGS_APPLIED = [...afterSignings.signed, ...afterSignedFA.signed];
 
@@ -2531,14 +2691,32 @@ export function teamProjection(team: string, liveContracts: Contract[]): TeamPro
  */
 /** The projection's measured error (3.512 on the Oct rebaseline). */
 const PRIOR_SD = TEAM_CALIBRATION.cvRmseNrtg ?? 3.5;
+
+/** Each team's projection on PRESEASON player values — today's roster and
+ * injuries, but no 2026-27 box scores. The simulator's prior: the results
+ * are its evidence, and they can only be counted once. */
+let _preseasonNrtg: Record<string, number> | null = null;
+function preseasonNrtg(): Record<string, number> {
+  if (!_preseasonNrtg) {
+    _inSeason = false;
+    try {
+      _preseasonNrtg = Object.fromEntries(TEAM_IDS.map((t) => [t, modelNrtg(BASE_CONTRACTS.filter((c) => c.teamId === t))]));
+    } finally {
+      _inSeason = true;
+    }
+  }
+  return _preseasonNrtg;
+}
+
 export function seasonRatings(liveContracts: Contract[]): SimTeam[] {
   const base = leagueStandings(BASE_CONTRACTS);
   const live = liveContracts === BASE_CONTRACTS ? base : leagueStandings(liveContracts);
+  const prior = preseasonNrtg();
   const priorSd = PRIOR_SD;
   return TEAM_IDS.map((t) => {
     const obs = SEASON_2027.ratings[t];
     const games = obs ? obs.w + obs.l : 0;
-    const post = posteriorRating(base[t]!.nrtg, priorSd, obs?.nrtgAdj ?? 0, games, GAME_MODEL.marginSd);
+    const post = posteriorRating(prior[t]!, priorSd, obs?.nrtgAdj ?? 0, games, GAME_MODEL.marginSd);
     return {
       id: t,
       conference: teamMeta(t).conference as "East" | "West",
@@ -2578,10 +2756,32 @@ export function seasonOutlook(liveContracts: Contract[], sims = 5000): Record<st
 
 const BPM_TO_AV = 3.6; // av ≈ 50 + 3.6·BPM (Jokić ~+13 → ~97, replacement −2 → ~43)
 
+/**
+ * His BPM for the games left: the preseason read below, moved by 2026-27 to
+ * date at the weight five past seasons say it deserves. The prior is worth
+ * EARLY_SEASON.priorMinutes (≈1,000) minutes of this season's play
+ * (scripts/calibrate-early-season.mjs: 8 to 39 games into 2021-22 → 2025-26,
+ * against the rest of each season; it beat the prior alone in all five
+ * seasons held out). So a 260-minute start is a fifth of his number, and
+ * by midseason this season is most of it.
+ *
+ * Off (`_inSeason = false`) for the season simulator's prior only: BPM is
+ * built to sum to the team's net rating, so a blended roster already carries
+ * the record the simulator then adds again. See seasonRatings.
+ */
+let _inSeason = true;
+function multiYearBpm(playerId: string): number {
+  const prior = preseasonBpm(playerId);
+  const now = _inSeason ? PLAYER_STATS_2027[playerId] : undefined;
+  if (!now?.mp || now.bpm == null || !Number.isFinite(now.bpm)) return prior;
+  const M = EARLY_SEASON.priorMinutes;
+  return (prior * M + fitClamp(now.bpm, -12, 15) * now.mp) / (M + now.mp);
+}
+
 /** A player's three-year weighted BPM — his recent body of work, so a single
  * down or injured season doesn't define him. Recency-weighted and shrunk for
  * low-minute seasons. */
-function multiYearBpm(playerId: string): number {
+function preseasonBpm(playerId: string): number {
   const cur = PLAYER_STATS_2026[playerId];
   const hist = PLAYER_HISTORY[playerId] ?? {};
   const seasons = [

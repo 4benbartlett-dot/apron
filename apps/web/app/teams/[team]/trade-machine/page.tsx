@@ -86,7 +86,7 @@ export default async function TeamTradeMachine({ params }: { params: Promise<{ t
         hard caps, and pick rules — starting from the current 2026 offseason data, not a blank slate.
         {Number.isFinite(t.hardCap) && (
           <>
-            {" "}That includes the part most trade machines miss: the {t.nickname} are already{" "}
+            {" "}Note: the {t.nickname} are already{" "}
             <strong>hard-capped at {fmtM(t.hardCap)}</strong> for the season ({t.hardCapSource}).
           </>
         )}
@@ -130,7 +130,7 @@ export default async function TeamTradeMachine({ params }: { params: Promise<{ t
           ))}
         </div>
         <p className="mt-2 text-[12px] text-[var(--muted)]">
-          Figures come from the current 2026 offseason feed; exceptions already spent in the feed stay spent.
+          Exceptions already used this season are shown as spent.
         </p>
       </section>
 

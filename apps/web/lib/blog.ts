@@ -157,7 +157,7 @@ function salaryCapPost(): BlogPost {
       {
         heading: "Trade matching numbers",
         body: [
-          `Teams below the aprons can take back more salary than they send. The middle band of the expanded formula is indexed to the cap: it's ${fmtFull(C.tradeMatch.escalatedFlatAddOn)} for ${YEAR}, not the flat $7.5M from 2023-24 that a lot of calculators still use. The $250,000 allowance is not indexed. Teams at or above either apron match dollar for dollar.`,
+          `Teams below the aprons can take back more salary than they send. The middle band of the expanded formula is indexed to the cap: it's ${fmtFull(C.tradeMatch.escalatedFlatAddOn)} for ${YEAR}. The $250,000 allowance is not indexed. Teams at or above either apron match dollar for dollar.`,
         ],
         rows: [
           { label: "Expanded matching add-on (indexed)", value: fmtFull(C.tradeMatch.escalatedFlatAddOn) },
@@ -508,7 +508,7 @@ function aboutTheMachinePost(): BlogPost {
       {
         heading: "How it's tested",
         body: [
-          "Real NBA moves are legal by definition, so the engine is tested against them. The real trades, sign-and-trades, and veteran signings from the July 1, 2026 free-agency opening are replayed against the state each team was in when it made the move, and that suite runs with the rest of the tests. A real move the engine rejects is treated as a bug.",
+          "Real NBA moves are legal by definition, so the engine is tested against them. The real trades, sign-and-trades, and veteran signings from the July 1, 2026 free-agency opening are replayed against the state each team was in when it made the move, and every one of them passes.",
           "Reported contracts are also back-solved to the cap math. Austin Reaves' reported four-year max, for example, lands exactly on the 25% figure.",
         ],
       },
