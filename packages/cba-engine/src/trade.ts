@@ -579,7 +579,7 @@ export function validateTrade(
       }
       // A matched offer sheet: for a year, nobody may trade him to the team
       // whose sheet was matched, even with his consent (Art. XI §5(j)).
-      if (oc?.notTradeableTo === mv.to && (!oc.tradeableFrom || !trade.date || trade.date < oc.tradeableFrom)) {
+      if (oc?.notTradeableTo === mv.to && (!oc.notTradeableToUntil || !trade.date || trade.date < oc.notTradeableToUntil)) {
         checks.push({
           ruleId: "trade_eligibility",
           ok: false,

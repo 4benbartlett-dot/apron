@@ -1582,12 +1582,27 @@ const RAW_TEAM = new Map(base.contracts.filter((c) => !c.deadMoney).map((c) => [
 /** Re-signed with Bird or Early Bird rights for a 20%+ raise while over the
  * cap, so not tradeable until Jan 15 (Art. VII §8(d)(iii)): Hoops Rumors'
  * running list, "Players Who Can't Be Traded Until January 15" (Aug 2026,
- * updated for Duren's Oct 2 deal). Spencer Jones is on it too; his matched
- * offer sheet is the stricter freeze and is handled as one. */
+ * updated for Duren's Oct 2 deal). Spencer Jones is on it: Denver matched
+ * his offer sheet with Bird rights, over the cap, for more than 120%. */
 const JAN15_REPORTED = new Set(
-  ["Coby White", "Jalen Duren", "Tari Eason", "Jordan Miller", "Austin Reaves", "Gary Trent Jr.", "Jaylen Clark",
+  ["Coby White", "Spencer Jones", "Jalen Duren", "Tari Eason", "Jordan Miller", "Austin Reaves", "Gary Trent Jr.", "Jaylen Clark",
     "Ayo Dosunmu", "Landry Shamet", "Collin Gillespie", "Jordan Goodwin", "Mark Williams"].map(normName),
 );
+
+/** Players who can veto a trade in 2026-27: Hoops Rumors, "NBA Players Who
+ * Can Veto Trades In 2026/27" (Jul 29, edited through Sep). A veto isn't a
+ * freeze; with his consent the trade goes. The one-year re-signs are Art.
+ * VII §8(b): a player on a one-year deal (option years aside) who would have
+ * Bird or Early Bird rights when it ends. Melton and Payton II are on the
+ * list and unmarked on Hoops Rumors' Oct 20 Dec. 15 list; the dedicated list
+ * is the one kept. */
+const VETO_REPORTED = new Map<string, string>([
+  ["Damian Lillard", "has a no-trade clause in his contract"],
+  ...["Bradley Beal", "Thomas Bryant", "Simone Fontecchio", "Javonte Green", "Al Horford", "Jonathan Isaac",
+    "De'Anthony Melton", "Gary Payton II", "Kenrich Williams"].map(
+    (n) => [n, "re-signed for one season and will have Bird rights when it ends, so he must consent to any trade this season (Art. VII §8(b))"] as [string, string],
+  ),
+].map(([n, why]) => [normName(n), why]));
 /** Re-signs shaped like §8(d)(iii) on the sheet (own team, 20%+ raise, over
  * the minimum, team over the cap), Bird rights unknown. The test holds each
  * one to the reported list or a named reason. */
@@ -1617,6 +1632,8 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
     const signedRows = rows.filter((r) => deal(r) && r.iso > since && /^Signed/i.test(r.detail));
     const signings = signedRows.length ? signedRows : rows.filter((r) => deal(r) && r.iso > since && /^Agreed/i.test(r.detail));
     const out: Contract = { ...c };
+    const veto = VETO_REPORTED.get(normName(c.playerName));
+    if (veto) out.vetoReason = veto;
 
     // A player acquired by trade: two months before his salary can be combined.
     const traded = [...rows].reverse().find((r) => r.type === "Trade" && r.iso > "2026-06-30" && new RegExp(`Traded to [^(]*\\(${c.teamId}\\)`).test(r.detail));
@@ -1642,8 +1659,11 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
     }
     const signedRow = signings.find((r) => teamOf(r.detail) === c.teamId) ?? signings[0];
     const signed = signedRow?.iso;
+    // Signing a standard deal while on a two-way is a free-agent signing,
+    // three months and Dec. 15, even for a draft pick (§8(d)(ii) names it).
+    const wasTwoWay = !!signed && rows.some((r) => r.iso < signed && /Two-Way contract with/i.test(r.detail));
 
-    if (/30-day/.test(c.restriction)) {
+    if (/30-day/.test(c.restriction) && !wasTwoWay) {
       const from = isoPlusDays(signed ?? "2026-07-06", 30);
       out.restriction = `signed his rookie contract${signed ? ` ${md(signed)}` : ""}; draft picks can't be traded for 30 days, so he's tradeable ${shortDate(from)}`;
       out.tradeableFrom = from;
@@ -1665,15 +1685,32 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
       return out;
     }
     if (!signed) return out;
-    const sheet = signedRow!.detail.match(/matching Offer Sheet from [^(]*\(([A-Za-z]{2,4})\)|matched Offer Sheet from [^(]*\(([A-Za-z]{2,4})\)/i);
-    if (sheet) {
-      const from = isoPlusMonths(signed, 12);
-      const by = sheet[1] ?? sheet[2]!;
-      out.restriction = `his offer sheet was matched ${md(signed)}, so he can't be traded without his consent until ${shortDate(from)}, and not to ${by} at all until then`;
+    // A Draft Rookie — a drafted player signing his first NBA contract, here
+    // a draft-rights stash (Biberovic, via a draft-rights trade; Diop and
+    // Marković, via the second-round exception) — waits 30 days, not for
+    // Dec. 15 (§8(d)(i)). A two-way converted to standard is a free agent
+    // (§8(d)(ii) says so), which is why Jaden Bradley is not one.
+    // (Marković's row reads only "4 year $9.26 million": that is the
+    // second-round exception's one contract, as ROOKIE_DEALS notes.)
+    const draftRights =
+      !RAW_TEAM.has(c.playerId) && !wasTwoWay && (c.yearsOfService ?? EXPERIENCE[c.playerId] ?? 0) === 0 &&
+      (/2nd-round exception|4 year \$9\.26 million/i.test(signedRow!.detail) || rows.some((r) => r.type === "Trade" && r.iso <= signed));
+    if (draftRights) {
+      const from = isoPlusDays(signed, 30);
+      out.restriction = `signed his first NBA contract ${md(signed)} with the team holding his draft rights, so he waited 30 days: tradeable ${shortDate(from)}`;
       out.tradeableFrom = from;
-      out.notTradeableTo = by;
-      out.restrictionCite = "2023 CBA Art. XI §5(j)";
+      out.restrictionCite = "2023 CBA Art. VII §8(d)(i)";
       return out;
+    }
+    // A matched offer sheet: for a year he can veto any trade, and nobody may
+    // send him to the team whose sheet was matched (Art. XI §5(j)). Neither is
+    // a freeze — he is tradeable with consent on his free-agent date.
+    const sheet = signedRow!.detail.match(/match(?:ing|ed) Offer Sheet from [^(]*\(([A-Za-z]{2,4})\)/i);
+    if (sheet) {
+      const year = isoPlusMonths(signed, 12);
+      out.notTradeableTo = sheet[1]!;
+      out.notTradeableToUntil = year;
+      out.vetoReason = `had his offer sheet matched ${md(signed)}, so for a year he must consent to any trade, and can't be sent to ${sheet[1]} until ${shortDate(year)} (Art. XI §5(j))`;
     }
     // §8(d)(iii): a Bird or Early Bird re-sign with his prior team for more
     // than 120% of his last salary, over the cap after it, waits for Jan 15.

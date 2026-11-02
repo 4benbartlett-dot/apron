@@ -86,8 +86,13 @@ export interface Contract {
   /** The rule behind `restriction`, cited on the verdict. */
   restrictionCite?: string;
   /** A matched offer sheet's team, which may not acquire him for a year even
-   * with his consent (Art. XI §5(j)); lifts with `tradeableFrom`. */
+   * with his consent (Art. XI §5(j)), until `notTradeableToUntil`. */
   notTradeableTo?: string;
+  notTradeableToUntil?: string;
+  /** He can veto a trade, and why (a no-trade clause, a matched offer sheet,
+   * a one-year Bird re-sign under Art. VII §8(b)). Not a block: with his
+   * consent the trade is legal. */
+  vetoReason?: string;
   /**
    * True if the player was acquired this offseason — they cannot be aggregated
    * with other salaries in a trade for two months after being acquired.
