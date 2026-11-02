@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 // footer — they're reference pages you go looking for, not places you navigate
 // mid-build, and the header was too crowded to read at a glance.
 const NAV = [
-  { href: "/", label: "Offseason" },
+  { href: "/", label: "Trade board" },
   { href: "/guide", label: "How to play" },
   { href: "/glossary", label: "Glossary" },
   { href: "/league", label: "League" },
