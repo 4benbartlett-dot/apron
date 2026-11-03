@@ -11,8 +11,12 @@ import { TeamLogo } from "@/components/TeamLogo";
 const SIMS = 5000;
 // On a phone: rank, team, record, projection, playoffs, and the Δ only when
 // there are moves to show; range, title and top-6 wait for a wider screen.
+// The team column is minmax(0, 1fr), not 1fr: a plain 1fr can't shrink
+// below its content, and the header's "TEAM" and a row's truncated name
+// are different content, so a tight table sized the column differently per
+// row and every header drifted off its numbers (Nov 2, at 438px a side).
 const cols = (moved: boolean) =>
-  `${moved ? "grid-cols-[1.25rem_1fr_2.5rem_3rem_3.5rem_2.25rem]" : "grid-cols-[1.25rem_1fr_2.5rem_3rem_3.5rem]"} sm:grid-cols-[1.5rem_1fr_3.25rem_3.5rem_4.25rem_3.5rem_3.5rem_3rem]`;
+  `${moved ? "grid-cols-[1.25rem_minmax(0,1fr)_2.5rem_3rem_3.5rem_2.25rem]" : "grid-cols-[1.25rem_minmax(0,1fr)_2.5rem_3rem_3.5rem]"} sm:grid-cols-[1.5rem_minmax(0,1fr)_3.25rem_3.5rem_4.25rem_3.5rem_3.5rem_3rem]`;
 
 /** "97%", "<1%", "—" — odds the way a person reads them. */
 function pct(p: number): string {
@@ -57,7 +61,7 @@ function ConferenceTable({ title, rows, moved }: { title: string; rows: Row[]; m
             key={r.id}
             data-li-scope
             href={`/team/${r.id}`}
-            className={`grid ${COLS} items-center gap-2 px-3 py-2 text-[13px] hover:bg-[var(--panel-2)] ${i > 0 ? "border-t border-[var(--border)]" : ""}`}
+            className={`grid ${COLS} items-center gap-2 px-3 py-2 text-[13px] hover:bg-[var(--panel-2)] ${i % 2 ? "bg-[var(--panel-2)]/40" : ""} ${i > 0 ? "border-t border-[var(--border)]" : ""}`}
             style={i === 6 ? { borderTop: "2px solid var(--border-strong)" } : i === 10 ? { borderTop: "1px dashed var(--border-strong)" } : undefined}
           >
             <span className="tabular text-[var(--muted)]">{i + 1}</span>
@@ -115,12 +119,12 @@ export default function StandingsPage() {
   const favorite = rows.length ? [...rows].sort((a, b) => b.o.title - a.o.title)[0]! : null;
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-6xl">
       <div className="mb-1 flex items-baseline justify-between gap-3">
         <h1 className="text-[26px] font-bold leading-tight tracking-tight">The 2026-27 season, simulated</h1>
         <Link href="/" className="shrink-0 text-xs font-semibold text-[var(--accent-ink)] hover:underline">Back to the board →</Link>
       </div>
-      <p className="mb-5 text-sm leading-relaxed text-[var(--muted)]">
+      <p className="mb-5 max-w-4xl text-sm leading-relaxed text-[var(--muted)]">
         Real records through {shortDate(SEASON_2027.asOf)} ({played} games played), then the remaining {SEASON_2027.games.length - played} played out {SIMS.toLocaleString()} times.
         Each team starts from the board&rsquo;s projection of its roster and is moved by what it has actually done: a hot start nudges a team,
         and by midseason the record does most of the work.
@@ -135,12 +139,12 @@ export default function StandingsPage() {
       </p>
 
       {sim ? (
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid max-w-3xl gap-5 xl:max-w-none xl:grid-cols-2">
           <ConferenceTable title="Eastern Conference" rows={east} moved={moved} />
           <ConferenceTable title="Western Conference" rows={west} moved={moved} />
         </div>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2" aria-busy="true">
+        <div className="grid max-w-3xl gap-5 xl:max-w-none xl:grid-cols-2" aria-busy="true">
           {["Eastern Conference", "Western Conference"].map((t) => (
             <div key={t} className="rounded-lg border border-[var(--border)]">
               <div className="border-b border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-[11px] font-bold uppercase tracking-[0.08em]">{t}</div>
@@ -150,7 +154,7 @@ export default function StandingsPage() {
         </div>
       )}
 
-      <div className="mt-3 space-y-1.5 text-[11px] leading-relaxed text-[var(--muted)]">
+      <div className="mt-3 max-w-4xl space-y-1.5 text-[11px] leading-relaxed text-[var(--muted)]">
         <p>
           Sorted by projected wins. The solid line after #6 is the play-in cut, and the dashed line after #10 is the end of it. <em>Playoffs</em> counts a top-6 finish or a
           way through the play-in; <em>Range</em> is the 10th to 90th percentile of simulated win totals.
