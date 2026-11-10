@@ -972,10 +972,22 @@ for (const t of TRANSACTIONS) {
   if (!STATED_RELEASE.has(k)) STATED_RELEASE.set(k, Math.round(Number(m[1]) * 1_000_000));
 }
 
+/**
+ * What each released player's contract paid this season before it was
+ * terminated, and who released him. The dead-money row keeps only what he is
+ * still owed, and one rule turns on the salary he had: a team that signs,
+ * during the season, a player released that season from more than the
+ * mid-level amount is capped at the first apron (Art. VII §2(e)(4), row D).
+ */
+const TERMINATED = new Map<string, { playerId: string; playerName: string; team: string; salary: number }>();
+const noteTermination = (c: Contract, team: string, salary: number) =>
+  TERMINATED.set(normName(c.playerName), { playerId: c.playerId, playerName: c.playerName, team, salary });
+
 function applyReleases(contracts: Contract[]): Contract[] {
   return contracts.map((c) => {
     const k = normName(c.playerName);
     if (c.deadMoney || !RELEASED.has(k) || salaryForYear(c, YEAR) === 0) return c;
+    noteTermination(c, c.teamId, salaryForYear(c, YEAR));
     const dead = cloneContract(c);
     dead.deadMoney = true;
     const stated = STATED_RELEASE.get(k);
@@ -1179,6 +1191,7 @@ function applyInSeasonDeals(contracts: Contract[]): Contract[] {
         // row that states its own dead cap wins.
         const served = Math.min(paidDays, Math.round(daysBetween(ros.date, cut)) + 1 + WAIVER_DAYS);
         const owed = STATED_RELEASE.get(k) ?? Math.round(daily * served);
+        noteTermination(c, ros.team, Math.round(daily * paidDays));
         return {
           ...cloneContract(c),
           teamId: ros.team,
@@ -3231,8 +3244,56 @@ export interface FreeAgent {
   /** Renounced by the REAL July (feed-derived room spending) — permanent;
    * the sim can't restore a hold the team already spent. */
   renouncedInWorld?: boolean;
+  /** Released during this Regular Season: the day, and the salary his
+   * contract paid for the season before it was terminated. */
+  terminated?: { on: string; salary: number };
 }
-export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
+
+/**
+ * Art. VII §2(e)(4), row D. Signing, during the Regular Season, a player
+ * whose contract was terminated that season and paid more than the
+ * non-taxpayer mid-level is a first-apron transaction: the team can't finish
+ * over the first apron, and is capped there for the rest of the season.
+ */
+export function isRowDSigning(fa: Pick<FreeAgent, "terminated">, today: string = SIM_DATE): boolean {
+  return (
+    !!fa.terminated &&
+    isRegularSeason(today, CALENDAR) &&
+    isRegularSeason(fa.terminated.on, CALENDAR) &&
+    fa.terminated.salary > C.nonTaxpayerMLE + 1
+  );
+}
+
+/**
+ * Players the feed shows released during this Regular Season who have cleared
+ * waivers and signed nowhere since. They are free agents with no team's
+ * rights attached. A player released today or yesterday is still on waivers
+ * and is not here yet.
+ */
+function releasedThisSeason(contracts: Contract[], today: string): FreeAgent[] {
+  if (!isRegularSeason(today, CALENDAR)) return [];
+  const signed = new Set(contracts.filter((c) => !c.deadMoney && salaryForYear(c, YEAR) > 0).map((c) => c.playerId));
+  const out: FreeAgent[] = [];
+  for (const [k, t] of TERMINATED) {
+    const on = LAST_RELEASE.get(k);
+    if (!on || !RELEASED.has(k) || !isRegularSeason(on, CALENDAR)) continue;
+    if (isoPlusDays(on, WAIVER_DAYS) > today || signed.has(t.playerId)) continue;
+    out.push({
+      playerId: t.playerId,
+      playerName: t.playerName,
+      priorTeam: t.team,
+      lastSalary: t.salary,
+      hold: 0,
+      yearsOfService: EXPERIENCE[t.playerId] ?? 8,
+      birdStatus: "non_bird",
+      faType: "UFA",
+      renounced: true,
+      terminated: { on, salary: t.salary },
+    });
+  }
+  return out;
+}
+export function freeAgentsOf(contracts: Contract[], today: string = SIM_DATE): FreeAgent[] {
   const derived = contracts
     .filter(
       (c) =>
@@ -3280,7 +3341,9 @@ export function freeAgentsOf(contracts: Contract[]): FreeAgent[] {
     faType: "UFA",
     renounced: true,
   }));
-  return [...derived, ...waived].sort((a, b) => b.lastSalary - a.lastSalary);
+  const listed = new Set([...have, ...waived.map((f) => f.playerId)]);
+  const released = releasedThisSeason(contracts, today).filter((f) => !listed.has(f.playerId));
+  return [...derived, ...waived, ...released].sort((a, b) => b.lastSalary - a.lastSalary);
 }
 export function holdsByTeam(fas: FreeAgent[]): Record<string, number> {
   const out: Record<string, number> = {};
@@ -3311,6 +3374,10 @@ export type Move =
       >;
       /** Optional cash sent in the trade; row I creates a second-apron hard cap. */
       cash?: { from: string; to: string; amount: number }[];
+      /** Set when the trade was made with the board on deadline day: it was
+       * judged on Feb. 11, with the freezes that lift by then lifted. Absent =
+       * made today (or saved before trades recorded their day). */
+      day?: "deadline";
     }
   | {
       kind: "sign";
@@ -3332,6 +3399,10 @@ export type Move =
        * keeps the sheet's 5% raises, and for a year the player must consent to
        * a trade and can't be sent to this team. */
       matchedSheetFrom?: string;
+      /** He was released this season from a contract paying more than the
+       * mid-level, so signing him caps the team at the first apron for the
+       * season (Art. VII §2(e)(4), row D). */
+      rowD?: boolean;
     }
   | {
       kind: "sign_trade";
@@ -3712,12 +3783,31 @@ export function sessionHardCaps(
   const line: Record<string, number> = {};
   for (const [team, byYear] of Object.entries(sessionHardCapLevels(moves, base, today))) {
     const level = byYear[YEAR];
-    if (level) line[team] = level === "first_apron" ? C.firstApron : C.secondApron;
+    if (level) line[team] = hardCapLine(level);
   }
   return line;
 }
 
 export type HardCapLevel = "first_apron" | "second_apron";
+
+/* A hard cap is a LEVEL: which apron a team may not pass. The dollar figure is
+ * that level's apron for the season, and it is the figure salary is compared
+ * with, so both travel. They used to be converted wherever one was needed and
+ * the other was in hand, each time by comparing against the apron constants.
+ * These are the conversions, once. */
+
+/** The dollar line of a hard cap this season. No cap is no line. */
+export function hardCapLine(level: HardCapLevel | "none" | null | undefined): number {
+  return level === "first_apron" ? C.firstApron : level === "second_apron" ? C.secondApron : Infinity;
+}
+/** Which apron a hard-cap line is, or null for none. */
+export function hardCapLevelOf(line: number): HardCapLevel | null {
+  return line === C.firstApron ? "first_apron" : line === C.secondApron ? "second_apron" : null;
+}
+/** "first" or "second", for a sentence. Reads a level or a line. */
+export function hardCapOrdinal(cap: HardCapLevel | number): "first" | "second" {
+  return (typeof cap === "number" ? hardCapLevelOf(cap) : cap) === "first_apron" ? "first" : "second";
+}
 
 /** Every session hard cap by team and Salary Cap Year, as an apron LEVEL —
  * a year whose apron amounts aren't set yet can't be a dollar line. A move
@@ -3748,7 +3838,7 @@ export function sessionHardCapLevels(
     if (m.kind === "renounce") {
       renounced.add(m.playerId);
     } else if (m.kind === "sign") {
-      if (m.mechanism === "ntmle" || m.mechanism === "bae") capAt(m.teamId, "first_apron", thisYear);
+      if (m.mechanism === "ntmle" || m.mechanism === "bae" || m.rowD) capAt(m.teamId, "first_apron", thisYear);
       else if (m.mechanism === "tpmle") capAt(m.teamId, "second_apron", thisYear);
     } else if (m.kind === "sign_trade") {
       // Row C (§8(e)(1) acquisition) — not in rows E–J, so in-year only.
@@ -3852,12 +3942,7 @@ export function feedStateOf(team: string): TeamFeedState {
   return {
     roomTeam: raw.operatedUnderCap ?? false,
     consumed,
-    hardCap:
-      raw.inWorldHardCap === "first_apron"
-        ? C.firstApron
-        : raw.inWorldHardCap === "second_apron"
-          ? C.secondApron
-          : Infinity,
+    hardCap: hardCapLine(raw.inWorldHardCap),
     hardCapSource: raw.hardCapSource,
     pendingRelief: raw.pendingRelief,
     forcedRenounced: new Set((raw.forcedRenounced ?? []).map((n) => n.toLowerCase())),
@@ -3890,6 +3975,20 @@ export function consumedFor(
     out[id] = (out[id] ?? 0) + (v ?? 0);
   }
   return out;
+}
+
+/**
+ * Everything `spendingPower` needs to size a team's exceptions on the sim's
+ * day: what has been spent, how much of that was spent today on the board,
+ * and the date. After the trade deadline an unused mid-level or bi-annual is
+ * smaller by the day (Art. VII §6(n)(4)); what the session spends comes off
+ * what is left.
+ */
+export function exceptionClock(
+  moves: Move[],
+  team: string,
+): { consumed: Partial<Record<MechanismId, number>>; consumedOnDate: Partial<Record<MechanismId, number>>; date: string } {
+  return { consumed: consumedFor(moves, team), consumedOnDate: sessionExceptionUse(moves, team), date: SIM_DATE };
 }
 
 /* ---------------------- Traded-player exceptions ------------------------- */
@@ -4056,6 +4155,9 @@ export function fitTpePlan(
 }
 
 /* ------------------------ Structured rule findings ----------------------- */
+
+/** The drafts whose picks can be traded: seven years out, no further. */
+export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
 
 export interface StepienFinding {
   team: string;

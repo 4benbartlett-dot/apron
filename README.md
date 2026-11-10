@@ -47,8 +47,8 @@ live in the shared TypeScript package. App data supplies the roster and
 transaction context, and the product publishes its known approximations instead
 of hiding them.
 
-What's approximated or not yet modeled is written up in the app at
-[`/accuracy`](apps/web/app/accuracy/page.tsx).
+What the board enforces, what it estimates, and the few moves made outside
+it are written up in the app at [`/accuracy`](apps/web/app/accuracy/page.tsx).
 
 ## Stack
 

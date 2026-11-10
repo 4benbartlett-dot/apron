@@ -180,7 +180,7 @@ export function GlossaryExplorer() {
             How to play →
           </Link>
           <Link href="/accuracy" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-            Exactly what the engine enforces vs. approximates →
+            What the board enforces, and what it estimates →
           </Link>
         </div>
       </Reveal>

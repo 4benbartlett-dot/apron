@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { spendingPower } from "@apron/cba-engine";
 import { DRAFT_PICKS, PICK_RIGHTS, type OwnFirstObligation } from "@apron/data";
-import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor, exceptionClock, hardCapOrdinal } from "@/lib/league";
 import { useLeague } from "@/lib/store";
 import { fmtM, fmtFull, hardCapCause } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -36,7 +36,7 @@ export default function TeamWarRoom() {
   // Exceptions and the aprons gate on APRON salary — signed money plus the
   // CBA's add-backs (unlikely bonuses, the 0/1-YOS minimum) — not on the cap
   // number: Toronto's $201.2M sheet is $208.1M against the first apron.
-  const power = spendingPower(committed + holds, C, { apronSalary: sheet.apronSalary, roomTeam: feed.roomTeam, consumed });
+  const power = spendingPower(committed + holds, C, { apronSalary: sheet.apronSalary, roomTeam: feed.roomTeam, ...exceptionClock(lg.moves, id) });
   // The LIVE hard cap: the real-July feed AND anything the user's own staged
   // moves triggered this session (same source the board enforces). A team the
   // user just hard-capped can't cross that line with any further addition.
@@ -96,7 +96,7 @@ export default function TeamWarRoom() {
     // triggered it; attribute it so the "why" stays honest.
     const sessionTriggered = !Number.isFinite(feed.hardCap) || liveHardCap < feed.hardCap;
     const src = sessionTriggered ? "a move you've staged this session" : hardCapCause(feed.hardCapSource) ?? "";
-    canDo.push(`Hard-capped at the ${liveHardCap === C.firstApron ? "first" : "second"} apron${src ? ` — triggered by ${src}` : ""}, so it can't cross that line the rest of the season.`);
+    canDo.push(`Hard-capped at the ${hardCapOrdinal(liveHardCap)} apron${src ? ` — triggered by ${src}` : ""}, so it can't cross that line the rest of the season.`);
     // A sheet already past its own hard cap is a state the CBA does not let
     // persist, so the page has to account for it or the number reads as a bug.
     // One line: how far over, why, and what clears it. The arithmetic and the

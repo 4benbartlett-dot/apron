@@ -1,5 +1,6 @@
 import type { ApronTier, BirdStatus, LeagueConstants } from "./types";
 import { classifyTier } from "./derive";
+import { exceptionShareOn } from "./constants/calendar";
 import { maxSalaryTier, reSignMax } from "./maxsalary";
 
 export interface SigningOpts {
@@ -25,6 +26,13 @@ export interface SigningOpts {
    * feed + earlier session moves). Reduces what's left; §6(g)(3): any Room
    * MLE use also kills the other MLEs/BAE for the year. */
   consumed?: Partial<Record<MechanismId, number>>;
+  /** The day of the signing (ISO). From the day after the trade deadline an
+   * unused mid-level, room or bi-annual exception is smaller by the day
+   * (Art. VII §6(n)(4)). Absent = full size. */
+  date?: string;
+  /** The part of `consumed` spent on `date` itself. It comes off the reduced
+   * amount whole; what was spent earlier came off before the reduction. */
+  consumedOnDate?: Partial<Record<MechanismId, number>>;
 }
 
 export type MechanismId =
@@ -99,8 +107,12 @@ export function spendingPower(
   // if the roomTeam flag wasn't passed explicitly.
   const roomTeam = (opts.roomTeam ?? false) || spent("room_mle") > 0;
   const mechanisms: SignMechanism[] = [];
+  // §6(n)(4): what was unused going in shrinks; what is spent on the day
+  // comes off what is left.
+  const share = exceptionShareOn(opts.date, c.calendar);
   const push = (m: SignMechanism) => {
-    const remaining = m.maxSalary - spent(m.id);
+    const today = Math.min(opts.consumedOnDate?.[m.id] ?? 0, spent(m.id));
+    const remaining = Math.round((m.maxSalary - (spent(m.id) - today)) * share) - today;
     if (remaining >= 1_000) mechanisms.push({ ...m, maxSalary: remaining });
   };
 

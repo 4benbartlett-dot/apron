@@ -4,9 +4,9 @@ import { C } from "@/lib/league";
 import { fmtFull } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "NBA CBA Rules Coverage & Accuracy | Over the Apron",
+  title: "What the Board Enforces and What It Estimates | Over the Apron",
   description:
-    "What Over the Apron gets right about the 2023 CBA, where the public data forces an estimate, and which edge cases aren't in the board yet.",
+    "Which rules of the 2023 CBA Over the Apron enforces, where public data forces an estimate, and the few moves that happen outside the board.",
 };
 
 // Plain-language, GM-facing summaries. The rule-by-rule specifics live in the
@@ -46,13 +46,14 @@ const APPROXIMATE = [
   "Reported deals are public as a term and a total, so the first-year salary is back-solved from the raise the deal is entitled to — 8% re-signing with your own team on Bird or Early Bird rights, 5% otherwise, including matched offer sheets and anything paid with an exception. That lands the big ones exactly (Austin Reaves' 4-year max back-solves to the 25% figure to the dollar), but a deal with unusual year-to-year structure — flat, declining, or front-loaded — is smoothed into standard raises.",
 ];
 
-const NOT_INCLUDED = [
-  "Pick-swap outcomes and conditional incoming picks. You can trade swap rights on the board, but a swap never resolves to a final pick slot, and a conditional first you'd acquire isn't counted as Stepien coverage.",
-  "Claiming a waived player whose old contract was bigger than the mid-level, which should hard-cap the team at the first apron.",
-  "Renegotiating a contract into cap room.",
-  "Signing second-round-pick exceptions and two-way contracts — you can't do those from the offseason drawer yet.",
-  "Designated “supermax” extensions — you can't build one from the board yet.",
-  "The daily shrinking of the mid-level and bi-annual exceptions from January 10 (Art. VII §6(n)(4)). Until then they are full size, which is what the board shows.",
+// Moves that happen somewhere other than the board, each with the reason.
+// Not a list of rules the board gets wrong: a rule it enforces is in the fine
+// print below, and a number it estimates is in the column before this one.
+const OUTSIDE = [
+  "Renegotiations. A team with cap room can raise a player's salary once a contract of four or more seasons is three years old (Art. VII §7(c)). Public data doesn't give the day every contract was signed, so the board doesn't offer one.",
+  "Two-way contracts and a draft pick's first contract. A two-way counts against neither the cap nor the fifteen-man roster, and a pick signs with the team that drafted him, under the rookie scale or the second-round exception. Both are booked from the transaction feed when they happen; the board signs free agents to standard contracts.",
+  "Waiver claims. A released player goes on waivers for two days, and the board adds him to the free-agent list when he clears.",
+  "What a pick swap turns into. A swap is traded as a right, and the pick it becomes is settled by that season's standings. A first-round pick that might not convey isn't counted as a team's pick for that year under the Stepien rule, because the rule asks whether a team could be left without one.",
 ];
 
 // The rule-by-rule specifics, grouped. Collapsed by default — transparency for
@@ -118,6 +119,9 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     group: "Roster, timing & the real 2026 offseason",
     items: [
       "Roster limits follow the calendar: 21 players in the offseason with a 15-by-opening-night warning, and a hard 15 standard contracts once the season starts. Sign-and-trades close on the first day of the regular season (Art. VII §8(e)(1)(v)).",
+      "Extensions follow it too. Once the season starts, only a contract in its last season can be extended; one with more seasons left waits for July (Art. VII §7(a)(1)). A designated veteran extension, the 35% “supermax”, can be signed only in the offseason, so no in-season extension starts above the player's ordinary maximum.",
+      "A player released during the season joins the free-agent list when he clears waivers, two days later. If the contract he was released from paid more than the mid-level amount, only a team that stays under the first apron can sign him, and signing him caps it there for the season (Art. VII §2(e)(4), row D).",
+      "The mid-level and bi-annual exceptions are full size through the trade deadline. From the day after it, each is smaller by every day since January 10, a 174th of its January 10 balance per day (Art. VII §6(n)(4)).",
       "Contracts signed during the season are paid by the day, on the real ledger and on the board: a minimum signed in season is the minimum salary times the days left over the season's 174 (Art. I §1(kk)(ii)), a 10-day is ten of them, and a player waived off a contract that isn't guaranteed leaves only the days he was paid for, through two on waivers. From January 10 a contract still on a roster is guaranteed for the season.",
       "Trade freezes, each with the day it lifts: 30 days for rookie signings, the later of Dec. 15 and three months for free-agent signings, the later of Jan. 15 and three months for over-cap Bird re-signs above 120%, six months for veteran extensions past extend-and-trade limits, and two months before a player acquired by trade can be combined with other salaries (or the day before the deadline, for one acquired by December 16: the proviso in Art. VII §6(j)(4)(i)). The board trades as of today or the trade deadline, and a freeze you create on the board (a signing, an extension, a player you trade for) is dated from today the same way, so it lifts in deadline mode when the rule says it would. Which re-signs fall under the Jan. 15 rule, and who can veto a trade, follow reporting, since public data doesn't show Bird rights.",
       "Real July signings are matched to the exception they actually used, so a deal above the bi-annual ceiling but below the mid-level is treated as mid-level use when the team's situation requires it.",
@@ -149,33 +153,33 @@ export default function AccuracyPage() {
   return (
     <div>
       <div className="mb-5">
-        <h1 className="text-2xl font-bold tracking-tight">Rules coverage &amp; accuracy</h1>
+        <h1 className="text-2xl font-bold tracking-tight">What the board enforces, and what it estimates</h1>
         <p className="mt-1 max-w-2xl text-sm text-[var(--muted)]">
-          What Over the Apron gets right about the 2023 CBA, where the public data forces an estimate, and what isn&rsquo;t in the board yet. Rosters and transactions are current to {DATA_AS_OF}.
+          Which rules of the 2023 CBA the board enforces, where public data forces an estimate, and the few moves that happen outside it. Rosters and transactions are current to {DATA_AS_OF}.
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Section
-          title="What's covered"
+          title="What it enforces"
           color="var(--tier-below_cap)"
           mark="✓"
           items={COVERED}
           note="Enforced every time you build a trade or a signing."
         />
         <Section
-          title="What's approximate"
+          title="What it estimates"
           color="var(--tier-taxpayer)"
           mark="~"
           items={APPROXIMATE}
-          note="Directionally right, but limited by what public data makes available — and flagged where it matters."
+          note="Limited by what public data makes available, and flagged where it matters."
         />
         <Section
-          title="Not in the board yet"
-          color="var(--tier-second_apron)"
-          mark="✗"
-          items={NOT_INCLUDED}
-          note="Real rules or data we haven't wired into the offseason board yet."
+          title="Outside the board"
+          color="var(--muted)"
+          mark="·"
+          items={OUTSIDE}
+          note="Four things that happen somewhere else, and why."
         />
       </div>
 

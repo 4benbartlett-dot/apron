@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { validateSigning, validateTrade, teamSalary, type Contract } from "@apron/cba-engine";
-import { BASE_CONTRACTS, C, SIM_DATE, sessionHardCaps, sessionHardCapLevels, leagueData, TEAM_IDS, type Move } from "@/lib/league";
+import { BASE_CONTRACTS, C, SIM_DATE, sessionHardCaps, sessionHardCapLevels, leagueData, TEAM_IDS, feedStateOf, hardCapLine, hardCapLevelOf, hardCapOrdinal, type Move } from "@/lib/league";
 
 // Reported by @SF_DavidGio on launch day: a trade taking back more than 100%
 // (expanded matching) hard-caps the team at the first apron for the YEAR, but
@@ -205,5 +205,28 @@ describe("apron split — holds gate room, never tier (reviewer coupling note)",
     // With enough holds, absorption collapses (only the expanded formula on
     // $0 outgoing remains: $250k tier-1 floor).
     expect(tr(0)).toBeGreaterThan(tr(35_000_000));
+  });
+});
+
+// A hard cap is a level (which apron) and a line (that apron in dollars).
+// The two were converted in fifteen places, each by comparing against the
+// apron constants. The conversions are written once now, and these pin them.
+describe("a hard cap's level and its line", () => {
+  it("convert both ways, and no cap is no line", () => {
+    expect(hardCapLine("first_apron")).toBe(C.firstApron);
+    expect(hardCapLine("second_apron")).toBe(C.secondApron);
+    for (const none of [null, undefined, "none"] as const) expect(hardCapLine(none)).toBe(Infinity);
+    expect(hardCapLevelOf(C.firstApron)).toBe("first_apron");
+    expect(hardCapLevelOf(C.secondApron)).toBe("second_apron");
+    expect(hardCapLevelOf(Infinity)).toBeNull();
+    expect(hardCapOrdinal("first_apron")).toBe("first");
+    expect(hardCapOrdinal(C.secondApron)).toBe("second");
+  });
+
+  it("every cap the feed reports is one of the two lines, or none", () => {
+    for (const team of TEAM_IDS) {
+      const line = feedStateOf(team).hardCap;
+      if (Number.isFinite(line)) expect(hardCapLevelOf(line), team).not.toBeNull();
+    }
   });
 });

@@ -115,6 +115,51 @@ export function seasonDaysLeft(date: string, cal: LeagueCalendar): number {
   return daysApart(from, cal.regularSeasonEnd) + 1;
 }
 
+/**
+ * The share of an unused exception left on `date` (Art. VII §6(n)(4)). From
+ * January 10 the mid-level, room and bi-annual exceptions lose one
+ * Regular-Season day's worth of their January 10 balance each day. The
+ * reduction does not apply to a team using the exception from January 10
+ * through the trade deadline, so the full amount is available until the day
+ * after the deadline, when every day since January 10 comes off at once:
+ * 34 of 174 on Feb. 12, 2027. It stops with the Regular Season.
+ */
+export function exceptionShareOn(date: string | undefined, cal: SeasonCalendar | undefined): number {
+  if (!date || !isLeagueCalendar(cal) || date <= cal.tradeDeadline) return 1;
+  const through = date > cal.regularSeasonEnd ? cal.regularSeasonEnd : date;
+  // The agreement names January 10 twice: here, and as the day contracts
+  // become guaranteed for the season. The calendar writes it once.
+  const days = daysApart(cal.guaranteeDate, through) + 1;
+  return Math.max(0, 1 - days / regularSeasonDays(cal));
+}
+
+/**
+ * Whether a veteran extension may be signed on `date` (Art. VII §7(a)(1)).
+ * An extension signed more than a year before the July 1 that precedes its
+ * first season can only be signed in the offseason: July 1 through the day
+ * before the Regular Season. `firstExtendedSeason` is the first season of the
+ * extended term ("2028-29"). In practice: once the season starts, only a
+ * contract in its last season can be extended.
+ */
+export function veteranExtensionOpenOn(
+  date: string,
+  firstExtendedSeason: string,
+  cal: LeagueCalendar,
+): { open: boolean; offseasonOnly: boolean } {
+  // The July 1 a year before the one that precedes the extended term.
+  const yearBefore = `${Number(firstExtendedSeason.slice(0, 4)) - 1}-07-01`;
+  const offseasonOnly = date < yearBefore;
+  return { open: !offseasonOnly || isOffseason(date, cal), offseasonOnly };
+}
+
+/** July 1 through the day before the Regular Season: the "off-season" of
+ * Art. VII §7(a)(1), when a designated veteran extension, and any extension
+ * that starts more than a season out, may be signed. */
+export function isOffseason(date: string, cal: LeagueCalendar): boolean {
+  const phase = leaguePhaseOn(date, cal);
+  return phase === "offseason" || phase === "camp";
+}
+
 /** The last day of the most recent Regular Season to have ended by `date`,
  * across the calendars given, or null if none has. A traded-player exception
  * that arose on or before it is one whose first-apron limit has attached. */

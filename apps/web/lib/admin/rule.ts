@@ -1,40 +1,31 @@
 import {
-  validateTrade,
   validateSigning,
   spendingPower,
   classifyTier,
-  violatesStepien,
   teamSalary as engTeamSalary,
   type TeamTradeSummary,
   type MechanismId,
   type ContractYear,
 } from "@apron/cba-engine";
-import { ACQUIRED_PICKS, hasAcquiredFirst } from "@apron/data";
 import {
   BASE_CONTRACTS,
   C,
   YEAR,
   leagueData,
   freeAgentsOf,
-  holdsByTeam,
-  tpeLedger,
-  fitTpePlan,
   feedStateOf,
-  consumedFor,
   teamMeta,
-  lockedFirstEncumbrance,
-  stepienFindingFor,
-  hardCapDetailFor,
   currentSalary,
   computeWaive,
   deemedMinSalary,
   dealFromAav,
   raiseFor,
   experienceOf,
-  SIM_DATE,
+  SIM_DATE, exceptionClock, hardCapLine,
 } from "@/lib/league";
 import { buildDocket, buildChecks, tradeConsequences, tierConsequence, type DocketTeam, type DocketCheck, type MoveConsequence } from "@/lib/docket";
 import { fmtM, hardCapCause } from "@/lib/format";
+import { ruleOnBaseTrade, baseHolds } from "@/lib/verdict";
 
 /**
  * The desk's rulings, over the base (feed-reconciled) league — the same
@@ -45,14 +36,6 @@ import { fmtM, hardCapCause } from "@/lib/format";
  * world, not an offseason someone is playing in their browser.
  */
 
-const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
-
-const baseHolds = () => {
-  const fas = freeAgentsOf(BASE_CONTRACTS).filter(
-    (f) => !feedStateOf(f.priorTeam).forcedRenounced.has(f.playerName.toLowerCase()),
-  );
-  return holdsByTeam(fas);
-};
 
 export interface TradeInput {
   players: { playerId: string; from: string; to: string }[];
@@ -78,57 +61,19 @@ export function ruleTrade(input: TradeInput): TradeRuling | null {
   const cash = input.cash.filter((c) => c.from !== c.to && c.amount > 0);
   const teams = [...new Set([...players.flatMap((p) => [p.from, p.to]), ...picks.flatMap((p) => [p.from, p.to]), ...cash.flatMap((c) => [c.from, c.to])])].sort();
   if (!teams.length) return null;
-  const data = leagueData(BASE_CONTRACTS);
-  const holds = baseHolds();
   // A trade filed at the desk is made on the data's day (see newsDay.ts for
-  // what an undated trade gets wrong).
-  let trade = { teams, players, capHolds: holds, date: SIM_DATE, ...(cash.length ? { cash } : {}) };
-  let v = validateTrade(data, trade, C);
-  let tpeUse: TradeRuling["tpeUse"];
-  if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {
-    const incomingByTeam: Record<string, { playerId: string; salary: number }[]> = {};
-    for (const p of players) {
-      const c = BASE_CONTRACTS.find((x) => x.playerId === p.playerId);
-      (incomingByTeam[p.to] ??= []).push({ playerId: p.playerId, salary: c ? currentSalary(c) : 0 });
-    }
-    const plan = fitTpePlan(v.teams, incomingByTeam, tpeLedger([]));
-    if (plan) {
-      trade = { ...trade, tpeUse: plan } as typeof trade;
-      const retry = validateTrade(data, { ...trade, tpeUse: plan }, C);
-      if (retry.legal) {
-        v = retry;
-        tpeUse = plan;
-      }
-    }
-  }
-
-  const problems: string[] = [];
-  // Stepien, against the real ledger, the way the share cards read it.
-  for (const teamId of teams) {
-    const outs = new Set(picks.filter((p) => p.from === teamId).map((p) => p.id));
-    const ins = new Set(picks.filter((p) => p.to === teamId && p.id.endsWith("|1")).map((p) => Number(p.id.split("|")[1])));
-    const coveredByAcquired = (y: number) =>
-      ACQUIRED_PICKS.some((ap) => ap.team === teamId && ap.round === 1 && ap.year === y && !outs.has(ap.id)) ||
-      (y === 2033 && hasAcquiredFirst(teamId, 2033));
-    const uncovered: number[] = [];
-    for (const y of PICK_YEARS) {
-      const ownGone = outs.has(`${teamId}|${y}|1`) || lockedFirstEncumbrance(teamId, y) !== undefined;
-      if (ownGone && !ins.has(y) && !coveredByAcquired(y)) uncovered.push(y);
-    }
-    if (lockedFirstEncumbrance(teamId, 2033) && !coveredByAcquired(2033)) uncovered.push(2033);
-    if (!violatesStepien(uncovered)) continue;
-    const outYears = picks.filter((p) => p.from === teamId && p.id.endsWith("|1")).map((p) => Number(p.id.split("|")[1]));
-    const f = stepienFindingFor(teamId, uncovered, outYears);
-    if (f) problems.push(f.message);
-  }
-  // A hard cap the real July already set binds this deal too.
-  for (const t of v.teams) {
-    const d = hardCapDetailFor(t.teamId, Infinity);
-    if (d && t.postTradeSalary > d.line + 1)
-      problems.push(
-        `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(d.line)} all season${d.label ? ` by ${hardCapCause(d.label)}` : ""}; this trade would put them at ${fmtM(t.postTradeSalary)}.`,
-      );
-  }
+  // what an undated trade gets wrong). Ruled on by the assembly the share
+  // card uses, so the two can't disagree about the same trade.
+  const ruling = ruleOnBaseTrade({ teams, players, picks, cash, date: SIM_DATE });
+  const v = ruling.verdict;
+  const tpeUse: TradeRuling["tpeUse"] = ruling.trade.tpeUse;
+  const problems: string[] = [
+    ...ruling.stepien.map((f) => f.message),
+    ...ruling.hardCaps.map(
+      ({ team, detail, postTradeSalary }) =>
+        `${teamMeta(team).name} is hard-capped at ${fmtM(detail.line)} all season${detail.label ? ` by ${hardCapCause(detail.label)}` : ""}; this trade would put them at ${fmtM(postTradeSalary)}.`,
+    ),
+  ];
 
   const nameOf = (id: string) => BASE_CONTRACTS.find((c) => c.playerId === id)?.playerName ?? id;
   const salaryOf = (id: string) => {
@@ -150,6 +95,7 @@ export function ruleTrade(input: TradeInput): TradeRuling | null {
     extraViolations: problems,
     hasFirsts: picks.some((p) => p.id.endsWith("|1")),
   });
+  const holds = ruling.trade.capHolds ?? {};
   const consequences = tradeConsequences(v.teams, tpeUse, (t) => holds[t] ?? 0, v.checks as never);
   return { legal, teams, summaries: v.teams, docket, checks, consequences, problems, tpeUse };
 }
@@ -194,7 +140,7 @@ export function ruleSigning(input: SigningInput): SigningRuling {
     birdStatus: isOwn ? fa?.birdStatus : undefined,
     apronSalary: before,
     roomTeam: feed.roomTeam,
-    consumed: consumedFor([], team),
+    ...exceptionClock([], team),
   };
   const power = spendingPower(before + (holds[team] ?? 0), C, opts);
   const v = validateSigning(before + (holds[team] ?? 0), input.y1, C, opts);
@@ -234,7 +180,7 @@ export function ruleSigning(input: SigningInput): SigningRuling {
   });
   const hardLine = Math.min(
     feed.hardCap,
-    chosen?.hardCap === "first_apron" ? C.firstApron : chosen?.hardCap === "second_apron" ? C.secondApron : Infinity,
+    hardCapLine(chosen?.hardCap),
   );
   if (Number.isFinite(hardLine)) {
     const room = hardLine - after;
@@ -247,7 +193,7 @@ export function ruleSigning(input: SigningInput): SigningRuling {
           : `${fmtM(-room)} over the ${fmtM(hardLine)} hard cap from ${source}.`,
     });
   }
-  if (chosen?.hardCap && feed.hardCap > (chosen.hardCap === "first_apron" ? C.firstApron : C.secondApron))
+  if (chosen?.hardCap && feed.hardCap > hardCapLine(chosen.hardCap))
     consequences.push({
       team,
       severity: "cap",

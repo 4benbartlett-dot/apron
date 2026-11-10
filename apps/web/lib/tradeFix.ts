@@ -8,6 +8,7 @@ import {
 } from "@apron/cba-engine";
 import { fmtM } from "./format";
 import { teamMeta } from "./league";
+import type { ExtraBlock } from "./verdict";
 
 export interface BlockedExplainer {
   /** Why this team is subject to these limits — the tier, with numbers. */
@@ -108,7 +109,7 @@ function shedToEscape(t: TeamTradeSummary, c: LeagueConstants, holds = 0): { she
  * ban is based on POST-trade salary (Art. VII §2(e)(2)(i)(A)). */
 export function explainBlocked(
   verdict: TradeVerdict,
-  extraViolations: string[],
+  extraViolations: readonly ExtraBlock[],
   c: LeagueConstants,
   /** Kept free-agent holds per team — they consume below-cap absorption
    * room, so "add more outgoing" scans must not assume phantom space. */
@@ -249,26 +250,23 @@ export function explainBlocked(
     }
   }
 
+  // What kind of block each one is comes from the block, not from its
+  // wording. (This used to match the sentences, so a reworded message lost
+  // its advice: the admin desk's hard-cap sentence never matched.)
   for (const ev of extraViolations) {
-    if (/hard-capped .* by a real move this offseason/i.test(ev)) {
-      // Real-world cap — nothing in the sim to undo.
+    if (ev.kind === "hard_cap") {
       push(
         null,
-        "That hard cap comes from a real move the team already made, so there's nothing to undo — send out more salary in this deal, or route the incoming player to a team with room under its line.",
+        ev.source === "real"
+          ? // Real-world cap — nothing in the sim to undo.
+            "That hard cap comes from a real move the team already made, so there's nothing to undo — send out more salary in this deal, or route the incoming player to a team with room under its line."
+          : "That hard cap came from a move you already made this offseason (check the moves bar) — undo it, or shrink this deal to fit under the line it froze.",
       );
-    } else if (/hard-capped .* from a move you made|hard-capped .* from an earlier move/i.test(ev)) {
+    } else if (ev.kind === "stepien") {
       push(
         null,
-        "That hard cap came from a move you already made this offseason (check the moves bar) — undo it, or shrink this deal to fit under the line it froze.",
-      );
-    }
-    if (/Stepien/i.test(ev)) {
-      const owed = ev.match(/(\d{4}) first is already owed/)?.[1];
-      const offending = ev.match(/trading the (\d{4}) first/i)?.[1];
-      push(
-        null,
-        owed && offending
-          ? `The ${owed} first is already gone in the real world — that's fixed. Swap the outgoing ${offending} first to a non-consecutive year (or a second) and the Stepien rule is satisfied.`
+        ev.owedYear !== undefined && ev.offendingYear !== undefined
+          ? `The ${ev.owedYear} first is already gone in the real world — that's fixed. Swap the outgoing ${ev.offendingYear} first to a non-consecutive year (or a second) and the Stepien rule is satisfied.`
           : "Keep a first in every other draft: swap one of the outgoing firsts to a non-consecutive year (or a second) and the Stepien rule is satisfied.",
       );
     }

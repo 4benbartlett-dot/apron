@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import type { Transaction, TeamPickRights, FeedTeamState, Issue, SchemaId } from "@apron/data";
 import type { ContractYear } from "@apron/cba-engine";
 import { assertAdmin } from "@/lib/admin/gate";
-import { readJson, readRaw, writeJson, type WriteResult } from "@/lib/admin/files";
+import { readJson, readRaw, writeJson, writeJsonAll, type WriteResult } from "@/lib/admin/files";
 import { commitData, dataDiff, dataStatus, type CommitInfo, type DirtyFile } from "@/lib/admin/git";
 import { CHECKS, runCheck, type CheckResult } from "@/lib/admin/checks";
 import { applyPickTransfer, parsePickId } from "@/lib/admin/picks";
@@ -127,11 +127,24 @@ export async function addContractStub(row: Record<string, unknown>): Promise<Act
 
 /* ----------------------------- curated moves ------------------------------ */
 
-async function appendMoves(rows: Transaction[]): Promise<WriteResult> {
+/** manual-moves.json with `rows` added. Newest first, like the feed. */
+async function movesWith(rows: Transaction[]): Promise<{ note?: string; transactions: Transaction[] }> {
   const f = await readJson<{ note?: string; transactions: Transaction[] }>("manual-moves.json");
-  // Newest first, like the feed.
   f.transactions = [...rows, ...f.transactions];
-  return writeJson("manualMoves", f);
+  return f;
+}
+
+async function appendMoves(rows: Transaction[]): Promise<WriteResult> {
+  return writeJson("manualMoves", await movesWith(rows));
+}
+
+/** The files a filing failed on, named, with their issues. */
+function filingRefused(results: WriteResult[]) {
+  const bad = results.filter((r) => r.issues.length);
+  return fail(
+    `${bad.map((r) => r.file).join(" and ")} failed validation. Nothing was written.`,
+    bad.flatMap((r) => r.issues),
+  );
 }
 
 export async function appendManualMoves(rows: Transaction[]): Promise<ActionResult<WriteResult>> {
@@ -178,6 +191,7 @@ export async function fileTrade(f: FiledTrade): Promise<ActionResult<{ rows: Tra
     // Picks first: a transfer the ledger refuses (a first already owed, or one
     // the sender does not hold) should stop the filing before any row lands.
     let picksMoved = 0;
+    const files: { id: SchemaId; value: unknown }[] = [];
     if (f.picks.length) {
       const pr = await readJson<{ source: string; byTeam: Record<string, TeamPickRights> }>("pick-rights-2026.json");
       let byTeam = pr.byTeam;
@@ -194,13 +208,12 @@ export async function fileTrade(f: FiledTrade): Promise<ActionResult<{ rows: Tra
         });
         picksMoved++;
       }
-      const w = await writeJson("pickRights", { ...pr, byTeam });
-      if (!w.written) return fail("pick-rights-2026.json failed validation — nothing written.", w.issues);
+      files.push({ id: "pickRights", value: { ...pr, byTeam } });
     }
-    if (rows.length) {
-      const w = await appendMoves(rows);
-      if (!w.written) return fail("manual-moves.json failed validation — the pick ledger was already updated; fix and re-file the rows.", w.issues);
-    }
+    if (rows.length) files.push({ id: "manualMoves", value: await movesWith(rows) });
+    // The picks and the rows are one filing: both files, or neither.
+    const w = await writeJsonAll(files);
+    if (!w.written) return filingRefused(w.results);
     refresh();
     return {
       ok: true,
@@ -218,6 +231,7 @@ export interface FiledSigning extends SigningFiling {
 export async function fileSigning(f: FiledSigning): Promise<ActionResult<{ row: Transaction }>> {
   return wrap(async () => {
     const row = signingRow(f, city);
+    const files: { id: SchemaId; value: unknown }[] = [];
     if (f.consume) {
       const fs = await readJson<{ asOf: string; note?: string; teams: Record<string, FeedTeamState> }>("feed-team-state.json");
       const s = (fs.teams[f.team] ??= {});
@@ -231,11 +245,12 @@ export async function fileSigning(f: FiledSigning): Promise<ActionResult<{ row: 
       const when = feedDate(f.date);
       s.rationale = `${s.rationale ? `${s.rationale} ` : ""}${when} (desk): ${f.player.name} ${f.years}y/$${(f.total / 1e6).toFixed(2)}M via ${MECHANISM_TEXT[f.consume.mechanism]} — ${f.why}`;
       if (fs.asOf < f.date) fs.asOf = f.date;
-      const w = await writeJson("feedTeamState", fs);
-      if (!w.written) return fail("feed-team-state.json failed validation — nothing written.", w.issues);
+      files.push({ id: "feedTeamState", value: fs });
     }
-    const w = await appendMoves([row]);
-    if (!w.written) return fail("manual-moves.json failed validation.", w.issues);
+    files.push({ id: "manualMoves", value: await movesWith([row]) });
+    // The exception and the row are one filing: both files, or neither.
+    const w = await writeJsonAll(files);
+    if (!w.written) return filingRefused(w.results);
     refresh();
     return { ok: true, value: { row }, message: `Filed ${f.player.name} to ${f.team}${f.consume ? " and booked the exception" : ""}.` };
   });
@@ -281,8 +296,9 @@ export interface FiledExtension extends ExtensionFiling {
  * never books extension years); the ledger row is the record of it. */
 export async function fileExtension(f: FiledExtension): Promise<ActionResult<{ row: Transaction }>> {
   return wrap(async () => {
-    const file = f.source.id === "contracts" ? "contracts-2025-26.json" : f.source.id === "extraContracts" ? "extra-contracts.json" : "rookies-2026.json";
-    const json = await readJson<unknown>(file);
+    const json = await readJson<unknown>(
+      f.source.id === "contracts" ? "contracts-2025-26.json" : f.source.id === "extraContracts" ? "extra-contracts.json" : "rookies-2026.json",
+    );
     const rows: Record<string, unknown>[] =
       f.source.id === "contracts" ? (json as { contracts: Record<string, unknown>[] }).contracts
       : f.source.id === "extraContracts" ? (json as { players: Record<string, unknown>[] }).players
@@ -293,11 +309,13 @@ export async function fileExtension(f: FiledExtension): Promise<ActionResult<{ r
     const have = new Set(years.map((y) => y.leagueYear));
     for (const y of f.newYears) if (have.has(y.leagueYear)) return fail(`${y.leagueYear} is already on the contract.`);
     cur.years = [...years, ...f.newYears].sort((a, b) => a.leagueYear.localeCompare(b.leagueYear));
-    const w = await writeJson(f.source.id, json);
-    if (!w.written) return fail(`${file} failed validation.`, w.issues);
     const row = extensionRow(f, city);
-    const w2 = await appendMoves([row]);
-    if (!w2.written) return fail("The years were written, but manual-moves.json failed validation.", w2.issues);
+    // The new seasons and the row are one filing: both files, or neither.
+    const w = await writeJsonAll([
+      { id: f.source.id, value: json },
+      { id: "manualMoves", value: await movesWith([row]) },
+    ]);
+    if (!w.written) return filingRefused(w.results);
     refresh();
     return { ok: true, value: { row }, message: `Extended ${f.player.name} by ${f.newYears.length} season${f.newYears.length === 1 ? "" : "s"}.` };
   });

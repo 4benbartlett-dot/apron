@@ -24,9 +24,9 @@ import {
 import { track } from "./analytics";
 import { sanitizeMoves } from "./moveGuard";
 import { MOVES_KEY, MOVES_BACKUP_KEY } from "./storageKeys";
-import { lockedFirstEncumbrance, sessionHardCaps, feedStateOf } from "./league";
+import { lockedFirstEncumbrance, sessionHardCaps, feedStateOf, PICK_YEARS } from "./league";
 
-export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
+export { PICK_YEARS };
 export { lockedFirstEncumbrance } from "./league";
 
 export interface OwnedPick {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   useMoves,
   undoMove,
@@ -12,6 +12,7 @@ import {
   restoreOwnSession,
 } from "@/lib/store";
 import { BOARD_KEY } from "@/lib/storageKeys";
+import { auditLedger } from "@/lib/ledgerAudit";
 import { leagueToast } from "@/components/SiteEggs";
 import { OffseasonRecapModal } from "@/components/OffseasonRecapModal";
 
@@ -38,6 +39,12 @@ export function GmBar() {
   useEffect(() => {
     hydrateMoves();
   }, []);
+  // Each move was checked against the moves before it. Taking one out leaves
+  // the later ones standing on a league they weren't checked against, so the
+  // ledger is re-judged whenever it changes.
+  const issues = useMemo(() => auditLedger(moves), [moves]);
+  const issueAt = (i: number) => issues.find((x) => x.index === i)?.text;
+  const ledgerIssues = issues.filter((x) => x.index === null);
   // Nothing on the board and nothing of the visitor's to bring back.
   if (!moves.length && !mine) return null;
 
@@ -63,11 +70,23 @@ export function GmBar() {
     <div className="no-print safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-[var(--border)] bg-[var(--panel)]/95 backdrop-blur">
       {open && (
         <div className="mx-auto max-h-64 max-w-7xl overflow-y-auto px-5 pt-3">
+          {ledgerIssues.map((x) => (
+            <p key={x.text} className="mb-1 rounded-md border border-[var(--tier-second_apron)] px-3 py-1.5 text-xs font-semibold text-[var(--tier-second_apron)]">
+              {x.text}
+            </p>
+          ))}
           {moves.map((m, i) => (
             <div key={i} className="mb-1 flex items-center justify-between gap-2 rounded-md bg-[var(--panel-2)] px-3 py-1.5 text-xs">
-              <span className="min-w-0 truncate">
-                <span className="tabular mr-1.5 text-[var(--muted)]">{i + 1}.</span>
-                {m.label}
+              <span className="min-w-0">
+                <span className="block truncate">
+                  <span className="tabular mr-1.5 text-[var(--muted)]">{i + 1}.</span>
+                  {m.label}
+                </span>
+                {issueAt(i) && (
+                  <span className="mt-0.5 block text-[11.5px] leading-snug text-[var(--tier-second_apron)]">
+                    <span className="font-semibold">No longer holds.</span> {issueAt(i)}
+                  </span>
+                )}
               </span>
               <button
                 onClick={() => removeMoveAt(i)}
@@ -108,6 +127,18 @@ export function GmBar() {
         >
           <span key={moves.length} className="count-pop">{moves.length}</span> {open ? "▾" : "▸"}
         </button>
+        {issues.length > 0 && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(true);
+            }}
+            title="A move on file no longer holds up against the ones before it. Open the list to see which."
+            className="shrink-0 rounded-[4px] border border-[var(--tier-second_apron)] px-1.5 py-0.5 text-[11px] font-bold text-[var(--tier-second_apron)]"
+          >
+            {issues.length} to check
+          </button>
+        )}
         <div className="min-w-0 flex-1 truncate text-xs text-[var(--muted)]">
           {moves
             .slice(-3)

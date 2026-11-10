@@ -2,7 +2,7 @@ import Link from "next/link";
 import { capSheet as engCapSheet } from "@apron/cba-engine";
 import { DATA_AS_OF, LEAGUE_RULINGS, TRANSACTIONS } from "@apron/data";
 import ext from "../../../../packages/data/src/external-cap-check.json";
-import { BASE_CONTRACTS, C, TEAMS, leagueData, rosterOf, deadMoneyOf, freeAgentsOf, holdsByTeam, feedStateOf, teamNickname, byNickname, currentSalary } from "@/lib/league";
+import { BASE_CONTRACTS, C, TEAMS, leagueData, rosterOf, deadMoneyOf, freeAgentsOf, holdsByTeam, feedStateOf, teamNickname, byNickname, currentSalary, hardCapLevelOf } from "@/lib/league";
 import { fmtM, hardCapCause } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
@@ -131,8 +131,8 @@ export default async function AdminHome() {
                     <td className="tabular text-right">{fmtM(r.sheet.spaceBelowFirstApron)}</td>
                     <td className="text-[11.5px]">
                       {Number.isFinite(r.feed.hardCap) ? (
-                        <span style={{ color: r.feed.hardCap === C.firstApron ? "var(--tier-first_apron)" : "var(--tier-second_apron)" }}>
-                          {r.feed.hardCap === C.firstApron ? "1A" : "2A"}
+                        <span style={{ color: hardCapLevelOf(r.feed.hardCap) === "first_apron" ? "var(--tier-first_apron)" : "var(--tier-second_apron)" }}>
+                          {hardCapLevelOf(r.feed.hardCap) === "first_apron" ? "1A" : "2A"}
                           <span className="text-[var(--muted)]"> · {hardCapCause(r.feed.hardCapSource)}</span>
                         </span>
                       ) : r.feed.roomTeam ? (

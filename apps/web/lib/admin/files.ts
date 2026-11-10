@@ -184,6 +184,59 @@ export async function writeJson(id: SchemaId, value: unknown, opts: { force?: bo
   return { file, issues, written: true, bytes: Buffer.byteLength(text) };
 }
 
+/**
+ * Write several files as one filing: all of them, or none.
+ *
+ * A trade moves picks in one file and adds rows to another; a signing books
+ * an exception in one and a row in another. Written one after the other, a
+ * second file that failed its schema left the first already changed: picks
+ * moved for a trade with no rows, an exception spent on a signing nobody
+ * filed. Here every file is validated before any is touched, every new
+ * version is on disk as a temp file before the first one is swapped in, and
+ * if a swap fails the ones already made are put back.
+ */
+export async function writeJsonAll(entries: { id: SchemaId; value: unknown }[]): Promise<{ written: boolean; results: WriteResult[] }> {
+  const teams = await teamSet();
+  const staged: { file: string; path: string; tmp: string; issues: Issue[]; original: string | undefined; text: string }[] = [];
+  for (const e of entries) {
+    const file = DATA_SCHEMAS[e.id].file;
+    const path = dataPath(file);
+    let original: string | undefined;
+    try {
+      original = await readFile(path, "utf8");
+    } catch {
+      original = undefined;
+    }
+    staged.push({
+      file,
+      path,
+      tmp: `${path}.${process.pid}.tmp`,
+      issues: validateDataFile(e.id, e.value, { teams }),
+      original,
+      text: formatJson(e.value, original),
+    });
+  }
+  if (staged.some((s) => s.issues.length)) {
+    return { written: false, results: staged.map((s) => ({ file: s.file, issues: s.issues, written: false, bytes: 0 })) };
+  }
+  const swapped: typeof staged = [];
+  try {
+    for (const s of staged) await writeFile(s.tmp, s.text, "utf8");
+    for (const s of staged) {
+      await rename(s.tmp, s.path);
+      swapped.push(s);
+    }
+  } catch (err) {
+    for (const s of swapped) {
+      if (s.original !== undefined) await writeFile(s.path, s.original, "utf8").catch(() => {});
+      else await unlink(s.path).catch(() => {});
+    }
+    for (const s of staged) await unlink(s.tmp).catch(() => {});
+    throw err;
+  }
+  return { written: true, results: staged.map((s) => ({ file: s.file, issues: [], written: true, bytes: Buffer.byteLength(s.text) })) };
+}
+
 export interface FileValidation {
   id: SchemaId;
   file: string;

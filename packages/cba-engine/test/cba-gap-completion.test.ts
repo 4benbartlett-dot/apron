@@ -270,7 +270,23 @@ describe("new callable rule helpers", () => {
   it("models Higher Max / designated veteran gates from honors and service", () => {
     const met = meetsHigherMaxCriteria({ mostRecentSeason: 2026, allNbaSeasons: [2026] });
     expect(met).toBe(true);
-    expect(designatedVeteranMaxPct({ yearsOfService: 8, remainedWithOriginalTeamThroughFirstFourYears: true, higherMaxCriteriaMet: met })).toBe(0.35);
-    expect(designatedVeteranMaxPct({ yearsOfService: 8, remainedWithOriginalTeamThroughFirstFourYears: false, higherMaxCriteriaMet: met })).toBe(0.3);
+    expect(designatedVeteranMaxPct({ kind: "contract", yearsOfService: 8, remainedWithOriginalTeamThroughFirstFourYears: true, higherMaxCriteriaMet: met })).toBe(0.35);
+    expect(designatedVeteranMaxPct({ kind: "contract", yearsOfService: 8, remainedWithOriginalTeamThroughFirstFourYears: false, higherMaxCriteriaMet: met })).toBe(0.3);
+  });
+
+  // The check used to ask for eight or nine Years of Service whichever way
+  // the 35% was reached. That is the free agent's rule, Art. II §7(a)(ii). An
+  // extension is signed a year or two earlier, so Art. II §7(c)(ii) asks for
+  // seven or eight "at the time the Extension is executed", with one or two
+  // seasons left: a player entering his eighth season was told he had a year
+  // to wait.
+  it("counts service for a designated veteran extension a year earlier than for a free agent", () => {
+    const star = { remainedWithOriginalTeamThroughFirstFourYears: true, higherMaxCriteriaMet: true };
+    expect(designatedVeteranMaxPct({ kind: "extension", yearsOfService: 7, seasonsRemaining: 2, ...star })).toBe(0.35);
+    expect(designatedVeteranMaxPct({ kind: "extension", yearsOfService: 8, seasonsRemaining: 1, ...star })).toBe(0.35);
+    expect(designatedVeteranMaxPct({ kind: "extension", yearsOfService: 9, seasonsRemaining: 1, ...star })).toBe(0.3);
+    expect(designatedVeteranMaxPct({ kind: "extension", yearsOfService: 7, seasonsRemaining: 3, ...star })).toBe(0.3);
+    expect(designatedVeteranMaxPct({ kind: "contract", yearsOfService: 7, ...star })).toBe(0.3);
+    expect(designatedVeteranMaxPct({ kind: "contract", yearsOfService: 9, ...star })).toBe(0.35);
   });
 });

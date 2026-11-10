@@ -1,22 +1,17 @@
-import { validateTrade, violatesStepien, matchRuleLabel, shortDate, type ApronTier, type Trade } from "@apron/cba-engine";
-import { ACQUIRED_PICKS, hasAcquiredFirst, frozenFirstOf } from "@apron/data";
+import { matchRuleLabel, shortDate, type ApronTier } from "@apron/cba-engine";
+import { frozenFirstOf } from "@apron/data";
 import {
   BASE_CONTRACTS,
-  leagueData,
   teamMeta,
   C,
   lockedFirstEncumbrance,
-  freeAgentsOf,
-  holdsByTeam,
   feedStateOf,
-  tpeLedger,
-  fitTpePlan,
-  stepienFindingFor,
   SIM_DATE,
   TRADE_DEADLINE,
-  type StepienFinding,
+  type StepienFinding, hardCapOrdinal,
 } from "./league";
 import { fmtM } from "./format";
+import { ruleOnBaseTrade } from "./verdict";
 import { shortPlayerName } from "./names";
 
 interface DecodedMove {
@@ -171,68 +166,12 @@ const lastName = shortPlayerName;
 export function summarizeTrade(t: string): TradeSummary | null {
   const d = decodeTradeParam(t);
   if (!d || (!d.players.length && !d.picks.length && !d.swaps.length)) return null;
-  const data = leagueData(BASE_CONTRACTS);
-  // Base-state holds (server-side; session renounces aren't visible here).
-  let trade: Trade = {
-    teams: d.teams,
-    players: d.players,
-    capHolds: holdsByTeam(freeAgentsOf(BASE_CONTRACTS)),
-    date: tradeDateOf(d.day),
-  };
-  let v = validateTrade(data, trade, C);
-  // Same TPE auto-fit as the live boards (base ledger — session-minted TPEs
-  // aren't visible server-side), so share cards agree with what users see.
-  if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {
-    const incomingByTeam: Record<string, { playerId: string; salary: number }[]> = {};
-    for (const p of d.players) {
-      const c = BASE_CONTRACTS.find((x) => x.playerId === p.playerId);
-      const salary = c?.years.find((y) => y.leagueYear === "2026-27")?.salary ?? 0;
-      (incomingByTeam[p.to] ??= []).push({ playerId: p.playerId, salary });
-    }
-    const plan = fitTpePlan(v.teams, incomingByTeam, tpeLedger([]));
-    if (plan) {
-      trade = { ...trade, tpeUse: plan };
-      v = validateTrade(data, trade, C);
-    }
-  }
-  // Stepien against the real-world base ledger (session moves aren't visible
-  // server-side, but pre-existing obligations are) — so share cards and OG
-  // images can't stamp LEGAL on a pick package the board would block.
-  let stepienFinding: StepienFinding | null = null;
-  for (const teamId of d.teams) {
-    const outs = new Set(d.picks.filter((p) => p.from === teamId).map((p) => p.id));
-    const ins = new Set(
-      d.picks.filter((p) => p.to === teamId && p.id.endsWith("|1")).map((p) => Number(p.id.split("|")[1])),
-    );
-    // A first the team already holds from a REAL trade covers its year, the
-    // same way the board's ownership ledger counts it — unless this very deal
-    // sends it out. (The Clippers' 2030 and 2032 are forfeited; Toronto's 2031
-    // and 2033 firsts are what keep those from pairing into a violation.)
-    const coveredByAcquired = (y: number) =>
-      ACQUIRED_PICKS.some((ap) => ap.team === teamId && ap.round === 1 && ap.year === y && !outs.has(ap.id)) ||
-      (y === 2033 && hasAcquiredFirst(teamId, 2033));
-    const uncovered: number[] = [];
-    for (const y of [2027, 2028, 2029, 2030, 2031, 2032]) {
-      const ownGone = outs.has(`${teamId}|${y}|1`) || lockedFirstEncumbrance(teamId, y) !== undefined;
-      if (ownGone && !ins.has(y) && !coveredByAcquired(y)) uncovered.push(y);
-    }
-    // Same 2033 rule as the board: a locked 2033 pairs with 2032 unless another
-    // team's 2033 first is in hand (see store.ts yearsWithoutFirst).
-    if (lockedFirstEncumbrance(teamId, 2033) && !coveredByAcquired(2033)) uncovered.push(2033);
-    if (!violatesStepien(uncovered)) continue;
-    // Any outgoing first is the offending pick — an acquired one too, as the
-    // board reads it: sending Toronto's 2031 away is what uncovers 2031.
-    const outYears = d.picks
-      .filter((p) => p.from === teamId && p.id.endsWith("|1"))
-      .map((p) => Number(p.id.split("|")[1]));
-    stepienFinding = stepienFindingFor(teamId, uncovered, outYears);
-    if (stepienFinding) break;
-  }
-  // A hard cap the team already triggered with its REAL July moves binds
-  // here too — share cards must agree with the live board.
-  const feedCapped = v.teams.find(
-    (ts) => ts.postTradeSalary > feedStateOf(ts.teamId).hardCap + 1,
-  );
+  // The league as the feed has it (a session's moves aren't visible here),
+  // ruled on by the same assembly the admin desk uses, in the board's order.
+  const ruling = ruleOnBaseTrade({ teams: d.teams, players: d.players, picks: d.picks, date: tradeDateOf(d.day) });
+  const { trade, verdict: v } = ruling;
+  const stepienFinding: StepienFinding | null = ruling.stepien[0] ?? null;
+  const feedCapped = ruling.hardCaps.length ? v.teams.find((ts) => ts.teamId === ruling.hardCaps[0]!.team) : undefined;
   const nameOf = (id: string) =>
     BASE_CONTRACTS.find((c) => c.playerId === id)?.playerName ?? id;
   const perTeam = v.teams.map((ts) => {
@@ -279,9 +218,7 @@ export function summarizeTrade(t: string): TradeSummary | null {
       (stepienFinding
         ? stepienFinding.message
         : feedCapped
-          ? `${teamMeta(feedCapped.teamId).name} is hard-capped at ${
-              feedStateOf(feedCapped.teamId).hardCap === C.firstApron ? "the first apron" : "the second apron"
-            } by a real move this offseason${feedStateOf(feedCapped.teamId).hardCapSource ? ` (${feedStateOf(feedCapped.teamId).hardCapSource})` : ""} — this trade would exceed it.`
+          ? `${teamMeta(feedCapped.teamId).name} is hard-capped at the ${hardCapOrdinal(feedStateOf(feedCapped.teamId).hardCap)} apron by a real move this offseason${feedStateOf(feedCapped.teamId).hardCapSource ? ` (${feedStateOf(feedCapped.teamId).hardCapSource})` : ""} — this trade would exceed it.`
           : undefined),
     perTeam,
   };

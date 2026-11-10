@@ -51,13 +51,14 @@ function isMove(m: unknown): m is Move {
         optArr(m.picks, isPick) &&
         optArr(m.pickSwaps, isSwap) &&
         (none(m.tpeUse) || isTpeUse(m.tpeUse)) &&
-        optArr(m.cash, isCash)
+        optArr(m.cash, isCash) &&
+        (none(m.day) || m.day === "deadline")
       );
     case "sign":
       return (
         isStr(m.playerId) && isStr(m.playerName) && isTeam(m.teamId) && isMoney(m.salary) &&
         opt(m.years, isYears) && optStr(m.mechanism) && optBool(m.restricted) && optStr(m.restrictionText) &&
-        opt(m.matchedSheetFrom, isTeam)
+        opt(m.matchedSheetFrom, isTeam) && optBool(m.rowD)
       );
     case "sign_trade":
       return (

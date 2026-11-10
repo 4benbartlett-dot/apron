@@ -9,6 +9,7 @@ import { shortPlayerName } from "@/lib/names";
 import qrcode from "qrcode-generator";
 import { TradeDocket, buildDocket, buildChecks, type DocketLine } from "@/components/TradeDocket";
 import { explainBlocked } from "@/lib/tradeFix";
+import { blockTexts, type ExtraBlock } from "@/lib/verdict";
 import { fmtM } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
 import { TierBadge } from "@/components/TierBadge";
@@ -36,7 +37,7 @@ export function ShareCardModal({
   picks: DecodedPick[];
   swaps?: DecodedSwap[];
   verdict: TradeVerdict;
-  extraViolations: string[];
+  extraViolations: ExtraBlock[];
   holdsOf?: (team: string) => number;
   nameOf: (id: string) => string;
   salaryOf: (id: string) => number;
@@ -179,7 +180,7 @@ export function ShareCardModal({
     involved,
     tpeUse: trade.tpeUse,
     violationReasons: verdict.violations.map((v) => v.reason),
-    extraViolations,
+    extraViolations: blockTexts(extraViolations),
     hasFirsts: picks.some((p) => p.id.endsWith("|1")),
   });
 

@@ -18,7 +18,7 @@ import {
   tpeLedger,
   teamMeta,
   currentSalary,
-  teamProjection,
+  teamProjection, exceptionClock, hardCapLevelOf,
 } from "@/lib/league";
 import { fmtM, fmtFull, hardCapCause } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -56,7 +56,7 @@ export default async function AdminTeam({ params }: { params: Promise<{ id: stri
   const dead = deadMoneyOf(BASE_CONTRACTS, id);
   const twoWays = BASE_CONTRACTS.filter((c) => c.teamId === id && (c.twoWay || c.signedUsing === "Two-Way") && currentSalary(c) === 0);
   const consumed = consumedFor([], id);
-  const power = spendingPower(sheet.salary + holds, C, { apronSalary: sheet.apronSalary, roomTeam: feed.roomTeam, consumed });
+  const power = spendingPower(sheet.salary + holds, C, { apronSalary: sheet.apronSalary, roomTeam: feed.roomTeam, ...exceptionClock([], id) });
   const tpes = tpeLedger([])[id] ?? [];
   const rights = PICK_RIGHTS[id] ?? { ownFirstObligations: [], holdings: [] };
   const forfeits = forfeituresOf(id);
@@ -93,7 +93,7 @@ export default async function AdminTeam({ params }: { params: Promise<{ id: stri
             <div className="label !text-[10px]">Hard cap</div>
             <div className="mt-0.5 font-semibold">
               {Number.isFinite(feed.hardCap) ? (
-                <span style={{ color: feed.hardCap === C.firstApron ? "var(--tier-first_apron)" : "var(--tier-second_apron)" }}>
+                <span style={{ color: hardCapLevelOf(feed.hardCap) === "first_apron" ? "var(--tier-first_apron)" : "var(--tier-second_apron)" }}>
                   {fmtM(feed.hardCap)} · {hardCapCause(feed.hardCapSource)}
                 </span>
               ) : (

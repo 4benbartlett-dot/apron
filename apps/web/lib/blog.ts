@@ -11,7 +11,7 @@ import {
   teamMeta,
   teamNickname,
   tpeLedger,
-  type TpeSlot,
+  type TpeSlot, hardCapLevelOf,
 } from "@/lib/league";
 import type { TermSection } from "@/lib/seo";
 import { TIER_LABEL, fmtM, fmtFull } from "@/lib/format";
@@ -267,8 +267,8 @@ function apronTeamsPost(): BlogPost {
 
 function hardCapPost(): BlogPost {
   const capped = cappedTeams();
-  const atFirst = capped.filter((t) => t.line === C.firstApron);
-  const atSecond = capped.filter((t) => t.line === C.secondApron);
+  const atFirst = capped.filter((t) => hardCapLevelOf(t.line) === "first_apron");
+  const atSecond = capped.filter((t) => hardCapLevelOf(t.line) === "second_apron");
   const room = roomTeams();
   return {
     slug: "nba-teams-hard-capped-2026-27",
@@ -515,7 +515,7 @@ function aboutTheMachinePost(): BlogPost {
       {
         heading: "Where it's approximate",
         body: [
-          "The /accuracy page lists everything that's estimated or not modeled yet, including supermax extensions, second-round-pick exceptions, and pick-swap outcomes. If you find a rule it gets wrong that isn't on that list, the About page has an email address.",
+          "The /accuracy page lists every number that's estimated and the few moves made outside the board, such as renegotiations and two-way contracts. If you find a rule it gets wrong, the About page has an email address.",
         ],
       },
       {
@@ -542,7 +542,7 @@ function aboutTheMachinePost(): BlogPost {
     related: [
       { href: "/", label: "Open the trade machine" },
       { href: "/guide", label: "How to play" },
-      { href: "/accuracy", label: "Rules coverage & accuracy" },
+      { href: "/accuracy", label: "What the board enforces and estimates" },
       { href: "/blog/how-to-tell-if-an-nba-trade-works", label: "The 7-step trade checklist" },
     ],
   };

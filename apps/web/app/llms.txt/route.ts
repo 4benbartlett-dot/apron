@@ -49,7 +49,7 @@ Other dates: contracts guarantee ${CALENDAR.guaranteeDate}; Bird re-signs above 
 - [Deadlines](${SITE}/deadlines): trade-eligibility and calendar dates
 - [The rules, by article and section](${SITE}/rules): each provision the board enforces, with the agreement's own words, a plain-English line, and a trade it blocks today
 - [How to play](${SITE}/guide)
-- [Rules coverage & accuracy](${SITE}/accuracy): what is modeled, approximated, or not yet included
+- [What the board enforces and estimates](${SITE}/accuracy): the rules enforced, the numbers estimated, and the moves made outside the board
 
 ## How verdicts are checked
 
