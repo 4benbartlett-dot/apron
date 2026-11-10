@@ -1,4 +1,4 @@
-import { validateTrade, violatesStepien, matchRuleLabel, type ApronTier, type Trade } from "@apron/cba-engine";
+import { validateTrade, violatesStepien, matchRuleLabel, shortDate, type ApronTier, type Trade } from "@apron/cba-engine";
 import { ACQUIRED_PICKS, hasAcquiredFirst, frozenFirstOf } from "@apron/data";
 import {
   BASE_CONTRACTS,
@@ -66,6 +66,18 @@ const fromB64Url = (s: string) => {
 export type TradeDay = "today" | "deadline";
 /** The ISO date a trade day stands for. */
 export const tradeDateOf = (day: TradeDay): string => (day === "deadline" ? TRADE_DEADLINE : SIM_DATE);
+
+/**
+ * The line a share card signs off with. A trade judged at the deadline says
+ * so: the same deal can be blocked today and legal on Feb. 11, and two cards
+ * for it that both read "under the 2023 CBA" would contradict each other.
+ */
+export function verdictLine(legal: boolean, day: TradeDay): string {
+  const word = legal ? "Legal" : "Blocked";
+  return day === "deadline"
+    ? `${word} at the ${shortDate(TRADE_DEADLINE).replace(/, \d{4}$/, "")} trade deadline`
+    : `${word} under the 2023 CBA`;
+}
 
 /** Decode a shared trade (?t=) into teams + player/pick movements. */
 export function decodeTradeParam(t: string): {

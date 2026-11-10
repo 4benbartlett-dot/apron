@@ -2550,8 +2550,13 @@ function SignEditor({
         {first.days != null && (
           <div className="mt-1 text-[var(--tier-below_cap)]">
             Signed today, with {first.days} of the season&rsquo;s {SEASON_LENGTH} days left, a minimum contract pays by the
-            day: <span className="tabular">{fmtFull(first.paid)}</span> this season, and{" "}
-            <span className="tabular">{fmtFull(bookedSalary)}</span> on the books (Art. I §1(kk)).
+            day: <span className="tabular">{fmtFull(first.paid)}</span> this season
+            {bookedSalary !== first.paid && (
+              <>
+                , and <span className="tabular">{fmtFull(bookedSalary)}</span> on the books
+              </>
+            )}{" "}
+            (Art. I §1(kk)).
           </div>
         )}
         {isMultiYearVetMin && (

@@ -19,6 +19,8 @@ import {
   type Move,
 } from "@/lib/league";
 import { sanitizeMoves } from "@/lib/moveGuard";
+import { TRANSACTIONS } from "@apron/data";
+import { buildTradeCard } from "@/lib/newsDay";
 
 const dead = (team: string, name: string) => deadMoneyOf(BASE_CONTRACTS, team).find((c) => c.playerName === name);
 
@@ -54,6 +56,19 @@ describe("contracts signed in season", () => {
     const wesley = dead("LAC", "Blake Wesley")!;
     expect(wesley).toBeDefined();
     expect(salaryForYear(wesley, YEAR)).toBe(Math.round((C.minimumSalaries[2]! / 174) * 10));
+  });
+});
+
+// The homepage replays real trades through the engine. When a team absorbs a
+// player with no salary going back, the card names the exception it used, and
+// where the ledger has recorded the use, that is the one it names.
+describe("a real trade's card names the exception the team actually used", () => {
+  it("Oklahoma City took Clifford into the Wiggins exception, not the larger Dort one", () => {
+    const rows = TRANSACTIONS.filter((t) => t.player === "Nique Clifford" && t.type === "Trade" && t.date === "Nov 08, 2026");
+    expect(rows.length).toBeGreaterThan(0);
+    const card = buildTradeCard(rows, "2026-11-08")!;
+    expect(card.legal).toBe(true);
+    expect(card.docket!.find((d) => d.teamId === "OKC")!.tpeUse?.label).toBe("Aaron Wiggins TPE");
   });
 });
 

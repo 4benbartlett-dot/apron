@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { summarizeTrade, filingNo } from "@/lib/trade-share";
+import { summarizeTrade, filingNo, decodeTradeParam, verdictLine } from "@/lib/trade-share";
 
 const truncate = (t: string, n: number) => (t.length > n ? `${t.slice(0, n - 1).trimEnd()}…` : t);
 /** Verdict color that reads on the dark seal strip. */
@@ -87,6 +87,9 @@ interface Payload {
   ck: [number, string][]; // [ok, text]
   fx: string; // one route to legal
   fn: string; // filing "NO. 26-XXXXX"
+  /** The card's sign-off when it is not the default ("Legal at the Feb. 11
+   * trade deadline"). Absent on cards minted before the board had a day. */
+  vl?: string;
   /** Client's "Filed" date — the server clock may sit past midnight UTC
    * while the user's card on screen still says yesterday. */
   dt?: string;
@@ -342,7 +345,7 @@ function RichTradeCard({ p, origin, date }: { p: Payload; origin: string; date: 
       >
         <div style={{ display: "flex" }}>{`FILED ${date.toUpperCase()} · ${p.fn}`}</div>
         <div style={{ display: "flex", fontWeight: 700, color: vc }}>
-          {legal ? "LEGAL UNDER THE 2023 CBA" : "BLOCKED UNDER THE 2023 CBA"}
+          {(p.vl ?? (legal ? "Legal under the 2023 CBA" : "Blocked under the 2023 CBA")).toUpperCase()}
         </div>
       </div>
 
@@ -464,6 +467,8 @@ export async function GET(req: Request) {
   }
 
   const s = summarizeTrade(t);
+  // The day the link was judged on rides in the token; the card says which.
+  const day = decodeTradeParam(t)?.day ?? "today";
 
   if (!s) {
     return new ImageResponse(
@@ -611,7 +616,7 @@ export async function GET(req: Request) {
             }}
           >
             {s.legal
-              ? `Clears salary matching, the aprons, and every hard cap${s.hasPicks ? " — Stepien rule included" : ""} on current rosters.`
+              ? `${day === "deadline" ? "Judged on deadline day: clears" : "Clears"} salary matching, the aprons, and every hard cap${s.hasPicks ? " — Stepien rule included" : ""} on current rosters.`
               : truncate(s.reason || "Violates the 2023 CBA.", compact ? 150 : 210)}
           </div>
           {/* The growth loop lives HERE — this image is what X actually shows. */}
@@ -631,9 +636,9 @@ export async function GET(req: Request) {
             }}
           >
             <div style={{ display: "flex", color: accent2(s.legal) }}>
-              {s.legal ? "LEGAL UNDER THE 2023 CBA" : "BLOCKED UNDER THE 2023 CBA"}
+              {verdictLine(s.legal, day).toUpperCase()}
             </div>
-            <div style={{ display: "flex" }}>{"FULL RULING AT OVERTHEAPRON.COM"}</div>
+            <div style={{ display: "flex" }}>{day === "deadline" ? "OVERTHEAPRON.COM" : "FULL RULING AT OVERTHEAPRON.COM"}</div>
           </div>
         </div>
       </div>
