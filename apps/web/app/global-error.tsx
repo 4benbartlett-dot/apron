@@ -1,11 +1,13 @@
 "use client";
 
+import { MOVES_KEY } from "@/lib/storageKeys";
+
 // Last resort: the root layout itself threw, so none of the site's CSS or
 // fonts are guaranteed. Plain inline styles, the paper palette, one way out.
 export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   const startFresh = () => {
     try {
-      window.localStorage.removeItem("apron_gm_moves_v1");
+      window.localStorage.removeItem(MOVES_KEY);
     } catch {
       /* storage blocked */
     }

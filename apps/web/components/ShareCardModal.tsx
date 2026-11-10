@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import type { Trade, TradeVerdict } from "@apron/cba-engine";
-import { C, teamMeta, positionOf } from "@/lib/league";
+import { C, teamMeta, positionOf, TRADE_DEADLINE } from "@/lib/league";
 import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick, type DecodedSwap } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import qrcode from "qrcode-generator";
@@ -83,7 +83,7 @@ export function ShareCardModal({
   }, []);
 
   const token = useMemo(
-    () => encodeTradeParam(trade.teams, trade.players, picks, swaps),
+    () => encodeTradeParam(trade.teams, trade.players, picks, swaps, trade.date === TRADE_DEADLINE ? "deadline" : "today"),
     [trade, picks, swaps],
   );
   // Links land on the FULL offseason page (the board decodes ?t=, pops this

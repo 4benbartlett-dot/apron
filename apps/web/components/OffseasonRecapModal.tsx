@@ -58,12 +58,17 @@ export function OffseasonRecapModal({
   onClose,
   onShare,
   owner = false,
+  ownMoves = 0,
+  onRestoreOwn,
 }: {
   moves: Move[];
   teams: string[];
   onClose: () => void;
   onShare: () => void;
   owner?: boolean;
+  /** A visitor's own saved session, in moves, that this shared one is shown in front of. */
+  ownMoves?: number;
+  onRestoreOwn?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
@@ -187,6 +192,14 @@ export function OffseasonRecapModal({
             ? "The link rebuilds this exact offseason for anyone who opens it."
             : "Every move is already staged on the board behind this card."}
         </p>
+        {!owner && ownMoves > 0 && onRestoreOwn && (
+          <p className="mt-1.5 text-center text-[11px] leading-snug text-[#f4f1e9]/75">
+            Your own offseason ({ownMoves} {ownMoves === 1 ? "move" : "moves"}) is still saved.{" "}
+            <button onClick={onRestoreOwn} className="font-semibold underline decoration-[#f4f1e9]/40 underline-offset-2 hover:decoration-[#f4f1e9]">
+              Go back to mine
+            </button>
+          </p>
+        )}
       </div>
     </div>
   );

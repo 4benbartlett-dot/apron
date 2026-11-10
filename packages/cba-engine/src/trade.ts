@@ -18,7 +18,7 @@ import {
 } from "./derive";
 import { maxIncomingSalary } from "./matching";
 import { poisonPillValues } from "./provisions";
-import { postSeasonWindow } from "./constants/calendar";
+import { postSeasonWindow, tradeTimingOn } from "./constants/calendar";
 
 /** Dollar tolerance for floating-point / rounding wobble in comparisons. */
 const EPSILON = 1;
@@ -492,7 +492,10 @@ export function validateTrade(
         citation: overSecondApronAfter ? CITE.secondApronAgg : CITE.secondApronAggHardCap,
       });
       const minCount = outgoingMinimumFlags.filter(Boolean).length;
-      const timing = trade.timing ?? "offseason";
+      // A caller that knows the day need not also know the bucket: the share
+      // card and the hard-cap replay passed a date and no timing, and would
+      // have judged a January trade by the offseason rule.
+      const timing = trade.timing ?? tradeTimingOn(trade.date, c.calendar);
       if (
         timing !== "dec15_to_deadline" &&
         outgoingPlayerSalaries.length >= 3 &&

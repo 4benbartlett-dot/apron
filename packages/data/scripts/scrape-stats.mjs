@@ -12,6 +12,7 @@ import { load } from "cheerio";
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { localToday } from "./today.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SEASON = Number(process.argv[2] ?? 2026);
@@ -88,7 +89,7 @@ async function main() {
     if (Object.keys(entry).length) byId[id] = entry;
   }
 
-  writeFileSync(OUT, JSON.stringify({ source: `Basketball-Reference advanced + per_game (${LABEL})`, asOf: new Date().toISOString().slice(0, 10), byId }, null, 2) + "\n");
+  writeFileSync(OUT, JSON.stringify({ source: `Basketball-Reference advanced + per_game (${LABEL})`, asOf: localToday(), byId }, null, 2) + "\n");
   const n = Object.keys(byId).length;
   console.log(`Wrote ${n} player stat profiles -> ${OUT}`);
   const sample = (id) => { const e = byId[id]; return e ? `usg${e.usg} ts${e.ts} blk%${e.blkp} stl%${e.stlp} dbpm${e.dbpm} 3par${e.tpar} 3p%${e.tpp} ast%${e.astp}` : "?"; };

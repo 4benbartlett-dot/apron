@@ -13,6 +13,7 @@ import {
   fitTpePlan,
   stepienFindingFor,
   SIM_DATE,
+  TRADE_DEADLINE,
   type StepienFinding,
 } from "./league";
 import { fmtM } from "./format";
@@ -60,12 +61,21 @@ const fromB64Url = (s: string) => {
   return restored + "=".repeat((4 - (restored.length % 4)) % 4);
 };
 
+/** The day a staged trade is judged on: the data's date, or the deadline with
+ * every freeze that lifts by then lifted. */
+export type TradeDay = "today" | "deadline";
+/** The ISO date a trade day stands for. */
+export const tradeDateOf = (day: TradeDay): string => (day === "deadline" ? TRADE_DEADLINE : SIM_DATE);
+
 /** Decode a shared trade (?t=) into teams + player/pick movements. */
 export function decodeTradeParam(t: string): {
   teams: string[];
   players: { playerId: string; from: string; to: string }[];
   picks: DecodedPick[];
   swaps: DecodedSwap[];
+  /** The day the sharer judged it on. Links minted before the token carried
+   * one read as today, which is what they were. */
+  day: TradeDay;
 } | null {
   try {
     const o = JSON.parse(atob(fromB64Url(t))) as {
@@ -73,6 +83,7 @@ export function decodeTradeParam(t: string): {
       s?: Record<string, DecodedMove>;
       p?: Record<string, DecodedMove>;
       w?: { y: number; r: number; f: string; o: string }[];
+      d?: unknown;
     };
     if (!Array.isArray(o.t) || !o.s || typeof o.s !== "object") return null;
     const teams = o.t as string[];
@@ -92,7 +103,7 @@ export function decodeTradeParam(t: string): {
     const swaps = (Array.isArray(o.w) ? o.w : [])
       .filter((w) => teams.includes(w.f) && teams.includes(w.o) && w.f !== w.o)
       .map((w) => ({ year: w.y, round: w.r, favoredTo: w.f, otherTeam: w.o }));
-    return { teams, players, picks, swaps };
+    return { teams, players, picks, swaps, day: o.d === "deadline" ? "deadline" : "today" };
   } catch {
     return null;
   }
@@ -104,9 +115,15 @@ export function encodeTradeParam(
   players: { playerId: string; from: string; to: string }[],
   picks: DecodedPick[] = [],
   swaps: DecodedSwap[] = [],
+  /** Omitted for "today", so a today link is byte-for-byte what it always was. */
+  day: TradeDay = "today",
 ): string {
   const s = Object.fromEntries(players.map((p) => [p.playerId, { from: p.from, to: p.to }]));
   const payload: Record<string, unknown> = { t: teams, s };
+  // A trade that is legal only at the deadline used to share as BLOCKED: the
+  // token had no day in it, so the page title, the unfurl image and the
+  // recipient's board all judged it on today's freezes.
+  if (day === "deadline") payload.d = "deadline";
   if (picks.length) payload.p = Object.fromEntries(picks.map((k) => [k.id, { from: k.from, to: k.to }]));
   if (swaps.length) payload.w = swaps.map((k) => ({ y: k.year, r: k.round, f: k.favoredTo, o: k.otherTeam }));
   return toB64Url(btoa(JSON.stringify(payload)));
@@ -147,7 +164,7 @@ export function summarizeTrade(t: string): TradeSummary | null {
     teams: d.teams,
     players: d.players,
     capHolds: holdsByTeam(freeAgentsOf(BASE_CONTRACTS)),
-    date: SIM_DATE,
+    date: tradeDateOf(d.day),
   };
   let v = validateTrade(data, trade, C);
   // Same TPE auto-fit as the live boards (base ledger — session-minted TPEs

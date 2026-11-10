@@ -129,7 +129,9 @@ describe("today versus the deadline", () => {
   // signed Aug 8, is free Feb 8, before it, as the Phoenix reporting says.
   it("by the deadline every summer free agent is eligible, and only the long freezes are left", () => {
     const left = active.filter((c) => c.restriction && !tradeableOn(c, TRADE_DEADLINE)).map((c) => c.playerName).sort();
-    expect(left).toEqual(["Blake Wesley", "Payton Pritchard", "Saddiq Bey", "Stephen Curry"].sort());
+    // (Blake Wesley was a fourth while his Oct 29 10-day ran: a 10-day can't be
+    // traded at all. It expired Nov 7 and he is off the Clippers' roster.)
+    expect(left).toEqual(["Payton Pritchard", "Saddiq Bey", "Stephen Curry"].sort());
     expect(tradeableOn(named("Dillon Brooks"), TRADE_DEADLINE)).toBe(true);
   });
 

@@ -56,7 +56,8 @@ function isMove(m: unknown): m is Move {
     case "sign":
       return (
         isStr(m.playerId) && isStr(m.playerName) && isTeam(m.teamId) && isMoney(m.salary) &&
-        opt(m.years, isYears) && optStr(m.mechanism) && optBool(m.restricted) && optStr(m.restrictionText)
+        opt(m.years, isYears) && optStr(m.mechanism) && optBool(m.restricted) && optStr(m.restrictionText) &&
+        opt(m.matchedSheetFrom, isTeam)
       );
     case "sign_trade":
       return (

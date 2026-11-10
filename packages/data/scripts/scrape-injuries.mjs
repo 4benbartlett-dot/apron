@@ -9,6 +9,7 @@ import { load } from "cheerio";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { localToday } from "./today.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "..", "src", "player-injuries-2026.json");
@@ -157,7 +158,7 @@ async function main() {
     byId[id] = { name, team, date, ...(onset !== date ? { onset } : {}), desc: desc.slice(0, 200), type, status, gamesOut, basis };
   });
 
-  const asOf = new Date().toISOString().slice(0, 10);
+  const asOf = localToday();
   writeFileSync(OUT, JSON.stringify({ source: "Basketball-Reference injury report", asOf, gamesLeft: GAMES_LEFT, byId }, null, 2) + "\n");
   const total = Object.keys(byId).length;
   console.log(`Wrote ${total} injury records -> ${OUT} (${majors} bleed into 2026-27)`);

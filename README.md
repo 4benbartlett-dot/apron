@@ -63,6 +63,12 @@ apps/web              The Next.js app: the offseason board, the drawers, the
                       trade finder, the league cap board, shareable sessions.
 ```
 
+The league year's dates are written once, in the engine's season calendar, and
+every date-dependent rule asks for the phase a date falls in (offseason, camp,
+before Dec. 15, Dec. 15 to the deadline, after it, postseason) instead of
+comparing against a date. [CLAUDE.md](CLAUDE.md) lists that and the app's other
+state machines, and the rules for changing them.
+
 The engine has no I/O, so it runs the same in the browser and on the server.
 Team salary, apron tier, and cap room are always derived from the contracts
 rather than stored, which keeps a session deterministic and replayable. The

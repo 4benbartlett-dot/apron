@@ -23,8 +23,9 @@ import { Term } from "@/components/Term";
 import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
-import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam } from "@/lib/store";
-import { leagueData, SIM_DATE, TRADE_DEADLINE, tradeTiming, YEAR } from "@/lib/league";
+import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam, useSessionSource, restoreOwnSession } from "@/lib/store";
+import { BOARD_KEY } from "@/lib/storageKeys";
+import { leagueData, SIM_DATE, TRADE_DEADLINE, tradeTiming, YEAR, IN_SEASON, ROSTER_LIMIT, rosterLimitOn } from "@/lib/league";
 import { tradeableOn, shortDate } from "@apron/cba-engine";
 import { homeHeadline } from "@/lib/phase";
 
@@ -37,7 +38,7 @@ import { leagueToast } from "@/components/SiteEggs";
 import { TeamPicker } from "@/components/TeamPicker";
 import { ShareCardModal } from "@/components/ShareCardModal";
 import { OffseasonRecapModal } from "@/components/OffseasonRecapModal";
-import { decodeTradeParam, pickShareLabel, type DecodedPick } from "@/lib/trade-share";
+import { decodeTradeParam, pickShareLabel, tradeDateOf, type DecodedPick, type TradeDay } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import { TradeTray, useTrayVisible, type TrayHaul } from "@/components/TradeTray";
 import { TradeDocket, buildDocket, buildChecks, DocketWhy, MoveTriggers, tradeConsequences } from "@/components/TradeDocket";
@@ -48,6 +49,8 @@ interface Sel {
   from: string;
   to: string;
 }
+/** Teams the board holds at once. */
+const MAX_BOARD = 8;
 /** A sign-and-trade staged onto the board: the re-sign terms + the facts the
  * execute step needs (rights, prior salary, BYC, the sender's ceiling). */
 interface StStage {
@@ -62,6 +65,19 @@ interface StStage {
   byc: boolean;
   ceiling: number;
 }
+/** The one surface that can be open over the board. Each kind carries what
+ * its surface needs and nothing else; `null` is the bare board. */
+type Overlay =
+  | { kind: "shortcuts" }
+  | { kind: "share" }
+  | { kind: "finder" }
+  | { kind: "recap"; moves: Move[]; teams: string[] }
+  | { kind: "sign"; team: string; faId?: string; st?: boolean }
+  | { kind: "extend"; team: string; playerId: string; playerName: string }
+  | { kind: "waive"; team: string; playerId: string; playerName: string };
+/** Surfaces that listen for Escape themselves and call their own onClose. */
+const SELF_CLOSING: ReadonlySet<Overlay["kind"]> = new Set(["share", "recap"]);
+
 interface PickSwap {
   year: number;
   round: 1 | 2;
@@ -99,17 +115,30 @@ const MECH_SHORT: Record<MechanismId, string> = {
 
 export default function OffseasonSim() {
   const lg = useLeague();
+  const session = useSessionSource();
   const [board, setBoard] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
-  const [shareOpen, setShareOpen] = useState(false);
+  // The one surface open over the board, or none. This was seven independent
+  // pieces of state (two booleans, a third boolean, four nullable objects),
+  // which made "two drawers at once" a state the board could be in: Escape
+  // never closed the waive drawer, T and S opened a second surface behind it,
+  // and one Escape closed the recap and the finder together. One value, one
+  // surface; opening another replaces it.
+  const [overlay, setOverlay] = useState<Overlay | null>(null);
+  const closeOverlay = () => setOverlay(null);
+  const shareOpen = overlay?.kind === "share";
+  const shortcutsOpen = overlay?.kind === "shortcuts";
+  const finderOpen = overlay?.kind === "finder";
   // A shared offseason (?gm=) greets the visitor with a recap of every move
   // it staged; closing it drops them onto the live board with those moves.
-  const [recap, setRecap] = useState<{ moves: Move[]; teams: string[] } | null>(null);
-  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const recap = overlay?.kind === "recap" ? overlay : null;
+  const signFor = overlay?.kind === "sign" ? overlay : null;
+  const extendFor = overlay?.kind === "extend" ? overlay : null;
+  const waiveFor = overlay?.kind === "waive" ? overlay : null;
   // The day trades are judged on: today, or the deadline with every freeze
   // that lifts by then lifted (Art. VII §8(d), §8(f), §6(j)(4)).
-  const [tradeDay, setTradeDay] = useState<"today" | "deadline">("today");
-  const tradeDate = tradeDay === "deadline" ? TRADE_DEADLINE : SIM_DATE;
+  const [tradeDay, setTradeDay] = useState<TradeDay>("today");
+  const tradeDate = tradeDateOf(tradeDay);
   const { lockedNow, lockedAtDeadline } = useMemo(() => {
     const act = lg.contracts.filter((c) => !c.deadMoney && !c.twoWay && c.restriction);
     return {
@@ -123,21 +152,17 @@ export default function OffseasonSim() {
   // User-created pick swaps: favoredTo takes the more favorable of the two
   // teams' same-year/round firsts. A right, not a concrete transfer.
   const [swapSel, setSwapSel] = useState<PickSwap[]>([]);
-  const [signFor, setSignFor] = useState<{ team: string; faId?: string; st?: boolean } | null>(null);
   // A STAGED sign-and-trade: the free agent re-signs on his old team's ledger
   // at the chosen rate (a temp contract every surface can see), and the deal
   // itself is built on the board like any trade. Executing dispatches the
   // real sign_trade move with all the legs.
   const [stStage, setStStage] = useState<StStage | null>(null);
-  const [extendFor, setExtendFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
-  const [waiveFor, setWaiveFor] = useState<{ playerId: string; playerName: string; team: string } | null>(null);
-  const [finderOpen, setFinderOpen] = useState(false);
 
   // Stage a found trade package onto the board (adds both teams + selects moves).
   const loadTradePackage = (acquirer: string, seller: string, targetId: string, playerIds: string[], sweetenerIds: string[] = []) => {
     setBoard((b) => {
       const next = [...b];
-      for (const t of [acquirer, seller]) if (!next.includes(t) && next.length < 8) next.push(t);
+      for (const t of [acquirer, seller]) if (!next.includes(t) && next.length < MAX_BOARD) next.push(t);
       return next;
     });
     setSel(() => {
@@ -146,7 +171,7 @@ export default function OffseasonSim() {
       for (const pid of playerIds) s[pid] = { from: acquirer, to: seller };
       return s;
     });
-    setFinderOpen(false);
+    closeOverlay();
   };
 
   // Persist the board across reloads and restore a shared ?board= list.
@@ -160,7 +185,7 @@ export default function OffseasonSim() {
       if (t) {
         const d = decodeTradeParam(t);
         if (d && (d.players.length || d.picks.length || d.swaps.length)) {
-          const saved = JSON.parse(localStorage.getItem("apron_board_v1") || "[]");
+          const saved = JSON.parse(localStorage.getItem(BOARD_KEY) || "[]");
           const merged = [...d.teams, ...(Array.isArray(saved) ? saved : [])]
             .filter((id: string, i: number, arr: string[]) => TEAM_IDS.includes(id) && arr.indexOf(id) === i)
             .slice(0, 8);
@@ -170,7 +195,8 @@ export default function OffseasonSim() {
           setSwapSel(
             d.swaps.map((s) => ({ year: s.year, round: s.round as 1 | 2, favoredTo: s.favoredTo, otherTeam: s.otherTeam })),
           );
-          setShareOpen(true);
+          setTradeDay(d.day);
+          setOverlay({ kind: "share" });
           track("trade_link_open");
           setReady(true);
           return;
@@ -186,7 +212,7 @@ export default function OffseasonSim() {
           const boardTeams = (params.get("board") || "")
             .split(",")
             .filter((id) => TEAM_IDS.includes(id));
-          setRecap({ moves: shared, teams: boardTeams });
+          setOverlay({ kind: "recap", moves: shared, teams: boardTeams });
         }
       }
       // Deep links from team pages / SEO landing pages: ?team=<ID> opens the
@@ -198,7 +224,7 @@ export default function OffseasonSim() {
       const param = params.get("board");
       const raw = param
         ? param.split(",")
-        : JSON.parse(localStorage.getItem("apron_board_v1") || "null");
+        : JSON.parse(localStorage.getItem(BOARD_KEY) || "null");
       const start =
         focus && TEAM_IDS.includes(focus)
           ? [focus]
@@ -206,7 +232,7 @@ export default function OffseasonSim() {
             ? raw.filter((t2: string) => TEAM_IDS.includes(t2)).slice(0, 8)
             : [];
       if (start.length) setBoard(start);
-      if (wantSign && TEAM_IDS.includes(focus)) setSignFor({ team: focus });
+      if (wantSign && TEAM_IDS.includes(focus)) setOverlay({ kind: "sign", team: focus });
       if (focus && TEAM_IDS.includes(focus)) {
         track(wantSign ? "deeplink_sign" : "deeplink_trade");
         // Tidy the address bar so a refresh doesn't re-trigger the deep link.
@@ -220,7 +246,7 @@ export default function OffseasonSim() {
   useEffect(() => {
     if (!ready) return;
     try {
-      localStorage.setItem("apron_board_v1", JSON.stringify(board));
+      localStorage.setItem(BOARD_KEY, JSON.stringify(board));
     } catch {
       /* ignore */
     }
@@ -481,35 +507,34 @@ export default function OffseasonSim() {
   }, [lg.moves.length]);
 
   // Power-user keys: T finder · S sign · G glossary · ? this card.
-  // Escape closes the topmost surface from anywhere (including inputs);
-  // open-a-surface keys go inert while any overlay is already up.
+  // Escape closes the open surface from anywhere (including inputs);
+  // open-a-surface keys go inert while one is up.
+  const overlayKind = overlay?.kind ?? null;
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.key === "Escape") {
-        if (shortcutsOpen) setShortcutsOpen(false);
-        else if (shareOpen) return; // the share modal closes itself
-        else if (finderOpen) setFinderOpen(false);
-        else if (signFor) setSignFor(null);
-        else if (extendFor) setExtendFor(null);
+        // The share card and the recap listen for Escape themselves and call
+        // their onClose; closing them here too would be the same close twice.
+        if (overlayKind && !SELF_CLOSING.has(overlayKind)) setOverlay(null);
         return;
       }
-      if (e.key === "?" && shortcutsOpen) {
-        setShortcutsOpen(false);
+      if (e.key === "?" && overlayKind === "shortcuts") {
+        setOverlay(null);
         return;
       }
       const el = e.target as HTMLElement | null;
       if (el && (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) || el.isContentEditable)) return;
-      if (shareOpen || signFor || extendFor || finderOpen || shortcutsOpen) return;
+      if (overlayKind) return;
       const k = e.key.toLowerCase();
-      if (e.key === "?") setShortcutsOpen(true);
-      else if (k === "t") setFinderOpen(true);
+      if (e.key === "?") setOverlay({ kind: "shortcuts" });
+      else if (k === "t") setOverlay({ kind: "finder" });
       else if (k === "g") router.push("/glossary");
-      else if (k === "s" && board.length) setSignFor({ team: board[0]! });
+      else if (k === "s" && board.length) setOverlay({ kind: "sign", team: board[0]! });
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [router, board, shareOpen, signFor, extendFor, finderOpen, shortcutsOpen]);
+  }, [router, board, overlayKind]);
 
   // Header wordmark on the home page → back to the team picker.
   useEffect(() => {
@@ -524,7 +549,7 @@ export default function OffseasonSim() {
   }, []);
 
   const addTeam = (id: string) =>
-    setBoard((b) => (b.includes(id) || b.length >= 8 ? b : [...b, id]));
+    setBoard((b) => (b.includes(id) || b.length >= MAX_BOARD ? b : [...b, id]));
   const removeTeam = (id: string) => {
     setBoard((b) => b.filter((t) => t !== id));
     setSel((s) => {
@@ -538,7 +563,11 @@ export default function OffseasonSim() {
       return n;
     });
     setSwapSel((sw) => sw.filter((s) => s.favoredTo !== id && s.otherTeam !== id));
-    if (signFor?.team === id) setSignFor(null);
+    // A drawer open on the team that just left has nothing to act on. (Only
+    // the sign drawer used to close; extend and waive stayed up over a team
+    // no longer on the board.) A staged sign-and-trade from it goes too.
+    setOverlay((o) => (o && "team" in o && o.team === id ? null : o));
+    setStStage((st) => (st?.fromTeam === id ? null : st));
   };
   const togglePlayer = (pid: string, from: string) =>
     setSel((s) => {
@@ -627,6 +656,49 @@ export default function OffseasonSim() {
   }, [board, sel, lg, boardData, boardContracts, stStage, tradeDate]);
 
   const hasTrade = trade.players.length > 0 || Object.keys(pickSel).length > 0 || swapSel.length > 0;
+
+  // The share card only exists while a trade is staged. Without this, "share"
+  // with nothing staged was an open surface nobody could see: it rendered
+  // nothing, ignored Escape, and switched the shortcut keys off.
+  useEffect(() => {
+    if (overlayKind === "share" && !hasTrade) setOverlay(null);
+  }, [overlayKind, hasTrade]);
+
+  // A selection names the team an asset leaves FROM, captured when it was
+  // ticked. Undo or removing a move from the ledger can put the player or the
+  // pick back somewhere else, and the stale leg kept being judged (and
+  // executed) from a team that no longer had him. Drop what no longer holds.
+  useEffect(() => {
+    const teamOf = new Map(boardContracts.filter((c) => !c.deadMoney).map((c) => [c.playerId, c.teamId]));
+    setSel((s) => {
+      const keep = Object.entries(s).filter(([pid, mv]) => teamOf.get(pid) === mv.from);
+      return keep.length === Object.keys(s).length ? s : Object.fromEntries(keep);
+    });
+    setPickSel((s) => {
+      const keep = Object.entries(s).filter(([id, mv]) => lg.pickOwnerOf(id) === mv.from);
+      return keep.length === Object.keys(s).length ? s : Object.fromEntries(keep);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardContracts, lg.moves]);
+
+  // An asset ticked while its team was alone on the board points at its own
+  // team (there was nowhere else). With one other team the row shows no
+  // destination picker, so that selection could never be aimed: send it to
+  // the first other team once there is one.
+  useEffect(() => {
+    const retarget = (s: Record<string, Sel>) => {
+      let changed = false;
+      const next: Record<string, Sel> = {};
+      for (const [id, mv] of Object.entries(s)) {
+        const other = mv.to === mv.from ? board.find((t) => t !== mv.from) : undefined;
+        if (other) changed = true;
+        next[id] = other ? { ...mv, to: other } : mv;
+      }
+      return changed ? next : s;
+    };
+    setSel(retarget);
+    setPickSel(retarget);
+  }, [board]);
 
   // Sticky tray: the deal summary follows you while you scroll rosters.
   const verdictRef = useRef<HTMLDivElement>(null);
@@ -731,6 +803,13 @@ export default function OffseasonSim() {
   const stViolations = useMemo<string[]>(() => {
     if (!stStage) return [];
     const out: string[] = [];
+    // Art. VII §8(e)(1)(v): a sign-and-trade contract has to be entered into
+    // before the first day of the Regular Season. The engine has always had the rule
+    // (validateSignAndTrade's beforeRegularSeason); the board never asked it.
+    if (IN_SEASON)
+      out.push(
+        `A sign-and-trade contract has to be signed before the first day of the regular season (Art. VII §8(e)(1)(v)). The window opens again when the season ends.`,
+      );
     const mv = sel[stStage.playerId];
     if (!mv || mv.to === mv.from || mv.from !== stStage.fromTeam) {
       out.push(
@@ -905,7 +984,7 @@ export default function OffseasonSim() {
             ))}
           </div>
           <button
-            onClick={() => setFinderOpen(true)}
+            onClick={() => setOverlay({ kind: "finder" })}
             className="rounded-md border border-[var(--accent)] px-3 py-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:bg-[var(--accent)] hover:text-white"
           >
             Trade finder
@@ -949,7 +1028,7 @@ export default function OffseasonSim() {
           while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
         <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
-          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setShareOpen(true)} lg={lg} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
+          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setOverlay({ kind: "share" })} lg={lg} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
           <div className="mt-2">
             <TradeDocket teams={docketTeams} />
           </div>
@@ -964,7 +1043,7 @@ export default function OffseasonSim() {
           legal={docketLegal}
           visible={trayVisible}
           onReview={() => verdictRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-          onShare={() => setShareOpen(true)}
+          onShare={() => setOverlay({ kind: "share" })}
         />
       )}
 
@@ -1020,9 +1099,9 @@ export default function OffseasonSim() {
             pickSel={pickSel}
             onTogglePick={togglePick}
             onPickDest={setPickDest}
-            onSign={(faId, st) => setSignFor({ team: id, faId, st })}
-            onExtend={(playerId, playerName) => setExtendFor({ playerId, playerName, team: id })}
-            onWaive={(playerId, playerName) => setWaiveFor({ playerId, playerName, team: id })}
+            onSign={(faId, st) => setOverlay({ kind: "sign", team: id, faId, st })}
+            onExtend={(playerId, playerName) => setOverlay({ kind: "extend", team: id, playerId, playerName })}
+            onWaive={(playerId, playerName) => setOverlay({ kind: "waive", team: id, playerId, playerName })}
             stagedSt={stContract}
             tradeDate={tradeDate}
           />
@@ -1035,11 +1114,11 @@ export default function OffseasonSim() {
       )}
 
       {shortcutsOpen && (
-        <div className="fixed inset-0 z-[70]" onClick={() => setShortcutsOpen(false)}>
+        <div className="fixed inset-0 z-[70]" onClick={closeOverlay}>
           <div className="infobox fixed left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 flex items-baseline justify-between">
               <span className="label !text-[10px] !text-[var(--accent-ink)]">Front-office shortcuts</span>
-              <button onClick={() => setShortcutsOpen(false)} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">✕</button>
+              <button onClick={closeOverlay} className="text-xs text-[var(--muted)] hover:text-[var(--text)]">✕</button>
             </div>
             <div className="space-y-2 text-[12.5px]">
               <div className="flex items-center justify-between"><span>Trade finder</span><span className="shortcut-key">T</span></div>
@@ -1064,14 +1143,19 @@ export default function OffseasonSim() {
           holdsOf={lg.teamHolds}
           nameOf={lg.playerName}
           salaryOf={salaryOf}
-          onClose={() => setShareOpen(false)}
+          onClose={closeOverlay}
         />
       )}
       {recap && (
         <OffseasonRecapModal
           moves={recap.moves}
           teams={recap.teams}
-          onClose={() => setRecap(null)}
+          onClose={closeOverlay}
+          ownMoves={session.kind === "shared" ? session.ownMoves : 0}
+          onRestoreOwn={() => {
+            restoreOwnSession();
+            closeOverlay();
+          }}
           onShare={() => {
             void navigator.clipboard?.writeText(window.location.href).catch(() => {});
           }}
@@ -1083,21 +1167,30 @@ export default function OffseasonSim() {
           initialId={signFor.faId}
           initialSt={signFor.st}
           lg={lg}
-          onClose={() => setSignFor(null)}
+          onClose={closeOverlay}
           onStageSt={(st) => {
+            // His old team must be on the board: the re-sign sits on its
+            // books and the trade leaves from it. On a full board there is no
+            // seat, and `[...b, team].slice(0, 8)` used to drop the team it
+            // had just added, leaving a staged deal whose first leg the
+            // verdict never saw.
+            if (!board.includes(st.fromTeam) && board.length >= MAX_BOARD) {
+              leagueToast("Board is full", `A sign-and-trade needs ${teamMeta(st.fromTeam).name} on the board. Take a team off, then stage it again.`);
+              return;
+            }
             setStStage(st);
-            // his old team must be on the board; preselect him outbound if a
-            // destination already exists, otherwise the GM picks one
-            setBoard((b) => (b.includes(st.fromTeam) ? b : [...b, st.fromTeam].slice(0, 8)));
+            setBoard((b) => (b.includes(st.fromTeam) ? b : [...b, st.fromTeam]));
+            // Preselect him outbound if a destination already exists;
+            // otherwise he waits for one (see the retarget effect).
             const dest = board.find((t) => t !== st.fromTeam);
             setSel((cur) => ({ ...cur, [st.playerId]: { from: st.fromTeam, to: dest ?? st.fromTeam } }));
-            setSignFor(null);
+            closeOverlay();
           }}
         />
       )}
-      {extendFor && <ExtendDrawer {...extendFor} lg={lg} onClose={() => setExtendFor(null)} />}
-      {waiveFor && <WaiveDrawer {...waiveFor} lg={lg} onClose={() => setWaiveFor(null)} />}
-      {finderOpen && <TradeFinderDrawer board={board} lg={lg} tradeDate={tradeDate} onClose={() => setFinderOpen(false)} onLoad={loadTradePackage} />}
+      {extendFor && <ExtendDrawer playerId={extendFor.playerId} playerName={extendFor.playerName} team={extendFor.team} lg={lg} onClose={closeOverlay} />}
+      {waiveFor && <WaiveDrawer playerId={waiveFor.playerId} playerName={waiveFor.playerName} team={waiveFor.team} lg={lg} onClose={closeOverlay} />}
+      {finderOpen && <TradeFinderDrawer board={board} lg={lg} tradeDate={tradeDate} onClose={closeOverlay} onLoad={loadTradePackage} />}
     </div>
   );
 }
@@ -1290,7 +1383,7 @@ function TradeVerdict({
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
   // Count staged trades once per verdict panel, not per roster tweak.
   useEffect(() => {
-    track("trade_staged", { result: verdict.legal ? "legal" : "blocked" });
+    track("trade_staged", { result: legal ? "legal" : "blocked" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // The cap-nerd detail: on legal deals, how close did the tightest leg come?
@@ -1483,6 +1576,11 @@ function TeamColumn({
       ? [...baseRoster, stagedSt]
       : baseRoster;
   const others = board.filter((t) => t !== teamId);
+  // Whether the staged trade moves salary on or off this team. The engine
+  // returns a summary for every team on the board, traded or not, and its
+  // post-trade figure is apron salary: comparing that with signed salary put a
+  // "post-trade" tick on any untouched team that carries an apron add-back.
+  const inTrade = !!summary && (summary.outgoingSalary > 0 || summary.incomingSalary > 0);
   const pre = summary?.preTradeSalary ?? committed;
   const post = summary?.postTradeSalary ?? pre;
   // Cap charge = actual salary + free-agent holds — the Team Salary basis for
@@ -1573,7 +1671,7 @@ function TeamColumn({
           salary={committed}
           apronSalary={lg.capSheet(teamId).apronSalary}
           holds={holds}
-          ghost={summary && summary.postTradeSalary !== committed ? summary.postTradeSalary : undefined}
+          ghost={summary && inTrade && summary.postTradeSalary !== committed ? summary.postTradeSalary : undefined}
           c={C}
         />
       </div>
@@ -1757,7 +1855,7 @@ function TeamColumn({
                 >
                   Sign
                 </button>
-                {!fa.renounced && !fa.renouncedInWorld && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird") && (
+                {canSignAndTrade(fa) && (
                   <button
                     onClick={() => onSign(fa.playerId, true)}
                     title={`Sign-and-trade ${fa.playerName} away — pick a destination, take a return package back`}
@@ -1848,6 +1946,18 @@ function TeamColumn({
 const isOwnKept = (fa: FreeAgent, team: string) =>
   fa.priorTeam === team && !fa.renounced;
 
+/** Whether a free agent can be signed-and-traded right now. His old team has
+ * to still hold the rights it would re-sign him with (renouncing him gave
+ * them up), and the contract has to be entered into before the first day of
+ * the Regular Season (Art. VII §8(e)(1)(v)). The holds row and the signing sheet each decided this
+ * for themselves: the sheet skipped the renounce test and offered a renounced
+ * player his Bird ceiling, and neither knew what month it was. */
+const canSignAndTrade = (fa: FreeAgent) =>
+  !IN_SEASON &&
+  !fa.renounced &&
+  !fa.renouncedInWorld &&
+  (fa.birdStatus === "bird" || fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird");
+
 function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { team: string; initialId?: string; initialSt?: boolean; lg: LG; onClose: () => void; onStageSt: (st: StStage) => void }) {
   const committed = lg.teamSalary(team);
   const holds = lg.teamHolds(team);
@@ -1856,9 +1966,15 @@ function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { te
   const [sortBy, setSortBy] = useState<"fit" | "impact" | "salary" | "name">("fit");
   const [posFilter, setPosFilter] = useState<string>("");
   const [affordableOnly, setAffordableOnly] = useState(false);
-  const [selected, setSelected] = useState<FreeAgent | null>(
-    () => (initialId ? fas.find((f) => f.playerId === initialId) ?? null : null),
-  );
+  // The selected free agent, by id. Holding the object kept a copy from the
+  // render he was clicked in: renounce him behind the open drawer and the copy
+  // still said he had his hold, which the editor then subtracted a second time.
+  const [selectedId, setSelectedId] = useState<string | null>(initialId ?? null);
+  const selected = selectedId ? fas.find((f) => f.playerId === selectedId) ?? null : null;
+  const setSelected = (fa: FreeAgent | null) => setSelectedId(fa?.playerId ?? null);
+  // "Open in sign-and-trade mode" belongs to the player the drawer was opened
+  // for. It used to ride along to whoever was picked next.
+  const stFor = initialSt ? initialId : undefined;
   // Signing base = committed + kept holds; re-signing your own FA converts HIS
   // hold to salary, so it drops out of the base for that player.
   const signBaseFor = (fa: FreeAgent) =>
@@ -1874,10 +1990,13 @@ function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { te
     // signings legal/affordable that the panel then blocks. hardCapOf is
     // Infinity when the team has no cap, so uncapped teams are unaffected.
     const hc = lg.hardCapOf(team);
+    // And so does a full roster: with fifteen standard contracts in season
+    // nobody is signable until someone is waived, whatever the money says.
+    const rosterFull = lg.roster(team).length >= rosterLimitOn();
     return fas.map((fa) => {
       const isOwn = isOwnKept(fa, team);
       const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
-      const legal = v.legal && committed + fa.lastSalary <= hc + 1;
+      const legal = v.legal && committed + fa.lastSalary <= hc + 1 && !rosterFull;
       const maxOffer = Math.min(v.maxOffer, Math.max(0, hc - committed));
       return { fa, v, legal, maxOffer, isOwn, pos: positionOf(fa.playerId), impact: faImpact(fa, byId), age: ageOf(fa.playerId) };
     });
@@ -1942,7 +2061,8 @@ function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { te
 
       {selected ? (
         <SignEditor
-          initialSt={initialSt}
+          key={selected.playerId}
+          initialSt={stFor === selected.playerId}
           onStageSt={onStageSt}
           fa={selected}
           team={team}
@@ -1954,6 +2074,13 @@ function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { te
         />
       ) : (
         <>
+          {lg.roster(team).length >= rosterLimitOn() && (
+            <div className="border-b border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--tier-second_apron)]">
+              {IN_SEASON
+                ? `${teamMeta(team).name} have ${lg.roster(team).length} standard contracts, the in-season limit. Waive a player to open a spot.`
+                : `${teamMeta(team).name} are at the ${rosterLimitOn()}-player offseason limit.`}
+            </div>
+          )}
           <div className="space-y-2 border-b border-[var(--border)] px-3 py-2.5">
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search free agents…" className="w-full rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm" />
             <div className="flex flex-wrap items-center gap-1.5">
@@ -2121,26 +2248,31 @@ function SignEditor({
   // Bird re-sign or a minimum. Hard caps test apron salary, holds excluded.
   const hardCap = lg.hardCapOf(team);
   const exceedsHardCap = apronAfter > hardCap + 1;
-  // Roster limit: 21 in the offseason (hard), 15 by opening night (warn).
+  // Roster limit: 21 in the offseason (hard) with 15 due by opening night
+  // (warn); 15 once the season is on (hard). Asked of the calendar: the
+  // offseason's 21 was still the limit in November.
   const rosterCount = lg.roster(team).length;
-  const rosterFull = rosterCount >= 21;
+  const rosterLimit = rosterLimitOn();
+  const rosterFull = rosterCount >= rosterLimit;
   const legalSign = v.legal && !exceedsHardCap && !rosterFull;
 
   // Sign-and-trade — staged onto the BOARD. The drawer only sets the
   // re-sign terms; the deal itself (destination, return package, picks,
   // extra teams) is built on the board like any trade, judged by the same
   // docket with the S&T rules layered in.
-  const [stMode, setStMode] = useState(!!initialSt);
-  useEffect(() => {
-    if (initialSt) setYears((y) => Math.max(3, y));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   // Any veteran free agent can be signed-and-traded (CBA Art. VII §8(e)) — not
   // only Bird/Early-Bird. A Non-Bird re-sign (up to 120% of prior) is a valid
   // S&T leg; the engine handles the 5% raises and the ceiling already.
-  const stEligibleRights =
-    fa.birdStatus === "bird" || fa.birdStatus === "early_bird" || fa.birdStatus === "non_bird";
-  const canOfferSt = stEligibleRights && (isOwn || !v.legal);
+  const stAllowed = canSignAndTrade(fa);
+  // What the GM asked for; the mode itself only holds while the offer is one
+  // he can take, so renouncing him behind the open sheet drops it.
+  const [stWanted, setStMode] = useState(!!initialSt);
+  const stMode = stWanted && stAllowed;
+  useEffect(() => {
+    if (initialSt && stAllowed) setYears((y) => Math.max(3, y));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const canOfferSt = stAllowed && (isOwn || !v.legal);
   // The S&T salary is bounded by what the SENDER could re-sign him for with
   // his actual rights — the re-sign leg happens on the old team's books.
   const sendCommitted = lg.teamSalary(fa.priorTeam);
@@ -2206,9 +2338,10 @@ function SignEditor({
       salary,
       years,
       mechanism: "bird", // matching uses the incumbent's rights, regardless of cap
-      // Art. XI §5(j): a matched RFA can't be traded for one year (and never
-      // to the offering team).
-      restrictionText: "matched offer sheet (not trade-eligible for one year)",
+      // Art. XI §5(j): for a year he must consent to any trade and can't go
+      // to the team whose sheet was matched. The reducer reads this for that,
+      // and to keep the sheet's 5% raises rather than Bird's 8%.
+      matchedSheetFrom: team,
     });
     onDone();
   };
@@ -2396,10 +2529,12 @@ function SignEditor({
         )}
         {rosterFull && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            Roster is at the 21-player offseason limit.
+            {IN_SEASON
+              ? `Roster is full: ${rosterLimit} standard contracts is the in-season limit. Waive a player first.`
+              : `Roster is at the ${rosterLimit}-player offseason limit.`}
           </div>
         )}
-        {!rosterFull && rosterCount >= 15 && (
+        {!rosterFull && !IN_SEASON && rosterCount >= ROSTER_LIMIT.season && (
           <div className="mt-1 text-[var(--tier-taxpayer)]">
             Roster at {rosterCount} — must be down to 15 (plus two-ways) by opening night.
           </div>

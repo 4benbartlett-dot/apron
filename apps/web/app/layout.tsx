@@ -46,6 +46,8 @@ export const metadata: Metadata = {
     images: ["/api/og?v=3"],
   },
   twitter: { card: "summary_large_image", images: ["/api/og?v=3"] },
+  authors: [{ name: "Ben Bartlett", url: "https://overtheapron.com/about" }],
+  creator: "Ben Bartlett",
 };
 
 export const viewport: Viewport = {
@@ -88,6 +90,7 @@ export default function RootLayout({
               applicationCategory: "SportsApplication",
               operatingSystem: "Web",
               offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+              author: { "@type": "Person", name: "Ben Bartlett", url: "https://overtheapron.com/about" },
               description:
                 "NBA trade machine, cap sheets, and season simulator with cited 2023 CBA rules for apron limits, hard caps, salary matching, trade freezes, traded-player exceptions, and free agency.",
             }),
@@ -139,7 +142,8 @@ export default function RootLayout({
                 <Link href="/about" className={FOOT_LINK}>About</Link>
               </div>
               <p className="tabular mt-2.5">
-                {`rosters as of ${DATA_AS_OF} · independent; not affiliated with the NBA or NBPA`}
+                {`rosters as of ${DATA_AS_OF} · independent; not affiliated with the NBA or NBPA · built by `}
+                <Link href="/about" className={FOOT_LINK}>Ben Bartlett</Link>
               </p>
             </div>
             <FooterX />

@@ -21,6 +21,7 @@ import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { localToday } from "./today.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "..", "src", "external-cap-check.json");
@@ -94,7 +95,7 @@ writeFileSync(
     {
       source: "Spotrac NBA Team Apron Tracker (via Firecrawl)",
       url: URL_,
-      asOf: new Date().toISOString().slice(0, 10),
+      asOf: localToday(),
       note:
         "An INDEPENDENT answer to the same question our sheet computes, for all 30 teams. Nothing in the app reads this; externalCapCheck.test.ts diffs against it so a disagreement is a number rather than a surprise. Their figure is not automatically correct — ours has reproduced beat-writer numbers Spotrac lagged on — but an unexplained gap is a lead.",
       lines: { firstApron, secondApron },

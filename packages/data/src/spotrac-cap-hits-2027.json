@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-11-02",
+  "asOf": "2026-11-09",
   "note": "Every 2027-28 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
   "byName": {
     "jalen johnson": {
@@ -111,7 +111,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "henri veesaar": {
       "name": "Henri Veesaar",
@@ -476,17 +476,6 @@
       "type": "RK-1ST",
       "nonGuaranteed": false
     },
-    "tidjane salaun": {
-      "name": "Tidjane Salaun",
-      "team": "CHA",
-      "cap": 10445633,
-      "base": 10445633,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
-    },
     "hannes steinbach": {
       "name": "Hannes Steinbach",
       "team": "CHA",
@@ -518,7 +507,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "ryan kalkbrenner": {
       "name": "Ryan Kalkbrenner",
@@ -1959,7 +1948,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "brayden burries": {
       "name": "Brayden Burries",
@@ -2003,7 +1992,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "ryan rollins": {
       "name": "Ryan Rollins",
@@ -2445,17 +2434,6 @@
       "type": "VET-EXT",
       "nonGuaranteed": true
     },
-    "nikola topic": {
-      "name": "Nikola Topic",
-      "team": "OKC",
-      "cap": 7482210,
-      "base": 7482210,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
-    },
     "jared mccain": {
       "name": "Jared McCain",
       "team": "OKC",
@@ -2465,7 +2443,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "aday mara": {
       "name": "Aday Mara",
@@ -2487,7 +2465,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "bennett stirtz": {
       "name": "Bennett Stirtz",
@@ -2499,6 +2477,17 @@
       "tradeBonus": 0,
       "type": "RK-1ST",
       "nonGuaranteed": false
+    },
+    "nique clifford": {
+      "name": "Nique Clifford",
+      "team": "OKC",
+      "cap": 3418800,
+      "base": 3418800,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "RK-1ST",
+      "nonGuaranteed": true
     },
     "ajay mitchell": {
       "name": "Ajay Mitchell",
@@ -3006,17 +2995,6 @@
       "type": "FA",
       "nonGuaranteed": false
     },
-    "nique clifford": {
-      "name": "Nique Clifford",
-      "team": "SAC",
-      "cap": 3418800,
-      "base": 3418800,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
-      "nonGuaranteed": true
-    },
     "alex karaban": {
       "name": "Alex Karaban",
       "team": "SAC",
@@ -3367,7 +3345,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "josh okogie": {
       "name": "Josh Okogie",
@@ -3389,17 +3367,6 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "FA",
-      "nonGuaranteed": true
-    },
-    "isaiah collier": {
-      "name": "Isaiah Collier",
-      "team": "UTA",
-      "cap": 4988948,
-      "base": 4988948,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
       "nonGuaranteed": true
     },
     "sviatoslav mykhailiuk": {
@@ -3466,7 +3433,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "aj dybantsa": {
       "name": "AJ Dybantsa",
@@ -3488,7 +3455,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "bub carrington": {
       "name": "Bub Carrington",
@@ -3499,7 +3466,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "khris middleton": {
       "name": "Khris Middleton",
@@ -3521,7 +3488,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "will riley": {
       "name": "Will Riley",
@@ -3532,7 +3499,7 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-1ST",
-      "nonGuaranteed": true
+      "nonGuaranteed": false
     },
     "justin champagnie": {
       "name": "Justin Champagnie",

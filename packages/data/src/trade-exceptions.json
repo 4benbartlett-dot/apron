@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-14",
+  "asOf": "2026-11-09",
   "source": "Spotrac (spotrac.com/nba/transactions/trade-exceptions) + SalarySwish (salaryswish.com/trade-exception)",
   "availabilityNote": "Per CBA §6(n)(2), a team that used cap room this offseason has renounced its outstanding TPEs. Rows are NOT filtered for that here — the app decides with FEED_TEAM_STATE.",
   "rows": [
@@ -313,21 +313,11 @@
     },
     {
       "team": "DEN",
-      "player": "Payton Watson trade with CLE - unusable if over 2nd Apron",
-      "amount": 10232558,
-      "expires": "2027-08-20",
-      "singleSource": true,
-      "sources": [
-        "spotrac"
-      ]
-    },
-    {
-      "team": "DEN",
       "player": "Peyton Watson",
       "amount": 10232558,
       "expires": "2027-08-20",
-      "singleSource": true,
       "sources": [
+        "spotrac",
         "salaryswish"
       ]
     },
@@ -577,21 +567,11 @@
     },
     {
       "team": "OKC",
-      "player": "Lu Dort",
-      "amount": 17722222,
-      "expires": "2027-07-19",
-      "singleSource": true,
-      "sources": [
-        "spotrac"
-      ]
-    },
-    {
-      "team": "OKC",
       "player": "Luguentz Dort",
       "amount": 17722222,
       "expires": "2027-07-19",
-      "singleSource": true,
       "sources": [
+        "spotrac",
         "salaryswish"
       ]
     },
@@ -608,7 +588,7 @@
     {
       "team": "OKC",
       "player": "Aaron Wiggins",
-      "amount": 9028038,
+      "amount": 5764638,
       "expires": "2027-07-06",
       "sources": [
         "spotrac",
@@ -616,8 +596,9 @@
       ],
       "corrected": {
         "from": 9224300,
-        "why": "Oklahoma City sent Wiggins to Atlanta on Jul 6 for two seconds, creating an exception of his Salary. Both trackers print $9,224,300, which is his base ($8,831,776) plus BOTH bonuses — but Art. VII §3(d) excludes unlikely bonuses from Salary, so the exception is base plus the $196,262 likely bonus: $9,028,038, the cap hit Spotrac's own Thunder and Hawks pages carry."
-      }
+        "why": "Oklahoma City sent Wiggins to Atlanta on Jul 6 for two seconds, creating an exception of his Salary: base ($8,831,776) plus the $196,262 likely bonus, $9,028,038, because Art. VII §3(d) keeps unlikely bonuses out of Salary. On Nov 8 the Thunder absorbed Nique Clifford's $3,263,400 into it (ESPN, Hoops Rumors), leaving $5,764,638. Spotrac now prints both figures; SalarySwish still shows $9,224,300 (base plus both bonuses) with nothing used."
+      },
+      "original": 9028038
     },
     {
       "team": "OKC",
@@ -670,6 +651,16 @@
       ]
     },
     {
+      "team": "PHI",
+      "player": "Ariel Hukporti",
+      "amount": 1700000,
+      "expires": "2027-03-10",
+      "singleSource": true,
+      "sources": [
+        "spotrac"
+      ]
+    },
+    {
       "team": "PHX",
       "player": "Nick Richards",
       "amount": 5000000,
@@ -718,6 +709,19 @@
         "spotrac",
         "salaryswish"
       ]
+    },
+    {
+      "team": "SAC",
+      "player": "Nique Clifford",
+      "amount": 3263400,
+      "expires": "2027-11-08",
+      "singleSource": true,
+      "sources": [
+        "curated"
+      ],
+      "added": {
+        "why": "Sacramento sent Clifford ($3,263,400) to Oklahoma City on Nov 8 for two second-round picks and took back no salary, which creates an exception of his Salary good for one year (Art. VII §6(j)). Spotrac's Keith Smith reported it at roughly $3.3 million; neither tracker's exception page listed it as of Nov 9."
+      }
     },
     {
       "team": "TOR",

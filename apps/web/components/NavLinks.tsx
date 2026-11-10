@@ -12,7 +12,9 @@ const NAV = [
   { href: "/glossary", label: "Glossary" },
   { href: "/league", label: "League" },
   { href: "/standings", label: "Standings" },
-  { href: "/about", label: "Contact" },
+  // "About", not "Contact": it is where someone looks to learn what this is
+  // and who made it. The contact lines are still on it.
+  { href: "/about", label: "About" },
 ] as const;
 
 /** Header nav with a real active state: the accent rule sits fully drawn

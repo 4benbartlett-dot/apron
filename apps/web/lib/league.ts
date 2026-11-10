@@ -2,6 +2,14 @@ import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO,
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
+  SEASON_2025_26,
+  CALENDAR_2026_27,
+  leaguePhaseOn,
+  tradeTimingOn,
+  isRegularSeason,
+  regularSeasonDays,
+  seasonDaysLeft,
+  lastSeasonEndBy,
   salaryForYear,
   capHold,
   stretchProvision,
@@ -13,11 +21,13 @@ import {
   type ContractYear,
   type LeagueConstants,
   type LeagueData,
+  type LeaguePhase,
   type MechanismId,
   type Team,
+  type TradeTiming,
 } from "@apron/cba-engine";
 import { shortPlayerName } from "./names";
-import { feedIso } from "./feedDate";
+import { feedIso, daysBetween } from "./feedDate";
 import { posteriorRating, simulateSeason, type SimTeam, type TeamOutlook } from "./seasonSim";
 
 /** Normalize a player name for joining across data sources. */
@@ -48,28 +58,43 @@ const SIM_TODAY = (() => {
  * on, and the `date` the boards hand validateTrade (Art. VII §2(e)(2)(ii)). */
 export const SIM_DATE: string = DATA_AS_OF;
 
+/** The league year's dates. Every date-driven rule, label and countdown in the
+ * app reads this one table (packages/cba-engine/src/constants/2026-27.ts). */
+export const CALENDAR = CALENDAR_2026_27;
+
 /** The 2026-27 trade deadline (Feb. 11, 3 p.m. ET; reported with the
  * league's key dates). The board's "at the deadline" mode trades on it. */
-export const TRADE_DEADLINE = "2027-02-11";
+export const TRADE_DEADLINE = CALENDAR.tradeDeadline;
+
+/** Where the league year stands on the sim's day: offseason, camp, the season
+ * before Dec. 15, Dec. 15 to the deadline, after the deadline, or postseason. */
+export const SIM_PHASE: LeaguePhase = leaguePhaseOn(SIM_DATE, CALENDAR);
+
+/** Whether the sim's day is inside the Regular Season. Rules that differ in
+ * season (the 15-man roster, no sign-and-trades, minimums paid by the day)
+ * ask this, not a date. */
+export const IN_SEASON: boolean = isRegularSeason(SIM_DATE, CALENDAR);
+
+/** Standard contracts a team may carry: 21 from the day after its season ends
+ * until the day before the next one starts, 15 in season (Art. XXIX). */
+export const ROSTER_LIMIT = { offseason: 21, season: 15 } as const;
+export const rosterLimitOn = (date: string = SIM_DATE): number =>
+  isRegularSeason(date, CALENDAR) ? ROSTER_LIMIT.season : ROSTER_LIMIT.offseason;
 
 /** Which window a trade date falls in, for the minimum-player aggregation
  * limit that is off from Dec. 15 through the deadline (Art. VII §6(j)(4)(ii)). */
-export function tradeTiming(date: string): "offseason" | "pre_dec15" | "dec15_to_deadline" | "post_deadline" {
-  if (date < "2026-10-20") return "offseason";
-  if (date < "2026-12-15") return "pre_dec15";
-  return date <= TRADE_DEADLINE ? "dec15_to_deadline" : "post_deadline";
+export function tradeTiming(date: string): TradeTiming {
+  return tradeTimingOn(date, CALENDAR);
 }
 
-/** Start of the current sim offseason — the day after the 2025-26 Regular
- * Season ended (~Apr 12, 2026). A Standard TPE lives exactly one year, so a
- * ledger row's ARISE date is its expiry minus a year; a row that arose on or
- * after this boundary arose in THIS offseason and is not yet row-F restricted
- * (§6(j)(1)(i): its first-apron hard cap only attaches after the FOLLOWING —
- * 2026-27 — Regular Season). Expressed as a yyyy-mm-dd string for the same
- * lexical date comparison the ledger already uses. The exact day is not load-
- * bearing: every real row arose either by Feb 2026 (Regular Season) or in late
- * June 2026 (offseason), far from this boundary. */
-const CURRENT_OFFSEASON_START = "2026-04-13";
+/** The last day of the most recent Regular Season to have ended by the data's
+ * date (Apr. 12, 2026, until the 2026-27 season ends). A Standard TPE lives
+ * exactly one year, so a ledger row's ARISE date is its expiry minus a year;
+ * its first-apron limit attaches only after the Regular Season that FOLLOWS
+ * it (§6(j)(1)(i)), so a row is row-F restricted when it arose on or before
+ * this day and dormant when it arose after. Read off the calendar, so the
+ * line moves by itself on Apr. 12, 2027. */
+const ROW_F_ATTACHED_THROUGH = lastSeasonEndBy(DATA_AS_OF, [SEASON_2025_26.calendar, CALENDAR]) ?? "";
 
 /** Whether using this TPE is a restriction-table row-F first-apron transaction:
  * it can't leave the team over the first apron, and using it hard-caps the team
@@ -1029,18 +1054,24 @@ const activeRaw = [
 ];
 const deduped = dedupe(activeRaw);
 /* ------------------------------ IN-SEASON DEALS ------------------------------ */
-// Two contract shapes the offseason never produced and the regular season
-// produces weekly. Each is the newest word on the player, so a later waive
-// (LAST_RELEASE) retires it.
+// Three contract shapes the offseason never produced and the regular season
+// produces weekly. Each is the newest word on the player. A later waive
+// (LAST_RELEASE) ends the deal but not what it cost: the days he was paid for
+// stay on the books, and each shape knows how many those are.
 
 /** Regular-season days, opening night (Oct 20) through Apr 11. A 10-day pays
  * the Minimum Player Salary (Art. II §9(b)) by the day: 10/174ths of it. */
-const SEASON_DAYS = 174;
+const SEASON_DAYS = regularSeasonDays(CALENDAR);
 const isoPlusDays = (iso: string, n: number) => {
   const d = new Date(`${iso}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + n);
   return d.toISOString().slice(0, 10);
 };
+/** Days of the regular season a contract signed on `iso` is paid for, the
+ * signing day included: 174 on opening night, 159 on Nov. 4. */
+const seasonDaysFrom = (iso: string) => seasonDaysLeft(iso, CALENDAR);
+/** A waived player clears waivers 48 hours later and is paid through them. */
+const WAIVER_DAYS = 2;
 
 /** "Signed a 10-day contract with LA Clippers (LAC) via Hardship Provision" —
  * newest signing row per player. Blake Wesley's Oct 29 hardship deal is the
@@ -1079,6 +1110,27 @@ const CONVERTED_TO_STANDARD = (() => {
   return out;
 })();
 
+/** "Signed a 2 year Rest-of-Season contract with Oklahoma City Thunder (OKC)":
+ * a minimum deal signed after opening night, paid by the day for what is left
+ * of the season. Dalen Terry's Nov. 4 deal is the first. The row gives the
+ * term and nothing else, so the salary is his Minimum Player Salary prorated
+ * (Art. I §1(kk)(ii); Art. II §10), which is what a rest-of-season deal at the
+ * minimum is. */
+const REST_OF_SEASON = (() => {
+  const out = new Map<string, { team: string; date: string; years: number }>();
+  const decided = new Set<string>();
+  for (const t of TRANSACTIONS) {
+    if (t.type !== "Signing" && t.type !== "Re-sign") continue;
+    const k = normName(t.player);
+    if (decided.has(k)) continue;
+    decided.add(k);
+    const m = t.detail.match(/(\d+) year Rest-of-Season contract with [^(]*\(([A-Za-z]{2,4})\)/i);
+    const date = feedIso(t.date);
+    if (m && date) out.set(k, { team: stdTeam(m[2]!), date, years: Number(m[1]) });
+  }
+  return out;
+})();
+
 function applyInSeasonDeals(contracts: Contract[]): Contract[] {
   return contracts.map((c) => {
     if (c.deadMoney) return c;
@@ -1087,22 +1139,67 @@ function applyInSeasonDeals(contracts: Contract[]): Contract[] {
     const ownMin = C.minimumSalaries[Math.min(experienceOf(c.playerId), 10)] ?? C.minimumSalaries[10]!;
     const past = c.years.filter((y) => y.leagueYear < YEAR);
     const ten = TEN_DAY.get(k);
-    if (ten && !(cut && cut > ten.date) && VALID_TEAMS.has(ten.team)) {
+    if (ten && VALID_TEAMS.has(ten.team)) {
       // Cap hit: the §3(f) deemed figure where it applies (a 3+ YOS vet on a
       // one-year minimum counts at the 2-YOS scale — Spotrac's $14,077 a day
       // for Wesley is $2,449,421 / 174), prorated. The whole 10 days are
       // guaranteed, so the charge is all ten even on day one; Spotrac prints
-      // the days accrued so far. Once the ten days run out he is off the
-      // roster and what he was paid stays on the books.
+      // the days accrued so far. Once the ten days run out, or he is waived
+      // inside them, he is off the roster and what he was paid stays on the
+      // books. (A waive used to hand him back to the row he had before the
+      // 10-day, and the waive then charged that stale contract in full.)
       const capDaily = deemedMinSalary(c.playerId, ownMin, 1) / SEASON_DAYS;
       const expires = isoPlusDays(ten.date, 9);
+      const over = expires < DATA_AS_OF || (!!cut && cut > ten.date);
       return {
         ...cloneContract(c),
         teamId: ten.team,
         years: [...past, { leagueYear: YEAR, salary: Math.round(capDaily * 10), guarantee: "full" as const }],
         signedUsing: "10-Day",
         restriction: `10-day contract, expires ${expires}`,
-        deadMoney: expires < DATA_AS_OF ? true : undefined,
+        deadMoney: over ? true : undefined,
+        signedAsFreeAgent: true,
+      };
+    }
+    const ros = REST_OF_SEASON.get(k);
+    if (ros && VALID_TEAMS.has(ros.team)) {
+      // One season counts at the §3(f) deemed figure like any one-year
+      // minimum; two or more count at his own scale. Terry (4 YOS, two years):
+      // $2,625,627 × 159/174 = $2,399,280, the hit Spotrac carried.
+      const daily = (ros.years === 1 ? deemedMinSalary(c.playerId, ownMin, 1) : ownMin) / SEASON_DAYS;
+      const paidDays = seasonDaysFrom(ros.date);
+      if (cut && cut > ros.date) {
+        // Waived before the Jan. 10 guarantee date, a rest-of-season minimum
+        // is non-guaranteed unless reporting says otherwise (Terry's was:
+        // HoopsHype, Nov. 4), so he is owed the days he was on the roster plus
+        // the two on waivers. Signed Nov. 4, waived Nov. 8: seven days,
+        // $105,629, which is Spotrac's dead-cap row to the dollar. A waive
+        // row that states its own dead cap wins.
+        const served = Math.min(paidDays, Math.round(daysBetween(ros.date, cut)) + 1 + WAIVER_DAYS);
+        const owed = STATED_RELEASE.get(k) ?? Math.round(daily * served);
+        return {
+          ...cloneContract(c),
+          teamId: ros.team,
+          years: [...past, ...(owed > 0 ? [{ leagueYear: YEAR, salary: owed, guarantee: "full" as const }] : [])],
+          signedUsing: "Rest of season",
+          restriction: undefined,
+          deadMoney: true,
+          signedAsFreeAgent: true,
+        };
+      }
+      // Later seasons at next year's rung of his scale, grown with the cap: an
+      // estimate until a filed figure replaces it (applyFiledFutureSalaries).
+      const future = Array.from({ length: Math.max(0, ros.years - 1) }, (_, i) => {
+        const leagueYear = `${2027 + i}-${String(28 + i).padStart(2, "0")}`;
+        const rung = C.minimumSalaries[Math.min(experienceOf(c.playerId) + 1 + i, 10)] ?? C.minimumSalaries[10]!;
+        return { leagueYear, salary: Math.round((rung * projectedCap(leagueYear)) / C.salaryCap), guarantee: "non_guaranteed" as const };
+      });
+      return {
+        ...cloneContract(c),
+        teamId: ros.team,
+        years: [...past, { leagueYear: YEAR, salary: Math.round(daily * paidDays), guarantee: "non_guaranteed" as const }, ...future],
+        signedUsing: "Rest of season",
+        restriction: FA_RESTRICTION,
         signedAsFreeAgent: true,
       };
     }
@@ -1624,7 +1721,7 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
     // A waiver claim takes over the contract he already had, signed when it
     // was signed (Tony Bradley's Sep 30 Exhibit 9, claimed by Utah Oct 17).
     const claimed = rows.some((r) => r.iso >= lastRelease && /Claimed off waivers/i.test(r.detail));
-    const since = claimed ? "2026-06-30" : later("2026-06-30", lastRelease);
+    const since = claimed ? CALENDAR.leagueYearOpens : later(CALENDAR.leagueYearOpens, lastRelease);
     const deal = (r: { type: string; detail: string }) => r.type === "Signing" && !/Two-Way contract with|10-day|extension/i.test(r.detail);
     // The signing itself where the feed has it; "Agreed to" where that is
     // all it has (it's the earlier date, so the freeze reads a day or two
@@ -1636,7 +1733,7 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
     if (veto) out.vetoReason = veto;
 
     // A player acquired by trade: two months before his salary can be combined.
-    const traded = [...rows].reverse().find((r) => r.type === "Trade" && r.iso > "2026-06-30" && new RegExp(`Traded to [^(]*\\(${c.teamId}\\)`).test(r.detail));
+    const traded = [...rows].reverse().find((r) => r.type === "Trade" && r.iso > CALENDAR.leagueYearOpens && new RegExp(`Traded to [^(]*\\(${c.teamId}\\)`).test(r.detail));
     if (traded) {
       out.noAggregate = true;
       out.aggregateFrom = isoPlusMonths(traded.iso, 2);
@@ -1722,7 +1819,7 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
     if (RAW_TEAM.get(c.playerId) === c.teamId && prior > 0 && y1 > prior * 1.2 && y1 > ownMin + 1 && (capSalary.get(c.teamId) ?? 0) > C.salaryCap)
       JAN15_SHAPED.add(c.playerName);
     const birdRaise = JAN15_REPORTED.has(normName(c.playerName));
-    const floor = birdRaise ? "2027-01-15" : "2026-12-15";
+    const floor = birdRaise ? CALENDAR.jan15 : CALENDAR.dec15;
     const from = later(floor, isoPlusMonths(signed, 3));
     const why = birdRaise
       ? `re-signed ${md(signed)} for more than 120% of his old salary while over the cap, so he waits for the later of Jan. 15 and three months`
@@ -2028,8 +2125,12 @@ export function injuryOf(playerId: string): PlayerInjury | undefined {
   return scraped;
 }
 
-/** Roughly when the 2026-27 regular season tips. */
-const SEASON_START = new Date(2026, 9, 21);
+/** Opening night, as a local-midnight Date for the recovery arithmetic below.
+ * (This was typed as Oct. 21 while every other table said Oct. 20.) */
+const SEASON_START = (() => {
+  const [y, m, d] = CALENDAR.openingNight.split("-").map(Number);
+  return new Date(y!, m! - 1, d!);
+})();
 /**
  * Injuries whose recovery is long enough to cross an offseason, with the months
  * a player is realistically unavailable from the date of injury.
@@ -2077,7 +2178,7 @@ function projectedGames(playerId: string): number {
   // from the pull, so it is a share of the games LEFT, put back on an 82-game
   // pace: the projection is the roster for the rest of the season, which is
   // all the simulator plays.
-  if (inj.basis && DATA_AS_OF >= "2026-10-20") {
+  if (inj.basis && DATA_AS_OF >= CALENDAR.openingNight) {
     const left = Math.max(1, PLAYER_INJURIES_GAMES_LEFT);
     return Math.max(0, Math.round(HEALTHY_GAMES * (1 - Math.min(1, inj.gamesOut / left))));
   }
@@ -3180,8 +3281,13 @@ export type Move =
       mechanism?: MechanismId;
       /** A new FA signing is trade-restricted; an extension (false) stays eligible. */
       restricted?: boolean;
-      /** Override the default Dec-15 restriction text (e.g. matched offer sheets). */
+      /** Override the default free-agent freeze text. Old saves carry a
+       * matched offer sheet here; new ones use `matchedSheetFrom`. */
       restrictionText?: string;
+      /** The prior team matched this team's offer sheet (Art. XI §5). The deal
+       * keeps the sheet's 5% raises, and for a year the player must consent to
+       * a trade and can't be sent to this team. */
+      matchedSheetFrom?: string;
     }
   | {
       kind: "sign_trade";
@@ -3250,29 +3356,94 @@ function signingYears(
   }));
 }
 
+/* A freeze a session move puts on a contract, dated from the sim's day exactly
+ * as stampTradeEligibility dates the feed's. These used to be bare text with no
+ * date, and `tradeableOn` reads an undated restriction as permanent: a player
+ * signed on the board in November stayed frozen in deadline mode, three days
+ * after the CBA frees him, and a traded player could never be aggregated. */
+type SessionFreeze = Pick<Contract, "restriction" | "tradeableFrom" | "restrictionCite">;
+const NO_FREEZE: SessionFreeze = { restriction: undefined, tradeableFrom: undefined, restrictionCite: undefined };
+/** The text the sign drawer wrote for a matched offer sheet before the move
+ * carried `matchedSheetFrom`. Saved sessions and shared links still hold it. */
+const LEGACY_MATCHED_SHEET = /^matched offer sheet/i;
+
+/** Art. VII §8(d)(ii): a free-agent signing waits for the later of Dec. 15 and three months. */
+function freeAgentFreeze(): SessionFreeze {
+  const from = later(CALENDAR.dec15, isoPlusMonths(SIM_DATE, 3));
+  return {
+    restriction: `signed as a free agent ${md(SIM_DATE)}, so he waits for the later of Dec. 15 and three months: tradeable ${shortDate(from)}`,
+    tradeableFrom: from,
+    restrictionCite: "2023 CBA Art. VII §8(d)(ii)",
+  };
+}
+/** §8(d)(iii): an over-the-cap re-sign above 120% waits for the later of Jan. 15 and three months. */
+function birdRaiseFreeze(): SessionFreeze {
+  const from = later(CALENDAR.jan15, isoPlusMonths(SIM_DATE, 3));
+  return {
+    restriction: `re-signed ${md(SIM_DATE)} for more than 120% of his old salary while over the cap, so he waits for the later of Jan. 15 and three months: tradeable ${shortDate(from)}`,
+    tradeableFrom: from,
+    restrictionCite: "2023 CBA Art. VII §8(d)(iii)",
+  };
+}
+/** §8(f)(i): an extension past extend-and-trade limits freezes him for six months. */
+function extensionFreeze(): SessionFreeze {
+  const from = isoPlusMonths(SIM_DATE, 6);
+  return {
+    restriction: `extended ${md(SIM_DATE)} past what an extend-and-trade allows, which freezes him for six months: tradeable ${shortDate(from)}`,
+    tradeableFrom: from,
+    restrictionCite: "2023 CBA Art. VII §8(f)(i)",
+  };
+}
+/** A sign move's freeze. Custom text (an old save) keeps its words; the legacy
+ * matched-sheet text is the one-year no-trade it always described, now dated. */
+function signFreeze(m: Extract<Move, { kind: "sign" }>): SessionFreeze {
+  if (m.restricted === false) return NO_FREEZE;
+  if (m.restrictionText == null) return freeAgentFreeze();
+  if (LEGACY_MATCHED_SHEET.test(m.restrictionText))
+    return { restriction: m.restrictionText, tradeableFrom: isoPlusMonths(SIM_DATE, 12), restrictionCite: "2023 CBA Art. XI §5(j)" };
+  return { restriction: m.restrictionText, tradeableFrom: undefined, restrictionCite: undefined };
+}
+/** Art. VII §6(j)(4)(i): a player acquired by trade can't be combined with
+ * other salaries for two months. */
+const acquiredByTrade = () => ({ noAggregate: true as const, aggregateFrom: isoPlusMonths(SIM_DATE, 2) });
+
 /** Apply one GM move to a contracts list, returning a new list (immutable). */
 export function applyMove(contracts: Contract[], m: Move): Contract[] {
   if (m.kind === "trade") {
     const dest = new Map(m.players.map((p) => [p.playerId, p.to]));
-    // Acquired players can't be aggregated for ~2 months. Base-year comp does
+    // Acquired players can't be aggregated for two months. Base-year comp does
     // NOT follow a player to a team that didn't re-sign him, so clear it.
     return contracts.map((c) =>
       dest.has(c.playerId)
         ? {
             ...c,
             teamId: dest.get(c.playerId)!,
-            noAggregate: true,
+            ...acquiredByTrade(),
             bycPriorSalary: undefined,
           }
         : c,
     );
   }
   if (m.kind === "sign") {
-    let yrs = signingYears(m.salary, m.years ?? 1, m.mechanism);
+    // A matched offer sheet copies the other team's terms, and a sheet's
+    // raises are capped at 5% however it is matched (raiseFor says the same
+    // of the feed's). The drawer books the match as a Bird signing so no
+    // exception is charged, which used to hand it Bird's 8% as well.
+    const matched = m.matchedSheetFrom != null || LEGACY_MATCHED_SHEET.test(m.restrictionText ?? "");
+    let yrs = signingYears(m.salary, m.years ?? 1, matched ? undefined : m.mechanism);
     if (yrs.length === 1)
       yrs = [{ ...yrs[0]!, salary: deemedMinSalary(m.playerId, yrs[0]!.salary, 1, m.mechanism ?? "unspecified") }];
-    const restriction =
-      m.restricted === false ? undefined : (m.restrictionText ?? FA_RESTRICTION);
+    const freeze = signFreeze(m);
+    // Art. XI §5(j), as the feed encodes it: for a year he must consent to any
+    // trade and can't be sent to the team whose sheet was matched. Neither is
+    // a freeze; he is tradeable, with consent, on his free-agent date.
+    const sheet: Partial<Contract> = m.matchedSheetFrom
+      ? {
+          notTradeableTo: m.matchedSheetFrom,
+          notTradeableToUntil: isoPlusMonths(SIM_DATE, 12),
+          vetoReason: `had his offer sheet matched ${md(SIM_DATE)}, so for a year he must consent to any trade, and can't be sent to ${m.matchedSheetFrom} until ${shortDate(isoPlusMonths(SIM_DATE, 12))} (Art. XI §5(j))`,
+        }
+      : {};
     // Skip DEAD-MONEY rows. A waived free agent (DeRozan, Cole Anthony, the
     // whole roster-corrections `waivedFreeAgents` class) exists on the sheet
     // ONLY as his old team's dead-money charge — he has no live contract row.
@@ -3291,10 +3462,12 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
         teamId: m.teamId,
         // Keep only past seasons; the new deal replaces this year forward.
         years: [...c.years.filter((y) => y.leagueYear < YEAR), ...yrs],
-        restriction,
+        ...freeze,
+        ...sheet,
         // A re-signed free agent is a brand-new contract — not "recently
         // acquired via trade" and not (yet) a base-year player.
         noAggregate: undefined,
+        aggregateFrom: undefined,
         bycPriorSalary: undefined,
       };
       // Base-year comp arises only when re-signing your OWN free agent to a
@@ -3312,10 +3485,7 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
             bycPriorSalary: prior,
             // CBA Art. VII §8(d)(iii): this exact re-signing (over-cap Bird at
             // >120%) is frozen until Jan. 15, not Dec. 15.
-            restriction:
-              m.restricted === false
-                ? undefined
-                : "re-signed over the cap at a >20% raise (not trade-eligible until Jan. 15)",
+            ...(m.restricted === false ? NO_FREEZE : birdRaiseFreeze()),
           };
         }
       }
@@ -3329,7 +3499,8 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
         teamId: m.teamId,
         years: yrs,
         signedUsing: "GM sign",
-        restriction,
+        ...freeze,
+        ...sheet,
       },
     ];
   }
@@ -3347,10 +3518,10 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     }));
     const base = {
       teamId: m.toTeam,
-      noAggregate: true,
+      ...acquiredByTrade(),
       // A sign-and-trade acquisition is a newly-signed free agent — trade-
-      // restricted (can't be re-traded until Dec. 15), same as a plain signing.
-      restriction: FA_RESTRICTION,
+      // restricted (the later of Dec. 15 and three months), same as a plain signing.
+      ...freeAgentFreeze(),
       signedUsing: "Sign-and-trade",
       // An over-cap re-sign at a >20% raise makes him a base-year player: his
       // outgoing value in any further trade is max(50% of new salary, prior).
@@ -3362,9 +3533,9 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     const legs = new Map((m.players ?? []).map((p) => [p.playerId, p.to]));
     let out = contracts.map((c) => {
       if (ret.has(c.playerId) && m.fromTeam)
-        return { ...c, teamId: m.fromTeam, noAggregate: true, bycPriorSalary: undefined };
+        return { ...c, teamId: m.fromTeam, ...acquiredByTrade(), bycPriorSalary: undefined };
       if (legs.has(c.playerId) && c.playerId !== m.playerId)
-        return { ...c, teamId: legs.get(c.playerId)!, noAggregate: true, bycPriorSalary: undefined };
+        return { ...c, teamId: legs.get(c.playerId)!, ...acquiredByTrade(), bycPriorSalary: undefined };
       return c;
     });
     const i = out.findIndex((c) => c.playerId === m.playerId);
@@ -3413,9 +3584,7 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     copy[i] = {
       ...c,
       years: [...c.years, ...newYears],
-      restriction: freezes
-        ? "extended beyond extend-and-trade limits (not trade-eligible for 6 months)"
-        : undefined,
+      ...(freezes ? extensionFreeze() : NO_FREEZE),
     };
     return copy;
   }
@@ -3438,7 +3607,8 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     deadMoney: true,
     birdStatus: "none",
     noAggregate: undefined,
-    restriction: undefined,
+    aggregateFrom: undefined,
+    ...NO_FREEZE,
     bycPriorSalary: undefined,
     tradeKickerPct: undefined,
     noTradeClause: undefined,
@@ -3684,7 +3854,7 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
     if (feedStateOf(r.team).roomTeam) continue; // renounced with the room
     // Row F(ii): a Standard TPE lives exactly a year, so it arose on its
     // expiry minus a year. If that arise date lands in the CURRENT offseason
-    // (on/after CURRENT_OFFSEASON_START), its first-apron hard cap hasn't
+    // (after ROW_F_ATTACHED_THROUGH), its first-apron hard cap hasn't
     // attached yet — it only does after the following (2026-27) Regular
     // Season. Earlier-arisen TPEs (prior Regular Season, or a prior offseason
     // whose Regular Season already ended) are row-F restricted now.
@@ -3694,7 +3864,7 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
       amount: r.amount,
       label: `${r.player} TPE`,
       preExisting: true,
-      firstApronCap: arose < CURRENT_OFFSEASON_START,
+      firstApronCap: arose <= ROW_F_ATTACHED_THROUGH,
       expires: r.expires,
     });
   }
@@ -3754,8 +3924,8 @@ export function tpeLedger(moves: Move[]): Record<string, TpeSlot[]> {
             amount: minted,
             label: `${shortPlayerName(agg.largestName)} TPE (this session)`,
             preExisting: false,
-            firstApronCap: false, // arose this offseason — row F dormant
-            expires: "2027-07-05",
+            firstApronCap: false, // arose this cap year: row F is dormant until its Regular Season ends
+            expires: isoPlusMonths(SIM_DATE, 12),
           });
         }
       }

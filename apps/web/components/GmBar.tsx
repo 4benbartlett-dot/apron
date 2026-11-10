@@ -8,14 +8,17 @@ import {
   removeMoveAt,
   hydrateMoves,
   encodeMoves,
+  useSessionSource,
+  restoreOwnSession,
 } from "@/lib/store";
+import { BOARD_KEY } from "@/lib/storageKeys";
 import { leagueToast } from "@/components/SiteEggs";
 import { OffseasonRecapModal } from "@/components/OffseasonRecapModal";
 
 /** Board teams (for the ledger card's logo strip), straight from storage. */
 function boardTeams(): string[] {
   try {
-    const b = JSON.parse(localStorage.getItem("apron_board_v1") || "[]");
+    const b = JSON.parse(localStorage.getItem(BOARD_KEY) || "[]");
     return Array.isArray(b) ? b.filter((t): t is string => typeof t === "string") : [];
   } catch {
     return [];
@@ -24,6 +27,10 @@ function boardTeams(): string[] {
 
 export function GmBar() {
   const moves = useMoves();
+  const session = useSessionSource();
+  // Moves of the visitor's own that a shared link is standing in front of
+  // (still saved) or that changing it set aside (in the backup slot).
+  const mine = session.kind === "shared" ? session.ownMoves : session.kind === "forked" ? session.setAside : 0;
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
   // Board snapshot taken when the ledger card opens (null = closed).
@@ -31,7 +38,8 @@ export function GmBar() {
   useEffect(() => {
     hydrateMoves();
   }, []);
-  if (!moves.length) return null;
+  // Nothing on the board and nothing of the visitor's to bring back.
+  if (!moves.length && !mine) return null;
 
   const buildShareUrl = () => {
     const b = boardTeams();
@@ -88,7 +96,7 @@ export function GmBar() {
         className="mx-auto flex max-w-7xl cursor-pointer items-center gap-3 overflow-x-auto px-4 py-2.5 transition-colors hover:bg-[var(--panel-2)]/60 sm:px-5"
       >
         <span className="label shrink-0 rounded-[4px] bg-[var(--text)] px-1.5 py-1 !text-[var(--bg)]">
-          {moves.length >= 8 ? "Busy summer" : "Your moves"}
+          {session.kind === "shared" ? "Shared offseason" : moves.length >= 8 ? "Busy summer" : "Your moves"}
         </span>
         <button
           onClick={(e) => {
@@ -106,6 +114,22 @@ export function GmBar() {
             .map((m) => m.label)
             .join("  ·  ")}
         </div>
+        {mine > 0 && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (restoreOwnSession()) leagueToast("Restored", `Your own offseason is back on the board: ${mine} ${mine === 1 ? "move" : "moves"}.`);
+            }}
+            title={
+              session.kind === "shared"
+                ? `You're looking at a shared offseason. Your own (${mine} ${mine === 1 ? "move" : "moves"}) is still saved; this puts it back on the board.`
+                : `Changing the shared offseason made it yours. The one you had before (${mine} ${mine === 1 ? "move" : "moves"}) was set aside; this brings it back and replaces this one.`
+            }
+            className="shrink-0 rounded-md border border-[var(--border-strong)] px-3 py-1 text-xs font-semibold hover:bg-[var(--panel-2)]"
+          >
+            Back to mine ({mine})
+          </button>
+        )}
         <button
           onClick={(e) => {
             e.stopPropagation();

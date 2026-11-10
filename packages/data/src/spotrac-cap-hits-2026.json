@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-31",
+  "asOf": "2026-11-09",
   "note": "Every 2026-27 active-roster row on Spotrac's cap tables: `cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
   "byName": {
     "jalen johnson": {
@@ -3017,6 +3017,17 @@
       "type": "RK-1ST",
       "nonGuaranteed": false
     },
+    "nique clifford": {
+      "name": "Nique Clifford",
+      "team": "OKC",
+      "cap": 3263400,
+      "base": 3263400,
+      "likely": 0,
+      "unlikely": 0,
+      "tradeBonus": 0,
+      "type": "RK-1ST",
+      "nonGuaranteed": false
+    },
     "ajay mitchell": {
       "name": "Ajay Mitchell",
       "team": "OKC",
@@ -3719,17 +3730,6 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "FA",
-      "nonGuaranteed": false
-    },
-    "nique clifford": {
-      "name": "Nique Clifford",
-      "team": "SAC",
-      "cap": 3263400,
-      "base": 3263400,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "RK-1ST",
       "nonGuaranteed": false
     },
     "alex karaban": {
@@ -4764,17 +4764,6 @@
       "unlikely": 0,
       "tradeBonus": 0,
       "type": "RK-2ND",
-      "nonGuaranteed": false
-    },
-    "blake wesley": {
-      "name": "Blake Wesley",
-      "team": "LAC",
-      "cap": 14077,
-      "base": 15090,
-      "likely": 0,
-      "unlikely": 0,
-      "tradeBonus": 0,
-      "type": "10D",
       "nonGuaranteed": false
     }
   }

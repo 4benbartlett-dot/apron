@@ -94,16 +94,14 @@ const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
   },
   LAC: {
     maxGap: 130_000,
-    why: "Blake Wesley's 10-day hardship deal (Oct 29). Both sides price it the same way, his §3(f) deemed $2,449,421 over 174 days, or $14,077 a day. Spotrac prints the one day accrued; this sheet charges all ten ($140,771), since a 10-day is guaranteed on signing. The gap closes when the ten days run out.",
+    why: "Blake Wesley's 10-day hardship deal (Oct 29). Both sides price it the same way, his §3(f) deemed $2,449,421 over 174 days, or $14,077 a day. Spotrac prints the one day accrued; this sheet charges all ten ($140,771), since a 10-day is guaranteed on signing. The ten days ran out Nov 7 with no waive in the feed, and Spotrac's Nov 9 page still prints the one day's $14,077; all ten are owed, so the sheet's figure stands.",
   },
   NYK: {
     maxGap: 16_000,
     why: "Spotrac's Knicks page carries $15,000 dead for Drew Eubanks, waived Oct 15 off an Exhibit 9. No report gives the camp deal a guarantee, and an Exhibit 9 normally carries none; left as their figure, not adopted.",
   },
-  WAS: {
-    maxGap: 2_450_000,
-    why: "Anthony Gill re-signed Sep 15–16 (Hoops Rumors: Washington's 15th standard contract; terms not released, 'likely another one-year, minimum-salary deal'), and Spotrac's own transactions feed has him signed at '1 year $3.07 million' — the 6-YOS minimum — which this sheet deems at the two-year $2,449,421 under §3(f). Spotrac's Washington cap page still lists 14 players and not him, two weeks on. Their tracker is the one behind.",
-  },
+  // (Washington was here from Sep 16 for Anthony Gill's minimum, which
+  // Spotrac's page lacked. Their Nov 9 page has him, at the sheet's figure.)
 };
 
 /**
@@ -226,8 +224,15 @@ const PAGE_EXCEPTION_EXPLAINED: Record<string, string> = {
 };
 const tpeKey = (team: string, player: string) =>
   `${team}|${player.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim()}`;
-// Spotrac spells two names its own way on the team pages.
-const PAGE_NAME_FIX: Record<string, string> = { "ryan nembard": "ryan nembhard", "deandrew hunter": "deandre hunter" };
+// Spotrac spells four names its own way on the team pages. The last two used
+// to "match" only because the ledger held each exception twice, once under
+// each tracker's spelling.
+const PAGE_NAME_FIX: Record<string, string> = {
+  "ryan nembard": "ryan nembhard",
+  "deandrew hunter": "deandre hunter",
+  "lu dort": "luguentz dort",
+  "payton watson": "peyton watson",
+};
 
 describe("trade exceptions against Spotrac's team pages", () => {
   it("every exception a team page lists is in the ledger, at the page's amount", async () => {
@@ -239,7 +244,8 @@ describe("trade exceptions against Spotrac's team pages", () => {
       for (const e of p.exceptions ?? []) {
         if (e.type !== "Trade" || e.available <= 0 || e.expires < pages.asOf) continue;
         n++;
-        const raw = tpeKey(team, e.reason.replace(/ trade with [A-Z]{2,4}$/, ""));
+        // "Payton Watson trade with CLE - unusable if over 2nd Apron": the note can run on.
+        const raw = tpeKey(team, e.reason.replace(/ trade with [A-Z]{2,4}\b.*$/, ""));
         const [t, name] = raw.split("|") as [string, string];
         const key = `${t}|${PAGE_NAME_FIX[name] ?? name}`;
         const row = ledger.get(key);
@@ -250,6 +256,34 @@ describe("trade exceptions against Spotrac's team pages", () => {
     }
     console.log(`  ${n} exceptions on Spotrac's team pages; ledger holds ${ledger.size}`);
     expect(off).toEqual([]);
+  });
+
+  // One team, one amount, one expiry is one exception, whatever each tracker
+  // calls the player. Until Nov 9 the ledger held Oklahoma City's $17,722,222
+  // Dort exception twice ("Lu Dort" from Spotrac, "Luguentz Dort" from
+  // SalarySwish) and Denver's $10,232,558 Watson exception twice, and the
+  // board let each team absorb salary into both copies.
+  it("no exception is in the ledger twice", async () => {
+    const { TRADE_EXCEPTIONS } = await import("@apron/data");
+    const seen = new Map<string, string>();
+    const twice: string[] = [];
+    for (const r of TRADE_EXCEPTIONS) {
+      if (r.amount <= 0) continue;
+      const k = `${r.team}|${r.original ?? r.amount}|${r.expires}`;
+      if (seen.has(k)) twice.push(`${r.team}: "${seen.get(k)}" and "${r.player}" are both $${r.amount.toLocaleString()} expiring ${r.expires}`);
+      seen.set(k, r.player);
+    }
+    expect(twice).toEqual([]);
+  });
+
+  // The Nov 8 Clifford trade, both ends: Oklahoma City absorbed him into the
+  // Wiggins exception (ESPN; Spotrac's Thunder page prints the remainder), and
+  // Sacramento, taking back no salary, has an exception of his Salary for a year.
+  it("the Clifford trade used one exception and made another", async () => {
+    const { TRADE_EXCEPTIONS } = await import("@apron/data");
+    const of = (team: string, player: string) => TRADE_EXCEPTIONS.find((r) => r.team === team && r.player === player);
+    expect(of("OKC", "Aaron Wiggins")).toMatchObject({ amount: 9_028_038 - 3_263_400, original: 9_028_038 });
+    expect(of("SAC", "Nique Clifford")).toMatchObject({ amount: 3_263_400, expires: "2027-11-08" });
   });
 });
 
@@ -264,12 +298,12 @@ describe("trade exceptions against Spotrac's team pages", () => {
 
 
 const NEXT_EXPLAINED: Record<string, { maxGap: number; why: string }> = {
-  NOP: { maxGap: 20_150_000, why: "Saddiq Bey's $20,100,000 first extension season (Hoops Rumors, In The NO, SalarySwish). Spotrac's 2027-28 Pelicans table dropped him after Sep 22; an earlier pull of the same page carried him." },
+  NOP: { maxGap: 5_500_000, why: "AJ Johnson's $5,493,393 2027-28 team option, declined at the Nov 2 deadline (Hoops Rumors' recap, Yahoo). The sheet drops it; Spotrac's Nov 9 Pelicans table still lists him. (Saddiq Bey's $20,100,000, missing from their table from Sep 22, is back on it.)" },
   WAS: { maxGap: 8_050_000, why: "Tre Mann's $8,000,000 — the last season of the 3yr/$24M extension Charlotte gave him in Sep 2024 — is missing from Spotrac's 2027-28 Wizards table, though his 2026-27 season is on their 2026-27 one." },
   OKC: { maxGap: 650_000, why: "Shai Gilgeous-Alexander's supermax starts in 2027-28 at 35% of a cap nobody knows yet: $61,005,000 on the scraped sheet's projection, $61,600,000 on Spotrac's." },
   ATL: { maxGap: 30_000, why: "Corey Kispert: $13,050,000 on the scraped sheet, $13,025,000 on Spotrac's table." },
   CHA: { maxGap: 8_100_000, why: "Brandon Miller's 5yr/$208.26M rookie-scale extension (Oct 19) starts here. No split has been reported: the sheet books an estimated $35,906,897 at 8% raises, Spotrac's table $44,000,000, which reaches $208.26M over five seasons only if the salary falls every year. Re-check when the filing is reported." },
-  UTA: { maxGap: 5_000_000, why: "Isaiah Collier's $4,988,948 2027-28 team option, declined Nov 2 (HoopsHype, Hoops Rumors). The sheet drops it; Spotrac's Nov 2 page total ($186,127,252) drops it too, but its rows still list him, and the rows are what this sums." },
+  DEN: { maxGap: 5_600_000, why: "DaRon Holmes II's $5,547,137 2027-28 team option, declined at the Nov 2 deadline (Hoops Rumors' recap, Yahoo). The sheet drops it; Spotrac's Nov 9 Nuggets table still lists him. Utah's table dropped Isaiah Collier's the same week, and agrees to the dollar now." },
   TOR: { maxGap: 600_000, why: "Jamal Shead's 3yr/$24M extension (Oct 1). Nobody has reported the split: the sheet carries an estimated $7,407,407 at 8% raises, and Spotrac's Oct 14 table has a flat $8,000,000. Neither is a filing; re-check when one is." },
 };
 

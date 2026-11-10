@@ -1,14 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CALENDAR_2026_27 as CAL } from "@apron/cba-engine";
 
 const DAY = 86_400_000;
-// 2026 negotiation window (June 30, 6 PM ET), the first day of camp, opening
-// night and the last day of the regular season (NBA 2026-27 schedule).
-const FA_OPEN = new Date("2026-06-30T18:00:00-04:00").getTime();
-const CAMP = new Date("2026-10-01T00:00:00-04:00").getTime();
-const OPENER = new Date("2026-10-20T00:00:00-04:00").getTime();
-const SEASON_END = new Date("2027-04-12T00:00:00-04:00").getTime();
+// The league's dates are days; the reader's clock is an instant. Each boundary
+// is the calendar's day at midnight Eastern, except the negotiation window,
+// which opens at 6 p.m. The dates themselves are the engine calendar's.
+const eastern = (iso: string, time = "00:00:00") => new Date(`${iso}T${time}-04:00`).getTime();
+const FA_OPEN = eastern(CAL.leagueYearOpens, "18:00:00");
+const CAMP = eastern(CAL.campOpens);
+const OPENER = eastern(CAL.openingNight);
+// The first midnight after the last day of the season.
+const SEASON_END = eastern(CAL.regularSeasonEnd) + DAY;
 
 /** Where the league year stands for the reader, today. It said "free agency
  * · day 107" in mid-October because free agency was the only phase it knew;

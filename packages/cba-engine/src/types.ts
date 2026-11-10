@@ -199,6 +199,57 @@ export interface SeasonCalendar {
   capYearEnd: string;
 }
 
+/**
+ * Every date a league year turns on, as ISO yyyy-mm-dd strings. The two in
+ * {@link SeasonCalendar} are enough for the post-season window; these are the
+ * rest, and together they are the only place a league date is written down.
+ * `leaguePhaseOn` (constants/calendar.ts) turns a date into a
+ * {@link LeaguePhase}; rules and copy ask for the phase, not for a date.
+ */
+export interface LeagueCalendar extends SeasonCalendar {
+  leagueYear: string;
+  /** Free-agent negotiations open (June 30, 6 p.m. ET): the year's first business. */
+  leagueYearOpens: string;
+  /** First day of training camp. */
+  campOpens: string;
+  /** First day of the Regular Season. */
+  openingNight: string;
+  /** Dec. 15: most summer free-agent signings become tradeable (Art. VII
+   * §8(d)(ii)), and from here through the deadline the minimum-player
+   * aggregation limit is off (§6(j)(4)(ii)). */
+  dec15: string;
+  /** Jan. 10: every contract still on a roster is guaranteed for the season. */
+  guaranteeDate: string;
+  /** Jan. 15: over-the-cap Bird re-signs above 120% become tradeable (§8(d)(iii)). */
+  jan15: string;
+  /** The trade deadline (3 p.m. ET). The last day a trade can be made. */
+  tradeDeadline: string;
+  /** Mar. 1: a player waived after it is not playoff-eligible with a new team. */
+  playoffWaiverDeadline: string;
+}
+
+/**
+ * Where a date falls in the league year. One phase at a time, in this order,
+ * each ending the day before the next begins:
+ *
+ *   offseason          league year opens → the day before camp
+ *   camp               camp opens → the day before opening night
+ *   pre_dec15          opening night → Dec. 14
+ *   dec15_to_deadline  Dec. 15 → the trade deadline, inclusive
+ *   post_deadline      the day after the deadline → the last day of the season
+ *   postseason         the day after the season → June 30 (the §2(e)(2)(ii) window)
+ */
+export type LeaguePhase =
+  | "offseason"
+  | "camp"
+  | "pre_dec15"
+  | "dec15_to_deadline"
+  | "post_deadline"
+  | "postseason";
+
+/** The four buckets Art. VII §6(j)(4)(ii) cares about (see `Trade.timing`). */
+export type TradeTiming = "offseason" | "pre_dec15" | "dec15_to_deadline" | "post_deadline";
+
 /* ----------------------------- Trades ----------------------------- */
 
 export interface PlayerMovement {
@@ -265,9 +316,10 @@ export interface Trade {
   >;
   /**
    * Timing bucket for the Art. VII §6(j)(4)(ii) minimum-player aggregation
-   * restriction. Default is offseason/pre-Dec. 15, when the restriction applies.
+   * restriction. Omitted, it is read off `date` and the year's calendar
+   * (`tradeTimingOn`); with neither, offseason, when the restriction applies.
    */
-  timing?: "offseason" | "pre_dec15" | "dec15_to_deadline" | "post_deadline";
+  timing?: TradeTiming;
   /** The day the trade is made, ISO yyyy-mm-dd. Between the day after the
    * last day of the Regular Season and June 30 (per `LeagueConstants.calendar`)
    * a row E–J trade is also tested against, and hard-caps the team through,

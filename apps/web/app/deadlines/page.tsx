@@ -1,6 +1,6 @@
 import { UPCOMING_DEADLINES, EXTENSION_ELIGIBLE, DATA_AS_OF } from "@apron/data";
 import { fmtFull } from "@/lib/format";
-import { BASE_CONTRACTS, C } from "@/lib/league";
+import { BASE_CONTRACTS, CALENDAR } from "@/lib/league";
 
 /** "10/15/2026" → "2026-10-15". */
 const iso = (mdy: string) => {
@@ -14,13 +14,13 @@ const longDate = (d: string) =>
 
 /** How many players on today's rosters a date sets free to trade. */
 const freedOn = (iso: string) => BASE_CONTRACTS.filter((c) => !c.deadMoney && !c.twoWay && c.tradeableFrom === iso).length;
-const DEC15 = freedOn("2026-12-15");
-const JAN15 = freedOn("2027-01-15");
+const DEC15 = freedOn(CALENDAR.dec15);
+const JAN15 = freedOn(CALENDAR.jan15);
 
 /** The 2026-27 dates that move the trade market, each with what it changes. */
 const SEASON_DATES: { date: string; title: string; what: string }[] = [
   {
-    date: "2026-12-15",
+    date: CALENDAR.dec15,
     title: "Offseason signings become tradeable",
     what: `Most players signed as free agents this summer can be traded from today: ${DEC15} on current rosters (or three months after signing, if that's later).`,
   },
@@ -30,27 +30,27 @@ const SEASON_DATES: { date: string; title: string; what: string }[] = [
     what: "Teams can sign 10-day contracts from today; before it, only a hardship exception allows one.",
   },
   {
-    date: "2027-01-10",
+    date: CALENDAR.guaranteeDate,
     title: "Contracts become fully guaranteed",
     what: "Any player still on a roster at the end of the day has his full-season salary guaranteed, so non-guaranteed deals get waived just before it.",
   },
   {
-    date: "2027-01-15",
+    date: CALENDAR.jan15,
     title: "Bird re-signs become tradeable",
     what: `Players who re-signed with their own team for a raise of more than 20% while it was over the cap can be traded from today: ${JAN15} on current rosters.`,
   },
   {
-    date: "2027-02-11",
+    date: CALENDAR.tradeDeadline,
     title: "Trade deadline, 3 p.m. ET",
     what: "Last day to trade. After it, rosters change only through free agency, waivers and buyouts.",
   },
   {
-    date: "2027-03-01",
+    date: CALENDAR.playoffWaiverDeadline,
     title: "Playoff-eligibility waiver deadline",
     what: "A player has to be waived by today to be playoff-eligible with a new team, which is why buyouts cluster right after the trade deadline.",
   },
   {
-    date: C.calendar?.regularSeasonEnd ?? "2027-04-11",
+    date: CALENDAR.regularSeasonEnd,
     title: "Regular season ends",
     what: "The play-in starts days later, and the cap year runs to June 30.",
   },
