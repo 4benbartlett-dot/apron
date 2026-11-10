@@ -23,6 +23,7 @@ import {
 } from "./league";
 import { track } from "./analytics";
 import { sanitizeMoves } from "./moveGuard";
+import { MOVES_KEY, MOVES_BACKUP_KEY } from "./storageKeys";
 import { lockedFirstEncumbrance, sessionHardCaps, feedStateOf } from "./league";
 
 export const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
@@ -39,19 +40,59 @@ export interface OwnedPick {
 
 // Session of GM moves layered on the base (feed-applied) league, persisted to
 // localStorage so an offseason survives reloads.
-const STORAGE_KEY = "apron_gm_moves_v1";
 let moves: Move[] = [];
 let working: Contract[] = BASE_CONTRACTS;
-let hydrated = false;
 const listeners = new Set<() => void>();
+
+/**
+ * Whose session is on the board. This was a boolean (`hydrated`) and an order
+ * of operations: a `?gm=` link was read ahead of storage and then saved over
+ * it, so opening a friend's link erased the visitor's own offseason, and
+ * because the link stayed in the address bar every reload loaded it again,
+ * undoing whatever the visitor had changed (Reset included).
+ *
+ *   unhydrated  nothing loaded yet (the server render, and the first paint)
+ *   own         the visitor's session, from this browser's storage (or empty)
+ *   shared      a link's session exactly as shared. Storage is NOT touched:
+ *               the visitor's own session is still there, `ownMoves` long
+ *   forked      a shared session the visitor has changed. It is theirs now
+ *               and is saved; what they had before sits in the backup slot,
+ *               `setAside` moves long
+ *
+ *   unhydrated → own | shared     hydrateMoves()
+ *   shared → forked               the first change (any move, undo, reset)
+ *   shared → own, forked → own    restoreOwnSession()
+ */
+export type SessionSource =
+  | { kind: "unhydrated" }
+  | { kind: "own" }
+  | { kind: "shared"; ownMoves: number }
+  | { kind: "forked"; setAside: number };
+let source: SessionSource = { kind: "unhydrated" };
 
 function recompute() {
   working = moves.reduce((cs, m) => applyMove(cs, m), BASE_CONTRACTS);
 }
+const readStored = (key: string): string | null => {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+const parseStored = (raw: string | null): Move[] => {
+  try {
+    return replayable(sanitizeMoves(JSON.parse(raw || "[]")));
+  } catch {
+    return [];
+  }
+};
 function persist() {
   if (typeof window === "undefined") return;
+  // A shared session that nobody has changed is the link's, not the visitor's.
+  if (source.kind === "shared") return;
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(moves));
+    window.localStorage.setItem(MOVES_KEY, JSON.stringify(moves));
   } catch {
     /* ignore */
   }
@@ -60,6 +101,34 @@ function emit() {
   recompute();
   persist();
   for (const l of listeners) l();
+}
+/** Drop the shared-session params from the address bar, so a reload restores
+ * what is saved rather than what the link said. */
+function clearSharedParams() {
+  try {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("gm")) return;
+    url.searchParams.delete("gm");
+    url.searchParams.delete("board");
+    window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+  } catch {
+    /* ignore */
+  }
+}
+/** Called before any change to the move list. Changing a shared session makes
+ * it the visitor's: their own is set aside first, never overwritten. */
+function beforeChange() {
+  if (source.kind !== "shared" || typeof window === "undefined") return;
+  const own = readStored(MOVES_KEY);
+  const ownCount = parseStored(own).length;
+  try {
+    if (ownCount) window.localStorage.setItem(MOVES_BACKUP_KEY, own!);
+    else window.localStorage.removeItem(MOVES_BACKUP_KEY);
+  } catch {
+    /* ignore */
+  }
+  source = { kind: "forked", setAside: ownCount };
+  clearSharedParams();
 }
 
 /** UTF-8- and URL-safe base64 for the shared-offseason (?gm=) token. Move
@@ -79,22 +148,55 @@ function gmDecode(token: string): string {
   return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
 }
 
-/** Load saved moves once, after hydration (called from a mount effect). */
+/** Load the session once, after hydration (called from a mount effect). A
+ * shared offseason (?gm=) is shown ahead of the saved one, and beside it, not
+ * over it: see {@link SessionSource}. */
 export function hydrateMoves() {
-  if (hydrated || typeof window === "undefined") return;
-  hydrated = true;
+  if (source.kind !== "unhydrated" || typeof window === "undefined") return;
+  const own = parseStored(readStored(MOVES_KEY));
+  let shared: Move[] | null = null;
   try {
-    // A shared offseason (?gm=) takes priority over localStorage.
     const gm = new URLSearchParams(window.location.search).get("gm");
-    const raw = gm ? gmDecode(gm) : window.localStorage.getItem(STORAGE_KEY) || "[]";
-    const saved = replayable(sanitizeMoves(JSON.parse(raw)));
-    if (saved.length) {
-      moves = saved;
-      emit();
-    }
+    shared = gm ? decodeMovesParam(gm) : null;
   } catch {
-    /* ignore */
+    shared = null;
   }
+  if (shared) {
+    source = { kind: "shared", ownMoves: own.length };
+    moves = shared;
+  } else {
+    // A session forked from a link earlier keeps its "bring mine back" until used.
+    const setAside = parseStored(readStored(MOVES_BACKUP_KEY)).length;
+    source = setAside ? { kind: "forked", setAside } : { kind: "own" };
+    moves = own;
+  }
+  emit();
+}
+
+/** Put the visitor's own session back on the board: the saved one if they
+ * were only looking at a shared link, the set-aside one if they had changed
+ * it. Returns whether there was one to bring back. */
+export function restoreOwnSession(): boolean {
+  if (typeof window === "undefined") return false;
+  if (source.kind === "shared") {
+    moves = parseStored(readStored(MOVES_KEY));
+    source = { kind: "own" };
+    clearSharedParams();
+    emit();
+    return true;
+  }
+  if (source.kind === "forked" && source.setAside > 0) {
+    moves = parseStored(readStored(MOVES_BACKUP_KEY));
+    try {
+      window.localStorage.removeItem(MOVES_BACKUP_KEY);
+    } catch {
+      /* ignore */
+    }
+    source = { kind: "own" };
+    emit();
+    return true;
+  }
+  return false;
 }
 
 /** The moves that replay cleanly against today's league, in order. Shape is
@@ -144,12 +246,14 @@ export function decodeMovesParam(token: string): Move[] | null {
 }
 
 export function dispatchMove(m: Move) {
+  beforeChange();
   moves = [...moves, m];
   track("move", { kind: m.kind });
   emit();
 }
 export function undoMove() {
   if (moves.length) {
+    beforeChange();
     moves = moves.slice(0, -1);
     emit();
   }
@@ -157,12 +261,14 @@ export function undoMove() {
 /** Remove a single move by index (later moves re-apply against the new state). */
 export function removeMoveAt(i: number) {
   if (i >= 0 && i < moves.length) {
+    beforeChange();
     moves = moves.filter((_, idx) => idx !== i);
     emit();
   }
 }
 export function resetMoves() {
   if (moves.length) {
+    beforeChange();
     moves = [];
     emit();
   }
@@ -177,6 +283,7 @@ export function toggleRenounce(
     (m) => m.kind === "renounce" && m.playerId === playerId,
   );
   if (!exists) track("move", { kind: "renounce" });
+  beforeChange();
   moves = exists
     ? moves.filter((m) => !(m.kind === "renounce" && m.playerId === playerId))
     : [
@@ -194,6 +301,16 @@ function subscribe(cb: () => void) {
 }
 const snapContracts = () => working;
 const snapMoves = () => moves;
+const snapSource = () => source;
+const UNHYDRATED: SessionSource = { kind: "unhydrated" };
+const serverSource = () => UNHYDRATED;
+
+/** Whose session is on the board (see {@link SessionSource}). */
+export function useSessionSource(): SessionSource {
+  return useSyncExternalStore(subscribe, snapSource, serverSource);
+}
+/** The same, outside React. */
+export const sessionSource = (): SessionSource => source;
 
 export function useWorkingContracts() {
   return useSyncExternalStore(subscribe, snapContracts, snapContracts);

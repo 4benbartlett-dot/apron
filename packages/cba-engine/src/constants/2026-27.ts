@@ -1,4 +1,25 @@
-import type { LeagueConstants } from "../types";
+import type { LeagueCalendar, LeagueConstants } from "../types";
+
+/**
+ * The 2026-27 league year's dates (NBA key-dates release and schedule). The
+ * one place they are written: the trade board, the homepage headline, the
+ * header clock, the deadlines page and the engine's date-gated rules all
+ * read this through `leaguePhaseOn`.
+ */
+export const CALENDAR_2026_27: LeagueCalendar = {
+  leagueYear: "2026-27",
+  leagueYearOpens: "2026-06-30",
+  campOpens: "2026-10-01",
+  openingNight: "2026-10-20",
+  dec15: "2026-12-15",
+  guaranteeDate: "2027-01-10",
+  jan15: "2027-01-15",
+  tradeDeadline: "2027-02-11",
+  playoffWaiverDeadline: "2027-03-01",
+  // The 2026-27 Regular Season ends Sunday, Apr 11, 2027.
+  regularSeasonEnd: "2027-04-11",
+  capYearEnd: "2027-06-30",
+};
 
 /**
  * 2026-27 league-year constants — OFFICIAL (set at the league-year open,
@@ -65,8 +86,7 @@ export const SEASON_2026_27: LeagueConstants = {
     10: 3_876_529, // 10+ years
   },
 
-  // The 2026-27 Regular Season ends Sunday, Apr 11, 2027.
-  calendar: { regularSeasonEnd: "2027-04-11", capYearEnd: "2027-06-30" },
+  calendar: CALENDAR_2026_27,
 };
 
 /** @deprecated kept for back-compat; the 2026-27 numbers are now official. */

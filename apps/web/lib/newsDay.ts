@@ -345,7 +345,10 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
     .filter((l) => l.kind === "cash")
     .map((l) => ({ from: l.from, to: l.to, amount: Number(l.asset.replace(/[^\d]/g, "")) || 1 }));
 
-  const trade = { teams, players, ...(cash.length ? { cash } : {}) };
+  // Judged on the day it was made. Without the date, every contract carrying
+  // a freeze reads as frozen whatever day it is, so from Dec. 15 on a real
+  // trade of a player signed last summer would have been stamped Blocked.
+  const trade = { teams, players, date: iso, ...(cash.length ? { cash } : {}) };
   let v = validateTrade(leagueData(pre), trade, C);
   type TpeUse = Record<string, { amount: number; preExisting: boolean; firstApronCap?: boolean; label?: string }>;
   let appliedTpe: TpeUse | undefined;

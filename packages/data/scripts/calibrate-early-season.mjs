@@ -34,6 +34,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { localToday } from "./today.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "..", "src", "early-season-calibration.json");
@@ -210,7 +211,7 @@ const priorSlope = (sxy - (sx * sy) / sw) / (sxx - (sx * sx) / sw);
 
 const result = {
   source: "Basketball-Reference advanced pages: final (bref) and season-to-date (Wayback Machine snapshots)",
-  asOf: new Date().toISOString().slice(0, 10),
+  asOf: localToday(),
   seasons: Object.keys(OPENERS).map((s) => `${Number(s) - 1}-${String(Number(s) % 100).padStart(2, "0")}`),
   method: "pred = (prior·M + early·mp) / (M + mp); M minimizes rest-of-season BPM error weighted by rest-of-season minutes",
   priorMinutes: pooled.M,

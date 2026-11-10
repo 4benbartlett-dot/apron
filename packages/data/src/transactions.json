@@ -2,6 +2,90 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Nique Clifford",
+      "pos": "SF",
+      "date": "Nov 08, 2026",
+      "type": "Trade",
+      "detail": "Traded to Oklahoma City (OKC) from Sacramento (SAC) for a 2028 2nd round pick and a 2030 2nd round pick"
+    },
+    {
+      "player": "Dalen Terry",
+      "pos": "SG",
+      "date": "Nov 08, 2026",
+      "type": "Release",
+      "detail": "Waived by Oklahoma City Thunder (OKC) ($2,293,651 cap savings)"
+    },
+    {
+      "player": "Carson Cooper",
+      "pos": "C",
+      "date": "Nov 07, 2026",
+      "type": "Release",
+      "detail": "Waived by Memphis Grizzlies (MEM)"
+    },
+    {
+      "player": "Richie Saunders",
+      "pos": "G",
+      "date": "Nov 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Memphis Grizzlies (MEM)"
+    },
+    {
+      "player": "Riley Minix",
+      "pos": "SF",
+      "date": "Nov 07, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Tristan Enaruna",
+      "pos": "PF",
+      "date": "Nov 07, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Norchad Omier",
+      "pos": "F",
+      "date": "Nov 06, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Riley Minix",
+      "pos": "SF",
+      "date": "Nov 05, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Kevin McCullar Jr.",
+      "pos": "SG",
+      "date": "Nov 05, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Toronto Raptors (TOR)"
+    },
+    {
+      "player": "Kristaps Porzingis",
+      "pos": "C",
+      "date": "Nov 04, 2026",
+      "type": "Other",
+      "detail": "Fined $1,746,728 for Off-court/Off-field Violation - for failure to render services from indefinite absence from illness (retro 8 games)"
+    },
+    {
+      "player": "Dalen Terry",
+      "pos": "SG",
+      "date": "Nov 04, 2026",
+      "type": "Signing",
+      "detail": "Signed a 2 year Rest-of-Season contract with Oklahoma City Thunder (OKC)"
+    },
+    {
+      "player": "Enrique Freeman",
+      "pos": "PF",
+      "date": "Nov 03, 2026",
+      "type": "Release",
+      "detail": "Waived by Minnesota Timberwolves (MIN)"
+    },
+    {
       "player": "Ace Bailey",
       "pos": "SF",
       "date": "Nov 02, 2026",
@@ -28,6 +112,48 @@
       "date": "Nov 02, 2026",
       "type": "Option",
       "detail": "Milwaukee Bucks (MIL) exercised $7.14 million Team Option for 2027-28"
+    },
+    {
+      "player": "Nikola Topic",
+      "pos": "PG",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Oklahoma City Thunder (OKC) declined $7.48 million Team Option for 2027-28"
+    },
+    {
+      "player": "AJ Johnson",
+      "pos": "SG",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "New Orleans Pelicans (NOP) declined $5.49 million Team Option for 2027-28"
+    },
+    {
+      "player": "Tidjane Salaun",
+      "pos": "PF",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Charlotte Hornets (CHA) declined $10.45 million Team Option for 2027-28"
+    },
+    {
+      "player": "DaRon Holmes II",
+      "pos": "PF",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Denver Nuggets (DEN) declined $5.55 million Team Option for 2027-28"
+    },
+    {
+      "player": "Cody Williams",
+      "pos": "SF",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "Minnesota Timberwolves (MIN) declined $7.67 million Team Option for 2027-28"
+    },
+    {
+      "player": "Pacome Dadiet",
+      "pos": "SF",
+      "date": "Nov 02, 2026",
+      "type": "Option",
+      "detail": "New York Knicks (NYK) declined $5.37 million Team Option for 2027-28"
     },
     {
       "player": "Asa Newell",
@@ -98,6 +224,13 @@
       "date": "Nov 01, 2026",
       "type": "Option",
       "detail": "Washington Wizards (WAS) exercised $15.61 million Team Option for 2027-28"
+    },
+    {
+      "player": "Kingston Flemings",
+      "pos": "PG",
+      "date": "Nov 01, 2026",
+      "type": "Other",
+      "detail": "Suspended 1 game for elbowing Bryce McGowens in the head during ATL-NOP game; forfeits $42,234"
     },
     {
       "player": "Joan Beringer",

@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 
-// The saved offseason lives under this key (lib/store.ts). A board that throws
-// on load is almost always replaying something saved, so the way out is to
-// clear it — without making the visitor find their browser's storage settings.
-const STORAGE_KEY = "apron_gm_moves_v1";
+// A board that throws on load is almost always replaying something saved, so
+// the way out is to clear it — without making the visitor find their browser's
+// storage settings.
+import { MOVES_KEY as STORAGE_KEY } from "@/lib/storageKeys";
 
 export default function RouteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {

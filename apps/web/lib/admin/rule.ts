@@ -31,6 +31,7 @@ import {
   dealFromAav,
   raiseFor,
   experienceOf,
+  SIM_DATE,
 } from "@/lib/league";
 import { buildDocket, buildChecks, tradeConsequences, tierConsequence, type DocketTeam, type DocketCheck, type MoveConsequence } from "@/lib/docket";
 import { fmtM, hardCapCause } from "@/lib/format";
@@ -79,7 +80,9 @@ export function ruleTrade(input: TradeInput): TradeRuling | null {
   if (!teams.length) return null;
   const data = leagueData(BASE_CONTRACTS);
   const holds = baseHolds();
-  let trade = { teams, players, capHolds: holds, ...(cash.length ? { cash } : {}) };
+  // A trade filed at the desk is made on the data's day (see newsDay.ts for
+  // what an undated trade gets wrong).
+  let trade = { teams, players, capHolds: holds, date: SIM_DATE, ...(cash.length ? { cash } : {}) };
   let v = validateTrade(data, trade, C);
   let tpeUse: TradeRuling["tpeUse"];
   if (!v.legal && v.violations.some((x) => x.ruleId === "salary_matching")) {

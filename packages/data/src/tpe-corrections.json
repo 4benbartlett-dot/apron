@@ -1,17 +1,27 @@
 {
-  "note": "Traded-player exceptions the trackers carry at the wrong amount, keyed by team and player. scrape-tpes.mjs applies these after it reconciles Spotrac's and SalarySwish's lists, so a re-pull keeps the correction; remove an entry once both trackers agree with it. Each entry says what they print, what the CBA makes it, and why.",
+  "note": "Traded-player exceptions the trackers carry at the wrong amount, keyed by team and player, and exceptions a trade created that they do not list yet. scrape-tpes.mjs applies these after it reconciles Spotrac's and SalarySwish's lists, so a re-pull keeps them; remove an entry once both trackers agree with it. Each entry says what they print, what the CBA makes it, and why. In a correction, `amount` is what is left to use and `original` is what the exception arose at, when part of it has been used.",
   "corrections": [
     {
       "team": "OKC",
       "player": "Aaron Wiggins",
-      "amount": 9028038,
-      "why": "Oklahoma City sent Wiggins to Atlanta on Jul 6 for two seconds, creating an exception of his Salary. Both trackers print $9,224,300, which is his base ($8,831,776) plus BOTH bonuses — but Art. VII §3(d) excludes unlikely bonuses from Salary, so the exception is base plus the $196,262 likely bonus: $9,028,038, the cap hit Spotrac's own Thunder and Hawks pages carry."
+      "amount": 5764638,
+      "original": 9028038,
+      "why": "Oklahoma City sent Wiggins to Atlanta on Jul 6 for two seconds, creating an exception of his Salary: base ($8,831,776) plus the $196,262 likely bonus, $9,028,038, because Art. VII §3(d) keeps unlikely bonuses out of Salary. On Nov 8 the Thunder absorbed Nique Clifford's $3,263,400 into it (ESPN, Hoops Rumors), leaving $5,764,638. Spotrac now prints both figures; SalarySwish still shows $9,224,300 (base plus both bonuses) with nothing used."
     },
     {
       "team": "ATL",
       "player": "Luke Kennard",
       "amount": 1971962,
       "why": "Atlanta absorbed Wiggins into its $11,000,000 Kennard exception. Spotrac's exception page and its Hawks page leave $1,971,962 (11,000,000 less his $9,028,038 Salary); SalarySwish leaves $1,775,700, subtracting his unlikely bonus too, which §3(d) keeps out of Salary. The scraper had resolved to SalarySwish."
+    }
+  ],
+  "additions": [
+    {
+      "team": "SAC",
+      "player": "Nique Clifford",
+      "amount": 3263400,
+      "expires": "2027-11-08",
+      "why": "Sacramento sent Clifford ($3,263,400) to Oklahoma City on Nov 8 for two second-round picks and took back no salary, which creates an exception of his Salary good for one year (Art. VII §6(j)). Spotrac's Keith Smith reported it at roughly $3.3 million; neither tracker's exception page listed it as of Nov 9."
     }
   ]
 }

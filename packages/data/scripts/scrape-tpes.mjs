@@ -26,13 +26,14 @@ import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { localToday } from "./today.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SRC = join(__dirname, "..", "src");
 // The day of the pull: a TPE that expired before it is dropped. This was a
 // hard-coded Jul 5 for three months, so a re-run kept nothing newer than the
 // moratorium and the file sat at its July state.
-const AS_OF = process.env.TPE_AS_OF ?? new Date().toISOString().slice(0, 10);
+const AS_OF = process.env.TPE_AS_OF ?? localToday();
 
 const SPOTRAC_URL = "https://www.spotrac.com/nba/transactions/trade-exceptions";
 const SWISH_URL = "https://www.salaryswish.com/trade-exception";
@@ -132,7 +133,10 @@ function parseSpotrac(md) {
     if (!m) continue;
     const [, expRaw, teamRaw, notes, origRaw, availRaw] = m;
     const first = notes.split("<br>")[0].trim();
-    const player = first.replace(/\s+trade with\s+[A-Z]{2,4}\s*$/, "").trim();
+    // "Peyton Watson trade with CLE - unusable if over 2nd Apron": the note can
+    // run on past the partner, and a name with the tail still on it matched
+    // nothing on the other tracker, so Denver's exception was filed twice.
+    const player = first.replace(/\s+trade with\s+[A-Z]{2,4}\b.*$/, "").trim();
     rows.push({
       team: normTeam(teamRaw),
       player,
@@ -186,11 +190,36 @@ const discrepancies = [];
 const rows = [];
 const swishMatched = new Set();
 
-for (const sp of spotrac) {
-  if (sp.expires < AS_OF) continue; // expired before asOf
-  const cand = swish.find(
+// Pair the two lists before merging. By name first; then, for what is left, by
+// the exception itself: one team, one original amount, one expiry is one
+// exception whatever each tracker calls the player. "Lu Dort" (Spotrac) and
+// "Luguentz Dort" (SalarySwish) are five edits apart, so name matching alone
+// booked Oklahoma City's $17.7M exception as two single-source rows, and the
+// board let the Thunder absorb it twice.
+const pairOf = new Map(); // spotrac index -> salaryswish index
+const live = (r) => r.expires >= AS_OF;
+spotrac.forEach((sp, si) => {
+  if (!live(sp)) return;
+  const wi = swish.findIndex(
     (sw, i) => !swishMatched.has(i) && sw.team === sp.team && sameName(nameKey(sw.player), nameKey(sp.player)),
   );
+  if (wi >= 0) { pairOf.set(si, wi); swishMatched.add(wi); }
+});
+spotrac.forEach((sp, si) => {
+  if (!live(sp) || pairOf.has(si)) return;
+  const wi = swish.findIndex(
+    (sw, i) => !swishMatched.has(i) && sw.team === sp.team && sw.original === sp.original && sw.expires === sp.expires,
+  );
+  if (wi >= 0) {
+    pairOf.set(si, wi);
+    swishMatched.add(wi);
+    console.log(`  paired by amount and expiry: ${sp.team} "${sp.player}" = "${swish[wi].player}"`);
+  }
+});
+
+for (const [si, sp] of spotrac.entries()) {
+  if (sp.expires < AS_OF) continue; // expired before asOf
+  const cand = pairOf.has(si) ? swish[pairOf.get(si)] : undefined;
   const row = {
     team: sp.team,
     player: sp.player,
@@ -205,7 +234,6 @@ for (const sp of spotrac) {
     rows.push(row);
     continue;
   }
-  swishMatched.add(swish.indexOf(cand));
   row.sources = ["spotrac", "salaryswish"];
   row.player = cand.player; // SalarySwish spellings are cleaner (Spotrac: "Kelly Olynk", "De'Andrew Hunter")
 
@@ -269,9 +297,13 @@ const out = {
 };
 // Curated corrections (tpe-corrections.json): amounts both trackers have
 // wrong, with the CBA reason. Applied last so a re-pull cannot undo them.
+// `amount` is what is left to use; `original` is what the exception arose at,
+// for one that has been partly used (the Wiggins exception after Clifford).
+// `additions` are exceptions a trade created that neither tracker lists yet:
+// added while missing, and left to the trackers' own row once one appears.
 try {
-  const fixes = JSON.parse(readFileSync(join(SRC, "tpe-corrections.json"), "utf8")).corrections ?? [];
-  for (const f of fixes) {
+  const curated = JSON.parse(readFileSync(join(SRC, "tpe-corrections.json"), "utf8"));
+  for (const f of curated.corrections ?? []) {
     const row = out.rows.find((r) => r.team === f.team && nameKey(r.player) === nameKey(f.player));
     if (!row) { console.log(`  correction for ${f.team} ${f.player}: no such row (expired or dropped)`); continue; }
     if (row.amount !== f.amount) {
@@ -279,7 +311,20 @@ try {
       row.amount = f.amount;
       console.log(`  corrected ${f.team} ${f.player}: ${row.corrected.from} -> ${f.amount}`);
     }
+    if (f.original != null && f.original !== f.amount) row.original = f.original;
+    else if (f.original != null) delete row.original;
   }
+  for (const a of curated.additions ?? []) {
+    if (a.expires < AS_OF) continue;
+    const listed = out.rows.find((r) => r.team === a.team && nameKey(r.player) === nameKey(a.player));
+    if (listed) {
+      console.log(`  addition ${a.team} ${a.player}: the trackers list it now at ${listed.amount}; remove the entry`);
+      continue;
+    }
+    out.rows.push({ team: a.team, player: a.player, amount: a.amount, expires: a.expires, singleSource: true, sources: ["curated"], added: { why: a.why } });
+    console.log(`  added ${a.team} ${a.player}: ${a.amount} exp ${a.expires}`);
+  }
+  out.rows.sort((a, b) => (a.team < b.team ? -1 : a.team > b.team ? 1 : b.amount - a.amount));
 } catch (e) {
   if (e?.code !== "ENOENT") throw e;
 }

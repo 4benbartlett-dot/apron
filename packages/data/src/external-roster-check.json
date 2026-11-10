@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-10-31",
+  "asOf": "2026-11-09",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -1597,8 +1597,8 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Riley Minix",
-          "pos": "SF",
+          "name": "Norchad Omier",
+          "pos": "F",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -1609,8 +1609,8 @@
           "nonGuaranteed": true
         },
         {
-          "name": "Tristan Enaruna",
-          "pos": "PF",
+          "name": "Riley Minix",
+          "pos": "SF",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -4030,8 +4030,8 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Jahmai Mashack",
-          "pos": "F",
+          "name": "Richie Saunders",
+          "pos": "G",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -4042,16 +4042,16 @@
           "nonGuaranteed": true
         },
         {
-          "name": "Carson Cooper",
-          "pos": "C",
+          "name": "Jahmai Mashack",
+          "pos": "F",
           "type": "2W",
           "cap": 0,
           "base": 0,
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 91000,
-          "nonGuaranteed": false
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -4903,18 +4903,6 @@
           "tradeBonus": 0,
           "guaranteed": 0,
           "nonGuaranteed": true
-        },
-        {
-          "name": "Enrique Freeman",
-          "pos": "PF",
-          "type": "2W",
-          "cap": 0,
-          "base": 0,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -5421,6 +5409,18 @@
           "nonGuaranteed": false
         },
         {
+          "name": "Nique Clifford",
+          "pos": "SF",
+          "type": "RK-1ST",
+          "cap": 3263400,
+          "base": 3263400,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 3263400,
+          "nonGuaranteed": false
+        },
+        {
           "name": "Ajay Mitchell",
           "pos": "PG",
           "type": "FA",
@@ -5429,7 +5429,7 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 1500000,
+          "guaranteed": 2850000,
           "nonGuaranteed": false
         },
         {
@@ -5470,7 +5470,13 @@
         }
       ],
       "twoWay": [],
-      "dead": [],
+      "dead": [
+        {
+          "name": "Dalen Terry",
+          "flag": "WAIVED",
+          "cap": 105629
+        }
+      ],
       "holds": [
         {
           "name": "Alex Ducas",
@@ -5509,10 +5515,10 @@
         {
           "type": "Trade",
           "reason": "Aaron Wiggins trade with ATL",
-          "usedOn": "",
+          "usedOn": "Nique Clifford, $3,263,400",
           "expires": "2027-07-06",
           "original": 9028038,
-          "available": 9028038
+          "available": 5764638
         },
         {
           "type": "Trade",
@@ -5525,10 +5531,11 @@
       ],
       "summary": {
         "hardCap": null,
-        "activeRoster": 214279492,
+        "activeRoster": 217542892,
+        "deadMoney": 105629,
         "capHold": 2185116,
-        "capTotal": 216464608,
-        "apronTotal": 214779492
+        "capTotal": 219833637,
+        "apronTotal": 218148521
       }
     },
     "ORL": {
@@ -5960,6 +5967,42 @@
           "tradeBonus": 0,
           "guaranteed": 2296271,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Rayan Rupert",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Caleb Love",
+          "pos": "G",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 339441,
+          "nonGuaranteed": false
+        },
+        {
+          "name": "Tacko Fall",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -6038,6 +6081,14 @@
           "expires": "2027-02-05",
           "original": 2296274,
           "available": 2296274
+        },
+        {
+          "type": "Disabled Player",
+          "reason": "Ariel Hukporti",
+          "usedOn": "",
+          "expires": "2027-03-10",
+          "original": 1700000,
+          "available": 1700000
         }
       ],
       "summary": {
@@ -6769,18 +6820,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Nique Clifford",
-          "pos": "SF",
-          "type": "RK-1ST",
-          "cap": 3263400,
-          "base": 3263400,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 3263400,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Alex Karaban",
           "pos": "SF",
           "type": "RK-1ST",
@@ -7007,11 +7046,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 193946825,
+        "activeRoster": 190683425,
         "deadMoney": 3333333,
         "capHold": 19066758,
-        "capTotal": 216346916,
-        "apronTotal": 201130158
+        "capTotal": 213083516,
+        "apronTotal": 197866758
       }
     },
     "SAS": {
@@ -7464,6 +7503,18 @@
           "tradeBonus": 0,
           "guaranteed": 91000,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Kevin McCullar Jr.",
+          "pos": "SG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         },
         {
           "name": "Nate Bittle",
@@ -8653,18 +8704,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Blake Wesley",
-          "pos": "SG",
-          "type": "10D",
-          "cap": 14077,
-          "base": 15090,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 15090,
-          "nonGuaranteed": false
-        },
-        {
           "name": "Jalen Pickett",
           "pos": "PG",
           "type": "2W",
@@ -8707,6 +8746,11 @@
           "name": "Johni Broome",
           "flag": "",
           "cap": 2150917
+        },
+        {
+          "name": "Blake Wesley",
+          "flag": "",
+          "cap": 14077
         }
       ],
       "holds": [
@@ -8811,8 +8855,8 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 180929713,
-        "deadMoney": 2150917,
+        "activeRoster": 180915636,
+        "deadMoney": 2164994,
         "capHold": 17179563,
         "capTotal": 200260193,
         "apronTotal": 183340803

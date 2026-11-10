@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { TEAM_IDS, teamMeta } from "@/lib/league";
 import { TeamLogo } from "@/components/TeamLogo";
 import { leaguePhase } from "@/lib/phase";
@@ -60,6 +61,15 @@ export function TeamPicker({ onPick }: { onPick: (id: string) => void }) {
         {late
           ? "Working late, GM? Front offices never sleep — and the CBA still sets the terms."
           : "Live rosters, cap holds, apron lines, and rule citations where they apply."}
+      </p>
+      {/* For someone who arrived from a link and has never used a trade
+          machine: one line to what this is, with a trade already decided. */}
+      <p className="relative mt-2 text-center text-xs text-[var(--muted)]">
+        New here?{" "}
+        <Link href="/about" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--accent-ink)]">
+          What this is, and one trade decided
+        </Link>
+        .
       </p>
     </div>
   );

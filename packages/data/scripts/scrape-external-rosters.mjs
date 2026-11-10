@@ -31,6 +31,7 @@ import { writeFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { localToday } from "./today.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "..", "src", "external-roster-check.json");
@@ -222,7 +223,7 @@ writeFileSync(
   JSON.stringify(
     {
       source: "Spotrac team cap tables (via Firecrawl)",
-      asOf: new Date().toISOString().slice(0, 10),
+      asOf: localToday(),
       note:
         "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
       byTeam,
@@ -254,7 +255,7 @@ writeFileSync(
   JSON.stringify(
     {
       source: "Spotrac team cap tables (via Firecrawl)",
-      asOf: new Date().toISOString().slice(0, 10),
+      asOf: localToday(),
       note:
         `Every ${SEASON}-${String((SEASON + 1) % 100).padStart(2, "0")} active-roster row on Spotrac's cap tables: ` + "`cap` is their cap hit (base + likely incentives), `unlikely` the bonuses Art. VII §3(d) excludes from Salary and §2(e)(1)(i) adds back for Apron Team Salary, `type` their contract label, `nonGuaranteed` when the guarantee column is blank. league.ts reads two things from it: the incentives, stamped on each player's 2026-27 row so the engine's apronTeamSalary reproduces their apron figure; and the cap hit, which replaces a figure the sheet only back-solved from a reported total when the two are within 25% (a filing beats a raise-shape assumption — Coby White's 3yr/$74M descends from $26.8M, Trae Young's starts at the max). Curated stated salaries and deemed minimums are never replaced. A re-run of scrape-external-rosters.mjs rewrites this file.",
       byName,

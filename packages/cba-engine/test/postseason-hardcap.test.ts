@@ -56,7 +56,8 @@ const morantTrade = (date?: string): Trade => ({
 describe("season calendar", () => {
   it("knows when each Regular Season ends", () => {
     expect(C.calendar).toEqual({ regularSeasonEnd: "2026-04-12", capYearEnd: "2026-06-30" });
-    expect(SEASON_2026_27.calendar).toEqual({ regularSeasonEnd: "2027-04-11", capYearEnd: "2027-06-30" });
+    // 2026-27 carries the whole year's dates now (calendar.test.ts); these two are the window's.
+    expect(SEASON_2026_27.calendar).toMatchObject({ regularSeasonEnd: "2027-04-11", capYearEnd: "2027-06-30" });
   });
 
   it("names the Subsequent Salary Cap Year", () => {
