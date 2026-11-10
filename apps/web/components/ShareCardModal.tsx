@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import type { Trade, TradeVerdict } from "@apron/cba-engine";
 import { C, teamMeta, positionOf, TRADE_DEADLINE } from "@/lib/league";
-import { encodeTradeParam, pickShareLabel, filingNo, type DecodedPick, type DecodedSwap } from "@/lib/trade-share";
+import { encodeTradeParam, pickShareLabel, filingNo, verdictLine, type DecodedPick, type DecodedSwap, type TradeDay } from "@/lib/trade-share";
 import { shortPlayerName } from "@/lib/names";
 import qrcode from "qrcode-generator";
 import { TradeDocket, buildDocket, buildChecks, type DocketLine } from "@/components/TradeDocket";
@@ -82,8 +82,10 @@ export function ShareCardModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // The day the board judged this on; the card and the link both carry it.
+  const day: TradeDay = trade.date === TRADE_DEADLINE ? "deadline" : "today";
   const token = useMemo(
-    () => encodeTradeParam(trade.teams, trade.players, picks, swaps, trade.date === TRADE_DEADLINE ? "deadline" : "today"),
+    () => encodeTradeParam(trade.teams, trade.players, picks, swaps, day),
     [trade, picks, swaps],
   );
   // Links land on the FULL offseason page (the board decodes ?t=, pops this
@@ -128,6 +130,7 @@ export function ShareCardModal({
       ck: checks.slice(0, maxChecks).map((c): [number, string] => [c.ok ? 1 : 0, c.text]),
       fx: !legal && firstFix ? firstFix : "",
       fn: filingNo(token),
+      ...(day === "deadline" ? { vl: verdictLine(legal, day) } : {}),
       // The user's own date — the server clock can sit past midnight UTC
       // while the card on screen still says yesterday.
       dt: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
@@ -472,7 +475,7 @@ export function ShareCardModal({
     [
       ...receiving.map((t) => `${t.teamId} get ${haulFor(t.teamId, lastNames)}`),
       "",
-      legal ? "Legal under the 2023 CBA." : "Blocked under the 2023 CBA.",
+      `${verdictLine(legal, day)}.`,
     ].join("\n");
   // X counts the appended link as ~24 chars; keep full names unless they blow
   // the 280 budget, then fall back to last names.
@@ -599,7 +602,7 @@ export function ShareCardModal({
               Filed {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {filingNo(token)}
             </span>
             <span className="tabular font-semibold uppercase tracking-[0.08em]" style={{ color }}>
-              {legal ? "Legal under the 2023 CBA" : "Blocked under the 2023 CBA"}
+              {verdictLine(legal, day)}
             </span>
           </div>
           <div className={`flex items-center bg-[var(--text)] px-5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--bg)] ${format === "feed" ? "justify-center" : "mt-auto"} ${format === "story" && qrDataUrl ? "justify-between gap-3" : "justify-center"}`}>

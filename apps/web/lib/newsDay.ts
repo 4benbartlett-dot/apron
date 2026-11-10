@@ -20,6 +20,7 @@ import {
   type Transaction,
   type LeagueRuling,
   type RulingPenalty,
+  TRADE_EXCEPTIONS,
 } from "@apron/data";
 import { maxSalaryTier, veteranExtensionMax, poisonPillValues } from "@apron/cba-engine";
 import {
@@ -263,6 +264,12 @@ const holdsOf = (pre: Contract[]) => (team: string) =>
 
 /* -------------------------------- trades --------------------------------- */
 
+/** One real trade's card, for a test that needs a past day's (the feed only
+ * shows the latest). */
+export function buildTradeCard(rows: readonly Transaction[], iso: string): NewsMove | null {
+  return buildTrade(rows, iso);
+}
+
 function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null {
   // Each row's own prefix names the player and both ends of his leg; the
   // clause ledger (multi-team rows only) carries the picks and cash.
@@ -365,7 +372,17 @@ function buildTrade(rows: readonly Transaction[], iso: string): NewsMove | null 
     for (const t of v.teams) {
       const short = v.violations.some((x) => x.teamId === t.teamId && /take back at most/i.test(x.reason));
       if (!short) continue;
-      const slot = (ledger[t.teamId] ?? []).find((sl) => sl.amount >= t.incomingSalary);
+      // Which exception, when the ledger can say: a row whose original amount
+      // less what is left is exactly the salary absorbed is the one the team
+      // used. Oklahoma City took Clifford into the Wiggins exception (ESPN;
+      // Spotrac's Thunder page), and the largest-first guess below had put
+      // him in the Dort one.
+      const recorded = TRADE_EXCEPTIONS.find(
+        (r) => r.team === t.teamId && r.original != null && Math.abs(r.original - r.amount - t.incomingSalary) <= 1,
+      );
+      const slots = ledger[t.teamId] ?? [];
+      const slot =
+        (recorded && slots.find((sl) => sl.label === `${recorded.player} TPE`)) ?? slots.find((sl) => sl.amount >= t.incomingSalary);
       if (!slot) continue;
       tpeUse[t.teamId] = {
         amount: t.incomingSalary,
