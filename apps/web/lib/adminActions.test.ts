@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { mkdtempSync, readdirSync, copyFileSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, readdirSync, copyFileSync, readFileSync, rmSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -129,5 +129,59 @@ describe("filing from the desk", () => {
     expect(raw("contracts-2025-26.json").endsWith("\n")).toBe(false);
     const bad = await actions.saveContractRow({ id: "contracts", index: i }, { ...row, teamId: "NOPE" });
     expect(bad.ok).toBe(false);
+  });
+});
+
+// A trade moves picks in one file and adds rows to another. Written one after
+// the other, a second file that failed left the first already changed, and
+// the desk said so: "the pick ledger was already updated; fix and re-file the
+// rows." A filing is now all of its files or none of them.
+describe("a filing that touches two files", () => {
+  it("writes neither when one of them fails its schema", async () => {
+    const { writeJsonAll } = await import("@/lib/admin/files");
+    const retired = raw("retired-2026.json");
+    const moves = raw("manual-moves.json");
+    const r = await writeJsonAll([
+      { id: "retired", value: { note: "n", players: ["A Valid Name"] } },
+      { id: "manualMoves", value: { transactions: [{ not: "a row" }] } },
+    ]);
+    expect(r.written).toBe(false);
+    expect(r.results.find((x) => x.file === "manual-moves.json")!.issues.length).toBeGreaterThan(0);
+    expect(raw("retired-2026.json")).toBe(retired);
+    expect(raw("manual-moves.json")).toBe(moves);
+  });
+
+  it("puts the first file back when the second can't be swapped in", async () => {
+    const { writeJsonAll } = await import("@/lib/admin/files");
+    const moves = raw("manual-moves.json");
+    const retired = raw("retired-2026.json");
+    const next = read("manual-moves.json");
+    next.transactions = [{ ...next.transactions[0], why: "this row must not survive" }, ...next.transactions];
+    // A directory where the second file should be: its swap fails after the
+    // first file's has already happened.
+    rmSync(join(dir, "retired-2026.json"));
+    mkdirSync(join(dir, "retired-2026.json"));
+    await expect(
+      writeJsonAll([
+        { id: "manualMoves", value: next },
+        { id: "retired", value: { note: "n", players: ["A Valid Name"] } },
+      ]),
+    ).rejects.toThrow();
+    rmSync(join(dir, "retired-2026.json"), { recursive: true });
+    writeFileSync(join(dir, "retired-2026.json"), retired);
+    expect(raw("manual-moves.json")).toBe(moves);
+    expect(readdirSync(dir).filter((f) => f.endsWith(".tmp"))).toEqual([]);
+  });
+
+  it("writes both when both are sound", async () => {
+    const { writeJsonAll } = await import("@/lib/admin/files");
+    const next = read("manual-moves.json");
+    const r = await writeJsonAll([
+      { id: "manualMoves", value: next },
+      { id: "retired", value: { note: "n", players: ["Both Files Written"] } },
+    ]);
+    expect(r.written).toBe(true);
+    expect(r.results.map((x) => x.file)).toEqual(["manual-moves.json", "retired-2026.json"]);
+    expect(read("retired-2026.json").players).toEqual(["Both Files Written"]);
   });
 });

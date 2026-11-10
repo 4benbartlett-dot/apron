@@ -229,6 +229,33 @@ export const PROVISIONS: Provision[] = [
       "A player released during the season from a contract paying more than the mid-level amount can sign only with a team under the first apron, and signing him caps that team there for the season.",
     text: "Team signs a Contract during the Regular Season with a player who was previously under a Contract that: (i) was terminated during such Regular Season",
   },
+  {
+    id: "exception-shrink",
+    cite: "Art. VII §6(n)(4)",
+    name: "An unused exception gets smaller after the deadline",
+    group: "Signings",
+    plain:
+      "From January 10 an unused mid-level or bi-annual exception loses one day's share of its value every day. A team that uses it by the trade deadline still gets the full amount. From the day after the deadline, every day since January 10 comes off.",
+    text: "shall be reduced daily throughout the remainder of the Regular Season by the amount of the unused Exception as of January 10 multiplied by a fraction, the numerator of which is one (1) and the denominator of which is the total number of days in such Regular Season",
+  },
+  {
+    id: "extension-window",
+    cite: "Art. VII §7(a)(1)",
+    name: "When a contract can be extended",
+    group: "Signings",
+    plain:
+      "Once the season starts, only a contract in its last season can be extended. A player with more seasons left than that has to wait for the offseason, which runs from July 1 to the day before opening night.",
+    text: "more than one (1) year prior to the July 1 preceding the first Season covered by the extended term, then the Extension may only be negotiated and entered into during the off-season",
+  },
+  {
+    id: "designated-veteran",
+    cite: "Art. II §7(c)(ii); Art. VII §7(a)(1)",
+    name: "The supermax extension",
+    group: "Signings",
+    plain:
+      "A player with seven or eight seasons behind him, and one or two left on his contract, can extend for up to 35% of the salary cap instead of the usual 30%. He has to have been named All-NBA, Defensive Player of the Year or MVP recently, and still be with the team that drafted him or one that traded for him in his first four seasons. It can be signed only in the offseason, so during the season no extension starts above the ordinary maximum.",
+    text: "Designated Veteran Player Extensions may only be negotiated and entered into during the off-season",
+  },
 ];
 
 const BY_ID = new Map(PROVISIONS.map((p) => [p.id, p]));

@@ -11,7 +11,8 @@ import {
   consumedFor,
   tpeLedger,
   freeAgentsOf,
-  holdsByTeam, leagueData } from "@/lib/league";
+  holdsByTeam, leagueData, exceptionClock, hardCapLine, hardCapOrdinal,
+} from "@/lib/league";
 import { GLOSSARY, type TermKey } from "@/lib/glossary";
 import { fmtM, fmtFull } from "@/lib/format";
 
@@ -508,7 +509,7 @@ export function teamSeo(id: string): TeamSeo {
   const power = spendingPower(committed + holds, C, {
     apronSalary: apron,
     roomTeam: feed.roomTeam,
-    consumed: consumedFor([], id),
+    ...exceptionClock([], id),
   });
   // Clamp every advertised amount by the team's live hard cap and by the
   // apron the mechanism itself would freeze — the exact clamp the board and
@@ -520,7 +521,7 @@ export function teamSeo(id: string): TeamSeo {
       Math.min(
         m.maxSalary,
         Number.isFinite(feed.hardCap) ? feed.hardCap - apron : Infinity,
-        m.hardCap === "first_apron" ? C.firstApron - apron : m.hardCap === "second_apron" ? C.secondApron - apron : Infinity,
+        hardCapLine(m.hardCap) - apron,
       ),
     );
   const tier = classifyTier(apron, C);
@@ -560,7 +561,7 @@ export function teamSeo(id: string): TeamSeo {
     {
       q: `Are the ${nickname} hard-capped?`,
       a: capped
-        ? `Yes — at the ${feed.hardCap === C.firstApron ? "first" : "second"} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their July moves"}. Later moves are checked against that line.`
+        ? `Yes — at the ${hardCapOrdinal(feed.hardCap)} apron (${fmtM(feed.hardCap)}) for the rest of the season, triggered by ${feed.hardCapSource ?? "their July moves"}. Later moves are checked against that line.`
         : `Not yet — but using the full MLE, the BAE, expanded matching, a sign-and-trade acquisition, or signing a waived player whose prior contract topped the mid-level would freeze the first apron (${fmtM(C.firstApron)}) as their ceiling; the taxpayer mid-level, combining salaries in a trade, or sending cash can freeze the second apron.`,
     },
     {

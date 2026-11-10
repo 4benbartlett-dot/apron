@@ -208,14 +208,33 @@ export function meetsHigherMaxCriteria(input: HigherMaxCriteriaInput): boolean {
   return latestAllNbaOrDpoy || twoOfThreeAllNbaOrDpoy || mvpInWindow;
 }
 
+/**
+ * The most a player with seven to nine Years of Service can start at: 30% of
+ * the cap, or 35% as a Designated Veteran Player. The two routes count
+ * service differently. A free agent signing a Designated Veteran Player
+ * Contract has eight or nine Years of Service when he signs (Art. II
+ * §7(a)(ii)). A player signing a Designated Veteran Player Extension has
+ * seven or eight, and one or two seasons left on his contract (Art. II
+ * §7(c)(ii)): the extension is signed a year or two before the contract it
+ * replaces would have ended. Either way he must have stayed with the team
+ * that first signed him, or changed teams only by trade in his first four
+ * seasons, and have met the Higher Max Criteria.
+ */
 export function designatedVeteranMaxPct(opts: {
+  kind: "contract" | "extension";
   yearsOfService: number;
+  /** Seasons left on the contract being extended (an extension only). */
+  seasonsRemaining?: number;
   remainedWithOriginalTeamThroughFirstFourYears: boolean;
   higherMaxCriteriaMet: boolean;
 }): 0.3 | 0.35 | null {
+  const serviceFits =
+    opts.kind === "contract"
+      ? opts.yearsOfService === 8 || opts.yearsOfService === 9
+      : (opts.yearsOfService === 7 || opts.yearsOfService === 8) &&
+        (opts.seasonsRemaining === 1 || opts.seasonsRemaining === 2);
   if (
-    opts.yearsOfService >= 8 &&
-    opts.yearsOfService <= 9 &&
+    serviceFits &&
     opts.remainedWithOriginalTeamThroughFirstFourYears &&
     opts.higherMaxCriteriaMet
   ) {

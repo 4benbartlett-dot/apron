@@ -52,34 +52,63 @@ Rules that follow from them:
   `league.ts`), the same way `stampTradeEligibility` does for the feed.
 - **One surface over the board.** Open one with `setOverlay({ kind })`; it
   replaces whatever was open.
+- **A signing takes its date too.** Pass `...exceptionClock(moves, team)` to
+  `spendingPower` and `validateSigning`, not a bare `consumed`: after the
+  trade deadline an unused mid-level or bi-annual is smaller by the day
+  (Art. VII §6(n)(4)), and the engine needs the day to size it.
+- **The free-agent list is a function of the day.** `freeAgentsOf(contracts,
+  today)` adds a player released in season once he clears waivers, and
+  `isRowDSigning` says when signing him caps a team at the first apron.
 - **Storage keys** are in `apps/web/lib/storageKeys.ts`. What is saved in
   people's browsers has to keep loading: adding an optional field to `Move` is
   fine (teach `moveGuard.ts` about it), renaming or removing one is not.
   Old `?t=` and `?gm=` links must keep decoding.
 
+### Made explicit in November 2026
+
+Each of these was on the list below until it had one place to live:
+
+- **A block the engine doesn't raise is typed.** The Stepien rule, a standing
+  hard cap and the sign-and-trade rules reach the verdict as `ExtraBlock`
+  (`apps/web/lib/verdict.ts`), each with its `kind`. Nothing reads a sentence
+  to find out what it is; `tradeFix.ts` switches on the kind.
+- **A trade with no session behind it has one ruling.** `ruleOnBaseTrade`
+  (same file) is what the share card, its unfurl image and the admin desk all
+  call: the engine, then the exception auto-fit, then Stepien, then real hard
+  caps. `verdictAgreement.test.ts` fails if two of them disagree.
+- **A hard cap's level and line convert in one place**: `hardCapLine`,
+  `hardCapLevelOf`, `hardCapOrdinal` in `league.ts`. Don't compare a line
+  against `C.firstApron` to learn which cap it is.
+- **The move ledger is re-judged whenever it changes.** `auditLedger`
+  (`apps/web/lib/ledgerAudit.ts`) replays it and reports what no longer
+  holds; the moves bar shows it. It only reports what it can show: a trade the
+  engine blocks on every day it could have been made, a player on no roster,
+  a team left over a hard cap or the roster limit. A trade move records its
+  `day` so it is re-judged on the day it was made.
+- **A desk filing is all of its files or none.** `writeJsonAll`
+  (`apps/web/lib/admin/files.ts`) validates every file before touching one and
+  puts back what it swapped if a later swap fails.
+
 ### Still implicit (known, left alone on purpose)
 
-Found in the November 2026 audit and not yet made explicit. Each is a place to
-be careful, and a candidate for the same treatment:
+Each is a place to be careful, and a candidate for the same treatment:
 
 - **Which freeze a feed contract carries** is chosen by regular expressions over
   `restriction` text in `stampTradeEligibility`. The curated strings live in
   the data files; an enum would mean migrating them.
-- **The verdict pipeline is rebuilt per surface**: board, share card, admin
-  desk, news replay and trade finder each assemble `validateTrade` plus
-  Stepien plus hard caps plus the exception auto-fit. The non-engine blocks
-  travel as strings, and `tradeFix.ts` recovers their kind by matching prose.
-- **Hard-cap level has two encodings**, a dollar line and a level, converted
-  by equality with the apron constants; and the row-E trigger is derived
-  three ways (engine, session replay, docket).
-- **The move ledger is validated only when a move is made.** Removing an
-  earlier move replays the later ones without re-judging them.
-- **The admin desk's filing steps write two or three files in sequence** with
-  no transaction; a failure between them leaves a partial filing.
+- **The board, the news replay and the trade finder still assemble their own
+  verdicts.** They judge against session or replay state, which
+  `ruleOnBaseTrade` does not take. The board's blocks are typed; the other two
+  raise none of their own.
+- **The row-E trigger is derived three ways** (engine, session replay, docket).
+- **A signing is not re-judged by `auditLedger`** beyond the hard cap and the
+  roster limit: which exception paid for it is the drawer's choice, and the
+  replay does not second-guess it.
 - **Feed-derived player status** (option pending or declined, camp invite,
   two-way, 10-day, released, claimed) is a set of module-level maps built by
   parsing transaction prose in `league.ts`. Highest risk in the repo to touch;
-  a dozen suites pin it.
+  a dozen suites pin it. `TERMINATED` (what a released player's contract paid)
+  is the newest of them.
 
 ## Data
 

@@ -6,6 +6,7 @@ import {
   validateSigning,
   validateSignAndTrade,
   veteranExtensionMax,
+  veteranExtensionOpenOn,
   violatesStepien,
   maxIncomingSalary,
   spendingPower,
@@ -15,7 +16,7 @@ import {
   type TeamTradeSummary,
   type MechanismId,
 } from "@apron/cba-engine";
-import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, computeWaive, feedStateOf, consumedFor, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, byNickname, currentSalary, deadMoneyOf, deemedMinSalary, experienceOf, assetMeterValue, pickValue, pickSwapValue, isExtensionEligible, computeWaive, feedStateOf, exceptionClock, isRowDSigning, CALENDAR, tpeLedger, fitTpePlan, stepienFindingFor, hardCapDetailFor, positionOf, impactScoreOf, ageOf, teamProjection, type FreeAgent, type Move, hardCapLine, hardCapOrdinal } from "@/lib/league";
 import { eggReady, heatCultureEgg, lightTheBeam, moveTouches, strikeEgg, introEgg, rockCrackEgg, subwayEgg, chalkTossEgg, hawkDiveEgg, cigarEgg, swarmEgg, stampedeEgg, summitEgg, assemblyLineEgg, lightYearsEgg, launchEgg, brickyardEgg, theWallEgg, premiereEgg, gritGrindEgg, whiteHotEgg, antlersEgg, northernLightsEgg, beadThrowEgg, bingBongEgg, finaleEgg, bellTollEgg, valleySunriseEgg, dameTimeEgg, theNorthEgg, theRiffEgg, blossomsEgg, perfectionEgg, lotteryEgg, freezeEgg, auditEgg, commissionerEgg, heistEgg } from "@/components/teamEggs";
 import { suggestSignings, faImpact, SIGN_POSITIONS } from "@/lib/signingFit";
 import { ImpactPill, PosBadge } from "@/components/PlayerTags";
@@ -23,6 +24,7 @@ import { Term } from "@/components/Term";
 import { findTradePackages, findOffersForPlayer, type TradePackage } from "@/lib/tradeFinder";
 import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
+import { blockTexts, stepienBlock, EXTRA_BLOCK_PROVISION, type ExtraBlock } from "@/lib/verdict";
 import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam, useSessionSource, restoreOwnSession } from "@/lib/store";
 import { BOARD_KEY } from "@/lib/storageKeys";
 import { provision, provisionForCheck, type Provision } from "@/lib/provisions";
@@ -737,7 +739,7 @@ export default function OffseasonSim() {
   // Ted Stepien rule, against the FULL pick-ownership ledger: after this trade
   // (and every prior executed one), no team may lack a first-round pick in
   // consecutive future years.
-  const stepienViolations = useMemo(() => {
+  const stepienViolations = useMemo<ExtraBlock[]>(() => {
     const outBy: Record<string, string[]> = {};
     const inBy: Record<string, string[]> = {};
     const touched = new Set<string>();
@@ -754,9 +756,10 @@ export default function OffseasonSim() {
         const outYears = (outBy[t] ?? [])
           .filter((id) => id.endsWith("|1"))
           .map((id) => Number(id.split("|")[1]));
-        return stepienFindingFor(t, uncovered, outYears)?.message ?? null;
+        const finding = stepienFindingFor(t, uncovered, outYears);
+        return finding ? stepienBlock(finding) : null;
       })
-      .filter((x): x is string => !!x);
+      .filter((x): x is ExtraBlock => !!x);
   }, [pickSel, lg]);
 
   // Player + pick value flowing in/out per team (for the fair-trade meter).
@@ -786,15 +789,19 @@ export default function OffseasonSim() {
   // A hard cap triggered earlier (MLE/BAE/S&T, sim or real July) binds later
   // trades too — the message says WHICH, because only one is undoable.
   const hardCapTradeViolations = useMemo(() => {
-    const out: string[] = [];
+    const out: ExtraBlock[] = [];
     for (const t of verdict.teams) {
       const detail = hardCapDetailFor(t.teamId, lg.hardCapOf(t.teamId));
       if (detail && t.postTradeSalary > detail.line + 1) {
-        out.push(
-          detail.source === "real"
-            ? `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} all season by a real move this offseason${detail.label ? ` (${detail.label})` : ""} — this trade would put them at ${fmtM(t.postTradeSalary)}.`
-            : `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} from a move you made this offseason — this trade would put them at ${fmtM(t.postTradeSalary)}.`,
-        );
+        out.push({
+          kind: "hard_cap",
+          team: t.teamId,
+          source: detail.source,
+          text:
+            detail.source === "real"
+              ? `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} all season by a real move this offseason${detail.label ? ` (${detail.label})` : ""} — this trade would put them at ${fmtM(t.postTradeSalary)}.`
+              : `${teamMeta(t.teamId).name} is hard-capped at ${fmtM(detail.line)} from a move you made this offseason — this trade would put them at ${fmtM(t.postTradeSalary)}.`,
+        });
       }
     }
     return out;
@@ -838,19 +845,21 @@ export default function OffseasonSim() {
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stStage, sel, byTeam, swapSel, lg]);
-  const docketLegal =
-    verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0 && stViolations.length === 0;
+  // Every block the engine didn't raise, in the order the verdict reads them.
+  const extraBlocks = useMemo<ExtraBlock[]>(
+    () => [...stepienViolations, ...hardCapTradeViolations, ...stViolations.map((text) => ({ kind: "sign_and_trade" as const, text }))],
+    [stepienViolations, hardCapTradeViolations, stViolations],
+  );
+  const docketLegal = verdict.legal && extraBlocks.length === 0;
   // The provision behind the first block, in the order the verdict reads them:
   // the engine's violations, then Stepien, a standing hard cap, the
   // sign-and-trade rules.
   const blockedRule = useMemo(() => {
     const first = verdict.violations[0];
     if (first) return { provision: provisionForCheck(first), citation: first.citation };
-    if (stepienViolations.length) return { provision: provision("stepien") };
-    if (hardCapTradeViolations.length) return { provision: provision("hard-cap") };
-    if (stViolations.length) return { provision: provision("sign-and-trade") };
-    return null;
-  }, [verdict, stepienViolations, hardCapTradeViolations, stViolations]);
+    const block = extraBlocks[0];
+    return block ? { provision: provision(EXTRA_BLOCK_PROVISION[block.kind]) } : null;
+  }, [verdict, extraBlocks]);
   const docketChecks = useMemo(
     () =>
       buildChecks({
@@ -858,17 +867,17 @@ export default function OffseasonSim() {
         involved: verdict.teams.filter((t) => docketTeams.some((d) => d.teamId === t.teamId)),
         tpeUse: trade.tpeUse,
         violationReasons: verdict.violations.map((v) => v.reason),
-        extraViolations: [...stepienViolations, ...hardCapTradeViolations, ...stViolations],
+        extraViolations: blockTexts(extraBlocks),
         hasFirsts: Object.keys(pickSel).some((id) => id.endsWith("|1")),
       }),
-    [docketLegal, verdict, docketTeams, trade, pickSel, stepienViolations, hardCapTradeViolations, stViolations],
+    [docketLegal, verdict, docketTeams, trade, pickSel, extraBlocks],
   );
   const docketFix = useMemo(
     () =>
       docketLegal
         ? null
-        : explainBlocked(verdict, [...stepienViolations, ...hardCapTradeViolations, ...stViolations], C, lg.teamHolds, (t) => tpeLedger(lg.moves)[t] ?? []).fixes[0] ?? null,
-    [docketLegal, verdict, stepienViolations, hardCapTradeViolations, stViolations, lg],
+        : explainBlocked(verdict, extraBlocks, C, lg.teamHolds, (t) => tpeLedger(lg.moves)[t] ?? []).fixes[0] ?? null,
+    [docketLegal, verdict, extraBlocks, lg],
   );
 
   const executeTrade = () => {
@@ -929,6 +938,9 @@ export default function OffseasonSim() {
       // TPE plan chosen at staging rides along — the ledger and hard-cap
       // replay both read it back.
       tpeUse: trade.tpeUse,
+      // The day it was judged on, so the ledger can be re-judged on that day
+      // when an earlier move is taken out.
+      ...(tradeDay === "deadline" ? { day: "deadline" as const } : {}),
     });
     const teamsInvolved = new Set([
       ...trade.players.flatMap((p) => [p.from, p.to]),
@@ -1040,7 +1052,7 @@ export default function OffseasonSim() {
           while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
         <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
-          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setOverlay({ kind: "share" })} lg={lg} rule={blockedRule} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
+          <TradeVerdict verdict={verdict} extraViolations={extraBlocks} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setOverlay({ kind: "share" })} lg={lg} rule={blockedRule} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
           <div className="mt-2">
             <TradeDocket teams={docketTeams} />
           </div>
@@ -1151,7 +1163,7 @@ export default function OffseasonSim() {
           picks={sharePicks}
           swaps={swapSel}
           verdict={verdict}
-          extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]}
+          extraViolations={extraBlocks}
           holdsOf={lg.teamHolds}
           nameOf={lg.playerName}
           salaryOf={salaryOf}
@@ -1386,7 +1398,7 @@ function TradeVerdict({
    * engine's own citation for when the index has no entry for it. */
   rule?: { provision?: Provision; citation?: string } | null;
   verdict: ReturnType<typeof validateTrade>;
-  extraViolations?: string[];
+  extraViolations?: ExtraBlock[];
   valueByTeam?: Record<string, { in: number; out: number }>;
   tpeUse?: Trade["tpeUse"];
   onExecute: () => void;
@@ -1395,7 +1407,7 @@ function TradeVerdict({
   executeLabel?: string;
 }) {
   const legal = verdict.legal && extraViolations.length === 0;
-  const firstReason = verdict.violations[0]?.reason ?? extraViolations[0];
+  const firstReason = verdict.violations[0]?.reason ?? extraViolations[0]?.text;
   const color = legal ? "var(--tier-below_cap)" : "var(--tier-second_apron)";
   // Count staged trades once per verdict panel, not per roster tweak.
   useEffect(() => {
@@ -1603,7 +1615,7 @@ function TeamColumn({
   const power = spendingPower(committed + holds, C, {
     apronSalary: lg.capSheet(teamId).apronSalary,
     roomTeam: feedStateOf(teamId).roomTeam,
-    consumed: consumedFor(lg.moves, teamId),
+    ...exceptionClock(lg.moves, teamId),
   });
   const baseRoster = lg.roster(teamId);
   // The staged S&T player sits on his old team's books like anyone else —
@@ -1649,7 +1661,7 @@ function TeamColumn({
     Math.min(
       m.maxSalary,
       Number.isFinite(liveHardCap) ? Math.max(0, liveHardCap - apronNow) : Infinity,
-      m.hardCap === "first_apron" ? Math.max(0, C.firstApron - apronNow) : m.hardCap === "second_apron" ? Math.max(0, C.secondApron - apronNow) : Infinity,
+      Math.max(0, hardCapLine(m.hardCap) - apronNow),
     );
 
   return (
@@ -2032,8 +2044,11 @@ function SignDrawer({ team, initialId, initialSt, lg, onClose, onStageSt }: { te
     const rosterFull = lg.roster(team).length >= rosterLimitOn();
     return fas.map((fa) => {
       const isOwn = isOwnKept(fa, team);
-      const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, consumed: consumedFor(lg.moves, team) });
-      const legal = v.legal && committed + fa.lastSalary <= hc + 1 && !rosterFull;
+      const v = validateSigning(signBaseFor(fa), fa.lastSalary, C, { isOwnFreeAgent: isOwn, yearsOfService: fa.yearsOfService, priorSalary: fa.lastSalary, birdStatus: isOwn ? fa.birdStatus : undefined, apronSalary: committed, roomTeam: feedStateOf(team).roomTeam, ...exceptionClock(lg.moves, team) });
+      // Row D: released this season from more than the mid-level, so only a
+      // team that stays under the first apron can sign him.
+      const rowDBlocked = isRowDSigning(fa) && committed + fa.lastSalary > C.firstApron + 1;
+      const legal = v.legal && committed + fa.lastSalary <= hc + 1 && !rosterFull && !rowDBlocked;
       const maxOffer = Math.min(v.maxOffer, Math.max(0, hc - committed));
       return { fa, v, legal, maxOffer, isOwn, pos: positionOf(fa.playerId), impact: faImpact(fa, byId), age: ageOf(fa.playerId) };
     });
@@ -2201,7 +2216,7 @@ function SignEditor({
     birdStatus: isOwn ? fa.birdStatus : undefined,
     apronSalary: apronBase,
     roomTeam: feedStateOf(team).roomTeam,
-    consumed: consumedFor(lg.moves, team),
+    ...exceptionClock(lg.moves, team),
   };
   const ceilingRaw = validateSigning(base, fa.lastSalary, C, opts).maxOffer;
   const minYos = Math.min(Math.max(Math.floor(fa.yearsOfService), 0), 10);
@@ -2220,13 +2235,11 @@ function SignEditor({
 
   // Preset amounts for each mechanism the team can actually use (cap space,
   // MLEs, BAE, Bird), plus Min and Max — each clamped to what's legal here.
-  const apronOf = (hc: "first_apron" | "second_apron" | null) =>
-    hc === "first_apron" ? C.firstApron : hc === "second_apron" ? C.secondApron : Infinity;
   const presets = (() => {
     const out: { label: string; amt: number }[] = [{ label: "Min", amt: floor }];
     for (const m of spendingPower(base, C, opts).mechanisms) {
       if (m.id === "minimum") continue;
-      const amt = Math.max(floor, Math.min(m.maxSalary, ceiling, apronOf(m.hardCap) - apronBase));
+      const amt = Math.max(floor, Math.min(m.maxSalary, ceiling, hardCapLine(m.hardCap) - apronBase));
       out.push({ label: MECH_SHORT[m.id] ?? m.label, amt });
     }
     out.push({ label: "Max", amt: ceiling });
@@ -2296,7 +2309,12 @@ function SignEditor({
   const rosterCount = lg.roster(team).length;
   const rosterLimit = rosterLimitOn();
   const rosterFull = rosterCount >= rosterLimit;
-  const legalSign = v.legal && !exceedsHardCap && !rosterFull;
+  // Row D: he was released this season from a contract paying more than the
+  // mid-level. A team over the first apron can't sign him, and a team that
+  // does is capped there for the rest of the season.
+  const rowD = isRowDSigning(fa);
+  const rowDBlocked = rowD && apronAfter > C.firstApron + 1;
+  const legalSign = v.legal && !exceedsHardCap && !rosterFull && !rowDBlocked;
 
   // Sign-and-trade — staged onto the BOARD. The drawer only sets the
   // re-sign terms; the deal itself (destination, return package, picks,
@@ -2328,7 +2346,7 @@ function SignEditor({
       birdStatus: fa.birdStatus,
       apronSalary: lg.capSheet(fa.priorTeam).apronSalary,
       roomTeam: feedStateOf(fa.priorTeam).roomTeam,
-      consumed: consumedFor(lg.moves, fa.priorTeam),
+      ...exceptionClock(lg.moves, fa.priorTeam),
     }).maxOffer,
   );
   // Base-year compensation (Art. VII §8(d)): an over-cap re-sign at a >20%
@@ -2364,6 +2382,7 @@ function SignEditor({
       salary,
       years,
       mechanism: v.mechanism?.id,
+      ...(rowD ? { rowD: true } : {}),
     });
     heatCultureEgg(team, v.mechanism?.id);
     onDone();
@@ -2567,7 +2586,19 @@ function SignEditor({
         )}
         {exceedsHardCap && (
           <div className="mt-1 font-semibold text-[var(--tier-second_apron)]">
-            {teamMeta(team).name} is hard-capped at {hardCap === C.firstApron ? "the first apron" : "the second apron"} ({fmtM(hardCap)}) {hardCapDetailFor(team, lg.hardCapOf(team))?.source === "real" ? `all season by a real move this offseason${hardCapDetailFor(team, lg.hardCapOf(team))?.label ? ` (${hardCapDetailFor(team, lg.hardCapOf(team))!.label})` : ""}` : "from a move you made this offseason"} — this would put their apron salary at {fmtM(apronAfter)}.
+            {teamMeta(team).name} is hard-capped at the {hardCapOrdinal(hardCap)} apron ({fmtM(hardCap)}) {hardCapDetailFor(team, lg.hardCapOf(team))?.source === "real" ? `all season by a real move this offseason${hardCapDetailFor(team, lg.hardCapOf(team))?.label ? ` (${hardCapDetailFor(team, lg.hardCapOf(team))!.label})` : ""}` : "from a move you made this offseason"} — this would put their apron salary at {fmtM(apronAfter)}.
+          </div>
+        )}
+        {rowD && fa.terminated && (
+          <div className={`mt-1 ${rowDBlocked ? "font-semibold text-[var(--tier-second_apron)]" : "text-[var(--tier-taxpayer)]"}`}>
+            {teamMeta(fa.priorTeam).name} released {fa.playerName} on {shortDate(fa.terminated.on)} from a contract paying{" "}
+            {fmtM(fa.terminated.salary)} this season, more than the {fmtM(C.nonTaxpayerMLE)} mid-level.{" "}
+            {rowDBlocked
+              ? `Only a team that stays under the first apron can sign him, and this would put ${teamMeta(team).name} at ${fmtM(apronAfter)}, over the ${fmtM(C.firstApron)} line.`
+              : `Signing him caps ${teamMeta(team).name} at the first apron, ${fmtM(C.firstApron)}, for the rest of the season.`}{" "}
+            <Link href="/rules#waived-player-signing" className="font-semibold text-[var(--accent-ink)] hover:underline">
+              Art. VII §2(e)(4), row D →
+            </Link>
           </div>
         )}
         {fa.faType === "RFA" && !isOwn && (
@@ -2705,6 +2736,11 @@ function ExtendDrawer({
   const startYr = Number(lastYear.slice(0, 4)) + 1;
   const extSeason = (k: number) =>
     `${startYr + k}-${String((startYr + 1 + k) % 100).padStart(2, "0")}`;
+  // Art. VII §7(a)(1): an extension signed more than a year before the July 1
+  // that precedes its first season can only be signed in the offseason. Once
+  // the season starts, that leaves contracts in their last season.
+  const extWindow = veteranExtensionOpenOn(SIM_DATE, extSeason(0), CALENDAR);
+  const windowRule = provision("extension-window");
 
   const [salary, setSalary] = useState<number>(
     Math.max(floor, Math.min(round100k(finalYearSalary), ceiling)),
@@ -2721,6 +2757,7 @@ function ExtendDrawer({
   const extFreezes = remainingYears + years >= 5 || clamped > etLimit + 1;
 
   const doExtend = () => {
+    if (!extWindow.open) return;
     dispatchMove({
       kind: "extend",
       label: `Extend: ${playerName} (${fmtM(clamped)} × ${years}y)`,
@@ -2800,7 +2837,7 @@ function ExtendDrawer({
           </div>
         </div>
 
-        {extFreezes && (
+        {extFreezes && extWindow.open && (
           <div
             className="mb-4 rounded-md border px-2.5 py-1.5 text-[11.5px] leading-snug"
             style={{ borderColor: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 8%, transparent)" }}
@@ -2810,9 +2847,30 @@ function ExtendDrawer({
           </div>
         )}
 
+        {!extWindow.open && (
+          <div className="mb-4 rounded-md border border-[var(--border)] bg-[var(--panel-2)] px-2.5 py-2 text-[12px] leading-relaxed">
+            <p className="font-semibold text-[var(--tier-second_apron)]">
+              {playerName} can&apos;t be extended until the offseason.
+            </p>
+            <p className="mt-1 text-[var(--muted)]">
+              His contract runs through {lastYear}, so an extension would start in {extSeason(0)}. One signed more than a
+              year before that season&apos;s July 1 can only be signed between July 1 and the day before the regular season.
+              In season, only a contract in its last season can be extended.
+            </p>
+            {windowRule && (
+              <p className="mt-1.5">
+                <span className="label mr-2 !text-[10px]">The rule</span>
+                <Link href={`/rules#${windowRule.id}`} className="font-semibold text-[var(--accent-ink)] hover:underline">
+                  2023 CBA {windowRule.cite} →
+                </Link>
+              </p>
+            )}
+          </div>
+        )}
         <button
           onClick={doExtend}
-          className="rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95"
+          disabled={!extWindow.open}
+          className="rounded-md bg-[var(--accent)] px-3 py-2.5 text-sm font-semibold text-white hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Extend · {fmtM(clamped)} × {years}yr
         </button>

@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import { validateTrade, type Contract, type LeagueData } from "@apron/cba-engine";
 import { C } from "@/lib/league";
 import { explainBlocked } from "@/lib/tradeFix";
+import { EXTRA_BLOCK_PROVISION, stepienBlock, type ExtraBlock } from "@/lib/verdict";
+import { provision } from "@/lib/provisions";
 
 const c = (playerId: string, teamId: string, salary: number): Contract => ({
   playerId,
@@ -172,5 +174,45 @@ describe("explainBlocked", () => {
     const e = explainBlocked(v, [], C);
     expect(e.fixes.join(" ")).toMatch(/multiple minimum-salary players/);
     expect(e.fixes.join(" ")).toMatch(/Dec\. 15-to-trade-deadline/);
+  });
+});
+
+// A block the engine doesn't raise (the Stepien rule, a hard cap an earlier
+// move created) used to reach this function as a sentence, and the advice was
+// chosen by matching its wording. The admin desk worded its hard-cap sentence
+// differently and got no advice at all. The block now says what it is.
+describe("advice for a block the engine didn't raise", () => {
+  const cleared = validateTrade(
+    data,
+    { teams: ["TAX", "OTH"], players: [{ playerId: "tax-small", from: "TAX", to: "OTH" }, { playerId: "oth-fill", from: "OTH", to: "TAX" }] },
+    C,
+  );
+  const fixes = (...blocks: ExtraBlock[]) => explainBlocked({ ...cleared, legal: true, violations: [] }, blocks, C).fixes.join(" ");
+
+  it("tells a real hard cap from one made on the board, whatever the sentence says", () => {
+    const text = "Worded any way at all.";
+    expect(fixes({ kind: "hard_cap", team: "TAX", source: "real", text })).toMatch(/a real move the team already made, so there's nothing to undo/);
+    expect(fixes({ kind: "hard_cap", team: "TAX", source: "session", text })).toMatch(/a move you already made this offseason \(check the moves bar\)/);
+  });
+
+  it("names the two drafts when a Stepien block knows them, and gives the general advice when it doesn't", () => {
+    expect(fixes({ kind: "stepien", team: "TAX", text: "x", owedYear: 2030, offendingYear: 2031 })).toMatch(
+      /The 2030 first is already gone in the real world .* Swap the outgoing 2031 first/,
+    );
+    expect(fixes({ kind: "stepien", team: "TAX", text: "x", offendingYear: 2031 })).toMatch(/Keep a first in every other draft/);
+  });
+
+  it("reads the years off a Stepien finding the way the sentence states them", () => {
+    const base = { team: "GSW", pair: [2030, 2031] as [number, number], selectedOutgoingYears: [2031], message: "m" };
+    const owed = { year: 2030, counterparty: "WAS", status: "owed" };
+    expect(stepienBlock({ ...base, offendingYear: 2031, encumbered: [owed] })).toMatchObject({ kind: "stepien", owedYear: 2030, offendingYear: 2031, text: "m" });
+    // A forfeited first has no trade behind it to point at.
+    expect(stepienBlock({ ...base, offendingYear: 2031, encumbered: [{ ...owed, status: "forfeited" }] }).kind).toBe("stepien");
+    expect((stepienBlock({ ...base, offendingYear: 2031, encumbered: [{ ...owed, status: "forfeited" }] }) as { owedYear?: number }).owedYear).toBeUndefined();
+    expect((stepienBlock({ ...base, offendingYear: undefined, encumbered: [owed] }) as { owedYear?: number }).owedYear).toBeUndefined();
+  });
+
+  it("has a rules-index entry for every kind of block", () => {
+    for (const id of Object.values(EXTRA_BLOCK_PROVISION)) expect(provision(id), id).toBeDefined();
   });
 });
