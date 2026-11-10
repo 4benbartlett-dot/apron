@@ -54,6 +54,8 @@ export function applyPickTransfer(
       if (existing) throw new Error(`${t.from}'s ${year} first is already ${existing.status}${existing.to ? ` to ${existing.to}` : ""}.`);
       if (team(t.from).ownFirstObligations.some((o) => o.year === year && o.status === "forfeited"))
         throw new Error(`${t.from}'s ${year} first was forfeited to the league — there is nothing to trade.`);
+      if (team(t.from).ownFirstObligations.some((o) => o.year === year && o.status === "frozen"))
+        throw new Error(`${t.from}'s ${year} first is frozen by a season over the second apron (Art. VII §2(f)) and can't be traded.`);
       const o: OwnFirstObligation = {
         year,
         status: t.protection ? "protected" : "owed",

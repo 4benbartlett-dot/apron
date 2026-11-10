@@ -25,7 +25,8 @@ import { track } from "@/lib/analytics";
 import { explainBlocked } from "@/lib/tradeFix";
 import { useLeague, dispatchMove, toggleRenounce, decodeMovesParam, useSessionSource, restoreOwnSession } from "@/lib/store";
 import { BOARD_KEY } from "@/lib/storageKeys";
-import { leagueData, SIM_DATE, TRADE_DEADLINE, tradeTiming, YEAR, IN_SEASON, ROSTER_LIMIT, rosterLimitOn } from "@/lib/league";
+import { provision, provisionForCheck, type Provision } from "@/lib/provisions";
+import { leagueData, SIM_DATE, TRADE_DEADLINE, tradeTiming, YEAR, IN_SEASON, ROSTER_LIMIT, rosterLimitOn, boardFirstYear, SEASON_LENGTH } from "@/lib/league";
 import { tradeableOn, shortDate } from "@apron/cba-engine";
 import { homeHeadline } from "@/lib/phase";
 
@@ -839,6 +840,17 @@ export default function OffseasonSim() {
   }, [stStage, sel, byTeam, swapSel, lg]);
   const docketLegal =
     verdict.legal && stepienViolations.length === 0 && hardCapTradeViolations.length === 0 && stViolations.length === 0;
+  // The provision behind the first block, in the order the verdict reads them:
+  // the engine's violations, then Stepien, a standing hard cap, the
+  // sign-and-trade rules.
+  const blockedRule = useMemo(() => {
+    const first = verdict.violations[0];
+    if (first) return { provision: provisionForCheck(first), citation: first.citation };
+    if (stepienViolations.length) return { provision: provision("stepien") };
+    if (hardCapTradeViolations.length) return { provision: provision("hard-cap") };
+    if (stViolations.length) return { provision: provision("sign-and-trade") };
+    return null;
+  }, [verdict, stepienViolations, hardCapTradeViolations, stViolations]);
   const docketChecks = useMemo(
     () =>
       buildChecks({
@@ -1028,7 +1040,7 @@ export default function OffseasonSim() {
           while you scroll rosters; on mobile the TradeTray overlay takes over */}
       {hasTrade && (
         <div ref={verdictRef} className="md:sticky md:top-[56px] md:z-10 md:bg-[var(--bg)] md:pb-2" style={{ scrollMarginTop: 60 }}>
-          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setOverlay({ kind: "share" })} lg={lg} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
+          <TradeVerdict verdict={verdict} extraViolations={[...stepienViolations, ...hardCapTradeViolations, ...stViolations]} valueByTeam={valueByTeam} tpeUse={trade.tpeUse} onExecute={executeTrade} onShare={() => setOverlay({ kind: "share" })} lg={lg} rule={blockedRule} executeLabel={stStage && trade.players.some((p) => p.playerId === stStage.playerId) ? "Execute sign & trade" : undefined} />
           <div className="mt-2">
             <TradeDocket teams={docketTeams} />
           </div>
@@ -1368,7 +1380,11 @@ function TradeVerdict({
   onShare,
   lg,
   executeLabel,
+  rule,
 }: {
+  /** The provision behind the first thing blocking this trade, and the
+   * engine's own citation for when the index has no entry for it. */
+  rule?: { provision?: Provision; citation?: string } | null;
   verdict: ReturnType<typeof validateTrade>;
   extraViolations?: string[];
   valueByTeam?: Record<string, { in: number; out: number }>;
@@ -1470,6 +1486,27 @@ function TradeVerdict({
           )}
         </div>
       </div>
+      {/* The rule itself. The engine has always attached a citation to every
+          check; this panel printed the reason and dropped it, so a blocked
+          trade named no article or section unless the reason happened to. */}
+      {!legal && rule && (rule.provision || rule.citation) && (
+        <div key={rule.provision?.id ?? rule.citation} className="fade-up rule bg-[var(--panel-2)]/30 px-4 py-2.5">
+          <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+            <span className="label !text-[10px]">The rule</span>
+            <span className="tabular text-[11.5px] font-semibold">
+              {rule.provision ? (rule.provision.text ? `2023 CBA ${rule.provision.cite}` : rule.provision.cite) : rule.citation}
+            </span>
+            {rule.provision && (
+              <Link href={`/rules#${rule.provision.id}`} className="text-[11.5px] font-semibold text-[var(--accent-ink)] hover:underline">
+                {rule.provision.name} →
+              </Link>
+            )}
+          </div>
+          {rule.provision?.text && (
+            <p className="mt-1 max-w-3xl text-[12.5px] leading-relaxed text-[var(--muted)]">&ldquo;{rule.provision.text}&rdquo;</p>
+          )}
+        </div>
+      )}
       {triggers.length > 0 && (
         <div className="rule bg-[var(--panel-2)]/30 px-4 py-2.5">
           <MoveTriggers items={triggers} />
@@ -2227,13 +2264,18 @@ function SignEditor({
   // 8% raises only for a Bird / Early-Bird own-FA re-sign; Non-Bird and every
   // exception/cap-room signing get 5%.
   const raise = isOwn && (fa.birdStatus === "bird" || fa.birdStatus === "early_bird") ? 0.08 : 0.05;
-  const rows = Array.from({ length: years }, (_, k) => Math.round(salary * (1 + raise * k)));
+  // What this season costs: the §3(f) figure for a one-year vet minimum, and a
+  // day-by-day share for a minimum signed in season. One function, shared with
+  // the reducer, so the preview is the number that books.
+  const first = boardFirstYear(fa.playerId, salary, years, v.mechanism?.id);
+  const rows = Array.from({ length: years }, (_, k) => (k === 0 ? first.paid : Math.round(salary * (1 + raise * k))));
   const total = rows.reduce((a, b) => a + b, 0);
   // A 3+ YOS vet on a ONE-year minimum counts at the 2-YOS minimum (Art. VII
   // §3(f)) — the booked charge diverges from the paycheck.
-  const bookedSalary =
+  const deemedSalary =
     years === 1 ? deemedMinSalary(fa.playerId, salary, 1, v.mechanism?.id ?? "unspecified") : salary;
-  const isDeemedMin = bookedSalary !== salary;
+  const bookedSalary = first.booked;
+  const isDeemedMin = deemedSalary !== salary;
   // A 3+ YOS vet minimum that would deem at one year but is signed for MORE than
   // one — the reimbursement doesn't apply, so it counts in full. Flag it so the
   // missing discount isn't a surprise (the common point of confusion).
@@ -2501,8 +2543,15 @@ function SignEditor({
         {isDeemedMin && (
           <div className="mt-1 text-[var(--tier-below_cap)]">
             One-year vet minimum: he&rsquo;s paid {fmtM(salary)}, but with 3+ years of
-            service he counts only <span className="tabular">{fmtM(bookedSalary)}</span> against the cap, tax,
+            service he counts only <span className="tabular">{fmtM(deemedSalary)}</span> against the cap, tax,
             and aprons — the league reimburses the difference (Art. VII §3(f)).
+          </div>
+        )}
+        {first.days != null && (
+          <div className="mt-1 text-[var(--tier-below_cap)]">
+            Signed today, with {first.days} of the season&rsquo;s {SEASON_LENGTH} days left, a minimum contract pays by the
+            day: <span className="tabular">{fmtFull(first.paid)}</span> this season, and{" "}
+            <span className="tabular">{fmtFull(bookedSalary)}</span> on the books (Art. I §1(kk)).
           </div>
         )}
         {isMultiYearVetMin && (
@@ -2827,8 +2876,15 @@ function WaiveDrawer({
       <div className="flex flex-1 flex-col overflow-y-auto p-4">
         <div className="mb-1 text-base font-semibold">{playerName}</div>
         <div className="mb-4 text-xs text-[var(--muted)]">
-          current {fmtM(current)} · {w.remainingSeasons}yr left · guaranteed {fmtM(w.guaranteedTotal)}
+          current {fmtM(current)} · {w.remainingSeasons}yr left ·{" "}
+          {w.earnedDays != null ? `not guaranteed · owed ${fmtFull(w.guaranteedTotal)}` : `guaranteed ${fmtM(w.guaranteedTotal)}`}
         </div>
+        {w.earnedDays != null && (
+          <div className="mb-4 rounded-md border border-[var(--border)] bg-[var(--panel-2)] p-3 text-[12.5px] leading-snug text-[var(--muted)]">
+            This contract isn&apos;t guaranteed, so waiving {playerName} costs only what he has earned: {w.earnedDays} days
+            of the season, counting the two he spends on waivers. From Jan. 10 it would be guaranteed in full.
+          </div>
+        )}
 
         {noDead ? (
           <div className="mb-4 rounded-md border border-[var(--border)] bg-[var(--panel-2)] p-3 text-[12.5px] leading-snug text-[var(--muted)]">

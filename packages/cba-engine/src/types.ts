@@ -56,6 +56,12 @@ export interface Contract {
   /** Team that currently holds the contract. */
   teamId: string;
   years: ContractYear[];
+  /** Days of the current Regular Season this contract's current-year salary
+   * covers, when that is fewer than all of them: a contract signed after
+   * opening night pays by the day (Art. I §1(kk)(ii)). Absent = the whole
+   * season. A waive of a non-guaranteed contract needs it to count the days
+   * the player has been paid for. */
+  paidDays?: number;
   /** Trade kicker as a fraction of remaining base salary, 0..0.15. */
   tradeKickerPct?: number;
   noTradeClause?: boolean;

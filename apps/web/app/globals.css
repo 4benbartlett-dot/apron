@@ -382,6 +382,71 @@ body::after {
   animation: capline-in 7s infinite both;
 }
 
+/* The rule's own words, arriving with the Blocked stamp. It shares the
+   stamps' 7s cycle and Blocked's half-period offset, so the quotation is on
+   screen only while the stamp it explains is. */
+@keyframes cite-cycle {
+  0%, 6% { opacity: 0; transform: translateY(4px); }
+  14%, 38% { opacity: 1; transform: none; }
+  46%, 100% { opacity: 0; transform: none; }
+}
+.demo-cite { animation: cite-cycle 7s 3.5s infinite both; }
+
+/* Today / deadline switch: the board judged on one day, then the other. Two
+   pills trade the highlight, and the row's tag follows: locked, then free. */
+@keyframes day-on {
+  0%, 44% { background: var(--accent); color: #fff; }
+  50%, 94% { background: transparent; color: var(--muted); }
+  100% { background: var(--accent); color: #fff; }
+}
+@keyframes day-off {
+  0%, 44% { background: transparent; color: var(--muted); }
+  50%, 94% { background: var(--accent); color: #fff; }
+  100% { background: transparent; color: var(--muted); }
+}
+@keyframes day-first {
+  0%, 44% { opacity: 1; }
+  50%, 94% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes day-second {
+  0%, 44% { opacity: 0; transform: translateY(3px); }
+  52%, 94% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
+}
+.demo-day-a { animation: day-on 7s infinite both; }
+.demo-day-b { animation: day-off 7s infinite both; }
+.demo-day-locked { animation: day-first 7s infinite both; }
+.demo-day-free { animation: day-second 7s infinite both; }
+
+/* Playoff odds rerun after a move: the bar grows and the number changes. */
+@keyframes odds-bar {
+  0%, 22% { transform: scaleX(0.41); }
+  40%, 88% { transform: scaleX(0.58); }
+  100% { transform: scaleX(0.41); }
+}
+@keyframes odds-delta {
+  0%, 36% { opacity: 0; transform: translateY(4px) scale(0.9); }
+  44%, 86% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; }
+}
+.demo-odds-bar { transform-origin: left; animation: odds-bar 7s infinite both; }
+/* The number changes with the bar: old figure until it starts to grow, new
+   one while it is long, old again as it resets. */
+@keyframes odds-before {
+  0%, 26% { opacity: 1; }
+  34%, 90% { opacity: 0; }
+  98%, 100% { opacity: 1; }
+}
+@keyframes odds-after {
+  0%, 28% { opacity: 0; transform: translateY(3px); }
+  38%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; }
+}
+.demo-odds-before { animation: odds-before 7s infinite both; }
+.demo-odds-after { animation: odds-after 7s infinite both; }
+.demo-odds-delta { animation: odds-delta 7s infinite both; }
+
 /* HELD UNTIL SEEN (see components/PlayWhenSeen.tsx).
    These loops start at page load. Beside the text on a wide screen that is
    fine; stacked underneath it on a phone it means the cycle has already run
@@ -396,6 +461,15 @@ body::after {
 .anim-hold .demo-stage { animation: none; background: transparent; }
 .anim-hold .demo-stage-tag { animation: none; opacity: 0; transform: translateX(-4px); }
 .anim-hold .demo-capline { animation: none; transform: scaleX(0); }
+.anim-hold .demo-cite { animation: none; opacity: 0; }
+.anim-hold .demo-day-a { animation: none; background: var(--accent); color: #fff; }
+.anim-hold .demo-day-b { animation: none; background: transparent; color: var(--muted); }
+.anim-hold .demo-day-locked { animation: none; opacity: 1; }
+.anim-hold .demo-day-free { animation: none; opacity: 0; }
+.anim-hold .demo-odds-bar { animation: none; transform: scaleX(0.41); }
+.anim-hold .demo-odds-before { animation: none; opacity: 1; }
+.anim-hold .demo-odds-after,
+.anim-hold .demo-odds-delta { animation: none; opacity: 0; }
 
 /* File-drawer tab (glossary sections). */
 .drawer-tab {
@@ -465,6 +539,16 @@ body::after {
   }
   .demo-stage-tag { animation: none; opacity: 1; transform: none; }
   .demo-capline { animation: none; opacity: 1; transform: scaleX(1); }
+  /* The quotation belongs to the Blocked stamp, which reduced motion retires. */
+  .demo-cite { animation: none; opacity: 0; }
+  /* Today's state for the switch; the result for the odds. One frame each. */
+  .demo-day-a { animation: none; background: var(--accent); color: #fff; }
+  .demo-day-b { animation: none; background: transparent; color: var(--muted); }
+  .demo-day-locked { animation: none; opacity: 1; }
+  .demo-day-free { animation: none; opacity: 0; }
+  .demo-odds-bar { animation: none; transform: scaleX(0.58); }
+  .demo-odds-before { animation: none; opacity: 0; }
+  .demo-odds-after, .demo-odds-delta { animation: none; opacity: 1; transform: none; }
   .term-card, .term-card:hover { transform: none; transition: none; }
 }
 

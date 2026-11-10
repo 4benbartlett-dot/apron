@@ -1,5 +1,6 @@
 import pickRightsRaw from "./pick-rights-2026.json";
 import { PICK_FORFEITURES, rulingDateLabel } from "./rulings";
+import { FROZEN_FIRSTS } from "./second-apron";
 
 /**
  * Structured draft-pick RIGHTS beyond the clean-outright ownership in
@@ -12,11 +13,12 @@ import { PICK_FORFEITURES, rulingDateLabel } from "./rulings";
 export type Favorable = "more" | "most" | "less" | "least";
 
 /** An encumbrance on a team's OWN future first (owed away, protected, a spot
- * another team can swap for, or forfeited to the league outright). Absent year
- * = the team keeps its own first clean. */
+ * another team can swap for, forfeited to the league outright, or frozen by a
+ * season over the second apron: still the team's, but not tradeable). Absent
+ * year = the team keeps its own first clean. */
 export interface OwnFirstObligation {
   year: number;
-  status: "owed" | "protected" | "swap" | "forfeited";
+  status: "owed" | "protected" | "swap" | "forfeited" | "frozen";
   /** Counterparty team code (none for a forfeiture — the league is not a team). */
   to?: string;
   /** For a swap/either-or, the outcome this team could be reduced to. */
@@ -105,8 +107,34 @@ function applyForfeitures(byTeam: Record<string, TeamPickRights>): Record<string
   return out;
 }
 
-/** team → structured pick rights (real-world, parsed, with league forfeitures applied). */
-export const PICK_RIGHTS: Record<string, TeamPickRights> = applyForfeitures(RAW);
+/**
+ * Lay the second-apron freezes over the ledger (second-apron.ts). A frozen
+ * first is an own-pick obligation with nobody on the other end: the team keeps
+ * the pick and drafts with it, and may not trade it.
+ */
+function applyFreezes(byTeam: Record<string, TeamPickRights>): Record<string, TeamPickRights> {
+  if (!FROZEN_FIRSTS.length) return byTeam;
+  const out: Record<string, TeamPickRights> = {};
+  for (const [team, r] of Object.entries(byTeam))
+    out[team] = { ownFirstObligations: r.ownFirstObligations.map((o) => ({ ...o })), holdings: r.holdings };
+  for (const f of FROZEN_FIRSTS) {
+    const team = (out[f.team] ??= { ownFirstObligations: [], holdings: [] });
+    // A pick already owed or forfeited can't also be frozen in any way that matters.
+    if (team.ownFirstObligations.some((o) => o.year === f.year && (o.status === "owed" || o.status === "forfeited"))) continue;
+    team.ownFirstObligations.push({
+      year: f.year,
+      status: "frozen",
+      note: `Frozen: the team finished ${f.season} over the second apron, so this pick can't be traded (Art. VII §2(f)).${f.penalty ? " It also moves to the end of the first round." : ""}`,
+      source: f.source,
+    });
+    team.ownFirstObligations.sort((a, b) => a.year - b.year);
+  }
+  return out;
+}
+
+/** team → structured pick rights (real-world, parsed, with league forfeitures
+ * and second-apron freezes applied). */
+export const PICK_RIGHTS: Record<string, TeamPickRights> = applyFreezes(applyForfeitures(RAW));
 
 /** Swap rights a team holds (it can swap its own pick up toward the counterparties'). */
 export function swapRightsOf(team: string): PickHolding[] {

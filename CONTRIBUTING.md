@@ -97,6 +97,25 @@ be careful, and a candidate for the same treatment:
   disagree about who holds an outright pick. Fix the structured ledger, with
   the trade in `source`.
 - Scripts stamp the local date (`scripts/today.mjs`), not the UTC one.
+- Who finished a season over the second apron is a reported fact
+  (`packages/data/src/second-apron.ts`, each with its source). The frozen
+  first-round picks are derived from it and laid over the pick ledger.
+
+## The rules index
+
+`apps/web/lib/provisions.ts` lists each provision the board enforces: an
+anchor, the citation, a plain-English line, and the agreement's own words. The
+`/rules` page prints it, and a blocked verdict shows the entry for the rule
+that blocked it (`provisionForCheck` maps an engine check to its entry). When
+the engine gains a rule id, give it an entry, or `provisions.test.ts` fails.
+
+- `text` is quoted word for word, "…" for words left out. Check it against
+  `CBA.pdf` before it goes in; nothing inside the quotation marks is paraphrase.
+- The trades shown beside a rule, on `/rules`, `/about` and the guide, are
+  searched for in the current data (`apps/web/lib/examples.ts`), never written
+  down: each must be blocked by that rule alone, in the words the board prints.
+- `apps/web/lib/caseNotes.ts` holds the About page's "Where the fine print
+  mattered" notes. Short, first person, plain; no account of what the code does.
 
 ## Writing
 

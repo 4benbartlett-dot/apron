@@ -292,7 +292,7 @@ export default function TeamWarRoom() {
               // counterparty: the league took it, and nobody sends it back.
               const color = o.status === "owed" || o.status === "forfeited" ? "var(--tier-second_apron)" : "var(--tier-taxpayer)";
               const label =
-                o.status === "forfeited" ? "forfeited" : o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
+                o.status === "frozen" ? "frozen" : o.status === "forfeited" ? "forfeited" : o.status === "owed" ? `→ ${o.to ?? ""}` : o.status === "protected" ? `prot ${o.protection ?? ""}`.trim() : `swap w/ ${o.to ?? ""}`;
               return chip(color, `’${y - 2000} ${label}`, o.note ?? `${y} first-rounder`, key);
             };
             // PHX easter egg: when nearly every own first is encumbered or

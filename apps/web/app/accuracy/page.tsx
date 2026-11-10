@@ -52,8 +52,7 @@ const NOT_INCLUDED = [
   "Renegotiating a contract into cap room.",
   "Signing second-round-pick exceptions and two-way contracts — you can't do those from the offseason drawer yet.",
   "Designated “supermax” extensions — you can't build one from the board yet.",
-  "Paying an in-season signing by the day. The real ledger does this for the contracts teams actually sign during the season (a minimum signed in November costs its share of the 174 days left, and a non-guaranteed player who is waived leaves only the days he was paid for). A signing or a waive you make on the board during the season still books the full-season figure.",
-  "Freezing a future first-round pick for a second-apron team at all — the rule is modeled in the rules engine, but the board doesn't apply it to any pick yet, so a frozen first can still be traded here.",
+  "The daily shrinking of the mid-level and bi-annual exceptions from January 10 (Art. VII §6(n)(4)). Until then they are full size, which is what the board shows.",
 ];
 
 // The rule-by-rule specifics, grouped. Collapsed by default — transparency for
@@ -111,6 +110,7 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     items: [
       "A first-rounder you already owe (or that's protected out) is locked from your board, and its year counts as uncovered for the Stepien rule.",
       "Trades move picks as they execute, so later proposals see the real inventory, and Stepien counts picks you moved in earlier deals — not just the current one.",
+      "A first-round pick frozen by a season over the second apron (Art. VII §2(f)) can't be traded or swapped, but still counts as the team's own for the two-years-running rule: Boston's, Phoenix's and Minnesota's in 2032, and Cleveland's in 2033.",
       "A first the league takes away (the Clippers' 2029–2033 penalty) is off the board and its year is uncovered for Stepien; another team's unprotected first in that year covers it, which is why Toronto's 2031 and 2033 picks are what keep the Clippers able to trade a first at all — and why trading either one is blocked.",
     ],
   },
@@ -118,8 +118,8 @@ const FINE_PRINT: { group: string; items: string[] }[] = [
     group: "Roster, timing & the real 2026 offseason",
     items: [
       "Roster limits follow the calendar: 21 players in the offseason with a 15-by-opening-night warning, and a hard 15 standard contracts once the season starts. Sign-and-trades close on the first day of the regular season (Art. VII §8(e)(1)(v)).",
-      "Contracts signed during the season are paid by the day: a rest-of-season minimum is the minimum salary times the days left in the season over its 174 (Art. I §1(kk)(ii)), a 10-day is ten of them, and a non-guaranteed player waived in season leaves the days he was under contract.",
-      "Trade freezes, each with the day it lifts: 30 days for rookie signings, the later of Dec. 15 and three months for free-agent signings, the later of Jan. 15 and three months for over-cap Bird re-signs above 120%, six months for veteran extensions past extend-and-trade limits, and two months before a player acquired by trade can be combined with other salaries. The board trades as of today or the trade deadline, and a freeze you create on the board (a signing, an extension, a player you trade for) is dated from today the same way, so it lifts in deadline mode when the rule says it would. Which re-signs fall under the Jan. 15 rule, and who can veto a trade, follow reporting, since public data doesn't show Bird rights.",
+      "Contracts signed during the season are paid by the day, on the real ledger and on the board: a minimum signed in season is the minimum salary times the days left over the season's 174 (Art. I §1(kk)(ii)), a 10-day is ten of them, and a player waived off a contract that isn't guaranteed leaves only the days he was paid for, through two on waivers. From January 10 a contract still on a roster is guaranteed for the season.",
+      "Trade freezes, each with the day it lifts: 30 days for rookie signings, the later of Dec. 15 and three months for free-agent signings, the later of Jan. 15 and three months for over-cap Bird re-signs above 120%, six months for veteran extensions past extend-and-trade limits, and two months before a player acquired by trade can be combined with other salaries (or the day before the deadline, for one acquired by December 16: the proviso in Art. VII §6(j)(4)(i)). The board trades as of today or the trade deadline, and a freeze you create on the board (a signing, an extension, a player you trade for) is dated from today the same way, so it lifts in deadline mode when the rule says it would. Which re-signs fall under the Jan. 15 rule, and who can veto a trade, follow reporting, since public data doesn't show Bird rights.",
       "Real July signings are matched to the exception they actually used, so a deal above the bi-annual ceiling but below the mid-level is treated as mid-level use when the team's situation requires it.",
     ],
   },

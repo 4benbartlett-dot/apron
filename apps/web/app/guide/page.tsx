@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { C } from "@/lib/league";
+import { shortDate } from "@apron/cba-engine";
+import { C, SIM_DATE, TRADE_DEADLINE } from "@/lib/league";
+import { homeSeason } from "@/lib/phase";
+import { provision } from "@/lib/provisions";
+import { deadlineExample } from "@/lib/examples";
 import { Thermometer } from "@/components/Thermometer";
 import { Term } from "@/components/Term";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -10,7 +14,7 @@ import { PlayWhenSeen } from "@/components/PlayWhenSeen";
 export const metadata: Metadata = {
   title: "How to play — Over the Apron",
   description:
-    "Run an NBA front office under the 2023 CBA: pick a team, read the cap sheet, make moves that build on each other, and see the rule behind the verdict.",
+    "Run an NBA front office under the 2023 CBA: pick a team, read the cap sheet, make moves that build on each other, see the rule behind every verdict, and watch the playoff odds move.",
 };
 
 /** One play: call chip + title on the left, a live demo artifact on the right. */
@@ -133,6 +137,7 @@ function DemoStage() {
 }
 
 function DemoStamps() {
+  const rule = provision("second-apron-aggregation");
   return (
     <div className="flex w-full max-w-[320px] flex-col items-center gap-4 py-2">
       <div className="grid h-14 w-full place-items-center">
@@ -152,6 +157,71 @@ function DemoStamps() {
           <span className="font-bold text-[var(--tier-second_apron)]">✗</span>
           <span className="text-[var(--muted)]">over the second apron — salaries cannot be aggregated</span>
         </div>
+      </div>
+      {/* The block comes with its address: the citation and the agreement's
+          own words, timed to the Blocked stamp. */}
+      {rule && (
+        <div className="demo-cite w-full rounded-md border border-[var(--border)] bg-[var(--panel)] px-2.5 py-2 text-[10.5px] leading-snug">
+          <div className="tabular font-semibold">2023 CBA {rule.cite}</div>
+          <div className="mt-0.5 text-[var(--muted)]">&ldquo;{rule.text}&rdquo;</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** "2027-02-11" → "Feb. 11". */
+const md = (iso: string) => shortDate(iso).replace(/, \d{4}$/, "");
+
+/** The board's day switch: one roster row, judged today and at the deadline.
+ * The row is a real player whose freeze lifts in between, when today's data
+ * has one; the same found-not-written example the About page opens. */
+function DemoDay() {
+  const ex = deadlineExample();
+  const name = ex?.frozen.name ?? "A summer signing";
+  const until = ex ? md(ex.tradeableFrom) : "Dec. 15";
+  const tag = "col-start-1 row-start-1 justify-self-end rounded-[3px] px-1.5 py-px text-[8.5px] font-bold uppercase tracking-[0.05em]";
+  return (
+    <div className="w-full max-w-[310px]">
+      <div className="mx-auto flex w-fit overflow-hidden rounded-md border border-[var(--border-strong)] text-[10.5px] font-semibold">
+        <span className="demo-day-a tabular px-2.5 py-1.5">Today · {md(SIM_DATE)}</span>
+        <span className="demo-day-b tabular border-l border-[var(--border-strong)] px-2.5 py-1.5">Deadline · {md(TRADE_DEADLINE)}</span>
+      </div>
+      <div className="mt-3 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel)]">
+        <div className="flex items-center justify-between gap-3 px-3 py-2.5 text-[12px]">
+          <span className="min-w-0 truncate">{name}</span>
+          <span className="grid shrink-0">
+            <span className={`demo-day-locked ${tag}`} style={{ color: "var(--tier-second_apron)", background: "color-mix(in srgb, var(--tier-second_apron) 12%, transparent)" }}>
+              Locked · {until}
+            </span>
+            <span className={`demo-day-free ${tag}`} style={{ color: "var(--tier-below_cap)", background: "color-mix(in srgb, var(--tier-below_cap) 14%, transparent)" }}>
+              Tradeable
+            </span>
+          </span>
+        </div>
+      </div>
+      <div className="mt-2.5 text-center text-[10px] text-[var(--muted)]">same roster, judged on a different day</div>
+    </div>
+  );
+}
+
+/** Playoff odds rerunning after a move. Illustrative numbers. */
+function DemoOdds() {
+  return (
+    <div className="w-full max-w-[300px]">
+      <div className="flex items-baseline justify-between">
+        <span className="text-[12px] font-semibold">Playoff odds</span>
+        <span className="tabular grid text-[14px] font-bold">
+          <span className="demo-odds-before col-start-1 row-start-1 text-right">41%</span>
+          <span className="demo-odds-after col-start-1 row-start-1 text-right text-[var(--tier-below_cap)]">58%</span>
+        </span>
+      </div>
+      <div className="mt-2 h-2.5 overflow-hidden rounded-full border border-[var(--border)] bg-[var(--panel-2)]">
+        <div className="demo-odds-bar h-full w-full rounded-full bg-[var(--accent)]" />
+      </div>
+      <div className="mt-2 flex items-center justify-between text-[10.5px] text-[var(--muted)]">
+        <span>the rest of the season, played 5,000 times</span>
+        <span className="demo-odds-delta tabular font-bold text-[var(--tier-below_cap)]">+17</span>
       </div>
     </div>
   );
@@ -219,6 +289,10 @@ function DemoCard() {
 /* ------------------------------ page ---------------------------------- */
 
 export default function GuidePage() {
+  // The board's verbs change with the league year: an offseason is renounced
+  // and extended into; a season is traded and waived through.
+  const offseason = homeSeason() === "offseason";
+  const start = offseason ? "Start your offseason" : "Open the trade board";
   return (
     <div className="pb-12">
       {/* hero */}
@@ -230,14 +304,14 @@ export default function GuidePage() {
             <circle cx="50.5" cy="21.5" r="6.5" fill="var(--text)" />
           </svg>
           <div className="relative max-w-2xl">
-            <div className="label !text-[11px] text-[var(--accent-ink)]">The playbook · six plays</div>
+            <div className="label !text-[11px] text-[var(--accent-ink)]">The playbook · eight plays</div>
             <h1 className="mt-2 text-[clamp(26px,4.5vw,40px)] font-bold leading-[1.05] tracking-tight">
               You run the front office.
               <br />
               The CBA runs you.
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--muted)]">
-              Live rosters, real cap sheets, and the core 2023 CBA rules that decide most offseason moves. Anything underlined or badge-shaped can be tapped for a plain-English explainer.
+              Live rosters, real cap sheets, and the 2023 CBA rules that decide what a team can do. Anything underlined or badge-shaped can be tapped for a plain-English explainer.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {/* active: as well as hover: — Tailwind v4 emits the hover variant
@@ -246,10 +320,13 @@ export default function GuidePage() {
                   rule is button:active, which cannot match a Link. Without this
                   the primary CTA acknowledges a tap with nothing at all. */}
               <Link href="/" className="rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white transition-[filter,transform] hover:brightness-95 active:translate-y-px active:brightness-95">
-                Start your offseason
+                {start}
+              </Link>
+              <Link href="/rules" className="rounded-md border border-[var(--border-strong)] px-4 py-2 text-sm font-semibold transition-[border-color,transform] hover:border-[var(--text)] active:translate-y-px active:border-[var(--text)]">
+                Read the rules
               </Link>
               <Link href="/glossary" className="rounded-md border border-[var(--border-strong)] px-4 py-2 text-sm font-semibold transition-[border-color,transform] hover:border-[var(--text)] active:translate-y-px active:border-[var(--text)]">
-                Read the glossary
+                Glossary
               </Link>
             </div>
           </div>
@@ -285,6 +362,7 @@ export default function GuidePage() {
             <strong>Sign</strong> — free agents show the best legal
             mechanism and your true max offer. <strong>Extend</strong> — the{" "}
             <span className={chip}>EXT</span> tag opens a sheet capped by the 140% rule.{" "}
+            <strong>Waive</strong> — the <span className={chip}>WV</span> tag shows what stays on the books, to the day.{" "}
             <strong>Renounce</strong> — clear a hold to open room, at the cost of{" "}
             <Term k="bird" underline className="text-[var(--text)]">Bird rights</Term>.
             Stuck? The <span className={chip}>Trade finder</span> builds ranked
@@ -298,13 +376,28 @@ export default function GuidePage() {
             but the rule behind the result when one applies: the{" "}
             <Term k="matching" underline className="text-[var(--text)]">matching band</Term>{" "}
             you failed by how many dollars, the aggregation ban, the freeze
-            date, the Stepien rule. The coverage page lists what is modeled and where public data is still incomplete.
+            date, the Stepien rule. A block comes with its address: the article
+            and section, and the sentence of the agreement that decides it. All
+            of them are on <Link href="/rules" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--accent-ink)]">the rules page</Link>,
+            in plain English.
           </p>
         </Play>
 
-        <Play n="05" title="Moves build on each other" demo={<DemoTimeline />}>
+        <Play n="05" title="Today, or the deadline" demo={<DemoDay />}>
           <p>
-            Your offseason is one continuous timeline. Use the full MLE today and the{" "}
+            A player who just signed can&rsquo;t be traded yet, and one a team
+            just traded for can&rsquo;t be packaged with a teammate. Every one
+            of those freezes has a date. Flip the board from{" "}
+            <span className={chip}>Today</span> to{" "}
+            <span className={chip}>Trade deadline</span> and it judges the same
+            deal on {md(TRADE_DEADLINE)}, with every freeze that lifts by then
+            lifted. A link you share carries the day with it.
+          </p>
+        </Play>
+
+        <Play n="06" title="Moves build on each other" demo={<DemoTimeline />}>
+          <p>
+            Your moves are one continuous timeline. Use the full MLE today and the{" "}
             <Term k="hard_cap" underline className="text-[var(--text)]">hard cap</Term>{" "}
             it triggers will block a perfectly matched trade next week. Each
             verdict is judged against the moves you&rsquo;ve already made — your
@@ -312,12 +405,26 @@ export default function GuidePage() {
           </p>
         </Play>
 
-        <Play n="06" title="Ship the receipt" demo={<DemoCard />}>
+        <Play n="07" title="Watch the odds move" demo={<DemoOdds />}>
+          <p>
+            Every team&rsquo;s record is projected from its roster and updated
+            with each real result, and the rest of the season is played out
+            5,000 times for playoff, play-in and title odds. Make a move and
+            the odds rerun with it, so a trade shows what it is worth in wins
+            before you file it. The full table is on{" "}
+            <Link href="/standings" className="underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--accent-ink)]">Standings</Link>.
+          </p>
+        </Play>
+
+        <Play n="08" title="Ship the receipt" demo={<DemoCard />}>
           <p>
             Hit <span className={chip}>Share card</span> on any verdict for a
             screenshot-ready filing: the deal, the stamp, and the rules it
             passes or breaks. Download it, copy the link, or post it — settle
-            the group chat with citations.
+            the group chat with citations.{" "}
+            <span className={chip}>Share offseason</span> sends every move you
+            have made as one link; opening someone else&rsquo;s never costs you
+            your own.
           </p>
         </Play>
       </div>
@@ -325,13 +432,13 @@ export default function GuidePage() {
       <Reveal>
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[var(--border)] pt-5 text-sm">
           <Link href="/" className="font-semibold text-[var(--accent-ink)] hover:underline">
-            Start your offseason →
+            {start} →
           </Link>
           <Link href="/glossary" className="text-[var(--muted)] underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
             Glossary
           </Link>
-          <Link href="/accuracy" className="text-[var(--muted)] underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
-            What the rules enforce
+          <Link href="/rules" className="text-[var(--muted)] underline decoration-[var(--border-strong)] underline-offset-2 hover:text-[var(--text)]">
+            The rules, by article
           </Link>
         </div>
       </Reveal>
