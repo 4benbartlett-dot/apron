@@ -6,7 +6,7 @@ import {
   capSheet as engCapSheet,
   type Contract,
 } from "@apron/cba-engine";
-import { ACQUIRED_PICKS, hasAcquiredFirst } from "@apron/data";
+import { ACQUIRED_PICKS, hasAcquiredFirst, frozenFirstOf } from "@apron/data";
 import {
   BASE_CONTRACTS,
   YEAR,
@@ -387,6 +387,10 @@ export function useLeague() {
           const round = Number(roundStr) as 1 | 2;
           // A first already owed away in the real world isn't yours to trade.
           if (round === 1 && origin === owner && lockedFirstEncumbrance(origin!, year)) continue;
+          // Nor is one frozen by a season over the second apron (Art. VII
+          // §2(f)). It is still the team's pick, so unlike an owed one it
+          // keeps its year covered for the Stepien rule below.
+          if (round === 1 && origin === owner && frozenFirstOf(origin!, year)) continue;
           out.push({
             id,
             origin: origin!,

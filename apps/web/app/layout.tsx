@@ -138,6 +138,7 @@ export default function RootLayout({
                 <Link href="/draft" className={FOOT_LINK}>Draft picks</Link>
                 <Link href="/deadlines" className={FOOT_LINK}>Deadlines</Link>
                 <Link href="/blog" className={FOOT_LINK}>Blog</Link>
+                <Link href="/rules" className={FOOT_LINK}>The rules, by article</Link>
                 <Link href="/accuracy" className={FOOT_LINK}>Rules coverage &amp; accuracy</Link>
                 <Link href="/about" className={FOOT_LINK}>About</Link>
               </div>

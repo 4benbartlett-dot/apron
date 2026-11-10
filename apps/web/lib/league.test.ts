@@ -1,6 +1,16 @@
 import { describe, it, expect } from "vitest";
-import { applyMove, YEAR, type Move } from "@/lib/league";
-import type { Contract } from "@apron/cba-engine";
+import { applyMove, YEAR, CALENDAR, IN_SEASON, SIM_DATE, type Move } from "@/lib/league";
+import { regularSeasonDays, seasonDaysLeft, type Contract } from "@apron/cba-engine";
+
+/** The share of a season's non-guaranteed salary a player keeps if waived on
+ * the sim's day: nothing out of season, all of it from Jan. 10, and otherwise
+ * the days he has been paid for plus two on waivers (see computeWaive). */
+const earnedShare = () => {
+  if (!IN_SEASON) return 0;
+  if (SIM_DATE >= CALENDAR.guaranteeDate) return 1;
+  const days = regularSeasonDays(CALENDAR);
+  return Math.min(days, days - seasonDaysLeft(SIM_DATE, CALENDAR) + 1 + 2) / days;
+};
 
 const c = (
   playerId: string,
@@ -101,10 +111,19 @@ describe("applyMove: waive creates dead money and clears trade-derived flags", (
     expect(out[0]!.years).toHaveLength(3); // 2 × 1 + 1
     expect(yr(out, "z", YEAR)?.salary).toBe(2_000_000); // $6M / 3
   });
-  it("a fully non-guaranteed contract is a clean cut — no dead money", () => {
+  // Out of season a non-guaranteed contract is a clean cut. In season the
+  // player keeps the days he has been paid for (Uniform Player Contract ¶16),
+  // which is what the Thunder owed Dalen Terry: the test follows the calendar.
+  it("a non-guaranteed contract leaves only what he has earned: nothing in the offseason, his days in season", () => {
     const ng: Contract = { playerId: "n", playerName: "n", teamId: "BOS", years: [{ leagueYear: YEAR, salary: 2_000_000, guarantee: "non_guaranteed" }] };
     const out = applyMove([ng], { kind: "waive", label: "", playerId: "n" });
-    expect(out).toHaveLength(0);
+    const owed = Math.round(2_000_000 * earnedShare());
+    if (owed === 0) expect(out).toHaveLength(0);
+    else {
+      expect(out).toHaveLength(1);
+      expect(out[0]!.deadMoney).toBe(true);
+      expect(out[0]!.years).toEqual([{ leagueYear: YEAR, salary: owed, guarantee: "full" }]);
+    }
   });
 });
 

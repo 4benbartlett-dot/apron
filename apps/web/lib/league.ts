@@ -27,7 +27,7 @@ import {
   type TradeTiming,
 } from "@apron/cba-engine";
 import { shortPlayerName } from "./names";
-import { feedIso, daysBetween } from "./feedDate";
+import { feedIso, daysBetween, dayBefore } from "./feedDate";
 import { posteriorRating, simulateSeason, type SimTeam, type TeamOutlook } from "./seasonSim";
 
 /** Normalize a player name for joining across data sources. */
@@ -1062,6 +1062,8 @@ const deduped = dedupe(activeRaw);
 /** Regular-season days, opening night (Oct 20) through Apr 11. A 10-day pays
  * the Minimum Player Salary (Art. II §9(b)) by the day: 10/174ths of it. */
 const SEASON_DAYS = regularSeasonDays(CALENDAR);
+/** The same count, for copy that names it. */
+export const SEASON_LENGTH = SEASON_DAYS;
 const isoPlusDays = (iso: string, n: number) => {
   const d = new Date(`${iso}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + n);
@@ -1198,6 +1200,7 @@ function applyInSeasonDeals(contracts: Contract[]): Contract[] {
         ...cloneContract(c),
         teamId: ros.team,
         years: [...past, { leagueYear: YEAR, salary: Math.round(daily * paidDays), guarantee: "non_guaranteed" as const }, ...future],
+        paidDays,
         signedUsing: "Rest of season",
         restriction: FA_RESTRICTION,
         signedAsFreeAgent: true,
@@ -1660,6 +1663,21 @@ function isoPlusMonths(iso: string, n: number): string {
 const later = (a: string, b: string) => (a > b ? a : b);
 const md = (iso: string) => shortDate(iso).replace(/, \d{4}$/, "");
 
+/**
+ * The day a player acquired by trade on `acquired` can first be combined with
+ * other salaries: two months on (Art. VII §6(j)(4)(i)). The same sentence
+ * carries a proviso the two-month count alone gets wrong: a player acquired
+ * "on or before December 16" is free of the restriction if he is traded "on
+ * or after the day prior to the NBA trade deadline". Someone acquired Dec. 14
+ * would otherwise read as frozen until Feb. 14, three days past the deadline.
+ */
+export function aggregateFromFor(acquired: string): string {
+  const twoMonths = isoPlusMonths(acquired, 2);
+  const dec16 = isoPlusDays(CALENDAR.dec15, 1);
+  const eve = dayBefore(CALENDAR.tradeDeadline);
+  return acquired > CALENDAR.leagueYearOpens && acquired <= dec16 && twoMonths > eve ? eve : twoMonths;
+}
+
 /** Each player's feed rows, oldest first. */
 const ROWS_BY_PLAYER = (() => {
   const out = new Map<string, { iso: string; type: string; detail: string }[]>();
@@ -1736,7 +1754,7 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
     const traded = [...rows].reverse().find((r) => r.type === "Trade" && r.iso > CALENDAR.leagueYearOpens && new RegExp(`Traded to [^(]*\\(${c.teamId}\\)`).test(r.detail));
     if (traded) {
       out.noAggregate = true;
-      out.aggregateFrom = isoPlusMonths(traded.iso, 2);
+      out.aggregateFrom = aggregateFromFor(traded.iso);
     }
 
     if (!c.restriction || /^10-day/.test(c.restriction)) return out;
@@ -3159,16 +3177,42 @@ export interface WaiveComputation {
   remainingSeasons: number;
   straightYears: ContractYear[];
   stretch: { years: number; perYear: number; legal: boolean };
+  /** Set when this season's salary isn't guaranteed and the season is on: the
+   * days he is owed for (the days he has been paid, plus two on waivers). */
+  earnedDays?: number;
+}
+/**
+ * This season's charge for waiving a contract whose current year isn't
+ * guaranteed. Out of season, nothing. In season, he keeps what he has earned:
+ * the share of the salary for the days he has been under contract, through
+ * the two days he spends on waivers (Uniform Player Contract ¶16). From Jan.
+ * 10, a contract still on a roster is guaranteed for the season.
+ */
+function earnedIfWaived(c: Contract, salary: number): { owed: number; days: number } | "guaranteed" | null {
+  if (!IN_SEASON) return null;
+  if (SIM_DATE >= CALENDAR.guaranteeDate) return "guaranteed";
+  const covered = c.paidDays ?? regularSeasonDays(CALENDAR);
+  const served = covered - seasonDaysLeft(SIM_DATE, CALENDAR) + 1;
+  const days = Math.max(0, Math.min(covered, served + WAIVER_DAYS));
+  return { owed: Math.round((salary / covered) * days), days };
 }
 export function computeWaive(c: Contract): WaiveComputation {
   const fwd = c.years.filter((y) => y.leagueYear >= YEAR);
-  const straightYears: ContractYear[] = fwd
-    .filter((y) => (y.guarantee === "full" || y.guarantee === "partial") && y.salary > 0)
-    .map((y) => ({ leagueYear: y.leagueYear, salary: y.salary, guarantee: "full" as const }));
+  let earnedDays: number | undefined;
+  const straightYears: ContractYear[] = fwd.flatMap((y) => {
+    if (y.salary <= 0) return [];
+    if (y.guarantee === "full" || y.guarantee === "partial") return [{ leagueYear: y.leagueYear, salary: y.salary, guarantee: "full" as const }];
+    if (y.guarantee !== "non_guaranteed" || y.leagueYear !== YEAR) return [];
+    const earned = earnedIfWaived(c, y.salary);
+    if (earned === "guaranteed") return [{ leagueYear: y.leagueYear, salary: y.salary, guarantee: "full" as const }];
+    if (!earned || earned.owed <= 0) return [];
+    earnedDays = earned.days;
+    return [{ leagueYear: y.leagueYear, salary: earned.owed, guarantee: "full" as const }];
+  });
   const guaranteedTotal = straightYears.reduce((s, y) => s + y.salary, 0);
   const remainingSeasons = fwd.length || 1;
   const stretch = stretchProvision(guaranteedTotal, remainingSeasons, C);
-  return { guaranteedTotal, remainingSeasons, straightYears, stretch };
+  return { guaranteedTotal, remainingSeasons, straightYears, stretch, earnedDays };
 }
 
 export interface FreeAgent {
@@ -3405,7 +3449,29 @@ function signFreeze(m: Extract<Move, { kind: "sign" }>): SessionFreeze {
 }
 /** Art. VII §6(j)(4)(i): a player acquired by trade can't be combined with
  * other salaries for two months. */
-const acquiredByTrade = () => ({ noAggregate: true as const, aggregateFrom: isoPlusMonths(SIM_DATE, 2) });
+const acquiredByTrade = () => ({ noAggregate: true as const, aggregateFrom: aggregateFromFor(SIM_DATE) });
+
+/**
+ * What a signing made on the board costs this season, after the two
+ * adjustments that make the charge differ from the salary on the offer. A
+ * one-year minimum for a veteran counts at the two-year figure (Art. VII
+ * §3(f)). And a minimum contract signed after opening night pays, and counts,
+ * the minimum times the days left in the season over the days in it (Art. I
+ * §1(kk)(ii)): signed with 154 of 174 left, 154/174ths. The signing sheet and
+ * the move reducer both read this, so the preview is the number that books.
+ */
+export function boardFirstYear(
+  playerId: string,
+  salary: number,
+  years: number,
+  mechanism?: MechanismId,
+): { booked: number; paid: number; days: number | null } {
+  const deemed = years === 1 ? deemedMinSalary(playerId, salary, 1, mechanism ?? "unspecified") : salary;
+  if (!IN_SEASON || mechanism !== "minimum") return { booked: deemed, paid: salary, days: null };
+  const days = seasonDaysLeft(SIM_DATE, CALENDAR);
+  const share = days / regularSeasonDays(CALENDAR);
+  return { booked: Math.round(deemed * share), paid: Math.round(salary * share), days };
+}
 
 /** Apply one GM move to a contracts list, returning a new list (immutable). */
 export function applyMove(contracts: Contract[], m: Move): Contract[] {
@@ -3431,8 +3497,9 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
     // exception is charged, which used to hand it Bird's 8% as well.
     const matched = m.matchedSheetFrom != null || LEGACY_MATCHED_SHEET.test(m.restrictionText ?? "");
     let yrs = signingYears(m.salary, m.years ?? 1, matched ? undefined : m.mechanism);
-    if (yrs.length === 1)
-      yrs = [{ ...yrs[0]!, salary: deemedMinSalary(m.playerId, yrs[0]!.salary, 1, m.mechanism ?? "unspecified") }];
+    const first = boardFirstYear(m.playerId, m.salary, yrs.length, m.mechanism);
+    yrs = [{ ...yrs[0]!, salary: first.booked }, ...yrs.slice(1)];
+    const paidDays = first.days ?? undefined;
     const freeze = signFreeze(m);
     // Art. XI §5(j), as the feed encodes it: for a year he must consent to any
     // trade and can't be sent to the team whose sheet was matched. Neither is
@@ -3462,6 +3529,7 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
         teamId: m.teamId,
         // Keep only past seasons; the new deal replaces this year forward.
         years: [...c.years.filter((y) => y.leagueYear < YEAR), ...yrs],
+        paidDays,
         ...freeze,
         ...sheet,
         // A re-signed free agent is a brand-new contract — not "recently
@@ -3498,6 +3566,7 @@ export function applyMove(contracts: Contract[], m: Move): Contract[] {
         playerName: m.playerName,
         teamId: m.teamId,
         years: yrs,
+        paidDays,
         signedUsing: "GM sign",
         ...freeze,
         ...sheet,

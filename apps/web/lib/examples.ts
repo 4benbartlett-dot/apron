@@ -70,3 +70,106 @@ function find(): WorkedExample | null {
   }
   return null;
 }
+
+/* ------------------------- one example per rule ------------------------- */
+//
+// The rules page shows, beside a rule, a real trade it blocks today. Same
+// contract as the example above: each is searched for in the current data and
+// must be blocked by that rule and nothing else, with the reason the board
+// itself would print. No example found, none shown.
+
+export interface RuleExample {
+  /** "Player A (BOS) for Player B (UTA)". */
+  label: string;
+  reason: string;
+  href: string;
+}
+
+type Leg = { playerId: string; from: string; to: string };
+let ruleCache: Map<string, RuleExample> | undefined;
+
+/** Examples keyed by provision id (lib/provisions.ts). */
+export function ruleExamples(): Map<string, RuleExample> {
+  if (ruleCache) return ruleCache;
+  ruleCache = new Map();
+  const salary = (c: (typeof BASE_CONTRACTS)[number]) => salaryForYear(c, YEAR);
+  const data = leagueData(BASE_CONTRACTS);
+  const capHolds = holdsByTeam(freeAgentsOf(BASE_CONTRACTS));
+  const active = BASE_CONTRACTS.filter((c) => !c.deadMoney && !c.twoWay && salary(c) > 0);
+  const free = active.filter((c) => !c.restriction && !c.vetoReason);
+  const byTeam = new Map<string, typeof free>();
+  for (const c of free) byTeam.set(c.teamId, [...(byTeam.get(c.teamId) ?? []), c]);
+  for (const list of byTeam.values()) list.sort((a, b) => salary(b) - salary(a));
+  const teams = [...byTeam.keys()].sort();
+  const who = (c: (typeof free)[number]) => `${c.playerName} (${c.teamId})`;
+
+  // Blocked by `ruleId` alone, and the board would say so in the same words.
+  let budget = 6000;
+  const only = (ruleId: string, legs: Leg[], label: string): RuleExample | null => {
+    if (budget-- <= 0) return null;
+    const pair = [...new Set(legs.flatMap((l) => [l.from, l.to]))];
+    const v = validateTrade(data, { teams: pair, players: legs, capHolds, date: SIM_DATE }, C);
+    if (v.legal || !v.violations.length || v.violations.some((x) => x.ruleId !== ruleId)) return null;
+    const token = encodeTradeParam(pair, legs);
+    const s = summarizeTrade(token);
+    if (!s || s.legal || s.reason !== v.violations[0]!.reason) return null;
+    return { label, reason: v.violations[0]!.reason, href: `/?t=${token}` };
+  };
+
+  // Salary matching: a team's highest-paid player for another's lowest-paid.
+  matching: for (const x of teams) {
+    const a = byTeam.get(x)!.find((c) => !c.noAggregate);
+    if (!a) continue;
+    for (const y of teams) {
+      if (y === x) continue;
+      const b = byTeam.get(y)!.at(-1);
+      if (!b || salary(a) < salary(b) * 3) continue;
+      const ex = only("salary_matching", [{ playerId: a.playerId, from: x, to: y }, { playerId: b.playerId, from: y, to: x }], `${who(a)} for ${who(b)}`);
+      if (ex) {
+        ruleCache.set("salary-matching", ex);
+        break matching;
+      }
+    }
+  }
+
+  // The hard cap: a swap that matches, but leaves a team over the first apron.
+  capped: for (const y of teams) {
+    for (const b of byTeam.get(y)!.slice(0, 6)) {
+      for (const x of teams) {
+        if (x === y) continue;
+        for (const a of byTeam.get(x)!.slice(0, 8)) {
+          const sa = salary(a), sb = salary(b);
+          if (sa <= sb * 1.05 || sa > sb * 1.25) continue;
+          const ex = only("hard_cap_first_apron", [{ playerId: b.playerId, from: y, to: x }, { playerId: a.playerId, from: x, to: y }], `${who(a)} for ${who(b)}`);
+          if (ex) {
+            ruleCache.set("hard-cap", ex);
+            break capped;
+          }
+        }
+      }
+    }
+  }
+
+  // Two months: a player just acquired, packaged with a teammate.
+  const recent = free.filter((c) => c.noAggregate && c.aggregateFrom && c.aggregateFrom > SIM_DATE);
+  packaged: for (const f of recent) {
+    for (const t of byTeam.get(f.teamId)!.filter((c) => c.playerId !== f.playerId && !c.noAggregate)) {
+      const sum = salary(f) + salary(t);
+      for (const y of teams) {
+        if (y === f.teamId) continue;
+        for (const p of byTeam.get(y)!.filter((c) => Math.abs(salary(c) - sum) < sum * 0.08 && salary(c) > Math.max(salary(f), salary(t)) * 1.3)) {
+          const ex = only(
+            "no_aggregate",
+            [{ playerId: f.playerId, from: f.teamId, to: y }, { playerId: t.playerId, from: t.teamId, to: y }, { playerId: p.playerId, from: y, to: f.teamId }],
+            `${f.playerName} and ${t.playerName} (${f.teamId}) for ${who(p)}`,
+          );
+          if (ex) {
+            ruleCache.set("two-month-aggregation", ex);
+            break packaged;
+          }
+        }
+      }
+    }
+  }
+  return ruleCache;
+}

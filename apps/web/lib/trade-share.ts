@@ -1,5 +1,5 @@
 import { validateTrade, violatesStepien, matchRuleLabel, type ApronTier, type Trade } from "@apron/cba-engine";
-import { ACQUIRED_PICKS, hasAcquiredFirst } from "@apron/data";
+import { ACQUIRED_PICKS, hasAcquiredFirst, frozenFirstOf } from "@apron/data";
 import {
   BASE_CONTRACTS,
   leagueData,
@@ -97,7 +97,8 @@ export function decodeTradeParam(t: string): {
       // first the origin team doesn't actually have — drop it, keep the rest.
       .filter(([id, mv]) => {
         const [origin, yearStr, round] = id.split("|");
-        return !(round === "1" && mv.from === origin && lockedFirstEncumbrance(origin!, Number(yearStr)));
+        if (round !== "1" || mv.from !== origin) return true;
+        return !lockedFirstEncumbrance(origin!, Number(yearStr)) && !frozenFirstOf(origin!, Number(yearStr));
       })
       .map(([id, mv]) => ({ id, from: mv.from, to: mv.to }));
     const swaps = (Array.isArray(o.w) ? o.w : [])

@@ -47,6 +47,7 @@ Other dates: contracts guarantee ${CALENDAR.guaranteeDate}; Bird re-signs above 
 - [League cap board](${SITE}/league): every team's payroll and apron tier
 - [Transactions](${SITE}/transactions): this offseason's real moves
 - [Deadlines](${SITE}/deadlines): trade-eligibility and calendar dates
+- [The rules, by article and section](${SITE}/rules): each provision the board enforces, with the agreement's own words, a plain-English line, and a trade it blocks today
 - [How to play](${SITE}/guide)
 - [Rules coverage & accuracy](${SITE}/accuracy): what is modeled, approximated, or not yet included
 
@@ -54,11 +55,10 @@ Other dates: contracts guarantee ${CALENDAR.guaranteeDate}; Bird re-signs above 
 
 - Real trades and signings are run through the same rules engine a visitor's are; a real move the engine rejects is treated as an engine or data error.
 - All 30 teams' payrolls are compared with a public cap tracker for this season and next; each difference is traced to a named player and reason.
-- Known approximations and unmodeled rules are published at ${SITE}/accuracy.
 
-Cases where a real transaction corrected the engine:
+Rules a real transaction corrected:
 
-${CASE_NOTES.map((n) => `- ${n.date}: ${n.title}. ${n.citation}: ${n.rule}`).join("\n")}
+${CASE_NOTES.map((n) => `- ${n.title} (${n.citation}). ${n.body}`).join("\n")}
 
 ## Articles
 

@@ -7,11 +7,13 @@ import { C, TRADE_DEADLINE } from "@/lib/league";
 import { fmtFull } from "@/lib/format";
 import { CASE_NOTES } from "@/lib/caseNotes";
 import { deadlineExample } from "@/lib/examples";
+import { PROVISIONS, provisionForCheck } from "@/lib/provisions";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "About — Over the Apron",
   description:
-    "What Over the Apron is, how a verdict gets made and checked against the real league, the times it was wrong, and who builds it.",
+    "What Over the Apron is, how a verdict is checked against the real league, who builds it, and four places the fine print of the agreement mattered.",
   alternates: { canonical: `${SITE}/about` },
   authors: [{ name: "Ben Bartlett", url: `${SITE}/about` }],
 };
@@ -43,17 +45,22 @@ const PERSON_JSONLD = {
 const longDate = (iso: string) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
+/** A section that rises in as it is scrolled to (and is simply there for
+ * anyone who prefers reduced motion, or has no JavaScript). */
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <section className="rule mt-9 pt-7">
-      <h2 className="label">{label}</h2>
-      {children}
-    </section>
+    <Reveal>
+      <section className="rule mt-9 pt-7">
+        <h2 className="label">{label}</h2>
+        {children}
+      </section>
+    </Reveal>
   );
 }
 
 export default function AboutPage() {
   const ex = deadlineExample();
+  const exRule = ex ? provisionForCheck({ ruleId: "trade_eligibility", citation: ex.today.citation }) : undefined;
   return (
     <div className="mx-auto max-w-[40rem] pb-14">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSONLD) }} />
@@ -91,16 +98,21 @@ export default function AboutPage() {
             <Link href={ex.today.href} className="panel block p-3.5 transition-colors hover:border-[var(--border-strong)]">
               <div className="flex items-baseline justify-between gap-2">
                 <span className="label !text-[10px]">Today · {shortDate(DATA_AS_OF)}</span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--tier-second_apron)]">Blocked</span>
+                <span className="stamp text-[10px] text-[var(--tier-second_apron)]">Blocked</span>
               </div>
-              <p className="mt-2 text-[13px] leading-relaxed">{ex.today.reason}</p>
-              <p className="tabular mt-2 text-[11.5px] text-[var(--muted)]">{ex.today.citation}</p>
+              <p className="mt-2.5 text-[13px] leading-relaxed">{ex.today.reason}</p>
+              <p className="tabular mt-2 text-[11.5px] font-semibold">{ex.today.citation}</p>
+              {exRule?.text && (
+                <p className="mt-1 border-l-2 border-[var(--border-strong)] pl-2.5 text-[11.5px] leading-relaxed text-[var(--muted)]">
+                  &ldquo;{exRule.text}&rdquo;
+                </p>
+              )}
               <p className="mt-2.5 text-[12px] font-semibold text-[var(--accent-ink)]">Open it on the board →</p>
             </Link>
             <Link href={ex.deadline.href} className="panel block p-3.5 transition-colors hover:border-[var(--border-strong)]">
               <div className="flex items-baseline justify-between gap-2">
                 <span className="label !text-[10px]">Trade deadline · {shortDate(TRADE_DEADLINE)}</span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--tier-below_cap)]">Legal</span>
+                <span className="stamp text-[10px] text-[var(--tier-below_cap)]">Legal</span>
               </div>
               <p className="mt-2 text-[13px] leading-relaxed">
                 The same trade, judged on the last day trades are allowed. His freeze lifts on{" "}
@@ -123,7 +135,7 @@ export default function AboutPage() {
       <Section label="How a verdict is checked">
         <p className="mt-2.5 text-[14.5px] leading-relaxed">
           The rules live in one program with no knowledge of rosters; the rosters and contracts are compiled from public
-          reporting and updated through {longDate(DATA_AS_OF)}. Three checks keep the two honest.
+          reporting and updated through {longDate(DATA_AS_OF)}. Three things keep the two honest.
         </p>
         <ol className="mt-4 space-y-3.5 text-[14px] leading-relaxed">
           <li className="flex gap-3">
@@ -154,35 +166,15 @@ export default function AboutPage() {
           <li className="flex gap-3">
             <span className="tabular shrink-0 text-[var(--muted)]">3</span>
             <span>
-              <strong className="font-semibold">What isn&rsquo;t modeled is listed.</strong>{" "}
-              <Link href="/accuracy" className={link}>
-                Rules coverage &amp; accuracy
-              </Link>{" "}
-              sets out what the rules enforce, where public information forces an estimate, and which parts of the
-              agreement aren&rsquo;t on the board yet.
+              <strong className="font-semibold">Every block names its rule.</strong> When the board says no, it gives
+              the article and section and quotes the sentence that decides it. All {PROVISIONS.length} are on{" "}
+              <Link href="/rules" className={link}>
+                the rules page
+              </Link>
+              , each in plain English, and a few with a real trade the rule stops today.
             </span>
           </li>
         </ol>
-      </Section>
-
-      <Section label="When the league and the site disagreed">
-        <p className="mt-2.5 text-[14.5px] leading-relaxed">
-          Each of these is a time a real transaction showed the site had a rule wrong. Each was settled by going back
-          to the text of the agreement.
-        </p>
-        <div className="mt-5 space-y-6">
-          {CASE_NOTES.map((n) => (
-            <article key={n.date + n.citation}>
-              <p className="label tabular !text-[10px]">{longDate(n.date)}</p>
-              <h3 className="mt-1 text-[15px] font-semibold leading-snug">{n.title}</h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed">{n.facts}</p>
-              <p className="mt-2 border-l-2 border-[var(--border-strong)] pl-3 text-[13.5px] leading-relaxed">
-                <span className="tabular font-semibold">{n.citation}.</span> {n.rule}
-              </p>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--muted)]">{n.outcome}</p>
-            </article>
-          ))}
-        </div>
       </Section>
 
       <Section label="Who builds it">
@@ -192,7 +184,27 @@ export default function AboutPage() {
           online since July 2026, and several features, traded-player exceptions among them, are there because someone
           who uses it asked.
         </p>
-        <p className="mt-3 text-[14.5px] leading-relaxed">
+      </Section>
+
+      <Section label="Where the fine print mattered">
+        <p className="mt-2.5 text-[14.5px] leading-relaxed">
+          Most of the agreement is easy to summarize, and the summaries are where the mistakes hide. These are rules I
+          had wrong until a real transaction didn&rsquo;t fit what I had built, and the answer turned out to be in a
+          clause I had read past.
+        </p>
+        <div className="mt-5 space-y-5">
+          {CASE_NOTES.map((n) => (
+            <article key={n.date}>
+              <h3 className="text-[15px] font-semibold leading-snug">{n.title}</h3>
+              <p className="mt-1.5 text-[14px] leading-relaxed">{n.body}</p>
+              <p className="tabular mt-1.5 text-[11.5px] text-[var(--muted)]">{n.citation}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section label="Contact">
+        <p className="mt-2.5 text-[14.5px] leading-relaxed">
           Corrections, missed rules, and bug reports are welcome. A screenshot, or the move you were trying to make,
           helps most.
         </p>

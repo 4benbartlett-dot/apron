@@ -18,6 +18,19 @@ function contract(years: Contract["years"], over: Partial<Contract> = {}): Contr
   return { playerId: "test01", playerName: "Test Player", teamId: "BOS", years, ...over };
 }
 
+import { regularSeasonDays, seasonDaysLeft } from "@apron/cba-engine";
+import { CALENDAR, IN_SEASON, SIM_DATE } from "@/lib/league";
+
+/** The share of a season's non-guaranteed salary a player keeps if waived on
+ * the sim's day: nothing out of season, all of it from Jan. 10, and otherwise
+ * the days he has been paid for plus two on waivers (see computeWaive). */
+const earnedShare = () => {
+  if (!IN_SEASON) return 0;
+  if (SIM_DATE >= CALENDAR.guaranteeDate) return 1;
+  const days = regularSeasonDays(CALENDAR);
+  return Math.min(days, days - seasonDaysLeft(SIM_DATE, CALENDAR) + 1 + 2) / days;
+};
+
 describe("computeWaive — dead money + stretch (Art. VII §7)", () => {
   it("spreads a fully-guaranteed 2-year deal over 2N+1 = 5 years", () => {
     const w = computeWaive(
@@ -47,10 +60,26 @@ describe("computeWaive — dead money + stretch (Art. VII §7)", () => {
     expect(w.stretch.perYear).toBeCloseTo(5_000_000 / w.stretch.years, 0);
   });
 
-  it("a fully non-guaranteed contract has zero dead money", () => {
+  it("a non-guaranteed contract owes only the days he has been paid for, and nothing out of season", () => {
     const w = computeWaive(contract([{ leagueYear: "2026-27", salary: 2_000_000, guarantee: "non_guaranteed" }]));
-    expect(w.guaranteedTotal).toBe(0);
-    expect(w.straightYears).toHaveLength(0);
+    const owed = Math.round(2_000_000 * earnedShare());
+    expect(w.guaranteedTotal).toBe(owed);
+    expect(w.straightYears).toHaveLength(owed ? 1 : 0);
+    // Next season's non-guaranteed money is never owed.
+    const two = computeWaive(contract([
+      { leagueYear: "2026-27", salary: 2_000_000, guarantee: "non_guaranteed" },
+      { leagueYear: "2027-28", salary: 2_100_000, guarantee: "non_guaranteed" },
+    ]));
+    expect(two.guaranteedTotal).toBe(owed);
+  });
+
+  it("a contract signed in season is paid by its own days: three if he is cut the day he signs", () => {
+    if (!IN_SEASON || SIM_DATE >= CALENDAR.guaranteeDate) return;
+    const left = seasonDaysLeft(SIM_DATE, CALENDAR);
+    const salary = 1_000_000;
+    const w = computeWaive({ ...contract([{ leagueYear: "2026-27", salary, guarantee: "non_guaranteed" }]), paidDays: left });
+    expect(w.earnedDays).toBe(Math.min(left, 3));
+    expect(w.guaranteedTotal).toBe(Math.round((salary / left) * Math.min(left, 3)));
   });
 
   it("flags an illegal stretch when the per-year hit exceeds 15% of the cap", () => {

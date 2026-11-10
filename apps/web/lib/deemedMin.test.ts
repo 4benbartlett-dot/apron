@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { BASE_CONTRACTS, C, applyMove, deemedMinSalary } from "@/lib/league";
+import { BASE_CONTRACTS, C, CALENDAR, IN_SEASON, SIM_DATE, applyMove, deemedMinSalary } from "@/lib/league";
+import { regularSeasonDays, seasonDaysLeft } from "@apron/cba-engine";
 
 // Art. VII §3(f) + Art. IV §6(h): a 3+ YOS veteran on a ONE-year contract at
 // his minimum has a SALARY equal to the 2-YOS minimum — the league reimburses
@@ -56,8 +57,11 @@ describe("sim minimum signings book deemed too", () => {
   };
   const EIGHT_YOS_MIN = C.minimumSalaries[8]!;
 
-  it("a GM-signed one-year vet minimum lands at the 2-YOS charge", () => {
-    expect(signWith("minimum", EIGHT_YOS_MIN)).toBe(TWO_YOS);
+  // In season a minimum contract also pays by the day (Art. I §1(kk)(ii)):
+  // the 2-YOS charge times the days left over the days in the season.
+  it("a GM-signed one-year vet minimum lands at the 2-YOS charge, by the day once the season is on", () => {
+    const share = IN_SEASON ? seasonDaysLeft(SIM_DATE, CALENDAR) / regularSeasonDays(CALENDAR) : 1;
+    expect(signWith("minimum", EIGHT_YOS_MIN)).toBe(Math.round(TWO_YOS * share));
   });
 
   it("a BIRD one-year re-sign AT the player's minimum deems too — §3(f) keys on the contract, not the tool", () => {

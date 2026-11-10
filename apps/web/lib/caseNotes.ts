@@ -1,72 +1,50 @@
 /*
- * Times a real transaction and this site disagreed, and what settled it.
+ * Rules the site had wrong until a real transaction didn't fit, written for
+ * someone who doesn't follow the NBA. Each is a few sentences: what the rule
+ * seemed to say, what the agreement says, and the move that showed the
+ * difference. They are the About page's "Where the fine print mattered", and
+ * /llms.txt reads the same list.
  *
- * The board is checked against the league the hard way: every real trade and
- * signing is run through the same engine a visitor uses, and when the engine
- * blocks something a team actually did, or books a number no public cap sheet
- * agrees with, one of the two is wrong. These are the cases where it was the
- * site, each with the provision that decided it. They are kept as data so the
- * About page and /llms.txt read the same record; the full account of each is
- * in the commit that fixed it.
- *
- * Add a note when a real move changes a rule in the engine, not for a data
- * correction. Keep each one to what happened, what the agreement says, and
- * what changed, in that order, with the article and section.
+ * Keep them plain and in the first person. No account of what the code does
+ * now, no dates as headings, no terms a non-fan would have to look up without
+ * the sentence explaining them: the first version of this read like a
+ * changelog. Add one when a real move changes a rule in the engine, not for a
+ * data correction, and check the citation against the text first.
  */
 export interface CaseNote {
-  /** The day of the real transaction, ISO. */
+  /** The day of the real transaction, ISO. For ordering; not shown. */
   date: string;
-  /** What happened, as a plain headline. */
+  /** The point, as a short plain headline. */
   title: string;
-  /** What the site said, and why that was wrong. */
-  facts: string;
-  /** The provision that decides it. */
+  /** What I assumed, what the agreement says, and the move that showed it. */
+  body: string;
+  /** Where in the agreement. */
   citation: string;
-  /** What the provision says, in one or two sentences. */
-  rule: string;
-  /** What the engine does now. */
-  outcome: string;
 }
 
 export const CASE_NOTES: CaseNote[] = [
   {
     date: "2026-06-29",
-    title: "Portland's trade for Ja Morant capped the team for a season longer than the site thought",
-    facts:
-      "Portland took back more salary than it sent out, which is allowed only under the expanded trade exception, and using that exception hard-caps a team at the first apron. The site ended the cap on June 30 with the league year. An outside cap tracker still showed Portland as capped, and the site's notes had written that off as the tracker's mistake.",
-    citation: "Art. VII §2(e)(2)(ii)(B)",
-    rule: "A trade made between the day after the regular season ends and June 30 that triggers a hard cap binds the team through the end of the following salary cap year, not the one it was made in.",
-    outcome:
-      "The mistake was the site's. The engine now carries each season's calendar, tests a late-season trade against next season's salary, and keeps the cap for the following year. All 38 trades made in that window in 2026 were then audited one by one.",
+    title: "One more day, or one more season",
+    body: "Portland made a trade on June 29, the day before the league's year ends, and took back more salary than it sent out. A trade like that comes with a condition: the team's payroll can't pass a set line for the rest of the year. I read that as one more day. The agreement says that when the trade comes after the regular season has ended, the condition lasts through the end of the next year. Portland has been held under that line all season.",
+    citation: "Art. VII §2(e)(2)(ii)",
   },
   {
     date: "2026-10-14",
-    title: "A rookie's extension made him untradeable to teams that could legally trade for him",
-    facts:
-      "Brandin Podziemski signed an extension that starts in a later season. A player in that position counts in a trade at the average of his current and future salaries (the “poison pill”), and the engine applied that average to every team trading for him. That priced him at $19.28 million instead of the $5.68 million he is paid, and blocked ordinary trades for him.",
+    title: "Counted at what he's paid, or at what he will be",
+    body: "Brandin Podziemski is paid $5.7 million this season and has signed a new contract, starting next year, for far more. When a player in that spot is traded, his new team counts him at the average of the two, and I applied that to every team. The sentence in the agreement says it applies “only for purposes of determining whether the acquiring Team has Room for the Contract,” which means only for a team with unused space under the salary cap. For everyone else he counts at what he is paid. The site had him at $19.3 million.",
     citation: "Art. VII §8(g)",
-    rule: "The averaged figure applies “only for purposes of determining whether the acquiring Team has Room for the Contract.” A team already over the cap, matching salaries instead of using room, counts what he is actually paid.",
-    outcome:
-      "The engine carries both figures and uses the average only when a team is absorbing him into cap room. The verdict says which one applied.",
   },
   {
     date: "2026-11-02",
-    title: "A matched offer sheet is a veto, not a freeze",
-    facts:
-      "When a team matches another team's offer sheet to keep its own restricted free agent, the site treated the player as untradeable for a year. Checking every trade freeze on the sheet against the published lists of players who can't yet be traded showed two such players listed as tradeable in December and January.",
+    title: "Can't be traded, or can't be traded without asking",
+    body: "A team can keep its own free agent by matching another team's offer to him. I treated a player kept that way as untradeable for a year. The agreement says he can't be traded for a year without his consent, and can't be sent at all to the team that made the offer. With his consent, he can go anywhere else. Two players were frozen on the site who weren't frozen in the league.",
     citation: "Art. XI §5(j)",
-    rule: "For one year the player can't be traded without his consent, and can't be traded at all to the team whose offer was matched. With his consent, he can be traded to anyone else on the ordinary date for a newly signed free agent.",
-    outcome:
-      "The board marks the player as holding a veto, allows the trade, and blocks only the one destination. The same check turned up two more rules: a drafted player signing his first contract waits 30 days rather than until December 15, and a player promoted from a two-way contract is a free-agent signing.",
   },
   {
     date: "2026-11-08",
-    title: "Five days on a roster cost Oklahoma City $105,629, not $2.8 million",
-    facts:
-      "The Thunder signed Dalen Terry on November 4 and waived him on November 8 to make room for a trade. The site had never seen a contract signed during the season, so it charged the Thunder the full value of the last contract it had on file for him, this season and next.",
-    citation: "Art. I §1(kk)(ii); Uniform Player Contract ¶16",
-    rule: "A minimum contract that covers less than the whole season pays the minimum salary multiplied by the days left in the season over the days in it, 174 this year. His was not guaranteed, so when he was waived he was owed only the part of the season he had been under contract, through the end of the waiver period: seven days.",
-    outcome:
-      "Seven days at $2,625,627 a year comes to $105,629, which is the figure on public cap sheets to the dollar. In-season contracts are now their own kind of contract in the data, paid by the day.",
+    title: "Five days of work, seven days of pay",
+    body: "Oklahoma City signed a player on November 4 and released him on November 8 to make room for a trade. A contract signed during the season pays by the day, and one that isn't guaranteed stops paying when the player clears waivers, two days after he is released. That is seven days, or $105,629. The site had never seen a contract signed mid-season and charged the team his salary for the whole year.",
+    citation: "Art. I §1(kk); Uniform Player Contract ¶16",
   },
 ];
