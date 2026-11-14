@@ -37,7 +37,7 @@ import {
   lockedFirstEncumbrance,
   projectedCap,
   experienceOf,
-  TEAM_IDS,
+  TEAM_IDS, PICK_YEARS,
 } from "@/lib/league";
 import { rewind, isoDate } from "@/lib/replayRewind";
 import { hardCapCause } from "@/lib/format";
@@ -873,8 +873,6 @@ export function buildExtensionCard(row: Transaction, iso: string): NewsMove | nu
 
 /* -------------------------------- rulings -------------------------------- */
 
-const PICK_YEARS_WITH_TAIL = [2027, 2028, 2029, 2030, 2031, 2032, 2033] as const;
-
 /** "2030, 2031, 2032 and 2033" */
 const list = (xs: (string | number)[]) =>
   xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
@@ -907,7 +905,7 @@ export function buildRulingCard(r: LeagueRuling): NewsMove {
 
     // The ledger, year by year, from the same encumbrance + holdings data the
     // board's pick chips use.
-    const rows = PICK_YEARS_WITH_TAIL.map((y) => {
+    const rows = PICK_YEARS.map((y) => {
       const enc = firstEncumbranceOf(team, y);
       const acquired = (PICK_RIGHTS[team]?.holdings ?? [])
         .filter((h) => h.round === 1 && h.year === y && hasAcquiredFirst(team, y) && h.kind === "outright" && !h.forfeited && h.origin && h.origin !== team)

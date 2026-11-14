@@ -161,10 +161,23 @@ function isCleanOutright(h: PickHolding, team: string): boolean {
   return !!origin && origin in PICK_RIGHTS && origin !== team;
 }
 
+/**
+ * The drafts whose picks can be traded during 2026-27: the next seven, 2027
+ * through 2033. A pick can be traded up to seven drafts out, and the window
+ * moves a year with each draft, so 2033 opened when the 2026 draft ended.
+ * Five 2033 firsts and nine 2033 seconds had already changed hands by
+ * November (Toronto sent both of its own to the Clippers for Kawhi Leonard).
+ * The board stopped at 2032 until Nov 14, 2026: it was built during 2025-26,
+ * when 2032 was the seventh draft, and nothing moved the window.
+ * Next season this is 2028 through 2034.
+ */
+export const TRADEABLE_DRAFT_YEARS = [2027, 2028, 2029, 2030, 2031, 2032, 2033] as const;
+const FIRST_TRADEABLE_DRAFT = TRADEABLE_DRAFT_YEARS[0];
+const LAST_TRADEABLE_DRAFT = TRADEABLE_DRAFT_YEARS[TRADEABLE_DRAFT_YEARS.length - 1]!;
+
 /** Whether `team` holds another team's first for `year` outright — Stepien
- * coverage for a year its own first is gone. Any year, unlike ACQUIRED_PICKS,
- * whose window is the board's tradeable one: the Clippers' 2033 is covered by
- * Toronto's 2033 first even though nothing on the board can trade it. */
+ * coverage for a year its own first is gone. Any year, where ACQUIRED_PICKS
+ * keeps to the tradeable window. */
 export function hasAcquiredFirst(team: string, year: number): boolean {
   return (PICK_RIGHTS[team]?.holdings ?? []).some(
     (h) => h.round === 1 && h.year === year && isCleanOutright(h, team),
@@ -178,7 +191,7 @@ export const ACQUIRED_PICKS: AcquiredPick[] = (() => {
     for (const h of rights.holdings) {
       if (!isCleanOutright(h, team)) continue;
       const origin = h.origin!;
-      if (h.year < 2027 || h.year > 2032) continue;
+      if (h.year < FIRST_TRADEABLE_DRAFT || h.year > LAST_TRADEABLE_DRAFT) continue;
       const id = `${origin}|${h.year}|${h.round}`;
       if (seen.has(id)) continue; // a pick can't be owned twice
       seen.add(id);

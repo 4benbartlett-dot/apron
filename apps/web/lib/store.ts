@@ -6,7 +6,7 @@ import {
   capSheet as engCapSheet,
   type Contract,
 } from "@apron/cba-engine";
-import { ACQUIRED_PICKS, hasAcquiredFirst, frozenFirstOf } from "@apron/data";
+import { ACQUIRED_PICKS, frozenFirstOf } from "@apron/data";
 import {
   BASE_CONTRACTS,
   YEAR,
@@ -418,15 +418,12 @@ export function useLeague() {
         for (const id of extraOut) owned.delete(id);
         for (const id of extraIn) if (id.endsWith("|1")) owned.add(id);
         const yearsWithFirst = new Set([...owned].map((id) => Number(id.split("|")[1])));
-        const uncovered: number[] = PICK_YEARS.filter((y) => !yearsWithFirst.has(y));
-        // 2033 sits past the tradeable window but a first already owed (or
-        // forfeited) there still pairs with 2032 for the consecutive-gap test —
-        // unless another team's 2033 first is in hand, which covers the year
-        // exactly as it would inside the window. The Clippers are the live
-        // case: their own 2032 and 2033 are forfeited, and Toronto's 2033
-        // first is the only reason that pair isn't a standing violation.
-        if (lockedFirstEncumbrance(t, 2033) && !hasAcquiredFirst(t, 2033)) uncovered.push(2033);
-        return uncovered;
+        // 2033 is inside the window now, so it needs no rule of its own. (It
+        // was handled separately while the board stopped at 2032: the
+        // Clippers' own 2032 and 2033 are forfeited, and Toronto's 2033 first,
+        // which they hold, is the only reason that pair isn't a standing
+        // violation. The ownership ledger above counts it like any other.)
+        return PICK_YEARS.filter((y) => !yearsWithFirst.has(y));
       },
       // The tightest apron a team is HARD-CAPPED at — real July moves from
       // the feed (S&T/MLE acquisitions) plus this session's: NT-MLE/BAE/

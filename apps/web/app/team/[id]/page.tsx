@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { spendingPower } from "@apron/cba-engine";
 import { DRAFT_PICKS, PICK_RIGHTS, type OwnFirstObligation } from "@apron/data";
-import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor, exceptionClock, hardCapOrdinal } from "@/lib/league";
+import { C, TEAM_IDS, teamMeta, teamProjection, feedStateOf, consumedFor, exceptionClock, hardCapOrdinal, PICK_YEARS } from "@/lib/league";
 import { useLeague } from "@/lib/store";
 import { fmtM, fmtFull, hardCapCause } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -279,10 +279,11 @@ export default function TeamWarRoom() {
               if (arr) arr.push(o);
               else oblByYear.set(o.year, [o]);
             }
-            // Range is data-driven so obligations past 2032 (real 2033 owes
-            // exist) always render; falls back to the 2027–2032 window.
-            const maxOwnYear = Math.max(2032, ...(rights?.ownFirstObligations ?? []).map((o) => o.year));
-            const ownYears = Array.from({ length: maxOwnYear - 2027 + 1 }, (_, i) => 2027 + i);
+            // The tradeable window, stretched to cover any obligation the
+            // ledger records beyond it.
+            const firstYear = PICK_YEARS[0];
+            const maxOwnYear = Math.max(PICK_YEARS[PICK_YEARS.length - 1]!, ...(rights?.ownFirstObligations ?? []).map((o) => o.year));
+            const ownYears = Array.from({ length: maxOwnYear - firstYear + 1 }, (_, i) => firstYear + i);
             const chip = (color: string, text: string, title: string, key: string) => (
               <span key={key} title={title} className="tabular rounded-[4px] border px-1.5 py-0.5 text-[10px] font-medium"
                 style={{ borderColor: color, color, background: `color-mix(in srgb, ${color} 8%, transparent)` }}>{text}</span>

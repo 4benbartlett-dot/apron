@@ -52,11 +52,13 @@ describe("hardCapDetailFor (session vs real-July provenance)", () => {
   });
 
   it("a session-only cap reports source=session (undoable)", () => {
-    expect(hardCapDetailFor("TOR", C.firstApron)).toEqual({ line: C.firstApron, source: "session" });
+    // New York has no cap from a real move. (Toronto stood here until Nov 14,
+    // 2026, when the Leonard trade turned out to have capped it.)
+    expect(hardCapDetailFor("NYK", C.firstApron)).toEqual({ line: C.firstApron, source: "session" });
   });
 
   it("uncapped teams return null", () => {
-    expect(hardCapDetailFor("TOR", Infinity)).toBeNull();
+    expect(hardCapDetailFor("NYK", Infinity)).toBeNull();
   });
 
   it("when both bind at the same line, reality wins the label", () => {

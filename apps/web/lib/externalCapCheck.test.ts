@@ -344,6 +344,7 @@ const HARD_CAP_EXPLAINED: Record<string, string> = {
   // Portland sat here until Oct 14, written off as Spotrac's mistake. Spotrac
   // was right: a row E–J move after the regular season (the Jun 29 Morant
   // trade) binds through the NEXT league year, Art. VII §2(e)(2)(ii)(B).
+  TOR: "Spotrac's Raptors page shows no hard cap. Toronto sent out Ingram and Dick, $47,131,511, and took back Kawhi Leonard's $50,300,000 on Sep 14: more than 100% plus $250,000, so he came in on the Expanded Traded Player Exception, and using it caps the team at the first apron (Art. VII §2(e)(4), row E). Hoops Rumors' hard-cap list carries the Raptors for this. Ours until Nov 14 was Spotrac's answer, and it was wrong.",
 };
 type PageExc = { type: string; original: number; available: number };
 const usedOf = (ex: PageExc[], re: RegExp) => ex.filter((e) => re.test(e.type)).reduce((s, e) => s + (e.original - e.available), 0);

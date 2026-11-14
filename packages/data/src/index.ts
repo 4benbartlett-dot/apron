@@ -495,6 +495,7 @@ export {
   FIRST_ENCUMBRANCES,
   PICK_LEDGER_TEAMS,
   ACQUIRED_PICKS,
+  TRADEABLE_DRAFT_YEARS,
   firstEncumbranceOf,
   hasAcquiredFirst,
   type FirstEncumbrance,

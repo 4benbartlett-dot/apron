@@ -18,7 +18,7 @@ import {
   tpeLedger,
   teamMeta,
   currentSalary,
-  teamProjection, exceptionClock, hardCapLevelOf,
+  teamProjection, exceptionClock, hardCapLevelOf, PICK_YEARS,
 } from "@/lib/league";
 import { fmtM, fmtFull, hardCapCause } from "@/lib/format";
 import { TeamLogo } from "@/components/TeamLogo";
@@ -265,7 +265,7 @@ export default async function AdminTeam({ params }: { params: Promise<{ id: stri
           <h3 className="mb-2 text-[13.5px] font-bold">Draft picks</h3>
           <div className="label mb-1 !text-[10px]">Own first-rounders</div>
           <div className="mb-3 flex flex-wrap gap-1">
-            {[2027, 2028, 2029, 2030, 2031, 2032, 2033].map((y) => {
+            {PICK_YEARS.map((y) => {
               const legs = rights.ownFirstObligations.filter((o) => o.year === y);
               if (!legs.length) return <Chip key={y} color="var(--tier-below_cap)" text={`’${y - 2000} kept`} title="own first, clean" />;
               return legs.map((o, j) => (
@@ -296,9 +296,9 @@ export default async function AdminTeam({ params }: { params: Promise<{ id: stri
               {forfeits.length} pick{forfeits.length === 1 ? "" : "s"} forfeited to the league ({forfeits.map((f) => f.year).join(", ")}) — from league-rulings.json.
             </p>
           )}
-          <div className="label mb-1 !text-[10px]">Tradeable today (2027–2032)</div>
+          <div className="label mb-1 !text-[10px]">Tradeable today ({PICK_YEARS[0]}–{PICK_YEARS[PICK_YEARS.length - 1]})</div>
           <div className="flex flex-wrap gap-1 text-[11px]">
-            {tradeablePicks(PICK_RIGHTS, id, [2027, 2028, 2029, 2030, 2031, 2032]).map((p) => (
+            {tradeablePicks(PICK_RIGHTS, id, PICK_YEARS).map((p) => (
               <span key={p.id} className="tabular rounded border border-[var(--border)] px-1.5 py-0.5">{p.label}</span>
             ))}
           </div>

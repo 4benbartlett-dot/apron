@@ -94,19 +94,45 @@ describe("feed-derived team state (the LAL report + league sweep)", () => {
     expect(ids).not.toContain("bae");
   });
 
-  it("DET + WAS carry sign-and-trade hard caps; DEN/TOR stay clean controls", () => {
+  it("DET + WAS carry sign-and-trade hard caps; DEN/NYK stay clean controls", () => {
     expect(feedStateOf("DET").hardCap).toBe(C.firstApron); // Collins S&T (Jul 1)
     expect(feedStateOf("WAS").hardCap).toBe(C.firstApron); // Middleton S&T (Jul 8)
     // Charlotte was the second control until Oct 2 2026: it absorbed
     // Finney-Smith into its NT-MLE in July (AP, Hoops Rumors), which the
-    // feed-state audit had missed.
-    for (const t of ["DEN", "TOR"]) {
+    // feed-state audit had missed. Toronto took its place until Nov 14, when
+    // it turned out to be capped too (the next test).
+    for (const t of ["DEN", "NYK"]) {
       const s = feedStateOf(t);
       expect(s.roomTeam).toBe(false);
       expect(s.hardCap).toBe(Infinity);
       expect(Object.keys(s.consumed)).toHaveLength(0);
       expect(teamMeta(t).id).toBe(t);
     }
+  });
+
+  // Toronto traded Ingram and Dick ($47,131,511) for Kawhi Leonard
+  // ($50,300,000) on Sep 14. Taking back $3.17M more than it sent is the
+  // Expanded Traded Player Exception, and using it caps a team at the first
+  // apron (Art. VII §2(e)(4), row E). The sheet said "no hard cap" for two
+  // months; a Raptors fan replying on X had it right, and Hoops Rumors' list
+  // agrees. Checked against that list on Nov 14: all 30 teams' levels match.
+  it("TOR: the Leonard trade took back more than it sent, so the first apron is a hard cap", () => {
+    const s = feedStateOf("TOR");
+    expect(s.hardCap).toBe(C.firstApron);
+    expect(s.hardCapSource).toMatch(/Kawhi Leonard/);
+    expect(Object.keys(s.consumed)).toHaveLength(0);
+    const sent = 40_000_000 + 7_131_511;
+    expect(50_300_000).toBeGreaterThan(sent + 250_000);
+  });
+
+  it("every team's hard cap is the level Hoops Rumors lists (Nov 14, 2026)", () => {
+    const first = ["ATL", "BOS", "CHA", "CHI", "CLE", "DAL", "DET", "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "NOP", "PHI", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"];
+    const second = ["GSW", "HOU", "MIN", "PHX"];
+    const none = ["BKN", "DEN", "NYK", "OKC", "ORL"];
+    for (const t of first) expect(feedStateOf(t).hardCap, t).toBe(C.firstApron);
+    for (const t of second) expect(feedStateOf(t).hardCap, t).toBe(C.secondApron);
+    for (const t of none) expect(feedStateOf(t).hardCap, t).toBe(Infinity);
+    expect(first.length + second.length + none.length).toBe(30);
   });
 
   it("ATL: Landale took the NT-MLE (not Bird) — $14.1M consumed, first-apron cap", () => {

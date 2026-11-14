@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Transaction } from "@apron/data";
 import { PICK_RIGHTS } from "@apron/data";
 import type { MechanismId } from "@apron/cba-engine";
-import { BASE_CONTRACTS, TEAM_IDS, teamMeta, teamNickname, byNickname, rosterOf, freeAgentsOf, currentSalary, positionOf, YEAR } from "@/lib/league";
+import { BASE_CONTRACTS, TEAM_IDS, teamMeta, teamNickname, byNickname, rosterOf, freeAgentsOf, currentSalary, positionOf, YEAR, PICK_YEARS } from "@/lib/league";
 import { fmtM, fmtFull } from "@/lib/format";
 import { TradeDocket } from "@/components/TradeDocket";
 import { SEV_COLOR } from "@/lib/docket";
@@ -26,7 +26,6 @@ const TABS = [
 ] as const;
 type Tab = (typeof TABS)[number]["id"];
 
-const PICK_YEARS = [2027, 2028, 2029, 2030, 2031, 2032] as const;
 const TEAMS_SORTED = [...TEAM_IDS].sort(byNickname);
 
 /** The feed prints the city then the code — the same namer the actions use. */

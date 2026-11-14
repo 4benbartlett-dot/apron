@@ -12,7 +12,7 @@
  */
 
 import { validateTrade, violatesStepien, type Trade, type TradeVerdict } from "@apron/cba-engine";
-import { ACQUIRED_PICKS, hasAcquiredFirst } from "@apron/data";
+import { ACQUIRED_PICKS } from "@apron/data";
 import {
   BASE_CONTRACTS,
   C,
@@ -138,17 +138,12 @@ export function ruleOnBaseTrade(input: {
     // out. (The Clippers' 2030 and 2032 are forfeited; Toronto's 2031 and
     // 2033 firsts are what keep those from pairing into a violation.)
     const coveredByAcquired = (y: number) =>
-      ACQUIRED_PICKS.some((ap) => ap.team === teamId && ap.round === 1 && ap.year === y && !outs.has(ap.id)) ||
-      (y === 2033 && hasAcquiredFirst(teamId, 2033));
+      ACQUIRED_PICKS.some((ap) => ap.team === teamId && ap.round === 1 && ap.year === y && !outs.has(ap.id));
     const uncovered: number[] = [];
     for (const y of PICK_YEARS) {
       const ownGone = outs.has(`${teamId}|${y}|1`) || lockedFirstEncumbrance(teamId, y) !== undefined;
       if (ownGone && !ins.has(y) && !coveredByAcquired(y)) uncovered.push(y);
     }
-    // 2033 sits past the tradeable window, but a first already owed or
-    // forfeited there still pairs with 2032 unless another team's 2033 first
-    // is in hand (see store.ts yearsWithoutFirst).
-    if (lockedFirstEncumbrance(teamId, 2033) && !coveredByAcquired(2033)) uncovered.push(2033);
     if (!violatesStepien(uncovered)) continue;
     // Any outgoing first is the offending pick, an acquired one too: sending
     // Toronto's 2031 away is what uncovers 2031.

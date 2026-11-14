@@ -2,7 +2,11 @@ import { describe, it, expect } from "vitest";
 import { violatesStepien } from "@apron/cba-engine";
 import { FIRST_ENCUMBRANCES, PICK_LEDGER_TEAMS, firstEncumbranceOf, ACQUIRED_PICKS, PICK_RIGHTS, PICK_FORFEITURES, DRAFT_PICKS, hasAcquiredFirst } from "@apron/data";
 import { lockedFirstEncumbrance, PICK_YEARS } from "@/lib/store";
-import { summarizeTrade, encodeTradeParam } from "@/lib/trade-share";
+import { summarizeTrade, encodeTradeParam, decodeTradeParam } from "@/lib/trade-share";
+import { ruleOnBaseTrade } from "@/lib/verdict";
+import { tradeablePicks } from "@/lib/admin/picks";
+import { SIM_DATE, TEAM_IDS } from "@/lib/league";
+import { frozenFirstOf, TRADEABLE_DRAFT_YEARS } from "@apron/data";
 
 // Reported by @npb666 on launch day: the sim let GSW trade 2027 + 2031 firsts
 // even though GSW's 2030 first is already owed (protected 1-20) to Dallas —
@@ -97,8 +101,8 @@ describe("acquired incoming picks (real trades before the sim)", () => {
     for (const p of ACQUIRED_PICKS) {
       expect(p.id).toBe(`${p.origin}|${p.year}|${p.round}`);
       expect(p.origin).not.toBe(p.team); // acquired = someone else's pick
-      expect(p.year).toBeGreaterThanOrEqual(2027);
-      expect(p.year).toBeLessThanOrEqual(2032);
+      expect(p.year).toBeGreaterThanOrEqual(PICK_YEARS[0]);
+      expect(p.year).toBeLessThanOrEqual(PICK_YEARS[PICK_YEARS.length - 1]!);
     }
   });
 
@@ -237,3 +241,62 @@ describe("the Clippers' forfeited firsts (league-rulings.json overlay)", () => {
     expect(s.reason).toMatch(/forfeited to the league/);
   });
 });
+
+// A pick can be traded up to seven drafts out, and the window moves a year
+// with each draft. The board was built during 2025-26, when the seventh draft
+// was 2032, and nothing moved it: in November 2026 it still stopped at 2032,
+// while its own ledger showed five 2033 firsts and nine 2033 seconds already
+// traded, two of them Toronto's, sent to the Clippers for Kawhi Leonard. A fan's
+// proposal with a 2033 second in it is what showed the board couldn't build it.
+describe("the tradeable drafts in 2026-27 are 2027 through 2033", () => {
+  it("is seven drafts, written once, and the board's window is that list", () => {
+    expect([...TRADEABLE_DRAFT_YEARS]).toEqual([2027, 2028, 2029, 2030, 2031, 2032, 2033]);
+    expect(PICK_YEARS).toBe(TRADEABLE_DRAFT_YEARS);
+  });
+
+  it("the 2033 picks real trades already moved are inventory for the teams that hold them", () => {
+    const y33 = ACQUIRED_PICKS.filter((p) => p.year === 2033);
+    expect(y33.find((p) => p.id === "TOR|2033|1")?.team).toBe("LAC");
+    expect(y33.find((p) => p.id === "TOR|2033|2")?.team).toBe("LAC");
+    expect(y33.filter((p) => p.round === 1).length).toBeGreaterThanOrEqual(4);
+  });
+
+  it("a 2033 pick can be offered, shared and judged like any other", () => {
+    const picks = [{ id: "LAL|2033|2", from: "LAL", to: "DAL" }];
+    expect(tradeablePicks(PICK_RIGHTS, "LAL", PICK_YEARS).map((p) => p.id)).toContain("LAL|2033|2");
+    const back = decodeTradeParam(encodeTradeParam(["DAL", "LAL"], [], picks))!;
+    expect(back.picks).toEqual(picks);
+    expect(ruleOnBaseTrade({ teams: ["DAL", "LAL"], players: [], picks, date: SIM_DATE }).legal).toBe(true);
+  });
+
+  it("the Stepien rule reaches 2033: Denver owes its 2032 first, so its 2033 first can't go too", () => {
+    expect(lockedFirstEncumbrance("DEN", 2032)?.status).toBe("owed");
+    const r = ruleOnBaseTrade({ teams: ["BKN", "DEN"], players: [], picks: [{ id: "DEN|2033|1", from: "DEN", to: "BKN" }], date: SIM_DATE });
+    expect(r.legal).toBe(false);
+    expect(r.stepien[0]).toMatchObject({ team: "DEN", pair: [2032, 2033], offendingYear: 2033 });
+  });
+
+  it("and a team with its 2032 and 2033 firsts both in hand can trade the 2033 one", () => {
+    const team = TEAM_IDS.find(
+      (t) => !lockedFirstEncumbrance(t, 2032) && !lockedFirstEncumbrance(t, 2033) && !frozenFirstOf(t, 2032) && !frozenFirstOf(t, 2033),
+    )!;
+    const to = TEAM_IDS.find((t) => t !== team)!;
+    const r = ruleOnBaseTrade({ teams: [team, to].sort(), players: [], picks: [{ id: `${team}|2033|1`, from: team, to }], date: SIM_DATE });
+    expect(r.stepien.filter((f) => f.team === team && f.pair.includes(2033)), team).toEqual([]);
+  });
+
+  it("the Clippers still hold exactly one way out: Toronto's 2031 and 2033 firsts cover their forfeited years", () => {
+    // Unchanged by the wider window. 2033 used to be handled by a rule of its
+    // own because it sat outside the board; the ownership ledger covers it now.
+    expect(hasAcquiredFirst("LAC", 2033)).toBe(true);
+    const keep = ruleOnBaseTrade({ teams: ["LAC", "UTA"], players: [], picks: [], date: SIM_DATE });
+    expect(keep.stepien).toEqual([]);
+    const send = ruleOnBaseTrade({ teams: ["LAC", "UTA"], players: [], picks: [{ id: "TOR|2033|1", from: "LAC", to: "UTA" }], date: SIM_DATE });
+    expect(send.stepien[0]?.team).toBe("LAC");
+  });
+
+  it("Cleveland's 2033 first is frozen, in the window and off the table", () => {
+    expect(frozenFirstOf("CLE", 2033)).toBeTruthy();
+  });
+});
+

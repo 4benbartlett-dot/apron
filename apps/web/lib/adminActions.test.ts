@@ -40,10 +40,11 @@ describe("filing from the desk", () => {
     const r = await actions.fileSigning({
       date: "2026-09-03",
       player: { name: "Nicolas Batum", pos: "SF" },
-      // Toronto: no exception used and no hard cap in the real offseason, so
-      // the filing is the only thing that can set one (Charlotte held this
-      // role until Oct 2, when its NT-MLE use for Finney-Smith was booked).
-      team: "TOR",
+      // Orlando: no exception used and no hard cap in the real offseason, so
+      // the filing is the only thing that can set one. (Charlotte held this
+      // role until Oct 2, when its NT-MLE use for Finney-Smith was booked,
+      // and Toronto until Nov 14, when the Leonard trade's cap was.)
+      team: "ORL",
       years: 2,
       total: 11_222_000,
       mechanism: "bae",
@@ -54,8 +55,8 @@ describe("filing from the desk", () => {
     const moves = read("manual-moves.json").transactions;
     expect(moves).toHaveLength(before + 1);
     expect(moves[0]).toMatchObject({ player: "Nicolas Batum", date: "Sep 03, 2026", type: "Signing", why: "integration test" });
-    expect(moves[0].detail).toBe("Signed a 2 year $11.222 million contract with Toronto (TOR) via Bi-Annual Exception");
-    const cha = read("feed-team-state.json").teams.TOR;
+    expect(moves[0].detail).toBe("Signed a 2 year $11.222 million contract with Orlando (ORL) via Bi-Annual Exception");
+    const cha = read("feed-team-state.json").teams.ORL;
     expect(cha.consumedBae).toBe(5_477_000);
     expect(cha.inWorldHardCap).toBe("first_apron");
     expect(cha.hardCapSource).toBe("Nicolas Batum BAE");

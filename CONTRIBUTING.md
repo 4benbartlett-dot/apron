@@ -125,6 +125,15 @@ Each is a place to be careful, and a candidate for the same treatment:
   rewrites only the first, and `pickLedgerAgreement.test.ts` fails when they
   disagree about who holds an outright pick. Fix the structured ledger, with
   the trade in `source`.
+- **The tradeable drafts are written once**: `TRADEABLE_DRAFT_YEARS` in
+  `packages/data/src/pick-encumbrances.ts` (the app's `PICK_YEARS` is that
+  list). Seven drafts, and the window moves a year when a draft ends: 2027
+  through 2033 in 2026-27, 2028 through 2034 next season. It sat at 2032 for
+  five months after the 2026 draft because nothing said to move it.
+- **Every team's hard cap is checked against two outside lists**: Spotrac's
+  team pages (`externalCapCheck.test.ts`) and Hoops Rumors' hard-cap article
+  (`feedState.test.ts`, re-read on Nov 14, 2026). When they disagree, the
+  arithmetic of the move decides, and the loser is named in the test.
 - Scripts stamp the local date (`scripts/today.mjs`), not the UTC one.
 - Who finished a season over the second apron is a reported fact
   (`packages/data/src/second-apron.ts`, each with its source). The frozen

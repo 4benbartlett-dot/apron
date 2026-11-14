@@ -201,7 +201,9 @@
     },
     "TOR": {
       "confidence": "high",
-      "rationale": "Kyle Anderson 1yr/$3,876,529 from MEM: y1 exactly the min-scale top -> minimum exception, consumes nothing (lib carries a deemed-min cap charge of 2,449,421). Alijah Martin 2yr/$4,757,011 (y1 = 2,320,493 <= min top; own two-way RFA) -> minimum. Hepburn and Bradley two-ways skipped; Graves rookie scale. Kawhi arrived by trade. TOR committed = $199.5M, zero FA holds outstanding. No exception use, no hard cap."
+      "rationale": "Kyle Anderson 1yr/$3,876,529 from MEM: y1 exactly the min-scale top -> minimum exception, consumes nothing (lib carries a deemed-min cap charge of 2,449,421). Alijah Martin 2yr/$4,757,011 (y1 = 2,320,493 <= min top; own two-way RFA) -> minimum. Hepburn and Bradley two-ways skipped; Graves rookie scale. Kawhi arrived by trade. TOR committed = $199.5M, zero FA holds outstanding. No exception use. NOV 14 2026: that last sentence was wrong about the cap. The Leonard trade (approved Sep 14) sent out Brandon Ingram ($40,000,000) and Gradey Dick ($7,131,511), $47,131,511, and took back Leonard's $50,300,000. That is $3,168,489 more than it sent, past the 100% plus $250,000 an aggregated standard exception allows, so Leonard came in on the Expanded Traded Player Exception (Art. VII \u00a76(j)(1)(iv)), which hard-caps Toronto at the first apron for 2026-27 (\u00a72(e)(4), row E). Hoops Rumors' hard-cap list (Luke Adams) carries the Raptors for exactly this; a fan's reply on X is what prompted the check. Still no exception dollars used.",
+      "inWorldHardCap": "first_apron",
+      "hardCapSource": "Kawhi Leonard acquired with an expanded traded-player exception"
     },
     "UTA": {
       "consumedNtmle": 12000000,
