@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "What the Board Enforces and What It Estimates | Over the Apron",
   description:
     "Which rules of the 2023 CBA Over the Apron enforces, where public data forces an estimate, and the few moves that happen outside the board.",
+  alternates: { canonical: "https://overtheapron.com/accuracy" },
 };
 
 // Plain-language, GM-facing summaries. The rule-by-rule specifics live in the

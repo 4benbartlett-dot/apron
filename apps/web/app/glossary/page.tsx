@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "CBA Glossary — Over the Apron",
   description:
     "Plain-English CBA terms for the apron era: aprons, Bird rights, the MLEs, salary matching, hard caps, cap holds, and more.",
+  alternates: { canonical: "https://overtheapron.com/glossary" },
 };
 
 export default function GlossaryPage() {

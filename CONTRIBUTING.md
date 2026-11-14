@@ -19,6 +19,7 @@ pnpm -r typecheck
 pnpm --filter @apron/web dev                # http://localhost:3000 (the preview config uses 3100)
 pnpm --filter @apron/data refresh           # transactions, scores, stats, injuries, rebaseline, tests
 pnpm --filter @apron/data refresh:full      # ...and the Spotrac outside check (~62 Firecrawl calls)
+pnpm --filter @apron/data indexnow          # after a deploy is live: tell Bing which pages changed
 ```
 
 The scrapers read `FIRECRAWL_API_KEY` from the environment or `~/.env`.
@@ -138,6 +139,13 @@ Each is a place to be careful, and a candidate for the same treatment:
 - Who finished a season over the second apron is a reported fact
   (`packages/data/src/second-apron.ts`, each with its source). The frozen
   first-round picks are derived from it and laid over the pick ledger.
+
+## Page titles
+
+Every indexable page needs its own title, description and canonical URL. A
+client component (`"use client"`) can't export metadata, so it inherits the
+homepage's: give it a `layout.tsx` with `generateMetadata` beside it, as
+`app/team/[id]` has. `pageMeta.test.ts` keeps the thirty team pages distinct.
 
 ## The rules index
 

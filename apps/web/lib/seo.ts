@@ -12,6 +12,7 @@ import {
   tpeLedger,
   freeAgentsOf,
   holdsByTeam, leagueData, exceptionClock, hardCapLine, hardCapOrdinal,
+  rosterOf, YEAR, PICK_YEARS,
 } from "@/lib/league";
 import { GLOSSARY, type TermKey } from "@/lib/glossary";
 import { fmtM, fmtFull } from "@/lib/format";
@@ -590,5 +591,27 @@ export function teamSeo(id: string): TeamSeo {
     owesFirsts,
     extraFirsts,
     faq,
+  };
+}
+
+/* ------------------------- the team cap-sheet page ------------------------ */
+//
+// /team/BOS is a client page (it reads the visitor's session), and a client
+// page can't export metadata. With none of its own, every one of the thirty
+// inherited the homepage's title and description, which is what Bing's
+// "too many pages with identical titles" was counting. The layout beside the
+// page calls this.
+
+/** The title and description for a team's cap-sheet page, from today's data. */
+export function teamSheetMeta(id: string): { title: string; description: string; canonical: string } {
+  const name = teamMeta(id).name;
+  const committed = BASE_CONTRACTS.filter((c) => c.teamId === id).reduce((n, c) => n + currentSalary(c), 0);
+  const contracts = rosterOf(BASE_CONTRACTS, id).length;
+  const cap = feedStateOf(id).hardCap;
+  const capped = Number.isFinite(cap) ? `, hard-capped at the ${hardCapOrdinal(cap)} apron` : "";
+  return {
+    title: `${name} Cap Sheet ${YEAR}: Contracts and Draft Picks`,
+    description: `${name} ${YEAR} cap sheet: ${fmtM(committed)} in salary across ${contracts} contracts${capped}. Every contract, the depth chart, what the team can still spend, and its draft picks through ${PICK_YEARS[PICK_YEARS.length - 1]}.`,
+    canonical: `${SITE}/team/${id}`,
   };
 }

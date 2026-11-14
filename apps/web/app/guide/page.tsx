@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "How to play — Over the Apron",
   description:
     "Run an NBA front office under the 2023 CBA: pick a team, read the cap sheet, make moves that build on each other, see the rule behind every verdict, and watch the playoff odds move.",
+  alternates: { canonical: "https://overtheapron.com/guide" },
 };
 
 /** One play: call chip + title on the left, a live demo artifact on the right. */

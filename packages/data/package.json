@@ -13,7 +13,8 @@
     "scrape": "node scripts/scrape-bref.mjs",
     "typecheck": "tsc --noEmit",
     "refresh": "node scripts/refresh.mjs",
-    "refresh:full": "node scripts/refresh.mjs --spotrac"
+    "refresh:full": "node scripts/refresh.mjs --spotrac",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@apron/cba-engine": "workspace:*"

@@ -34,5 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...SEO_TERMS.map((t) => page(`/terms/${t.slug}`, 0.7)),
     ...TEAM_IDS.map((id) => page(`/teams/${teamSlug(id)}/trade-machine`, 0.7, "daily")),
+    // Each team's cap sheet: its own page, with its own title since Nov 14.
+    ...TEAM_IDS.map((id) => page(`/team/${id}`, 0.6, "daily")),
   ];
 }
