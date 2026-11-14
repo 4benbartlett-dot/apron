@@ -1,5 +1,5 @@
 {
- "asOf": "2026-10-02",
+ "asOf": "2026-11-14",
  "note": "Curated contract-sheet stubs: players who signed real NBA deals this offseason but have NO 2025-26 row on the scraped sheet (two-way/exhibit-10/overseas paths). The pipeline books their new deal onto these rows via the signings feed. Each stub is skipped automatically if a later sheet scrape carries the player (dedupe is by NAME, so the id below is free to be the real one). Aug 17 2026: playerId is now the player's REAL Basketball-Reference id wherever one exists, verified against the name-bearing rows in player-stats-history.json — a synthetic curated-* id is keyed to nothing, so ratings/experience/positions/bio/impact all miss and the player enters the model at the age-27, ~22-mpg, av-51 default. Only the four with genuinely no NBA row (Alpha Diallo, Arthur Kaluma, Tarik Biberovic, Bogoljub Markovic) keep a curated-* id.",
  "players": [
   {
@@ -245,6 +245,13 @@
     }
    ],
    "why": "Sep 22 2026: not on the scraped sheet, but the feed has Indiana fully guaranteeing his $2.58M for 2026-27 on Jul 15 and Spotrac's Indiana cap page carries him at $2,584,539 on the active roster. The stated-salary pass creates the season from the guarantee row; the filed cap hit refines the rounded amount. Real Basketball-Reference id. Oct 2 2026: both seasons booked from Spotrac's tables — $2,584,539 this season (guaranteed Jul 15) and a non-guaranteed $2,934,742 for 2027-28."
+  },
+  {
+   "playerId": "robinor01",
+   "playerName": "Orlando Robinson",
+   "teamId": "CHI",
+   "years": [],
+   "why": "Nov 14 2026: no row on the scraped sheet. He was in Chicago's camp on a non-guaranteed deal, was waived before the season, and signed a rest-of-season contract with the Bulls on Nov 13, their 15th standard contract (Chicago Sun-Times, Nov 13; non-guaranteed per Joel Lorenzi of The Athletic, via Hoops Rumors). The in-season pass books the deal onto this row from the feed. Real Basketball-Reference id."
   }
  ]
 }

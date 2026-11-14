@@ -2,6 +2,55 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Orlando Robinson",
+      "pos": "C",
+      "date": "Nov 13, 2026",
+      "type": "Signing",
+      "detail": "Signed a Rest-of-Season contract with Chicago Bulls (CHI)"
+    },
+    {
+      "player": "Doug McDermott",
+      "pos": "SF",
+      "date": "Nov 13, 2026",
+      "type": "Other",
+      "detail": "Retired from Professional Basketball"
+    },
+    {
+      "player": "Marcus Smart",
+      "pos": "PG",
+      "date": "Nov 13, 2026",
+      "type": "Other",
+      "detail": "Suspended 3 games for throwing a punch that made contact with the face of Charles Bassey during GSW-HOU game; forfeits $125,462"
+    },
+    {
+      "player": "Johni Broome",
+      "pos": "C",
+      "date": "Nov 12, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Minnesota Timberwolves (MIN)"
+    },
+    {
+      "player": "Mason Plumlee",
+      "pos": "C",
+      "date": "Nov 11, 2026",
+      "type": "Signing",
+      "detail": "Signed a Rest-of-Season contract with Sacramento Kings (SAC)"
+    },
+    {
+      "player": "Carson Cooper",
+      "pos": "C",
+      "date": "Nov 10, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Los Angeles Lakers (LAL)"
+    },
+    {
+      "player": "Lawson Lovering",
+      "pos": "C",
+      "date": "Nov 10, 2026",
+      "type": "Release",
+      "detail": "Waived by Los Angeles Lakers (LAL)"
+    },
+    {
       "player": "Nique Clifford",
       "pos": "SF",
       "date": "Nov 08, 2026",
@@ -34,7 +83,7 @@
       "pos": "SF",
       "date": "Nov 07, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Cleveland Cavaliers (CLE)"
+      "detail": "Signed a 2 year Two-Way contract with Cleveland Cavaliers (CLE)"
     },
     {
       "player": "Tristan Enaruna",
@@ -48,7 +97,7 @@
       "pos": "F",
       "date": "Nov 06, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Cleveland Cavaliers (CLE)"
+      "detail": "Signed a 2 year Two-Way contract with Cleveland Cavaliers (CLE)"
     },
     {
       "player": "Riley Minix",

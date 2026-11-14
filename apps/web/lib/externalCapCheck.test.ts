@@ -100,6 +100,10 @@ const EXPLAINED: Record<string, { maxGap: number; why: string }> = {
     maxGap: 16_000,
     why: "Spotrac's Knicks page carries $15,000 dead for Drew Eubanks, waived Oct 15 off an Exhibit 9. No report gives the camp deal a guarantee, and an Exhibit 9 normally carries none; left as their figure, not adopted.",
   },
+  CHI: {
+    maxGap: 15_000,
+    why: "Orlando Robinson's rest-of-season minimum. Both sides prorate his deemed $2,449,421 by the day, $14,077 a day. Spotrac's own feed row dates the signing Nov 13, and the Bulls announced it that Friday (Hoops Rumors, Chicago Crusader, Nov 13), which is 150 days and $2,111,570. Their Bulls page prints $2,125,647, which is 151 days, a Nov 12 signing nobody has reported. One day's pay apart; left as their figure, not adopted. (Plumlee's row was a day late the same way, but there the Nov 11 reports and the page agreed.)",
+  },
   // (Washington was here from Sep 16 for Anthony Gill's minimum, which
   // Spotrac's page lacked. Their Nov 9 page has him, at the sheet's figure.)
 };

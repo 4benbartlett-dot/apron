@@ -80,6 +80,14 @@
       "type": "Signing",
       "detail": "Signed a 3 year $15.75 million contract extension with Boston (BOS) - includes 2029-30 Club Option",
       "why": "The row's '$15 million' is the rounded headline. Spotrac's own season table for the extension is $5,000,000, $5,250,000 and a $5,500,000 club option — 5% raises, $15,750,000 in all — and its $10,250,000 'guaranteed' is exactly the first two seasons, the option year being the unguaranteed one. The table is the filing; the headline was the report."
+    },
+    {
+      "date": "Nov 12, 2026",
+      "player": "Mason Plumlee",
+      "type": "Signing",
+      "detail": "Signed a Rest-of-Season contract with Sacramento Kings (SAC)",
+      "newDate": "Nov 11, 2026",
+      "why": "Spotrac dates the row Nov 12. He signed Nov 11 (NBC Sports Bay Area, Sports Illustrated, Bleacher Report, all Nov 11), and the reported cap hit says the same: $2,139,724 is the one-year minimum's $2,449,421 times 152 days left over 174 (Art. I §1(kk)(ii)), and 152 days are left on Nov 11. On Nov 12 it would be 151 and $2,125,647."
     }
   ]
 }

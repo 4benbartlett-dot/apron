@@ -1129,7 +1129,10 @@ const CONVERTED_TO_STANDARD = (() => {
  * of the season. Dalen Terry's Nov. 4 deal is the first. The row gives the
  * term and nothing else, so the salary is his Minimum Player Salary prorated
  * (Art. I §1(kk)(ii); Art. II §10), which is what a rest-of-season deal at the
- * minimum is. */
+ * minimum is. A row with no term ("Signed a Rest-of-Season contract with
+ * Sacramento Kings (SAC)", Mason Plumlee, Nov. 11) is this season only. The
+ * pattern used to require the number, so Plumlee and Orlando Robinson signed
+ * and neither was on a roster. */
 const REST_OF_SEASON = (() => {
   const out = new Map<string, { team: string; date: string; years: number }>();
   const decided = new Set<string>();
@@ -1138,9 +1141,9 @@ const REST_OF_SEASON = (() => {
     const k = normName(t.player);
     if (decided.has(k)) continue;
     decided.add(k);
-    const m = t.detail.match(/(\d+) year Rest-of-Season contract with [^(]*\(([A-Za-z]{2,4})\)/i);
+    const m = t.detail.match(/(?:(\d+) year )?Rest-of-Season contract with [^(]*\(([A-Za-z]{2,4})\)/i);
     const date = feedIso(t.date);
-    if (m && date) out.set(k, { team: stdTeam(m[2]!), date, years: Number(m[1]) });
+    if (m && date) out.set(k, { team: stdTeam(m[2]!), date, years: Number(m[1] ?? 1) });
   }
   return out;
 })();

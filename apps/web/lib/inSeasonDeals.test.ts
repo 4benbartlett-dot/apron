@@ -165,3 +165,39 @@ describe("a trade's timing follows its date", () => {
     }
   });
 });
+
+// Sacramento signed Mason Plumlee on Nov. 11 and Chicago signed Orlando
+// Robinson on Nov. 13. Spotrac wrote both as "Signed a Rest-of-Season
+// contract with ...", with no term in front. The parser wanted "2 year
+// Rest-of-Season" and skipped them: Plumlee stayed a free agent with a hold
+// on Oklahoma City, Robinson was nowhere, and both teams were a player short.
+describe("a rest-of-season signing with no term on the row", () => {
+  const signed = (name: string) => BASE_CONTRACTS.find((c) => c.playerName === name && !c.deadMoney);
+  const thisYear = (name: string) => signed(name)?.years.find((y) => y.leagueYear === YEAR);
+
+  it("is one season at the minimum, paid by the day: Plumlee's $2,139,724 is the reported figure", () => {
+    const plumlee = signed("Mason Plumlee")!;
+    expect(plumlee.teamId).toBe("SAC");
+    expect(plumlee.paidDays).toBe(152);
+    // One-year minimum for a veteran counts at the two-year figure (Art. VII
+    // §3(f)), times 152 days left of 174 (Art. I §1(kk)(ii)).
+    expect(thisYear("Mason Plumlee")).toMatchObject({ salary: 2_139_724, guarantee: "non_guaranteed" });
+    expect(plumlee.years.filter((y) => y.leagueYear > YEAR)).toEqual([]);
+  });
+
+  it("books Robinson in Chicago two days later, for two days less", () => {
+    const robinson = signed("Orlando Robinson")!;
+    expect(robinson.teamId).toBe("CHI");
+    expect(robinson.paidDays).toBe(150);
+    expect(thisYear("Orlando Robinson")!.salary).toBe(Math.round((C.minimumSalaries[2]! / 174) * 150));
+    expect(rosterOf(BASE_CONTRACTS, "CHI").some((c) => c.playerName === "Orlando Robinson")).toBe(true);
+  });
+
+  it("each waits like any free agent before he can be traded", () => {
+    for (const name of ["Mason Plumlee", "Orlando Robinson"]) {
+      const c = signed(name)!;
+      expect(c.tradeableFrom, name).toBeDefined();
+      expect(c.tradeableFrom! > SIM_DATE, name).toBe(true);
+    }
+  });
+});

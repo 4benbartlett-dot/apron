@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-11-09",
+  "asOf": "2026-11-14",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -1351,6 +1351,18 @@
           "nonGuaranteed": false
         },
         {
+          "name": "Orlando Robinson",
+          "pos": "C",
+          "type": "ROS",
+          "cap": 2125647,
+          "base": 2278561,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
           "name": "Jaylin Sellers",
           "pos": "G",
           "type": "2W",
@@ -1408,10 +1420,10 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 164694624,
+        "activeRoster": 166820271,
         "deadMoney": 1075459,
-        "capTotal": 165770083,
-        "apronTotal": 168085200
+        "capTotal": 167895730,
+        "apronTotal": 170210847
       }
     },
     "CLE": {
@@ -1605,8 +1617,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         },
         {
           "name": "Riley Minix",
@@ -1958,7 +1970,7 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 91000,
+          "guaranteed": 337490,
           "nonGuaranteed": false
         }
       ],
@@ -3784,18 +3796,6 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Lawson Lovering",
-          "pos": "C",
-          "type": "2W",
-          "cap": 0,
-          "base": 0,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
-        },
-        {
           "name": "Arthur Kaluma",
           "pos": "F",
           "type": "2W",
@@ -3806,6 +3806,18 @@
           "tradeBonus": 0,
           "guaranteed": 91000,
           "nonGuaranteed": false
+        },
+        {
+          "name": "Carson Cooper",
+          "pos": "C",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
         }
       ],
       "twoWay": [],
@@ -4038,8 +4050,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 304327,
+          "nonGuaranteed": false
         },
         {
           "name": "Jahmai Mashack",
@@ -4895,6 +4907,18 @@
         {
           "name": "Zyon Pullin",
           "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Johni Broome",
+          "pos": "C",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -6880,6 +6904,18 @@
           "nonGuaranteed": false
         },
         {
+          "name": "Mason Plumlee",
+          "pos": "C",
+          "type": "ROS",
+          "cap": 2139724,
+          "base": 3386393,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
           "name": "Emanuel Sharp",
           "pos": "PG",
           "type": "RK-2ND",
@@ -7046,11 +7082,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 190683425,
+        "activeRoster": 192823149,
         "deadMoney": 3333333,
         "capHold": 19066758,
-        "capTotal": 213083516,
-        "apronTotal": 197866758
+        "capTotal": 215223240,
+        "apronTotal": 200006482
       }
     },
     "SAS": {
@@ -7280,14 +7316,6 @@
           "rights": "Non-Bird"
         },
         {
-          "name": "Mason Plumlee",
-          "pos": "C",
-          "type": "ROS",
-          "cap": 2449421,
-          "qo": 0,
-          "rights": "Non-Bird"
-        },
-        {
           "name": "Bismack Biyombo",
           "pos": "C",
           "type": "FA",
@@ -7317,8 +7345,8 @@
       "summary": {
         "hardCap": "first_apron",
         "activeRoster": 198279967,
-        "capHold": 32893995,
-        "capTotal": 231173962,
+        "capHold": 30444574,
+        "capTotal": 228724541,
         "apronTotal": 200979967
       }
     },
@@ -7513,8 +7541,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         },
         {
           "name": "Nate Bittle",
@@ -8750,7 +8778,7 @@
         {
           "name": "Blake Wesley",
           "flag": "",
-          "cap": 14077
+          "cap": 140771
         }
       ],
       "holds": [
@@ -8856,10 +8884,10 @@
       "summary": {
         "hardCap": "first_apron",
         "activeRoster": 180915636,
-        "deadMoney": 2164994,
+        "deadMoney": 2291688,
         "capHold": 17179563,
-        "capTotal": 200260193,
-        "apronTotal": 183340803
+        "capTotal": 200386887,
+        "apronTotal": 183467497
       }
     }
   }
