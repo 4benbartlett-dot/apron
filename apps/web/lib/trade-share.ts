@@ -233,10 +233,11 @@ export function summarizeTrade(t: string): TradeSummary | null {
     };
   });
   return {
-    legal: v.legal && !stepienFinding && !feedCapped,
+    legal: ruling.legal,
     hasPicks: d.picks.length > 0,
     reason:
       v.violations[0]?.reason ??
+      ruling.unheldPicks[0]?.text ??
       (stepienFinding
         ? stepienFinding.message
         : feedCapped

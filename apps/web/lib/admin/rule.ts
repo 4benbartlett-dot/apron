@@ -68,6 +68,7 @@ export function ruleTrade(input: TradeInput): TradeRuling | null {
   const v = ruling.verdict;
   const tpeUse: TradeRuling["tpeUse"] = ruling.trade.tpeUse;
   const problems: string[] = [
+    ...ruling.unheldPicks.map((p) => p.text),
     ...ruling.stepien.map((f) => f.message),
     ...ruling.hardCaps.map(
       ({ team, detail, postTradeSalary }) =>

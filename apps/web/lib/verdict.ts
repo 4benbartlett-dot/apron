@@ -12,7 +12,7 @@
  */
 
 import { validateTrade, violatesStepien, type Trade, type TradeVerdict } from "@apron/cba-engine";
-import { ACQUIRED_PICKS } from "@apron/data";
+import { ACQUIRED_PICKS, frozenFirstOf } from "@apron/data";
 import {
   BASE_CONTRACTS,
   C,
@@ -26,6 +26,7 @@ import {
   leagueData,
   lockedFirstEncumbrance,
   stepienFindingFor,
+  teamMeta,
   tpeLedger,
   type HardCapDetail,
   type StepienFinding,
@@ -99,7 +100,33 @@ export interface BaseRuling {
   stepien: StepienFinding[];
   /** Teams this trade would carry past a hard cap a real move created. */
   hardCaps: { team: string; detail: HardCapDetail; postTradeSalary: number }[];
+  /** Picks in the trade that the team sending them doesn't have. */
+  unheldPicks: { id: string; from: string; text: string }[];
   legal: boolean;
+}
+
+/**
+ * Why `from` can't send this pick, or null if it can. On the board a team is
+ * only ever offered the picks it holds, so this never came up there. A link
+ * is different: it can name any pick, and one written by hand, or minted
+ * before a real trade moved the pick, was judged as if the sender had it. A
+ * Lakers trade with their 2031 and 2032 seconds in it came back LEGAL; those
+ * picks are Brooklyn's and Oklahoma City's.
+ */
+export function whyNotHeld(id: string, from: string): string | null {
+  const [origin, yearStr, round] = id.split("|");
+  const year = Number(yearStr);
+  const name = teamMeta(origin!).name;
+  const pick = `${name.endsWith("s") ? `${name}'` : `${name}'s`} ${year} ${round === "1" ? "first" : "second"}`;
+  const cant = `${teamMeta(from).name} can't trade it.`;
+  const holder = ACQUIRED_PICKS.find((ap) => ap.id === id)?.team ?? origin!;
+  if (holder !== from) return `${pick} already belongs to ${teamMeta(holder).name}; ${cant}`;
+  if (round === "1" && origin === from) {
+    const enc = lockedFirstEncumbrance(from, year);
+    if (enc) return `${pick} ${enc.status === "forfeited" ? "was forfeited to the league" : `is already owed to ${enc.counterparty}`}; ${cant}`;
+    if (frozenFirstOf(from, year)) return `${pick} is frozen by a season over the second apron (Art. VII §2(f)); ${cant}`;
+  }
+  return null;
 }
 
 export function ruleOnBaseTrade(input: {
@@ -159,5 +186,17 @@ export function ruleOnBaseTrade(input: {
     if (detail && t.postTradeSalary > detail.line + 1) hardCaps.push({ team: t.teamId, detail, postTradeSalary: t.postTradeSalary });
   }
 
-  return { trade, verdict, stepien, hardCaps, legal: verdict.legal && stepien.length === 0 && hardCaps.length === 0 };
+  const unheldPicks = picks.flatMap((p) => {
+    const text = whyNotHeld(p.id, p.from);
+    return text ? [{ id: p.id, from: p.from, text }] : [];
+  });
+
+  return {
+    trade,
+    verdict,
+    stepien,
+    hardCaps,
+    unheldPicks,
+    legal: verdict.legal && stepien.length === 0 && hardCaps.length === 0 && unheldPicks.length === 0,
+  };
 }
