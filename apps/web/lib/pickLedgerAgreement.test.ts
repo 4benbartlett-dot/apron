@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { DRAFT_PICKS, PICK_RIGHTS, ACQUIRED_PICKS, hasAcquiredFirst } from "@apron/data";
+import { DRAFT_PICKS, PICK_RIGHTS, ACQUIRED_PICKS, hasAcquiredFirst, firstEncumbranceOf, TRADEABLE_DRAFT_YEARS } from "@apron/data";
+import { SIM_DATE, lockedFirstEncumbrance } from "@/lib/league";
+import { ruleOnBaseTrade } from "@/lib/verdict";
+import { encodeTradeParam, summarizeTrade } from "@/lib/trade-share";
 
 // Two files describe who owns which pick. draft-picks.json is the RealGM
 // ledger as scraped, prose and all; pick-rights-2026.json is the structured
@@ -96,5 +99,69 @@ describe("the structured pick ledger against the scraped one", () => {
     // Boston-Philadelphia, Jul 6: it conveys to Boston at 17-30.
     expect(ACQUIRED_PICKS.some((p) => p.id === "LAC|2028|1")).toBe(false);
     expect(hasAcquiredFirst("PHI", 2028)).toBe(false);
+  });
+});
+
+// The Stepien check asks one question of each team's own first: gone, or
+// still theirs? The answer was read off RealGM's headline by pattern, and on
+// the Nov 9, 2026 re-pull RealGM reworded Boston's 2028 row. A swap with San
+// Antonio, which leaves Boston holding a first, stopped matching and was read
+// as a first traded away. Boston's 2029 first really is gone (Portland), so
+// the two made a standing violation, and for five days every shared Boston
+// trade came back BLOCKED, including a two-for-one with no picks in it. A fan
+// post proposing Keyonte George to Boston is what showed it.
+describe("what a team's own first is, in both ledgers", () => {
+  const RANK: Record<string, number> = { forfeited: 4, owed: 3, protected: 2, swap: 1 };
+  /** The structured ledger's word for a year: its most restrictive leg, with
+   * a frozen pick counted as the team's own. */
+  const structured = (team: string, year: number) => {
+    const legs = (PICK_RIGHTS[team]?.ownFirstObligations ?? []).filter((o) => o.year === year && o.status !== "frozen");
+    return legs.sort((a, b) => RANK[b.status]! - RANK[a.status]!)[0]?.status ?? "kept";
+  };
+
+  it("agree on every team and every tradeable draft", () => {
+    const off: string[] = [];
+    for (const team of Object.keys(PICK_RIGHTS)) {
+      for (const year of TRADEABLE_DRAFT_YEARS) {
+        const ours = firstEncumbranceOf(team, year)?.status ?? "kept";
+        if (ours !== structured(team, year)) off.push(`${team} ${year}: Stepien reads ${ours}, the ledger says ${structured(team, year)}`);
+      }
+    }
+    expect(off).toEqual([]);
+  });
+
+  it("Boston's 2028 first is a swap, so Boston still has a first that year", () => {
+    expect(firstEncumbranceOf("BOS", 2028)).toMatchObject({ status: "swap", counterparty: "San Antonio" });
+    expect(lockedFirstEncumbrance("BOS", 2028)).toBeUndefined();
+    expect(lockedFirstEncumbrance("BOS", 2029)?.status).toBe("owed");
+  });
+
+  it("so a Boston trade with no picks in it is not a Stepien violation", () => {
+    const players = [
+      { playerId: "georgke01", from: "UTA", to: "BOS" },
+      { playerId: "walshjo01", from: "BOS", to: "UTA" },
+      { playerId: "gonzahu01", from: "BOS", to: "UTA" },
+    ];
+    const r = ruleOnBaseTrade({ teams: ["BOS", "UTA"], players, picks: [], date: SIM_DATE });
+    expect(r.stepien).toEqual([]);
+    expect(summarizeTrade(encodeTradeParam(["BOS", "UTA"], players))!.legal).toBe(r.legal);
+  });
+
+  it("but Boston still can't trade that 2028 first, with 2029 already Portland's", () => {
+    const r = ruleOnBaseTrade({ teams: ["BOS", "UTA"], players: [], picks: [{ id: "BOS|2028|1", from: "BOS", to: "UTA" }], date: SIM_DATE });
+    expect(r.stepien[0]).toMatchObject({ team: "BOS", pair: [2028, 2029], offendingYear: 2028 });
+  });
+
+  it("Minnesota's 2030 is a swap too, and New Orleans' protected 2027 first is not theirs to trade", () => {
+    expect(firstEncumbranceOf("MIN", 2030)?.status).toBe("swap");
+    expect(lockedFirstEncumbrance("NOP", 2027)).toMatchObject({ status: "protected", counterparty: "Atlanta" });
+  });
+
+  it("no team starts the day already in violation", () => {
+    for (const team of Object.keys(PICK_RIGHTS)) {
+      const other = team === "UTA" ? "BOS" : "UTA";
+      const r = ruleOnBaseTrade({ teams: [team, other].sort(), players: [], picks: [], date: SIM_DATE });
+      expect(r.stepien.filter((f) => f.team === team), team).toEqual([]);
+    }
   });
 });

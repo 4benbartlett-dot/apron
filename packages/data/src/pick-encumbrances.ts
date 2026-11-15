@@ -58,6 +58,17 @@ function classify(p: RawPick): FirstEncumbranceStatus {
   return "owed";
 }
 
+/** Team code to the name RealGM's headlines use, for a year only the
+ * structured ledger describes. */
+const CITY_OF: Record<string, string> = {
+  ATL: "Atlanta", BOS: "Boston", BKN: "Brooklyn", CHA: "Charlotte", CHI: "Chicago", CLE: "Cleveland",
+  DAL: "Dallas", DEN: "Denver", DET: "Detroit", GSW: "Golden State", HOU: "Houston", IND: "Indiana",
+  LAC: "L.A. Clippers", LAL: "L.A. Lakers", MEM: "Memphis", MIA: "Miami", MIL: "Milwaukee",
+  MIN: "Minnesota", NOP: "New Orleans", NYK: "New York", OKC: "Oklahoma City", ORL: "Orlando",
+  PHI: "Philadelphia", PHX: "Phoenix", POR: "Portland", SAC: "Sacramento", SAS: "San Antonio",
+  TOR: "Toronto", UTA: "Utah", WAS: "Washington",
+};
+
 function counterpartyOf(headline: string): string {
   return headline.match(/ to ([^(]+?)(?:\s*\(|$)/)?.[1]?.trim() ?? "another team";
 }
@@ -80,6 +91,40 @@ function build(): Record<string, Record<number, FirstEncumbrance>> {
       // Duplicate (team, year) rows describe one obligation chain (e.g. MIN
       // 2029) — keep the most restrictive classification.
       if (!prev || RANK[status] > RANK[prev.status]) byYear[p.year] = enc;
+    }
+  }
+  // The structured ledger decides WHAT a year is; RealGM's page supplies the
+  // wording. `classify` reads a status off RealGM's headline, and RealGM
+  // rewords its headlines. On the Nov 9, 2026 re-pull Boston's 2028 row read
+  // "(San Antonio incoming, connects to an incoming pick to Boston)", which no
+  // longer ended in "incoming)", so a swap that leaves Boston with a first
+  // was read as a first traded away. With 2029 owed to Portland that made
+  // 2028 and 2029 a standing Stepien violation, and every shared Boston trade
+  // came back BLOCKED for five days. Minnesota's 2030 swap went the same way,
+  // and New Orleans' protected 2027 first was read as kept. pick-rights-2026
+  // is the file that gets corrected by hand, with the trade in `source`; where
+  // it has a word for a year, that word stands.
+  for (const [team, rights] of Object.entries(PICK_RIGHTS)) {
+    const byYear = (out[team] ??= {});
+    const worst = new Map<number, (typeof rights.ownFirstObligations)[number]>();
+    for (const o of rights.ownFirstObligations) {
+      // A frozen first is still the team's own: no obligation to anyone.
+      if (o.status === "frozen") continue;
+      const prev = worst.get(o.year);
+      if (!prev || RANK[o.status] > RANK[prev.status as FirstEncumbranceStatus]) worst.set(o.year, o);
+    }
+    for (const [year, o] of worst) {
+      const status = o.status as FirstEncumbranceStatus;
+      const prev = byYear[year];
+      if (prev?.status === status) continue;
+      const who = o.to ? CITY_OF[o.to] ?? o.to : "another team";
+      byYear[year] = {
+        team,
+        year,
+        status,
+        counterparty: prev?.counterparty ?? who,
+        headline: prev?.headline ?? `${year} first round draft pick ${status === "swap" ? "swap with" : "to"} ${who}`,
+      };
     }
   }
   // The league's own rows. A forfeited own first outranks everything the
