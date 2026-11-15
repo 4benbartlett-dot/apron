@@ -155,12 +155,29 @@ export interface TradeSummary {
     tier: ApronTier;
     incoming: string[];
     outgoing: string[];
+    /** `incoming` for a one-line summary: players by last name, picks and
+     * swaps as written ("GSW 2028 1st", "’31 1st swap w/ GSW"). */
+    incomingShort: string[];
     /** Human-readable salary-matching rule this team's leg passes under. */
     rule?: string;
   }[];
 }
 
 const lastName = shortPlayerName;
+
+/**
+ * The one-line "who gets what" under a shared link's title: "CHA get
+ * Porziņģis, Melton, GSW 2028 1st · ORL get Moody, Santos, ’31 1st swap w/
+ * GSW". The page used to shorten every item to its last word, which is right
+ * for a player and wrong for a pick: "GSW 2028 1st" became "1st" and a swap
+ * with Golden State became "GSW".
+ */
+export function tradeHeadline(s: TradeSummary): string {
+  return s.perTeam
+    .filter((pt) => pt.incoming.length + pt.outgoing.length > 0)
+    .map((pt) => `${pt.team} get ${pt.incomingShort.join(", ") || "—"}`)
+    .join(" · ");
+}
 
 /** Compute a sharable summary of a trade param (server-safe). */
 export function summarizeTrade(t: string): TradeSummary | null {
@@ -199,6 +216,11 @@ export function summarizeTrade(t: string): TradeSummary | null {
       tier: ts.postTradeTier,
       incoming: [
         ...d.players.filter((p) => p.to === ts.teamId).map((p) => nameOf(p.playerId)),
+        ...d.picks.filter((p) => p.to === ts.teamId).map((p) => pickShareLabel(p.id)),
+        ...d.swaps.filter((s) => s.favoredTo === ts.teamId).map((s) => swapShareLabel(s, ts.teamId)),
+      ],
+      incomingShort: [
+        ...d.players.filter((p) => p.to === ts.teamId).map((p) => lastName(nameOf(p.playerId))),
         ...d.picks.filter((p) => p.to === ts.teamId).map((p) => pickShareLabel(p.id)),
         ...d.swaps.filter((s) => s.favoredTo === ts.teamId).map((s) => swapShareLabel(s, ts.teamId)),
       ],

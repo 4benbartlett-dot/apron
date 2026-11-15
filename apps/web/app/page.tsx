@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import OffseasonSim from "@/components/OffseasonSim";
 import { NewsFeed } from "@/components/NewsFeed";
 import { latestNewsDay } from "@/lib/newsDay";
-import { summarizeTrade, lastName } from "@/lib/trade-share";
+import { summarizeTrade, tradeHeadline } from "@/lib/trade-share";
 import { SITE } from "@/lib/seo";
 
 /** Bump when the OG-card renderer changes in a way X/Facebook should re-fetch.
@@ -31,9 +31,7 @@ export async function generateMetadata({
   if (!s) return { alternates };
 
   const active = s.perTeam.filter((pt) => pt.incoming.length + pt.outgoing.length > 0);
-  const headline = active
-    .map((pt) => `${pt.team} get ${pt.incoming.map(lastName).join(", ") || "—"}`)
-    .join(" · ");
+  const headline = tradeHeadline(s);
   const title = `${s.legal ? "LEGAL" : "BLOCKED"}: ${active.map((pt) => pt.team).join("–")} trade · Over the Apron`;
   const og = `/api/og?t=${encodeURIComponent(t!)}&v=${OG_VERSION}`;
 
