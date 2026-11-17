@@ -2,6 +2,27 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Matas Buzelis",
+      "pos": "SF",
+      "date": "Nov 16, 2026",
+      "type": "Other",
+      "detail": "Fined $25,000 for Obscene Gesture against Minnesota (MIN) - for obscene gesture towards the spectator stands at the conclusion of the CHI-MIN game"
+    },
+    {
+      "player": "Josh Minott",
+      "pos": "SF",
+      "date": "Nov 16, 2026",
+      "type": "Other",
+      "detail": "Fined $25,000 for Obscene Gesture against Memphis (MEM) - for obscene gesture towards the spectator stands at the conclusion of the BKN-MEM game"
+    },
+    {
+      "player": "Mario Hezonja",
+      "pos": "SG",
+      "date": "Nov 15, 2026",
+      "type": "Other",
+      "detail": "Cleveland Cavaliers (CLE) fully guaranteed $2.85 million salary for 2026-27"
+    },
+    {
       "player": "Orlando Robinson",
       "pos": "C",
       "date": "Nov 13, 2026",

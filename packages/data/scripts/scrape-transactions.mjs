@@ -262,8 +262,25 @@ function correct(rows) {
   return out;
 }
 
+/**
+ * A correction that re-dates a row can land it on a row already held. Mason
+ * Plumlee's signing came from Spotrac dated Nov 12 and is corrected to Nov 11;
+ * the next pull brought the Nov 12 original back, the correction re-dated it,
+ * and the feed had the Nov 11 signing twice. `collapse` runs before the
+ * correction and saw two different dates. One event, one row.
+ */
+function once(rows) {
+  const seen = new Set();
+  return rows.filter((t) => {
+    const k = `${keyOf(t)}|${t.type}`;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
 const before = merged.size;
-const transactions = correct(collapse([...merged.values()], new Set(scraped))).sort((a, b) =>
+const transactions = once(correct(collapse([...merged.values()], new Set(scraped)))).sort((a, b) =>
   toIso(b.date).localeCompare(toIso(a.date)),
 );
 if (before !== transactions.length)
