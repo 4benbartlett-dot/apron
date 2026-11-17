@@ -307,7 +307,11 @@ const NEXT_EXPLAINED: Record<string, { maxGap: number; why: string }> = {
   OKC: { maxGap: 650_000, why: "Shai Gilgeous-Alexander's supermax starts in 2027-28 at 35% of a cap nobody knows yet: $61,005,000 on the scraped sheet's projection, $61,600,000 on Spotrac's." },
   ATL: { maxGap: 30_000, why: "Corey Kispert: $13,050,000 on the scraped sheet, $13,025,000 on Spotrac's table." },
   CHA: { maxGap: 8_100_000, why: "Brandon Miller's 5yr/$208.26M rookie-scale extension (Oct 19) starts here. No split has been reported: the sheet books an estimated $35,906,897 at 8% raises, Spotrac's table $44,000,000, which reaches $208.26M over five seasons only if the salary falls every year. Re-check when the filing is reported." },
-  DEN: { maxGap: 5_600_000, why: "DaRon Holmes II's $5,547,137 2027-28 team option, declined at the Nov 2 deadline (Hoops Rumors' recap, Yahoo). The sheet drops it; Spotrac's Nov 9 Nuggets table still lists him. Utah's table dropped Isaiah Collier's the same week, and agrees to the dollar now." },
+  // (Denver was here from Nov 9 for DaRon Holmes II's $5,547,137 2027-28
+  // team option, declined Nov 2: the sheet dropped it and Spotrac's table
+  // still listed him. Their table dropped him by Nov 15, but with seven
+  // players left it fell under the scraper's floor of eight and the stale
+  // page was kept until Nov 17. The two agree now.)
   TOR: { maxGap: 600_000, why: "Jamal Shead's 3yr/$24M extension (Oct 1). Nobody has reported the split: the sheet carries an estimated $7,407,407 at 8% raises, and Spotrac's Oct 14 table has a flat $8,000,000. Neither is a filing; re-check when one is." },
 };
 

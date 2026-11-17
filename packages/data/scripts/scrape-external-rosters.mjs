@@ -203,7 +203,13 @@ for (const t of teams) {
   }
   const n = page.active.length;
   // A team page that yields almost nothing parsed wrong; keep what we had.
-  if (n < 8 || page.summary.apronTotal == null) {
+  // This season every team carries at least a dozen contracts, so fewer than
+  // eight is a broken parse. A future season is thinner: Denver's 2027-28
+  // table went to seven players when Spotrac dropped DaRon Holmes's declined
+  // option, and the floor of eight threw the correct page away three days
+  // running and kept the one that still listed him.
+  const floor = SEASON_ARG ? 5 : 8;
+  if (n < floor || page.summary.apronTotal == null) {
     console.error(`  ${t}  parsed only ${n} players (apron ${page.summary.apronTotal ?? "?"}) — markup changed? keeping prior`);
     failed++;
     continue;

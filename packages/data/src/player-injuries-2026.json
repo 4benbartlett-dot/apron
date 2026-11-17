@@ -1,17 +1,18 @@
 {
   "source": "Basketball-Reference injury report",
-  "asOf": "2026-11-16",
-  "gamesLeft": 69,
+  "asOf": "2026-11-17",
+  "gamesLeft": 68,
   "byId": {
     "flemiki01": {
       "name": "Kingston Flemings",
       "team": "Atlanta Hawks",
-      "date": "Sat, Nov 14, 2026",
-      "desc": "Out (Back) - Flemings is OUT for Sunday's (Nov. 15) game against the Bucks.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sat, Nov 14, 2026",
+      "desc": "Day To Day (Back) - Flemings did not play in Sunday's (Nov. 15) game against the Bucks.",
       "type": "Back",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "gilbeke01": {
       "name": "Keshon Gilbert",
@@ -20,7 +21,7 @@
       "desc": "Out (Knee) - Gilbert underwent a non-surgical procedure on Thursday (Nov. 5) to address left knee inflammation. He will be re-evaluated in approximately six weeks.",
       "type": "Knee",
       "status": "out (weeks)",
-      "gamesOut": 15,
+      "gamesOut": 14,
       "basis": "stated timeline"
     },
     "gueyemo02": {
@@ -36,12 +37,13 @@
     "landajo01": {
       "name": "Jock Landale",
       "team": "Atlanta Hawks",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Hip) - Landale is OUT for Sunday's (Nov. 15) game against the Bucks.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Day To Day (Hip) - Landale did not play in Sunday's (Nov. 15) game against the Bucks.",
       "type": "Hip",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "newelas01": {
       "name": "Asa Newell",
@@ -50,7 +52,7 @@
       "desc": "Out (Toe) - Newell sustained a left great toe hyperextension during Wednesdayâs (Nov. 4) game versus the Wizards. He will be re-evaluated in approximately two weeks.",
       "type": "Toe",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 1,
       "basis": "stated timeline"
     },
     "veesahe01": {
@@ -60,8 +62,18 @@
       "desc": "Out For Season (ACL) - The Hawks said on Monday (Sept. 21) that Veesaar was diagnosed with a torn right ACL and is expected to miss the 2026-27 season.",
       "type": "Torn ACL",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "stated timeline"
+    },
+    "quetane01": {
+      "name": "Neemias Queta",
+      "team": "Boston Celtics",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Rest) - Queta is OUT for Monday's (Nov. 16) game against Orlando.",
+      "type": "Rest",
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "portemi01": {
       "name": "Michael Porter Jr.",
@@ -76,55 +88,35 @@
     "knuepko01": {
       "name": "Kon Knueppel",
       "team": "Charlotte Hornets",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sun, Nov 8, 2026",
-      "desc": "Out (Leg) - Knueppel is Out on Sunday's (Nov. 15) game against the Lakers.",
+      "desc": "Out (Leg) - Knueppel is OUT for Tuesday's (Nov. 17) game against tyhe Lakers.",
       "type": "Leg",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "schrode01": {
       "name": "Dennis Schröder",
       "team": "Charlotte Hornets",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sun, Nov 8, 2026",
-      "desc": "Out (Soreness) - Schroder is Out on Sunday's (Nov. 15) game against the Lakers.",
+      "desc": "Out (Soreness) - Schroder is OUT for Tuesday's (Nov. 17) game against tyhe Lakers.",
       "type": "Soreness",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "awakato01": {
       "name": "Tobe Awaka",
       "team": "Chicago Bulls",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sat, Nov 14, 2026",
-      "desc": "Day To Day (Back) - Awaka did not play on Saturday's (Nov. 14) game against the Timberwolves.",
+      "desc": "Out (Back) - Awaka is listed as OUT for Monday's game (Nov. 16) against the Cavaliers.",
       "type": "Back",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
-    },
-    "claxtni01": {
-      "name": "Nic Claxton",
-      "team": "Chicago Bulls",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Hamstring) - Claxton did not play on Saturday's (Nov. 14) game against the Timberwolves.",
-      "type": "Hamstring",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
-    },
-    "smithja04": {
-      "name": "Jalen Smith",
-      "team": "Chicago Bulls",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Finger) - Smith is Questionable for Monday's (Nov. 16) game against Cleveland.",
-      "type": "Finger",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "wilsoca01": {
       "name": "Caleb Wilson",
@@ -133,30 +125,30 @@
       "desc": "Out (Hand) - Wilson is undergoing surgery for a fractured right hand and will miss at least four to six weeks, per Shams Charania of ESPN.",
       "type": "Hand",
       "status": "out (weeks)",
-      "gamesOut": 18,
+      "gamesOut": 17,
       "basis": "stated timeline"
     },
     "merrisa01": {
       "name": "Sam Merrill",
       "team": "Cleveland Cavaliers",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sun, Nov 8, 2026",
-      "desc": "Out (Elbow) - Merrill is OUT for Monday's (Nov. 16) game against Chicago.",
+      "desc": "Out (Elbow) - Merrill is listed as OUT for Monday's game (Nov. 16) against the Bulls.",
       "type": "Elbow",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "mobleev01": {
       "name": "Evan Mobley",
       "team": "Cleveland Cavaliers",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sat, Nov 14, 2026",
-      "desc": "Out (Toe) - Mobley is OUT for Monday's (Nov. 16) game against Chicago.",
+      "desc": "Out (Toe) - The Cavaliers reported Mobley to miss at least 7-10 days due to a toe injury.",
       "type": "Toe",
       "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "gamesOut": 4,
+      "basis": "stated timeline"
     },
     "tomlina01": {
       "name": "Nae'Qwan Tomlin",
@@ -171,85 +163,68 @@
     "tysonja01": {
       "name": "Jaylon Tyson",
       "team": "Cleveland Cavaliers",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Ankle) - Tyson is Questionable for Monday's (Nov. 16) game against Chicago.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Ankle) - Tyson is listed as OUT for Monday's game (Nov. 16) against the Bulls.",
       "type": "Ankle",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
-    },
-    "watsope01": {
-      "name": "Peyton Watson",
-      "team": "Cleveland Cavaliers",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Hamstring) - Watson is Questionable for Monday's (Nov. 16) game against Chicago.",
-      "type": "Hamstring",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "aldamsa01": {
       "name": "Santi Aldama",
       "team": "Dallas Mavericks",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Ankle) - Aldama is OUT for Sunday's (Nov. 15) game against Boston.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Ankle) - Aldama did not play in Sunday's (Nov. 15) game against Boston.",
       "type": "Ankle",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "biberta01": {
       "name": "Tarik Biberovic",
       "team": "Dallas Mavericks",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Oct 29, 2026",
-      "desc": "Out (Heel) - Biberovic is OUT for Sunday's (Nov. 15) game against Boston.",
+      "desc": "Out (Heel) - Biberovic has not played since Oct. 14 and there is no timetable for his return.",
       "type": "Heel",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "chrisma02": {
       "name": "Max Christie",
       "team": "Dallas Mavericks",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Ankle) - Christie is OUT for Sunday's (Nov. 15) game against Boston.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Day To Day (Ankle) - Christie did not play in Sunday's (Nov. 15) game against Boston.",
       "type": "Ankle",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "delarse01": {
       "name": "Sergio de Larrea",
       "team": "Dallas Mavericks",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Oct 29, 2026",
-      "desc": "Out (Knee) - De Larrea is OUT for Sunday's (Nov. 15) game against Boston.",
+      "desc": "Day To Day (Knee) - De Larrea did not play in Sunday's (Nov. 15) game against Boston.",
       "type": "Knee",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
-    },
-    "irvinky01": {
-      "name": "Kyrie Irving",
-      "team": "Dallas Mavericks",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Injury Management) - Irving is OUT for Sunday's (Nov. 15) game against Boston.",
-      "type": "Injury Management",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "livelde01": {
       "name": "Dereck Lively II",
       "team": "Dallas Mavericks",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Fri, Jun 26, 2026",
-      "desc": "Out (Foot) - Lively II is OUT for Sunday's (Nov. 15) game against Boston.",
+      "desc": "Day To Day (Foot) - Lively II did not play in Sunday's (Nov. 15) game against Boston.",
       "type": "Foot",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "strawju01": {
       "name": "Julian Strawther",
@@ -257,8 +232,8 @@
       "date": "Fri, Oct 16, 2026",
       "desc": "Out (Knee) - The Nuggets reported on Friday (Oct. 16) that Strawther will be OUT for six weeks due to a knee injury.",
       "type": "Knee",
-      "status": "out (weeks)",
-      "gamesOut": 5,
+      "status": "day-to-day",
+      "gamesOut": 4,
       "basis": "stated timeline"
     },
     "durenja01": {
@@ -272,26 +247,47 @@
       "gamesOut": 0,
       "basis": "out, no timeline"
     },
+    "hollaro01": {
+      "name": "Ron Holland",
+      "team": "Detroit Pistons",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Knee) - Holland II is OUT for Tuesday's (Nov. 17) game against the Spurs.",
+      "type": "Knee",
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
+    },
     "joeis01": {
       "name": "Isaiah Joe",
       "team": "Detroit Pistons",
       "date": "Sun, Nov 15, 2026",
       "onset": "Thu, Oct 29, 2026",
-      "desc": "Day To Day (Hip) - Joe did not play on Saturday's (Nov. 14) game against the Heat.",
+      "desc": "Day To Day (Hip) - Joe is Doubtful for Tuesday's (Nov. 17) game against the Spurs.",
       "type": "Hip",
       "status": "available",
       "gamesOut": 0,
       "basis": "day to day"
     },
+    "princta02": {
+      "name": "Taurean Prince",
+      "team": "Detroit Pistons",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Knee) - Prince is OUT for Tuesday's (Nov. 17) game against the Spurs.",
+      "type": "Knee",
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
+    },
     "robindu01": {
       "name": "Duncan Robinson",
       "team": "Detroit Pistons",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Thigh) - Robinson exited Saturday's (Nov. 14) win over Detroit due to a thigh injury and was unable to return.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Thigh) - Robinson is OUT for Tuesday's (Nov. 17) game against the Spurs.",
       "type": "Thigh",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "butleji01": {
       "name": "Jimmy Butler",
@@ -346,6 +342,16 @@
       "gamesOut": 0,
       "basis": "stated timeline"
     },
+    "adamsst01": {
+      "name": "Steven Adams",
+      "team": "Houston Rockets",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Leg) - Adams is OUT for Monday's (Nov. 16) game against Miami.",
+      "type": "Leg",
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
+    },
     "capelca01": {
       "name": "Clint Capela",
       "team": "Houston Rockets",
@@ -357,14 +363,14 @@
       "gamesOut": 2,
       "basis": "out, no timeline"
     },
-    "vanvlfr01": {
-      "name": "Fred VanVleet",
+    "thompam01": {
+      "name": "Amen Thompson",
       "team": "Houston Rockets",
-      "date": "Sat, Nov 14, 2026",
-      "desc": "Out (Knee) - VanVleet is OUT for Sunday's (Nov. 15) game against Washington.",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Knee) - Thompson is OUT for Monday's (Nov. 16) game against Miami.",
       "type": "Knee",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "furphjo01": {
@@ -374,7 +380,7 @@
       "desc": "Out For Season (ACL) - Furphy was diagnosed with a torn right ACL, per Michael Scotto of USA Today.",
       "type": "Torn ACL",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "stated timeline"
     },
     "halibty01": {
@@ -384,19 +390,20 @@
       "onset": "Wed, Oct 28, 2026",
       "desc": "Out (Hamstring) - Head coach Rick Carlisle said Wednesday that Haliburton (hamstring) will miss at least 10 more days, Alex Golden of SI.com.",
       "type": "Hamstring",
-      "status": "day-to-day",
-      "gamesOut": 1,
+      "status": "available",
+      "gamesOut": 0,
       "basis": "out, no timeline"
     },
     "nembhan01": {
       "name": "Andrew Nembhard",
       "team": "Indiana Pacers",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Hip) - Nembhard is OUT for Sunday's (Nov. 15) game against the 76ers.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Day To Day (Hip) - Nembhard did not play in Sunday's (Nov. 15) game against the 76ers.",
       "type": "Hip",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "sheppbe01": {
       "name": "Ben Sheppard",
@@ -406,7 +413,7 @@
       "desc": "Out (Meniscus) - Sheppard is scheduled for surgery to repair a torn meniscus in his left knee on Wednesday (Oct. 28), per Dustin Dopirak of The Indianapolis Star.",
       "type": "Meniscus",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "injury type"
     },
     "bealbr01": {
@@ -432,12 +439,12 @@
     "konanya01": {
       "name": "Yanic Konan Niederhäuser",
       "team": "Los Angeles Clippers",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Tue, Oct 20, 2026",
-      "desc": "Out (Lisfranc) - Niederhauser is Out on Sunday's (Nov. 15) game against the Lakers.",
+      "desc": "Out (Lisfranc) - Niederhauser has not played this season and there is no timetable for his return.",
       "type": "Lisfranc",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "millejo02": {
@@ -450,111 +457,102 @@
       "gamesOut": 47,
       "basis": "stated timeline"
     },
-    "carrca01": {
-      "name": "Cameron Carr",
+    "kesslwa01": {
+      "name": "Walker Kessler",
       "team": "Los Angeles Lakers",
-      "date": "Sat, Nov 14, 2026",
-      "desc": "Out (Illness) - Carr is Out on Sunday's (Nov. 15) game against the Suns.",
-      "type": "Illness",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Leg) - Kessler is OUT for Tuesday's (Nov. 17) game against Charlotte.",
+      "type": "Leg",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "reaveau01": {
       "name": "Austin Reaves",
       "team": "Los Angeles Lakers",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Nov 12, 2026",
-      "desc": "Out (Heel) - Reaves is Out on Sunday's (Nov. 15) game against the Suns.",
+      "desc": "Out (Heel) - Reaves is OUT for Tuesday's (Nov. 17) game against Charlotte.",
       "type": "Heel",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
-    },
-    "edeyza01": {
-      "name": "Zach Edey",
-      "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
-      "onset": "Sat, Nov 14, 2026",
-      "desc": "Day To Day (Ankle) - Edey is Questionable for Monday's (Nov. 16) game against Washington.",
-      "type": "Ankle",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
     },
     "jacksgg01": {
       "name": "GG Jackson II",
       "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Foot) - Jackson is OUT for Monday's (Nov. 16) game against Washington.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Foot) - Jackson is listed as OUT for Monday's game (Nov. 16) against the Wizards.",
       "type": "Foot",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "jeromty01": {
       "name": "Ty Jerome",
       "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Hip) - Jerome is OUT for Monday's (Nov. 16) game against Washington.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Hip) - Jerome is listed as OUT for Monday's game (Nov. 16) against the Wizards.",
       "type": "Hip",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "pippesc02": {
       "name": "Scotty Pippen Jr.",
       "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sun, Nov 1, 2026",
-      "desc": "Out (Back) - Pippen Jr. is OUT for Monday's (Nov. 16) game against Washington.",
+      "desc": "Out (Back) - The Grizzlies say that Pippen Jr. is week-to-week. He hasn't played since Oct. 29.",
       "type": "Back",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
-    },
-    "postqu01": {
-      "name": "Quinten Post",
-      "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
-      "onset": "Sat, Nov 14, 2026",
-      "desc": "Day To Day (Concussion Protocol) - Post is Questionable for Monday's (Nov. 16) game against Washington.",
-      "type": "Concussion Protocol",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
     },
     "saundri01": {
       "name": "Richie Saunders",
       "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sat, Nov 14, 2026",
-      "desc": "Day To Day (Knee) - Saunders is OUT for Monday's (Nov. 16) game against Washington.",
+      "desc": "Out (Knee) - Saunders is listed as OUT for Monday's game (Nov. 16) against the Wizards.",
       "type": "Knee",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "stewais01": {
       "name": "Isaiah Stewart",
       "team": "Memphis Grizzlies",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Illness) - Stewart.is Questionable for Monday's (Nov. 16) game against Washington.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Illness) - Stewart is listed as OUT for Monday's game (Nov. 16) against the Wizards.",
       "type": "Illness",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
+    },
+    "jovicni01": {
+      "name": "Nikola Jović",
+      "team": "Miami Heat",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Illness) - Jovic is OUT for Monday's (Nov. 16) game against Houston.",
+      "type": "Illness",
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "larsspe01": {
       "name": "Pelle Larsson",
       "team": "Miami Heat",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sat, Nov 14, 2026",
-      "desc": "Day To Day (Illness) - Larsson did not play on Saturday's (Nov. 14) game against Detroit.",
+      "desc": "Out (Illness) - Larsson is OUT for Monday's (Nov. 16) game against Houston.",
       "type": "Illness",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "diengou01": {
       "name": "Ousmane Dieng",
@@ -569,22 +567,24 @@
     "rolliry01": {
       "name": "Ryan Rollins",
       "team": "Milwaukee Bucks",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Out (Illness) - Rollins is OUT on Sunday's (Nov. 15) game against the Hawks.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Day To Day (Illness) - Rollins did not play in Sunday's (Nov. 15) game against the Hawks.",
       "type": "Illness",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "clarkja02": {
       "name": "Jaylen Clark",
       "team": "Minnesota Timberwolves",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Hamstring) - Clark did not return to Saturday's (Nov. 15) game against the Bulls.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Hamstring) - The Wolves announced that Clark is dealing with a right hamstring strain and he will be re-evaluated in two weeks.",
       "type": "Hamstring",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "out (weeks)",
+      "gamesOut": 6,
+      "basis": "stated timeline"
     },
     "divindo01": {
       "name": "Donte DiVincenzo",
@@ -594,7 +594,7 @@
       "desc": "Out (Achilles) - DiVincenzo said on Monday (Oct. 5) that he remains confident that he'll return during the 2026-27 season, per Jon Krawczynski of The Athletic.",
       "type": "Torn Achilles",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "injury type"
     },
     "edwaran01": {
@@ -611,56 +611,57 @@
     "mathube01": {
       "name": "Bennedict Mathurin",
       "team": "New Orleans Pelicans",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Plantar Fasciitis) - Mathurin did not play on Saturday's (Nov. 14) game against Denver.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sun, Nov 15, 2026",
+      "desc": "Out (Plantar Fasciitis) - Mathurin is listed as OUT for Monday's game (Nov. 16) against the Warriors.",
       "type": "Plantar Fasciitis",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "mcgowbr01": {
       "name": "Bryce McGowens",
       "team": "New Orleans Pelicans",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Fri, Nov 13, 2026",
-      "desc": "Day To Day (Elbow) - McGowens did not play on Saturday's (Nov. 14) game against Denver.",
+      "desc": "Out (Elbow) - McGowens is listed as OUT for Monday's game (Nov. 16) against the Warriors.",
       "type": "Elbow",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "murphtr02": {
       "name": "Trey Murphy III",
       "team": "New Orleans Pelicans",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Fri, Nov 13, 2026",
-      "desc": "Day To Day (Knee) - Murphy III did not play on Saturday's (Nov. 14) game against Denver.",
+      "desc": "Out (Knee) - Murphy III is listed as OUT for Monday's game (Nov. 16) against the Warriors.",
       "type": "Knee",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "murrade01": {
       "name": "Dejounte Murray",
       "team": "New Orleans Pelicans",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Fri, Nov 13, 2026",
-      "desc": "Day To Day (Ankle) - Murray did not play on Saturday's (Nov. 14) game against Denver.",
+      "desc": "Out (Ankle) - Murray is listed as OUT for Monday's game (Nov. 16) against the Warriors.",
       "type": "Ankle",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "watfotr01": {
       "name": "Trendon Watford",
       "team": "New Orleans Pelicans",
-      "date": "Sun, Nov 15, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Nov 12, 2026",
-      "desc": "Day To Day (Ankle) - Watford did not play on Saturday's (Nov. 14) game against Denver.",
+      "desc": "Out (Ankle) - Watford is listed as OUT for Monday's game (Nov. 16) against the Warriors.",
       "type": "Ankle",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "holmgch01": {
       "name": "Chet Holmgren",
@@ -670,30 +671,19 @@
       "desc": "Out (Knee) - Holmgren underwent a biological treatment on Friday (Oct. 30) to address a small patellar tendon tear and will miss at least 8-10 weeks, per Nick Crain of Slam.",
       "type": "Knee",
       "status": "out (weeks)",
-      "gamesOut": 25,
+      "gamesOut": 24,
       "basis": "stated timeline"
-    },
-    "mitchaj01": {
-      "name": "Ajay Mitchell",
-      "team": "Oklahoma City Thunder",
-      "date": "Sat, Nov 14, 2026",
-      "onset": "Fri, Nov 13, 2026",
-      "desc": "Day To Day (Ankle) - Mitchell is Questionable on Sunday's (Nov. 15) game against the Kings.",
-      "type": "Ankle",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
     },
     "sorbeth01": {
       "name": "Thomas Sorber",
       "team": "Oklahoma City Thunder",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Mon, Jun 8, 2026",
-      "desc": "Out (Knee) - Sorber is Out on Sunday's (Nov. 15) game against the Kings.",
+      "desc": "Day To Day (Knee) - Sorber did not play in Sunday's (Nov. 15) game against the Kings.",
       "type": "Knee",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "wallaca01": {
       "name": "Cason Wallace",
@@ -720,13 +710,13 @@
     "willija07": {
       "name": "Jaylin Williams",
       "team": "Oklahoma City Thunder",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Sun, Nov 8, 2026",
-      "desc": "Out (Back) - Williams is Out on Sunday's (Nov. 15) game against the Kings.",
+      "desc": "Day To Day (Back) - Williams did not play in Sunday's (Nov. 15) game against the Kings.",
       "type": "Back",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
+      "status": "available",
+      "gamesOut": 0,
+      "basis": "day to day"
     },
     "banchpa01": {
       "name": "Paolo Banchero",
@@ -735,7 +725,7 @@
       "desc": "Out (Ankle) - The Magic reported on Saturday (Oct. 24) that Banchero will miss approximately 4-6 weeks with a right high ankle sprain.",
       "type": "Ankle",
       "status": "out (weeks)",
-      "gamesOut": 9,
+      "gamesOut": 8,
       "basis": "stated timeline"
     },
     "isaacjo01": {
@@ -772,12 +762,12 @@
     "barlodo01": {
       "name": "Dominick Barlow",
       "team": "Philadelphia 76ers",
-      "date": "Thu, Nov 12, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Mon, Oct 19, 2026",
-      "desc": "Out (Back) - The 76ers said on Thursday (Nov. 12) that Barlow has no timetable for return yet.",
+      "desc": "Out (Back) - The 76er reported Barlow (back) to be evaluated later this week and could be nearing season debut for Sixers if all goes well, per @Tjonesonthenba .",
       "type": "Back",
       "status": "day-to-day",
-      "gamesOut": 1,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "bonaad01": {
@@ -790,16 +780,6 @@
       "gamesOut": 1,
       "basis": "out, no timeline"
     },
-    "embiijo01": {
-      "name": "Joel Embiid",
-      "team": "Philadelphia 76ers",
-      "date": "Sat, Nov 14, 2026",
-      "desc": "Out (Foot) - Embiid is OUT for Sunday's (Nov. 15) game against the Pacers.",
-      "type": "Foot",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
-    },
     "hukpoar01": {
       "name": "Ariel Hukporti",
       "team": "Philadelphia 76ers",
@@ -807,8 +787,18 @@
       "desc": "Out For Season (Achilles) - The 76ers reported on Tuesday (Oct. 6) that Hukporti suffered a ruptured Achilles and is out for the 2026-27 season.",
       "type": "Torn Achilles",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "stated timeline"
+    },
+    "jamesle01": {
+      "name": "LeBron James",
+      "team": "Philadelphia 76ers",
+      "date": "Mon, Nov 16, 2026",
+      "desc": "Out (Back) - James is OUT for Monday's (Nov. 16) game against the Nets.",
+      "type": "Back",
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "willima07": {
       "name": "Mark Williams",
@@ -828,7 +818,7 @@
       "desc": "Out (Leg) - Head coach Micah Nori said on Wednesday (Nov. 11) that Krejci will miss at least 8 weeks after undergoing surgery on fractured left ankle.",
       "type": "Leg",
       "status": "out (weeks)",
-      "gamesOut": 24,
+      "gamesOut": 23,
       "basis": "stated timeline"
     },
     "moranja01": {
@@ -855,20 +845,20 @@
     "youngch01": {
       "name": "Chris Youngblood",
       "team": "Portland Trail Blazers",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Nov 12, 2026",
-      "desc": "Day To Day (Foot) - Youngblood did not play on Friday's (Nov. 13) game against the Kings.",
+      "desc": "Out (Foot) - Youngblood is listed as OUT for Monday's game (Nov. 16) against the Timberwolves.",
       "type": "Foot",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
+      "status": "day-to-day",
+      "gamesOut": 3,
+      "basis": "out, no timeline"
     },
     "achiupr01": {
       "name": "Precious Achiuwa",
       "team": "Sacramento Kings",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Fri, Nov 13, 2026",
-      "desc": "Day To Day (Leg) - Achiuwa is Questionable on Sunday's (Nov. 15) game against the Thunder.",
+      "desc": "Day To Day (Leg) - Achiuwa did not play in Sunday's (Nov. 15) game against the Thunder.",
       "type": "Leg",
       "status": "available",
       "gamesOut": 0,
@@ -891,28 +881,18 @@
       "desc": "Out For Season (Achilles) - The Kings reported Simmons is OUT for the 2026 - 2027 season due to an achilles iinjury.",
       "type": "Torn Achilles",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "stated timeline"
-    },
-    "foxde01": {
-      "name": "De'Aaron Fox",
-      "team": "San Antonio Spurs",
-      "date": "Sun, Nov 15, 2026",
-      "desc": "Day To Day (Hip) - Fox is Questionable on Sunday's (Nov. 15) game against the Jazz.",
-      "type": "Hip",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
     },
     "harrito02": {
       "name": "Tobias Harris",
       "team": "San Antonio Spurs",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Oct 29, 2026",
-      "desc": "Out (Calf) - Harris is Out on Sunday's (Nov. 15) game against the Jazz.",
+      "desc": "Out (Calf) - Harris is Out for Tuesday's (Nov. 17) game against the Pistons.",
       "type": "Calf",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "quainja01": {
@@ -925,26 +905,15 @@
       "gamesOut": 0,
       "basis": "out, no timeline"
     },
-    "barnesc01": {
-      "name": "Scottie Barnes",
-      "team": "Toronto Raptors",
-      "date": "Sat, Nov 14, 2026",
-      "onset": "Sun, Nov 8, 2026",
-      "desc": "Day To Day (Adductor) - Barnes is Questionable for Sunday's (Nov. 14) game against New York.",
-      "type": "Adductor",
-      "status": "available",
-      "gamesOut": 0,
-      "basis": "day to day"
-    },
     "bittlna01": {
       "name": "Nate Bittle",
       "team": "Toronto Raptors",
-      "date": "Sat, Nov 14, 2026",
+      "date": "Mon, Nov 16, 2026",
       "onset": "Thu, Oct 29, 2026",
-      "desc": "Out (Foot) - Bittle is OUT for Sunday's (Nov. 14) game against New York.",
+      "desc": "Out (Foot) - Bittle has not played this season and there is no timetable for his return.",
       "type": "Foot",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "leonaka01": {
@@ -954,18 +923,19 @@
       "onset": "Thu, Oct 29, 2026",
       "desc": "Out (Knee) - Head coach Darko Rajakovic said Wednesday that Leonard (knee) is doing individual on-court work and is progressing well, Michael Grange of Sportsnet.ca.",
       "type": "Knee",
-      "status": "day-to-day",
-      "gamesOut": 1,
+      "status": "available",
+      "gamesOut": 0,
       "basis": "out, no timeline"
     },
     "hayesja02": {
       "name": "Jaxson Hayes",
       "team": "Utah Jazz",
-      "date": "Sat, Nov 14, 2026",
-      "desc": "Out (Knee) - Hayes is Out on Sunday's (Nov. 15) game against the Spurs.",
+      "date": "Mon, Nov 16, 2026",
+      "onset": "Sat, Nov 14, 2026",
+      "desc": "Out (Knee) - Hayes is OUT for Tuesday's (Nov. 17) game against the Clippers.",
       "type": "Knee",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 3,
       "basis": "out, no timeline"
     },
     "jacksja02": {
@@ -976,7 +946,7 @@
       "desc": "Out (Knee) - The Jazz reported Jackson Jr. to miss at least 6-8 weeks with torn MCL.",
       "type": "Knee",
       "status": "out (weeks)",
-      "gamesOut": 17,
+      "gamesOut": 16,
       "basis": "stated timeline"
     },
     "markkla01": {
@@ -987,7 +957,7 @@
       "desc": "Out (Wrist) - Markkanen has been diagnosed with a non-displaced fracture in his right hand and will be sidelined for at least one month, per Shams Charania of ESPN.",
       "type": "Wrist",
       "status": "out (weeks)",
-      "gamesOut": 12,
+      "gamesOut": 11,
       "basis": "stated timeline"
     },
     "nurkiju01": {
@@ -998,7 +968,7 @@
       "desc": "Out (Foot) - The Jazz said on Friday (Nov. 6) that Nurkic will be re-evaluated in two weeks.",
       "type": "Foot",
       "status": "day-to-day",
-      "gamesOut": 2,
+      "gamesOut": 1,
       "basis": "stated timeline"
     },
     "beekmre01": {
@@ -1018,18 +988,8 @@
       "desc": "Out (Foot) - Champagnie underwent foot surgery and is expected to be sidelined for several months, per Josh Robbins of The Athletic.",
       "type": "Foot",
       "status": "out (weeks)",
-      "gamesOut": 34,
+      "gamesOut": 33,
       "basis": "stated timeline"
-    },
-    "johnstr03": {
-      "name": "Tre Johnson",
-      "team": "Washington Wizards",
-      "date": "Sat, Nov 14, 2026",
-      "desc": "Out (Back) - Johnson is OUT for Sunday's (Nov. 14) game against the Rockets.",
-      "type": "Back",
-      "status": "day-to-day",
-      "gamesOut": 2,
-      "basis": "out, no timeline"
     },
     "vukcetr01": {
       "name": "Tristan Vukcevic",
@@ -1049,7 +1009,7 @@
       "desc": "Out For Season (ACL) - The Wizards said on Thursday (Jul. 30) that Watkins underwent surgery to repair a torn ACL and his typical recovery time for the procedure is approximately 9-to-12 months.",
       "type": "Torn ACL",
       "status": "out (season)",
-      "gamesOut": 69,
+      "gamesOut": 68,
       "basis": "stated timeline"
     }
   }

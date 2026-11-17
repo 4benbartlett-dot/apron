@@ -2,6 +2,20 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Jonas Aidoo",
+      "pos": "C",
+      "date": "Nov 17, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Utah Jazz (UTA)"
+    },
+    {
+      "player": "Rafael Castro",
+      "pos": "C",
+      "date": "Nov 17, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Atlanta Hawks (ATL)"
+    },
+    {
       "player": "Matas Buzelis",
       "pos": "SF",
       "date": "Nov 16, 2026",
@@ -14,6 +28,20 @@
       "date": "Nov 16, 2026",
       "type": "Other",
       "detail": "Fined $25,000 for Obscene Gesture against Memphis (MEM) - for obscene gesture towards the spectator stands at the conclusion of the BKN-MEM game"
+    },
+    {
+      "player": "Keshon Gilbert",
+      "pos": "G",
+      "date": "Nov 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Atlanta Hawks (ATL)"
+    },
+    {
+      "player": "Trey Alexander",
+      "pos": "SG",
+      "date": "Nov 16, 2026",
+      "type": "Release",
+      "detail": "Waived by Utah Jazz (UTA)"
     },
     {
       "player": "Mario Hezonja",

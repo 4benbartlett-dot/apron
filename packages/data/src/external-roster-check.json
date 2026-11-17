@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-11-16",
+  "asOf": "2026-11-17",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -198,8 +198,8 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Keshon Gilbert",
-          "pos": "G",
+          "name": "RayJ Dennis",
+          "pos": "PG",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -210,8 +210,8 @@
           "nonGuaranteed": true
         },
         {
-          "name": "RayJ Dennis",
-          "pos": "PG",
+          "name": "Rafael Castro",
+          "pos": "C",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -7832,18 +7832,6 @@
           "tradeBonus": 0,
           "guaranteed": 0,
           "nonGuaranteed": true
-        },
-        {
-          "name": "Trey Alexander",
-          "pos": "SG",
-          "type": "2W",
-          "cap": 0,
-          "base": 0,
-          "likely": 0,
-          "unlikely": 0,
-          "tradeBonus": 0,
-          "guaranteed": 91000,
-          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
