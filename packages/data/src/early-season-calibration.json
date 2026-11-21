@@ -1,6 +1,6 @@
 {
   "source": "Basketball-Reference advanced pages: final (bref) and season-to-date (Wayback Machine snapshots)",
-  "asOf": "2026-11-02",
+  "asOf": "2026-11-20",
   "seasons": [
     "2021-22",
     "2022-23",
@@ -13,7 +13,7 @@
   "pooled": {
     "M": 1025,
     "rmse": 1.7717,
-    "priorOnly": 1.8836,
+    "priorOnly": 1.8837,
     "seasonOnly": 3.2225,
     "n": 7002
   },
@@ -23,7 +23,7 @@
       "games": 10,
       "M": 1150,
       "rmse": 1.7517,
-      "priorOnly": 1.8103,
+      "priorOnly": 1.8104,
       "seasonOnly": 3.8473,
       "n": 1748,
       "atPooledM": 1.7523
@@ -32,11 +32,11 @@
       "days": 27,
       "games": 14,
       "M": 1025,
-      "rmse": 1.7423,
-      "priorOnly": 1.8373,
+      "rmse": 1.7424,
+      "priorOnly": 1.8374,
       "seasonOnly": 3.274,
       "n": 1774,
-      "atPooledM": 1.7423
+      "atPooledM": 1.7424
     },
     {
       "days": 42,
@@ -46,25 +46,25 @@
       "priorOnly": 1.9062,
       "seasonOnly": 2.8737,
       "n": 1772,
-      "atPooledM": 1.7868
+      "atPooledM": 1.7869
     },
     {
       "days": 75,
       "games": 38,
       "M": 875,
-      "rmse": 1.8223,
-      "priorOnly": 2.0275,
+      "rmse": 1.8224,
+      "priorOnly": 2.0276,
       "seasonOnly": 2.4148,
       "n": 1708,
-      "atPooledM": 1.8239
+      "atPooledM": 1.824
     }
   ],
   "bySeason": [
     {
       "season": 2022,
       "M": 1375,
-      "rmse": 1.9411,
-      "priorOnly": 2.0237,
+      "rmse": 1.9412,
+      "priorOnly": 2.0239,
       "seasonOnly": 3.4097,
       "n": 1365
     },
@@ -105,8 +105,8 @@
     {
       "season": 2022,
       "M": 950,
-      "rmse": 1.9485,
-      "priorOnly": 2.0237
+      "rmse": 1.9487,
+      "priorOnly": 2.0239
     },
     {
       "season": 2023,
@@ -134,6 +134,148 @@
     }
   ],
   "priorSlope": 0.931,
+  "rookies": {
+    "note": "Prior is draft slot alone (a + b·ln(pick), fitted on the other four classes). The board's projection also reads college production, so its prior is somewhat better and this M is, if anything, low.",
+    "players": 203,
+    "priorMinutes": 750,
+    "atPriorMinutes": 2.2378,
+    "pooled": {
+      "M": 525,
+      "rmse": 2.2295,
+      "priorOnly": 2.4346,
+      "seasonOnly": 4.2921,
+      "n": 746
+    },
+    "atVeteranM": 2.2559,
+    "curve": [
+      {
+        "M": 250,
+        "rmse": 2.2813
+      },
+      {
+        "M": 400,
+        "rmse": 2.2361
+      },
+      {
+        "M": 525,
+        "rmse": 2.2295
+      },
+      {
+        "M": 650,
+        "rmse": 2.2325
+      },
+      {
+        "M": 750,
+        "rmse": 2.2378
+      },
+      {
+        "M": 875,
+        "rmse": 2.2458
+      },
+      {
+        "M": 1025,
+        "rmse": 2.2559
+      },
+      {
+        "M": 1500,
+        "rmse": 2.2848
+      }
+    ],
+    "byCutoff": [
+      {
+        "days": 13,
+        "M": 500,
+        "rmse": 2.1743,
+        "priorOnly": 2.3226,
+        "seasonOnly": 5.1102,
+        "n": 189,
+        "atVeteranM": 2.2028,
+        "atRookieM": 2.1746
+      },
+      {
+        "days": 27,
+        "M": 550,
+        "rmse": 2.2117,
+        "priorOnly": 2.3672,
+        "seasonOnly": 4.4175,
+        "n": 188,
+        "atVeteranM": 2.2318,
+        "atRookieM": 2.212
+      },
+      {
+        "days": 42,
+        "M": 550,
+        "rmse": 2.2447,
+        "priorOnly": 2.4677,
+        "seasonOnly": 3.8444,
+        "n": 190,
+        "atVeteranM": 2.2717,
+        "atRookieM": 2.2448
+      },
+      {
+        "days": 75,
+        "M": 525,
+        "rmse": 2.3106,
+        "priorOnly": 2.6331,
+        "seasonOnly": 3.2345,
+        "n": 179,
+        "atVeteranM": 2.3424,
+        "atRookieM": 2.3106
+      }
+    ],
+    "leaveOneSeasonOut": [
+      {
+        "season": 2022,
+        "M": 425,
+        "n": 163,
+        "rmse": 1.8232,
+        "atPriorMinutes": 1.7424,
+        "atVeteranM": 1.7258,
+        "priorOnly": 1.8152
+      },
+      {
+        "season": 2023,
+        "M": 500,
+        "n": 131,
+        "rmse": 2.3351,
+        "atPriorMinutes": 2.3315,
+        "atVeteranM": 2.3379,
+        "priorOnly": 2.4356
+      },
+      {
+        "season": 2024,
+        "M": 575,
+        "n": 127,
+        "rmse": 2.8103,
+        "atPriorMinutes": 2.8285,
+        "atVeteranM": 2.859,
+        "priorOnly": 3.1083
+      },
+      {
+        "season": 2025,
+        "M": 525,
+        "n": 154,
+        "rmse": 1.6732,
+        "atPriorMinutes": 1.6887,
+        "atVeteranM": 1.7169,
+        "priorOnly": 1.9644
+      },
+      {
+        "season": 2026,
+        "M": 625,
+        "n": 171,
+        "rmse": 2.4411,
+        "atPriorMinutes": 2.4596,
+        "atVeteranM": 2.4935,
+        "priorOnly": 2.6971
+      }
+    ],
+    "slotCurve": {
+      "intercept": -0.637,
+      "slope": -0.666,
+      "n": 207
+    }
+  },
   "cutoffs": [
     {
       "season": 2022,

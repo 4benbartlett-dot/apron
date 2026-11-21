@@ -20,9 +20,13 @@
 // noisy), and the output reports the error at M = ∞ beside it so the gain
 // is on the record, not just the weight.
 //
-// Rookies have no prior in this backtest (the board's draft-slot projections
-// were not archived), so they are out of the fit; the app uses the same M for
-// them, which under-reacts if anything, since their prior is the weaker one.
+// Rookies are fitted apart. The board's rookie projections were not archived,
+// so their prior here is what draft slot alone said: a + b·ln(pick), fitted on
+// the rookie seasons of the other four classes. The board's projection also
+// reads college production, so its prior is somewhat better than this one and
+// the fitted rookie M is, if anything, low. The board uses ROOKIE_PRIOR_MINUTES,
+// set between the fit and the veterans' M for that reason; the output reports
+// the error at all three.
 //
 //   node scripts/calibrate-early-season.mjs
 //
@@ -48,6 +52,11 @@ const OPENERS = { 2022: "2021-10-19", 2023: "2022-10-18", 2024: "2023-10-24", 20
 // Days after opening night to read the season-to-date page. 13 days is where
 // 2026-27 stands on Nov 2.
 const CUTOFF_DAYS = [13, 27, 42, 75];
+// What the board uses for a rookie. The fit on draft slot alone says 525; the
+// veterans' M is 1,025. The error is nearly flat from 400 to 750, and the
+// board's rookie projection is a better prior than slot alone, so its M sits
+// above the fit. 750 keeps about two thirds of the gain. Chosen Nov 20, 2026.
+const ROOKIE_PRIOR_MINUTES = 750;
 
 const advUrl = (s) => `https://www.basketball-reference.com/leagues/NBA_${s}_advanced.html`;
 
@@ -142,7 +151,36 @@ for (const s of [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]) {
   console.log(`  NBA_${s} final: ${finals[s].size} players`);
 }
 
+/** id → overall pick, from a draft page. */
+async function draftPage(year) {
+  const html = await cached(`draft-${year}.html`, () => get(`https://www.basketball-reference.com/draft/NBA_${year}.html`, 3500));
+  const $ = load(html.replace(/<!--/g, "").replace(/-->/g, ""));
+  const out = new Map();
+  $("table#stats tbody tr").each((_, tr) => {
+    const $tr = $(tr);
+    const pick = Number($tr.find('[data-stat="pick_overall"]').first().text().trim());
+    const href = $tr.find('[data-stat="player"] a').first().attr("href") || "";
+    const id = (href.match(/\/players\/\w\/([^.]+)\.html/) || [])[1];
+    if (id && pick > 0) out.set(id, pick);
+  });
+  if (out.size < 40) throw new Error(`draft ${year}: only ${out.size} picks parsed`);
+  return out;
+}
+const drafts = {};
+for (const y of [2019, 2020, 2021, 2022, 2023, 2024, 2025]) {
+  drafts[y] = await draftPage(y);
+  console.log(`  ${y} draft: ${drafts[y].size} picks`);
+}
+/** A rookie in `season`: drafted in one of the three drafts before it, with
+ * no NBA row in the three seasons before. Returns his pick. */
+function rookiePick(id, season, priorPages) {
+  if (priorPages.some((p) => p.has(id))) return null;
+  for (const y of [season - 1, season - 2, season - 3]) if (drafts[y]?.has(id)) return drafts[y].get(id);
+  return null;
+}
+
 const samples = []; // { season, days, games, prior, early, mpEarly, rest, mpRest }
+const rookieSamples = []; // the same, with `pick` and no prior yet
 const cutoffs = [];
 for (const season of Object.keys(OPENERS).map(Number)) {
   const priorPages = [finals[season - 1], finals[season - 2], finals[season - 3]];
@@ -153,10 +191,15 @@ for (const season of Object.keys(OPENERS).map(Number)) {
     for (const [id, e] of rows) {
       const f = finals[season].get(id);
       const p = prior(id, priorPages);
-      if (!f || !p || !Number.isFinite(e.bpm) || !Number.isFinite(f.bpm)) continue;
+      if (!f || !Number.isFinite(e.bpm) || !Number.isFinite(f.bpm)) continue;
       const mpRest = f.mp - e.mp;
       if (mpRest < 200 || e.mp <= 0) continue;
       const rest = (f.bpm * f.mp - e.bpm * e.mp) / mpRest;
+      if (!p) {
+        const pick = rookiePick(id, season, priorPages);
+        if (pick) rookieSamples.push({ id, season, days, games, pick, early: clamp(e.bpm, -12, 15), mpEarly: e.mp, rest, mpRest });
+        continue;
+      }
       samples.push({ season, days, games, prior: p.bpm, early: clamp(e.bpm, -12, 15), mpEarly: e.mp, rest, mpRest });
       n++;
     }
@@ -209,6 +252,55 @@ let sx = 0, sy = 0, sxx = 0, sxy = 0, sw = 0;
 for (const r of samples) { sw += r.mpRest; sx += r.mpRest * r.prior; sy += r.mpRest * r.rest; sxx += r.mpRest * r.prior ** 2; sxy += r.mpRest * r.prior * r.rest; }
 const priorSlope = (sxy - (sx * sy) / sw) / (sxx - (sx * sx) / sw);
 
+/* ---- Rookies ---- */
+// What draft slot said about a rookie season, from the other classes: a
+// minutes-weighted line of full-season BPM on ln(pick), rookies with 200+
+// minutes.
+function slotCurve(exceptSeason) {
+  let w = 0, x = 0, y = 0, xx = 0, xy = 0, n = 0;
+  for (const season of Object.keys(OPENERS).map(Number)) {
+    if (season === exceptSeason) continue;
+    const priorPages = [finals[season - 1], finals[season - 2], finals[season - 3]];
+    for (const [id, f] of finals[season]) {
+      const pick = rookiePick(id, season, priorPages);
+      if (!pick || !Number.isFinite(f.bpm) || f.mp < 200) continue;
+      const lx = Math.log(pick), b = clamp(f.bpm, -12, 15);
+      w += f.mp; x += f.mp * lx; y += f.mp * b; xx += f.mp * lx * lx; xy += f.mp * lx * b; n++;
+    }
+  }
+  const slope = (xy - (x * y) / w) / (xx - (x * x) / w);
+  return { intercept: +(y / w - slope * (x / w)).toFixed(3), slope: +slope.toFixed(3), n };
+}
+const curves = Object.fromEntries(Object.keys(OPENERS).map((s) => [s, slotCurve(Number(s))]));
+for (const r of rookieSamples) r.prior = curves[r.season].intercept + curves[r.season].slope * Math.log(r.pick);
+const rookiePooled = fit(rookieSamples);
+const rookies = {
+  note: "Prior is draft slot alone (a + b·ln(pick), fitted on the other four classes). The board's projection also reads college production, so its prior is somewhat better and this M is, if anything, low.",
+  players: new Set(rookieSamples.map((r) => `${r.season}:${r.id}`)).size,
+  // The weight the board uses, and the error at it. `pooled.M` is the fit.
+  priorMinutes: ROOKIE_PRIOR_MINUTES,
+  atPriorMinutes: +rmse(rookieSamples, ROOKIE_PRIOR_MINUTES).toFixed(4),
+  pooled: rookiePooled,
+  atVeteranM: +rmse(rookieSamples, pooled.M).toFixed(4),
+  // The error is flat near its low point; this is how flat.
+  curve: [250, 400, 525, 650, 750, 875, 1025, 1500].map((M) => ({ M, rmse: +rmse(rookieSamples, M).toFixed(4) })),
+  byCutoff: CUTOFF_DAYS.map((days) => {
+    const rows = rookieSamples.filter((r) => r.days === days);
+    return { days, ...fit(rows), atVeteranM: +rmse(rows, pooled.M).toFixed(4), atRookieM: +rmse(rows, rookiePooled.M).toFixed(4) };
+  }),
+  leaveOneSeasonOut: Object.keys(OPENERS).map(Number).map((season) => {
+    const test = rookieSamples.filter((r) => r.season === season);
+    const M = fit(rookieSamples.filter((r) => r.season !== season)).M;
+    return {
+      season, M, n: test.length, rmse: +rmse(test, M).toFixed(4),
+      atPriorMinutes: +rmse(test, ROOKIE_PRIOR_MINUTES).toFixed(4),
+      atVeteranM: +rmse(test, pooled.M).toFixed(4),
+      priorOnly: +rmse(test, Infinity).toFixed(4),
+    };
+  }),
+  slotCurve: slotCurve(null),
+};
+
 const result = {
   source: "Basketball-Reference advanced pages: final (bref) and season-to-date (Wayback Machine snapshots)",
   asOf: localToday(),
@@ -220,6 +312,7 @@ const result = {
   bySeason,
   leaveOneSeasonOut: loso,
   priorSlope: +priorSlope.toFixed(3),
+  rookies,
   cutoffs,
 };
 writeFileSync(OUT, JSON.stringify(result, null, 2) + "\n");
@@ -229,4 +322,10 @@ for (const c of byCutoff) console.log(`  ~${String(c.games).padStart(2)} games: 
 for (const s of bySeason) console.log(`  ${s.season}: best M ${s.M}`);
 for (const l of loso) console.log(`  LOSO ${l.season}: M ${l.M}, prior-only ${l.priorOnly} → ${l.rmse}`);
 console.log(`  slope of rest-of-season BPM on the prior: ${priorSlope.toFixed(3)}`);
+console.log(`\nRookies (${rookies.players} rookie seasons, n=${rookiePooled.n}): fit M ${rookiePooled.M}, board uses ${ROOKIE_PRIOR_MINUTES}`);
+console.log(`  RMSE: slot only ${rookiePooled.priorOnly} → at veterans' M ${rookies.atVeteranM} → at ${ROOKIE_PRIOR_MINUTES} ${rookies.atPriorMinutes} → at the fit ${rookiePooled.rmse} (season only ${rookiePooled.seasonOnly})`);
+for (const c of rookies.byCutoff) console.log(`  +${c.days}d: best M ${c.M}, slot only ${c.priorOnly}, veterans' M ${c.atVeteranM}, rookie M ${c.atRookieM}, n=${c.n}`);
+for (const l of rookies.leaveOneSeasonOut) console.log(`  LOSO ${l.season}: slot only ${l.priorOnly}, veterans' M ${l.atVeteranM}, at ${ROOKIE_PRIOR_MINUTES} ${l.atPriorMinutes}, at its own fit (M ${l.M}) ${l.rmse} (n=${l.n})`);
+console.log(`  curve: ${rookies.curve.map((c) => `${c.M}: ${c.rmse}`).join(", ")}`);
+console.log(`  slot curve: ${rookies.slotCurve.intercept} + ${rookies.slotCurve.slope}·ln(pick)`);
 console.log(`Wrote ${OUT}`);

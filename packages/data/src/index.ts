@@ -217,6 +217,17 @@ export interface EarlySeasonCalibration {
   bySeason: (EarlySeasonFit & { season: number })[];
   leaveOneSeasonOut: { season: number; M: number; rmse: number; priorOnly: number }[];
   priorSlope: number;
+  /** Rookies, fitted apart: their prior is what draft slot alone said.
+   * `priorMinutes` is the weight the board uses, `pooled.M` the fit. */
+  rookies: {
+    players: number;
+    priorMinutes: number;
+    atPriorMinutes: number;
+    pooled: EarlySeasonFit;
+    atVeteranM: number;
+    curve: { M: number; rmse: number }[];
+    leaveOneSeasonOut: { season: number; M: number; n: number; rmse: number; atPriorMinutes: number; atVeteranM: number; priorOnly: number }[];
+  };
 }
 export const EARLY_SEASON = earlySeasonRaw as EarlySeasonCalibration;
 const positionOverrides = positionOverridesRaw as {

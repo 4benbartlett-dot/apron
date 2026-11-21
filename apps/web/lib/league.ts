@@ -1,4 +1,4 @@
-import { getLeagueData, ROOKIES_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, PLAYER_INJURIES_GAMES_LEFT, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, TRADEABLE_DRAFT_YEARS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, PLAYER_STATS_2027, EARLY_SEASON, type Transaction } from "@apron/data";
+import { getLeagueData, ROOKIES_2026, ROOKIE_PROJECTIONS_2026, TRANSACTIONS, EXPERIENCE, FREE_AGENT_INFO, SIGNINGS, RATINGS, EXTENSION_ELIGIBLE, RETIRED_2026, WAIVED_2025_26, FA_OVERRIDES, EXTRA_CONTRACTS, IMPACT_2026, POSITIONS_2026, SECONDARY_POSITIONS_2026, POSITION_SHARES_2026, PLAYER_BIO_2026, PLAYER_DIMENSIONS_2026, type PlayerDims, PLAYER_INJURIES_2026, PLAYER_INJURIES_GAMES_LEFT, type PlayerInjury, PLAYER_PEDIGREE_2026, PLAYER_RECENT_ACCOLADES, PLAYER_HISTORY, PLAYER_STATS_2026, TEAM_STRENGTH_2026, TEAM_CALIBRATION, type TeamStrength, firstEncumbranceOf, FEED_TEAM_STATE, TRADE_EXCEPTIONS, TRADEABLE_DRAFT_YEARS, PROJECTED_PLAYERS_2026, RETURNING_FA_CONTRACTS, DATA_AS_OF, SPOTRAC_CAP_HITS_2026, SPOTRAC_CAP_HITS_2027, SEASON_2027, GAME_MODEL, PLAYER_STATS_2027, EARLY_SEASON, type Transaction } from "@apron/data";
 import { WAIVED_FREE_AGENTS, SUPPRESS_DEAD_CAP, RESOLVED_OFFER_SHEETS, PENDING_SIGNINGS } from "@apron/data";
 import {
   SEASON_2026_27,
@@ -3099,8 +3099,29 @@ function multiYearBpm(playerId: string): number {
   const prior = preseasonBpm(playerId);
   const now = _inSeason ? PLAYER_STATS_2027[playerId] : undefined;
   if (!now?.mp || now.bpm == null || !Number.isFinite(now.bpm)) return prior;
-  const M = EARLY_SEASON.priorMinutes;
+  const M = priorMinutesFor(playerId);
   return (prior * M + fitClamp(now.bpm, -12, 15) * now.mp) / (M + now.mp);
+}
+
+/** A rookie here is what he was in the back-test: on a rookie projection,
+ * with no NBA season behind him. A returning veteran is also projected, and
+ * is not one. */
+function isRookie(playerId: string): boolean {
+  if (!(playerId in ROOKIE_PROJECTIONS_2026)) return false;
+  return !PLAYER_STATS_2026[playerId]?.mp && !Object.values(PLAYER_HISTORY[playerId] ?? {}).some((s) => s?.mp);
+}
+
+/**
+ * The minutes of this season's play a player's preseason read is worth. A
+ * veteran's is three NBA seasons and is worth about 1,025. A rookie's is a
+ * projection from draft slot and college, and is worth less: on the rookies
+ * of the same five seasons, with draft slot as the prior, the best fit was
+ * 525 and the error was nearly flat from 400 to 750. The board's projection
+ * reads more than slot, so the board uses 750. At 500 minutes a rookie's
+ * season is 40% of his number, a veteran's a third.
+ */
+export function priorMinutesFor(playerId: string): number {
+  return isRookie(playerId) ? EARLY_SEASON.rookies.priorMinutes : EARLY_SEASON.priorMinutes;
 }
 
 /** A player's three-year weighted BPM — his recent body of work, so a single
