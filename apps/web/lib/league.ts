@@ -28,7 +28,7 @@ import {
 } from "@apron/cba-engine";
 import { shortPlayerName } from "./names";
 import { feedIso, daysBetween, dayBefore } from "./feedDate";
-import { posteriorRating, simulateSeason, type SimTeam, type TeamOutlook } from "./seasonSim";
+import { posteriorRating, simulateSeason, type SimGame, type SimTeam, type TeamOutlook } from "./seasonSim";
 
 /** Normalize a player name for joining across data sources. */
 export function normName(name: string): string {
@@ -2250,7 +2250,7 @@ function gamesAfter(hurt: Date, months: number): number {
  * player out for the year projects to zero and a mid-recovery star to a partial
  * one. No probabilistic "injury-prone" haircut — just role × real games.
  */
-function projectedMinutes(playerId: string, priorMp: number, fallbackAv = 0): number {
+function projectedMinutes(playerId: string, priorMp: number, fallbackAv = 0, games = projectedGames(playerId)): number {
   const bio = PLAYER_BIO_2026[playerId];
   // A rookie has no bio playing-time row, so fall back to his projected
   // draft-slot minutes/game — otherwise he'd project to zero and never appear
@@ -2262,7 +2262,7 @@ function projectedMinutes(playerId: string, priorMp: number, fallbackAv = 0): nu
   // silently vanishes from the rotation while wearing a starter-grade impact
   // pill. Give him a role consistent with his adjusted value instead.
   if (mpg <= 0 && fallbackAv >= 42) mpg = Math.min(36, 8 + (fallbackAv - 40) * 1.3);
-  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * projectedGames(playerId)));
+  return Math.min(MAX_PLAYER_MINUTES, Math.max(0, mpg * games));
 }
 
 /** Measured secondary positions (spots a player logged ≥12% of his minutes at). */
@@ -2743,11 +2743,11 @@ export function rosterNeed(D: TeamDimensions): { nrtg: number; notes: NeedNote[]
   return { nrtg: fitClamp(v, -NEED_CAP_NRTG, NEED_CAP_NRTG), notes };
 }
 
-function modelNrtg(roster: Contract[]): number {
+function modelNrtg(roster: Contract[], ctx: SeasonCtx = CURRENT_SEASON): number {
   const cal = TEAM_CALIBRATION;
   const n = featureNorm();
-  const D = teamDimensions(roster);
-  const zTalent = (rosterScore(roster) - n.talent.m) / n.talent.sd;
+  const D = teamDimensions(roster, ctx);
+  const zTalent = (allocateRotation(roster, ctx).score - n.talent.m) / n.talent.sd;
   const zPerd = (D.perd - n.perd.m) / n.perd.sd;
   return cal.nrtgSpread * (cal.talentZ * zTalent + cal.perdZ * zPerd) + rosterNeed(D).nrtg;
 }
@@ -2894,8 +2894,152 @@ export function seasonRatings(liveContracts: Contract[]): SimTeam[] {
       conference: teamMeta(t).conference as "East" | "West",
       rating: post.mean + (live[t]!.nrtg - base[t]!.nrtg),
       ratingSd: post.sd,
+      playoffAdj: seasonAvailability(liveContracts)[t]!.playoffAdj,
     };
   });
+}
+
+/* ---------------------------- WHO PLAYS, AND WHEN ---------------------------- */
+//
+// A team's rating above is its roster for the rest of the season, and an
+// injured player is in it for the share of the games he is expected to play.
+// Oklahoma City on Nov 20: Chet Holmgren out about 23 of 67 and Jalen Williams
+// about 52. The rating credited the Thunder with two thirds of Holmgren and a
+// fifth of Williams in every game: too much tonight, when neither plays, and
+// too little in April, when both do. Season win totals come out about the
+// same either way. Playoff and title odds do not, because a series is played
+// by the April roster and was being simulated with the season's average.
+//
+// So each stretch of a team's remaining games gets the roster that is
+// expected to play it, and the playoffs get the roster expected back by then.
+// Two limits, on purpose. The adjustments are centered: over a team's
+// remaining games they average zero, so this moves points between dates and
+// adds none, and what the injury report is worth in total stays what the
+// projection already said. And an absence shorter than MIN_STRETCH games
+// stays averaged; a day-to-day ankle is noise, not a schedule.
+//
+// It cannot be tested against past seasons the way the rating can: there is
+// no archive of what each injury report said on each day. It is arithmetic
+// about who is on the floor, and seasonAvailability.test.ts re-measures what
+// it changes on every run.
+
+/** An absence has to run at least this many games to get its own stretch. */
+const MIN_STRETCH = 3;
+
+export interface TeamAvailability {
+  /** The team's remaining games in order, split wherever someone comes back.
+   * `adj` is the rating for that stretch against the rest-of-season average. */
+  stretches: { games: number; out: string[]; adj: number }[];
+  /** The same, for the roster expected once the regular season ends. */
+  playoffAdj: number;
+  /** The game-weighted mean of the stretches before centering: how far the
+   * averaged rating was from the average of the dated ones. */
+  rawMean: number;
+}
+
+/** Games a player is expected to miss from today, at the league's games left.
+ * Read off the same availability the projection uses, so the two can't differ. */
+function gamesOutFromToday(playerId: string): number {
+  if (DATA_AS_OF < CALENDAR.openingNight) return 0;
+  return Math.round((1 - projectedGames(playerId) / HEALTHY_GAMES) * Math.max(1, PLAYER_INJURIES_GAMES_LEFT));
+}
+
+function availabilityOf(roster: Contract[], gamesLeft: number): TeamAvailability {
+  const flat: TeamAvailability = { stretches: [{ games: gamesLeft, out: [], adj: 0 }], playoffAdj: 0, rawMean: 0 };
+  if (gamesLeft <= 0) return { ...flat, stretches: [] };
+  const live = roster.filter((c) => !c.deadMoney && currentSalary(c) > 0);
+  const away = new Map<string, number>();
+  for (const c of live) {
+    const n = Math.min(gamesLeft, gamesOutFromToday(c.playerId));
+    if (n >= MIN_STRETCH) away.set(c.playerId, n);
+  }
+  if (!away.size) return flat;
+
+  // The roster with `out` sitting and everyone else who is on a timeline
+  // healthy. Players with no timeline keep the minutes they have.
+  const ratingWith = (out: Set<string>) =>
+    modelNrtg(roster, {
+      ...CURRENT_SEASON,
+      minutes: (c, av) =>
+        out.has(c.playerId)
+          ? 0
+          : away.has(c.playerId)
+            ? projectedMinutes(c.playerId, impactEntry(c).mp ?? 0, av, HEALTHY_GAMES)
+            : CURRENT_SEASON.minutes(c, av),
+    });
+  const average = modelNrtg(roster);
+  const cuts = [...new Set([...away.values()].filter((n) => n < gamesLeft))].sort((a, b) => a - b);
+  const bounds = [0, ...cuts, gamesLeft];
+  const raw = bounds.slice(0, -1).map((from, k) => {
+    const out = [...away].filter(([, n]) => n > from).map(([id]) => id);
+    return { games: bounds[k + 1]! - from, out, adj: ratingWith(new Set(out)) - average };
+  });
+  const rawMean = raw.reduce((s, x) => s + x.adj * x.games, 0) / gamesLeft;
+  // April: only the players out for all of what is left are still out.
+  const gone = [...away].filter(([, n]) => n >= gamesLeft).map(([id]) => id);
+  const last = raw[raw.length - 1]!;
+  const aprilRaw = last.out.length === gone.length ? last.adj : ratingWith(new Set(gone)) - average;
+  return {
+    stretches: raw.map((x) => ({ ...x, adj: x.adj - rawMean })),
+    playoffAdj: aprilRaw - rawMean,
+    rawMean,
+  };
+}
+
+/** Games each team has left, in the order it plays them. */
+function remainingByTeam(): Record<string, number> {
+  const left: Record<string, number> = Object.fromEntries(TEAM_IDS.map((t) => [t, 0]));
+  for (const g of SEASON_2027.games) {
+    if (g.homePts != null && g.awayPts != null) continue;
+    if (g.home in left) left[g.home]!++;
+    if (g.away in left) left[g.away]!++;
+  }
+  return left;
+}
+
+// A team's availability depends on its roster and nothing else, so a session
+// that changes two rosters recomputes two teams.
+const _availability = new Map<string, TeamAvailability>();
+let _availabilityFor: { ref: Contract[]; byTeam: Record<string, TeamAvailability> } | null = null;
+
+/** Every team's stretches for the games left, on the roster given. */
+export function seasonAvailability(liveContracts: Contract[]): Record<string, TeamAvailability> {
+  if (_availabilityFor?.ref === liveContracts) return _availabilityFor.byTeam;
+  const left = remainingByTeam();
+  const byTeam = Object.fromEntries(
+    TEAM_IDS.map((t) => {
+      const roster = liveContracts.filter((c) => c.teamId === t);
+      const key = `${t}|${left[t]}|${roster.map((c) => `${c.playerId}${c.deadMoney ? "x" : ""}`).sort().join(",")}`;
+      let a = _availability.get(key);
+      if (!a) _availability.set(key, (a = availabilityOf(roster, left[t]!)));
+      return [t, a];
+    }),
+  );
+  _availabilityFor = { ref: liveContracts, byTeam };
+  return byTeam;
+}
+
+/** The schedule with each unplayed game marked for who is out that night. */
+function datedSchedule(liveContracts: Contract[]): SimGame[] {
+  const avail = seasonAvailability(liveContracts);
+  const played: Record<string, number> = {};
+  const adjAt = (team: string): number => {
+    const k = (played[team] = (played[team] ?? 0) + 1) - 1;
+    let seen = 0;
+    for (const s of avail[team]?.stretches ?? []) {
+      seen += s.games;
+      if (k < seen) return s.adj;
+    }
+    return 0;
+  };
+  // Stretches count games in the order they are played.
+  const order = SEASON_2027.games
+    .map((g, i) => ({ g, i }))
+    .filter(({ g }) => g.homePts == null || g.awayPts == null)
+    .sort((a, b) => a.g.date.localeCompare(b.g.date) || a.i - b.i);
+  const adj = new Map<number, { homeAdj: number; awayAdj: number }>();
+  for (const { g, i } of order) adj.set(i, { homeAdj: adjAt(g.home), awayAdj: adjAt(g.away) });
+  return SEASON_2027.games.map((g, i) => (adj.has(i) ? { ...g, ...adj.get(i)! } : g));
 }
 
 /** The prior's weight in games (≈16), for the page's explanation. */
@@ -2904,12 +3048,21 @@ export const PRIOR_WEIGHT_GAMES = Math.round((GAME_MODEL.marginSd * GAME_MODEL.m
 /** The rest of 2026-27, simulated — records so far, projected finish, and
  * playoff and title odds. Same seed every call, so a staged move's change in
  * odds is the move's and not the dice's (common random numbers). */
-export function seasonOutlook(liveContracts: Contract[], sims = 5000): Record<string, TeamOutlook> {
-  return simulateSeason(seasonRatings(liveContracts), SEASON_2027.games, {
-    sims,
-    hca: GAME_MODEL.hca,
-    marginSd: GAME_MODEL.marginSd,
-  });
+export function seasonOutlook(
+  liveContracts: Contract[],
+  sims = 5000,
+  /** `averaged` plays every game on the rest-of-season rating, the way the
+   * simulator did until Nov 20, 2026. It exists so the test can measure what
+   * availability by date changes. */
+  availability: "by_date" | "averaged" = "by_date",
+): Record<string, TeamOutlook> {
+  const byDate = availability === "by_date";
+  const teams = seasonRatings(liveContracts);
+  return simulateSeason(
+    byDate ? teams : teams.map((t) => ({ ...t, playoffAdj: 0 })),
+    byDate ? datedSchedule(liveContracts) : SEASON_2027.games,
+    { sims, hca: GAME_MODEL.hca, marginSd: GAME_MODEL.marginSd },
+  );
 }
 
 /**

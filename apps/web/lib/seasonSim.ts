@@ -16,6 +16,14 @@
  *     might be −2 gets the wide range of records it should, not just the
  *     coin-flip noise of 82 games around one number.
  *
+ *   - Who is playing: a team's rating is its roster for the rest of the
+ *     season, with an injured player counted for the share of the games he
+ *     is expected to play. Each game can carry an adjustment for who is
+ *     actually out that night (`homeAdj`, `awayAdj`), and each team one for
+ *     the roster it expects to have in April (`playoffAdj`). They move
+ *     points between dates and add none: a team's adjustments average zero
+ *     over its remaining games. See availabilityOf in league.ts.
+ *
  * Simplified, and said so on the page: tiebreakers are a coin flip rather
  * than the NBA's head-to-head/division chain; the two games each team has
  * left to schedule after the NBA Cup group stage are paired inside its
@@ -31,6 +39,9 @@ export interface SimTeam {
   rating: number;
   /** SD of that rating — the posterior's, so it narrows as games are played. */
   ratingSd: number;
+  /** Added to the rating once the regular season is over: the roster the
+   * team expects to have in April against its rest-of-season average. */
+  playoffAdj?: number;
 }
 
 export interface SimGame {
@@ -40,6 +51,10 @@ export interface SimGame {
   homePts?: number;
   awayPts?: number;
   neutral?: boolean;
+  /** Each side's rating that night against its rest-of-season average: below
+   * zero while a starter is out, above it once he is back. */
+  homeAdj?: number;
+  awayAdj?: number;
 }
 
 export interface SimOptions {
@@ -166,7 +181,7 @@ export function simulateSeason(teams: SimTeam[], schedule: SimGame[], opts: SimO
     if (h == null || a == null) continue;
     if (g.homePts != null && g.awayPts != null) {
       if (g.homePts > g.awayPts) { w0[h]++; l0[a]++; } else { w0[a]++; l0[h]++; }
-    } else left.push({ h, a, edge: g.neutral ? 0 : hca });
+    } else left.push({ h, a, edge: (g.neutral ? 0 : hca) + (g.homeAdj ?? 0) - (g.awayAdj ?? 0) });
   }
 
   const east = teams.map((t, i) => (t.conference === "East" ? i : -1)).filter((i) => i >= 0);
@@ -185,9 +200,11 @@ export function simulateSeason(teams: SimTeam[], schedule: SimGame[], opts: SimO
   const winDist: Int32Array[] = teams.map(() => new Int32Array(83));
 
   const true_ = new Float64Array(n);
+  // The same draw, as the team will be in the play-in and the playoffs.
+  const april = new Float64Array(n);
   const wins = new Int32Array(n);
   const pGame = (home: number, away: number, edge: number) => normCdf((true_[home]! - true_[away]! + edge) / marginSd);
-  const game = (home: number, away: number) => (r() < pGame(home, away, hca) ? home : away);
+  const game = (home: number, away: number) => (r() < normCdf((april[home]! - april[away]! + hca) / marginSd) ? home : away);
   // Best of seven, 2-2-1-1-1, the higher seed at home in games 1, 2, 5, 7.
   const series = (hi: number, lo: number) => {
     let a = 0, b = 0, k = 0;
@@ -237,6 +254,7 @@ export function simulateSeason(teams: SimTeam[], schedule: SimGame[], opts: SimO
   for (let s = 0; s < sims; s++) {
     for (let i = 0; i < n; i++) {
       true_[i] = teams[i]!.rating + teams[i]!.ratingSd * gauss(r);
+      april[i] = true_[i]! + (teams[i]!.playoffAdj ?? 0);
       wins[i] = w0[i]!;
     }
     for (const g of left) {

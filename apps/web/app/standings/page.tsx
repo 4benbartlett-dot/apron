@@ -161,7 +161,8 @@ export default function StandingsPage() {
         </p>
         <p>
           Every remaining game is played out from the two teams&rsquo; ratings plus home court, and each run also varies how good every team really is,
-          which is why the ranges are wide this early. Ties are broken by coin flip. More on the method on the{" "}
+          which is why the ranges are wide this early. An injured player is out until the date he is expected back, so a team missing a starter is
+          weaker tonight and at full strength in the playoffs. Ties are broken by coin flip. More on the method on the{" "}
           <Link href="/accuracy" className="font-semibold text-[var(--accent-ink)] hover:underline">accuracy page</Link>.
         </p>
       </div>
