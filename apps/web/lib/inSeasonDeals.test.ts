@@ -185,11 +185,23 @@ describe("a rest-of-season signing with no term on the row", () => {
     expect(plumlee.years.filter((y) => y.leagueYear > YEAR)).toEqual([]);
   });
 
-  it("books Robinson in Chicago two days later, for two days less", () => {
+  // Robinson's row had no term either, and was first booked as one season at
+  // the two-year veteran figure, $2,111,570. It is two seasons (Michael Scotto,
+  // HoopsHype, Nov 18: two years, $5.25 million, a team option on the second),
+  // and a minimum deal longer than one season counts at the player's own
+  // scale: his four-year minimum of $2,625,627 times 150 days of 174 is the
+  // $2,263,472 Hoops Rumors and Spotrac both print. The row is corrected in
+  // feed-corrections.json. The second season is carried as not guaranteed,
+  // which counts the same as the option it is.
+  it("books Robinson in Chicago two days later: two seasons, at his own minimum", () => {
     const robinson = signed("Orlando Robinson")!;
     expect(robinson.teamId).toBe("CHI");
     expect(robinson.paidDays).toBe(150);
-    expect(thisYear("Orlando Robinson")!.salary).toBe(Math.round((C.minimumSalaries[2]! / 174) * 150));
+    expect(thisYear("Orlando Robinson")).toMatchObject({ salary: 2_263_472, guarantee: "non_guaranteed" });
+    expect(thisYear("Orlando Robinson")!.salary).toBe(Math.round((C.minimumSalaries[4]! / 174) * 150));
+    const later = robinson.years.filter((y) => y.leagueYear > YEAR);
+    expect(later.map((y) => y.leagueYear)).toEqual(["2027-28"]);
+    expect(Math.abs(later[0]!.salary - 2_988_178)).toBeLessThanOrEqual(1);
     expect(rosterOf(BASE_CONTRACTS, "CHI").some((c) => c.playerName === "Orlando Robinson")).toBe(true);
   });
 

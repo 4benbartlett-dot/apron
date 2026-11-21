@@ -2,11 +2,25 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Zack Austin",
+      "pos": "F",
+      "date": "Nov 18, 2026",
+      "type": "Signing",
+      "detail": "Signed a Two-Way contract with Cleveland Cavaliers (CLE)"
+    },
+    {
+      "player": "Riley Minix",
+      "pos": "SF",
+      "date": "Nov 18, 2026",
+      "type": "Release",
+      "detail": "Waived by Cleveland Cavaliers (CLE)"
+    },
+    {
       "player": "Jonas Aidoo",
       "pos": "C",
       "date": "Nov 17, 2026",
       "type": "Signing",
-      "detail": "Signed a Two-Way contract with Utah Jazz (UTA)"
+      "detail": "Signed a 2 year Two-Way contract with Utah Jazz (UTA)"
     },
     {
       "player": "Rafael Castro",
@@ -55,7 +69,7 @@
       "pos": "C",
       "date": "Nov 13, 2026",
       "type": "Signing",
-      "detail": "Signed a Rest-of-Season contract with Chicago Bulls (CHI)"
+      "detail": "Signed a 2 year Rest-of-Season contract with Chicago Bulls (CHI)"
     },
     {
       "player": "Doug McDermott",

@@ -88,6 +88,13 @@
       "detail": "Signed a Rest-of-Season contract with Sacramento Kings (SAC)",
       "newDate": "Nov 11, 2026",
       "why": "Spotrac dates the row Nov 12. He signed Nov 11 (NBC Sports Bay Area, Sports Illustrated, Bleacher Report, all Nov 11), and the reported cap hit says the same: $2,139,724 is the one-year minimum's $2,449,421 times 152 days left over 174 (Art. I §1(kk)(ii)), and 152 days are left on Nov 11. On Nov 12 it would be 151 and $2,125,647."
+    },
+    {
+      "date": "Nov 13, 2026",
+      "player": "Orlando Robinson",
+      "type": "Signing",
+      "detail": "Signed a 2 year Rest-of-Season contract with Chicago Bulls (CHI)",
+      "why": "Spotrac's row gives no term. It is two seasons: Michael Scotto (HoopsHype, Nov 18) reported two years and $5.25 million, non-guaranteed for 2026-27 with a team option for 2027-28, and Hoops Rumors confirmed a $2,263,472 cap hit this season and $2,988,178 for the option. The arithmetic agrees. A minimum deal of more than one season counts at the player's own scale, not the two-year veteran figure (Art. VII §3(f) reaches one-year contracts only): his four-year minimum of $2,625,627 times 150 days left of 174 is $2,263,472, and 150 days is a Nov 13 signing. The two seasons sum to $5,251,650."
     }
   ]
 }

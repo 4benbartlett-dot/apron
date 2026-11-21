@@ -44,35 +44,62 @@ const j = await res.json();
 if (!j.success) throw new Error("Firecrawl failed: " + JSON.stringify(j).slice(0, 200));
 const md = j.data.markdown;
 
-// Parsed by CELL rather than by one long regex. The first attempt matched 23 of
-// 30 teams: every club OVER an apron renders its space as "$-5,764,492", with
-// the dollar sign BEFORE the minus, and a pattern written for "-$5,764,492"
-// misses exactly the teams this project cares most about. Splitting the row and
-// reading the columns cannot fail that way.
+// Parsed by COLUMN NAME. This reader has been rewritten twice for the same
+// reason: it assumed where things were. The first version was one long regex
+// and matched 23 of 30 teams, because every club over an apron renders its
+// space as "$-5,764,492" and the pattern expected "-$5,764,492". The second
+// read cells by position, and in mid-November 2026 Spotrac redesigned the
+// table: new columns, a new order, and the team code moved inside a link.
+// It parsed 0 of 30. The header row says which column is which, so read it.
 //
-//   | 24 | CLE [![](…) CLE](…) | $180,603,446 |  | $28,411,554 |  | $41,082,554 |
-//     rank  team                 apron allocation  1A capped? space  2A capped? space
+//   | Rank | Team | Record | 1st Apron Space | 2nd Apron Space | Total Apron | Hard Cap | Apron Status | Players |
+//   | 1 | [![](…)NuggetsDENOver 2nd Apron](… "Denver Nuggets") | 8-5 | -$15,821,337 | -$3,150,337 | $224,836,337 | - | Over 2nd Apron | 14 |
 
 const TEAM_FIX = { WSH: "WAS", GS: "GSW", NO: "NOP", NY: "NYK", SA: "SAS", PHO: "PHX", LA: "LAC" };
 const num = (s) => Number(String(s).replace(/[^\d]/g, ""));
-const yes = (s) => /yes|✔|✓|true/i.test(s ?? "");
+/** A dollar figure with its sign, wherever the minus is written. */
+const signed = (s) => (/-/.test(String(s)) ? -1 : 1) * num(s);
+const cellsOf = (line) => line.split("|").slice(1, -1).map((c) => c.trim());
+
+const lines = md.split("\n");
+const header = lines.find((l) => /^\|\s*Rank\s*\|/i.test(l));
+const cols = header ? cellsOf(header).map((c) => c.toLowerCase()) : [];
+const col = Object.fromEntries(
+  ["team", "total apron", "hard cap", "1st apron space", "2nd apron space"].map((name) => [name, cols.indexOf(name)]),
+);
+const missing = Object.entries(col).filter(([, i]) => i < 0).map(([name]) => name);
+if (missing.length) {
+  console.error(
+    `\nABORT: the apron tracker's table has no ${missing.map((m) => `"${m}"`).join(" or ")} column.\n` +
+      `Its header reads: ${header ?? "(no header row found)"}\n${OUT} left untouched.`,
+  );
+  process.exit(1);
+}
 
 const byTeam = {};
-for (const line of md.split("\n")) {
+let firstApron = 0;
+let secondApron = 0;
+for (const line of lines) {
   if (!/^\|\s*\d+\s*\|/.test(line)) continue; // rank-led data rows only
-  const cells = line.split("|").slice(1, -1).map((c) => c.trim());
-  if (cells.length < 7) continue;
-  const code = cells[1].match(/^([A-Z]{2,3})\b/)?.[1];
-  // Once the season starts Spotrac inserts a "Record" column ("3-2") after the
-  // team and every later column shifts by one; the preseason table has none.
-  const o = /^\d+-\d+$/.test(cells[2]) ? 1 : 0;
-  if (!code || !/\$[\d,]+/.test(cells[2 + o])) continue;
-  const team = TEAM_FIX[code] ?? code;
-  byTeam[team] = {
-    apronSalary: num(cells[2 + o]),
-    firstApronHardCapped: yes(cells[3 + o]),
-    secondApronHardCapped: yes(cells[5 + o]),
+  const cells = cellsOf(line);
+  // "NuggetsDENOver 2nd Apron", "Trail BlazersPORUnder Aprons", "76ersPHIUnder Aprons":
+  // nickname, code, status, run together as the link's text. An older layout
+  // led the cell with the code.
+  const teamCell = cells[col.team] ?? "";
+  const code = teamCell.match(/([A-Z]{2,4})(?:Over|Under)\b/)?.[1] ?? teamCell.match(/^([A-Z]{2,3})\b/)?.[1];
+  const total = cells[col["total apron"]] ?? "";
+  if (!code || !/\$[\d,]+/.test(total)) continue;
+  const cap = cells[col["hard cap"]] ?? "";
+  const apronSalary = num(total);
+  byTeam[TEAM_FIX[code] ?? code] = {
+    apronSalary,
+    firstApronHardCapped: /1st/i.test(cap),
+    secondApronHardCapped: /2nd/i.test(cap),
   };
+  // The page prints the lines rounded ("$209M"). The table has them exactly:
+  // a team's total plus its room is the line.
+  firstApron ||= apronSalary + signed(cells[col["1st apron space"]]);
+  secondApron ||= apronSalary + signed(cells[col["2nd apron space"]]);
 }
 
 const n = Object.keys(byTeam).length;
@@ -80,14 +107,11 @@ const n = Object.keys(byTeam).length;
 // handful of silently missing teams. All or nothing.
 if (n !== 30) {
   console.error(
-    `\nABORT: parsed ${n}/30 teams from the apron tracker. Spotrac's table markup probably changed —\n` +
-      `fix the ROW regex before rerunning. ${OUT} left untouched.`,
+    `\nABORT: parsed ${n}/30 teams from the apron tracker. The columns were found but the rows didn't read;\n` +
+      `look at how a team cell is written now. ${OUT} left untouched.`,
   );
   process.exit(1);
 }
-
-const firstApron = num(md.match(/\*\*1ST APRON\*\*\s*\n+\s*\$([\d,]+)/)?.[1] ?? "0");
-const secondApron = num(md.match(/\*\*2ND APRON\*\*\s*\n+\s*\$([\d,]+)/)?.[1] ?? "0");
 
 writeFileSync(
   OUT,

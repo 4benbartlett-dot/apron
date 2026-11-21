@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-11-17",
+  "asOf": "2026-11-20",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -1354,8 +1354,8 @@
           "name": "Orlando Robinson",
           "pos": "C",
           "type": "ROS",
-          "cap": 2125647,
-          "base": 2278561,
+          "cap": 2263472,
+          "base": 2263472,
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
@@ -1420,10 +1420,10 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 166820271,
+        "activeRoster": 166958096,
         "deadMoney": 1075459,
-        "capTotal": 167895730,
-        "apronTotal": 170210847
+        "capTotal": 168033555,
+        "apronTotal": 170348672
       }
     },
     "CLE": {
@@ -1621,8 +1621,8 @@
           "nonGuaranteed": false
         },
         {
-          "name": "Riley Minix",
-          "pos": "SF",
+          "name": "Zack Austin",
+          "pos": "F",
           "type": "2W",
           "cap": 0,
           "base": 0,
@@ -3816,8 +3816,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 298474,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -4925,8 +4925,8 @@
           "likely": 0,
           "unlikely": 0,
           "tradeBonus": 0,
-          "guaranteed": 0,
-          "nonGuaranteed": true
+          "guaranteed": 91000,
+          "nonGuaranteed": false
         }
       ],
       "twoWay": [],
@@ -7824,6 +7824,18 @@
         {
           "name": "Kobe Bufkin",
           "pos": "PG",
+          "type": "2W",
+          "cap": 0,
+          "base": 0,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
+          "name": "Jonas Aidoo",
+          "pos": "C",
           "type": "2W",
           "cap": 0,
           "base": 0,
