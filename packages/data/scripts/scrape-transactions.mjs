@@ -24,6 +24,7 @@ import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { localToday } from "./today.mjs";
+import { classify, parse } from "./parse-transactions.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "..", "src", "transactions.json");
@@ -62,48 +63,6 @@ async function scrape(url, key) {
     throw new Error("Firecrawl failed: " + JSON.stringify(j).slice(0, 200));
   }
   return j.data.markdown;
-}
-
-function classify(detail) {
-  if (/Traded/i.test(detail)) return "Trade";
-  if (/Re-Signed/i.test(detail)) return "Re-sign";
-  if (/Agreed|Signed/i.test(detail)) return "Signing";
-  if (/Extension|Extended/i.test(detail)) return "Extension";
-  if (/Waived|Released/i.test(detail)) return "Release";
-  if (/Qualifying/i.test(detail)) return "Qualifying Offer";
-  if (/Option/i.test(detail)) return "Option";
-  if (/Renounced/i.test(detail)) return "Renounce";
-  return "Other";
-}
-
-// Each row spans two markdown lines:
-//   - Jul 28, 2026  \- Trade![](…/nba_lac1.png)
-//   Trade [Johni Broome (C)](…/johni-broome)Traded to LA (LAC) from Philadelphia (PHI) …
-// Since late Aug 2026 the logo is a LINKED image with alt text:
-//   - Aug 30, 2026  \- Waiver[![MIN](…/nba_min_2026.png)](…/team/109/overview)
-// Both shapes are accepted; a pull that matched neither parsed 0 rows and
-// (correctly) refused to write, which is how the change was noticed.
-const ROW =
-  /^-\s*([A-Z][a-z]{2}\s+\d{1,2},\s*\d{4})\s*\\?-\s*[A-Za-z ]+?\[?!\[[^\]]*\]\([^)]*\)(?:\]\([^)]*\))?\s*\n\s*[A-Za-z ]+?\s*\[([^\]]+?)\s*\(([^)]*)\)\]\([^)]*\)(.*)$/gm;
-
-function parse(md) {
-  const txns = [];
-  for (const m of md.matchAll(ROW)) {
-    const [, date, name, pos, detailRaw] = m;
-    const detail = detailRaw
-      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // unwrap links
-      .replace(/\\([[\]])/g, "$1") // unescape \[ \]
-      .replace(/\s+/g, " ")
-      .trim();
-    txns.push({
-      player: name.trim(),
-      pos: pos.trim(),
-      date: date.trim(),
-      type: classify(detail),
-      detail,
-    });
-  }
-  return txns;
 }
 
 const iso = (d) => d.toISOString().slice(0, 10);
