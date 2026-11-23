@@ -205,11 +205,34 @@ describe("a rest-of-season signing with no term on the row", () => {
     expect(rosterOf(BASE_CONTRACTS, "CHI").some((c) => c.playerName === "Orlando Robinson")).toBe(true);
   });
 
-  it("each waits like any free agent before he can be traded", () => {
-    for (const name of ["Mason Plumlee", "Orlando Robinson"]) {
-      const c = signed(name)!;
-      expect(c.tradeableFrom, name).toBeDefined();
-      expect(c.tradeableFrom! > SIM_DATE, name).toBe(true);
-    }
+  // Sacramento filled its last roster spot with Gabe Vincent on Nov. 23: one
+  // season, not guaranteed (Michael Scotto, HoopsHype, Nov 23; the Kings
+  // announced it the same day). The same arithmetic as Plumlee, twelve days
+  // later: 140 days left of 174.
+  it("books Vincent in Sacramento on Nov. 23: one season, 140 days of the minimum", () => {
+    const vincent = signed("Gabe Vincent")!;
+    expect(vincent.teamId).toBe("SAC");
+    expect(vincent.paidDays).toBe(140);
+    expect(thisYear("Gabe Vincent")).toMatchObject({ salary: 1_970_799, guarantee: "non_guaranteed" });
+    // A seven-year veteran on a one-year minimum counts at the two-year figure (Art. VII §3(f)).
+    expect(thisYear("Gabe Vincent")!.salary).toBe(Math.round((C.minimumSalaries[2]! / 174) * 140));
+    expect(vincent.years.filter((y) => y.leagueYear > YEAR)).toEqual([]);
+  });
+
+  // Three months from the signing, and the deadline is Feb. 11. Plumlee,
+  // signed Nov. 11, is free on deadline day. Robinson and Vincent are not
+  // free until after it and cannot be traded this season.
+  //
+  // Robinson read Dec. 25 until Nov 23. He signed an Exhibit 10 with Chicago
+  // on Sep. 25, the feed has no release between that and his Nov. 13 deal,
+  // and the freeze was dated from the first signing with the team. It is
+  // dated from the last: the contract he is on.
+  it("each waits three months from the day he signed, which keeps two of them out of the deadline", () => {
+    expect(signed("Mason Plumlee")!.tradeableFrom).toBe("2027-02-11");
+    expect(signed("Orlando Robinson")!.tradeableFrom).toBe("2027-02-13");
+    expect(signed("Gabe Vincent")!.tradeableFrom).toBe("2027-02-23");
+    expect(signed("Mason Plumlee")!.tradeableFrom! <= TRADE_DEADLINE).toBe(true);
+    for (const name of ["Orlando Robinson", "Gabe Vincent"]) expect(signed(name)!.tradeableFrom! > TRADE_DEADLINE, name).toBe(true);
+    for (const name of ["Mason Plumlee", "Orlando Robinson", "Gabe Vincent"]) expect(signed(name)!.tradeableFrom! > SIM_DATE, name).toBe(true);
   });
 });

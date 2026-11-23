@@ -127,11 +127,17 @@ describe("today versus the deadline", () => {
   // the deadline), Bey (Hoops Rumors: six months), Curry (reported $55.7M then
   // $60.2M is an 8.1% raise, past the 5% an extend-and-trade allows). Brooks,
   // signed Aug 8, is free Feb 8, before it, as the Phoenix reporting says.
-  it("by the deadline every summer free agent is eligible, and only the long freezes are left", () => {
+  //
+  // Two more joined them in November, signed too late for three months to run
+  // out by Feb. 11: Orlando Robinson (Chicago, Nov. 13, free Feb. 13) and Gabe
+  // Vincent (Sacramento, Nov. 23, free Feb. 23). Anyone signed after Nov. 11
+  // joins this list.
+  it("by the deadline every summer free agent is eligible, and only the long freezes and the November signings are left", () => {
     const left = active.filter((c) => c.restriction && !tradeableOn(c, TRADE_DEADLINE)).map((c) => c.playerName).sort();
-    // (Blake Wesley was a fourth while his Oct 29 10-day ran: a 10-day can't be
+    // (Blake Wesley was one more while his Oct 29 10-day ran: a 10-day can't be
     // traded at all. It expired Nov 7 and he is off the Clippers' roster.)
-    expect(left).toEqual(["Payton Pritchard", "Saddiq Bey", "Stephen Curry"].sort());
+    expect(left).toEqual(["Payton Pritchard", "Saddiq Bey", "Stephen Curry", "Orlando Robinson", "Gabe Vincent"].sort());
+    for (const name of ["Orlando Robinson", "Gabe Vincent"]) expect(named(name).tradeableFrom! > "2026-11-11", name).toBe(true);
     expect(tradeableOn(named("Dillon Brooks"), TRADE_DEADLINE)).toBe(true);
   });
 

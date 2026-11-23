@@ -2,6 +2,13 @@
   "source": "Spotrac (via Firecrawl)",
   "transactions": [
     {
+      "player": "Gabe Vincent",
+      "pos": "PG",
+      "date": "Nov 23, 2026",
+      "type": "Signing",
+      "detail": "Signed a Rest-of-Season contract with Sacramento Kings (SAC)"
+    },
+    {
       "player": "Zack Austin",
       "pos": "F",
       "date": "Nov 18, 2026",

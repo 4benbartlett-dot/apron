@@ -1788,7 +1788,12 @@ function stampTradeEligibility(contracts: Contract[]): Contract[] {
         return { ...out, tradeableFrom: iso, restrictionCite: sec ? `2023 CBA Art. VII ${sec.replace(/\s/g, "")}` : "2023 CBA Art. VII §8" };
       }
     }
-    const signedRow = signings.find((r) => teamOf(r.detail) === c.teamId) ?? signings[0];
+    // The contract he is on is the last one he signed with this team. Orlando
+    // Robinson signed an Exhibit 10 with Chicago on Sep 25 and his standard
+    // deal on Nov 13, with no release between them in the feed; the first
+    // read him tradeable Dec 25, and it is Feb 13, after the deadline.
+    const withTeam = signings.filter((r) => teamOf(r.detail) === c.teamId);
+    const signedRow = withTeam[withTeam.length - 1] ?? signings[0];
     const signed = signedRow?.iso;
     // Signing a standard deal while on a two-way is a free-agent signing,
     // three months and Dec. 15, even for a draft pick (§8(d)(ii) names it).

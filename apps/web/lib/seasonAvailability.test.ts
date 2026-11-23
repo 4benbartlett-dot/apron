@@ -71,11 +71,24 @@ describe("who plays, and when", () => {
     }
   });
 
-  it("no adjustment is larger than a star: 6 points of net rating", () => {
+  // A stretch can be far from the average when it is short. Oklahoma City on
+  // Nov 23 is without Gilgeous-Alexander, Holmgren, Jalen Williams, Sorber and
+  // Mara for three games, and rates 9.1 points under its average for them.
+  // The first bound here was six points and that night broke it. What a
+  // stretch may cost is bounded over the season instead: the centering makes
+  // the stretches sum to zero, so a nine-point night is paid back, and April,
+  // the one adjustment nothing pays back, stays under six.
+  it("April is never worth more than six points, and no stretch more than twelve", () => {
     for (const t of TEAM_IDS) {
       const a = AVAIL[t]!;
-      for (const s of a.stretches) expect(Math.abs(s.adj), t).toBeLessThan(6);
+      for (const s of a.stretches) expect(Math.abs(s.adj), t).toBeLessThan(12);
       expect(Math.abs(a.playoffAdj), t).toBeLessThan(6);
+    }
+  });
+
+  it("a stretch more than six points off the average is a short one", () => {
+    for (const t of TEAM_IDS) {
+      for (const s of AVAIL[t]!.stretches) if (Math.abs(s.adj) > 6) expect(s.games, t).toBeLessThanOrEqual(10);
     }
   });
 });

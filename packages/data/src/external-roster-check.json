@@ -1,6 +1,6 @@
 {
   "source": "Spotrac team cap tables (via Firecrawl)",
-  "asOf": "2026-11-21",
+  "asOf": "2026-11-23",
   "note": "Player-level evidence for the team totals in external-cap-check.json, per team: the active table (cap hit, base, likely and unlikely incentives, guarantee, contract type), dead money, cap holds, and the page's own totals — `summary.apronTotal` is the apron tracker's figure and equals active + dead + unlikely + the 0/1-YOS minimum addback. Nothing in the app reads this; externalCapCheck.test.ts diffs against it. A name here we do not carry is a lead, not a verdict — Spotrac lags filings, their hold column keeps players who left the league years ago, and their 2026-27 column includes rows (non-guaranteed camp deals) we deliberately model differently.",
   "byTeam": {
     "ATL": {
@@ -232,14 +232,6 @@
       ],
       "holds": [
         {
-          "name": "Gabe Vincent",
-          "pos": "PG",
-          "type": "FA",
-          "cap": 21850000,
-          "qo": 0,
-          "rights": "Bird"
-        },
-        {
           "name": "Keaton Wallace",
           "pos": "G",
           "type": "",
@@ -326,8 +318,8 @@
         "hardCap": "first_apron",
         "activeRoster": 193511432,
         "deadMoney": 5158080,
-        "capHold": 31383379,
-        "capTotal": 230052891,
+        "capHold": 9533379,
+        "capTotal": 208202891,
         "apronTotal": 199865774
       }
     },
@@ -6916,6 +6908,18 @@
           "nonGuaranteed": true
         },
         {
+          "name": "Gabe Vincent",
+          "pos": "PG",
+          "type": "ROS",
+          "cap": 1970799,
+          "base": 2644229,
+          "likely": 0,
+          "unlikely": 0,
+          "tradeBonus": 0,
+          "guaranteed": 0,
+          "nonGuaranteed": true
+        },
+        {
           "name": "Emanuel Sharp",
           "pos": "PG",
           "type": "RK-2ND",
@@ -7082,11 +7086,11 @@
       ],
       "summary": {
         "hardCap": "first_apron",
-        "activeRoster": 192823149,
+        "activeRoster": 194793948,
         "deadMoney": 3333333,
         "capHold": 19066758,
-        "capTotal": 215223240,
-        "apronTotal": 200006482
+        "capTotal": 217194039,
+        "apronTotal": 201977281
       }
     },
     "SAS": {
